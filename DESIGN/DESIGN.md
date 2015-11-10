@@ -106,7 +106,7 @@ This section describes the program modules each team member plans to take primar
 Jiawei Zhang - handling XML serialization and concrete object storage/referencing
 Arthur Schweitzer - game authoring module
 
-'''java'''
+```java
 public interface IGameEditor {
 	
 	public void createTower();
@@ -214,4 +214,4 @@ public void updateResources(){};
 public void endGame(boolean winLose){};
 }
 
-'''
+```
