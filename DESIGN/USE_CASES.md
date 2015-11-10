@@ -133,28 +133,28 @@
 ###17. Properties panel
 **Front End**: The user will be able to view the properties panel when a tile is clicked. This properties panel will exist on the right hand side of the screen and display properties that are relevant to the tile clicked.
 
-**Back End**: 
+**Back End**: This will bind an attribute to the Player or Enemy object specified.
 
 **Data**: The Tile object stores its properties as instance variables. 
 
 ###18. Dynamic update of Properties panel
 **Front End**: The user will be able to see the properties panel change dynamically with each different tile that is selected. For instance, a mushroom tile will show different properties settings than an enemy tile.
 
-**Back End**: 
+**Back End**: Options for different attributes will be stored in observable lists that will update depending on the type of object selected.
 
 **Data**: The Tile object’s instance variables pertaining to its properties are updated. 
 
 ###19. Adjustable GUI elements
 **Front End**: The user will be able to modify the properties of the selected tile directly, by adjusting the GUI elements on the panel (e.g. sliders, check-boxes). The tile should update visibly as the properties are being adjusted. 
 
-**Back End**: 
+**Back End**: The associated variables will be adjusted in the back end and check boxes will bind attributes to the object.
 
 **Data**: The Tile object’s instance variables pertaining to its properties are updated. 
 
 ###20.Create Additional ‘Character’ Objects (Power ups/collectibles)
 **Front End**: Launch Character editor window. Select attributes of the objects, as well as their value. 
 
-**Back End**: 
+**Back End**: This would be a custom attribute object that would be created as a composite of other attributes.
 
 **Data**: The ItemEditor creates Item objects which are added to the list of Item objects in the Game object. 
 
@@ -164,7 +164,7 @@
 
 **Front End**: The user will click on a tower from the tower screen. This will indicate that the user has selected a tower to place on the map. Once the cursor is in the map area, the user will use the mouse and click in the grid to place element. 
 
-**Back End**:
+**Back End**: 
 
 **Data**: The CurrentGame object’s map is updated by adding a Tower to the Tile object. 
 
