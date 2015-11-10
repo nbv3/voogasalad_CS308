@@ -293,7 +293,11 @@
 
 **Back End**: Player that stores the Weapon calls Weapon.use(). The specific implementation of Weapon determines exactly what kind of Projectile is “fired” (ie. instantiated and added to the GUI), then returns up to the Player (the Player does not store a GameEvent). If the Weapon has a limited number of shots, then the Weapon decrements it’s available shots counter.
 
+**Data**: A Projectile (extends Item) object is created.
+
 ###40. A Player drinks a Potion to restore health
 **Front End**: Display “drinking” animation
 
 **Back End**: Player calls Potion.use(). layer calls Potion.use(). The specific type of Potion defines what kind of GameEvent is created. The Player gets this GameEvent and adds it to it’s list of Events to be processed. The specific type of GameEvent (ie. a HealthChangeEvent) will define how it operates on the specific Attribute of the Player.
+
+**Data**: A Potion (extends Item) object is removed and the corresponding health is added to a Player object's health Attribute.
