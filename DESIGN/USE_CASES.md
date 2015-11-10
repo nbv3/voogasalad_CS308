@@ -5,14 +5,14 @@
 ###1. Overall settings: determine parameters such as number of lives, initial resources, difficulty (-> divide in speed of enemies, spawn frequency, author, etc.). 
 **Front End**: When we click create new game, the first window in the wizard will allow the user to select the setting for the game. 
 
-**Back End**:
+**Back End**: Changing GUI elements updates values of OverallSettings variables.
 
 **Data**: OverallSettings object contained within Game object
 
 ###2. New game / Edit game:
 **Front End**: Upon selecting “Editor” from the main menu, allow the user the option of creating a completely new game (composed of 1 or more levels) or editing 
 
-**Back End**:
+**Back End**: Either generates a new Game Object or edits the variables in a current Game Object.
 
 **Data**: New Game object which goes straight into editing OverallSettings. Edit Game object which goes straight into editing OverallSettings.
 
@@ -20,7 +20,7 @@
 
 **Front End**: Switch to the tower tab, which displays the pane containing existing tower types, followed by a plus button. Click the plus button to launch a window that allows users to set the tower properties, which contains an “add” button. Click the add button to add the tower to the pane.
 
-**Back End**:
+**Back End**: User selects from a list of base Tower classes. A factory pattern will generate a Tower object and then subsequent GUI selections will bind attributes to the Tower object. This new type is stored as a Tower option.
 
 **Data**: New Tower object which is added to the list of Tower objects within a Game object. The new Tower can either be of ‘universal’ type or ‘current game’ type. If a Tower is ‘universal’ type, it will be accessible to all future Game objects which are edited. If it is ‘current game’ type, it is only accessible to the current Game object being edited.
 
@@ -28,7 +28,7 @@
 
 **Front End**: Switch to the enemy tab, which displays the pane containing existing enemy types, followed by a plus button. Click the plus button to launch a window that allows users to set the monster properties. Click the add button to add the monster to the list of available monsters. 
 
-**Back End**:
+**Back End**: User selects from a list of base Enemy classes. A factory pattern will generate an Enemy object and then subsequent GUI selections will bind attributes to the Enemy object. This new type is stored as an Enemy option.
 
 **Data**: New Enemy object which is added to the list of Enemy objects within a Game object. The new Enemy can either be of ‘universal’ type or ‘current game’ type. If a Enemy is ‘universal’ type, it will be accessible to all future Game objects which are edited. If it is ‘current game’ type, it is only accessible to the current Game object being edited
 
@@ -36,7 +36,7 @@
 
 **Front End**: Switch to the enemy tab, right click an enemy in the pane to open its editor window (almost the same as the one used to create the enemy.) Change desired properties and click “save.”
 
-**Back End**:
+**Back End**: GUI selections will bind attribute classes to the Enemy, giving that Enemy object different functionalities.
 
 **Data**: Edit Enemy object which is contained in the list of Enemy objects within a Game object. Can either be of ‘universal’ type or ‘current game’ type, but this status cannot be changed once created. 
 
@@ -44,7 +44,7 @@
 
 **Front End**: Switch to the tower tab, right click a tower in the pane to open its editor window (almost the same as the one used to create the enemy.) 
 
-**Back End**:
+**Back End**: GUI selections will bind attribute classes to the Tower, giving that Tower object different functionalities.
 
 **Data**: Edit Tower object which is contained in the list of Tower objects within a Game object. Can either be of ‘universal’ type or ‘current game’ type, but this status cannot be changed once created. 
 

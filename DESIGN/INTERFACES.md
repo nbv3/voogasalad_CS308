@@ -1,11 +1,15 @@
 
 #Interfaces
 
-## Game Object Hierarchy
+## Front End
 
-### IView Interface 
+## Back End
 
-##### implemented by anything that is drawn by the GUI
+### Game Object Hierarchy
+
+##### IView Interface 
+
+####### implemented by anything that is drawn by the GUI
 
 ```
 
