@@ -164,7 +164,7 @@
 
 **Front End**: The user will click on a tower from the tower screen. This will indicate that the user has selected a tower to place on the map. Once the cursor is in the map area, the user will use the mouse and click in the grid to place element. 
 
-**Back End**: 
+**Back End**: A Tower object is instantiated and the clicking on a particular Tile retrieves the location of that Tile and sets the location of the Tower to that point.
 
 **Data**: The CurrentGame object’s map is updated by adding a Tower to the Tile object. 
 
@@ -172,56 +172,52 @@
 
 **Front End**: in the “Select game” screen, the user will have the possibility to choose what game he/she wants to play from a drop-down menu. In the “Welcome to my game” screen, the user will select “From Start”, which will launch the game from the beginning. 
 
-**Back End**: 
-
 **Data**: A Game object is loaded from XML and a CurrentGame object is created which stores the current ‘savegame’ with the number of coins, and the placement of the towers and how many lives remain. 
 
 ###23. Load an XML game and play from last saved level 
 **Front End**: Similar to playing from the first level. In the “Welcome to my game” splash screen, the user will select Load level, which will play any of the unlocked levels. 
-
-**Back End**:
 
 **Data**: A CurrentGame object is loaded from XML which contains the number of coins, the placement of the towers, and how many lives remain. 
 
 ###24. Kill an enemy, update available resources
 **Front End**: Once the game engine detects this event, the enemy will disappear from the map (with an explosion possibly). The screen would then refresh the amount of available resources depending 
 
-**Back End**:
+**Back End**: This would be due to the a DamageEvent that reduces the enemy's health to <=0. As a result, the game engine will loop and remove the objects that are dead from the game.
 
 **Data**: The CurrentGame object’s attributes, which include resources, are updated. The enemy is removed from the CurrentGame’s Enemy queue. 
 
 ###25. A missile collides with an enemy
 **Front End**: The GUI detects the collision in the Game Engine and updates the screen accordingly.
 
-**Back End**:
+**Back End**: Collision between missile and enemy is detected. The missile adds a HealthChangeEvent to the enemy's list of events to be processed. The missile then destroys itself by removing itself from the pane.
 
 **Data**: The Enemy (which is contained in a queue) and is contained within the CurrentGame object has its health reduced. 
 
 ###26. Game object moves outside the screen
 **Front End**: When the image is completely off the screen, the GUI will remove its ImageView from the Pane. The Game Engine will then remove the object from the game. 
 
-**Back End**:
+**Back End**: This object is removed from the pane.
 
 **Data**: The GameObject is removed from the List/Queue in which it resides. 
 
 ###27. Enemy reaches base
 **Front End**: Similar to when an enemy reaches outside the screen. The number of lives will then be decreased. 
 
-**Back End**:
+**Back End**: A GoalEvent is created that performs a particular action due to the conditions that have been met.
 
 **Data**: The lives counter which is an instance variable within the CurrentGame object is decreased in number and the Goal conditions are checked to and the corresponding win/lose method is called if the conditions are met (or unmet). 
 
 ###28. Complete level (no enemies reach final point)
 **Front End**: Once the level is completed, the engine will pause. The player will then have the opportunity to place new towers/change location of existing ones. It will then click a button “Next level”, that will load the next level and start spawning enemies. 
 
-**Back End**:
+**Back End**: The game engine will handle transitioning to the next level by setting the current level to the next one in the list.
 
 **Data**: The level counter within the CurrentGame object is updated to reflect the advancement in levels. A resource reward may be granted, thereby adding to the instance variable. 
 
 ###29. Win Game
 **Front End**: Check if a checkpoint has been reached, and if so, change the boolean to true and as a result, change to a win game splash screen or next level.
 
-**Back End**:
+**Back End**: 
 
 **Data**: The CurrentGame object is deleted (as the game is completed). 
 
