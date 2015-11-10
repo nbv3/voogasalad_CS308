@@ -74,7 +74,7 @@ The Game Tower is a subclass that represents an object is permanently affixed to
 
 ##Example games
 
-###Bloons Tower Defense (5)
+###Bloons Tower Defense
 
 Bloons Tower Defense uses ‘Towers’ and ‘Enemies’ but no players. The enemies are balloons, and the player places monkeys (i.e. towers) to pop them. In the editor, the user will have to design the path for the balloons, as well as deciding which monkeys the player will be allowed to deploy in each level. 
 
