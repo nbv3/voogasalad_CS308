@@ -52,7 +52,7 @@
 
 **Front End**: Switch to enemy tab, click individual enemy to add it to the queue of enemies to be added in the game once it runs. (Queue defines enemy-add order) 
 
-**Back End**:
+**Back End**: By selecting on a type of Enemy from the UI, a factory creates an instance of that type at a particular point in the game board specified by the mouse.
 
 **Data**: Add a Enemy object to a Level object which is contained within a list of Level objects. 
 
@@ -60,7 +60,7 @@
 
 **Front End**: the user will be able to select cells in the grid and designate them as environment cells (we will have different choices available to the user, such as rocks, platforms for towers, etc). The user will select a cell and then the type of cell from the tile tab on the right part of the editor. 
 
-**Back End**:
+**Back End**: 
 
 **Data**: Call a method within a Path object which changes whether it is walkable or not. 
 
