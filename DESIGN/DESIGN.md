@@ -1,9 +1,6 @@
-#VOOGASalad Design
+#VOOGASalad Design Document
 ##Syntactic Sugar
 ========
-
-#VOOGASalad Design Document
-
 
 ##Introduction:
 
