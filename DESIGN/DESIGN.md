@@ -25,3 +25,10 @@ If the user selects the game editor option, the user will be directed to an edit
 From the game editor pane, there will be a button, displayed with a + sign,  that allows the user to create custom towers, monsters, and tiles. Clicking this button will cause an object creator window to pop up. This will allow the user to create custom objects by setting a name, image, adding components, etc. These will all correspond to drop down menus, text input boxes, sliding bars, and other forms of user data input. In addition, it should be possible to set character movements based on key inputs. The user should be able to set these key values in the form of a single character or recognizable strings for buttons like “shift” to control the character. 
 
 If the user has uploaded a file that has bad data or incomplete data, this will be detected when the user selects a document after clicking the load button. If the parser is not able to directly parse the information and acquire all of its necessary information, it will throw an error and display an error pop-up with indicative error warnings without proceeding to the next screen so that the user is unable to continue with incomplete information. 
+
+![Image of Splash](https://github.com/duke-compsci308-fall2015/voogasalad_SyntacticSugar/blob/master/DESIGN/Splash.png)
+![Image of MainMenu](https://github.com/duke-compsci308-fall2015/voogasalad_SyntacticSugar/blob/master/DESIGN/MainMenu.png)
+![Image of GameSelect](https://github.com/duke-compsci308-fall2015/voogasalad_SyntacticSugar/blob/master/DESIGN/GameSelect.png)
+![Image of GameMenu](https://github.com/duke-compsci308-fall2015/voogasalad_SyntacticSugar/blob/master/DESIGN/GameMenu.png)
+![Image of GameEditor](https://github.com/duke-compsci308-fall2015/voogasalad_SyntacticSugar/blob/master/DESIGN/GameEditor.png)
+![Image of ObjectCreator](https://github.com/duke-compsci308-fall2015/voogasalad_SyntacticSugar/blob/master/DESIGN/ObjectCreator.png)
