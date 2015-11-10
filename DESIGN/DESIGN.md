@@ -90,128 +90,18 @@ Defender has ‘Towers’ and ‘Enemies’ but no players. The game contains bo
 
 
 ##Design Considerations 
-
+One of the first issues we debated is how to handle collisions. This will be a central issue to our design, as it includes both front and back end. A first problem was how to determine the logic for collisions. One design option we considered was to create a Collision object, that will be created whenever two game objects collide. This collision obejct would then determine how the two objects interact. Furthermore, we like the idea of having the attribute of GameObject interact with each other. For example, a damage attribute would always affect a health attribute, and so on. We also considered the possibility of having our GameObject classes implement a Collider/Collidable interface. For example, an enemy would be a Collidable, and a missile would be a Collider. One of our main concerns when discussing collision was to avoid type casting, but we have yet to find an ideal solution. Another concern we have is how to be able to detect collisions efficiently, without checking every possible pair of objects in the game. 
+Another important design consideration is how we will execute the timeline and reflect changes on the view. In particular, we were thinking of implementing an observer/observable pattern, so that we could update only the elements that changed position/state. 
 
 ##Team Responsibilities
 This section describes the program modules each team member plans to take primary and secondary responsibility for and a high-level plan of how the team will complete the program.
 
-
-
-###Game Engine:
-
-###Component Hierarchy:
+1. Game Editor: Michael (BE/FE), Sebastian(BE), Jiawei(BE), Emanuele (FE), Arthur (FE)
+2. Game Object Editor: Henry (BE/FE), Elsie (BE/FE), Brody (BE), Jiawei (BE)
+3. Game Engine: Sebastian (BE), Jiawei (FE), Nick (BE/FE), Henry (BE), Emanuele (BE/FE)
+4. Component Hierarchy: Jiawei, Nick, Brody, Elsie
 
 ###Data Structure: 
-
 Jiawei Zhang - handling XML serialization and concrete object storage/referencing
 Arthur Schweitzer - game authoring module
 
-```java
-public interface IGameEditor {
-	
-	public void createTower();
-
-public void createEnemy();
-
-public void createPlayer();
-
-public void createTile();
-	
-	public void addTileToMap(Tile tile);
-	
-	public void addPlayerToMap(Player player);
-
-	public void addEnemyToQueue(Monster monster);
-	
-	public void makeTowerAvailable(Tower tower);
-
-	public void changeSetting(Setting setting);
-	
-	public void addLevel();
-	
-	public void switchLevel(int levelNumber);
-	
-	public void deleteLevel(int levelNumber);
-
-	public void save();
-	
-}
-
-public interface IEditor {
-
-	public void changeImage(){};
-
-	public void setAttribute(Attribute atr){};
-
-}
-
-
-
-public interface ITowerEditor extends IEditor{
-	public void addItem(Item item){};
-}
-
-public interface EnemyEditor extends IEditor{
-	public void addItem(Item item)
-}
-
-
-//one to rule them all? or different editors?
-​
-public class PlayerEditor extends IEditor{
-	public void addItem(Item item);
-}
-
-public interface ItemEditor extends IEditor{
-	
-}
-
-public interface TileEditor extends IEditor{
-	
-}
-​
-public interface IGameSplashView{
-	
-	public void loadSavedGame(XMLfile game){};
-	
-	public void loadNewGame(){};
-	
-	public void launchGame(){};
-	
-	//returns help file
-	public void getHelp(){};
-
-	public void editSettings(){};
-
-	public void viewScoreboard(){};
-	
-}
-
-public interface IGameEngineView{
-
-	public void displayUpdate(){};
-
-	public void pause(){};
-
-	public void play(){};
-
-	public void goHome(){};
-
-	public void startLevel(){};
-
-	public void placeTower(){};
-
-public void upgradeTower(int path){};
-
-public void sellTower(){};
-
-public void saveCurrentGame(){};
-
-public void updateScore(){};
-
-public void updateResources(){};
-
-public void endGame(boolean winLose){};
-}
-
-```
