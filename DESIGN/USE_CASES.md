@@ -217,7 +217,7 @@
 ###29. Win Game
 **Front End**: Check if a checkpoint has been reached, and if so, change the boolean to true and as a result, change to a win game splash screen or next level.
 
-**Back End**: 
+**Back End**: If the GoalConditions for the final level are met, the back end will communicate to the front end that the game has completed and the loop will stop.
 
 **Data**: The CurrentGame object is deleted (as the game is completed). 
 
