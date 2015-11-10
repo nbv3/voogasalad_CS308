@@ -60,7 +60,7 @@
 
 **Front End**: the user will be able to select cells in the grid and designate them as environment cells (we will have different choices available to the user, such as rocks, platforms for towers, etc). The user will select a cell and then the type of cell from the tile tab on the right part of the editor. 
 
-**Back End**: 
+**Back End**: Depending on the type of cell specified, a factory will create an instance of that cell. That cell will be placed  at a clickable location in the game board. Depending on the type of cell collected, it will determine whether other objects will be able to walk over that space of the board.
 
 **Data**: Call a method within a Path object which changes whether it is walkable or not. 
 
@@ -68,7 +68,7 @@
 
 **Front End**: The user will be able to move a tile representing the spawn area and choose the edge from which enemies are spawned. The same can be done for the finishing tile. 
 
-**Back End**:
+**Back End**: An EnemySpawner object will be created. The object will be placed on the map and the internals will contain a factory pattern for creating enemies of that type. A destination point will be chosen and the movement algorithms employed by that enemy type will lead them to that point.
 
 **Data**: The Spawn objects extend the Path object and allows monsters to spawn from them or navigate toward them. 
 
@@ -76,7 +76,7 @@
 
 **Front End**: Switch to the tile tab, which displays the pane containing existing enemy tiles, followed by a plus button. Click the plus button to launch a window that allows users to set the tile properties (such as: whether a tower can be placed on it, image, is it walkable, etc). Click the add button to add the tile to the list of available tiles.
 
-**Back End**:
+**Back End**: A generic Tile object will have a number of attributes bound to it by the GUI controls.
 
 **Data**: Create new Scenery object which is added to the list of Tile objects within the Game object
 
@@ -84,7 +84,7 @@
 
 **Front End**: Add enemies to the queue as seen in previous use case. To change the order after they’ve been added, drag and drop elements within the queue.
 
-**Back End**:
+**Back End**: A list will index the enemies that have yet to appear in the game. When enemies are shifted around, an algorithm will generate a new list with the new ordering for the enemies.
 
 **Data**: Two elements are simply switched in their places. The queue is essentially a linked list so this is a fast operation. 
 
@@ -92,7 +92,7 @@
 
 **Front End**: The user will click on an element from one of the tab screens. This will indicate that the user has selected an element to place on the map. Once the cursor is in the map area, the user will use the mouse and click in the grid to place element. The grid will indicate the possible tiles for placing the selected grid element. 
 
-**Back End**:
+**Back End**: Handled using a factory pattern. The Tile's point location will be set once the user clicks on the correct location in the grid.
 
 **Data**: The map is a (hash)map that maps a Point to a Tile (or null if nothing has been added). Adding a Tile to the map simply maps the Point to the Tile. 
 
@@ -100,7 +100,7 @@
 
 **Front End**: above the grid map, there will be a menu bar that allows the user to change the level displayed, as well as the possibility of adding a new level and deleting the level. If you click “Add Level”, a pop up screen will open asking for the level number. Select a valid number and the editor will display a default level, ready to be modified.
 
-**Back End**:
+**Back End**: This will instantiate a Level object and place it in the list that contains all the different levels for the game.
 
 **Data**: Create a new Level object which has its own Map, Players, Towers, Enemies, and Settings. This Level object is added to the list of Level objects in the Game object. 
 
@@ -108,7 +108,7 @@
 
 **Front End**: Next to the drop down menu for levels, there will be a + and - button indicating adding and deleting a level. Select a level from the drop down menu and click the - button to delete. 
 
-**Back End**:
+**Back End**: This will remove an object from the Levels list of the Game object.
 
 **Data**: A Level object is removed from the Game object. 
 
@@ -116,7 +116,7 @@
 
 **Front End**: On the bottom right hand side of the screen, there will be a series of buttons, one of which will allow you to save the settings for the current levels to an XML file named by the user. 
 
-**Back End**:
+**Back End**: The game loop is paused. The data saving process is initiated to write the game information to XML.
 
 **Data**: The current Game object (with its state) is written to XML and overrides the previously existing Game object. 
 
@@ -124,7 +124,7 @@
 
 **Front End**: In the top menu, select File -> Delete Game. Done! 
 
-**Back End**:
+**Back End**:  The game player's list of games will remove the specified game.
 
 **Data**: The XML that the Game is stored in is deleted. 
 
@@ -133,7 +133,7 @@
 ###17. Properties panel
 **Front End**: The user will be able to view the properties panel when a tile is clicked. This properties panel will exist on the right hand side of the screen and display properties that are relevant to the tile clicked.
 
-**Back End**:
+**Back End**: 
 
 **Data**: The Tile object stores its properties as instance variables. 
 
