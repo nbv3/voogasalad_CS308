@@ -17,6 +17,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import tiles.AbstractGameTile;
+import tiles.IGameTile;
 
 public class AuthoringEnvironment {
 	
@@ -57,35 +58,46 @@ public class AuthoringEnvironment {
 	
 	private GridPane createMapDisplay() {
 		GridPane gp = new GridPane();
-		addConstraints(gp);
+		// For some reason, using round numbers like 600 causes the imageview to get scaled to 0 when 
+		// dividing by 10 in the next part. 599 fixes the problem
+		gp.setPrefSize(600.1, 600.1);
+//		addConstraints(gp);
 		//Populate gridpane
+		System.out.println(myMap.getMapSize());
 		for (Point p: myMap.getTileMap().keySet()) {
 			AbstractGameTile g = myMap.getTile(p);
 			ImageView i = g.getView();
+			i.setOnMouseClicked(e -> openTileSettingsDialog(g));
+			i.setFitWidth(gp.getPrefWidth() / (new Double(myMap.getMapSize())));
+			i.setFitHeight(gp.getPrefHeight() / (new Double(myMap.getMapSize())));
 			gp.add(i, (int) p.getX(), (int) p.getY(), 1, 1);
 		}
 		return gp;
 	}
 	
-	private void addConstraints(GridPane gp) {
-		List<ColumnConstraints> ccon = new ArrayList<ColumnConstraints>();
-		List<RowConstraints> rcon = new ArrayList<RowConstraints>();
-		
-		gp.setMaxHeight(300);
-		gp.setMaxWidth(300);
-		
-		for (int i=0; i<myMap.getMapSize(); i++) {
-			ColumnConstraints c = new ColumnConstraints();
-			c.setPercentWidth(1.0 / myMap.getMapSize());
-			RowConstraints r = new RowConstraints();
-			r.setPercentHeight(1.0 / myMap.getMapSize());
-			
-			ccon.add(c);
-			rcon.add(r);
-		}
-		gp.getColumnConstraints().addAll(ccon);
-		gp.getRowConstraints().addAll(rcon);
+	private void openTileSettingsDialog(IGameTile gt) {
+		System.out.println(gt.isWalkable());
 	}
+	
+//	private void addConstraints(GridPane gp) {
+//		List<ColumnConstraints> ccon = new ArrayList<ColumnConstraints>();
+//		List<RowConstraints> rcon = new ArrayList<RowConstraints>();
+//		
+//		gp.setMaxHeight(300);
+//		gp.setMaxWidth(300);
+//		
+//		for (int i=0; i<myMap.getMapSize(); i++) {
+//			ColumnConstraints c = new ColumnConstraints();
+//			c.setPercentWidth(1.0 / myMap.getMapSize());
+//			RowConstraints r = new RowConstraints();
+//			r.setPercentHeight(1.0 / myMap.getMapSize());
+//			
+//			ccon.add(c);
+//			rcon.add(r);
+//		}
+//		gp.getColumnConstraints().addAll(ccon);
+//		gp.getRowConstraints().addAll(rcon);
+//	}
 	
 	private GridPane createEditDisplay() {
 		GridPane gp = new GridPane();

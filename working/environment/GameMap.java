@@ -8,6 +8,7 @@ import java.util.Map;
 import tiles.AbstractGameTile;
 import tiles.IGameTile;
 import tiles.PathTile;
+import tiles.SceneryTile;
 
 public class GameMap implements IGameMap {
 
@@ -15,7 +16,7 @@ public class GameMap implements IGameMap {
 	private Map<Point, AbstractGameTile> myTiles;
 	
 	public GameMap() {
-		this(6);
+		this(18);
 	}
 	
 	public GameMap(int size) {
@@ -24,7 +25,7 @@ public class GameMap implements IGameMap {
 		for (int i=0; i<size; i++) {
 			for (int j=0; j<size; j++) {
 				Point p = new Point(i, j);
-				myTiles.put(p, new PathTile(p));
+				myTiles.put(p, new SceneryTile(p));
 			}
 		}
 	}
