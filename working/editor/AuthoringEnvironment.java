@@ -4,6 +4,7 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
+import editor.sidepanes.EditorTabPane;
 import environment.GameMap;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -45,12 +46,13 @@ public class AuthoringEnvironment {
 	private Stage initializeStage() {
 		myMenu = createMenuBar();
 		myMapDisplay = createMapDisplay();
-		//myEditDisplay = createEditDisplay();
+		EditorTabPane myTabs = new EditorTabPane();
+		
 		
 		myWindow = new BorderPane();
 		myWindow.setTop(myMenu);
 		myWindow.setCenter(myMapDisplay);
-		//window.setRight(myEditDisplay);
+		myWindow.setRight(myTabs.getPaneNode());
 		
 		myScene = new Scene(myWindow);
 		Stage stage = new Stage();
