@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Observable;
 
 import environment.GameEnvironment;
+import javafx.util.Pair;
 import objects.events.AbstractEvent;
 import objects.events.CollisionEvent;
 import objects.events.ICollisionListener;
@@ -16,15 +17,25 @@ import objects.events.IEvent;
 
 public abstract class AbstractGameObject extends Observable implements IGameObject, ICollisionListener{
 	
+	//Members
+	
+	//Unique, corresponds to a view object
+	int myID;
+	
 	//Maybe this is a list if objects can have multiple types?
 	EObjectType myType;
 
 	Point myLocation;
+	Pair myBBox;
+	
+	Boolean toBeDestroyed;
 	
 	Map<EObjectType, List<IEvent>> myCollisionEvents;
 	
 	//This holds all the components and items an object has
 	List<IChild> myChildren;
+	
+	//Methods
 
 	public AbstractGameObject(Point p, GameEnvironment g) {
 		myLocation = p;
@@ -51,11 +62,11 @@ public abstract class AbstractGameObject extends Observable implements IGameObje
 		
 		//Figure out if this event is for us (and which object is us)
 		IGameObject obj;		
-		if (e.myFirst.equals(this)) {
-			obj = e.mySecond;
+		if (e.getSource().equals(this)) {
+			obj = e.getTarget();
 		}
-		else if (e.mySecond.equals(this)){
-			obj = e.myFirst;
+		else if (e.getTarget().equals(this)){
+			obj = e.getSource();
 		}
 		else {
 			return;
@@ -79,7 +90,21 @@ public abstract class AbstractGameObject extends Observable implements IGameObje
 	}
 	
 	public void setToDestroy(){
-		//Write this later
+		toBeDestroyed = true;
+	}
+	
+	public void move(Point loc) {
+		myLocation = loc;
+	}
+	
+	public void update() {
+		if (toBeDestroyed) {
+			//TODO: Write this later
+		}
+		
+		for (IChild c: myChildren) {
+			c.update();
+		}
 	}
 
 }

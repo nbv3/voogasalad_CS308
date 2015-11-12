@@ -15,5 +15,7 @@ public interface IGameObject{
 	public void sendEventToChildren(IEvent e);
 	
 	public void setToDestroy();
+	
+	public void move(Point loc);
 
 }

@@ -4,9 +4,9 @@ import objects.IGameObject;
 
 public interface IEvent {
 
-	public IGameObject getFirst();
+	public IGameObject getSource();
 	
-	public IGameObject getSecond();
+	public IGameObject getTarget();
 	
 	public EEventType getType();
 	
