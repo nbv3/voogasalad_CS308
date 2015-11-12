@@ -1,5 +1,7 @@
 package editor.sidepanes;
 
+import java.io.File;
+
 import javafx.collections.ObservableList;
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.GridPane;
@@ -48,6 +50,14 @@ public class TileEditor extends AEditorPane {
 	private GridPane createGridPane(String type) {
 		GridPane selectionGrid = new GridPane();
 		myEditorPane.getChildren().add(selectionGrid);
+
+		File directory = new File(System.getProperty("user.dir") + "/images/" + type);
+		for (File file : directory.listFiles()) {
+			if (file.getName().endsWith("png"))
+					System.out.println(file.getName());
+		
+		}
+
 		return selectionGrid;
 	}
 	
