@@ -66,7 +66,6 @@ public class TileEditor {
 		return comboBox;
 	}
 
-
 	private void showImageOptions(String s) {		
 		tileIconBundle = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "TileIcon");
 		String[] tileIconPath = tileIconBundle.getString(s).split(",");	

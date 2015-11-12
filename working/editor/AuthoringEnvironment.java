@@ -42,10 +42,10 @@ public class AuthoringEnvironment implements Observer {
 
 	private Stage initializeStage() {
 		myMenu = createMenuBar();
-		myMapDisplay = createMapDisplay();	
+		myMapDisplay = createMapDisplay();
 		myWindow = new BorderPane();
 		myWindow.setTop(myMenu);
-		myWindow.setCenter(myMapDisplay);	
+		myWindow.setCenter(myMapDisplay);		
 		myScene = new Scene(myWindow);
 		Stage stage = new Stage();
 		stage.setScene(myScene);
