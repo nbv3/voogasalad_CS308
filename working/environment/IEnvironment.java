@@ -16,5 +16,6 @@ public interface IEnvironment {
 
 	List<AbstractGameObject> getEnvironmentObjects();
 
+	public List<String> validate();
 
 }
