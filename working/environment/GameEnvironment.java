@@ -48,4 +48,10 @@ public class GameEnvironment implements Observer, IEnvironment {
 		
 	}
 
+	@Override
+	public List<String> validate() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
