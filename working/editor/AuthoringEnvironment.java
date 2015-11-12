@@ -2,42 +2,39 @@ package editor;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import environment.GameMap;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
-import javafx.scene.effect.DropShadow;
+import javafx.scene.control.MenuItem;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-import tiles.AbstractGameTile;
-import tiles.IGameTile;
-import tiles.implementations.DecoratorTile;
-import tiles.implementations.PathTile;
-import tiles.implementations.SceneryTile;
+import tiles.DecoratorTile;
 
-public class AuthoringEnvironment {
+public class AuthoringEnvironment implements Observer {
 	
 	private Stage myStage;
 	private Scene myScene;
 	private BorderPane myWindow;
 	private MenuBar myMenu;
 	private GridPane myMapDisplay;
+	private TileEditor myTileEditor;
+	
+	private List<DecoratorTile> myTileSelection;
 	//private VBox myEditDisplay;
 	
 	private GameMap myMap;
 
 	public AuthoringEnvironment(){
 		myMap = new GameMap();
+		myTileSelection = new ArrayList<>();
 		myStage = initializeStage();
 		myStage.show();
 	}
@@ -45,12 +42,10 @@ public class AuthoringEnvironment {
 	private Stage initializeStage() {
 		myMenu = createMenuBar();
 		myMapDisplay = createMapDisplay();
-		//myEditDisplay = createEditDisplay();
 		
 		myWindow = new BorderPane();
 		myWindow.setTop(myMenu);
 		myWindow.setCenter(myMapDisplay);
-		//window.setRight(myEditDisplay);
 		
 		myScene = new Scene(myWindow);
 		Stage stage = new Stage();
@@ -62,21 +57,38 @@ public class AuthoringEnvironment {
 	private MenuBar createMenuBar() {
 		MenuBar mb = new MenuBar();
 		Menu file = new Menu("File");
+		
+		MenuItem editTiles = new MenuItem("Edit Tiles");
+		editTiles.setOnAction(e -> openTileSettingsDialog(myTileSelection));
+		
+		MenuItem clear = new MenuItem("Clear Selection");
+		clear.setOnAction(e -> clearTileSelection());
+		
+		MenuItem selectAll = new MenuItem("Select All");
+		selectAll.setOnAction(e -> addAllTiles());
+		
+		file.getItems().addAll(editTiles, selectAll, clear);
 		mb.getMenus().add(file);
 		return mb;	
 	}
 	
+	private void addAllTiles() {
+		myTileSelection.clear();
+		for (DecoratorTile tile: myMap.getTileMap().values()) {
+			toggleTileSelection(tile);
+		}
+	}
+	
 	private GridPane createMapDisplay() {
 		GridPane gp = new GridPane();
-		// For some reason, using round numbers like 600 causes the imageview to get scaled to 0 when 
-		// dividing by 10 in the next part. Any non-round double (ie. 600.1) fixes the problem
-		gp.setPrefSize(600.1, 600.1);
+		gp.setPrefSize(800, 800);
 //		addConstraints(gp);
 		//Populate gridpane
 		for (Point p: myMap.getTileMap().keySet()) {
 			DecoratorTile tile = myMap.getTile(p);
+			tile.addObserver(this);
 			ImageView i = tile.getView();
-			i.setOnMouseClicked(e -> openTileSettingsDialog(tile));
+			i.setOnMouseClicked(e -> toggleTileSelection(tile));
 			i.setFitWidth(gp.getPrefWidth() / (new Double(myMap.getMapSize())));
 			i.setFitHeight(gp.getPrefHeight() / (new Double(myMap.getMapSize())));
 			gp.add(i, (int) p.getX(), (int) p.getY(), 1, 1);
@@ -84,37 +96,44 @@ public class AuthoringEnvironment {
 		return gp;
 	}
 	
-	private void openTileSettingsDialog(DecoratorTile tile) {
-//		Node editSettings = gt.getEditView(gt);
-		// Set this node to be viewed in the right hand side of the authoring environment
-		System.out.println(String.format("%s : Is walkable? %s", tile.toString(), tile.isWalkable()));
-		if (tile.isWalkable())
-			tile.setImplementation(new SceneryTile(tile));
-		else
-			tile.setImplementation(new PathTile(tile));
-		
-		TileEditor tileEditor = new TileEditor(tile);
-		myWindow.setRight(tileEditor.getEditorPane());
-//		updateGridView(gt);
+	private void toggleTileSelection(DecoratorTile t) {
+		if (myTileSelection.contains(t)) {
+			myTileSelection.remove(t);
+			t.getView().setOpacity(1);
+		}
+		else {
+			myTileSelection.add(t);
+			t.getView().setOpacity(0.75);
+		}
 	}
 	
-//	private void addConstraints(GridPane gp) {
-//		List<ColumnConstraints> ccon = new ArrayList<ColumnConstraints>();
-//		List<RowConstraints> rcon = new ArrayList<RowConstraints>();
-//		
-//		gp.setMaxHeight(300);
-//		gp.setMaxWidth(300);
-//		
-//		for (int i=0; i<myMap.getMapSize(); i++) {
-//			ColumnConstraints c = new ColumnConstraints();
-//			c.setPercentWidth(1.0 / myMap.getMapSize());
-//			RowConstraints r = new RowConstraints();
-//			r.setPercentHeight(1.0 / myMap.getMapSize());
-//			
-//			ccon.add(c);
-//			rcon.add(r);
-//		}
-//		gp.getColumnConstraints().addAll(ccon);
-//		gp.getRowConstraints().addAll(rcon);
-//	}	
+	private void openTileSettingsDialog(List<DecoratorTile> tiles) {
+		myTileEditor = new TileEditor(tiles);
+		myWindow.setRight(myTileEditor.getEditorPane());
+	}
+
+	private void refreshMapDisplay() {
+		myMapDisplay.getChildren().clear();
+		for (DecoratorTile tile: myMap.getTileMap().values()) {
+			ImageView i = tile.getView();
+			i.setOnMouseClicked(e -> toggleTileSelection(tile));
+			i.setFitWidth(myMapDisplay.getPrefWidth() / (new Double(myMap.getMapSize())));
+			i.setFitHeight(myMapDisplay.getPrefHeight() / (new Double(myMap.getMapSize())));
+			myMapDisplay.add(tile.getView(), (int) tile.getPoint().getX(), (int) tile.getPoint().getY()); 
+		}
+	}
+	
+	@Override
+	public void update(Observable arg0, Object arg1) {
+		refreshMapDisplay();
+	}
+
+	public void clearTileSelection() {
+		for (DecoratorTile tile: myTileSelection) {
+			tile.getView().setOpacity(1);
+		}
+		myTileSelection.clear();
+		myWindow.setRight(null);
+	}
+	
 }

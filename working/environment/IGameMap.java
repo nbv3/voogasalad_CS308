@@ -4,8 +4,8 @@ import java.awt.Point;
 import java.util.List;
 import java.util.Map;
 
+import tiles.DecoratorTile;
 import tiles.IGameTile;
-import tiles.implementations.DecoratorTile;
 
 public interface IGameMap {
 

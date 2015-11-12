@@ -6,6 +6,6 @@ public interface IView {
 
 	public ImageView getView();
 	
-	public void setImage(String path);
+	public void setImage(ImageView iv);
 	
 }
