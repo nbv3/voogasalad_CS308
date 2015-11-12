@@ -1,27 +1,33 @@
 package objects;
 
+import java.awt.Point;
+
 import environment.GameEnvironment;
 
 public class Spawner extends AbstractGameObject {
 
 	private AbstractGameObject myObjectToSpawn;
-	private GameEnvironment myGameEnvironment;
 
-	public Spawner(GameEnvironment g, AbstractGameObject o) {
+	public Spawner(Point p, GameEnvironment g, AbstractGameObject o) {
+		super(p, g);
 		myObjectToSpawn = o;
-		myGameEnvironment = g;
 
 	}
 
 	public void spawn() {
-		myGameEnvironment.addToEnvironment(myObjectToSpawn);
+	//	myGameEnvironment.addToEnvironment(myObjectToSpawn);
 	}
 
 	@Override
 	public void update() {
-		
-		// If time to spawn, spawn etc. 
-		
+
+		// If time to spawn, spawn etc.
+
+	}
+
+	@Override
+	public Point getLocation() {
+		return myLocation;
 	}
 
 }

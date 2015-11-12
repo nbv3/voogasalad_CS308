@@ -1,13 +1,17 @@
 package objects;
 
 import java.awt.Point;
+import java.util.Observable;
 
-public abstract class AbstractGameObject implements IGameObject{
+import environment.GameEnvironment;
+
+public abstract class AbstractGameObject extends Observable implements IGameObject{
 
 	Point myLocation;
 
-	public AbstractGameObject() {
-
+	public AbstractGameObject(Point p, GameEnvironment g) {
+		myLocation = p;
+		this.addObserver(g);
 	}
 
 }
