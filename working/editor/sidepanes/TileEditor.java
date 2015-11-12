@@ -1,9 +1,11 @@
 package editor.sidepanes;
 
 import java.io.File;
+import java.io.InputStream;
 
 import javafx.collections.ObservableList;
 import javafx.scene.control.ComboBox;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -51,15 +53,19 @@ public class TileEditor extends AEditorPane {
 		GridPane selectionGrid = new GridPane();
 		myEditorPane.getChildren().add(selectionGrid);
 
-		File directory = new File(System.getProperty("user.dir") + "/images/" + type);
+		String path = System.getProperty("user.dir") + "/images/" + type;
+		File directory = new File(path);
+		int i=0; int j = 0;
 		for (File file : directory.listFiles()) {
-			if (file.getName().endsWith("png"))
-					System.out.println(file.getName());
-		
+			if (file.getName().endsWith("png")){
+				i++;
+				selectionGrid.add(new ItemBlock(getClass().getResourceAsStream("images/" + type)), i, j);
+				System.out.println(file.getName());
+			}
+
 		}
 
 		return selectionGrid;
 	}
-	
 	
 }
