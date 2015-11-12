@@ -16,7 +16,7 @@ public class HealthComponent extends AbstractComponent {
 
 	@Override
 	public void receiveEvent(IEvent e) {
-		if (e.getType().equals(EEventType.DamageEvent)){
+		if (e.getType().equals(EEventType.DamageEvent) && e.getTarget().equals(getParent())){
 			DamageEvent dmg = (DamageEvent) e;
 			myCurrentHealth -= dmg.getDamage();
 		}

@@ -14,15 +14,15 @@ public abstract class AbstractEvent implements IEvent{
 		myType = type;
 	}
 	
-	public IGameObject myFirst;
-	public IGameObject mySecond;
+	public IGameObject mySource;
+	public IGameObject myTarget;
 	
-	public IGameObject getFirst() {
-		return myFirst;
+	public IGameObject getSource() {
+		return mySource;
 	}
 	
-	public IGameObject getSecond() {
-		return mySecond;
+	public IGameObject getTarget() {
+		return myTarget;
 	}
 
 	public EEventType getType() {

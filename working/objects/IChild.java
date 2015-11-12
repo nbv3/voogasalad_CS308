@@ -12,4 +12,6 @@ public interface IChild {
 	
 	public void receiveEvent(IEvent e);
 	
+	public void update();
+	
 }
