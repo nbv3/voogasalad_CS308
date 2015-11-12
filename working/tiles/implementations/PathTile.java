@@ -2,13 +2,14 @@ package tiles.implementations;
 
 import java.awt.Point;
 
-import tiles.AbstractGameTile;
 import tiles.IGameTile;
 
-public class PathTile extends AbstractGameTile {
+public class PathTile implements IGameTile {
 		
+	private Point myPoint;
+	
 	public PathTile(Point p) {
-		super(p);
+		this.myPoint = p;
 	}
 	
 	public PathTile(IGameTile gt) {
@@ -23,6 +24,11 @@ public class PathTile extends AbstractGameTile {
 	@Override
 	public boolean isPlaceable() {
 		return false;
+	}
+
+	@Override
+	public Point getPoint() {
+		return myPoint;
 	}
 
 }
