@@ -62,17 +62,8 @@ public class TileEditor {
 	}
 
 	private void showGridPane(String s) {
-		//GridPane iconPane = new GridPane();
-		
 		tileIconBundle = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "TileIcon");
 		String[] tileIconPath = tileIconBundle.getString(s).split(",");
-		
-		tile.setImage("path_brick_1.png");
-		
-		
-		for (int i = 0;i< tileIconPath.length;i++) {
-			System.out.println(tileIconPath[i]);
-		}
 		
 		iconPane.getChildren().clear();
 				
