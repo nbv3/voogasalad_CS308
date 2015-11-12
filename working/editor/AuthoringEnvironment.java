@@ -9,11 +9,13 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
@@ -27,9 +29,10 @@ public class AuthoringEnvironment {
 	
 	private Stage myStage;
 	private Scene myScene;
+	private BorderPane myWindow;
 	private MenuBar myMenu;
 	private GridPane myMapDisplay;
-	private GridPane myEditDisplay;
+	//private VBox myEditDisplay;
 	
 	private GameMap myMap;
 
@@ -42,14 +45,14 @@ public class AuthoringEnvironment {
 	private Stage initializeStage() {
 		myMenu = createMenuBar();
 		myMapDisplay = createMapDisplay();
-		myEditDisplay = createEditDisplay();
+		//myEditDisplay = createEditDisplay();
 		
-		BorderPane window = new BorderPane();
-		window.setTop(myMenu);
-		window.setCenter(myMapDisplay);
-		window.setRight(myEditDisplay);
+		myWindow = new BorderPane();
+		myWindow.setTop(myMenu);
+		myWindow.setCenter(myMapDisplay);
+		//window.setRight(myEditDisplay);
 		
-		myScene = new Scene(window);
+		myScene = new Scene(myWindow);
 		Stage stage = new Stage();
 		stage.setScene(myScene);
 		stage.setMaximized(true);
@@ -89,8 +92,10 @@ public class AuthoringEnvironment {
 			tile.setImplementation(new SceneryTile(tile));
 		else
 			tile.setImplementation(new PathTile(tile));
-//		updateGridView(gt);
 		
+		TileEditor tileEditor = new TileEditor(tile);
+		myWindow.setRight(tileEditor.getEditorPane());
+//		updateGridView(gt);
 	}
 	
 //	private void addConstraints(GridPane gp) {
@@ -111,13 +116,5 @@ public class AuthoringEnvironment {
 //		}
 //		gp.getColumnConstraints().addAll(ccon);
 //		gp.getRowConstraints().addAll(rcon);
-//	}
-	
-	private GridPane createEditDisplay() {
-		GridPane gp = new GridPane();
-		// Populate gridpane
-		return gp;
-		
-	}
-	
+//	}	
 }
