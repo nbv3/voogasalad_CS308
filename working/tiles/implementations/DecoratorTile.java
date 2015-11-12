@@ -32,6 +32,10 @@ public class DecoratorTile extends AbstractGameTile implements IView {
 	public void setImplementation(AbstractGameTile gt) {
 		this.myImplementation = gt;
 	}
+	
+	public AbstractGameTile getImplementation(){
+		return this.myImplementation;
+	}
 
 	@Override
 	public ImageView getView() {

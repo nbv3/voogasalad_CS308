@@ -4,6 +4,7 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
+import editor.sidepanes.TileEditor;
 import environment.GameMap;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -14,6 +15,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
@@ -25,11 +27,12 @@ import tiles.implementations.SceneryTile;
 
 public class AuthoringEnvironment {
 	
+	private BorderPane myWindow;
 	private Stage myStage;
 	private Scene myScene;
 	private MenuBar myMenu;
 	private GridPane myMapDisplay;
-	private GridPane myEditDisplay;
+	private VBox myEditDisplay;
 	
 	private GameMap myMap;
 
@@ -42,14 +45,14 @@ public class AuthoringEnvironment {
 	private Stage initializeStage() {
 		myMenu = createMenuBar();
 		myMapDisplay = createMapDisplay();
-		myEditDisplay = createEditDisplay();
+		//myEditDisplay = createEditDisplay();
 		
-		BorderPane window = new BorderPane();
-		window.setTop(myMenu);
-		window.setCenter(myMapDisplay);
-		window.setRight(myEditDisplay);
+		myWindow = new BorderPane();
+		myWindow.setTop(myMenu);
+		myWindow.setCenter(myMapDisplay);
+		myWindow.setRight(myEditDisplay);
 		
-		myScene = new Scene(window);
+		myScene = new Scene(myWindow);
 		Stage stage = new Stage();
 		stage.setScene(myScene);
 		stage.setMaximized(true);
@@ -82,13 +85,16 @@ public class AuthoringEnvironment {
 	}
 	
 	private void openTileSettingsDialog(DecoratorTile tile) {
-//		Node editSettings = gt.getEditView(gt);
+		TileEditor tileEditor = new TileEditor(tile);
 		// Set this node to be viewed in the right hand side of the authoring environment
 		System.out.println(String.format("%s : Is walkable? %s", tile.toString(), tile.isWalkable()));
 		if (tile.isWalkable())
 			tile.setImplementation(new SceneryTile(tile));
 		else
 			tile.setImplementation(new PathTile(tile));
+		
+		myEditDisplay = tileEditor.getEditorPane();
+		myWindow.setRight(myEditDisplay);
 //		updateGridView(gt);
 		
 	}
