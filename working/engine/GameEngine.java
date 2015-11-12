@@ -19,6 +19,8 @@ public class GameEngine implements IGameEngine{
 		
 	}
 	
-	
+	public void step() {
+		myGameEnvironment.updateObjects();
+	}
 
 }
