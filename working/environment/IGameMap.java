@@ -4,20 +4,20 @@ import java.awt.Point;
 import java.util.List;
 import java.util.Map;
 
-import tiles.AbstractGameTile;
 import tiles.IGameTile;
+import tiles.implementations.DecoratorTile;
 
 public interface IGameMap {
 
-	public AbstractGameTile getTile(Point p);
+	public DecoratorTile getTile(Point p);
 	
-	public void setTile(Point p, AbstractGameTile gt);
+	public void setTile(Point p, DecoratorTile gt);
 	
-	public Map<Point, AbstractGameTile> getTileMap();
+	public Map<Point, DecoratorTile> getTileMap();
 	
-	public List<AbstractGameTile> getNeighborTiles(Point p);
+	public List<DecoratorTile> getNeighborTiles(Point p);
 	
-	public List<AbstractGameTile> getNeighborTiles(IGameTile gt);
+	public List<DecoratorTile> getNeighborTiles(DecoratorTile gt);
 	
 	public IGameTile getTileFromCoordinate(Point p);
 	

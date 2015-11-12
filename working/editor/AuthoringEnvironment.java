@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import environment.GameMap;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -18,10 +19,14 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import tiles.AbstractGameTile;
 import tiles.IGameTile;
+import tiles.implementations.DecoratorTile;
+import tiles.implementations.PathTile;
+import tiles.implementations.SceneryTile;
 
 public class AuthoringEnvironment {
 	
 	private Stage myStage;
+	private Scene myScene;
 	private MenuBar myMenu;
 	private GridPane myMapDisplay;
 	private GridPane myEditDisplay;
@@ -30,11 +35,11 @@ public class AuthoringEnvironment {
 
 	public AuthoringEnvironment(){
 		myMap = new GameMap();
-		myStage = initialize(new Stage());
+		myStage = initializeStage();
 		myStage.show();
 	}
 
-	private Stage initialize(Stage stage) {
+	private Stage initializeStage() {
 		myMenu = createMenuBar();
 		myMapDisplay = createMapDisplay();
 		myEditDisplay = createEditDisplay();
@@ -44,7 +49,9 @@ public class AuthoringEnvironment {
 		window.setCenter(myMapDisplay);
 		window.setRight(myEditDisplay);
 		
-		stage.setScene(new Scene(window));
+		myScene = new Scene(window);
+		Stage stage = new Stage();
+		stage.setScene(myScene);
 		stage.setMaximized(true);
 		return stage;
 	}
@@ -59,15 +66,14 @@ public class AuthoringEnvironment {
 	private GridPane createMapDisplay() {
 		GridPane gp = new GridPane();
 		// For some reason, using round numbers like 600 causes the imageview to get scaled to 0 when 
-		// dividing by 10 in the next part. 599 fixes the problem
+		// dividing by 10 in the next part. Any non-round double (ie. 600.1) fixes the problem
 		gp.setPrefSize(600.1, 600.1);
 //		addConstraints(gp);
 		//Populate gridpane
-		System.out.println(myMap.getMapSize());
 		for (Point p: myMap.getTileMap().keySet()) {
-			AbstractGameTile g = myMap.getTile(p);
-			ImageView i = g.getView();
-			i.setOnMouseClicked(e -> openTileSettingsDialog(g));
+			DecoratorTile tile = myMap.getTile(p);
+			ImageView i = tile.getView();
+			i.setOnMouseClicked(e -> openTileSettingsDialog(tile));
 			i.setFitWidth(gp.getPrefWidth() / (new Double(myMap.getMapSize())));
 			i.setFitHeight(gp.getPrefHeight() / (new Double(myMap.getMapSize())));
 			gp.add(i, (int) p.getX(), (int) p.getY(), 1, 1);
@@ -75,8 +81,16 @@ public class AuthoringEnvironment {
 		return gp;
 	}
 	
-	private void openTileSettingsDialog(IGameTile gt) {
-		System.out.println(gt.isWalkable());
+	private void openTileSettingsDialog(DecoratorTile tile) {
+//		Node editSettings = gt.getEditView(gt);
+		// Set this node to be viewed in the right hand side of the authoring environment
+		System.out.println(String.format("%s : Is walkable? %s", tile.toString(), tile.isWalkable()));
+		if (tile.isWalkable())
+			tile.setImplementation(new SceneryTile(tile));
+		else
+			tile.setImplementation(new PathTile(tile));
+//		updateGridView(gt);
+		
 	}
 	
 //	private void addConstraints(GridPane gp) {

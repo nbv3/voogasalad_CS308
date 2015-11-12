@@ -5,56 +5,54 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import tiles.AbstractGameTile;
 import tiles.IGameTile;
-import tiles.PathTile;
-import tiles.SceneryTile;
+import tiles.implementations.DecoratorTile;
 
 public class GameMap implements IGameMap {
 
 	private int mySize;
-	private Map<Point, AbstractGameTile> myTiles;
+	private Map<Point, DecoratorTile> myTiles;
 	
 	public GameMap() {
-		this(18);
+		this(10);
 	}
 	
 	public GameMap(int size) {
 		mySize = size;
-		myTiles = new HashMap<Point, AbstractGameTile>();
+		myTiles = new HashMap<Point, DecoratorTile>();
 		for (int i=0; i<size; i++) {
 			for (int j=0; j<size; j++) {
 				Point p = new Point(i, j);
-				myTiles.put(p, new SceneryTile(p));
+				myTiles.put(p, new DecoratorTile(p));
 			}
 		}
 	}
 	
 	@Override
-	public Map<Point, AbstractGameTile> getTileMap() {
+	public Map<Point, DecoratorTile> getTileMap() {
 		return myTiles;
 	}
 
 	@Override
-	public List<AbstractGameTile> getNeighborTiles(Point p) {
+	public List<DecoratorTile> getNeighborTiles(Point p) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<AbstractGameTile> getNeighborTiles(IGameTile gt) {
-		return getNeighborTiles(gt.getPoint());
+	public List<DecoratorTile> getNeighborTiles(DecoratorTile tile) {
+		return getNeighborTiles(tile.getPoint());
 	}
 
 	@Override
-	public AbstractGameTile getTile(Point p) {
+	public DecoratorTile getTile(Point p) {
 		// TODO Auto-generated method stub
 		return myTiles.get(p);
 	}
 
 	@Override
-	public void setTile(Point p, AbstractGameTile gt) {
-		myTiles.put(p, gt);
+	public void setTile(Point p, DecoratorTile tile) {
+		myTiles.put(p, tile);
 	}
 
 	public int getMapSize() {
