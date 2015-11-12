@@ -15,7 +15,7 @@ public class DecoratorTile extends AbstractGameTile implements IView {
 	public DecoratorTile(Point p) {
 		super(p);
 		myImplementation = new PathTile(p);
-		setImage("default_tile.jpg");
+		setImage("path_wood_1.png");
 	}
 
 	@Override
@@ -27,6 +27,10 @@ public class DecoratorTile extends AbstractGameTile implements IView {
 	@Override
 	public boolean isPlaceable() {
 		return myImplementation.isPlaceable();
+	}
+	
+	public AbstractGameTile getImplementation() {
+		return myImplementation;
 	}
 	
 	public void setImplementation(AbstractGameTile gt) {
