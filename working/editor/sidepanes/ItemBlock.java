@@ -10,8 +10,8 @@ public class ItemBlock extends ImageView {
 	
 	//private ImageView myImage;
 	
-	public ItemBlock(String string) {
-		super(new Image(string));	
+	public ItemBlock(InputStream inputStream) {
+		super(new Image(inputStream));	
 	}
 	
 	public ImageView getImageview(){
