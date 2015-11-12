@@ -8,7 +8,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import resources.LabelRetriever;
 
-public abstract class AEditorPane {
+public abstract class AEditorPane implements IEditorPane {
 
 	protected VBox myEditorPane;
 

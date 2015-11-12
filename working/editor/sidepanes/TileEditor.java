@@ -13,7 +13,7 @@ import javafx.scene.text.Text;
 import resources.LabelRetriever;
 import tiles.implementations.DecoratorTile;
 
-public class TileEditor extends AEditorPane {
+public class TileEditor extends AEditorPane implements ITileEditor {
 
 	private DecoratorTile myTile;
 	private String[] myTypes = {"Path", "Scenery"};
@@ -51,7 +51,8 @@ public class TileEditor extends AEditorPane {
 
 	private GridPane createGridPane(String type) {
 		GridPane selectionGrid = new GridPane();
-		myEditorPane.getChildren().add(selectionGrid);
+		
+		
 
 		String path = System.getProperty("user.dir") + "/images/" + type;
 		File directory = new File(path);
@@ -59,12 +60,11 @@ public class TileEditor extends AEditorPane {
 		for (File file : directory.listFiles()) {
 			if (file.getName().endsWith("png")){
 				i++;
-				selectionGrid.add(new ItemBlock(getClass().getResourceAsStream("images/" + type)), i, j);
-				System.out.println(file.getName());
+				selectionGrid.add(new ItemBlock("/images/" + type + file.getName()), i, j);
 			}
 
 		}
-
+		myEditorPane.getChildren().add(selectionGrid);
 		return selectionGrid;
 	}
 	
