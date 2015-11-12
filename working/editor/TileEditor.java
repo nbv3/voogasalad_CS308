@@ -82,9 +82,10 @@ public class TileEditor {
 	
 	private void updateTileViews(ImageView iv) {
 		for (DecoratorTile tile: currentTileSelection) {
-			tile.setImage(new ImageView(iv.getImage()));			
+			ImageView i = new ImageView(iv.getImage());
+			i.setOpacity(0.75);
+			tile.setImage(i);
 		}
-		AuthoringEnvironment.clearTileSelection();
 	}
 	
 	public VBox getEditorPane() {

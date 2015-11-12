@@ -2,6 +2,7 @@ package editor;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -24,31 +25,27 @@ public class AuthoringEnvironment implements Observer {
 	private BorderPane myWindow;
 	private MenuBar myMenu;
 	private GridPane myMapDisplay;
+	private TileEditor myTileEditor;
 	
-	private static List<DecoratorTile> myTileSelection;
+	private List<DecoratorTile> myTileSelection;
 	//private VBox myEditDisplay;
 	
 	private GameMap myMap;
 
 	public AuthoringEnvironment(){
 		myMap = new GameMap();
-		
 		myTileSelection = new ArrayList<>();
-		
 		myStage = initializeStage();
-		
 		myStage.show();
 	}
 
 	private Stage initializeStage() {
 		myMenu = createMenuBar();
 		myMapDisplay = createMapDisplay();
-		//myEditDisplay = createEditDisplay();
 		
 		myWindow = new BorderPane();
 		myWindow.setTop(myMenu);
 		myWindow.setCenter(myMapDisplay);
-		//window.setRight(myEditDisplay);
 		
 		myScene = new Scene(myWindow);
 		Stage stage = new Stage();
@@ -60,18 +57,31 @@ public class AuthoringEnvironment implements Observer {
 	private MenuBar createMenuBar() {
 		MenuBar mb = new MenuBar();
 		Menu file = new Menu("File");
+		
 		MenuItem editTiles = new MenuItem("Edit Tiles");
-		file.getItems().add(editTiles);
 		editTiles.setOnAction(e -> openTileSettingsDialog(myTileSelection));
+		
+		MenuItem clear = new MenuItem("Clear Selection");
+		clear.setOnAction(e -> clearTileSelection());
+		
+		MenuItem selectAll = new MenuItem("Select All");
+		selectAll.setOnAction(e -> addAllTiles());
+		
+		file.getItems().addAll(editTiles, selectAll, clear);
 		mb.getMenus().add(file);
 		return mb;	
 	}
 	
+	private void addAllTiles() {
+		myTileSelection.clear();
+		for (DecoratorTile tile: myMap.getTileMap().values()) {
+			toggleTileSelection(tile);
+		}
+	}
+	
 	private GridPane createMapDisplay() {
 		GridPane gp = new GridPane();
-		// For some reason, using round numbers like 600 causes the imageview to get scaled to 0 when 
-		// dividing by 10 in the next part. Any non-round double (ie. 600.1) fixes the problem
-		gp.setPrefSize(600.1, 600.1);
+		gp.setPrefSize(800, 800);
 //		addConstraints(gp);
 		//Populate gridpane
 		for (Point p: myMap.getTileMap().keySet()) {
@@ -98,8 +108,8 @@ public class AuthoringEnvironment implements Observer {
 	}
 	
 	private void openTileSettingsDialog(List<DecoratorTile> tiles) {
-		TileEditor tileEditor = new TileEditor(tiles);
-		myWindow.setRight(tileEditor.getEditorPane());
+		myTileEditor = new TileEditor(tiles);
+		myWindow.setRight(myTileEditor.getEditorPane());
 	}
 
 	private void refreshMapDisplay() {
@@ -118,8 +128,12 @@ public class AuthoringEnvironment implements Observer {
 		refreshMapDisplay();
 	}
 
-	public static void clearTileSelection() {
+	public void clearTileSelection() {
+		for (DecoratorTile tile: myTileSelection) {
+			tile.getView().setOpacity(1);
+		}
 		myTileSelection.clear();
+		myWindow.setRight(null);
 	}
 	
 }
