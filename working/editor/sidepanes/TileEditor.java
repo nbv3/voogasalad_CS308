@@ -5,6 +5,7 @@ import java.io.InputStream;
 
 import javafx.collections.ObservableList;
 import javafx.scene.control.ComboBox;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -60,9 +61,8 @@ public class TileEditor extends AEditorPane implements ITileEditor {
 		for (File file : directory.listFiles()) {
 			if (file.getName().endsWith("png")){
 				i++;
-				selectionGrid.add(new ItemBlock("/images/" + type + file.getName()), i, j);
+				selectionGrid.add(new ItemBlock(getClass().getClassLoader().getResourceAsStream(type + "/" + file.getName())), i, j);
 			}
-
 		}
 		myEditorPane.getChildren().add(selectionGrid);
 		return selectionGrid;
