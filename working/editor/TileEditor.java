@@ -1,8 +1,9 @@
 package editor;
 
+import java.util.List;
 import java.util.ResourceBundle;
 
-import tiles.implementations.DecoratorTile;
+import view.IView;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.ComboBox;
@@ -13,10 +14,13 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import tiles.DecoratorTile;
+import tiles.IGameTile;
 
 public class TileEditor {
 	
-	private DecoratorTile tile;
+//	private DecoratorTile tile;
+	private List<DecoratorTile> currentTileSelection;
 	private VBox tilePane;
 	private GridPane iconPane;
 	private ResourceBundle tileIconBundle;
@@ -27,8 +31,9 @@ public class TileEditor {
 	private final double WIDTH_ICON_PANEL = 300.1;
 	private final double HEIGHT_ICON_PANEL = 500.1;
 			
-	public TileEditor(DecoratorTile tile) {
-		this.tile = tile;
+	public TileEditor(List<DecoratorTile> tiles) {
+//		this.tile = tile;
+		currentTileSelection = tiles;
 		tilePane = new VBox();
 		tilePane.getChildren().add(createMenubar());
 		iconPane = new GridPane();
@@ -48,33 +53,40 @@ public class TileEditor {
 	private Text createText() {
 		Text text = new Text();
 		text.setFont(new Font(20));
-		text.setText(tile.getImplementation().getClass().getSimpleName());
+		text.setText("Select Type:");
 		return text;
 	}
 
 	private ComboBox<String> createDropdownList() {
 		ComboBox<String> comboBox = new ComboBox<String>();
         comboBox.setPromptText("Select a category");
-        comboBox.getItems().add("SceneryTile");
-        comboBox.getItems().add("PathTile");
-        comboBox.valueProperty().addListener((o, s1, s2) -> showGridPane(s2));
+        comboBox.getItems().add("Scenery");
+        comboBox.getItems().add("Path");
+        comboBox.valueProperty().addListener((o, s1, s2) -> showImageOptions(s2));
 		return comboBox;
 	}
 
-	private void showGridPane(String s) {
+
+	private void showImageOptions(String s) {		
 		tileIconBundle = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "TileIcon");
-		String[] tileIconPath = tileIconBundle.getString(s).split(",");
-		
+		String[] tileIconPath = tileIconBundle.getString(s).split(",");	
 		iconPane.getChildren().clear();
-				
 		for (int i = 0; i < tileIconPath.length; i++) {
 			ImageView img = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(tileIconPath[i])));
+			img.setOnMouseClicked(e -> updateTileViews(img));
 			img.setFitWidth(iconPane.getPrefWidth() / NUMBER_COLUMN_ICON_PANEL);
 			img.setFitHeight(iconPane.getPrefHeight() / NUMBER_ROW_ICON_PANEL);
 			iconPane.add(img, i % NUMBER_COLUMN_ICON_PANEL, i / NUMBER_COLUMN_ICON_PANEL, 1, 1);
 		}
-		
 		return;
+	}
+	
+	private void updateTileViews(ImageView iv) {
+		for (DecoratorTile tile: currentTileSelection) {
+			ImageView i = new ImageView(iv.getImage());
+			i.setOpacity(0.75);
+			tile.setImage(i);
+		}
 	}
 	
 	public VBox getEditorPane() {

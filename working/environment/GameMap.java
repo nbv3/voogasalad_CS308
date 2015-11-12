@@ -5,8 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import tiles.DecoratorTile;
 import tiles.IGameTile;
-import tiles.implementations.DecoratorTile;
 
 public class GameMap implements IGameMap {
 
@@ -14,7 +14,7 @@ public class GameMap implements IGameMap {
 	private Map<Point, DecoratorTile> myTiles;
 	
 	public GameMap() {
-		this(10);
+		this(20);
 	}
 	
 	public GameMap(int size) {
