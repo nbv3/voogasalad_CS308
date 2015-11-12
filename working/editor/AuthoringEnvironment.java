@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import editor.sidepanes.EditorTabPane;
 import environment.GameMap;
 import javafx.scene.Scene;
 import javafx.scene.control.Menu;
@@ -42,11 +43,9 @@ public class AuthoringEnvironment implements Observer {
 	private Stage initializeStage() {
 		myMenu = createMenuBar();
 		myMapDisplay = createMapDisplay();
-		
 		myWindow = new BorderPane();
 		myWindow.setTop(myMenu);
-		myWindow.setCenter(myMapDisplay);
-		
+		myWindow.setCenter(myMapDisplay);		
 		myScene = new Scene(myWindow);
 		Stage stage = new Stage();
 		stage.setScene(myScene);
