@@ -11,6 +11,7 @@ import java.util.Set;
 
 public class FileFinder {
 	private final String DEFAULT_RESOURCE_PACKAGE = "resources.strings/";
+
 	private Set<String> tileDirectory;
 	private Set<String> enemyDirectory;
 	private Set<String> towerDirectory;
@@ -50,27 +51,27 @@ public class FileFinder {
 	public List<File> getTileImages() {
 		return getBySet(tileDirectory);
 	}
-	
+
 	public List<File> getEnemyImages() {
 		return getBySet(enemyDirectory);
 	}
-	
+
 	public List<File> getTowerImages() {
 		return getBySet(towerDirectory);
 	}
-	
+
 	public List<File> getObstacleImages() {
 		return getBySet(obstacleDirectory);
 	}
-	
+
 	public List<File> getProjectileImages() {
 		return getBySet(projectileDirectory);
 	}
-	
+
 	public List<File> getPlayerImages() {
 		return getBySet(playerDirectory);
 	}
-	
+
 	public List<File> getItemImages() {
 		return getBySet(itemDirectory);
 	}

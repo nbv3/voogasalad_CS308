@@ -15,14 +15,6 @@ public class DirectoryTester {
 		 * List<File> pngFiles2 = d.getFilesByExtension("png");
 		 * print(pngFiles2);
 		 * 
-		 * List<String> allFilePaths = d.getFilePaths();
-		 * printPaths(allFilePaths);
-		 * 
-		 * List<String> pngFilePaths = d.getFilePathsByExtension(".png");
-		 * printPaths(pngFilePaths);
-		 * 
-		 * List<String> pngFilePaths2 = d.getFilePathsByExtension("png");
-		 * printPaths(pngFilePaths2);
 		 */
 		
 		FileFinder f = new FileFinder();
@@ -38,14 +30,6 @@ public class DirectoryTester {
 	}
 
 	private static void print(List<File> list) {
-		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~");
-		for (int i = 0; i < list.size(); i++) {
-			System.out.println(list.get(i));
-		}
-		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~");
-	}
-
-	private static void printPaths(List<String> list) {
 		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		for (int i = 0; i < list.size(); i++) {
 			System.out.println(list.get(i));

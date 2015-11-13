@@ -13,7 +13,6 @@ import java.util.Set;
 public class Directory {
 	private List<Directory> directories;
 	private List<File> files;
-	private List<String> filePaths;
 	private String currentPath;
 	private File currentFolder;
 
@@ -23,7 +22,8 @@ public class Directory {
 
 	/**
 	 * 
-	 * @param path - directory path
+	 * @param path
+	 *            : directory path
 	 * @param sort
 	 *            (1: lastModified - recent first) <br/>
 	 *            (-1: lastModified - old first) <br/>
@@ -35,17 +35,14 @@ public class Directory {
 		currentFolder = new File(currentPath);
 		directories = new ArrayList<Directory>();
 		files = new ArrayList<File>();
-		filePaths = new ArrayList<String>();
 		File[] listOfFiles = currentFolder.listFiles();
 
 		for (int i = 0; i < listOfFiles.length; i++) {
 			if (listOfFiles[i].isFile()) {
 				files.add(listOfFiles[i]);
-				// System.out.println("File: " + listOfFiles[i].getName());
 			} else if (listOfFiles[i].isDirectory()) {
 				Directory cDir = new Directory(listOfFiles[i].getCanonicalPath());
 				directories.add(cDir);
-				// System.out.println("Directory: " + listOfFiles[i].getName());
 			}
 		}
 
@@ -60,17 +57,9 @@ public class Directory {
 		} else {
 			Collections.sort(files, null);
 		}
-		
+
 		if (sort < 0) {
 			Collections.reverse(files);
-		}
-		
-		for (int i = 0; i < files.size(); i++) {
-			// String aPath = listOfFiles[i].getAbsolutePath();
-			// String cPath = listOfFiles[i].getCanonicalPath();
-			// String nPath = listOfFiles[i].getPath();
-			// TODO decide between canonical, normal, and absolute paths
-			filePaths.add(files.get(i).getPath());
 		}
 	}
 
@@ -95,15 +84,6 @@ public class Directory {
 	/**
 	 * 
 	 * @param ext
-	 * @return all filenames in the current directory
-	 */
-	public List<String> getFilePaths() {
-		return filePaths;
-	}
-
-	/**
-	 * 
-	 * @param ext
 	 * @return all files with extension in the current directory
 	 */
 	public List<File> getFilesByExtension(String ext) {
@@ -117,7 +97,7 @@ public class Directory {
 		}
 		return filesWithExtension;
 	}
-	
+
 	/**
 	 * 
 	 * @param ext
@@ -144,47 +124,6 @@ public class Directory {
 	/**
 	 * 
 	 * @param ext
-	 * @return all filepathnames with extension in the current directory
-	 * 
-	 */
-	public List<String> getFilePathsByExtension(String ext) {
-		List<String> filePathsWithExtension = new ArrayList<String>();
-		String[] validExt = extValidate(ext);
-		for (int i = 0; i < files.size(); i++) {
-			String filename = files.get(i).getName();
-			if (filename.endsWith(validExt[0]) || filename.endsWith(validExt[1])) {
-				filePathsWithExtension.add(files.get(i).getPath());
-			}
-		}
-		return filePathsWithExtension;
-	}
-	
-	/**
-	 * 
-	 * @param ext
-	 * @return all files with extensions in the current directory
-	 */
-	public List<String> getFilePathsByExtensions(Set<String> ext) {
-		List<String> filePathsWithExtensions = new ArrayList<String>();
-		Set<String> validExt = new HashSet<String>();
-		for (String s : ext) {
-			String[] vExt = extValidate(s);
-			validExt.addAll(Arrays.asList(vExt));
-		}
-		for (int i = 0; i < files.size(); i++) {
-			String filename = files.get(i).getName();
-			for (String s : validExt) {
-				if (filename.endsWith(s)) {
-					filePathsWithExtensions.add(files.get(i).getPath());
-				}
-			}
-		}
-		return filePathsWithExtensions;
-	}
-
-	/**
-	 * 
-	 * @param ext
 	 * @return all files with string in name in the current directory
 	 */
 	public List<File> getFilesByContains(String str) {
@@ -193,22 +132,6 @@ public class Directory {
 			String filename = files.get(i).getName();
 			if (filename.contains(str)) {
 				filesWithStr.add(files.get(i));
-			}
-		}
-		return filesWithStr;
-	}
-
-	/**
-	 * 
-	 * @param ext
-	 * @return all file paths with string in name in the current directory
-	 */
-	public List<String> getFilePathsByContains(String str) {
-		List<String> filesWithStr = new ArrayList<String>();
-		for (int i = 0; i < files.size(); i++) {
-			String filename = files.get(i).getName();
-			if (filename.contains(str)) {
-				filesWithStr.add(files.get(i).getPath());
 			}
 		}
 		return filesWithStr;
