@@ -6,7 +6,7 @@ import java.util.List;
 
 public class DirectoryTester {
 	public static void main(String args[]) throws IOException {
-		Directory d = new Directory("images", 0);
+		Directory d = new Directory("working/resources/tiles", 0);
 		List<File> allFiles = d.getFiles();
 		print(allFiles);
 
