@@ -10,8 +10,8 @@ public class EnemyEditor {
 	public EnemyEditor() {
 		enemyPane = new VBox();
 		VBox h = new HealthBox().getNode();
-		ImageSelector image = new ImageSelector();
-		enemyPane.getChildren().addAll(h);
+		HBox image = new ImageSelector().getNode();
+		enemyPane.getChildren().addAll(image,h);
 		
 	}
 

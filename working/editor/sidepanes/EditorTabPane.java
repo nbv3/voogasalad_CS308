@@ -26,10 +26,9 @@ public class EditorTabPane {
 		towers.setText("Towers");
 		items = new Tab();
 		items.setText("Items");
-		editorPane.getTabs().addAll(tiles,level, enemies, towers, items);
+		editorPane.getTabs().addAll(tiles, enemies, towers, items);
 
 	}
-
 
 	public TabPane getPaneNode() {
 		return editorPane;
