@@ -20,7 +20,7 @@ public interface IGameObject extends GameEventListener{
 	
 	public void move();
 	
-	public void setVelocity(Vector<Double> vel);
+	public void setVelocity(double x, double y);
 	
 	public List<IChild> getChildren();
 

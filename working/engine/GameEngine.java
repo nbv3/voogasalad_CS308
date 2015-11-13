@@ -1,15 +1,16 @@
 package engine;
 
 import environment.GameEnvironment;
-import objects.AbstractGameObject;
+import environment.IEnvironment;
+import javafx.scene.input.KeyEvent;
 import objects.IGameObject;
 
 public class GameEngine implements IGameEngine{
 	
-	private GameEnvironment myGameEnvironment;
+	private IEnvironment myGameEnvironment;
 	
-	public GameEngine(GameEnvironment g){
-		myGameEnvironment = g;
+	public GameEngine(IEnvironment myEnvironment){
+		myGameEnvironment = myEnvironment;
 	}
 
 	@Override
@@ -20,8 +21,26 @@ public class GameEngine implements IGameEngine{
 		
 	}
 	
-	public void step() {
+	public void update() {
 		myGameEnvironment.updateObjects();
+	}
+
+	@Override
+	public void handleKeyPressed(KeyEvent e) {
+		myGameEnvironment.handleKeyPressed(e);
+		
+	}
+
+	@Override
+	public void handleKeyReleased(KeyEvent e) {
+		myGameEnvironment.handleKeyReleased(e);
+		
+	}
+
+	@Override
+	public void handleMouseInput(double x, double y) {
+		myGameEnvironment.handleMouseInput(x, y);
+		
 	}
 
 }

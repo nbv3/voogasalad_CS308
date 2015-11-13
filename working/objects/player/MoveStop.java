@@ -2,7 +2,7 @@ package objects.player;
 
 import java.util.Vector;
 
-import objects.components.IPlayer;
+import objects.attributes.IPlayer;
 
 public class MoveStop implements KeyInput {
 

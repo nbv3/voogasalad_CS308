@@ -1,4 +1,4 @@
-package objects.components;
+package objects.attributes;
 
 import java.util.Vector;
 

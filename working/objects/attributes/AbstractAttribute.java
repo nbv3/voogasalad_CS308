@@ -1,13 +1,13 @@
-package objects.components;
+package objects.attributes;
 
 import objects.IGameObject;
 import objects.events.IEvent;
 
-public abstract class AbstractComponent implements IComponent{
+public abstract class AbstractAttribute implements IAttribute{
 
 	private IGameObject myParent;
 	
-	public AbstractComponent(IGameObject parent) {
+	public AbstractAttribute(IGameObject parent) {
 		myParent = parent;
 	}
 	

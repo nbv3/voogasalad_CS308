@@ -8,8 +8,11 @@ public class PlayerControlEvent extends AbstractEvent{
 	private KeyCode myCode;
 	private KeyEvent myEvent;
 	
-	public PlayerControlEvent(){
+	public PlayerControlEvent(KeyEvent event, KeyCode code){
 		super(EEventType.PlayerControlEvent);
+		
+		myCode = code;
+		myEvent = event;
 	}
 	
 	public KeyCode getKeyCode() {

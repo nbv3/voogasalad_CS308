@@ -1,6 +1,6 @@
 package objects.player;
 
-import objects.components.IPlayer;
+import objects.attributes.IPlayer;
 
 public interface KeyInput {
 	

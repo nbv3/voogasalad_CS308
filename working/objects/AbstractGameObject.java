@@ -30,14 +30,13 @@ public abstract class AbstractGameObject implements IGameObject, ICollisionListe
 	EObjectType myType;
 
 	Point myLocation;
-	Pair myBBox;
 	Vector<Double> myVelocity;
 	
 	Boolean toBeDestroyed;
 	
 	Map<EObjectType, List<IEvent>> myCollisionEvents;
 	
-	//This holds all the components and items an object has
+	//This holds all the attributes and items an object has
 	List<IChild> myChildren;
 	
 	EventPoster myEventPoster;
@@ -46,13 +45,29 @@ public abstract class AbstractGameObject implements IGameObject, ICollisionListe
 
 	public AbstractGameObject(Point p, GameEnvironment g) {
 		myLocation = p;
+		setVelocity(0.0, 0.0);
+		
 		myEventPoster = (EventPoster) g;
+		myChildren = new LinkedList<>();
+		toBeDestroyed = false;
+		
 		
 		myCollisionEvents = new HashMap<>();
 	}
 	
+	public void setVelocity(double x, double y) {
+		Vector<Double> vel = new Vector<>();
+		vel.add(x);
+		vel.add(y);
+		myVelocity = vel;
+	}
+	
 	public EObjectType getType() {
 		return myType;
+	}
+	
+	public Point getLocation() {
+		return myLocation;
 	}
 	
 	public void addCollisionEvent(EObjectType type, AbstractEvent e) {
@@ -112,8 +127,7 @@ public abstract class AbstractGameObject implements IGameObject, ICollisionListe
 	
 	public void update() {
 		if (toBeDestroyed) {
-			ObjectDespawnEvent event = new ObjectDespawnEvent(this);
-			myEventPoster.postEvent(event);
+			destroySelf();
 		}
 		
 		for (IChild c: myChildren) {
@@ -121,10 +135,17 @@ public abstract class AbstractGameObject implements IGameObject, ICollisionListe
 		}
 		
 		move();
+		System.out.println(myLocation);
+	}
+	
+	private void destroySelf() {
+		ObjectDespawnEvent event = new ObjectDespawnEvent(this);
+		myEventPoster.postEvent(event);
 	}
 	
 	public void onEvent(IEvent e) {
-		if (e.getTarget().equals(this) && e.getType().equals(EEventType.ObjectKillEvent)) {
+		
+		if (e.getTarget() != null && e.getTarget().equals(this) && e.getType().equals(EEventType.ObjectKillEvent)) {
 			toBeDestroyed = true;
 		}
 		

@@ -1,5 +1,6 @@
-package objects.components;
+package objects.attributes;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
@@ -10,8 +11,10 @@ import objects.events.EEventType;
 import objects.events.IEvent;
 import objects.events.PlayerControlEvent;
 import objects.player.KeyInput;
+import objects.player.MoveLeftStart;
+import objects.player.MoveStop;
 
-public class PlayerControlComponent extends AbstractComponent implements IPlayer {
+public class PlayerControlAttribute extends AbstractAttribute implements IPlayer {
 	
 	private class KeyData {
 		public KeyCode myCode;
@@ -21,6 +24,17 @@ public class PlayerControlComponent extends AbstractComponent implements IPlayer
 			myCode = code;
 			myState = s;
 		}
+		
+		@Override
+		public int hashCode() {
+			return 13 * myCode.getName().hashCode() + 19 * myState.hashCode();
+		}
+		
+		@Override
+		public boolean equals(Object o) {
+			KeyData data = (KeyData) o;
+			return myCode.equals(data.myCode) && myState.equals(data.myState);
+		}
 	}
 	
 	Map<KeyData, KeyInput> myKeyMap;
@@ -29,14 +43,36 @@ public class PlayerControlComponent extends AbstractComponent implements IPlayer
 	
 	private double mySpeed;
 	
-	//This component will set the player's velocity to be this.
+	//This attribute will set the player's velocity to be this.
 	private Vector<Double> myVelocity;
 	
 	//Maybe this goes in a player subclass? If so just copy this stuff into that class
 
-	public PlayerControlComponent(IGameObject parent) {
+	public PlayerControlAttribute(IGameObject parent) {
 		super(parent);
+		initVelocity();
 		myInput = null;
+		
+		
+		myKeyMap = new HashMap<KeyData, KeyInput>();
+		
+		//TODO:DELETE THIS
+		mySpeed = 1;
+		addBinding(KeyCode.LEFT, true, new MoveLeftStart());
+		addBinding(KeyCode.LEFT, false, new MoveStop());
+	}
+	
+	private void initVelocity() {
+		myVelocity = new Vector<Double>();
+		myVelocity.add(0.0);
+		myVelocity.add(0.0);
+	}
+	
+	public void addBinding(KeyCode code, Boolean pressed, KeyInput input) {
+		KeyData data = new KeyData(code, pressed);
+		System.out.println(data.hashCode());
+		myKeyMap.put(data, input);
+		System.out.println(myKeyMap.containsKey(data));
 	}
 
 	@Override
@@ -51,9 +87,10 @@ public class PlayerControlComponent extends AbstractComponent implements IPlayer
 				isPressed = false;
 			}
 			KeyData data = new KeyData(event.getKeyCode(), isPressed);
+			System.out.println(data.hashCode());
 				
 			if (myKeyMap.containsKey(data)) {
-				myInput = myKeyMap.get(event.getKeyCode());
+				myInput = myKeyMap.get(data);
 			}
 		}
 	}
@@ -62,6 +99,7 @@ public class PlayerControlComponent extends AbstractComponent implements IPlayer
 	public void update() {
 		if (myInput != null) {
 			myInput.run(this);
+			System.out.println("HAPPENING");
 		}
 		
 		move();
@@ -70,7 +108,7 @@ public class PlayerControlComponent extends AbstractComponent implements IPlayer
 	}
 	
 	public void move() {
-		getParent().setVelocity(myVelocity);
+		getParent().setVelocity(myVelocity.get(0), myVelocity.get(1));
 	}
 	
 	public void setVelocity(Vector<Double> vel) {
