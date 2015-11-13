@@ -3,9 +3,12 @@ package filefinder;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Directory {
 	private List<Directory> directories;
@@ -15,7 +18,7 @@ public class Directory {
 	private File currentFolder;
 
 	public Directory(String path) throws IOException {
-		this(path, 3);
+		this(path, 0);
 	}
 
 	/**
@@ -114,6 +117,29 @@ public class Directory {
 		}
 		return filesWithExtension;
 	}
+	
+	/**
+	 * 
+	 * @param ext
+	 * @return all files with extensions in the current directory
+	 */
+	public List<File> getFilesByExtensions(Set<String> ext) {
+		List<File> filesWithExtensions = new ArrayList<File>();
+		Set<String> validExt = new HashSet<String>();
+		for (String s : ext) {
+			String[] vExt = extValidate(s);
+			validExt.addAll(Arrays.asList(vExt));
+		}
+		for (int i = 0; i < files.size(); i++) {
+			String filename = files.get(i).getName();
+			for (String s : validExt) {
+				if (filename.endsWith(s)) {
+					filesWithExtensions.add(files.get(i));
+				}
+			}
+		}
+		return filesWithExtensions;
+	}
 
 	/**
 	 * 
@@ -131,6 +157,29 @@ public class Directory {
 			}
 		}
 		return filePathsWithExtension;
+	}
+	
+	/**
+	 * 
+	 * @param ext
+	 * @return all files with extensions in the current directory
+	 */
+	public List<String> getFilePathsByExtensions(Set<String> ext) {
+		List<String> filePathsWithExtensions = new ArrayList<String>();
+		Set<String> validExt = new HashSet<String>();
+		for (String s : ext) {
+			String[] vExt = extValidate(s);
+			validExt.addAll(Arrays.asList(vExt));
+		}
+		for (int i = 0; i < files.size(); i++) {
+			String filename = files.get(i).getName();
+			for (String s : validExt) {
+				if (filename.endsWith(s)) {
+					filePathsWithExtensions.add(files.get(i).getPath());
+				}
+			}
+		}
+		return filePathsWithExtensions;
 	}
 
 	/**
