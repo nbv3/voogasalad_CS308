@@ -33,8 +33,8 @@ public class TileEditor {
 			
 	public TileEditor(List<DecoratorTile> tiles) {
 //		this.tile = tile;
-		currentTileSelection = tiles;
 		tilePane = new VBox();
+		currentTileSelection = tiles;
 		tilePane.getChildren().add(createMenubar());
 		iconPane = new GridPane();
 		iconPane.setPrefSize(WIDTH_ICON_PANEL, HEIGHT_ICON_PANEL);
