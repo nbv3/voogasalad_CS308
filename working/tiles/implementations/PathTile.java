@@ -2,13 +2,14 @@ package tiles.implementations;
 
 import java.awt.Point;
 
+import javafx.geometry.Point2D;
 import tiles.IGameTile;
 
 public class PathTile implements IGameTile {
 		
-	private Point myPoint;
+	private Point2D myPoint;
 	
-	public PathTile(Point p) {
+	public PathTile(Point2D p) {
 		this.myPoint = p;
 	}
 	
@@ -27,7 +28,7 @@ public class PathTile implements IGameTile {
 	}
 
 	@Override
-	public Point getPoint() {
+	public Point2D getPoint() {
 		return myPoint;
 	}
 

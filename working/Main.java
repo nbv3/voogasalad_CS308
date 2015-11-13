@@ -5,9 +5,9 @@ import javafx.stage.Stage;
 public class Main extends Application {
 
 	@Override
-	public void start(Stage arg0) throws Exception {
+	public void start(Stage stage) throws Exception {
 		// TODO Auto generated method stub
-		new AuthoringEnvironment();
+//		new AuthoringManager();
 	}
 
 	public static void main(String[] args) {

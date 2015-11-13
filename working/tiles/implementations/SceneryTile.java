@@ -1,14 +1,13 @@
 package tiles.implementations;
 
-import java.awt.Point;
-
+import javafx.geometry.Point2D;
 import tiles.IGameTile;
 
 public class SceneryTile implements IGameTile {	
 	
-	private Point myPoint;
+	private Point2D myPoint;
 	
-	public SceneryTile(Point p) {
+	public SceneryTile(Point2D p) {
 		this.myPoint = p;
 	}
 	
@@ -27,7 +26,7 @@ public class SceneryTile implements IGameTile {
 	}
 
 	@Override
-	public Point getPoint() {
+	public Point2D getPoint() {
 		return myPoint;
 	}
 

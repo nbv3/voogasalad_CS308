@@ -3,7 +3,6 @@ package editor;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import view.IView;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.ComboBox;
@@ -81,11 +80,11 @@ public class TileEditor {
 	}
 	
 	private void updateTileViews(ImageView iv) {
-		for (DecoratorTile tile: currentTileSelection) {
-			ImageView i = new ImageView(iv.getImage());
-			i.setOpacity(0.75);
-			tile.setImage(i);
-		}
+//		for (DecoratorTile tile : currentTileSelection) {
+//			ImageView i = new ImageView(iv.getImage());
+//			i.setOpacity(0.75);
+//			tile.setImage(i);
+//		}
 	}
 	
 	public VBox getEditorPane() {

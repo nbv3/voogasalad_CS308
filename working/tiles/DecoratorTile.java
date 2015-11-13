@@ -1,21 +1,17 @@
 package tiles;
 
-import java.awt.Point;
-import java.util.Observable;
-
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+import javafx.geometry.Point2D;
 import tiles.implementations.PathTile;
-import view.IView;
+import view.ObservableBoundingBox;
+import view.ViewableObject;
 
-public class DecoratorTile extends Observable implements IGameTile, IView {
+public class DecoratorTile extends ViewableObject implements IGameTile {
 	
 	private IGameTile myImplementation;
-	private ImageView myImageView;
 	
-	public DecoratorTile(Point p) {
+	public DecoratorTile(int id, Point2D p, double width, double height) {
+		super(id, new ObservableBoundingBox(p, width, height));
 		myImplementation = new PathTile(p);
-		setImage(new ImageView(new Image(getClass().getClassLoader().getResourceAsStream("scenery_grass_1.png"))));
 	}
 
 	@Override
@@ -29,7 +25,7 @@ public class DecoratorTile extends Observable implements IGameTile, IView {
 	}
 
 	@Override
-	public Point getPoint() {
+	public Point2D getPoint() {
 		return myImplementation.getPoint();
 	}
 	
@@ -39,18 +35,6 @@ public class DecoratorTile extends Observable implements IGameTile, IView {
 	
 	public void setImplementation(IGameTile gt) {
 		this.myImplementation = gt;
-	}
-
-	@Override
-	public ImageView getView() {
-		return myImageView;
-	}
-
-	@Override
-	public void setImage(ImageView iv) {
-		myImageView = iv;
-		setChanged();
-		notifyObservers();
 	}
 	
 }

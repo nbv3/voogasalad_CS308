@@ -9,6 +9,7 @@ import java.util.Observer;
 
 import editor.sidepanes.EditorTabPane;
 import environment.GameMap;
+import javafx.geometry.Point2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -80,30 +81,30 @@ public class AuthoringEnvironment implements Observer {
 	
 	private GridPane createMapDisplay() {
 		GridPane gp = new GridPane();
-		gp.setPrefSize(800, 800);
-//		addConstraints(gp);
-		//Populate gridpane
-		for (Point p: myMap.getTileMap().keySet()) {
-			DecoratorTile tile = myMap.getTile(p);
-			tile.addObserver(this);
-			ImageView i = tile.getView();
-			i.setOnMouseClicked(e -> toggleTileSelection(tile));
-			i.setFitWidth(gp.getPrefWidth() / (new Double(myMap.getMapSize())));
-			i.setFitHeight(gp.getPrefHeight() / (new Double(myMap.getMapSize())));
-			gp.add(i, (int) p.getX(), (int) p.getY(), 1, 1);
-		}
+//		gp.setPrefSize(800, 800);
+////		addConstraints(gp);
+//		//Populate gridpane
+//		for (Point2D p: myMap.getTileMap().keySet()) {
+//			DecoratorTile tile = myMap.getTile(p);
+//			tile.registerObserver(this);
+//			ImageView i = tile.getView();
+//			i.setOnMouseClicked(e -> toggleTileSelection(tile));
+//			i.setFitWidth(gp.getPrefWidth() / (new Double(myMap.getMapSize())));
+//			i.setFitHeight(gp.getPrefHeight() / (new Double(myMap.getMapSize())));
+//			gp.add(i, (int) p.getX(), (int) p.getY(), 1, 1);
+//		}
 		return gp;
 	}
 	
 	private void toggleTileSelection(DecoratorTile t) {
-		if (myTileSelection.contains(t)) {
-			myTileSelection.remove(t);
-			t.getView().setOpacity(1);
-		}
-		else {
-			myTileSelection.add(t);
-			t.getView().setOpacity(0.75);
-		}
+//		if (myTileSelection.contains(t)) {
+//			myTileSelection.remove(t);
+//			t.getView().setOpacity(1);
+//		}
+//		else {
+//			myTileSelection.add(t);
+//			t.getView().setOpacity(0.75);
+//		}
 	}
 	
 	private void openTileSettingsDialog(List<DecoratorTile> tiles) {
@@ -112,14 +113,14 @@ public class AuthoringEnvironment implements Observer {
 	}
 
 	private void refreshMapDisplay() {
-		myMapDisplay.getChildren().clear();
-		for (DecoratorTile tile: myMap.getTileMap().values()) {
-			ImageView i = tile.getView();
-			i.setOnMouseClicked(e -> toggleTileSelection(tile));
-			i.setFitWidth(myMapDisplay.getPrefWidth() / (new Double(myMap.getMapSize())));
-			i.setFitHeight(myMapDisplay.getPrefHeight() / (new Double(myMap.getMapSize())));
-			myMapDisplay.add(tile.getView(), (int) tile.getPoint().getX(), (int) tile.getPoint().getY()); 
-		}
+//		myMapDisplay.getChildren().clear();
+//		for (DecoratorTile tile: myMap.getTileMap().values()) {
+//			ImageView i = tile.getView();
+//			i.setOnMouseClicked(e -> toggleTileSelection(tile));
+//			i.setFitWidth(myMapDisplay.getPrefWidth() / (new Double(myMap.getMapSize())));
+//			i.setFitHeight(myMapDisplay.getPrefHeight() / (new Double(myMap.getMapSize())));
+//			myMapDisplay.add(tile.getView(), (int) tile.getPoint().getX(), (int) tile.getPoint().getY()); 
+//		}
 	}
 	
 	@Override
@@ -128,11 +129,11 @@ public class AuthoringEnvironment implements Observer {
 	}
 
 	public void clearTileSelection() {
-		for (DecoratorTile tile: myTileSelection) {
-			tile.getView().setOpacity(1);
-		}
-		myTileSelection.clear();
-		myWindow.setRight(null);
+//		for (DecoratorTile tile: myTileSelection) {
+//			tile.getView().setOpacity(1);
+//		}
+//		myTileSelection.clear();
+//		myWindow.setRight(null);
 	}
 	
 }
