@@ -1,9 +1,9 @@
 package objects.player;
 
-import objects.components.IPlayerComponent;
+import objects.attributes.IPlayer;
 
 public interface KeyInput {
 	
-	public void run(IPlayerComponent comp);
+	public void run(IPlayer comp);
 
 }

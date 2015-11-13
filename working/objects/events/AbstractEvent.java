@@ -8,6 +8,8 @@ public abstract class AbstractEvent implements IEvent{
 	
 	public AbstractEvent() {
 		this(EEventType.NULL);
+		mySource = null;
+		myTarget = null;
 	}
 	
 	public AbstractEvent(EEventType type) {

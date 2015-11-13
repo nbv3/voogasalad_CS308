@@ -4,13 +4,13 @@ import java.awt.Point;
 import java.util.List;
 
 import objects.EObjectType;
-import objects.components.IComponent;
+import objects.attributes.IAttribute;
 import objects.events.IEvent;
 
-public class AbstractEnemy implements IEnemy{
+public abstract class AbstractEnemy implements IEnemy{
 	
 	private Point myPoint;
-	private List<IComponent> myComponents;
+	private List<IAttribute> myComponents;
 	
 	public AbstractEnemy(Point p) {
 		/*
@@ -62,7 +62,7 @@ public class AbstractEnemy implements IEnemy{
 	}
 
 	@Override
-	public void move(Point loc) {
+	public void move() {
 		// TODO Auto-generated method stub
 		
 	}

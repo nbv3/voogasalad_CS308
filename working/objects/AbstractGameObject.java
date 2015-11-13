@@ -7,15 +7,19 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Observable;
+import java.util.Vector;
 
+import environment.EventPoster;
 import environment.GameEnvironment;
 import javafx.util.Pair;
 import objects.events.AbstractEvent;
 import objects.events.CollisionEvent;
+import objects.events.EEventType;
 import objects.events.ICollisionListener;
 import objects.events.IEvent;
+import objects.events.ObjectDespawnEvent;
 
-public abstract class AbstractGameObject extends Observable implements IGameObject, ICollisionListener{
+public abstract class AbstractGameObject implements IGameObject, ICollisionListener{
 	
 	//Members
 	
@@ -26,26 +30,44 @@ public abstract class AbstractGameObject extends Observable implements IGameObje
 	EObjectType myType;
 
 	Point myLocation;
-	Pair myBBox;
+	Vector<Double> myVelocity;
 	
 	Boolean toBeDestroyed;
 	
 	Map<EObjectType, List<IEvent>> myCollisionEvents;
 	
-	//This holds all the components and items an object has
+	//This holds all the attributes and items an object has
 	List<IChild> myChildren;
+	
+	EventPoster myEventPoster;
 	
 	//Methods
 
 	public AbstractGameObject(Point p, GameEnvironment g) {
 		myLocation = p;
-		this.addObserver(g);
+		setVelocity(0.0, 0.0);
+		
+		myEventPoster = (EventPoster) g;
+		myChildren = new LinkedList<>();
+		toBeDestroyed = false;
+		
 		
 		myCollisionEvents = new HashMap<>();
 	}
 	
+	public void setVelocity(double x, double y) {
+		Vector<Double> vel = new Vector<>();
+		vel.add(x);
+		vel.add(y);
+		myVelocity = vel;
+	}
+	
 	public EObjectType getType() {
 		return myType;
+	}
+	
+	public Point getLocation() {
+		return myLocation;
 	}
 	
 	public void addCollisionEvent(EObjectType type, AbstractEvent e) {
@@ -93,18 +115,45 @@ public abstract class AbstractGameObject extends Observable implements IGameObje
 		toBeDestroyed = true;
 	}
 	
-	public void move(Point loc) {
-		myLocation = loc;
+	public void move() {
+		double x = myLocation.getX();
+		double y = myLocation.getY();
+		myLocation.setLocation(x + myVelocity.get(0), y + myVelocity.get(1));
+	}
+	
+	public void setVelocity(Vector<Double> vel) {
+		myVelocity = vel;
 	}
 	
 	public void update() {
 		if (toBeDestroyed) {
-			//TODO: Write this later
+			destroySelf();
 		}
 		
 		for (IChild c: myChildren) {
 			c.update();
 		}
+		
+		move();
+		System.out.println(myLocation);
+	}
+	
+	private void destroySelf() {
+		ObjectDespawnEvent event = new ObjectDespawnEvent(this);
+		myEventPoster.postEvent(event);
+	}
+	
+	public void onEvent(IEvent e) {
+		
+		if (e.getTarget() != null && e.getTarget().equals(this) && e.getType().equals(EEventType.ObjectKillEvent)) {
+			toBeDestroyed = true;
+		}
+		
+		sendEventToChildren(e);
+	}
+	
+	public List<IChild> getChildren() {
+		return myChildren;
 	}
 
 }

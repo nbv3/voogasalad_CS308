@@ -1,28 +1,46 @@
 package environment;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
 
 import javafx.geometry.Point2D;
 import objects.AbstractGameObject;
 import tiles.DecoratorTile;
 import view.ViewController;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import objects.GameEventListener;
+import objects.IGameObject;
+import objects.events.EEventType;
+import objects.events.IEvent;
+import objects.events.PlayerControlEvent;
+import objects.player.Player;
 
-public class GameEnvironment implements Observer, IEnvironment {
+public class GameEnvironment implements IEnvironment, EventPoster {
 
 	private ViewController myViewController;
 	private int currentViewID;
 	private IGameMap myGameMap;
-	private List<AbstractGameObject> environmentObjects;
-	private List<AbstractGameObject> haveMoved;
+	private List<IGameObject> environmentObjects;
+	private List<GameEventListener> myListeners;
 
+	public GameEnvironment() {
+		this(20, 20);
+	}
+	
+	
 	public GameEnvironment(int numCellsWide, int numCellsHigh) {
 		currentViewID = 0;
 		myViewController = new ViewController();
-		environmentObjects = new ArrayList<AbstractGameObject>();
 		buildGameMap(numCellsWide, numCellsHigh);
+		environmentObjects = new ArrayList<IGameObject>();
+		myListeners = new ArrayList<>();
+		
+		//TEMP CODE
+		//TODO: REMOVE THIS
+		IGameObject obj = new Player(new Point(10,10), this);
+		addToEnvironment(obj);
 	}
 	
 	private void buildGameMap(int w, int h) {
@@ -40,20 +58,22 @@ public class GameEnvironment implements Observer, IEnvironment {
 	}
 	
 	@Override
-	public void addToEnvironment(AbstractGameObject g) {
+	public void addToEnvironment(IGameObject g) {
 		environmentObjects.add(g);
+		addListener(g);
 	}
 
 
 	@Override
-	public void removeFromEnvironment(AbstractGameObject g) {
+	public void removeFromEnvironment(IGameObject g) {
 		environmentObjects.remove(g);
+		removeListener(g);
 
 	}
 
 	@Override
 	public void updateObjects() {
-		for(AbstractGameObject g: environmentObjects){
+		for(IGameObject g: environmentObjects){
 			g.update();
 		}
 		
@@ -61,20 +81,65 @@ public class GameEnvironment implements Observer, IEnvironment {
 
 
 	@Override
-	public List<AbstractGameObject> getEnvironmentObjects() {
+	public List<IGameObject> getEnvironmentObjects() {
 		return environmentObjects;
 	}
-
-	@Override
-	public void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
+	
+	public void postEvent(IEvent e) {
 		
+		//Figure out if the environment cares about the event
+		Boolean processed = processEvent(e);
+		if (processed) {
+			return;
+		}
+		
+		for (GameEventListener obj: myListeners) {
+			obj.onEvent(e);
+		}
+		
+	}
+	
+	public Boolean processEvent(IEvent e) {
+		//Returns true if the environment does something with this event
+		Boolean isProcessed = false;
+		if (e.getType().equals(EEventType.ObjectDespawnEvent)){
+			isProcessed = true;
+			removeFromEnvironment(e.getSource());
+		}
+		
+		return isProcessed;
+	}
+	
+	public void addListener(GameEventListener obj) {
+		myListeners.add(obj);
+	}
+	
+	public void removeListener(GameEventListener obj) {
+		myListeners.remove(obj);
 	}
 
 	@Override
 	public List<String> validate() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void handleKeyPressed(KeyEvent e) {
+		PlayerControlEvent event = new PlayerControlEvent(e, e.getCode());
+		postEvent(event);
+	}
+
+	@Override
+	public void handleKeyReleased(KeyEvent e) {
+		PlayerControlEvent event = new PlayerControlEvent(e, e.getCode());
+		postEvent(event);
+	}
+
+	@Override
+	public void handleMouseInput(double x, double y) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

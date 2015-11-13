@@ -1,16 +1,16 @@
-package objects.components;
+package objects.attributes;
 
 import objects.IGameObject;
 import objects.events.DamageEvent;
 import objects.events.EEventType;
 import objects.events.IEvent;
 
-public class HealthComponent extends AbstractComponent {
+public class HealthAttribute extends AbstractAttribute {
 	
 	private double myMaxHealth;
 	private double myCurrentHealth;
 	
-	public HealthComponent(IGameObject parent) {
+	public HealthAttribute(IGameObject parent) {
 		super(parent);
 	}
 

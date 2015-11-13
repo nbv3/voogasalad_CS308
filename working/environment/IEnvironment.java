@@ -2,18 +2,29 @@ package environment;
 
 import java.util.List;
 
-import objects.AbstractGameObject;
+import javafx.scene.input.KeyEvent;
+import objects.IGameObject;
+import objects.events.IEvent;
 
 public interface IEnvironment {
 	
-	public void addToEnvironment(AbstractGameObject g);
+	public void addToEnvironment(IGameObject g);
 	
-	public void removeFromEnvironment(AbstractGameObject g);
-	
+	public void removeFromEnvironment(IGameObject g);	
+
 	public void updateObjects();
 
-	List<AbstractGameObject> getEnvironmentObjects();
+	List<IGameObject> getEnvironmentObjects();
 
 	public List<String> validate();
+	
+	//tells the environment to process this event (but not send it to its listeners)
+	public Boolean processEvent(IEvent e);
+	
+	public void handleKeyPressed(KeyEvent e);
+	
+	public void handleKeyReleased(KeyEvent e);
+	
+	public void handleMouseInput(double x, double y);
 
 }

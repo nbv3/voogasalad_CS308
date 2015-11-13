@@ -1,6 +1,7 @@
 package objects.events;
 
 public enum EEventType {
-	CollisionEvent, DamageEvent, PlayerControlEvent,
+	CollisionEvent, DamageEvent, PlayerControlEvent, ObjectKillEvent,
+	ObjectDespawnEvent,
 	NULL
 }
