@@ -97,35 +97,11 @@ public class FileFinder {
 	}
 	
 	public String getGameXML(String name) {
-		for (String s : gameDirectory) {
-			try {
-				Directory d = new Directory(s);
-				File f;
-				if ((f = d.getFileByName(name))!=null) {
-					return fileToXML(f);
-				}
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		return ""; // TODO
+		return getXMLString(name, gameDirectory);
 	}
 	
 	public String getSaveXML(String name) {
-		for (String s : saveDirectory) {
-			try {
-				Directory d = new Directory(s);
-				File f;
-				if ((f = d.getFileByName(name))!=null) {
-					return fileToXML(f);
-				}
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		return ""; // TODO
+		return getXMLString(name, saveDirectory);
 	}
 	
 	public List<String> getGameXMLsContents() {
@@ -175,6 +151,22 @@ public class FileFinder {
 			}
 		}
 		return xmls;
+	}
+	
+	private String getXMLString(String name, Set<String> directories) {
+		for (String s : directories) {
+			try {
+				Directory d = new Directory(s);
+				File f;
+				if ((f = d.getFileByName(name))!=null) {
+					return fileToXML(f);
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return ""; // TODO
 	}
 	
 	private List<File> getXMLFiles(Set<String> directories) {
