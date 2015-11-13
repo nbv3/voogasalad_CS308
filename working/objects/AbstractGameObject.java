@@ -7,13 +7,17 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Observable;
+import java.util.Vector;
 
+import environment.EventPoster;
 import environment.GameEnvironment;
 import javafx.util.Pair;
 import objects.events.AbstractEvent;
 import objects.events.CollisionEvent;
+import objects.events.EEventType;
 import objects.events.ICollisionListener;
 import objects.events.IEvent;
+import objects.events.ObjectDespawnEvent;
 
 public abstract class AbstractGameObject extends Observable implements IGameObject, ICollisionListener{
 	
@@ -27,6 +31,7 @@ public abstract class AbstractGameObject extends Observable implements IGameObje
 
 	Point myLocation;
 	Pair myBBox;
+	Vector<Double> myVelocity;
 	
 	Boolean toBeDestroyed;
 	
@@ -35,11 +40,14 @@ public abstract class AbstractGameObject extends Observable implements IGameObje
 	//This holds all the components and items an object has
 	List<IChild> myChildren;
 	
+	EventPoster myEventPoster;
+	
 	//Methods
 
 	public AbstractGameObject(Point p, GameEnvironment g) {
 		myLocation = p;
 		this.addObserver(g);
+		myEventPoster = (EventPoster) g;
 		
 		myCollisionEvents = new HashMap<>();
 	}
@@ -93,18 +101,39 @@ public abstract class AbstractGameObject extends Observable implements IGameObje
 		toBeDestroyed = true;
 	}
 	
-	public void move(Point loc) {
-		myLocation = loc;
+	public void move() {
+		double x = myLocation.getX();
+		double y = myLocation.getY();
+		myLocation.setLocation(x + myVelocity.get(0), y + myVelocity.get(1));
+	}
+	
+	public void setVelocity(Vector<Double> vel) {
+		myVelocity = vel;
 	}
 	
 	public void update() {
 		if (toBeDestroyed) {
-			//TODO: Write this later
+			ObjectDespawnEvent event = new ObjectDespawnEvent(this);
+			myEventPoster.postEvent(event);
 		}
 		
 		for (IChild c: myChildren) {
 			c.update();
 		}
+		
+		move();
+	}
+	
+	public void onEvent(IEvent e) {
+		if (e.getTarget().equals(this) && e.getType().equals(EEventType.ObjectKillEvent)) {
+			toBeDestroyed = true;
+		}
+		
+		sendEventToChildren(e);
+	}
+	
+	public List<IChild> getChildren() {
+		return myChildren;
 	}
 
 }

@@ -3,18 +3,17 @@ package environment;
 import java.util.List;
 
 import objects.AbstractGameObject;
+import objects.IGameObject;
 
 public interface IEnvironment {
 	
-	public void addToEnvironment(AbstractGameObject g);
+	public void addToEnvironment(IGameObject g);
 	
-	public void removeFromEnvironment(AbstractGameObject g);
-	
-
+	public void removeFromEnvironment(IGameObject g);	
 	
 	public void updateObjects();
 
-	List<AbstractGameObject> getEnvironmentObjects();
+	List<IGameObject> getEnvironmentObjects();
 
 
 }

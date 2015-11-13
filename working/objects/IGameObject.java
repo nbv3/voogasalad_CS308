@@ -1,10 +1,12 @@
 package objects;
 
 import java.awt.Point;
+import java.util.List;
+import java.util.Vector;
 
 import objects.events.IEvent;
 
-public interface IGameObject{
+public interface IGameObject extends GameEventListener{
 	
 	public void update();
 	
@@ -16,6 +18,10 @@ public interface IGameObject{
 	
 	public void setToDestroy();
 	
-	public void move(Point loc);
+	public void move();
+	
+	public void setVelocity(Vector<Double> vel);
+	
+	public List<IChild> getChildren();
 
 }

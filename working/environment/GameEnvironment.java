@@ -2,35 +2,40 @@ package environment;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
 
-import objects.AbstractGameObject;
+import objects.GameEventListener;
+import objects.IGameObject;
+import objects.events.EEventType;
+import objects.events.IEvent;
 
-public class GameEnvironment implements Observer, IEnvironment {
+public class GameEnvironment implements IEnvironment, EventPoster {
 
-	private List<AbstractGameObject> environmentObjects;
-	private List<AbstractGameObject> haveMoved;
+	private List<IGameObject> environmentObjects;
+	private List<IGameObject> haveMoved;
+	
+	private List<GameEventListener> myListeners;
 
 	public GameEnvironment() {
-		environmentObjects = new ArrayList<AbstractGameObject>();
+		environmentObjects = new ArrayList<IGameObject>();
 	}
 
 	@Override
-	public void addToEnvironment(AbstractGameObject g) {
+	public void addToEnvironment(IGameObject g) {
 		environmentObjects.add(g);
+		addListener(g);
 	}
 
 
 	@Override
-	public void removeFromEnvironment(AbstractGameObject g) {
+	public void removeFromEnvironment(IGameObject g) {
 		environmentObjects.remove(g);
+		removeListener(g);
 
 	}
 
 	@Override
 	public void updateObjects() {
-		for(AbstractGameObject g: environmentObjects){
+		for(IGameObject g: environmentObjects){
 			g.update();
 		}
 		
@@ -38,14 +43,33 @@ public class GameEnvironment implements Observer, IEnvironment {
 
 
 	@Override
-	public List<AbstractGameObject> getEnvironmentObjects() {
+	public List<IGameObject> getEnvironmentObjects() {
 		return environmentObjects;
 	}
-
-	@Override
-	public void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
+	
+	public void postEvent(IEvent e) {
 		
+		//Figure out if the environment cares about the event
+		processEvent(e);
+		
+		for (GameEventListener obj: myListeners) {
+			obj.onEvent(e);
+		}
+		
+	}
+	
+	private void processEvent(IEvent e) {
+		if (e.getType().equals(EEventType.ObjectDespawnEvent)){
+			removeFromEnvironment(e.getSource());
+		}
+	}
+	
+	public void addListener(GameEventListener obj) {
+		myListeners.add(obj);
+	}
+	
+	public void removeListener(GameEventListener obj) {
+		myListeners.remove(obj);
 	}
 
 }

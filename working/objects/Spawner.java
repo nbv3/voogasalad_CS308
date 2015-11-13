@@ -6,9 +6,9 @@ import environment.GameEnvironment;
 
 public class Spawner extends AbstractGameObject {
 
-	private AbstractGameObject myObjectToSpawn;
+	private IGameObject myObjectToSpawn;
 
-	public Spawner(Point p, GameEnvironment g, AbstractGameObject o) {
+	public Spawner(Point p, GameEnvironment g, IGameObject o) {
 		super(p, g);
 		myObjectToSpawn = o;
 
