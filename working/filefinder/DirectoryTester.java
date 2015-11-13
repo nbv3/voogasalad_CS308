@@ -27,6 +27,12 @@ public class DirectoryTester {
 		
 		List<File> enemyImages = f.getEnemyImages();
 		print(enemyImages);
+		
+		String x = f.getGameXML("game1.xml"); 
+		System.out.println(x);
+		
+		String y = f.getSaveXML("save1.xml"); 
+		System.out.println(y);
 	}
 
 	private static void print(List<File> list) {
