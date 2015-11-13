@@ -9,6 +9,7 @@ import java.util.Observer;
 
 import editor.sidepanes.EditorTabPane;
 import environment.GameMap;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -16,6 +17,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import tiles.DecoratorTile;
 
@@ -27,6 +29,8 @@ public class AuthoringEnvironment implements Observer {
 	private MenuBar myMenu;
 	private GridPane myMapDisplay;
 	private TileEditor myTileEditor;
+	private EditorTabPane editor;
+	private EnemyEditor myEnemyEditor;
 	
 	private List<DecoratorTile> myTileSelection;
 	//private VBox myEditDisplay;
@@ -37,6 +41,7 @@ public class AuthoringEnvironment implements Observer {
 		myMap = new GameMap();
 		myTileSelection = new ArrayList<>();
 		myStage = initializeStage();
+		
 		myStage.show();
 	}
 
@@ -45,7 +50,12 @@ public class AuthoringEnvironment implements Observer {
 		myMapDisplay = createMapDisplay();
 		myWindow = new BorderPane();
 		myWindow.setTop(myMenu);
-		myWindow.setCenter(myMapDisplay);		
+		myWindow.setCenter(myMapDisplay);
+		VBox tiles = new TileEditor(myTileSelection).getEditorPane();
+		VBox ee = new EnemyEditor().getNode();
+		editor = new EditorTabPane(tiles, ee);
+
+		myWindow.setRight(editor.getPaneNode());
 		myScene = new Scene(myWindow);
 		Stage stage = new Stage();
 		stage.setScene(myScene);

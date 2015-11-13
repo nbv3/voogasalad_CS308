@@ -2,24 +2,34 @@ package editor.sidepanes;
 
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.layout.VBox;
 
 public class EditorTabPane {
 	private TabPane editorPane;
+	private Tab level;
+	private Tab tiles;
+	private Tab enemies;
+	private Tab towers;
+	private Tab items;
 
-	public EditorTabPane() {
+	public EditorTabPane(VBox t, VBox e) {
 		editorPane = new TabPane();
-		Tab level = new Tab();
+		level = new Tab();
 		level.setText("Level Settings");
-		
-		Tab enemies = new Tab();
+		tiles = new Tab();
+		tiles.setText("Tile Settings");
+		tiles.setContent(t);
+		enemies = new Tab();
 		enemies.setText("Enemies");
-		Tab towers = new Tab();
+		enemies.setContent(e);
+		towers = new Tab();
 		towers.setText("Towers");
-		Tab items = new Tab();
+		items = new Tab();
 		items.setText("Items");
-		editorPane.getTabs().addAll(level,enemies,towers,items);
+		editorPane.getTabs().addAll(tiles, enemies, towers, items);
+
 	}
-	
+
 	public TabPane getPaneNode() {
 		return editorPane;
 	}
