@@ -15,6 +15,19 @@ public class Directory {
 	private File currentFolder;
 
 	public Directory(String path) throws IOException {
+		this(path, 3);
+	}
+
+	/**
+	 * 
+	 * @param path - directory path
+	 * @param sort
+	 *            (1: lastModified - recent first) <br/>
+	 *            (-1: lastModified - old first) <br/>
+	 *            (3: alphabetical)
+	 * @throws IOException
+	 */
+	public Directory(String path, int sort) throws IOException {
 		currentPath = path;
 		currentFolder = new File(currentPath);
 		directories = new ArrayList<Directory>();
@@ -33,14 +46,22 @@ public class Directory {
 			}
 		}
 
-		Collections.sort(files, new Comparator<File>() {
-			public int compare(File f1, File f2) {
-				// Sorting in reverse last-modified order (most recently
-				// modified first)
-				return Long.compare(f1.lastModified(), f2.lastModified());
-			}
-		});
-
+		if (Math.abs(sort) == 1) {
+			Collections.sort(files, new Comparator<File>() {
+				public int compare(File f1, File f2) {
+					return Long.compare(f1.lastModified(), f2.lastModified());
+				}
+			});
+		} else if (Math.abs(sort) == 3) {
+			Collections.sort(files, null);
+		} else {
+			Collections.sort(files, null);
+		}
+		
+		if (sort < 0) {
+			Collections.reverse(files);
+		}
+		
 		for (int i = 0; i < files.size(); i++) {
 			// String aPath = listOfFiles[i].getAbsolutePath();
 			// String cPath = listOfFiles[i].getCanonicalPath();
@@ -143,7 +164,7 @@ public class Directory {
 		}
 		return filesWithStr;
 	}
-	
+
 	public boolean hasDirectories() {
 		return !directories.isEmpty();
 	}
