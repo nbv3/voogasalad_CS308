@@ -1,5 +1,5 @@
 package editor;
 
-public interface IShowTileImageOptions {
+public interface ITileEditorComboBox extends ITileEditor{
 	public void showTileImageOptions(String s);
 }
