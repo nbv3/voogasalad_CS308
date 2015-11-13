@@ -136,6 +136,21 @@ public class Directory {
 		}
 		return filesWithStr;
 	}
+	
+	/**
+	 * 
+	 * @param ext
+	 * @return file called string in the current directory
+	 */
+	public File getFileByName(String str) {
+		for (int i = 0; i < files.size(); i++) {
+			String filename = files.get(i).getName();
+			if (filename.equals(str)) {
+				return files.get(i);
+			}
+		}
+		return null;
+	}
 
 	public boolean hasDirectories() {
 		return !directories.isEmpty();

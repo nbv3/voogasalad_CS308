@@ -27,6 +27,9 @@ public class DirectoryTester {
 		
 		List<File> enemyImages = f.getEnemyImages();
 		print(enemyImages);
+		
+		String x = f.getGameXML("game1.xml"); // TODO SAVE DOES NOT WORK
+		System.out.println(x);
 	}
 
 	private static void print(List<File> list) {
