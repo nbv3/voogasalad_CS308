@@ -8,9 +8,9 @@ public class EditorTabPane {
 	private TabPane editorPane;
 	private Tab level;
 	private Tab tiles;
-	private Tab enemies;
+	private Tab spawners;
+	private Tab players;
 	private Tab towers;
-	private Tab items;
 
 	public EditorTabPane(VBox t, VBox e) {
 		editorPane = new TabPane();
@@ -19,14 +19,14 @@ public class EditorTabPane {
 		tiles = new Tab();
 		tiles.setText("Tile Settings");
 		tiles.setContent(t);
-		enemies = new Tab();
-		enemies.setText("Enemies");
-		enemies.setContent(e);
+		spawners = new Tab();
+		spawners.setText("Spawners");
+		spawners.setContent(e);
+		players = new Tab();
+		players.setText("Players");
 		towers = new Tab();
 		towers.setText("Towers");
-		items = new Tab();
-		items.setText("Items");
-		editorPane.getTabs().addAll(tiles, enemies, towers, items);
+		editorPane.getTabs().addAll(tiles, spawners, players, towers);
 
 	}
 
