@@ -2,13 +2,14 @@ package tiles.implementations;
 
 import java.awt.Point;
 
-import tiles.AbstractGameTile;
 import tiles.IGameTile;
 
-public class SceneryTile extends AbstractGameTile {	
+public class SceneryTile implements IGameTile {	
+	
+	private Point myPoint;
 	
 	public SceneryTile(Point p) {
-		super(p);
+		this.myPoint = p;
 	}
 	
 	public SceneryTile(IGameTile gt) {
@@ -23,6 +24,11 @@ public class SceneryTile extends AbstractGameTile {
 	@Override
 	public boolean isPlaceable() {
 		return true;
+	}
+
+	@Override
+	public Point getPoint() {
+		return myPoint;
 	}
 
 }

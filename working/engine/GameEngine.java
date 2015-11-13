@@ -2,6 +2,7 @@ package engine;
 
 import environment.GameEnvironment;
 import objects.AbstractGameObject;
+import objects.IGameObject;
 
 public class GameEngine implements IGameEngine{
 	
@@ -13,7 +14,7 @@ public class GameEngine implements IGameEngine{
 
 	@Override
 	public void checkForCollisions() {
-		for (AbstractGameObject obj : myGameEnvironment.getEnvironmentObjects()){
+		for (IGameObject obj : myGameEnvironment.getEnvironmentObjects()){
 			
 		}
 		

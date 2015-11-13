@@ -10,10 +10,11 @@ public interface IEnvironment {
 	public void addToEnvironment(IGameObject g);
 	
 	public void removeFromEnvironment(IGameObject g);	
-	
+
 	public void updateObjects();
 
 	List<IGameObject> getEnvironmentObjects();
 
+	public List<String> validate();
 
 }

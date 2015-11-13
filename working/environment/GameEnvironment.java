@@ -72,4 +72,10 @@ public class GameEnvironment implements IEnvironment, EventPoster {
 		myListeners.remove(obj);
 	}
 
+	@Override
+	public List<String> validate() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

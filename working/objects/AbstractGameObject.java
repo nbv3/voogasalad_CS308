@@ -19,7 +19,7 @@ import objects.events.ICollisionListener;
 import objects.events.IEvent;
 import objects.events.ObjectDespawnEvent;
 
-public abstract class AbstractGameObject extends Observable implements IGameObject, ICollisionListener{
+public abstract class AbstractGameObject implements IGameObject, ICollisionListener{
 	
 	//Members
 	
@@ -46,7 +46,6 @@ public abstract class AbstractGameObject extends Observable implements IGameObje
 
 	public AbstractGameObject(Point p, GameEnvironment g) {
 		myLocation = p;
-		this.addObserver(g);
 		myEventPoster = (EventPoster) g;
 		
 		myCollisionEvents = new HashMap<>();
