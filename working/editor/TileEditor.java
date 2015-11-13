@@ -37,8 +37,20 @@ public class TileEditor implements ITileEditorComboBox {
 
 		iconPane = new GridPane();
 		iconPane.setPrefSize(WIDTH_ICON_PANEL, HEIGHT_ICON_PANEL);
+		
+		// Goal: Because of reflection, every method must accept the same number of arguments. So we should pass in
+		// one interface with ALL the methods from TileEditor that we want to access from the Factory.
+		// Name that interface ITileEditor + *GUI element* e.g. ITileEditorTab, and have it extend ITileEditor
+		// - Kiwi
+		
+		//
+		// Example
 		ITileEditorComboBox cbInterface = this;
 		comboBoxFactory = new ComboBoxFactory(cbInterface);
+		//
+		//
+		
+		
 		// this.tile = tile;
 		currentTileSelection = tiles;
 		tilePane = new VBox();
