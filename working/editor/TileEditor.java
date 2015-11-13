@@ -17,7 +17,7 @@ import javafx.scene.text.Text;
 import tiles.DecoratorTile;
 import tiles.IGameTile;
 
-public class TileEditor {
+public class TileEditor implements IShowTileImageOptions {
 	
 //	private DecoratorTile tile;
 	private List<DecoratorTile> currentTileSelection;
@@ -62,11 +62,11 @@ public class TileEditor {
         comboBox.setPromptText("Select a category");
         comboBox.getItems().add("Scenery");
         comboBox.getItems().add("Path");
-        comboBox.valueProperty().addListener((o, s1, s2) -> showImageOptions(s2));
+        comboBox.valueProperty().addListener((o, s1, s2) -> showTileImageOptions(s2));
 		return comboBox;
 	}
 
-	private void showImageOptions(String s) {		
+	public void showTileImageOptions(String s) {		
 		tileIconBundle = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "TileIcon");
 		String[] tileIconPath = tileIconBundle.getString(s).split(",");	
 		iconPane.getChildren().clear();
