@@ -3,14 +3,8 @@ package view;
 import java.util.HashMap;
 import java.util.Map;
 
-import javafx.scene.Scene;
-
 public class ViewController {
 	
-	/**
-	 * TODO: make transform more usable, util class.
-	 */
-
 	private Map<Integer, ObjectView> myViewMap;
 	private GameView myGameView;
 	
