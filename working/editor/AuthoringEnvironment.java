@@ -31,7 +31,6 @@ public class AuthoringEnvironment implements Observer {
 	private TileEditor myTileEditor;
 	private EditorTabPane editor;
 	private EnemyEditor myEnemyEditor;
-	
 	private List<DecoratorTile> myTileSelection;
 	//private VBox myEditDisplay;
 	
@@ -68,7 +67,7 @@ public class AuthoringEnvironment implements Observer {
 		Menu file = new Menu("File");
 		
 		MenuItem editTiles = new MenuItem("Edit Tiles");
-		editTiles.setOnAction(e -> openTileSettingsDialog(myTileSelection));
+		//editTiles.setOnAction(e -> openTileSettingsDialog(myTileSelection));
 		
 		MenuItem clear = new MenuItem("Clear Selection");
 		clear.setOnAction(e -> clearTileSelection());
