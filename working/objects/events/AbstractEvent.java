@@ -13,11 +13,21 @@ public abstract class AbstractEvent implements IEvent{
 	}
 	
 	public AbstractEvent(EEventType type) {
-		myType = type;
+		this(type, null, null);
 	}
 	
-	public IGameObject mySource;
-	public IGameObject myTarget;
+	public AbstractEvent(EEventType type, IGameObject obj) {
+		this(type, obj, null);
+	}
+	
+	public AbstractEvent(EEventType type, IGameObject source, IGameObject target) {
+		myType = type;
+		mySource = source;
+		myTarget = target;
+	}
+	
+	protected IGameObject mySource;
+	protected IGameObject myTarget;
 	
 	public IGameObject getSource() {
 		return mySource;

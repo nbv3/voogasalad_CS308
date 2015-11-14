@@ -15,6 +15,8 @@ public class ObjectView implements Observer {
 		this.myImageView = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(path)));
 		scalingFactor = myGameView.getScalingFactor();
 		applyTransform(box);
+		myImageView.setFitHeight(scalingFactor*box.getHeight());
+		myImageView.setFitWidth(scalingFactor*box.getWidth());
 		myGameView.getChildren().add(myImageView);
 		box.addObserver(this);
 	}
@@ -30,14 +32,15 @@ public class ObjectView implements Observer {
 	private void applyTransform(BoundingBox box) {
 		// APPLY TRANSFORM TO IMAGEVIEW
 //		System.out.println(box.getPoint().getX() + "X --- " + box.getPoint().getY() + " Y ----- " + scalingFactor);
+
 		double xCoordinate = box.getPoint().getX()*scalingFactor;
 		double yCoordinate = box.getPoint().getY()*scalingFactor;
 		myImageView.relocate(xCoordinate, yCoordinate);
 		
-		double height = box.getHeight();
-		double width = box.getWidth();
-		myImageView.setFitHeight(height);
-		myImageView.setFitWidth(width);
+//		double height = box.getHeight();
+//		double width = box.getWidth();
+//		myImageView.setFitHeight(height);
+//		myImageView.setFitWidth(width);
 	}
 
 }

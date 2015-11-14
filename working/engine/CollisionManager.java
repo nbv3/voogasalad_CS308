@@ -4,6 +4,7 @@ import java.util.List;
 
 import environment.IEnvironment;
 import objects.IGameObject;
+import objects.events.CollisionEvent;
 import view.BoundingBox;
 
 public class CollisionManager implements ICollisionManager {
@@ -28,7 +29,11 @@ public class CollisionManager implements ICollisionManager {
 			if (other.equals(obj)) {
 				continue;
 			}
+			
 			if (intersects(obj, other)) {
+				CollisionEvent e = new CollisionEvent(obj, other);
+				obj.onCollision(e);
+				other.onCollision(e);
 				System.out.println("INTERSECTING");
 			}
 		}

@@ -1,11 +1,11 @@
 package objects.events;
 
-public class CollisionEvent extends AbstractEvent{
-	private static final EEventType myType = EEventType.CollisionEvent;
-	//What data do we need specifically for a collision?
+import objects.IGameObject;
 
-	@Override
-	public EEventType getType() {
-		return myType;
+public class CollisionEvent extends AbstractEvent{
+	
+	public CollisionEvent(IGameObject source, IGameObject target) {
+		super(EEventType.CollisionEvent, source, target);
 	}
+	
 }

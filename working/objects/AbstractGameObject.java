@@ -12,13 +12,11 @@ import javafx.geometry.Point2D;
 import objects.events.AbstractEvent;
 import objects.events.CollisionEvent;
 import objects.events.EEventType;
-import objects.events.ICollisionListener;
 import objects.events.IEvent;
 import objects.events.ObjectDespawnEvent;
-import view.IViewable;
 import view.BoundingBox;
 
-public abstract class AbstractGameObject implements IGameObject, ICollisionListener{
+public abstract class AbstractGameObject implements IGameObject{
 	
 	//Members
 	
