@@ -8,6 +8,8 @@ public class GameView extends Pane{
 	
 	public GameView(double size){
 		mySize = size;
+		this.setWidth(size);
+		this.setHeight(size);
 	}
 	
 	/**
@@ -15,7 +17,7 @@ public class GameView extends Pane{
 	 */
 	
 	public double getScalingFactor(){
-		return (1/1000)*mySize;
+		return (1.0/1000)*mySize;
 	}
 
 }

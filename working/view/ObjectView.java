@@ -9,12 +9,14 @@ import javafx.scene.image.ImageView;
 public class ObjectView implements Observer {
 
 	private ImageView myImageView;
-	private double scalingFactor  = 1.0/1000;
+	private double scalingFactor;
 	
 	public ObjectView(String path,ObservableBoundingBox box , GameView myGameView) {
 		this.myImageView = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(path)));
-		box.addObserver(this);
+		scalingFactor = myGameView.getScalingFactor();
+		applyTransform(box);
 		myGameView.getChildren().add(myImageView);
+		box.addObserver(this);
 	}
 
 	@Override
@@ -27,6 +29,7 @@ public class ObjectView implements Observer {
 	
 	private void applyTransform(ObservableBoundingBox box) {
 		// APPLY TRANSFORM TO IMAGEVIEW
+		System.out.println(box.getPoint().getX() + "X --- " + box.getPoint().getY() + " Y ----- " + scalingFactor);
 		double xCoordinate = box.getPoint().getX()*scalingFactor;
 		double yCoordinate = box.getPoint().getY()*scalingFactor;
 		myImageView.relocate(xCoordinate, yCoordinate);

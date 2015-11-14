@@ -39,7 +39,7 @@ public class GameEnvironment implements IEnvironment, EventPoster {
 		
 		//TEMP CODE
 		//TODO: REMOVE THIS
-		IGameObject obj = new Player(new Point2D(10,10), 10, 10, this);
+		IGameObject obj = new Player(new Point2D(100,100), 10, 10, this);
 		addToEnvironment(obj, null);
 	}
 	
