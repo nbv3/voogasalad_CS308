@@ -6,6 +6,7 @@ import java.util.List;
 import javafx.geometry.Point2D;
 import tiles.DecoratorTile;
 import view.ViewController;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import objects.GameEventListener;
 import objects.IGameObject;
@@ -27,6 +28,8 @@ public class GameEnvironment implements IEnvironment, EventPoster {
 	private List<IGameObject> environmentObjects;
 	private List<GameEventListener> myListeners;
 
+	private List<KeyCode> currentInput;
+	
 	public GameEnvironment() {
 		this(20, 20, 600);
 	}
@@ -37,6 +40,8 @@ public class GameEnvironment implements IEnvironment, EventPoster {
 		buildGameMap(numCellsWide, numCellsHigh);
 		environmentObjects = new ArrayList<IGameObject>();
 		myListeners = new ArrayList<>();
+		
+		currentInput = new ArrayList<KeyCode>();
 		
 		//TEMP CODE
 		//TODO: REMOVE THIS
@@ -57,7 +62,7 @@ public class GameEnvironment implements IEnvironment, EventPoster {
 				Point2D p = new Point2D((tileWidth*i + tileWidth/2.0), (tileHeight*j + tileHeight/2.0));
 				DecoratorTile dt = new DecoratorTile(currentViewID++, p, tileWidth, tileHeight);
 				myGameMap.setTile(p, dt);
-				}
+			}
 		}
 	}
 	
@@ -91,17 +96,14 @@ public class GameEnvironment implements IEnvironment, EventPoster {
 	}
 	
 	public void postEvent(IEvent e) {
-		
 		//Figure out if the environment cares about the event
 		Boolean processed = processEvent(e);
 		if (processed) {
 			return;
 		}
-		
 		for (GameEventListener obj: myListeners) {
 			obj.onEvent(e);
 		}
-		
 	}
 	
 	public Boolean processEvent(IEvent e) {
@@ -136,14 +138,20 @@ public class GameEnvironment implements IEnvironment, EventPoster {
 
 	@Override
 	public void handleKeyPressed(KeyEvent e) {
-		PlayerControlEvent event = new PlayerControlEvent(e, e.getCode());
-		postEvent(event);
+		if (!currentInput.contains(e.getCode())) {
+			currentInput.add(e.getCode());
+			PlayerControlEvent event = new PlayerControlEvent(currentInput);
+			postEvent(event);
+		}
 	}
 
 	@Override
 	public void handleKeyReleased(KeyEvent e) {
-		PlayerControlEvent event = new PlayerControlEvent(e, e.getCode());
-		postEvent(event);
+		if (currentInput.contains(e.getCode())) {
+			currentInput.remove(e.getCode());
+			PlayerControlEvent event = new PlayerControlEvent(currentInput);
+			postEvent(event);
+		}
 	}
 
 	@Override

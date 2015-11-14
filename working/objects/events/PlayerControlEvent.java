@@ -1,26 +1,28 @@
 package objects.events;
 
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
+import java.util.ArrayList;
+import java.util.Collection;
 
-public class PlayerControlEvent extends AbstractEvent{
+import javafx.scene.input.KeyCode;
+
+public class PlayerControlEvent extends AbstractEvent {
 	
-	private KeyCode myCode;
-	private KeyEvent myEvent;
+	private Collection<KeyCode> myKeyCodes;
 	
-	public PlayerControlEvent(KeyEvent event, KeyCode code){
+	public PlayerControlEvent(Collection<KeyCode> codes){
 		super(EEventType.PlayerControlEvent);
-		
-		myCode = code;
-		myEvent = event;
+		myKeyCodes = new ArrayList<KeyCode>();
+		for (KeyCode kc : codes) {
+			myKeyCodes.add(kc);
+		}
 	}
 	
-	public KeyCode getKeyCode() {
-		return myCode;
-	}
-	
-	public KeyEvent getKeyEvent() {
-		return myEvent;
+	public Collection<KeyCode> getKeyCodes() {
+		Collection<KeyCode> retCodes = new ArrayList<KeyCode>();
+		for (KeyCode kc: myKeyCodes) {
+			retCodes.add(kc);
+		}
+		return retCodes;
 	}
 
 }

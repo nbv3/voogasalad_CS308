@@ -42,14 +42,11 @@ public abstract class AbstractGameObject implements IGameObject{
 
 	public AbstractGameObject(Point2D p, double w, double h, GameEnvironment g) {
 		myBoundingBox = new BoundingBox(p, w, h);
-		
+
 		setVelocity(0.0, 0.0);
-		
 		myEventPoster = (EventPoster) g;
 		myChildren = new LinkedList<>();
 		toBeDestroyed = false;
-		
-		
 		myCollisionEvents = new HashMap<>();
 	}
 	
@@ -83,7 +80,6 @@ public abstract class AbstractGameObject implements IGameObject{
 	}
 	
 	public void onCollision(CollisionEvent e) {
-		
 		//Figure out if this event is for us (and which object is us)
 		IGameObject obj;		
 		if (e.getSource().equals(this)) {
@@ -95,7 +91,6 @@ public abstract class AbstractGameObject implements IGameObject{
 		else {
 			return;
 		}
-		
 		//Send every event for the right type of object
 		for (EObjectType type : myCollisionEvents.keySet()) {
 			if (obj.getType().equals(type)){
@@ -131,11 +126,9 @@ public abstract class AbstractGameObject implements IGameObject{
 		if (toBeDestroyed) {
 			destroySelf();
 		}
-		
 		for (IChild c: myChildren) {
 			c.update();
 		}
-		
 		move();
 		System.out.println(myBoundingBox.getPoint());
 	}
@@ -146,11 +139,9 @@ public abstract class AbstractGameObject implements IGameObject{
 	}
 	
 	public void onEvent(IEvent e) {
-		
 		if (e.getTarget() != null && e.getTarget().equals(this) && e.getType().equals(EEventType.ObjectKillEvent)) {
 			toBeDestroyed = true;
 		}
-		
 		sendEventToChildren(e);
 	}
 	

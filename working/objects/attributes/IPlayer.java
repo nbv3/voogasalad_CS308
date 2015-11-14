@@ -1,12 +1,14 @@
 package objects.attributes;
 
-import java.util.Vector;
-
 public interface IPlayer {
 
 	//What functions can a player do?
 	
-	public void setVelocity(Vector<Double> vel);
+	public void setVelocity(double dx, double dy);
+	
+	public void setX(double dx);
+	
+	public void setY(double dy);
 	
 	public double getSpeed();
 	

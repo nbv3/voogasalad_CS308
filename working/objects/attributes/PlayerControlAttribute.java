@@ -1,6 +1,9 @@
 package objects.attributes;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
@@ -19,119 +22,87 @@ import objects.player.MoveUpStart;
 
 public class PlayerControlAttribute extends AbstractAttribute implements IPlayer {
 	
-	private class KeyData {
-		public KeyCode myCode;
-		public Boolean myState;
-		
-		public KeyData(KeyCode code, Boolean s) {
-			myCode = code;
-			myState = s;
-		}
-		
-		@Override
-		public int hashCode() {
-			return 13 * myCode.getName().hashCode() + 19 * myState.hashCode();
-		}
-		
-		@Override
-		public boolean equals(Object o) {
-			KeyData data = (KeyData) o;
-			return myCode.equals(data.myCode) && myState.equals(data.myState);
-		}
-	}
-	
-	Map<KeyData, KeyInput> myKeyMap;
-	
-	private KeyInput myInput;
-	
+	private final Map<KeyCode, KeyInput> myKeyMap;
+	private List<KeyInput> myInputEvents;
 	private double mySpeed;
-	
 	//This attribute will set the player's velocity to be this.
-	private Vector<Double> myVelocity;
+	private double xVel;
+	private double yVel;
 	
 	//Maybe this goes in a player subclass? If so just copy this stuff into that class
 
 	public PlayerControlAttribute(IGameObject parent) {
 		super(parent);
 		initVelocity();
-		myInput = null;
-		
-		
-		myKeyMap = new HashMap<KeyData, KeyInput>();
-		
+		myInputEvents = new ArrayList<KeyInput>();
+		myKeyMap = new HashMap<KeyCode, KeyInput>();
 		//TODO:DELETE THIS
-		mySpeed = 5;
-		addBinding(KeyCode.LEFT, true, new MoveLeftStart());
-		addBinding(KeyCode.LEFT, false, new MoveStop());
-		
-		addBinding(KeyCode.RIGHT, true, new MoveRightStart());
-		addBinding(KeyCode.RIGHT, false, new MoveStop());
-		
-		addBinding(KeyCode.UP, true, new MoveUpStart());
-		addBinding(KeyCode.UP, false, new MoveStop());
-		
-		addBinding(KeyCode.DOWN, true, new MoveDownStart());
-		addBinding(KeyCode.DOWN, false, new MoveStop());
+
+		mySpeed = 1;
+		addBinding(KeyCode.LEFT, new MoveLeftStart());
+		addBinding(KeyCode.RIGHT, new MoveRightStart());
+		addBinding(KeyCode.UP, new MoveUpStart());
+		addBinding(KeyCode.DOWN, new MoveDownStart());
 	}
 	
 	private void initVelocity() {
-		myVelocity = new Vector<Double>();
-		myVelocity.add(0.0);
-		myVelocity.add(0.0);
+		xVel = 0;
+		yVel = 0;
 	}
 	
-	public void addBinding(KeyCode code, Boolean pressed, KeyInput input) {
-		KeyData data = new KeyData(code, pressed);
-		System.out.println(data.hashCode());
-		myKeyMap.put(data, input);
-		System.out.println(myKeyMap.containsKey(data));
+	public void addBinding(KeyCode code, KeyInput input) {
+		myKeyMap.put(code, input);
 	}
 
 	@Override
 	public void receiveEvent(IEvent e) {
 		if (e.getType().equals(EEventType.PlayerControlEvent)){
 			PlayerControlEvent event = (PlayerControlEvent) e;
-			Boolean isPressed;
-			if (event.getKeyEvent().getEventType().equals(KeyEvent.KEY_PRESSED)){
-				isPressed = true;
+			myInputEvents.clear();
+			for (KeyCode code : event.getKeyCodes()) {
+				if (myKeyMap.containsKey(code)) {
+					myInputEvents.add(myKeyMap.get(code));
+				}
 			}
-			else {
-				isPressed = false;
-			}
-			KeyData data = new KeyData(event.getKeyCode(), isPressed);
-			System.out.println(data.hashCode());
-				
-			if (myKeyMap.containsKey(data)) {
-				myInput = myKeyMap.get(data);
-			}
+			initVelocity();
+			processKeyInput();
 		}
 	}
 
 	@Override
 	public void update() {
-		
-		if (myInput != null) {
-			myInput.run(this);
-//			System.out.println("HAPPENING");
-		}
-		
 		move();
-		
-		myInput = null;
+	}
+
+	/**
+	 * Run every key input event that was passed down from the GUI
+	 */
+	private void processKeyInput() {
+		for (KeyInput k: myInputEvents) {
+			k.run(this);
+		}
 	}
 	
 	public void move() {
-		getParent().setVelocity(myVelocity.get(0), myVelocity.get(1));
+		getParent().setVelocity(xVel, yVel);
 	}
 	
-	public void setVelocity(Vector<Double> vel) {
-		myVelocity = vel;
+	@Override
+	public void setVelocity(double dx, double dy) {
+		xVel = dx;
+		yVel = dy;
 	}
 	
-	public void setVelocity(double x, double y) {
-		myVelocity.set(0, x);
-		myVelocity.set(1, y);
+	@Override
+	public void setX(double dx) {
+		xVel = dx;
 	}
+	
+	@Override
+	public void setY(double dy) {
+		yVel = dy;
+	}
+	
 	
 	public void useItem(int itemNum) {
 		

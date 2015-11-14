@@ -13,7 +13,6 @@ public class Player extends AbstractGameObject {
 
 	public Player(Point2D p, double w, double h, GameEnvironment g) {
 		super(p, w, h, g);
-		
 		IChild player = new PlayerControlAttribute(this);
 		this.getChildren().add(player);
 	}
