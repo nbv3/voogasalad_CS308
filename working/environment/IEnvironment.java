@@ -8,7 +8,7 @@ import objects.events.IEvent;
 
 public interface IEnvironment {
 	
-	public void addToEnvironment(IGameObject g);
+	public void addToEnvironment(IGameObject g, String path);
 	
 	public void removeFromEnvironment(IGameObject g);	
 

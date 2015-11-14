@@ -1,25 +1,25 @@
 package objects.enemy;
 
-import java.awt.Point;
 import java.util.List;
 
+import javafx.geometry.Point2D;
 import objects.EObjectType;
 import objects.attributes.IAttribute;
 import objects.events.IEvent;
 
 public abstract class AbstractEnemy implements IEnemy{
 	
-	private Point myPoint;
+	private Point2D myPoint;
 	private List<IAttribute> myComponents;
 	
-	public AbstractEnemy(Point p) {
+	public AbstractEnemy(Point2D p) {
 		/*
 		 * TODO: expand constructor
 		 */
 		myPoint = p;
 	}
 	
-	public Point getPoint() {
+	public Point2D getPoint() {
 		/**
 		 * It's repetitive???
 		 */
@@ -27,7 +27,7 @@ public abstract class AbstractEnemy implements IEnemy{
 	}
 
 	@Override
-	public List<Point> findPath() {
+	public List<Point2D> findPath() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -39,7 +39,7 @@ public abstract class AbstractEnemy implements IEnemy{
 	}
 
 	@Override
-	public Point getLocation() {
+	public Point2D getLocation() {
 		return myPoint;
 	}
 

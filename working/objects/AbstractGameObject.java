@@ -1,17 +1,14 @@
 package objects;
 
-import java.awt.Point;
-import java.util.EventListener;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Observable;
 import java.util.Vector;
 
 import environment.EventPoster;
 import environment.GameEnvironment;
-import javafx.util.Pair;
+import javafx.geometry.Point2D;
 import objects.events.AbstractEvent;
 import objects.events.CollisionEvent;
 import objects.events.EEventType;
@@ -29,7 +26,7 @@ public abstract class AbstractGameObject implements IGameObject, ICollisionListe
 	//Maybe this is a list if objects can have multiple types?
 	EObjectType myType;
 
-	Point myLocation;
+	Point2D myLocation;
 	Vector<Double> myVelocity;
 	
 	Boolean toBeDestroyed;
@@ -43,7 +40,7 @@ public abstract class AbstractGameObject implements IGameObject, ICollisionListe
 	
 	//Methods
 
-	public AbstractGameObject(Point p, GameEnvironment g) {
+	public AbstractGameObject(Point2D p, GameEnvironment g) {
 		myLocation = p;
 		setVelocity(0.0, 0.0);
 		
@@ -66,7 +63,7 @@ public abstract class AbstractGameObject implements IGameObject, ICollisionListe
 		return myType;
 	}
 	
-	public Point getLocation() {
+	public Point2D getLocation() {
 		return myLocation;
 	}
 	
@@ -118,7 +115,7 @@ public abstract class AbstractGameObject implements IGameObject, ICollisionListe
 	public void move() {
 		double x = myLocation.getX();
 		double y = myLocation.getY();
-		myLocation.setLocation(x + myVelocity.get(0), y + myVelocity.get(1));
+		myLocation = new Point2D(x + myVelocity.get(0), y + myVelocity.get(1));
 	}
 	
 	public void setVelocity(Vector<Double> vel) {

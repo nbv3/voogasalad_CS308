@@ -1,14 +1,13 @@
 package objects;
 
-import java.awt.Point;
-
 import environment.GameEnvironment;
+import javafx.geometry.Point2D;
 
 public class Spawner extends AbstractGameObject {
 
 	private IGameObject myObjectToSpawn;
 
-	public Spawner(Point p, GameEnvironment g, IGameObject o) {
+	public Spawner(Point2D p, GameEnvironment g, IGameObject o) {
 		super(p, g);
 		myObjectToSpawn = o;
 
@@ -26,7 +25,7 @@ public class Spawner extends AbstractGameObject {
 	}
 
 	@Override
-	public Point getLocation() {
+	public Point2D getLocation() {
 		return myLocation;
 	}
 

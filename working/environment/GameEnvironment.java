@@ -1,19 +1,17 @@
 package environment;
 
-import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
 import javafx.geometry.Point2D;
-import objects.AbstractGameObject;
 import tiles.DecoratorTile;
 import view.ViewController;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import objects.GameEventListener;
 import objects.IGameObject;
 import objects.events.EEventType;
 import objects.events.IEvent;
+import objects.events.ObjectSpawnEvent;
 import objects.events.PlayerControlEvent;
 import objects.player.Player;
 
@@ -39,8 +37,8 @@ public class GameEnvironment implements IEnvironment, EventPoster {
 		
 		//TEMP CODE
 		//TODO: REMOVE THIS
-		IGameObject obj = new Player(new Point(10,10), this);
-		addToEnvironment(obj);
+		IGameObject obj = new Player(new Point2D(10,10), this);
+		addToEnvironment(obj, null);
 	}
 	
 	private void buildGameMap(int w, int h) {
@@ -58,7 +56,7 @@ public class GameEnvironment implements IEnvironment, EventPoster {
 	}
 	
 	@Override
-	public void addToEnvironment(IGameObject g) {
+	public void addToEnvironment(IGameObject g, String path) {
 		environmentObjects.add(g);
 		addListener(g);
 	}
@@ -105,6 +103,11 @@ public class GameEnvironment implements IEnvironment, EventPoster {
 		if (e.getType().equals(EEventType.ObjectDespawnEvent)){
 			isProcessed = true;
 			removeFromEnvironment(e.getSource());
+		}
+		
+		if (e.getType().equals(EEventType.ObjectSpawnEvent)) {
+			ObjectSpawnEvent event = (ObjectSpawnEvent) e;
+			addToEnvironment(event.getSource(), event.getPath());
 		}
 		
 		return isProcessed;
