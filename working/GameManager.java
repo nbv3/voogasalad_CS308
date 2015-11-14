@@ -10,6 +10,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import view.ViewController;
 
 public class GameManager {
 	
@@ -19,16 +20,16 @@ public class GameManager {
 	private GameEngine myEngine; // Holds the different "sections" of the application. Currently there is just the library/text_input/drawing board section.
 	private Scene myScene;
 	private Stage myStage;
+	private ViewController myViewController;
 	private Timeline myAnimation;
 	
 	
 	public Scene init(Stage stage, int width, int height){
 
-		myRoot = new Group();	
-		this.myScene = new Scene(myRoot,width,height,Color.WHITE);
+		this.myEnvironment = new GameEnvironment(20,20, width);
+		this.myScene = new Scene(myEnvironment.getGameView(),width,height,Color.WHITE);
 		
 		this.myStage = stage;
-		this.myEnvironment = new GameEnvironment();
 		this.myEngine = new GameEngine(myEnvironment);
 
 		this.myScene.setOnKeyPressed(e -> handleKeyPressed(e));

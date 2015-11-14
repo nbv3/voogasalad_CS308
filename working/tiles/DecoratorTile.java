@@ -36,5 +36,11 @@ public class DecoratorTile extends ViewableObject implements IGameTile {
 	public void setImplementation(IGameTile gt) {
 		this.myImplementation = gt;
 	}
+
+	@Override
+	public ObservableBoundingBox getObservableBox() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }

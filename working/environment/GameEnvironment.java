@@ -14,6 +14,9 @@ import objects.events.IEvent;
 import objects.events.ObjectSpawnEvent;
 import objects.events.PlayerControlEvent;
 import objects.player.Player;
+import tiles.DecoratorTile;
+import view.GameView;
+import view.ViewController;
 
 public class GameEnvironment implements IEnvironment, EventPoster {
 
@@ -24,20 +27,19 @@ public class GameEnvironment implements IEnvironment, EventPoster {
 	private List<GameEventListener> myListeners;
 
 	public GameEnvironment() {
-		this(20, 20);
+		this(20, 20, 600);
 	}
 	
-	
-	public GameEnvironment(int numCellsWide, int numCellsHigh) {
+	public GameEnvironment(int numCellsWide, int numCellsHigh, double size) {
 		currentViewID = 0;
-		myViewController = new ViewController();
+		myViewController = new ViewController(size);
 		buildGameMap(numCellsWide, numCellsHigh);
 		environmentObjects = new ArrayList<IGameObject>();
 		myListeners = new ArrayList<>();
 		
 		//TEMP CODE
 		//TODO: REMOVE THIS
-		IGameObject obj = new Player(new Point2D(10,10), this);
+		IGameObject obj = new Player(new Point2D(10,10), 10, 10, this);
 		addToEnvironment(obj, null);
 	}
 	
@@ -59,6 +61,7 @@ public class GameEnvironment implements IEnvironment, EventPoster {
 	public void addToEnvironment(IGameObject g, String path) {
 		environmentObjects.add(g);
 		addListener(g);
+		myViewController.addViewObject(1, g, "path_brick_1.png");
 	}
 
 
@@ -143,6 +146,10 @@ public class GameEnvironment implements IEnvironment, EventPoster {
 	public void handleMouseInput(double x, double y) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public GameView getGameView(){
+		return myViewController.getGameView();
 	}
 
 }

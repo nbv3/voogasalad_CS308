@@ -3,20 +3,30 @@ package view;
 import java.util.HashMap;
 import java.util.Map;
 
+import javafx.scene.Scene;
+
 public class ViewController {
+	
+	/**
+	 * TODO: make transform more usable, util class.
+	 */
 
 	private Map<Integer, ObjectView> myViewMap;
-	private ITransform currentTransform;
+	private GameView myGameView;
 	
-	public ViewController() {
+	public ViewController(double size) {
 		myViewMap = new HashMap<Integer, ObjectView>();
-		currentTransform = null;
+		myGameView = new GameView(size);
 	}
 	
 	public void addViewObject(int id, IViewable obj, String path) {
-		ObjectView newView = new ObjectView(path, currentTransform);
+		ObjectView newView = new ObjectView(path, obj.getObservableBox(), myGameView);
 		obj.registerObserver(newView);
 		myViewMap.put(id, newView);
+	}
+	
+	public GameView getGameView(){
+		return myGameView;
 	}
 	
 }

@@ -8,4 +8,6 @@ public interface IViewable {
 	
 	public void registerObserver(ObjectView o);
 	
+	public ObservableBoundingBox getObservableBox();
+	
 }

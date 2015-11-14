@@ -5,12 +5,15 @@ import java.util.Vector;
 
 import javafx.geometry.Point2D;
 import objects.events.IEvent;
+import view.IViewable;
 
-public interface IGameObject extends GameEventListener{
+public interface IGameObject extends GameEventListener, IViewable{
 	
 	public void update();
 	
 	public Point2D getLocation();
+	
+	public void setLocation(Point2D loc);
 	
 	public EObjectType getType();
 	

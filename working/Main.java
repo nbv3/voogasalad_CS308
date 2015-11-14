@@ -17,7 +17,7 @@ public class Main extends Application {
 	//THESE WILL BE READ IN FROM XML
 	//TODO: DEFINITELY DO THIS
 	public static final int WIDTH = 600;
-	public static final int HEIGHT = 800;
+	public static final int HEIGHT = 600;
 	
 	
 	private GameManager myGameManager;

@@ -5,6 +5,7 @@ import java.util.List;
 import javafx.scene.input.KeyEvent;
 import objects.IGameObject;
 import objects.events.IEvent;
+import view.GameView;
 
 public interface IEnvironment {
 	
@@ -26,5 +27,7 @@ public interface IEnvironment {
 	public void handleKeyReleased(KeyEvent e);
 	
 	public void handleMouseInput(double x, double y);
+	
+	public GameView getGameView();
 
 }
