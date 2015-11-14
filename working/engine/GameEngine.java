@@ -9,20 +9,16 @@ public class GameEngine implements IGameEngine{
 	
 	private IEnvironment myGameEnvironment;
 	
-	public GameEngine(IEnvironment myEnvironment){
-		myGameEnvironment = myEnvironment;
-	}
-
-	@Override
-	public void checkForCollisions() {
-		for (IGameObject obj : myGameEnvironment.getEnvironmentObjects()){
-			
-		}
-		
+	private ICollisionManager myCollisionManager;
+	
+	public GameEngine(int numCellsWide, int numCellsHigh, double size){
+		myGameEnvironment = new GameEnvironment(numCellsWide, numCellsHigh, size);
+		myCollisionManager = new CollisionManager(this);
 	}
 	
 	public void update() {
 		myGameEnvironment.updateObjects();
+		myCollisionManager.update();
 	}
 
 	@Override
@@ -41,6 +37,11 @@ public class GameEngine implements IGameEngine{
 	public void handleMouseInput(double x, double y) {
 		myGameEnvironment.handleMouseInput(x, y);
 		
+	}
+
+	@Override
+	public IEnvironment getEnvironment() {
+		return myGameEnvironment;
 	}
 
 }

@@ -7,7 +7,7 @@ import objects.IChild;
 import objects.attributes.IPlayer;
 import objects.attributes.PlayerControlAttribute;
 import view.ObjectView;
-import view.ObservableBoundingBox;
+import view.BoundingBox;
 
 public class Player extends AbstractGameObject {
 

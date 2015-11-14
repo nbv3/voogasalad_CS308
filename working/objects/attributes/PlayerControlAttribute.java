@@ -11,8 +11,11 @@ import objects.events.EEventType;
 import objects.events.IEvent;
 import objects.events.PlayerControlEvent;
 import objects.player.KeyInput;
+import objects.player.MoveDownStart;
 import objects.player.MoveLeftStart;
+import objects.player.MoveRightStart;
 import objects.player.MoveStop;
+import objects.player.MoveUpStart;
 
 public class PlayerControlAttribute extends AbstractAttribute implements IPlayer {
 	
@@ -57,9 +60,18 @@ public class PlayerControlAttribute extends AbstractAttribute implements IPlayer
 		myKeyMap = new HashMap<KeyData, KeyInput>();
 		
 		//TODO:DELETE THIS
-		mySpeed = 1;
+		mySpeed = 5;
 		addBinding(KeyCode.LEFT, true, new MoveLeftStart());
 		addBinding(KeyCode.LEFT, false, new MoveStop());
+		
+		addBinding(KeyCode.RIGHT, true, new MoveRightStart());
+		addBinding(KeyCode.RIGHT, false, new MoveStop());
+		
+		addBinding(KeyCode.UP, true, new MoveUpStart());
+		addBinding(KeyCode.UP, false, new MoveStop());
+		
+		addBinding(KeyCode.DOWN, true, new MoveDownStart());
+		addBinding(KeyCode.DOWN, false, new MoveStop());
 	}
 	
 	private void initVelocity() {
@@ -97,9 +109,10 @@ public class PlayerControlAttribute extends AbstractAttribute implements IPlayer
 
 	@Override
 	public void update() {
+		
 		if (myInput != null) {
 			myInput.run(this);
-			System.out.println("HAPPENING");
+//			System.out.println("HAPPENING");
 		}
 		
 		move();
@@ -113,6 +126,11 @@ public class PlayerControlAttribute extends AbstractAttribute implements IPlayer
 	
 	public void setVelocity(Vector<Double> vel) {
 		myVelocity = vel;
+	}
+	
+	public void setVelocity(double x, double y) {
+		myVelocity.set(0, x);
+		myVelocity.set(1, y);
 	}
 	
 	public void useItem(int itemNum) {

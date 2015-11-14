@@ -16,7 +16,7 @@ import objects.events.ICollisionListener;
 import objects.events.IEvent;
 import objects.events.ObjectDespawnEvent;
 import view.IViewable;
-import view.ObservableBoundingBox;
+import view.BoundingBox;
 
 public abstract class AbstractGameObject implements IGameObject, ICollisionListener{
 	
@@ -28,7 +28,7 @@ public abstract class AbstractGameObject implements IGameObject, ICollisionListe
 	//Maybe this is a list if objects can have multiple types?
 	EObjectType myType;
 
-	ObservableBoundingBox myObservableBox;
+	BoundingBox myBoundingBox;
 	Vector<Double> myVelocity;
 	
 	Boolean toBeDestroyed;
@@ -43,7 +43,7 @@ public abstract class AbstractGameObject implements IGameObject, ICollisionListe
 	//Methods
 
 	public AbstractGameObject(Point2D p, double w, double h, GameEnvironment g) {
-		myObservableBox = new ObservableBoundingBox(p, w, h);
+		myBoundingBox = new BoundingBox(p, w, h);
 		
 		setVelocity(0.0, 0.0);
 		
@@ -67,11 +67,11 @@ public abstract class AbstractGameObject implements IGameObject, ICollisionListe
 	}
 	
 	public Point2D getLocation() {
-		return myObservableBox.getPoint();
+		return myBoundingBox.getPoint();
 	}
 	
 	public void setLocation(Point2D loc) {
-		myObservableBox.setPoint(loc.getX(), loc.getY());
+		myBoundingBox.setPoint(loc.getX(), loc.getY());
 	}
 	
 	public void addCollisionEvent(EObjectType type, AbstractEvent e) {
@@ -120,9 +120,9 @@ public abstract class AbstractGameObject implements IGameObject, ICollisionListe
 	}
 	
 	public void move() {
-		double x = myObservableBox.getPoint().getX();
-		double y = myObservableBox.getPoint().getY();
-		myObservableBox.setPoint(x + myVelocity.get(0), y + myVelocity.get(1));
+		double x = myBoundingBox.getPoint().getX();
+		double y = myBoundingBox.getPoint().getY();
+		myBoundingBox.setPoint(x + myVelocity.get(0), y + myVelocity.get(1));
 	}
 	
 	public void setVelocity(Vector<Double> vel) {
@@ -139,7 +139,7 @@ public abstract class AbstractGameObject implements IGameObject, ICollisionListe
 		}
 		
 		move();
-		System.out.println(myObservableBox.getPoint());
+		System.out.println(myBoundingBox.getPoint());
 	}
 	
 	private void destroySelf() {
@@ -160,8 +160,8 @@ public abstract class AbstractGameObject implements IGameObject, ICollisionListe
 		return myChildren;
 	}
 	
-	public ObservableBoundingBox getObservableBox(){
-		return myObservableBox;
+	public BoundingBox getBoundingBox(){
+		return myBoundingBox;
 	}
 
 }

@@ -20,7 +20,7 @@ public class ViewController {
 	}
 	
 	public void addViewObject(int id, IViewable obj, String path) {
-		ObjectView newView = new ObjectView(path, obj.getObservableBox(), myGameView);
+		ObjectView newView = new ObjectView(path, obj.getBoundingBox(), myGameView);
 		obj.registerObserver(newView);
 		myViewMap.put(id, newView);
 	}

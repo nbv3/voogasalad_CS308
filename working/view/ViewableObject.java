@@ -2,10 +2,10 @@ package view;
 
 public abstract class ViewableObject implements IViewable {
 
-	private ObservableBoundingBox myBoundingBox;
+	private BoundingBox myBoundingBox;
 	private int myID;
 	
-	public ViewableObject(int id, ObservableBoundingBox box) {
+	public ViewableObject(int id, BoundingBox box) {
 		this.myBoundingBox = box;
 		this.myID = id;
 	}

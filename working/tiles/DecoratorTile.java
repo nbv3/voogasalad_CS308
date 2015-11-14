@@ -2,7 +2,7 @@ package tiles;
 
 import javafx.geometry.Point2D;
 import tiles.implementations.PathTile;
-import view.ObservableBoundingBox;
+import view.BoundingBox;
 import view.ViewableObject;
 
 public class DecoratorTile extends ViewableObject implements IGameTile {
@@ -10,7 +10,7 @@ public class DecoratorTile extends ViewableObject implements IGameTile {
 	private IGameTile myImplementation;
 	
 	public DecoratorTile(int id, Point2D p, double width, double height) {
-		super(id, new ObservableBoundingBox(p, width, height));
+		super(id, new BoundingBox(p, width, height));
 		myImplementation = new PathTile(p);
 	}
 
@@ -38,7 +38,7 @@ public class DecoratorTile extends ViewableObject implements IGameTile {
 	}
 
 	@Override
-	public ObservableBoundingBox getObservableBox() {
+	public BoundingBox getBoundingBox() {
 		// TODO Auto-generated method stub
 		return null;
 	}

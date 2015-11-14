@@ -16,7 +16,6 @@ public class GameManager {
 	
 	private Group myRoot;
 	
-	private IEnvironment myEnvironment;
 	private GameEngine myEngine; // Holds the different "sections" of the application. Currently there is just the library/text_input/drawing board section.
 	private Scene myScene;
 	private Stage myStage;
@@ -26,11 +25,10 @@ public class GameManager {
 	
 	public Scene init(Stage stage, int width, int height){
 
-		this.myEnvironment = new GameEnvironment(20,20, width);
-		this.myScene = new Scene(myEnvironment.getGameView(),width,height,Color.WHITE);
+		this.myEngine = new GameEngine(20, 20, width);
+		this.myScene = new Scene(myEngine.getEnvironment().getGameView(),width,height,Color.WHITE);
 		
 		this.myStage = stage;
-		this.myEngine = new GameEngine(myEnvironment);
 
 		this.myScene.setOnKeyPressed(e -> handleKeyPressed(e));
 		this.myScene.setOnKeyReleased(e -> handleKeyReleased(e));

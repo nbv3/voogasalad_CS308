@@ -4,13 +4,13 @@ import java.util.Observable;
 
 import javafx.geometry.Point2D;
 
-public class ObservableBoundingBox extends Observable {
+public class BoundingBox extends Observable {
 
 	private Point2D myPoint;
 	private double myWidth;
 	private double myHeight;
 	
-	public ObservableBoundingBox(Point2D p, double width, double height) {
+	public BoundingBox(Point2D p, double width, double height) {
 		this.myPoint = p;
 		this.myWidth = width;
 		this.myHeight = height;

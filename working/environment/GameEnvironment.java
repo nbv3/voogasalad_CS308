@@ -9,6 +9,7 @@ import view.ViewController;
 import javafx.scene.input.KeyEvent;
 import objects.GameEventListener;
 import objects.IGameObject;
+import objects.Spawner;
 import objects.events.EEventType;
 import objects.events.IEvent;
 import objects.events.ObjectSpawnEvent;
@@ -41,6 +42,9 @@ public class GameEnvironment implements IEnvironment, EventPoster {
 		//TODO: REMOVE THIS
 		IGameObject obj = new Player(new Point2D(100,100), 10, 10, this);
 		addToEnvironment(obj, null);
+		
+		IGameObject obj2 = new Spawner(new Point2D(200, 200), 40, 40, this, null);
+		addToEnvironment(obj2, null);
 	}
 	
 	private void buildGameMap(int w, int h) {

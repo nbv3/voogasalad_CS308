@@ -1,10 +1,11 @@
 package engine;
 
+import environment.IEnvironment;
 import javafx.scene.input.KeyEvent;
 
 public interface IGameEngine {
 	
-	public void checkForCollisions();
+	public IEnvironment getEnvironment();
 	
 	public void update();
 	
