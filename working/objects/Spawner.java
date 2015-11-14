@@ -3,6 +3,7 @@ package objects;
 import java.awt.Point;
 
 import environment.GameEnvironment;
+import view.ObjectView;
 
 public class Spawner extends AbstractGameObject {
 
@@ -28,6 +29,24 @@ public class Spawner extends AbstractGameObject {
 	@Override
 	public Point getLocation() {
 		return myLocation;
+	}
+
+	@Override
+	public void setID(int id) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int getID() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void registerObserver(ObjectView o) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

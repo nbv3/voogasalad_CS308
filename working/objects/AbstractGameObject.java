@@ -18,6 +18,8 @@ import objects.events.EEventType;
 import objects.events.ICollisionListener;
 import objects.events.IEvent;
 import objects.events.ObjectDespawnEvent;
+import view.IViewable;
+import view.ObservableBoundingBox;
 
 public abstract class AbstractGameObject implements IGameObject, ICollisionListener{
 	
@@ -30,6 +32,7 @@ public abstract class AbstractGameObject implements IGameObject, ICollisionListe
 	EObjectType myType;
 
 	Point myLocation;
+	ObservableBoundingBox myObservableBox;
 	Vector<Double> myVelocity;
 	
 	Boolean toBeDestroyed;
@@ -154,6 +157,10 @@ public abstract class AbstractGameObject implements IGameObject, ICollisionListe
 	
 	public List<IChild> getChildren() {
 		return myChildren;
+	}
+	
+	public ObservableBoundingBox getObservableBox(){
+		return myObservableBox;
 	}
 
 }

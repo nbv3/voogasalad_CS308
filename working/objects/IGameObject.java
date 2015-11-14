@@ -5,8 +5,9 @@ import java.util.List;
 import java.util.Vector;
 
 import objects.events.IEvent;
+import view.IViewable;
 
-public interface IGameObject extends GameEventListener{
+public interface IGameObject extends GameEventListener, IViewable{
 	
 	public void update();
 	
