@@ -38,7 +38,7 @@ public class PlayerControlAttribute extends AbstractAttribute implements IPlayer
 		myKeyMap = new HashMap<KeyCode, KeyInput>();
 		//TODO:DELETE THIS
 
-		mySpeed = 1;
+		mySpeed = 5;
 		addBinding(KeyCode.LEFT, new MoveLeftStart());
 		addBinding(KeyCode.RIGHT, new MoveRightStart());
 		addBinding(KeyCode.UP, new MoveUpStart());
