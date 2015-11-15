@@ -18,7 +18,7 @@ import view.BoundingBox;
 
 public abstract class AbstractGameObject implements IGameObject{
 	
-	//Members
+	//Member variables
 	
 	//Unique, corresponds to a view object
 	int myID;

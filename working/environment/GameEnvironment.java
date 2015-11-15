@@ -27,7 +27,6 @@ public class GameEnvironment implements IEnvironment, EventPoster {
 	private IGameMap myGameMap;
 	private List<IGameObject> environmentObjects;
 	private List<GameEventListener> myListeners;
-
 	private List<KeyCode> currentInput;
 	
 	public GameEnvironment() {
