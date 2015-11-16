@@ -31,9 +31,8 @@ public class CollisionManager implements ICollisionManager {
 			}
 			
 			if (intersects(obj, other)) {
-				CollisionEvent e = new CollisionEvent(obj, other);
-				obj.onCollision(e);
-				other.onCollision(e);
+				obj.onCollision(other);
+				other.onCollision(obj);
 				System.out.println("INTERSECTING");
 			}
 		}

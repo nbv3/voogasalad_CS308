@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
-import environment.EventPoster;
+import engine.EventPoster;
 import environment.GameEnvironment;
 import javafx.geometry.Point2D;
 import objects.events.AbstractEvent;
@@ -36,15 +36,15 @@ public abstract class AbstractGameObject implements IGameObject{
 	//This holds all the attributes and items an object has
 	List<IChild> myChildren;
 	
-	EventPoster myEventPoster;
+	EventPoster myPoster;
 	
 	//Methods
 
-	public AbstractGameObject(Point2D p, double w, double h, GameEnvironment g) {
+	public AbstractGameObject(Point2D p, double w, double h, EventPoster poster) {
 		myBoundingBox = new BoundingBox(p, w, h);
 
 		setVelocity(0.0, 0.0);
-		myEventPoster = (EventPoster) g;
+		myPoster = poster;
 		myChildren = new LinkedList<>();
 		toBeDestroyed = false;
 		myCollisionEvents = new HashMap<>();
@@ -79,18 +79,8 @@ public abstract class AbstractGameObject implements IGameObject{
 		}
 	}
 	
-	public void onCollision(CollisionEvent e) {
-		//Figure out if this event is for us (and which object is us)
-		IGameObject obj;		
-		if (e.getSource().equals(this)) {
-			obj = e.getTarget();
-		}
-		else if (e.getTarget().equals(this)){
-			obj = e.getSource();
-		}
-		else {
-			return;
-		}
+	public void onCollision(IGameObject obj) {
+
 		//Send every event for the right type of object
 		for (EObjectType type : myCollisionEvents.keySet()) {
 			if (obj.getType().equals(type)){
@@ -108,8 +98,16 @@ public abstract class AbstractGameObject implements IGameObject{
 		}
 	}
 	
-	public void setToDestroy(){
-		toBeDestroyed = true;
+	public void onEvent(IEvent e) {
+		sendEventToChildren(e);
+	}
+	
+	public void setID(int id) {
+		myID = id;
+	}
+
+	public int getID() {
+		return myID;
 	}
 	
 	public void move() {
@@ -123,9 +121,7 @@ public abstract class AbstractGameObject implements IGameObject{
 	}
 	
 	public void update() {
-		if (toBeDestroyed) {
-			destroySelf();
-		}
+
 		for (IChild c: myChildren) {
 			c.update();
 		}
@@ -133,24 +129,20 @@ public abstract class AbstractGameObject implements IGameObject{
 		System.out.println(myBoundingBox.getPoint());
 	}
 	
-	private void destroySelf() {
-		ObjectDespawnEvent event = new ObjectDespawnEvent(this);
-		myEventPoster.postEvent(event);
-	}
-	
-	public void onEvent(IEvent e) {
-		if (e.getTarget() != null && e.getTarget().equals(this) && e.getType().equals(EEventType.ObjectKillEvent)) {
-			toBeDestroyed = true;
-		}
-		sendEventToChildren(e);
-	}
-	
 	public List<IChild> getChildren() {
 		return myChildren;
 	}
 	
+	public EventPoster getPoster() {
+		return myPoster;
+	}
+	
 	public BoundingBox getBoundingBox(){
 		return myBoundingBox;
+	}
+	
+	public void setObjectType(EObjectType type) {
+		myType = type;
 	}
 
 }

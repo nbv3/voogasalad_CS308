@@ -19,15 +19,10 @@ public interface IEnvironment {
 
 	public List<String> validate();
 	
-	//tells the environment to process this event (but not send it to its listeners)
-	public Boolean processEvent(IEvent e);
-	
 	public void handleKeyPressed(KeyEvent e);
 	
 	public void handleKeyReleased(KeyEvent e);
 	
 	public void handleMouseInput(double x, double y);
-	
-	public GameView getGameView();
 
 }

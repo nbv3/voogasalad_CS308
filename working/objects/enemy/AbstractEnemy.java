@@ -2,28 +2,19 @@ package objects.enemy;
 
 import java.util.List;
 
+import engine.EventPoster;
 import javafx.geometry.Point2D;
+import objects.AbstractGameObject;
 import objects.EObjectType;
 import objects.attributes.IAttribute;
 import objects.events.IEvent;
 
-public abstract class AbstractEnemy implements IEnemy{
+public abstract class AbstractEnemy extends AbstractGameObject implements IEnemy{
 	
-	private Point2D myPoint;
 	private List<IAttribute> myComponents;
 	
-	public AbstractEnemy(Point2D p) {
-		/*
-		 * TODO: expand constructor
-		 */
-		myPoint = p;
-	}
-	
-	public Point2D getPoint() {
-		/**
-		 * It's repetitive???
-		 */
-		return myPoint;
+	public AbstractEnemy(Point2D p, double w, double h, EventPoster poster) {
+		super(p, w, h, poster);
 	}
 
 	@Override
@@ -34,29 +25,6 @@ public abstract class AbstractEnemy implements IEnemy{
 
 	@Override
 	public void update() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public Point2D getLocation() {
-		return myPoint;
-	}
-
-	@Override
-	public EObjectType getType() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void sendEventToChildren(IEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void setToDestroy() {
 		// TODO Auto-generated method stub
 		
 	}

@@ -3,6 +3,7 @@ package environment;
 import java.util.ArrayList;
 import java.util.List;
 
+import engine.IGameEngine;
 import javafx.geometry.Point2D;
 import tiles.DecoratorTile;
 import view.ViewController;
@@ -20,39 +21,40 @@ import tiles.DecoratorTile;
 import view.GameView;
 import view.ViewController;
 
-public class GameEnvironment implements IEnvironment, EventPoster {
+public class GameEnvironment implements IEnvironment, GameEventListener {
+	
+	private IGameEngine myEngine;
 
-	private ViewController myViewController;
 	private int currentViewID;
 	private IGameMap myGameMap;
 	private List<IGameObject> environmentObjects;
-	private List<GameEventListener> myListeners;
 	private List<KeyCode> currentInput;
 	
-	public GameEnvironment() {
-		this(20, 20, 600);
+	public GameEnvironment(IGameEngine engine) {
+		this(20, 20, engine);
 	}
 	
-	public GameEnvironment(int numCellsWide, int numCellsHigh, double size) {
+	public GameEnvironment(int numCellsWide, int numCellsHigh, IGameEngine engine) {
+		myEngine = engine;
+		myEngine.addListener(this);
 		currentViewID = 0;
-		myViewController = new ViewController(size);
-		buildGameMap(numCellsWide, numCellsHigh);
+		myGameMap = buildGameMap(numCellsWide, numCellsHigh);
 		environmentObjects = new ArrayList<IGameObject>();
-		myListeners = new ArrayList<>();
 		
 		currentInput = new ArrayList<KeyCode>();
 		
 		//TEMP CODE
 		//TODO: REMOVE THIS
-		IGameObject obj = new Player(new Point2D(100,100), 10, 10, this);
+		IGameObject obj = new Player(new Point2D(100,100), 10, 10, myEngine);
 		addToEnvironment(obj, null);
 		
-		IGameObject obj2 = new Spawner(new Point2D(200, 200), 40, 40, this, null);
+		IGameObject obj2 = new Spawner(new Point2D(200, 200), 40, 40, myEngine, null);
 		addToEnvironment(obj2, null);
 	}
 	
-	private void buildGameMap(int w, int h) {
-		myGameMap = new GameMap(w, h);
+	//Maybe move this into own class?
+	private IGameMap buildGameMap(int w, int h) {
+		IGameMap map = new GameMap(w, h);
 		double tileWidth = 1000.0/((double) w);
 		double tileHeight = 1000.0/((double) h);
 
@@ -60,23 +62,25 @@ public class GameEnvironment implements IEnvironment, EventPoster {
 			for (int j=0;j<h; j++) {
 				Point2D p = new Point2D((tileWidth*i + tileWidth/2.0), (tileHeight*j + tileHeight/2.0));
 				DecoratorTile dt = new DecoratorTile(currentViewID++, p, tileWidth, tileHeight);
-				myGameMap.setTile(p, dt);
+				map.setTile(p, dt);
 			}
 		}
+		
+		return map;
 	}
 	
 	@Override
 	public void addToEnvironment(IGameObject g, String path) {
 		environmentObjects.add(g);
-		addListener(g);
-		myViewController.addViewObject(1, g, "path_brick_1.png");
+		myEngine.addListener(g);
+		myEngine.getViewController().addViewObject(1, g, "path_brick_1.png");
 	}
 
 
 	@Override
 	public void removeFromEnvironment(IGameObject g) {
 		environmentObjects.remove(g);
-		removeListener(g);
+		myEngine.removeListener(g);
 
 	}
 
@@ -93,41 +97,6 @@ public class GameEnvironment implements IEnvironment, EventPoster {
 	public List<IGameObject> getEnvironmentObjects() {
 		return environmentObjects;
 	}
-	
-	public void postEvent(IEvent e) {
-		//Figure out if the environment cares about the event
-		Boolean processed = processEvent(e);
-		if (processed) {
-			return;
-		}
-		for (GameEventListener obj: myListeners) {
-			obj.onEvent(e);
-		}
-	}
-	
-	public Boolean processEvent(IEvent e) {
-		//Returns true if the environment does something with this event
-		Boolean isProcessed = false;
-		if (e.getType().equals(EEventType.ObjectDespawnEvent)){
-			isProcessed = true;
-			removeFromEnvironment(e.getSource());
-		}
-		
-		if (e.getType().equals(EEventType.ObjectSpawnEvent)) {
-			ObjectSpawnEvent event = (ObjectSpawnEvent) e;
-			addToEnvironment(event.getSource(), event.getPath());
-		}
-		
-		return isProcessed;
-	}
-	
-	public void addListener(GameEventListener obj) {
-		myListeners.add(obj);
-	}
-	
-	public void removeListener(GameEventListener obj) {
-		myListeners.remove(obj);
-	}
 
 	@Override
 	public List<String> validate() {
@@ -140,7 +109,7 @@ public class GameEnvironment implements IEnvironment, EventPoster {
 		if (!currentInput.contains(e.getCode())) {
 			currentInput.add(e.getCode());
 			PlayerControlEvent event = new PlayerControlEvent(currentInput);
-			postEvent(event);
+			myEngine.postEvent(event);
 		}
 	}
 
@@ -149,7 +118,7 @@ public class GameEnvironment implements IEnvironment, EventPoster {
 		if (currentInput.contains(e.getCode())) {
 			currentInput.remove(e.getCode());
 			PlayerControlEvent event = new PlayerControlEvent(currentInput);
-			postEvent(event);
+			myEngine.postEvent(event);
 		}
 	}
 
@@ -160,7 +129,19 @@ public class GameEnvironment implements IEnvironment, EventPoster {
 	}
 	
 	public GameView getGameView(){
-		return myViewController.getGameView();
+		return myEngine.getViewController().getGameView();
+	}
+
+	@Override
+	public void onEvent(IEvent e) {
+		if (e.getType().equals(EEventType.ObjectDespawnEvent)){
+			removeFromEnvironment(e.getSource());
+		}
+		
+		if (e.getType().equals(EEventType.ObjectSpawnEvent)) {
+			ObjectSpawnEvent event = (ObjectSpawnEvent) e;
+			addToEnvironment(event.getSource(), event.getPath());
+		}
 	}
 
 }

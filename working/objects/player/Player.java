@@ -1,5 +1,6 @@
 package objects.player;
 
+import engine.EventPoster;
 import environment.GameEnvironment;
 import javafx.geometry.Point2D;
 import objects.AbstractGameObject;
@@ -11,22 +12,10 @@ import view.BoundingBox;
 
 public class Player extends AbstractGameObject {
 
-	public Player(Point2D p, double w, double h, GameEnvironment g) {
-		super(p, w, h, g);
+	public Player(Point2D p, double w, double h, EventPoster poster) {
+		super(p, w, h, poster);
 		IChild player = new PlayerControlAttribute(this);
 		this.getChildren().add(player);
-	}
-
-	@Override
-	public void setID(int id) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public int getID() {
-		// TODO Auto-generated method stub
-		return 0;
 	}
 
 	@Override

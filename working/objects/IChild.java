@@ -1,5 +1,6 @@
 package objects;
 
+import engine.EventPoster;
 import objects.events.IEvent;
 
 public interface IChild {
@@ -9,6 +10,8 @@ public interface IChild {
 	
 	//Gets the root object (same as getParent unless the parent is an item attached to another object)
 	public IGameObject getRootObj();
+	
+	public EventPoster getPoster();
 	
 	public void receiveEvent(IEvent e);
 	
