@@ -12,7 +12,7 @@ public class EditorTabPane {
 	private Tab players;
 	private Tab towers;
 
-	public EditorTabPane(VBox t, VBox e) {
+	public EditorTabPane(VBox t, VBox e, VBox tower) {
 		editorPane = new TabPane();
 		level = new Tab();
 		level.setText("Level Settings");
@@ -26,6 +26,7 @@ public class EditorTabPane {
 		players.setText("Players");
 		towers = new Tab();
 		towers.setText("Towers");
+		towers.setContent(tower);
 		editorPane.getTabs().addAll(tiles, spawners, players, towers);
 
 	}

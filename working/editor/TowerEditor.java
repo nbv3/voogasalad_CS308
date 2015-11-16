@@ -1,0 +1,21 @@
+package editor;
+
+import editor.sidepanes.HealthBox;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+
+public class TowerEditor {
+	private VBox towerEditor;
+
+	public TowerEditor() {
+		towerEditor = new VBox();
+		VBox h = new HealthBox().getNode();
+		VBox d = new DamageBox().getNode();
+		VBox w = new WeaponBox().getNode();
+		towerEditor.getChildren().addAll(h, d, w);
+	}
+
+	public VBox getNode() {
+		return towerEditor;
+	}
+}

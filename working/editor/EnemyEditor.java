@@ -31,7 +31,7 @@ public class EnemyEditor {
 	public EnemyEditor() {
 		enemyPane = new VBox();
 		VBox h = new HealthBox().getNode();
-		//HBox image = new ImageSelector().getNode();
+//		HBox image = new ImageSelector().getNode();
 		iconPane = new GridPane();
 		iconPane.setPrefSize(WIDTH_ICON_PANEL, HEIGHT_ICON_PANEL);
 		showImageOptions();

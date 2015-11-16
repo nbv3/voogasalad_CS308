@@ -20,7 +20,7 @@ import javafx.stage.Stage;
 import tiles.DecoratorTile;
 
 public class AuthoringEnvironment implements Observer {
-	
+
 	private Stage myStage;
 	private Scene myScene;
 	private BorderPane myWindow;
@@ -31,11 +31,11 @@ public class AuthoringEnvironment implements Observer {
 	private EditorTabPane editor;
 	private EnemyEditor myEnemyEditor;
 	private List<DecoratorTile> myTileSelection;
-	//private VBox myEditDisplay;
-	
+	// private VBox myEditDisplay;
+
 	private GameMap myMap;
 
-	public AuthoringEnvironment(){
+	public AuthoringEnvironment() {
 		myMap = new GameMap();
 		myTileSelection = new ArrayList<>();
 		myStage = initializeStage();
@@ -52,7 +52,8 @@ public class AuthoringEnvironment implements Observer {
 		myWindow.setCenter(myMapDisplay);
 		VBox tiles = new TileEditor(myTileSelection).getEditorPane();
 		VBox ee = new EnemyEditor().getNode();
-		editor = new EditorTabPane(tiles, ee);
+		VBox towers = new TowerEditor().getNode();
+		editor = new EditorTabPane(tiles, ee, towers);
 		myWindow.setRight(editor.getPaneNode());
 		myScene = new Scene(myWindow);
 		Stage stage = new Stage();
@@ -64,34 +65,34 @@ public class AuthoringEnvironment implements Observer {
 	private MenuBar createMenuBar() {
 		MenuBar mb = new MenuBar();
 		Menu file = new Menu("File");
-		
+
 		MenuItem editTiles = new MenuItem("Edit Tiles");
 		editTiles.setOnAction(e -> openTileSettingsDialog(myTileSelection));
-		
+
 		MenuItem clear = new MenuItem("Clear Selection");
 		clear.setOnAction(e -> clearTileSelection());
-		
+
 		MenuItem selectAll = new MenuItem("Select All");
 		selectAll.setOnAction(e -> addAllTiles());
-		
+
 		file.getItems().addAll(editTiles, selectAll, clear);
 		mb.getMenus().add(file);
-		return mb;	
+		return mb;
 	}
-	
+
 	private void addAllTiles() {
 		myTileSelection.clear();
-		for (DecoratorTile tile: myMap.getTileMap().values()) {
+		for (DecoratorTile tile : myMap.getTileMap().values()) {
 			toggleTileSelection(tile);
 		}
 	}
-	
+
 	private GridPane createMapDisplay() {
 		GridPane gp = new GridPane();
 		gp.setPrefSize(800, 800);
-//		addConstraints(gp);
-		//Populate gridpane
-		for (Point p: myMap.getTileMap().keySet()) {
+		// addConstraints(gp);
+		// Populate gridpane
+		for (Point p : myMap.getTileMap().keySet()) {
 			DecoratorTile tile = myMap.getTile(p);
 			tile.addObserver(this);
 			ImageView i = createTileCell(gp, tile);
@@ -107,18 +108,17 @@ public class AuthoringEnvironment implements Observer {
 		i.setFitHeight(gp.getPrefHeight() / (new Double(myMap.getMapSize())));
 		return i;
 	}
-	
+
 	private void toggleTileSelection(DecoratorTile t) {
 		if (myTileSelection.contains(t)) {
 			myTileSelection.remove(t);
 			t.getView().setOpacity(1);
-		}
-		else {
+		} else {
 			myTileSelection.add(t);
 			t.getView().setOpacity(0.75);
 		}
 	}
-	
+
 	private void openTileSettingsDialog(List<DecoratorTile> tiles) {
 		myTileEditor = new TileEditor(tiles);
 		myWindow.setRight(myTileEditor.getEditorPane());
@@ -126,25 +126,25 @@ public class AuthoringEnvironment implements Observer {
 
 	private void refreshMapDisplay() {
 		myMapDisplay.getChildren().clear();
-		for (DecoratorTile tile: myMap.getTileMap().values()) {
+		for (DecoratorTile tile : myMap.getTileMap().values()) {
 			ImageView i = tile.getView();
 			i.setOnMouseClicked(e -> toggleTileSelection(tile));
 			i.setFitWidth(myMapDisplay.getPrefWidth() / (new Double(myMap.getMapSize())));
 			i.setFitHeight(myMapDisplay.getPrefHeight() / (new Double(myMap.getMapSize())));
-			myMapDisplay.add(tile.getView(), (int) tile.getPoint().getX(), (int) tile.getPoint().getY()); 
+			myMapDisplay.add(tile.getView(), (int) tile.getPoint().getX(), (int) tile.getPoint().getY());
 		}
 	}
-	
+
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		refreshMapDisplay();
 	}
 
 	public void clearTileSelection() {
-		for (DecoratorTile tile: myTileSelection) {
+		for (DecoratorTile tile : myTileSelection) {
 			tile.getView().setOpacity(1);
 		}
 		myTileSelection.clear();
 	}
-	
+
 }
