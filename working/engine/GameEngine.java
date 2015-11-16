@@ -9,9 +9,11 @@ import environment.IEnvironment;
 import environment.IGameMap;
 import javafx.geometry.Point2D;
 import javafx.scene.input.KeyEvent;
-import objects.GameEventListener;
+import objects.IGameEventListener;
 import objects.IGameObject;
 import objects.events.IEvent;
+import score.IScoreManager;
+import score.ScoreManager;
 import tiles.DecoratorTile;
 import view.ViewController;
 
@@ -20,12 +22,12 @@ public class GameEngine implements IGameEngine {
 	private ViewController myViewController;
 
 	private IEnvironment myGameEnvironment;
-
 	private ICollisionManager myCollisionManager;
+	private IScoreManager myScoreManager;
 	
-	private List<GameEventListener> myListeners;
+	private List<IGameEventListener> myListeners;
 	//This one is all the listeners we will remove after finishing listener iteration
-	private List<GameEventListener> myRemovedListeners;
+	private List<IGameEventListener> myRemovedListeners;
 
 
 	public GameEngine(int numCellsWide, int numCellsHigh, ViewController controller) {
@@ -35,17 +37,19 @@ public class GameEngine implements IGameEngine {
 		myViewController = controller;
 		myGameEnvironment = new GameEnvironment(numCellsWide, numCellsHigh, this);
 		myCollisionManager = new CollisionManager(this);
+		myScoreManager = new ScoreManager(this);
 	}
 
 	public void update() {
 		updateListeners();
 		myGameEnvironment.updateObjects();
 		myCollisionManager.update();
+		myScoreManager.update();
 	}
 	
 	public void postEvent(IEvent e) {
 
-		for (GameEventListener obj: myListeners) {
+		for (IGameEventListener obj: myListeners) {
 			obj.onEvent(e);
 		}
 		
@@ -55,7 +59,7 @@ public class GameEngine implements IGameEngine {
 	
 	private void updateListeners() {
 		//Make sure we aren't trying to modify the list as we iterate over it
-		for(GameEventListener obj: myRemovedListeners) {
+		for(IGameEventListener obj: myRemovedListeners) {
 			myListeners.remove(obj);
 		}
 		myRemovedListeners = new ArrayList<>();
@@ -88,11 +92,11 @@ public class GameEngine implements IGameEngine {
 		return myViewController;
 	}
 	
-	public void addListener(GameEventListener obj) {
+	public void addListener(IGameEventListener obj) {
 		myListeners.add(obj);
 	}
 	
-	public void removeListener(GameEventListener obj) {
+	public void removeListener(IGameEventListener obj) {
 		myRemovedListeners.add(obj);
 	}
 

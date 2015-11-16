@@ -10,7 +10,7 @@ import view.ViewController;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import objects.EObjectType;
-import objects.GameEventListener;
+import objects.IGameEventListener;
 import objects.IGameObject;
 import objects.Spawner;
 import objects.attributes.SolidAttribute;
@@ -24,7 +24,7 @@ import tiles.DecoratorTile;
 import view.GameView;
 import view.ViewController;
 
-public class GameEnvironment implements IEnvironment, GameEventListener {
+public class GameEnvironment implements IEnvironment, IGameEventListener {
 	
 	private IGameEngine myEngine;
 

@@ -2,7 +2,7 @@ package engine;
 
 import environment.IEnvironment;
 import javafx.scene.input.KeyEvent;
-import objects.GameEventListener;
+import objects.IGameEventListener;
 import view.ViewController;
 
 public interface IGameEngine extends EventPoster{
@@ -22,9 +22,9 @@ public interface IGameEngine extends EventPoster{
 	
 	public void update();
 	
-	public void addListener(GameEventListener obj);
+	public void addListener(IGameEventListener obj);
 	
-	public void removeListener(GameEventListener obj);
+	public void removeListener(IGameEventListener obj);
 	
 	/**
 	 * Handles a KeyEvent when it is pressed

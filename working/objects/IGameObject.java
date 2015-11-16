@@ -9,7 +9,7 @@ import javafx.geometry.Point2D;
 import objects.events.IEvent;
 import view.IViewable;
 
-public interface IGameObject extends GameEventListener, IViewable, IEditableObject{
+public interface IGameObject extends IGameEventListener, IViewable, IEditableObject{
 	
 	public void update();
 	
