@@ -42,11 +42,13 @@ public class TileToolBar extends EditorToolbar{
 	private void toggleTileSelection(DecoratorTile t, List<DecoratorTile> myTileSelection) {
 		if (myTileSelection.contains(t)) {
 			myTileSelection.remove(t);
-			t.getView().setOpacity(1);
-		}
+			t.getView().getStyleClass().add("tile-select-off");
+			t.getView().getStyleClass().remove("tile-select-on");		
+			}
+		
 		else {
 			myTileSelection.add(t);
-			t.getView().setOpacity(0.75);
-		}
+			t.getView().getStyleClass().add("tile-select-on");
+			t.getView().getStyleClass().remove("tile-select-off");		}
 	}
 }

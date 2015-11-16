@@ -93,7 +93,7 @@ public class TileEditor {
 	private void updateTileViews(ImageView iv) {
 		for (DecoratorTile tile : currentTileSelection) {
 			ImageView i = new ImageView(iv.getImage());
-			i.setOpacity(0.75);
+			i.getStyleClass().add("tile-select-on");
 			tile.setImage(i);
 		}
 	}

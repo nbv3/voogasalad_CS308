@@ -11,12 +11,14 @@ import view.IView;
 public class DecoratorTile extends Observable implements IGameTile, IView {
 	
 	private IGameTile myImplementation;
-	private ImageView myImageView;
+	private ImageView myImageView = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream("scenery_grass_1.png")));
 	
 	public DecoratorTile(Point p) {
 		myImplementation = new PathTile(p);
-		setImage(new ImageView(new Image(getClass().getClassLoader().getResourceAsStream("scenery_grass_1.png"))));
-	}
+		myImageView.getStyleClass().add("tile");
+		myImageView.getStyleClass().add("tile-select-off");
+		setImage(myImageView);
+}
 
 	@Override
 	public boolean isWalkable() {

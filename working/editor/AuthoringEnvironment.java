@@ -75,6 +75,7 @@ public class AuthoringEnvironment implements Observer {
 		
 		myWindow.setRight(editor.getPaneNode());
 		myScene = new Scene(myWindow);
+		myScene.getStylesheets().add("css/default.css");
 		Stage stage = new Stage();
 		stage.setScene(myScene);
 		stage.setMaximized(true);
@@ -131,11 +132,27 @@ public class AuthoringEnvironment implements Observer {
 	private void toggleTileSelection(DecoratorTile t) {
 		if (myTileSelection.contains(t)) {
 			myTileSelection.remove(t);
-			t.getView().setOpacity(1);
+			tileOpacityOff(t);
 		} else {
 			myTileSelection.add(t);
-			t.getView().setOpacity(0.75);
+			tileOpacityOn(t);
 		}
+	}
+
+	/**
+	 * @param t
+	 */
+	private void tileOpacityOff(DecoratorTile t) {
+		t.getView().getStyleClass().add("tile-select-off");
+		t.getView().getStyleClass().remove("tile-select-on");
+	}
+
+	/**
+	 * @param t
+	 */
+	private void tileOpacityOn(DecoratorTile t) {
+		t.getView().getStyleClass().add("tile-select-on");
+		t.getView().getStyleClass().remove("tile-select-off");
 	}
 
 	private void openTileSettingsDialog(List<DecoratorTile> tiles) {
@@ -161,7 +178,7 @@ public class AuthoringEnvironment implements Observer {
 
 	public void clearTileSelection() {
 		for (DecoratorTile tile : myTileSelection) {
-			tile.getView().setOpacity(1);
+			tileOpacityOff(tile);
 		}
 		myTileSelection.clear();
 	}
