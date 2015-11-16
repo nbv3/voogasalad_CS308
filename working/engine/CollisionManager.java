@@ -41,17 +41,23 @@ public class CollisionManager implements ICollisionManager {
 	private Boolean intersects(IGameObject obj, IGameObject other) {
 		BoundingBox abox = obj.getBoundingBox();
 		BoundingBox bbox = other.getBoundingBox();
+		
 		double ax = abox.getPoint().getX();
 		double bx = bbox.getPoint().getX();
 		double ay = abox.getPoint().getY();
 		double by = bbox.getPoint().getY();
 		
+		double aw = abox.getWidth();
+		double bw = bbox.getWidth();
+		double ah = abox.getHeight();
+		double bh = bbox.getHeight();
+		
 		Boolean doesIntersect = false;
 		
-		Boolean aInsideBX = (ax + abox.getWidth() >= bx && ax <= bx + bbox.getWidth());
-		Boolean aInsideBY = (ay + abox.getHeight() >= by && ay <= by + bbox.getHeight());
-		Boolean bInsideAX = (bx + bbox.getWidth() >= ax && bx <= ax + abox.getWidth());
-		Boolean bInsideAY = (by + bbox.getHeight() >= ay && by <= ay + abox.getHeight());
+		Boolean aInsideBX = (ax + aw >= bx && ax <= bx + bw);
+		Boolean aInsideBY = (ay + ah >= by && ay <= by + bh);
+		Boolean bInsideAX = (bx + bw >= ax && bx <= ax + aw);
+		Boolean bInsideAY = (by + bh >= ay && by <= ay + ah);
 		if ((aInsideBX && aInsideBY) || (bInsideAX && bInsideAY)) {
 			doesIntersect = true;
 		}
