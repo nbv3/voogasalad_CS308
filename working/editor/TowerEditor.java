@@ -1,7 +1,5 @@
 package editor;
 
-import editor.sidepanes.HealthBox;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 public class TowerEditor {
@@ -9,10 +7,10 @@ public class TowerEditor {
 
 	public TowerEditor() {
 		towerEditor = new VBox();
-		VBox h = new HealthBox().getNode();
+		//VBox h = new SpawnerPropertyBox().getNode();
 		VBox d = new DamageBox().getNode();
 		VBox w = new WeaponBox().getNode();
-		towerEditor.getChildren().addAll(h, d, w);
+		towerEditor.getChildren().addAll(d, w);
 	}
 
 	public VBox getNode() {

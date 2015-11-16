@@ -26,14 +26,10 @@ public class AuthoringEnvironment implements Observer {
 	private Scene myScene;
 	private BorderPane myWindow;
 	private MenuBar myMainMenu;
-	private LevelToolBar myLevelMenu;
+	//private LevelToolBar myLevelMenu;
 	private GridPane myMapDisplay;
-	private TileEditor myTileEditor;
 	private EditorTabPane editor;
-	private EnemyEditor myEnemyEditor;
 	private List<DecoratorTile> myTileSelection;
-	// private VBox myEditDisplay;
-
 	private GameMap myMap;
 
 	public AuthoringEnvironment() {
@@ -44,14 +40,13 @@ public class AuthoringEnvironment implements Observer {
 	}
 
 	private Stage initializeStage() {
-		VBox menus = new VBox();
+		//VBox menus = new VBox();
 		myMainMenu = createMenuBar();
 		myMapDisplay = createMapDisplay();
 		myWindow = new BorderPane();
 		myWindow.setTop(myMainMenu);
 		myWindow.setLeft(new ToolbarOptions(myTileSelection, myMap));
 		myWindow.setCenter(myMapDisplay);
-
 		EditorTab levelTab = new EditorTab();
 		levelTab.setContent(new VBox());
 		levelTab.setTabDescription("Level Settings");
@@ -61,7 +56,7 @@ public class AuthoringEnvironment implements Observer {
 		tileTab.setTabDescription("Tile Settings");
 		
 		EditorTab enemyEditorTab = new EditorTab();
-		enemyEditorTab.setContent(new EnemyEditor().getNode());
+		enemyEditorTab.setContent(new EnemyEditor(myTileSelection).getNode());
 		enemyEditorTab.setTabDescription("Spawners");
 		
 		EditorTab towerTab = new EditorTab();
@@ -137,6 +132,7 @@ public class AuthoringEnvironment implements Observer {
 			myTileSelection.add(t);
 			tileOpacityOn(t);
 		}
+		System.out.println(t.getImplementation().getClass().getName());
 	}
 
 	/**
@@ -156,8 +152,7 @@ public class AuthoringEnvironment implements Observer {
 	}
 
 	private void openTileSettingsDialog(List<DecoratorTile> tiles) {
-		myTileEditor = new TileEditor(tiles);
-		myWindow.setRight(myTileEditor.getEditorPane());
+		myWindow.setRight(new TileEditor(tiles).getEditorPane());
 	}
 
 	private void refreshMapDisplay() {
@@ -167,7 +162,7 @@ public class AuthoringEnvironment implements Observer {
 			i.setOnMouseClicked(e -> toggleTileSelection(tile));
 			i.setFitWidth(myMapDisplay.getPrefWidth() / (new Double(myMap.getMapSize())));
 			i.setFitHeight(myMapDisplay.getPrefHeight() / (new Double(myMap.getMapSize())));
-			myMapDisplay.add(tile.getView(), (int) tile.getPoint().getX(), (int) tile.getPoint().getY());
+			myMapDisplay.add(tile.getView(), (int) tile.getPoint().getX(), (int) tile.getPoint().getY(),1,1);
 		}
 	}
 

@@ -4,7 +4,6 @@ import java.util.List;
 
 import environment.GameMap;
 import javafx.scene.control.Button;
-import javafx.scene.control.ToolBar;
 import tiles.DecoratorTile;
 
 public class TileToolBar extends EditorToolbar{
@@ -44,11 +43,12 @@ public class TileToolBar extends EditorToolbar{
 			myTileSelection.remove(t);
 			t.getView().getStyleClass().add("tile-select-off");
 			t.getView().getStyleClass().remove("tile-select-on");		
-			}
+		}
 		
 		else {
 			myTileSelection.add(t);
 			t.getView().getStyleClass().add("tile-select-on");
-			t.getView().getStyleClass().remove("tile-select-off");		}
+			t.getView().getStyleClass().remove("tile-select-off");		
+		}
 	}
 }
