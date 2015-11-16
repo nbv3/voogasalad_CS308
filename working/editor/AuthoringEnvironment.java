@@ -162,7 +162,7 @@ public class AuthoringEnvironment implements Observer {
 			i.setOnMouseClicked(e -> toggleTileSelection(tile));
 			i.setFitWidth(myMapDisplay.getPrefWidth() / (new Double(myMap.getMapSize())));
 			i.setFitHeight(myMapDisplay.getPrefHeight() / (new Double(myMap.getMapSize())));
-			myMapDisplay.add(tile.getView(), (int) tile.getPoint().getX(), (int) tile.getPoint().getY());
+			myMapDisplay.add(tile.getView(), (int) tile.getPoint().getX(), (int) tile.getPoint().getY(),1,1);
 		}
 	}
 

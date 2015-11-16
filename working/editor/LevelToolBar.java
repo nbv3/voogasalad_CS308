@@ -1,9 +1,6 @@
 package editor;
 
-import javafx.geometry.Orientation;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ToolBar;
 
 public class LevelToolBar extends EditorToolbar{
 	

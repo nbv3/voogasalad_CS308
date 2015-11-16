@@ -31,10 +31,10 @@ public class TileEditor {
 	private ImageView selectImg;
 	
 	private final String DEFAULT_RESOURCE_PACKAGE = "resources/";
-	private final int NUMBER_ROW_ICON_PANEL = 3;
-	private final int NUMBER_COLUMN_ICON_PANEL = 5;
-	private final double WIDTH_ICON_PANEL = 500;
-	private final double HEIGHT_ICON_PANEL = 300;
+	private final int NUMBER_ROW_ICON_PANEL = 5;
+	private final int NUMBER_COLUMN_ICON_PANEL = 3;
+	private final double WIDTH_ICON_PANEL = 300;
+	private final double HEIGHT_ICON_PANEL = 500;
 			
 	public TileEditor(List<DecoratorTile> tiles) {
 		currentTileSelection = tiles;

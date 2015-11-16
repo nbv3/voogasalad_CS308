@@ -25,7 +25,7 @@ import javafx.scene.text.Text;
 public class EnemyEditor {
 	
 	private List<DecoratorTile> currentTileSelection;
-	private List<SpawnerTester> spawnerList;	// here String need to change to Spawner later
+	private List<SpawnerTester> spawnerList;	// here SpawnerTester need to change to Spawner later
 	private SpawnerPropertyBox spawnerProperty;
 	private VBox enemyPane;
 	private TilePane spawnQueuePane;
@@ -33,8 +33,8 @@ public class EnemyEditor {
 	private final String DEFAULT_RESOURCE_PACKAGE = "resources/";
 	private final String PATH_SPAWN_ICON = "spawner.png";
 	private final int NUMBER_ROW_ICON_PANEL = 3;
-	private final int NUMBER_COLUMN_ICON_PANEL = 5;
-	private final double WIDTH_ICON_PANEL = 500;
+	private final int NUMBER_COLUMN_ICON_PANEL = 4;
+	private final double WIDTH_ICON_PANEL = 400;
 	private final double HEIGHT_ICON_PANEL = 300;
 	private final int NUMBER_ROW_QUEUE_PANEL = 3;
 	private final int NUMBER_COLUMN_QUEUE_PANEL = 10;
