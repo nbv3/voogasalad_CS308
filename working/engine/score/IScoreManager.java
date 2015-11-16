@@ -1,4 +1,4 @@
-package score;
+package engine.score;
 
 import objects.IGameEventListener;
 

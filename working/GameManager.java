@@ -1,6 +1,6 @@
 import engine.GameEngine;
-import environment.GameEnvironment;
-import environment.IEnvironment;
+import engine.environment.GameEnvironment;
+import engine.environment.IEnvironment;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.Group;

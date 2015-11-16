@@ -8,7 +8,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import editor.sidepanes.EditorTabPane;
-import environment.GameMap;
+import engine.environment.GameMap;
 import javafx.geometry.Point2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Menu;

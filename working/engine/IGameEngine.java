@@ -1,6 +1,6 @@
 package engine;
 
-import environment.IEnvironment;
+import engine.environment.IEnvironment;
 import javafx.scene.input.KeyEvent;
 import objects.IGameEventListener;
 import view.ViewController;

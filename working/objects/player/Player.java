@@ -1,7 +1,7 @@
 package objects.player;
 
 import engine.EventPoster;
-import environment.GameEnvironment;
+import engine.environment.GameEnvironment;
 import javafx.geometry.Point2D;
 import objects.AbstractGameObject;
 import objects.IChild;

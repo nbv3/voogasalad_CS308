@@ -1,6 +1,5 @@
 package xml;
 
-import environment.IEnvironment;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.List;
@@ -17,6 +16,8 @@ import org.xml.sax.InputSource;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.StaxDriver;
+
+import engine.environment.IEnvironment;
 
 public class LoaderSaver {
 	XStream xstream;

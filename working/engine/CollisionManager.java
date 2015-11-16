@@ -2,7 +2,7 @@ package engine;
 
 import java.util.List;
 
-import environment.IEnvironment;
+import engine.environment.IEnvironment;
 import objects.IGameObject;
 import view.BoundingBox;
 

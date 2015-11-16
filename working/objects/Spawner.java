@@ -1,7 +1,7 @@
 package objects;
 
 import engine.EventPoster;
-import environment.GameEnvironment;
+import engine.environment.GameEnvironment;
 import javafx.geometry.Point2D;
 import view.ObjectView;
 

@@ -1,4 +1,4 @@
-package score;
+package engine.score;
 
 import engine.EventPoster;
 import engine.IGameEngine;

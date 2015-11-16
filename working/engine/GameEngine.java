@@ -3,18 +3,13 @@ package engine;
 import java.util.ArrayList;
 import java.util.List;
 
-import environment.GameEnvironment;
-import environment.GameMap;
-import environment.IEnvironment;
-import environment.IGameMap;
-import javafx.geometry.Point2D;
 import javafx.scene.input.KeyEvent;
 import objects.IGameEventListener;
-import objects.IGameObject;
 import objects.events.IEvent;
-import score.IScoreManager;
-import score.ScoreManager;
-import tiles.DecoratorTile;
+import engine.environment.GameEnvironment;
+import engine.environment.IEnvironment;
+import engine.score.IScoreManager;
+import engine.score.ScoreManager;
 import view.ViewController;
 
 public class GameEngine implements IGameEngine {
