@@ -6,32 +6,16 @@ import javafx.scene.layout.VBox;
 
 public class EditorTabPane {
 	private TabPane editorPane;
-	private Tab level;
-	private Tab tiles;
-	private Tab spawners;
-	private Tab players;
-	private Tab towers;
-
-	public EditorTabPane(VBox t, VBox e) {
+	
+	public EditorTabPane(EditorTab... tabs) {
 		editorPane = new TabPane();
-		level = new Tab();
-		level.setText("Level Settings");
-		level.setClosable(false);
-		tiles = new Tab();
-		tiles.setText("Tile Settings");
-		tiles.setClosable(false);
-		tiles.setContent(t);
-		spawners = new Tab();
-		spawners.setText("Spawners");
-		spawners.setContent(e);
-		spawners.setClosable(false);
-		players = new Tab();
-		players.setText("Players");
-		players.setClosable(false);
-		towers = new Tab();
-		towers.setText("Towers");
-		towers.setClosable(false);
-		editorPane.getTabs().addAll(tiles, spawners, players, towers);
+
+		for(EditorTab e:tabs){
+			Tab newTab = new Tab();
+			newTab.setText(e.getTabDescription());
+			newTab.setContent(e.getContent());
+			editorPane.getTabs().add(newTab);
+		}
 	}
 
 	public TabPane getPaneNode() {
