@@ -17,6 +17,10 @@ public class ScoreManager implements IScoreManager {
 	public ScoreManager(IGameEngine engine) {
 		engine.addListener(this);
 		myPoster = engine;
+		myScore = 0;
+		
+		//TODO:Remove this
+		myScoreThreshold = 100;
 	}
 
 	@Override

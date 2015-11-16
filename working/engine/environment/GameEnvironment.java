@@ -13,8 +13,11 @@ import objects.EObjectType;
 import objects.IGameEventListener;
 import objects.IGameObject;
 import objects.Spawner;
+import objects.attributes.HealthAttribute;
 import objects.attributes.SolidAttribute;
+import objects.events.DamageEvent;
 import objects.events.EEventType;
+import objects.events.GoalScoreEvent;
 import objects.events.HitSolidObjectEvent;
 import objects.events.IEvent;
 import objects.events.ObjectSpawnEvent;
@@ -51,11 +54,17 @@ public class GameEnvironment implements IEnvironment, IGameEventListener {
 		IGameObject obj = new Player(new Point2D(100,100), 10, 10, myEngine);
 		obj.setObjectType(EObjectType.PLAYER);
 		obj.getChildren().add(new SolidAttribute(obj));
+		DamageEvent dmg = new DamageEvent();
+		dmg.setDamage(10);
+		obj.addCollisionEvent(EObjectType.ENEMY, dmg);
 		addToEnvironment(obj, null);
 		
 		IGameObject obj2 = new Spawner(new Point2D(200, 200), 40, 40, myEngine, null);
 		obj2.setObjectType(EObjectType.ENEMY);
 		obj2.addCollisionEvent(EObjectType.PLAYER, new HitSolidObjectEvent(obj));
+		HealthAttribute health = new HealthAttribute(obj2);
+		health.addZeroGlobalEvent(new GoalScoreEvent());
+		obj2.getChildren().add(health);
 		addToEnvironment(obj2, null);
 	}
 	

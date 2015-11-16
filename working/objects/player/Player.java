@@ -18,6 +18,7 @@ public class Player extends AbstractGameObject {
 		this.getChildren().add(player);
 	}
 
+	//where should this go
 	@Override
 	public void registerObserver(ObjectView o) {
 		// TODO Auto-generated method stub

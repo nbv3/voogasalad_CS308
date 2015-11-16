@@ -12,6 +12,10 @@ public class DamageEvent extends AbstractEvent{
 		return myDamage;
 	}
 	
+	public void setDamage(double dmg) {
+		myDamage = dmg;
+	}
+	
 	//Maybe a component handles this, maybe the object directly fires this
 	
 }

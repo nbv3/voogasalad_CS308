@@ -24,6 +24,8 @@ public class HealthAttribute extends AbstractAttribute {
 		
 		//TODO: REMOVE THIS
 		onZeroGlobalEvents.add(new ObjectDespawnEvent(getParent()));
+		myMaxHealth = 10;
+		myCurrentHealth = 5;
 	}
 
 	@Override

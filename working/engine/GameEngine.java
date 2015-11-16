@@ -10,6 +10,8 @@ import engine.environment.GameEnvironment;
 import engine.environment.IEnvironment;
 import engine.score.IScoreManager;
 import engine.score.ScoreManager;
+import engine.winconditions.IWinConditionManager;
+import engine.winconditions.WinConditionManager;
 import view.ViewController;
 
 public class GameEngine implements IGameEngine {
@@ -19,6 +21,7 @@ public class GameEngine implements IGameEngine {
 	private IEnvironment myGameEnvironment;
 	private ICollisionManager myCollisionManager;
 	private IScoreManager myScoreManager;
+	private IWinConditionManager myWinManager;
 	
 	private List<IGameEventListener> myListeners;
 	//This one is all the listeners we will remove after finishing listener iteration
@@ -33,6 +36,7 @@ public class GameEngine implements IGameEngine {
 		myGameEnvironment = new GameEnvironment(numCellsWide, numCellsHigh, this);
 		myCollisionManager = new CollisionManager(this);
 		myScoreManager = new ScoreManager(this);
+		myWinManager = new WinConditionManager(this);
 	}
 
 	public void update() {
@@ -40,6 +44,7 @@ public class GameEngine implements IGameEngine {
 		myGameEnvironment.updateObjects();
 		myCollisionManager.update();
 		myScoreManager.update();
+		myWinManager.update();
 	}
 	
 	public void postEvent(IEvent e) {

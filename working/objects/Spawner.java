@@ -19,12 +19,12 @@ public class Spawner extends AbstractGameObject {
 	//	myGameEnvironment.addToEnvironment(myObjectToSpawn);
 	}
 
-	@Override
-	public void update() {
-
-		// If time to spawn, spawn etc.
-
-	}
+//	@Override
+//	public void update() {
+//
+//		// If time to spawn, spawn etc.
+//
+//	}
 
 	@Override
 	public void registerObserver(ObjectView o) {
