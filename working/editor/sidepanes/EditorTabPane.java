@@ -16,18 +16,22 @@ public class EditorTabPane {
 		editorPane = new TabPane();
 		level = new Tab();
 		level.setText("Level Settings");
+		level.setClosable(false);
 		tiles = new Tab();
 		tiles.setText("Tile Settings");
+		tiles.setClosable(false);
 		tiles.setContent(t);
 		spawners = new Tab();
 		spawners.setText("Spawners");
 		spawners.setContent(e);
+		spawners.setClosable(false);
 		players = new Tab();
 		players.setText("Players");
+		players.setClosable(false);
 		towers = new Tab();
 		towers.setText("Towers");
+		towers.setClosable(false);
 		editorPane.getTabs().addAll(tiles, spawners, players, towers);
-
 	}
 
 	public TabPane getPaneNode() {

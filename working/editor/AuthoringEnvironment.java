@@ -2,14 +2,12 @@ package editor;
 
 import java.awt.Point;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
 import editor.sidepanes.EditorTabPane;
 import environment.GameMap;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -28,11 +26,8 @@ public class AuthoringEnvironment implements Observer {
 	private BorderPane myWindow;
 	private MenuBar myMenu;
 	private GridPane myMapDisplay;
-	private TileEditor myTileEditor;
 	private EditorTabPane editor;
-	private EnemyEditor myEnemyEditor;
 	private List<DecoratorTile> myTileSelection;
-	//private VBox myEditDisplay;
 	
 	private GameMap myMap;
 
@@ -50,11 +45,7 @@ public class AuthoringEnvironment implements Observer {
 		myWindow = new BorderPane();
 		myWindow.setTop(myMenu);
 		myWindow.setCenter(myMapDisplay);
-		VBox tiles = new TileEditor(myTileSelection).getEditorPane();
-		VBox ee = new EnemyEditor().getNode();
-		editor = new EditorTabPane(tiles, ee);
 
-		myWindow.setRight(editor.getPaneNode());
 		myScene = new Scene(myWindow);
 		Stage stage = new Stage();
 		stage.setScene(myScene);
@@ -67,7 +58,7 @@ public class AuthoringEnvironment implements Observer {
 		Menu file = new Menu("File");
 		
 		MenuItem editTiles = new MenuItem("Edit Tiles");
-		//editTiles.setOnAction(e -> openTileSettingsDialog(myTileSelection));
+		editTiles.setOnAction(e -> openTileSettingsDialog());
 		
 		MenuItem clear = new MenuItem("Clear Selection");
 		clear.setOnAction(e -> clearTileSelection());
@@ -90,7 +81,6 @@ public class AuthoringEnvironment implements Observer {
 	private GridPane createMapDisplay() {
 		GridPane gp = new GridPane();
 		gp.setPrefSize(800, 800);
-//		addConstraints(gp);
 		//Populate gridpane
 		for (Point p: myMap.getTileMap().keySet()) {
 			DecoratorTile tile = myMap.getTile(p);
@@ -113,11 +103,14 @@ public class AuthoringEnvironment implements Observer {
 			myTileSelection.add(t);
 			t.getView().setOpacity(0.75);
 		}
+		System.out.println(t.getImplementation().getClass().getName());
 	}
 	
-	private void openTileSettingsDialog(List<DecoratorTile> tiles) {
-		myTileEditor = new TileEditor(tiles);
-		myWindow.setRight(myTileEditor.getEditorPane());
+	private void openTileSettingsDialog() {
+		VBox tiles = new TileEditor(myTileSelection).getEditorPane();
+		VBox ee = new EnemyEditor(myTileSelection).getNode();
+		editor = new EditorTabPane(tiles, ee);
+		myWindow.setRight(editor.getPaneNode());
 	}
 
 	private void refreshMapDisplay() {
