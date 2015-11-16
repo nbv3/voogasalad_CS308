@@ -15,6 +15,10 @@ public interface IEvent {
 	 */
 
 	public IGameObject getTarget();
+	
+	public void setSource(IGameObject obj);
+	
+	public void setTarget(IGameObject obj);
 
 	/**
 	 * Method to return the type of the event

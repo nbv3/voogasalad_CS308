@@ -1,11 +1,11 @@
 package objects;
 
 import java.util.List;
+import java.util.Vector;
 
 import editor.IEditableObject;
 import engine.EventPoster;
 import javafx.geometry.Point2D;
-import objects.events.CollisionEvent;
 import objects.events.IEvent;
 import view.IViewable;
 
@@ -20,10 +20,10 @@ public interface IGameObject extends GameEventListener, IViewable, IEditableObje
 	public EObjectType getType();
 	
 	public void sendEventToChildren(IEvent e);
-		
-	public void move();
 	
 	public void setVelocity(double x, double y);
+	
+	public Vector<Double> getVelocity();
 	
 	public List<IChild> getChildren();
 	

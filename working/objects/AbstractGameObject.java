@@ -7,13 +7,8 @@ import java.util.Map;
 import java.util.Vector;
 
 import engine.EventPoster;
-import environment.GameEnvironment;
 import javafx.geometry.Point2D;
-import objects.events.AbstractEvent;
-import objects.events.CollisionEvent;
-import objects.events.EEventType;
 import objects.events.IEvent;
-import objects.events.ObjectDespawnEvent;
 import view.BoundingBox;
 
 public abstract class AbstractGameObject implements IGameObject{
@@ -57,6 +52,10 @@ public abstract class AbstractGameObject implements IGameObject{
 		myVelocity = vel;
 	}
 	
+	public Vector<Double> getVelocity() {
+		return myVelocity;
+	}
+	
 	public EObjectType getType() {
 		return myType;
 	}
@@ -69,7 +68,7 @@ public abstract class AbstractGameObject implements IGameObject{
 		myBoundingBox.setPoint(loc.getX(), loc.getY());
 	}
 	
-	public void addCollisionEvent(EObjectType type, AbstractEvent e) {
+	public void addCollisionEvent(EObjectType type, IEvent e) {
 		if (myCollisionEvents.keySet().contains(type)) {
 			myCollisionEvents.get(type).add(e);
 		}
@@ -86,6 +85,7 @@ public abstract class AbstractGameObject implements IGameObject{
 			if (obj.getType().equals(type)){
 				List<IEvent> eventList = myCollisionEvents.get(type);
 				for (IEvent event: eventList) {
+					event.setTarget(obj);
 					obj.sendEventToChildren(event);
 				}
 			}

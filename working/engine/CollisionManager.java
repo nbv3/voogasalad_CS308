@@ -4,7 +4,6 @@ import java.util.List;
 
 import environment.IEnvironment;
 import objects.IGameObject;
-import objects.events.CollisionEvent;
 import view.BoundingBox;
 
 public class CollisionManager implements ICollisionManager {

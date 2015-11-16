@@ -54,6 +54,14 @@ public abstract class AbstractEvent implements IEvent {
 	public IGameObject getTarget() {
 		return myTarget;
 	}
+	
+	public void setSource(IGameObject obj) {
+		mySource = obj;
+	}
+	
+	public void setTarget(IGameObject obj) {
+		myTarget = obj;
+	}
 
 	public EEventType getType() {
 		return myType;

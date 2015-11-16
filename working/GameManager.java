@@ -25,7 +25,8 @@ public class GameManager {
 	
 	public Scene init(Stage stage, int width, int height){
 
-		this.myEngine = new GameEngine(20, 20, width);
+		this.myViewController = new ViewController(width);
+		this.myEngine = new GameEngine(20, 20, myViewController);
 		this.myScene = new Scene(myEngine.getViewController().getGameView(),width,height,Color.WHITE);
 		
 		this.myStage = stage;

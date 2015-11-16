@@ -28,16 +28,17 @@ public class GameEngine implements IGameEngine {
 	private List<GameEventListener> myRemovedListeners;
 
 
-	public GameEngine(int numCellsWide, int numCellsHigh, double size) {
+	public GameEngine(int numCellsWide, int numCellsHigh, ViewController controller) {
 		myListeners = new ArrayList<>();
 		myRemovedListeners = new ArrayList<>();
 		
-		myViewController = new ViewController(size);
+		myViewController = controller;
 		myGameEnvironment = new GameEnvironment(numCellsWide, numCellsHigh, this);
 		myCollisionManager = new CollisionManager(this);
 	}
 
 	public void update() {
+		updateListeners();
 		myGameEnvironment.updateObjects();
 		myCollisionManager.update();
 	}
