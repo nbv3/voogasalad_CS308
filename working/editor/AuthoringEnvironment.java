@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import editor.sidepanes.EditorTab;
 import editor.sidepanes.EditorTabPane;
 import environment.GameMap;
 import javafx.scene.Scene;
@@ -50,10 +51,28 @@ public class AuthoringEnvironment implements Observer {
 		myWindow.setTop(myMainMenu);
 		myWindow.setLeft(new ToolbarOptions(myTileSelection, myMap));
 		myWindow.setCenter(myMapDisplay);
-		VBox tiles = new TileEditor(myTileSelection).getEditorPane();
-		VBox ee = new EnemyEditor().getNode();
-		VBox towers = new TowerEditor().getNode();
-		editor = new EditorTabPane(tiles, ee, towers);
+
+		EditorTab levelTab = new EditorTab();
+		levelTab.setContent(new VBox());
+		levelTab.setTabDescription("Level Settings");
+		
+		EditorTab tileTab = new EditorTab();
+		tileTab.setContent(new TileEditor(myTileSelection).getEditorPane());
+		tileTab.setTabDescription("Tile Settings");
+		
+		EditorTab enemyEditorTab = new EditorTab();
+		enemyEditorTab.setContent(new EnemyEditor().getNode());
+		enemyEditorTab.setTabDescription("Spawners");
+		
+		EditorTab towerTab = new EditorTab();
+		towerTab.setContent(new TowerEditor().getNode());
+		towerTab.setTabDescription("Towers");
+		
+		editor = new EditorTabPane(levelTab, 
+								   tileTab, 
+								   enemyEditorTab, 
+								   towerTab);
+		
 		myWindow.setRight(editor.getPaneNode());
 		myScene = new Scene(myWindow);
 		Stage stage = new Stage();
