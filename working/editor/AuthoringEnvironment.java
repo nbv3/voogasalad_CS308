@@ -12,6 +12,7 @@ import editor.sidepanes.EditorTabPane;
 import editor.sidepanes.PropertiesPane;
 import editor.sidepanes.SpawnerPropertyBox;
 import environment.GameMap;
+import javafx.animation.FadeTransition;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
