@@ -12,9 +12,6 @@ import editor.sidepanes.EditorTabPane;
 import editor.sidepanes.PropertiesPane;
 import editor.sidepanes.SpawnerPropertyBox;
 import environment.GameMap;
-import javafx.animation.FadeTransition;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -67,7 +64,7 @@ public class AuthoringEnvironment implements Observer {
 		levelTab.setTabDescription("Level Settings");
 		
 		EditorTab tileTab = new EditorTab();
-		tileTab.setContent(new TileEditor(myTileSelection).getEditorPane());
+		tileTab.setContent((Node) new TileEditor(myTileSelection).getEditorPane());
 		tileTab.setTabDescription("Tile Settings");
 		
 		EditorTab enemyEditorTab = new EditorTab();

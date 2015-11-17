@@ -1,23 +1,20 @@
 package editor.sidepanes;
 
+import editor.ImageTile;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 
-public abstract class AObjectEditor {
+public abstract class AObjectEditor extends VBox {
 
-	private GridPane myEditorPane;
-	//private FileChooser file;
+	protected GridPane myIconPane;
+	protected ImageTile selectImg;
 
 	public AObjectEditor() {
 		formatImageChooser();
-	}
-
-	public GridPane getEditorPane() {
-		return myEditorPane;
-
 	}
 
 	private void formatImageChooser() {
@@ -37,8 +34,27 @@ public abstract class AObjectEditor {
 			}
 		});
 
-		myEditorPane.getChildren().add(fileChooser);
+		this.getChildren().add(fileChooser);
 
+	}
+	
+	protected void showImageOptions(int numRows, int numColumns, String[] iconPath) {
+		myIconPane.getChildren().clear();
+		for (int i = 0; i < iconPath.length; i++) {
+			ImageTile img = new ImageTile(
+					getClass().getClassLoader().getResourceAsStream(iconPath[i]), 
+					myIconPane.getPrefWidth() / numColumns,
+					myIconPane.getPrefHeight() / numRows);
+			
+			img.setOnMouseClicked(e -> {
+				selectImg = img;
+				img.requestFocus();
+				}
+			);
+
+			myIconPane.add(img, i % numColumns, i / numColumns, 1, 1);
+		}
+		return;
 	}
 
 }

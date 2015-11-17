@@ -8,6 +8,7 @@ import java.util.ResourceBundle;
 
 import objects.SpawnerTester;
 import tiles.DecoratorTile;
+import editor.sidepanes.AObjectEditor;
 import editor.sidepanes.SpawnerPropertyBox;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
@@ -24,7 +25,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
-public class EnemyEditor {
+public class EnemyEditor extends AObjectEditor {
 	
 	private List<DecoratorTile> currentTileSelection;
 	private List<SpawnerTester> spawnerList;	// here SpawnerTester need to change to Spawner later
@@ -42,7 +43,6 @@ public class EnemyEditor {
 	private final int NUMBER_COLUMN_QUEUE_PANEL = 10;
 	private final double WIDTH_QUEUE_PANEL = 500;
 	private final double HEIGHT_QUEUE_PANEL = 150;
-	private ImageView selectImg;
 
 	public EnemyEditor(List<DecoratorTile> tiles) {
 		currentTileSelection = tiles;
@@ -50,7 +50,9 @@ public class EnemyEditor {
 		spawnerProperty = new SpawnerPropertyBox();
 		enemyPane = new VBox();
 		spawnQueuePane = createSpawnQueueIconPane();
-		enemyPane.getChildren().add(createEnemyIconPane());
+		myIconPane = new GridPane();
+		showEnemyIconPane();
+		enemyPane.getChildren().add(myIconPane);
 		enemyPane.getChildren().add(spawnerProperty.getNode());
 		enemyPane.getChildren().add(createAddSpawnerButton());
 		enemyPane.getChildren().add(createSpawnListPane());
@@ -114,7 +116,7 @@ public class EnemyEditor {
 		return spawnerTitle;
 	}
 
-	private void addSpawnerToQueue(ImageView iv) {
+	private void addSpawnerToQueue(ImageTile iv) {
 		
 		if (iv == null) {
 			showAlertBox("Please select an spawner image first");
@@ -137,14 +139,14 @@ public class EnemyEditor {
 		i.setFitWidth(spawnQueuePane.getPrefWidth() / NUMBER_COLUMN_QUEUE_PANEL);
 		i.setFitHeight(spawnQueuePane.getPrefHeight() / NUMBER_ROW_QUEUE_PANEL);
 		spawnQueuePane.getChildren().add(i);
-		i.setOnMouseClicked(e -> handleClickEvent(e,i));
+		i.setOnMouseClicked(e -> handleClickEvent(e,(ImageTile) i));
 
 		System.out.println("The spawn list length is " + spawnerList.size());
 		 
 		return;
 	}
 
-	private void handleClickEvent(MouseEvent e, ImageView i) {
+	private void handleClickEvent(MouseEvent e, ImageTile i) {
 		if (e.getClickCount() == 1) {
 			diplaySpawnerInfo(i);
 		}
@@ -156,12 +158,12 @@ public class EnemyEditor {
 		return;
 	}
 
-	private void diplaySpawnerInfo(ImageView i) {
+	private void diplaySpawnerInfo(ImageTile i) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	private void removeFromSpawnList(ImageView i) {
+	private void removeFromSpawnList(ImageTile i) {
 		spawnerList.remove(spawnQueuePane.getChildren().indexOf(i));
 		spawnQueuePane.getChildren().remove(i);
 		System.out.println("The spawn list length is " + spawnerList.size());
@@ -176,14 +178,15 @@ public class EnemyEditor {
 		alert.showAndWait();
 	}
 	
-	private GridPane createEnemyIconPane() {
-		GridPane enemyIconPane = new GridPane();
-		enemyIconPane.setPrefSize(WIDTH_ICON_PANEL, HEIGHT_ICON_PANEL);
+	private void showEnemyIconPane() {
+		myIconPane.setPrefSize(WIDTH_ICON_PANEL, HEIGHT_ICON_PANEL);
 		//spawnQueuePane.setGridLinesVisible(true);
 		enemyIconBundle = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "EnemyIcon");
 		String[] enemyIconPath = enemyIconBundle.getString("Enemy").split(",");	
-		enemyIconPane.getChildren().clear();
-		for (int i = 0; i < enemyIconPath.length; i++) {
+		myIconPane.getChildren().clear();
+		showImageOptions(NUMBER_ROW_ICON_PANEL, NUMBER_COLUMN_ICON_PANEL, enemyIconPath);
+		
+		/*for (int i = 0; i < enemyIconPath.length; i++) {
 			ImageView img = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(enemyIconPath[i])));
 			
 			img.setOnMouseClicked(e -> {
@@ -201,8 +204,9 @@ public class EnemyEditor {
 			img.setFitWidth(enemyIconPane.getPrefWidth() / NUMBER_COLUMN_ICON_PANEL);
 			img.setFitHeight(enemyIconPane.getPrefHeight() / NUMBER_ROW_ICON_PANEL);
 			enemyIconPane.add(img, i % NUMBER_COLUMN_ICON_PANEL, i / NUMBER_COLUMN_ICON_PANEL, 1, 1);
-		}
-		return enemyIconPane;
+		
+		}*/
+		return;
 	}
 	
 	private TilePane createSpawnQueueIconPane() {

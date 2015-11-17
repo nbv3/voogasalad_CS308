@@ -4,14 +4,13 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import editor.sidepanes.AObjectEditor;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.effect.Glow;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -21,13 +20,10 @@ import javafx.scene.text.Text;
 import tiles.DecoratorTile;
 import tiles.IGameTile;
 
-public class TileEditor {
+public class TileEditor extends AObjectEditor implements ITileEditor {
 
 	private List<DecoratorTile> currentTileSelection;
-	private VBox tilePane;
-	private GridPane iconPane;
 	private ResourceBundle tileIconBundle;
-	private ImageView selectImg;
 	
 	private final String DEFAULT_RESOURCE_PACKAGE = "resources/";
 	private final int NUMBER_ROW_ICON_PANEL = 5;
@@ -36,12 +32,14 @@ public class TileEditor {
 	private final double HEIGHT_ICON_PANEL = 250;
 			
 	public TileEditor(List<DecoratorTile> tiles) {
+		super();
 		currentTileSelection = tiles;
-		tilePane = new VBox();
-		tilePane.getChildren().add(createMenubar());
-		iconPane = new GridPane();
-		iconPane.setPrefSize(WIDTH_ICON_PANEL, HEIGHT_ICON_PANEL);
-		tilePane.getChildren().addAll(iconPane);
+		//tilePane = new VBox();
+		this.getChildren().add(createMenubar());
+		myIconPane = new GridPane();
+		myIconPane.setPrefSize(WIDTH_ICON_PANEL, HEIGHT_ICON_PANEL);
+		VBox locations = createSpawningLocs();
+		this.getChildren().addAll(myIconPane,locations);
 	}
 	
 	private Button createOkButton(String s) {
@@ -73,37 +71,16 @@ public class TileEditor {
 		comboBox.setPromptText("Select a category");
 		comboBox.getItems().add("Scenery");
 		comboBox.getItems().add("Path");
-		comboBox.valueProperty().addListener((o, s1, s2) -> showImageOptions(s2));
+		comboBox.valueProperty().addListener((o, s1, s2) -> showTileOptions(s2));
 		return comboBox;
 	}
 
-	private void showImageOptions(String s) {
+	private void showTileOptions(String s) {
 		tileIconBundle = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "TileIcon");
 		String[] tileIconPath = tileIconBundle.getString(s).split(",");
-		iconPane.getChildren().clear();
-		for (int i = 0; i < tileIconPath.length; i++) {
-			ImageView img = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(tileIconPath[i])));
-			
-			img.setOnMouseClicked(e -> {
-				selectImg = img;
-				img.requestFocus();});
-			
-			img.focusedProperty().addListener((o,oldValue,newValue) -> {
-		        if (newValue) {
-		            img.setEffect(new Glow(0.7));
-		        }
-		        else {
-		            img.setEffect(null);
-		        }});
-			
-			img.setFitWidth(iconPane.getPrefWidth() / NUMBER_COLUMN_ICON_PANEL);
-			img.setFitHeight(iconPane.getPrefHeight() / NUMBER_ROW_ICON_PANEL);
-			//System.out.println("WIdht= " + img.getFitWidth() + "HEIGHt= " + img.getFitHeight());
-			iconPane.add(img, i % NUMBER_COLUMN_ICON_PANEL, i / NUMBER_COLUMN_ICON_PANEL, 1, 1);
-			//System.out.println("indexX= " + i % NUMBER_COLUMN_ICON_PANEL + "indexY= " + i / NUMBER_COLUMN_ICON_PANEL);
-		}
-		
-		iconPane.add(createOkButton(s),2, tileIconPath.length / NUMBER_COLUMN_ICON_PANEL + 1, 1, 1);
+		myIconPane.getChildren().clear();
+		showImageOptions(NUMBER_ROW_ICON_PANEL, NUMBER_COLUMN_ICON_PANEL, tileIconPath);
+		myIconPane.add(createOkButton(s),0, tileIconPath.length / NUMBER_COLUMN_ICON_PANEL + 1, 1, 1);
 		return;
 	}
 	
@@ -115,7 +92,7 @@ public class TileEditor {
 		alert.showAndWait();
 	}
 	
-	private void updateSelectedTile(ImageView iv, String s) {
+	private void updateSelectedTile(ImageTile iv, String s) {
 		
 		if (currentTileSelection.isEmpty()) {
 			 showAlertBox("No tile selected, please at least select one tile");
@@ -139,8 +116,8 @@ public class TileEditor {
 	
 	}
 
-	public VBox getEditorPane() {
-		return tilePane;
+	public ITileEditor getEditorPane() {
+		return this;
 	}
 
 }
