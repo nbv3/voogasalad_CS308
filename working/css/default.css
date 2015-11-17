@@ -7,7 +7,7 @@
 }
 
 .tile-select-on{
-    -fx-opacity: 0.1;
+    -fx-opacity: 0.75;
 }
 
 .background {
@@ -38,7 +38,7 @@
 }
 
 .context-menu {
-    -fx-background-color: derive(#1d1d1d,50%);
+    -fx-background-color: derive(#1d1d1d,90%);
 }
 
 .menu-bar .label {

@@ -33,8 +33,8 @@ public class TileEditor {
 	private final String DEFAULT_RESOURCE_PACKAGE = "resources/";
 	private final int NUMBER_ROW_ICON_PANEL = 5;
 	private final int NUMBER_COLUMN_ICON_PANEL = 3;
-	private final double WIDTH_ICON_PANEL = 300;
-	private final double HEIGHT_ICON_PANEL = 500;
+	private final double WIDTH_ICON_PANEL = 150;
+	private final double HEIGHT_ICON_PANEL = 250;
 			
 	public TileEditor(List<DecoratorTile> tiles) {
 		currentTileSelection = tiles;
@@ -108,10 +108,12 @@ public class TileEditor {
 			
 			img.setFitWidth(iconPane.getPrefWidth() / NUMBER_COLUMN_ICON_PANEL);
 			img.setFitHeight(iconPane.getPrefHeight() / NUMBER_ROW_ICON_PANEL);
+			//System.out.println("WIdht= " + img.getFitWidth() + "HEIGHt= " + img.getFitHeight());
 			iconPane.add(img, i % NUMBER_COLUMN_ICON_PANEL, i / NUMBER_COLUMN_ICON_PANEL, 1, 1);
+			//System.out.println("indexX= " + i % NUMBER_COLUMN_ICON_PANEL + "indexY= " + i / NUMBER_COLUMN_ICON_PANEL);
 		}
 		
-		iconPane.add(createOkButton(s),0, tileIconPath.length / NUMBER_COLUMN_ICON_PANEL + 1, 1, 1);
+		iconPane.add(createOkButton(s),2, tileIconPath.length / NUMBER_COLUMN_ICON_PANEL + 1, 1, 1);
 		return;
 	}
 	
