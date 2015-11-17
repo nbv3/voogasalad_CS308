@@ -12,6 +12,9 @@ import editor.sidepanes.EditorTabPane;
 import editor.sidepanes.PropertiesPane;
 import editor.sidepanes.SpawnerPropertyBox;
 import environment.GameMap;
+import javafx.animation.FadeTransition;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -26,6 +29,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import tiles.DecoratorTile;
 
 public class AuthoringEnvironment implements Observer {
@@ -169,10 +173,47 @@ public class AuthoringEnvironment implements Observer {
 	{
 		if(isEditorPane)
 		{
-			myWindow.setRight(myPropertyPane.getPane());
-			isEditorPane = false;
+
+			 FadeTransition ftOut = new FadeTransition(Duration.millis(300),myWindow.getRight());
+		     ftOut.setFromValue(1.0);
+		     ftOut.setToValue(0);
+		     ftOut.setCycleCount(1);
+		     ftOut.setAutoReverse(false);
+		     ftOut.play();
+		     ftOut.setOnFinished(e -> fadeInPropertiesPane());
+//		     ftOut.setOnFinished(new EventHandler<ActionEvent>() {
+//		    	    @Override
+//		    	    public void handle(ActionEvent event) {
+//		    	    myPropertyPane.getPane().setOpacity(0);
+//		    	    myWindow.setRight(myPropertyPane.getPane());
+//		    	    
+//		    		FadeTransition ftIn = new FadeTransition(Duration.millis(300),myPropertyPane.getPane());
+//		    		ftIn.setFromValue(0);
+//		    		ftIn.setToValue(1.0);
+//		    		ftIn.setCycleCount(1);
+//		    		ftIn.setAutoReverse(false);
+//		    		ftIn.play();	
+//
+//		   		     isEditorPane = false;
+//		    	    }
+//		    	});
+
 		}
 		createNextScene();
+	}
+	
+	private void fadeInPropertiesPane(){
+	    myPropertyPane.getPane().setOpacity(0);
+	    myWindow.setRight(myPropertyPane.getPane());
+	    
+		FadeTransition ftIn = new FadeTransition(Duration.millis(300),myPropertyPane.getPane());
+		ftIn.setFromValue(0);
+		ftIn.setToValue(1.0);
+		ftIn.setCycleCount(1);
+		ftIn.setAutoReverse(false);
+		ftIn.play();	
+
+		isEditorPane = false;
 	}
 	
 	private void changeToEditorPane()
