@@ -9,8 +9,8 @@ import java.util.Set;
 
 public class PathFinderTest {
 	public static void main(String args[]) {
-		int rows = 10;
-		int cols = 10;
+		int rows = 12;
+		int cols = 12;
 		Map<Point, Boolean> map = generateMap(rows, cols);
 		
 
@@ -32,13 +32,8 @@ public class PathFinderTest {
 		for (Path pp : sP) {
 			printPath(pp.getList(), rows, cols);
 		}
-		
-		//pf.fillDistances(new Point(1,0), new Point(4,2));
-		//Map<Point,  Integer> dM = pf.getDistanceMap();
-		
+				
 		//printDistances(dM, rows, cols);
-
-		//printPath(paths.getPath().getList(), rows, cols);
 		
 		System.out.printf("%15s: %d\n", "Numpaths", sP.size());
 		System.out.printf("%15s: %d ms\n", "Time", time);

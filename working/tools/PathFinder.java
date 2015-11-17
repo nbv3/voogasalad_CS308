@@ -13,14 +13,10 @@ import java.util.Set;
 import java.util.Stack;
 
 public class PathFinder {
-	public final int MAX_PATHS = 30;
-	public final int SKIP = 100; // How many to skip before grabbing another - random path find
-
 	private Map<Point, Boolean> grid;
 	private List<Point> start;
 	private List<Point> end;
 	private List<Stack<Point>> paths;
-	private Set<Point> visited;
 	private Map<Point, List<Point>> memo;
 	
 	private Map<Point, Integer> distanceMap;
@@ -28,8 +24,6 @@ public class PathFinder {
 
 	private int rows;
 	private int cols;
-	private int currentPaths = 0;
-	private int counter = 0;
 
 	public PathFinder(Map<Point, Boolean> pathGrid, int rows, int cols, List<Point> start, List<Point> end) {
 		grid = pathGrid;
@@ -38,13 +32,11 @@ public class PathFinder {
 		this.rows = rows;
 		this.cols = cols;
 		paths = new ArrayList<Stack<Point>>();
-		visited = new HashSet<Point>();
 		memo = new HashMap<Point, List<Point>>();
 		
 		distanceMap = new HashMap<Point, Integer>();
 		distanceQueue = new LinkedList<Point>();
 		findPaths();
-		System.out.printf("%15s: %d\n", "Counter", counter);
 	}
 
 	public Paths getPaths() {
@@ -52,12 +44,6 @@ public class PathFinder {
 	}
 
 	private void findPaths() {
-		/**
-		 * DFS
-		 */
-		// for (Point p : start) {
-		//	dfs(p, new Stack<Point>());
-		//}
 		for (Point ss : start) {
 			for (Point ee : end) {
 				fillDistances(ss, ee);
@@ -94,7 +80,7 @@ public class PathFinder {
 		}
 	}
 	
-	public void fillDistances(Point start, Point end) {
+	private void fillDistances(Point start, Point end) {
 		distanceMap.put(start, 0);
 		distanceQueue.addAll(getNeighbors(start));
 		while (distanceQueue.size() > 0) {
@@ -115,41 +101,6 @@ public class PathFinder {
 			distanceMap.put(front, minDistance + 1);
 		}
 		
-	}
-	
-	/**
-	 * 
-	 * @param p
-	 * @param path
-	 */
-	public Map<Point, Integer> getDistanceMap() {
-		return distanceMap;
-	}
-
-	private void dfs(Point p, Stack<Point> path) {
-		// if p is within destination, add to Path
-		if (currentPaths >= MAX_PATHS) {
-			return;
-		}
-		visited.add(p);
-		path.push(p);
-		if (end.contains(p)) {
-			if (counter % SKIP == 0) {
-				Stack<Point> pushedStack = new Stack<Point>();
-				pushedStack.addAll(path);
-				paths.add(pushedStack);
-				currentPaths++;
-			}
-			counter++;
-		} else {
-			for (Point n : getNeighbors(p)) {
-				if (!visited.contains(n)) {
-					dfs(n, path);
-				}
-			}
-		}
-		visited.remove(p);
-		path.pop();
 	}
 
 	private List<Point> getNeighbors(Point p) {
