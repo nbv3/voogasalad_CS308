@@ -79,6 +79,8 @@ public abstract class AbstractGameObject implements IGameObject{
 	}
 	
 	public void onCollision(IGameObject obj) {
+		
+		
 
 		//Send every event for the right type of object
 		for (EObjectType type : myCollisionEvents.keySet()) {
