@@ -1,6 +1,8 @@
 package simple.event;
 
 import simple.attribute.ISimpleAttribute;
+import simple.attribute.SimpleAbstractAttribute;
+import simple.attribute.SimpleHealthAttribute;
 import simple.obj.ISimpleObject;
 
 public class SimpleHealthChangeEvent extends SimpleAbstractEvent {
@@ -17,6 +19,10 @@ public class SimpleHealthChangeEvent extends SimpleAbstractEvent {
 		for (ISimpleAttribute attribute : getTargetAttributes()) {
 			attribute.receiveEvent(this);
 		}
+	}
+	
+	public double getDeltaHealth() {
+		return this.myDeltaHealth;
 	}
 
 }

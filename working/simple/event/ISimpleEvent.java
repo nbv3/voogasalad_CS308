@@ -2,7 +2,9 @@ package simple.event;
 
 import java.util.Collection;
 
+import objects.attributes.AbstractAttribute;
 import simple.attribute.ISimpleAttribute;
+import simple.attribute.SimpleAbstractAttribute;
 
 public interface ISimpleEvent {
 	
@@ -22,5 +24,5 @@ public interface ISimpleEvent {
 	 * Execute this event on the specified Target.
 	 */
 	public void executeEvent();
-	
+
 }
