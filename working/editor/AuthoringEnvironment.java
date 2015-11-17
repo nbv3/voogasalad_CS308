@@ -117,7 +117,7 @@ public class AuthoringEnvironment implements Observer {
 
 	private GridPane createMapDisplay() {
 		GridPane gp = new GridPane();
-		gp.setPrefSize(800, 800);
+		gp.setPrefSize(700, 700);
 		for (Point p : myMap.getTileMap().keySet()) {
 			DecoratorTile tile = myMap.getTile(p);
 			tile.addObserver(this);
