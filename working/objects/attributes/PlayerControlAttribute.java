@@ -1,14 +1,11 @@
 package objects.attributes;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Vector;
 
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import objects.IGameObject;
 import objects.events.EEventType;
 import objects.events.IEvent;
@@ -17,7 +14,6 @@ import objects.player.KeyInput;
 import objects.player.MoveDownStart;
 import objects.player.MoveLeftStart;
 import objects.player.MoveRightStart;
-import objects.player.MoveStop;
 import objects.player.MoveUpStart;
 
 public class PlayerControlAttribute extends AbstractAttribute implements IPlayer {
@@ -94,12 +90,12 @@ public class PlayerControlAttribute extends AbstractAttribute implements IPlayer
 	}
 	
 	@Override
-	public void setX(double dx) {
+	public void setXVel(double dx) {
 		xVel = dx;
 	}
 	
 	@Override
-	public void setY(double dy) {
+	public void setYVel(double dy) {
 		yVel = dy;
 	}
 	

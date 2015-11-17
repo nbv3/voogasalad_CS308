@@ -30,7 +30,9 @@ public class HealthAttribute extends AbstractAttribute {
 
 	@Override
 	public void receiveEvent(IEvent e) {
-		if (e.getType().equals(EEventType.DamageEvent) && e.getTarget().equals(getParent())){
+		System.out.println("RECEIVED");
+		if (e.getType().equals(EEventType.DamageEvent)){
+			System.out.println("DAMAGE");
 			DamageEvent dmg = (DamageEvent) e;
 			changeHealth(dmg.getDamage());
 		}

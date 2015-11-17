@@ -6,9 +6,9 @@ public interface IPlayer {
 	
 	public void setVelocity(double dx, double dy);
 	
-	public void setX(double dx);
+	public void setXVel(double dx);
 	
-	public void setY(double dy);
+	public void setYVel(double dy);
 	
 	public double getSpeed();
 	

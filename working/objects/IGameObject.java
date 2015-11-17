@@ -29,6 +29,6 @@ public interface IGameObject extends IGameEventListener, IViewable, IEditableObj
 	
 	public EventPoster getPoster();
 	
-	public void onCollision(IGameObject obj);
+	public List<IEvent> onCollision(IGameObject obj);
 
 }

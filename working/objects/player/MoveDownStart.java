@@ -8,7 +8,7 @@ public class MoveDownStart implements KeyInput {
 	public void run(IPlayer comp) {
 		double speed = comp.getSpeed();
 
-		comp.setY(speed);
+		comp.setYVel(speed);
 	}
 
 }
