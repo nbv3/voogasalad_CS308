@@ -1,5 +1,6 @@
 package objects;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -78,18 +79,9 @@ public abstract class AbstractGameObject implements IGameObject{
 		}
 	}
 	
-	public void onCollision(IGameObject obj) {
-
+	public List<IEvent> onCollision(IGameObject obj) {
 		//Send every event for the right type of object
-		for (EObjectType type : myCollisionEvents.keySet()) {
-			if (obj.getType().equals(type)){
-				List<IEvent> eventList = myCollisionEvents.get(type);
-				for (IEvent event: eventList) {
-					event.setTarget(obj);
-					obj.sendEventToChildren(event);
-				}
-			}
-		}
+		return myCollisionEvents.get(obj.getType());
 	}
 	
 	public void sendEventToChildren(IEvent e){

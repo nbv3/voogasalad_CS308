@@ -11,7 +11,7 @@ import objects.events.IEvent;
 
 public abstract class AbstractEnemy extends AbstractGameObject implements IEnemy{
 	
-	private List<IAttribute> myComponents;
+	private List<IAttribute> myAttributes;
 	
 	public AbstractEnemy(Point2D p, double w, double h, EventPoster poster) {
 		super(p, w, h, poster);

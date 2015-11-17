@@ -10,7 +10,6 @@ public class SpawnObjectAttribute extends AbstractAttribute {
 
 	public SpawnObjectAttribute(IGameObject parent) {
 		super(parent);
-		
 	}
 
 	@Override

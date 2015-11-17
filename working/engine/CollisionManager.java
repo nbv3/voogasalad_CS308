@@ -1,9 +1,11 @@
 package engine;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import engine.environment.IEnvironment;
 import objects.IGameObject;
+import objects.events.IEvent;
 import view.BoundingBox;
 
 public class CollisionManager implements ICollisionManager {
@@ -28,11 +30,13 @@ public class CollisionManager implements ICollisionManager {
 			if (other.equals(obj)) {
 				continue;
 			}
-			
 			if (intersects(obj, other)) {
-				obj.onCollision(other);
-				other.onCollision(obj);
-				System.out.println("INTERSECTING");
+				for (IEvent e: obj.onCollision(other)) {
+					other.sendEventToChildren(e);
+				}
+				for (IEvent e: other.onCollision(obj)) {
+					obj.sendEventToChildren(e);
+				}
 			}
 		}
 	}
@@ -51,17 +55,11 @@ public class CollisionManager implements ICollisionManager {
 		double ah = abox.getHeight();
 		double bh = bbox.getHeight();
 		
-		Boolean doesIntersect = false;
-		
 		Boolean aInsideBX = (ax + aw >= bx && ax <= bx + bw);
 		Boolean aInsideBY = (ay + ah >= by && ay <= by + bh);
 		Boolean bInsideAX = (bx + bw >= ax && bx <= ax + aw);
 		Boolean bInsideAY = (by + bh >= ay && by <= ay + ah);
-		if ((aInsideBX && aInsideBY) || (bInsideAX && bInsideAY)) {
-			doesIntersect = true;
-		}
-		
-		return doesIntersect;
+		return ((aInsideBX && aInsideBY) || (bInsideAX && bInsideAY));
 	}
 	
 	private IEnvironment getEnvironment() {
