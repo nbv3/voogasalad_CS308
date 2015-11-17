@@ -6,7 +6,7 @@ import engine.environment.IHandleObjective;
 import objects.AbstractGameObject;
 import objects.attributes.HealthAttribute;
 
-public class HealthObjective extends Observable implements IObjective {
+public class HealthObjective implements IObjective {
 
 	private HealthAttribute observedHealth;
 	private AbstractGameObject observedObject;
