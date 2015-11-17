@@ -8,7 +8,6 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.effect.Glow;
@@ -42,16 +41,7 @@ public class TileEditor {
 		tilePane.getChildren().add(createMenubar());
 		iconPane = new GridPane();
 		iconPane.setPrefSize(WIDTH_ICON_PANEL, HEIGHT_ICON_PANEL);
-		VBox locations = createSpawningLocs();
-		tilePane.getChildren().addAll(iconPane,locations);
-	}
-
-	public VBox createSpawningLocs() {
-		CheckBox spawn = new CheckBox("Spawn Location");
-		CheckBox finish = new CheckBox("Final Location");
-		VBox locations = new VBox();
-		locations.getChildren().addAll(spawn,finish);
-		return locations;
+		tilePane.getChildren().addAll(iconPane);
 	}
 	
 	private Button createOkButton(String s) {
