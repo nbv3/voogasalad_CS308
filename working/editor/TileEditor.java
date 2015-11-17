@@ -132,7 +132,7 @@ public class TileEditor {
 		
 		for (DecoratorTile tile: currentTileSelection) {
 			ImageView i = new ImageView(iv.getImage());
-			i.getStyleClass().add("tile-select-on");
+			//i.getStyleClass().add("tile-select-on");
 			tile.setImage(i);
 			try {
 				Class<?> arg = IGameTile.class;
@@ -141,7 +141,9 @@ public class TileEditor {
 					| ClassNotFoundException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
 				e.printStackTrace();
 			}
-		}	
+		}
+		
+		currentTileSelection.clear();
 	
 	}
 

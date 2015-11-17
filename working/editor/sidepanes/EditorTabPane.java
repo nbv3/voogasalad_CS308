@@ -11,6 +11,7 @@ public class EditorTabPane {
 
 		for(EditorTab e:tabs){
 			Tab newTab = new Tab();
+			newTab.setClosable(false);
 			newTab.setText(e.getTabDescription());
 			newTab.setContent(e.getContent());
 			editorPane.getTabs().add(newTab);

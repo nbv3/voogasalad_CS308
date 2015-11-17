@@ -81,32 +81,20 @@ public class AuthoringEnvironment implements Observer {
 		MenuBar mb = new MenuBar();
 		Menu file = new Menu("File");
 
-		MenuItem editTiles = new MenuItem("Edit Tiles");
-		editTiles.setOnAction(e -> openTileSettingsDialog(myTileSelection));
+		MenuItem loadMenu = new MenuItem("Load");
+		//loadMenu.setOnAction(e -> loadStuffs());
 
-		MenuItem clear = new MenuItem("Clear Selection");
-		clear.setOnAction(e -> clearTileSelection());
+		MenuItem saveMenu = new MenuItem("Save");
+		//saveMenu.setOnAction(e -> saveStuffs());
 
-		MenuItem selectAll = new MenuItem("Select All");
-		selectAll.setOnAction(e -> addAllTiles());
-
-		file.getItems().addAll(editTiles, selectAll, clear);
+		file.getItems().addAll(loadMenu, saveMenu);
 		mb.getMenus().add(file);
 		return mb;
-	}
-
-	private void addAllTiles() {
-		myTileSelection.clear();
-		for (DecoratorTile tile : myMap.getTileMap().values()) {
-			toggleTileSelection(tile);
-		}
 	}
 
 	private GridPane createMapDisplay() {
 		GridPane gp = new GridPane();
 		gp.setPrefSize(800, 800);
-		// addConstraints(gp);
-		// Populate gridpane
 		for (Point p : myMap.getTileMap().keySet()) {
 			DecoratorTile tile = myMap.getTile(p);
 			tile.addObserver(this);
@@ -151,10 +139,6 @@ public class AuthoringEnvironment implements Observer {
 		t.getView().getStyleClass().add("tile-select-on");
 	}
 
-	private void openTileSettingsDialog(List<DecoratorTile> tiles) {
-		myWindow.setRight(new TileEditor(tiles).getEditorPane());
-	}
-
 	private void refreshMapDisplay() {
 		myMapDisplay.getChildren().clear();
 		for (DecoratorTile tile : myMap.getTileMap().values()) {
@@ -169,13 +153,6 @@ public class AuthoringEnvironment implements Observer {
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		refreshMapDisplay();
-	}
-
-	public void clearTileSelection() {
-		for (DecoratorTile tile : myTileSelection) {
-			tileOpacityOff(tile);
-		}
-		myTileSelection.clear();
 	}
 
 }

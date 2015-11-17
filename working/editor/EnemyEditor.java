@@ -34,8 +34,8 @@ public class EnemyEditor {
 	private final String PATH_SPAWN_ICON = "spawner.png";
 	private final int NUMBER_ROW_ICON_PANEL = 3;
 	private final int NUMBER_COLUMN_ICON_PANEL = 4;
-	private final double WIDTH_ICON_PANEL = 400;
-	private final double HEIGHT_ICON_PANEL = 300;
+	private final double WIDTH_ICON_PANEL = 200;
+	private final double HEIGHT_ICON_PANEL = 150;
 	private final int NUMBER_ROW_QUEUE_PANEL = 3;
 	private final int NUMBER_COLUMN_QUEUE_PANEL = 10;
 	private final double WIDTH_QUEUE_PANEL = 500;
@@ -72,7 +72,12 @@ public class EnemyEditor {
 
 	private void addSpawnerListToSelectedTile() {
 		if (spawnerList.isEmpty()) {
-			showAlertBox("No spawner select, please add at least one spawner");
+			showAlertBox("No spawner added, please add at least one spawner");
+			return;
+		}
+		
+		if (currentTileSelection.isEmpty()) {
+			showAlertBox("No tile selected, please slect at least one tile");
 			return;
 		}
 		
