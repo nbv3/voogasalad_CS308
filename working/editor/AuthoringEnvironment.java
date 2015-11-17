@@ -9,16 +9,12 @@ import java.util.Observer;
 
 import editor.sidepanes.EditorTab;
 import editor.sidepanes.EditorTabPane;
+import editor.sidepanes.PropertiesPane;
+import editor.sidepanes.SpawnerPropertyBox;
 import environment.GameMap;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.animation.TranslateTransition;
-import javafx.event.ActionEvent;
-import javafx.event.Event;
-import javafx.event.EventHandler;
-import javafx.scene.Node;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -30,8 +26,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
-import javafx.util.Duration;
 import tiles.DecoratorTile;
 
 public class AuthoringEnvironment implements Observer {
@@ -43,8 +37,10 @@ public class AuthoringEnvironment implements Observer {
 	//private LevelToolBar myLevelMenu;
 	private GridPane myMapDisplay;
 	private EditorTabPane editor;
+	private PropertiesPane myPropertyPane;
 	private List<DecoratorTile> myTileSelection;
 	private GameMap myMap;
+	private boolean isEditorPane;
 
 	public AuthoringEnvironment() {
 		myMap = new GameMap();
@@ -62,6 +58,7 @@ public class AuthoringEnvironment implements Observer {
 		myWindow.setLeft(new ToolbarOptions(myTileSelection, myMap));
 		myWindow.setCenter(myMapDisplay);
 		EditorTab levelTab = new EditorTab();
+		setPropertyPane();
 		levelTab.setContent(new VBox());
 		levelTab.setTabDescription("Level Settings");
 		
@@ -83,6 +80,7 @@ public class AuthoringEnvironment implements Observer {
 								   towerTab);
 		
 		myWindow.setRight(editor.getPaneNode());
+		isEditorPane = true;
 		myScene = new Scene(myWindow);
 		myScene.getStylesheets().add("css/default.css");
 		Stage stage = new Stage();
@@ -91,45 +89,35 @@ public class AuthoringEnvironment implements Observer {
 		return stage;
 	}
 
+	private void setPropertyPane() {
+		myPropertyPane = new PropertiesPane();
+		SpawnerPropertyBox healthBox = new SpawnerPropertyBox();
+		Button OkButton = new Button("OK");
+		myPropertyPane.addChildren(OkButton);
+		myPropertyPane.addChildren(healthBox.getNode());
+		healthBox.getNode().setLayoutX(-100);
+		healthBox.getNode().setLayoutY(100);
+		OkButton.setLayoutX(-100);
+		OkButton.setLayoutY(200);
+	}
+
 	private MenuBar createMenuBar() {
 		MenuBar mb = new MenuBar();
 		Menu file = new Menu("File");
-	//	VBox vbox = new VBox();
-	//	vbox.getChildren().add(file);
+
 		MenuItem loadMenu = new MenuItem("Load");
 		//loadMenu.setOnAction(e -> loadStuffs());
 
 		MenuItem saveMenu = new MenuItem("Save");
 		//saveMenu.setOnAction(e -> saveStuffs());
-
 		file.getItems().addAll(loadMenu, saveMenu);
-		
-		file.setOnShowing(new EventHandler<Event>() {
-			
-		@Override
-		public void handle(Event arg0) {
-	        TranslateTransition translateTransition = new TranslateTransition(Duration.millis(2000),loadMenu.getGraphic());
-	            translateTransition.setFromY(0);
-	            translateTransition.setToY(350);
-	            translateTransition.setCycleCount(1);
-	            translateTransition.setAutoReverse(false);
-	           translateTransition.playFromStart();
-//	        Timeline timeline = new Timeline();
-//	        
-//	        KeyFrame keyframe = new KeyFrame(Duration.millis(300), new KeyValue(file.layoutYProperty(),0));
-//	        timeline.getKeyFrames().add(keyFrame);
-//	          timeline.play();
-		}
-
-        
-		});
 		mb.getMenus().add(file);
 		return mb;
 	}
 
 	private GridPane createMapDisplay() {
 		GridPane gp = new GridPane();
-		gp.setPrefSize(800, 800);
+		gp.setPrefSize(700, 700);
 		for (Point p : myMap.getTileMap().keySet()) {
 			DecoratorTile tile = myMap.getTile(p);
 			tile.addObserver(this);
@@ -148,17 +136,20 @@ public class AuthoringEnvironment implements Observer {
 	}
 
 	private void toggleTileSelection(DecoratorTile t, MouseEvent e) {
-		System.out.println("BUtontype = " + e.getButton().toString());
 		if(e.getButton() == MouseButton.SECONDARY)
 		{
-			System.out.println("RIGHT CLICKED");
 			ContextMenu menu = new ContextMenu();
-			MenuItem item = new MenuItem();
-			item.setText("Test");
-			menu.getItems().add(item);
+			menu.getStyleClass().add("context-menu");
+			MenuItem item = new MenuItem("Display Properties");
+			MenuItem second = new MenuItem("Edit Properties");
+			second.setOnAction(e1 -> changeToPropertyPane());
+			MenuItem third = new MenuItem("Add Object");
+			third.setOnAction(e2 -> changeToEditorPane());
+			menu.getItems().addAll(item, second, third);
+			menu.setAnchorX(e.getSceneX());
+			menu.setAnchorY(e.getSceneY());
 			menu.show(myStage);
-			menu.setAnchorX(e.getX());
-			menu.setAnchorY(e.getY());
+
 		}
 		else
 		{
@@ -172,6 +163,32 @@ public class AuthoringEnvironment implements Observer {
 			System.out.println(t.getImplementation().getClass().getName());
 		}
 		
+	}
+	
+	private void changeToPropertyPane()
+	{
+		if(isEditorPane)
+		{
+			myWindow.setRight(myPropertyPane.getPane());
+			isEditorPane = false;
+		}
+		createNextScene();
+	}
+	
+	private void changeToEditorPane()
+	{
+		if(!isEditorPane)
+		{
+			myWindow.setRight(editor.getPaneNode());
+			isEditorPane = true;
+		}
+		createNextScene();
+	}
+	
+	private void createNextScene() {
+		Scene nextScene = new Scene(myWindow);
+		nextScene.getStylesheets().add("css/default.css");
+		myStage.setScene(nextScene);
 	}
 
 	/**
