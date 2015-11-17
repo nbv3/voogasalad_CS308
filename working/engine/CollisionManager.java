@@ -8,23 +8,24 @@ import view.BoundingBox;
 
 public class CollisionManager implements ICollisionManager {
 
+	public CollisionManager() {
+		
+	}
+	
 	@Override
 	public void checkCollisions(List<IGameObject> list) {
 		for (IGameObject a : list) {
-
 			for (IGameObject b : list) {
 				if (b.equals(a)) {
 					continue;
 				}
 				if (intersects(a, b)) {
-					for (IEvent e: a.onCollision(b)) {
+					for (IEvent e: a.getEventsFromCollision(b)) {
 						b.sendEventToChildren(e);
 					}
-					for (IEvent e: b.onCollision(a)) {
+					for (IEvent e: b.getEventsFromCollision(a)) {
 						a.sendEventToChildren(e);
 					}
-
-					System.out.println("INTERSECTING");
 				}
 			}
 		}

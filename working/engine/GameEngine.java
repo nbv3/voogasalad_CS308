@@ -34,7 +34,7 @@ public class GameEngine implements IGameEngine {
 		
 		myViewController = controller;
 		myGameEnvironment = new GameEnvironment(numCellsWide, numCellsHigh, this);
-		myCollisionManager = new CollisionManager(this);
+		myCollisionManager = new CollisionManager();
 		myScoreManager = new ScoreManager(this);
 		myWinManager = new WinConditionManager(this);
 	}
@@ -42,7 +42,7 @@ public class GameEngine implements IGameEngine {
 	public void update() {
 		updateListeners();
 		myGameEnvironment.updateObjects();
-		myCollisionManager.update();
+		myCollisionManager.checkCollisions(myGameEnvironment.getEnvironmentObjects());
 		myScoreManager.update();
 		myWinManager.update();
 	}

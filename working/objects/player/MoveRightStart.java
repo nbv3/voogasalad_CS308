@@ -7,7 +7,7 @@ public class MoveRightStart implements KeyInput {
 	@Override
 	public void run(IPlayer comp) {
 		double speed = comp.getSpeed();
-		comp.setXVel(speed);
+		comp.setVelocity(speed, 0);
 	}
 
 }

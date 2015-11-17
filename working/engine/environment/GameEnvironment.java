@@ -76,12 +76,12 @@ public class GameEnvironment implements IEnvironment, IGameEventListener {
 
 		for (int i=0; i<w; i++) {
 			for (int j=0;j<h; j++) {
-				Point2D p = new Point2D((tileWidth*i + tileWidth/2.0), (tileHeight*j + tileHeight/2.0));
+				Point2D p = new Point2D(tileWidth*i, tileHeight*j);
 				DecoratorTile dt = new DecoratorTile(currentViewID++, p, tileWidth, tileHeight);
+				myEngine.getViewController().addViewObject(dt.getID(), dt, "path_brick_2.png");
 				map.setTile(p, dt);
 			}
 		}
-		
 		return map;
 	}
 	
@@ -89,7 +89,7 @@ public class GameEnvironment implements IEnvironment, IGameEventListener {
 	public void addToEnvironment(IGameObject g, String path) {
 		environmentObjects.add(g);
 		myEngine.addListener(g);
-		myEngine.getViewController().addViewObject(1, g, "path_brick_1.png");
+		myEngine.getViewController().addViewObject(g.getID(), g, "path_brick_1.png");
 	}
 
 
@@ -105,7 +105,6 @@ public class GameEnvironment implements IEnvironment, IGameEventListener {
 		for(IGameObject g: environmentObjects){
 			g.update();
 		}
-		
 	}
 
 
@@ -144,10 +143,6 @@ public class GameEnvironment implements IEnvironment, IGameEventListener {
 		
 	}
 	
-	public GameView getGameView(){
-		return myEngine.getViewController().getGameView();
-	}
-
 	@Override
 	public void onEvent(IEvent e) {
 		if (e.getType().equals(EEventType.ObjectDespawnEvent)){
