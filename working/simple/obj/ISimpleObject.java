@@ -4,8 +4,6 @@ import java.util.Collection;
 
 import simple.attribute.ISimpleAttribute;
 import simple.event.ISimpleEvent;
-import simple.gameview.ISimpleViewable;
-import simple.gameview.SimpleViewableObject;
 import simple.universe.ISimpleUniverse;
 
 public interface ISimpleObject extends ISimpleAttributeContainer {
