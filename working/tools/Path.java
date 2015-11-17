@@ -21,4 +21,11 @@ public class Path {
 	public Stack<Point> getStack() {
 		return stack;
 	}
+	
+	public Point getNext(){
+		if (list.size() < 2) {
+			return null; // TODO
+		} 
+		return list.get(1); // return 2nd to last which is the next element
+	}
 }

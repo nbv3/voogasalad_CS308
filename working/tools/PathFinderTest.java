@@ -26,7 +26,7 @@ public class PathFinderTest {
 		end.add(new Point(7, 8));
 		end.add(new Point(19, 18));
 
-		long startTime = System.currentTimeMillis();
+		/*long startTime = System.currentTimeMillis();
 
 		PathFinder pf = new PathFinder(map, rows, cols, start, end);
 		long endTime = System.currentTimeMillis();
@@ -37,12 +37,16 @@ public class PathFinderTest {
 
 		for (Path pp : sP) {
 			printPath(pp.getList(), rows, cols, map);
-		}
+		}*/
+		
+		PathFinder pf2 = new PathFinder(map, rows, cols, new Point(0,0), new Point(12, 12));
+		Path  peth = pf2.getPath();
+		printPath(peth.getList(), rows, cols, map);
 
 		// printDistances(dM, rows, cols);
 
-		System.out.printf("%15s: %d\n", "Numpaths", sP.size());
-		System.out.printf("%15s: %d ms\n", "Time", time);
+		// System.out.printf("%15s: %d\n", "Numpaths", sP.size());
+		// System.out.printf("%15s: %d ms\n", "Time", time);
 
 	}
 

@@ -10,11 +10,14 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.Stack;
 
+import tiles.DecoratorTile;
+
 public class PathFinder {
 	private Map<Point, Boolean> grid;
 	private List<Point> start;
 	private List<Point> end;
 	private List<Stack<Point>> paths;
+	private Stack<Point> path;
 	private Map<Point, List<Point>> memo;
 
 	private Map<Point, Integer> distanceMap;
@@ -22,6 +25,18 @@ public class PathFinder {
 
 	private int rows;
 	private int cols;
+	
+	public PathFinder(Map<Point, DecoratorTile> tileMap, int size, List<Point> start, List<Point> end) {
+		this(fillMap(tileMap), size, size, start, end);
+	}
+	
+	private static Map<Point, Boolean> fillMap(Map<Point, DecoratorTile> tileMap) {
+		Map<Point, Boolean> bMap = new HashMap<Point, Boolean>();
+		for (Point p : tileMap.keySet()) {
+			bMap.put(p, tileMap.get(p).isWalkable());
+		}
+		return bMap;
+	}
 
 	public PathFinder(Map<Point, Boolean> pathGrid, int rows, int cols, List<Point> start, List<Point> end) {
 		grid = pathGrid;
@@ -35,6 +50,34 @@ public class PathFinder {
 		distanceMap = new HashMap<Point, Integer>();
 		distanceQueue = new LinkedList<Point>();
 		findPaths();
+	}
+	
+	public PathFinder(Map<Point, DecoratorTile> tileMap, int size, Point start, Point end) {
+		this(fillMap(tileMap), size, size, start, end);
+	}
+	
+	public PathFinder(Map<Point, Boolean>  pathGrid, int rows, int cols, Point start, Point end) {
+		grid = pathGrid;
+		this.rows = rows;
+		this.cols = cols;
+		paths = new ArrayList<Stack<Point>>();
+		path = new Stack<Point>();
+		memo = new HashMap<Point, List<Point>>();
+
+		distanceMap = new HashMap<Point, Integer>();
+		distanceQueue = new LinkedList<Point>();
+		fillDistances(start);
+		this.end = new ArrayList<Point>();
+		this.end.add(end);
+		shortestPath();
+		for (int i=0; i<paths.size(); i++) {
+			path = paths.get(i);
+		}
+
+	}
+	
+	public Path getPath() {
+		return new Path(path);
 	}
 
 	public Paths getPaths() {
