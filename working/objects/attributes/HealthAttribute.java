@@ -27,6 +27,10 @@ public class HealthAttribute extends AbstractAttribute {
 		myMaxHealth = 10;
 		myCurrentHealth = 5;
 	}
+	
+	public boolean isDepleted(){
+		return (myCurrentHealth <= 0);
+	}
 
 	@Override
 	public void receiveEvent(IEvent e) {
