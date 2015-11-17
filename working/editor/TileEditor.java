@@ -38,8 +38,7 @@ public class TileEditor extends AObjectEditor implements ITileEditor {
 		this.getChildren().add(createMenubar());
 		myIconPane = new GridPane();
 		myIconPane.setPrefSize(WIDTH_ICON_PANEL, HEIGHT_ICON_PANEL);
-		VBox locations = createSpawningLocs();
-		this.getChildren().addAll(myIconPane,locations);
+		this.getChildren().addAll(myIconPane);
 	}
 	
 	private Button createOkButton(String s) {

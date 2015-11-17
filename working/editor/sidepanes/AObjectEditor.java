@@ -14,7 +14,7 @@ public abstract class AObjectEditor extends VBox {
 	protected ImageTile selectImg;
 
 	public AObjectEditor() {
-		formatImageChooser();
+		//formatImageChooser();
 	}
 
 	private void formatImageChooser() {
