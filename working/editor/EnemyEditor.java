@@ -41,7 +41,6 @@ public class EnemyEditor extends AObjectEditor {
 	private final int NUMBER_COLUMN_QUEUE_PANEL = 10;
 	private final double WIDTH_QUEUE_PANEL = 500;
 	private final double HEIGHT_QUEUE_PANEL = 150;
-	private ImageView selectImg;
 
 	public EnemyEditor(List<DecoratorTile> tiles) {
 		currentTileSelection = tiles;
@@ -49,7 +48,9 @@ public class EnemyEditor extends AObjectEditor {
 		spawnerProperty = new SpawnerPropertyBox();
 		enemyPane = new VBox();
 		spawnQueuePane = createSpawnQueueIconPane();
-		enemyPane.getChildren().add(createEnemyIconPane());
+		myIconPane = new GridPane();
+		showEnemyIconPane();
+		enemyPane.getChildren().add(myIconPane);
 		enemyPane.getChildren().add(spawnerProperty.getNode());
 		enemyPane.getChildren().add(createAddSpawnerButton());
 		enemyPane.getChildren().add(createSpawnListPane());
@@ -113,7 +114,7 @@ public class EnemyEditor extends AObjectEditor {
 		return spawnerTitle;
 	}
 
-	private void addSpawnerToQueue(ImageView iv) {
+	private void addSpawnerToQueue(ImageTile iv) {
 		
 		if (iv == null) {
 			showAlertBox("Please select an spawner image first");
@@ -136,14 +137,14 @@ public class EnemyEditor extends AObjectEditor {
 		i.setFitWidth(spawnQueuePane.getPrefWidth() / NUMBER_COLUMN_QUEUE_PANEL);
 		i.setFitHeight(spawnQueuePane.getPrefHeight() / NUMBER_ROW_QUEUE_PANEL);
 		spawnQueuePane.getChildren().add(i);
-		i.setOnMouseClicked(e -> handleClickEvent(e,i));
+		i.setOnMouseClicked(e -> handleClickEvent(e,(ImageTile) i));
 
 		System.out.println("The spawn list length is " + spawnerList.size());
 		 
 		return;
 	}
 
-	private void handleClickEvent(MouseEvent e, ImageView i) {
+	private void handleClickEvent(MouseEvent e, ImageTile i) {
 		if (e.getClickCount() == 1) {
 			diplaySpawnerInfo(i);
 		}
@@ -155,12 +156,12 @@ public class EnemyEditor extends AObjectEditor {
 		return;
 	}
 
-	private void diplaySpawnerInfo(ImageView i) {
+	private void diplaySpawnerInfo(ImageTile i) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	private void removeFromSpawnList(ImageView i) {
+	private void removeFromSpawnList(ImageTile i) {
 		spawnerList.remove(spawnQueuePane.getChildren().indexOf(i));
 		spawnQueuePane.getChildren().remove(i);
 		System.out.println("The spawn list length is " + spawnerList.size());
@@ -175,14 +176,15 @@ public class EnemyEditor extends AObjectEditor {
 		alert.showAndWait();
 	}
 	
-	private GridPane createEnemyIconPane() {
-		GridPane enemyIconPane = new GridPane();
-		enemyIconPane.setPrefSize(WIDTH_ICON_PANEL, HEIGHT_ICON_PANEL);
+	private void showEnemyIconPane() {
+		myIconPane.setPrefSize(WIDTH_ICON_PANEL, HEIGHT_ICON_PANEL);
 		//spawnQueuePane.setGridLinesVisible(true);
 		enemyIconBundle = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "EnemyIcon");
 		String[] enemyIconPath = enemyIconBundle.getString("Enemy").split(",");	
-		enemyIconPane.getChildren().clear();
-		for (int i = 0; i < enemyIconPath.length; i++) {
+		myIconPane.getChildren().clear();
+		showImageOptions(NUMBER_ROW_ICON_PANEL, NUMBER_COLUMN_ICON_PANEL, enemyIconPath);
+		
+		/*for (int i = 0; i < enemyIconPath.length; i++) {
 			ImageView img = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(enemyIconPath[i])));
 			
 			img.setOnMouseClicked(e -> {
@@ -200,8 +202,9 @@ public class EnemyEditor extends AObjectEditor {
 			img.setFitWidth(enemyIconPane.getPrefWidth() / NUMBER_COLUMN_ICON_PANEL);
 			img.setFitHeight(enemyIconPane.getPrefHeight() / NUMBER_ROW_ICON_PANEL);
 			enemyIconPane.add(img, i % NUMBER_COLUMN_ICON_PANEL, i / NUMBER_COLUMN_ICON_PANEL, 1, 1);
-		}
-		return enemyIconPane;
+		
+		}*/
+		return;
 	}
 	
 	private TilePane createSpawnQueueIconPane() {

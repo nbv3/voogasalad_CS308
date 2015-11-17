@@ -1,7 +1,5 @@
 package editor.sidepanes;
 
-import java.util.ResourceBundle;
-
 import editor.ImageTile;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
@@ -14,8 +12,6 @@ public abstract class AObjectEditor extends VBox {
 
 	protected GridPane myIconPane;
 	protected ImageTile selectImg;
-
-
 
 	public AObjectEditor() {
 		formatImageChooser();
