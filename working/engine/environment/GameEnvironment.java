@@ -2,6 +2,8 @@ package engine.environment;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import engine.IGameEngine;
 import javafx.geometry.Point2D;
@@ -27,7 +29,7 @@ import tiles.DecoratorTile;
 import view.GameView;
 import view.ViewController;
 
-public class GameEnvironment implements IEnvironment, IGameEventListener {
+public class GameEnvironment implements IEnvironment, IGameEventListener, Observer {
 	
 	private IGameEngine myEngine;
 
@@ -67,6 +69,7 @@ public class GameEnvironment implements IEnvironment, IGameEventListener {
 		obj2.getChildren().add(health);
 		addToEnvironment(obj2, null);
 	}
+	
 	
 	//Maybe move this into own class?
 	private IGameMap buildGameMap(int w, int h) {
@@ -158,6 +161,12 @@ public class GameEnvironment implements IEnvironment, IGameEventListener {
 			ObjectSpawnEvent event = (ObjectSpawnEvent) e;
 			addToEnvironment(event.getSource(), event.getPath());
 		}
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		
+		
 	}
 
 }

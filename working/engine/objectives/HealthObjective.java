@@ -5,7 +5,7 @@ import java.util.Observable;
 import objects.AbstractGameObject;
 import objects.attributes.HealthAttribute;
 
-public class HealthObjective implements IObjective {
+public class HealthObjective extends Observable implements IObjective {
 
 	private HealthAttribute observedHealth;
 	private AbstractGameObject observedObject;
