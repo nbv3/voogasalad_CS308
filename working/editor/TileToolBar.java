@@ -26,7 +26,8 @@ public class TileToolBar extends EditorToolbar{
 
 	private void clearTileSelection(List<DecoratorTile> myTileSelection) {
 		for (DecoratorTile tile: myTileSelection) {
-			tile.getView().setOpacity(1);
+			tile.getView().getStyleClass().add("tile-select-off");
+			tile.getView().getStyleClass().remove("tile-select-on");
 		}
 		myTileSelection.clear();
 	}
