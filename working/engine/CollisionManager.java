@@ -7,6 +7,10 @@ import objects.events.IEvent;
 import view.BoundingBox;
 
 public class CollisionManager implements ICollisionManager {
+	
+	public CollisionManager(){
+		
+	}
 
 	@Override
 	public void checkCollisions(List<IGameObject> list) {

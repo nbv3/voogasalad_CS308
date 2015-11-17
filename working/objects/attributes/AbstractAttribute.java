@@ -1,10 +1,12 @@
 package objects.attributes;
 
+import java.util.Observable;
+
 import engine.EventPoster;
 import objects.IGameObject;
 import objects.events.IEvent;
 
-public abstract class AbstractAttribute implements IAttribute{
+public abstract class AbstractAttribute extends Observable implements IAttribute{
 
 	private IGameObject myParent;
 	protected EventPoster myPoster;
