@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
@@ -22,8 +22,9 @@ public class PathFinder {
 	private List<Stack<Point>> paths;
 	private Set<Point> visited;
 	private Map<Point, List<Point>> memo;
-
-	private Queue<Point> bfsQueue;
+	
+	private Map<Point, Integer> distanceMap;
+	private Queue<Point> distanceQueue;
 
 	private int rows;
 	private int cols;
@@ -39,8 +40,9 @@ public class PathFinder {
 		paths = new ArrayList<Stack<Point>>();
 		visited = new HashSet<Point>();
 		memo = new HashMap<Point, List<Point>>();
-
-		bfsQueue = new PriorityQueue<Point>();
+		
+		distanceMap = new HashMap<Point, Integer>();
+		distanceQueue = new LinkedList<Point>();
 		findPaths();
 		System.out.printf("%15s: %d\n", "Counter", counter);
 	}
@@ -50,9 +52,78 @@ public class PathFinder {
 	}
 
 	private void findPaths() {
-		for (Point p : start) {
-			dfs(p, new Stack<Point>());
+		/**
+		 * DFS
+		 */
+		// for (Point p : start) {
+		//	dfs(p, new Stack<Point>());
+		//}
+		for (Point ss : start) {
+			for (Point ee : end) {
+				fillDistances(ss, ee);
+				shortestPath();
+				distanceMap.clear();
+				distanceQueue.clear();
+			}
 		}
+	}
+	
+	private void shortestPath() {
+		for (Point endPoint : end) {
+			if (distanceMap.keySet().contains(endPoint)) {
+				Stack<Point> sta = new Stack<Point>();
+				Point currentPoint = new Point(endPoint);
+				sta.push(new Point(currentPoint));
+				int distance = distanceMap.get(currentPoint);
+				while (distance>0) {
+					List<Point> neighbors = getNeighbors(currentPoint);
+					for (Point n : neighbors) {
+						if (distanceMap.containsKey(n)) {
+							if (distanceMap.get(n) == distance - 1) {
+								distance = distance - 1;
+								currentPoint = n;
+								sta.push(new Point(currentPoint));
+								break;
+							}
+						}
+					}
+				}
+				Collections.reverse(sta);
+				paths.add(sta);
+			}
+		}
+	}
+	
+	public void fillDistances(Point start, Point end) {
+		distanceMap.put(start, 0);
+		distanceQueue.addAll(getNeighbors(start));
+		while (distanceQueue.size() > 0) {
+			Point front = distanceQueue.poll();
+			List<Point> frontNeighbors = getNeighbors(front);
+			// find the smallest distance of its neighbors and add one, 
+			int minDistance = Integer.MAX_VALUE;
+			for (Point nPoint : frontNeighbors) {
+				if (distanceMap.containsKey(nPoint)) {
+					if (distanceMap.get(nPoint)<minDistance) {
+						minDistance = distanceMap.get(nPoint);
+					}
+				} else {
+					// add all neighbors to the queue
+					distanceQueue.add(nPoint);
+				}
+			}
+			distanceMap.put(front, minDistance + 1);
+		}
+		
+	}
+	
+	/**
+	 * 
+	 * @param p
+	 * @param path
+	 */
+	public Map<Point, Integer> getDistanceMap() {
+		return distanceMap;
 	}
 
 	private void dfs(Point p, Stack<Point> path) {
@@ -79,25 +150,6 @@ public class PathFinder {
 		}
 		visited.remove(p);
 		path.pop();
-	}
-
-	private void bfs(Point p, Stack<Point> path) {
-		// TODO BFS cannot work - too slow for large grids
-		bfsQueue.add(p);
-		visited.add(p);
-		while (!bfsQueue.isEmpty()) {
-			Point front = bfsQueue.poll();
-
-			List<Point> nb = getNeighbors(front);
-			for (Point n : nb) {
-				if (grid.get(n) && !visited.contains(n)) {
-					bfsQueue.add(n);
-					visited.add(n);
-				}
-			}
-		}
-		// Clear visited property of nodes
-		visited.clear();
 	}
 
 	private List<Point> getNeighbors(Point p) {
