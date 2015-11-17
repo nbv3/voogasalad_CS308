@@ -1,5 +1,5 @@
 package editor;
 
-public interface ITileEditor {
+public interface ITileEditor extends IObjectEditor {
 
 }

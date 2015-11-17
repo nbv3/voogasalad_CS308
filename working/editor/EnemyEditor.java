@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 
 import objects.SpawnerTester;
 import tiles.DecoratorTile;
+import editor.sidepanes.AObjectEditor;
 import editor.sidepanes.SpawnerPropertyBox;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
@@ -22,7 +23,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
-public class EnemyEditor {
+public class EnemyEditor extends AObjectEditor {
 	
 	private List<DecoratorTile> currentTileSelection;
 	private List<SpawnerTester> spawnerList;	// here SpawnerTester need to change to Spawner later

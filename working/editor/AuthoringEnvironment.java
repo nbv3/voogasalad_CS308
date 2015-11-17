@@ -9,6 +9,7 @@ import java.util.Observer;
 import editor.sidepanes.EditorTab;
 import editor.sidepanes.EditorTabPane;
 import environment.GameMap;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -52,7 +53,7 @@ public class AuthoringEnvironment implements Observer {
 		levelTab.setTabDescription("Level Settings");
 		
 		EditorTab tileTab = new EditorTab();
-		tileTab.setContent(new TileEditor(myTileSelection).getEditorPane());
+		tileTab.setContent((Node) new TileEditor(myTileSelection).getEditorPane());
 		tileTab.setTabDescription("Tile Settings");
 		
 		EditorTab enemyEditorTab = new EditorTab();
