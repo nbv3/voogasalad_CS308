@@ -1,8 +1,9 @@
 package simple.universe;
 
 import java.util.Collection;
+import java.util.Collections;
 
-
+import simple.conditions.ISimpleCondition;
 import simple.obj.ISimpleObject;
 import simple.universe.map.ISimpleGameMap;
 
@@ -14,7 +15,7 @@ public class SimpleUniverse implements ISimpleUniverse, ISimpleGameMap {
 	
 	@Override
 	public Collection<ISimpleObject> getGameObjects() {
-		return myGameObjects;
+		return Collections.unmodifiableCollection(myGameObjects);
 	}
 
 	@Override

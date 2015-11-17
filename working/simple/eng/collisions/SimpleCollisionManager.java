@@ -1,17 +1,13 @@
 package simple.eng.collisions;
 
 import java.util.Collection;
-
-import objects.IGameObject;
-import objects.events.IEvent;
 import simple.obj.ISimpleObject;
-import view.BoundingBox;
 
 public class SimpleCollisionManager{
 
-	public static void checkCollisions(Collection<ISimpleObject> objectsToCheck) {
-		for (ISimpleObject a : objectsToCheck) {
-			for (ISimpleObject b : objectsToCheck) {
+	public static void checkCollisions(Collection<ISimpleObject> collection) {
+		for (ISimpleObject a : collection) {
+			for (ISimpleObject b : collection) {
 				if (b.equals(a)) {
 					continue;
 				}
