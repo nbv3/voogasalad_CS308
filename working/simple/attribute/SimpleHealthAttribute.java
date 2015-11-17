@@ -1,5 +1,8 @@
 package simple.attribute;
 
+import simple.event.ISimpleEvent;
+import simple.event.SimpleEvents;
+import simple.event.SimpleHealthChangeEvent;
 import simple.obj.ISimpleObject;
 import simple.universe.ISimpleUniverse;
 import simple.universe.fxns.SimpleObjectRemover;
@@ -49,6 +52,22 @@ public class SimpleHealthAttribute extends SimpleAbstractAttribute {
 	
 	private boolean isDead() {
 		return this.myHealth <= 0;
+	}
+
+	@Override
+	public void receiveEvent(ISimpleEvent event) {
+//********************OPTION 1**************************
+		SimpleHealthChangeEvent healthEvent;
+		try {
+			healthEvent = (SimpleHealthChangeEvent) event;
+			changeHealth(healthEvent.getDeltaHealth());
+		} catch (Exception e) { }
+		
+//********************OPTION 2**************************
+//		if (event.getEventType().equals(SimpleEvents.HealthChange)) {
+//			SimpleHealthChangeEvent healthEvent = (SimpleHealthChangeEvent) event;
+//			changeHealth(healthEvent.getDeltaHealth());
+//		}
 	}
 
 }
