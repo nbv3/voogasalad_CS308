@@ -27,7 +27,7 @@ public class DamageBox {
 		
 		damageValue.getChildren().addAll(damageLabel,value);
 
-		Text damageTitle = new Text("Damange");
+		Text damageTitle = new Text("Damage");
 		damageTitle.setFont(Font.font("Times New Roman", FontWeight.BOLD, 20));
 
 		myDamage.getChildren().addAll(damageTitle, damageValue);
