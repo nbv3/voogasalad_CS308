@@ -6,6 +6,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import engine.IGameEngine;
+import engine.objectives.IObjectiveAction;
 import javafx.geometry.Point2D;
 import tiles.DecoratorTile;
 import view.ViewController;
@@ -29,38 +30,38 @@ import tiles.DecoratorTile;
 import view.GameView;
 import view.ViewController;
 
-public class GameEnvironment implements IEnvironment, IGameEventListener, Observer {
-	
+public class GameEnvironment implements IEnvironment, IGameEventListener, IHandleObjective {
+
 	private IGameEngine myEngine;
 
 	private int currentViewID;
 	private IGameMap myGameMap;
 	private List<IGameObject> environmentObjects;
 	private List<KeyCode> currentInput;
-	
+
 	public GameEnvironment(IGameEngine engine) {
 		this(20, 20, engine);
 	}
-	
+
 	public GameEnvironment(int numCellsWide, int numCellsHigh, IGameEngine engine) {
 		myEngine = engine;
 		myEngine.addListener(this);
 		currentViewID = 0;
 		myGameMap = buildGameMap(numCellsWide, numCellsHigh);
 		environmentObjects = new ArrayList<IGameObject>();
-		
+
 		currentInput = new ArrayList<KeyCode>();
-		
-		//TEMP CODE
-		//TODO: REMOVE THIS
-		IGameObject obj = new Player(new Point2D(100,100), 10, 10, myEngine);
+
+		// TEMP CODE
+		// TODO: REMOVE THIS
+		IGameObject obj = new Player(new Point2D(100, 100), 10, 10, myEngine);
 		obj.setObjectType(EObjectType.PLAYER);
 		obj.getChildren().add(new SolidAttribute(obj));
 		DamageEvent dmg = new DamageEvent();
 		dmg.setDamage(10);
 		obj.addCollisionEvent(EObjectType.ENEMY, dmg);
 		addToEnvironment(obj, null);
-		
+
 		IGameObject obj2 = new Spawner(new Point2D(200, 200), 40, 40, myEngine, null);
 		obj2.setObjectType(EObjectType.ENEMY);
 		obj2.addCollisionEvent(EObjectType.PLAYER, new HitSolidObjectEvent(obj));
@@ -69,32 +70,30 @@ public class GameEnvironment implements IEnvironment, IGameEventListener, Observ
 		obj2.getChildren().add(health);
 		addToEnvironment(obj2, null);
 	}
-	
-	
-	//Maybe move this into own class?
+
+	// Maybe move this into own class?
 	private IGameMap buildGameMap(int w, int h) {
 		IGameMap map = new GameMap(w, h);
-		double tileWidth = 1000.0/((double) w);
-		double tileHeight = 1000.0/((double) h);
+		double tileWidth = 1000.0 / ((double) w);
+		double tileHeight = 1000.0 / ((double) h);
 
-		for (int i=0; i<w; i++) {
-			for (int j=0;j<h; j++) {
-				Point2D p = new Point2D((tileWidth*i + tileWidth/2.0), (tileHeight*j + tileHeight/2.0));
+		for (int i = 0; i < w; i++) {
+			for (int j = 0; j < h; j++) {
+				Point2D p = new Point2D((tileWidth * i + tileWidth / 2.0), (tileHeight * j + tileHeight / 2.0));
 				DecoratorTile dt = new DecoratorTile(currentViewID++, p, tileWidth, tileHeight);
 				map.setTile(p, dt);
 			}
 		}
-		
+
 		return map;
 	}
-	
+
 	@Override
 	public void addToEnvironment(IGameObject g, String path) {
 		environmentObjects.add(g);
 		myEngine.addListener(g);
 		myEngine.getViewController().addViewObject(1, g, "path_brick_1.png");
 	}
-
 
 	@Override
 	public void removeFromEnvironment(IGameObject g) {
@@ -105,12 +104,11 @@ public class GameEnvironment implements IEnvironment, IGameEventListener, Observ
 
 	@Override
 	public void updateObjects() {
-		for(IGameObject g: environmentObjects){
+		for (IGameObject g : environmentObjects) {
 			g.update();
 		}
-		
-	}
 
+	}
 
 	@Override
 	public List<IGameObject> getEnvironmentObjects() {
@@ -144,19 +142,19 @@ public class GameEnvironment implements IEnvironment, IGameEventListener, Observ
 	@Override
 	public void handleMouseInput(double x, double y) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
-	public GameView getGameView(){
+
+	public GameView getGameView() {
 		return myEngine.getViewController().getGameView();
 	}
 
 	@Override
 	public void onEvent(IEvent e) {
-		if (e.getType().equals(EEventType.ObjectDespawnEvent)){
+		if (e.getType().equals(EEventType.ObjectDespawnEvent)) {
 			removeFromEnvironment(e.getSource());
 		}
-		
+
 		if (e.getType().equals(EEventType.ObjectSpawnEvent)) {
 			ObjectSpawnEvent event = (ObjectSpawnEvent) e;
 			addToEnvironment(event.getSource(), event.getPath());
@@ -164,9 +162,9 @@ public class GameEnvironment implements IEnvironment, IGameEventListener, Observ
 	}
 
 	@Override
-	public void update(Observable o, Object arg) {
-		
-		
+	public void executeObjective(IObjectiveAction act) {
+		act.objectiveTakeAction(this);
+
 	}
 
 }
