@@ -73,7 +73,7 @@ public class AuthoringEnvironment implements Observer {
 		myScene.getStylesheets().add("css/default.css");
 		Stage stage = new Stage();
 		stage.setScene(myScene);
-		stage.setMaximized(true);
+		//stage.setMaximized(true);
 		return stage;
 	}
 
@@ -147,8 +147,8 @@ public class AuthoringEnvironment implements Observer {
 	 * @param t
 	 */
 	private void tileOpacityOn(DecoratorTile t) {
-		t.getView().getStyleClass().add("tile-select-on");
 		t.getView().getStyleClass().remove("tile-select-off");
+		t.getView().getStyleClass().add("tile-select-on");
 	}
 
 	private void openTileSettingsDialog(List<DecoratorTile> tiles) {
