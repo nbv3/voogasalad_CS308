@@ -1,5 +1,7 @@
 package editor;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -208,6 +210,13 @@ public class EnemyEditor {
 		spawnQueuePane.setPrefSize(WIDTH_QUEUE_PANEL, HEIGHT_QUEUE_PANEL);
 		return spawnQueuePane;
 	}
+	
+	public ArrayList<Object> getSpawnQueue()
+	{
+		ArrayList<Object> myList = (ArrayList<Object>) Arrays.asList(spawnQueuePane.getChildren().toArray());
+		return myList;
+	}
+	
 	
 	public VBox getNode() {
 		return enemyPane;

@@ -24,6 +24,8 @@ public class SpawnerPropertyBox {
 		spawnNumBox.setSpacing(10);
 		Label maxHpLabel = new Label("Maximum Health");
 		maxHpLabel.setPrefWidth(150);
+		Label dmgPowerLabel = new Label("Damage Power");
+		maxHpLabel.setPrefWidth(150);
 		Label spawnNumLabel = new Label("Spawn Number");
 		spawnNumLabel.setPrefWidth(150);
 		maxHpTF = new TextField();
