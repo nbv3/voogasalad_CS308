@@ -12,7 +12,7 @@ public class Main extends Application {
 	//These will eventually go in a properties file
 	//TODO: DO THIS
 	public static final String TITLE = "SYNTACTIC SUGAR";
-	public static final double FRAME_LENGTH = 0.025;
+	public static final double FRAME_LENGTH = 1.0/60.0;
 	
 	//THESE WILL BE READ IN FROM XML
 	//TODO: DEFINITELY DO THIS
