@@ -51,4 +51,5 @@ public class TileToolBar extends EditorToolbar{
 			t.getView().getStyleClass().remove("tile-select-off");		
 		}
 	}
+	
 }

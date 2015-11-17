@@ -9,6 +9,7 @@ public abstract class EditorToolbar extends ToolBar{
 	private String myTitle;
 	
 	public EditorToolbar(){ 
+		
 	}
 	
 	public EditorToolbar(String title){
