@@ -4,13 +4,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Observable;
 
 import simple.attribute.ISimpleAttribute;
 import simple.event.ISimpleEvent;
 import simple.universe.ISimpleUniverse;
 
-public class SimpleObject extends Observable implements ISimpleObject {
+public class SimpleObject implements ISimpleObject {
 
 	private SimpleObjectType myType;
 	private Collection<ISimpleAttribute> myAttributes;

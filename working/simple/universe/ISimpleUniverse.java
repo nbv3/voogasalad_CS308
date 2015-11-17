@@ -1,11 +1,12 @@
 package simple.universe;
 
-public interface ISimpleUniverse extends ISimpleObjectContainer {
+import simple.universe.map.ISimpleGameMap;
+
+public interface ISimpleUniverse extends ISimpleObjectContainer, ISimpleGameMap {
 
 	/**
-	 * Update all of the game objects contained within this Universe.
-	 * @param universe
+	 * A SimpleUniverse (anything that implements this interface) must contain a 
+	 * Collection of GameObjects, add/remove methods, and contain a GameMap.
 	 */
-	public void updateUniverse(ISimpleUniverse universe);
 
 }

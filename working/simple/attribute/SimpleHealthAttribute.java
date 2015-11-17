@@ -57,17 +57,19 @@ public class SimpleHealthAttribute extends SimpleAbstractAttribute {
 	@Override
 	public void receiveEvent(ISimpleEvent event) {
 //********************OPTION 1**************************
-		SimpleHealthChangeEvent healthEvent;
-		try {
-			healthEvent = (SimpleHealthChangeEvent) event;
-			changeHealth(healthEvent.getDeltaHealth());
-		} catch (Exception e) { }
+//		SimpleHealthChangeEvent healthEvent;
+//		try {
+//			healthEvent = (SimpleHealthChangeEvent) event;
+//			changeHealth(healthEvent.getDeltaHealth());
+//			return;
+//		} catch (Exception e) { }
 		
 //********************OPTION 2**************************
-//		if (event.getEventType().equals(SimpleEvents.HealthChange)) {
-//			SimpleHealthChangeEvent healthEvent = (SimpleHealthChangeEvent) event;
-//			changeHealth(healthEvent.getDeltaHealth());
-//		}
+		if (event.getEventType().equals(SimpleEvents.HealthChange)) {
+			SimpleHealthChangeEvent healthEvent = (SimpleHealthChangeEvent) event;
+			changeHealth(healthEvent.getDeltaHealth());
+			return;
+		}
 	}
 
 }
