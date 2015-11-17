@@ -6,14 +6,18 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+
 import editor.sidepanes.EditorTab;
 import editor.sidepanes.EditorTabPane;
 import environment.GameMap;
 import javafx.scene.Scene;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -106,21 +110,37 @@ public class AuthoringEnvironment implements Observer {
 
 	private ImageView createTileCell(GridPane gp, DecoratorTile tile) {
 		ImageView i = tile.getView();
-		i.setOnMouseClicked(e -> toggleTileSelection(tile));
+		i.setOnMouseClicked(e -> toggleTileSelection(tile, e));
 		i.setFitWidth(gp.getPrefWidth() / (new Double(myMap.getMapSize())));
 		i.setFitHeight(gp.getPrefHeight() / (new Double(myMap.getMapSize())));
 		return i;
 	}
 
-	private void toggleTileSelection(DecoratorTile t) {
-		if (myTileSelection.contains(t)) {
-			myTileSelection.remove(t);
-			tileOpacityOff(t);
-		} else {
-			myTileSelection.add(t);
-			tileOpacityOn(t);
+	private void toggleTileSelection(DecoratorTile t, MouseEvent e) {
+		System.out.println("BUtontype = " + e.getButton().toString());
+		if(e.getButton() == MouseButton.SECONDARY)
+		{
+			System.out.println("RIGHT CLICKED");
+			ContextMenu menu = new ContextMenu();
+			MenuItem item = new MenuItem();
+			item.setText("Test");
+			menu.getItems().add(item);
+			menu.show(myStage);
+			menu.setAnchorX(e.getX());
+			menu.setAnchorY(e.getY());
 		}
-		System.out.println(t.getImplementation().getClass().getName());
+		else
+		{
+			if (myTileSelection.contains(t)) {
+				myTileSelection.remove(t);
+				tileOpacityOff(t);
+			} else {
+				myTileSelection.add(t);
+				tileOpacityOn(t);
+			}
+			System.out.println(t.getImplementation().getClass().getName());
+		}
+		
 	}
 
 	/**
@@ -143,7 +163,7 @@ public class AuthoringEnvironment implements Observer {
 		myMapDisplay.getChildren().clear();
 		for (DecoratorTile tile : myMap.getTileMap().values()) {
 			ImageView i = tile.getView();
-			i.setOnMouseClicked(e -> toggleTileSelection(tile));
+			i.setOnMouseClicked(e -> toggleTileSelection(tile, e));
 			i.setFitWidth(myMapDisplay.getPrefWidth() / (new Double(myMap.getMapSize())));
 			i.setFitHeight(myMapDisplay.getPrefHeight() / (new Double(myMap.getMapSize())));
 			myMapDisplay.add(tile.getView(), (int) tile.getPoint().getX(), (int) tile.getPoint().getY(),1,1);
