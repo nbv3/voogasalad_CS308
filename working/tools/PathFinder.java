@@ -4,12 +4,10 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
-import java.util.Set;
 import java.util.Stack;
 
 public class PathFinder {
@@ -18,7 +16,7 @@ public class PathFinder {
 	private List<Point> end;
 	private List<Stack<Point>> paths;
 	private Map<Point, List<Point>> memo;
-	
+
 	private Map<Point, Integer> distanceMap;
 	private Queue<Point> distanceQueue;
 
@@ -33,7 +31,7 @@ public class PathFinder {
 		this.cols = cols;
 		paths = new ArrayList<Stack<Point>>();
 		memo = new HashMap<Point, List<Point>>();
-		
+
 		distanceMap = new HashMap<Point, Integer>();
 		distanceQueue = new LinkedList<Point>();
 		findPaths();
@@ -45,15 +43,13 @@ public class PathFinder {
 
 	private void findPaths() {
 		for (Point ss : start) {
-			for (Point ee : end) {
-				fillDistances(ss, ee);
-				shortestPath();
-				distanceMap.clear();
-				distanceQueue.clear();
-			}
+			fillDistances(ss);
+			shortestPath();
+			distanceMap.clear();
+			distanceQueue.clear();
 		}
 	}
-	
+
 	private void shortestPath() {
 		for (Point endPoint : end) {
 			if (distanceMap.keySet().contains(endPoint)) {
@@ -61,7 +57,7 @@ public class PathFinder {
 				Point currentPoint = new Point(endPoint);
 				sta.push(new Point(currentPoint));
 				int distance = distanceMap.get(currentPoint);
-				while (distance>0) {
+				while (distance > 0) {
 					List<Point> neighbors = getNeighbors(currentPoint);
 					for (Point n : neighbors) {
 						if (distanceMap.containsKey(n)) {
@@ -79,28 +75,29 @@ public class PathFinder {
 			}
 		}
 	}
-	
-	private void fillDistances(Point start, Point end) {
+
+	private void fillDistances(Point start) {
 		distanceMap.put(start, 0);
 		distanceQueue.addAll(getNeighbors(start));
 		while (distanceQueue.size() > 0) {
 			Point front = distanceQueue.poll();
 			List<Point> frontNeighbors = getNeighbors(front);
-			// find the smallest distance of its neighbors and add one, 
+			// find the smallest distance of its neighbors and add one,
 			int minDistance = Integer.MAX_VALUE;
 			for (Point nPoint : frontNeighbors) {
 				if (distanceMap.containsKey(nPoint)) {
-					if (distanceMap.get(nPoint)<minDistance) {
+					if (distanceMap.get(nPoint) < minDistance) {
 						minDistance = distanceMap.get(nPoint);
 					}
 				} else {
 					// add all neighbors to the queue
-					distanceQueue.add(nPoint);
+					if (!distanceQueue.contains(nPoint)) {
+						distanceQueue.add(nPoint);
+					}
 				}
 			}
 			distanceMap.put(front, minDistance + 1);
 		}
-		
 	}
 
 	private List<Point> getNeighbors(Point p) {
@@ -140,7 +137,7 @@ public class PathFinder {
 
 		}
 		memo.put(p, validPoints);
-		Collections.shuffle(validPoints); // TODO SLOW
+		Collections.shuffle(validPoints);
 		return validPoints;
 	}
 
