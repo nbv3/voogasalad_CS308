@@ -122,12 +122,16 @@ public class AuthoringEnvironment implements Observer {
 		{
 			System.out.println("RIGHT CLICKED");
 			ContextMenu menu = new ContextMenu();
-			MenuItem item = new MenuItem();
-			item.setText("Test");
-			menu.getItems().add(item);
+			menu.getStyleClass().add("context-menu");
+			MenuItem item = new MenuItem("Display Properties");
+			MenuItem second = new MenuItem("Edit Properties");
+			//second.setOnAction(e -> changeIconPaneScene());
+			MenuItem third = new MenuItem("Add Object");
+			menu.getItems().addAll(item, second, third);
+			menu.setAnchorX(e.getSceneX());
+			menu.setAnchorY(e.getSceneY());
 			menu.show(myStage);
-			menu.setAnchorX(e.getX());
-			menu.setAnchorY(e.getY());
+
 		}
 		else
 		{
@@ -141,6 +145,11 @@ public class AuthoringEnvironment implements Observer {
 			System.out.println(t.getImplementation().getClass().getName());
 		}
 		
+	}
+	
+	private void changeIconPaneScene()
+	{
+		//Scene nextScene = new Scene();
 	}
 
 	/**
