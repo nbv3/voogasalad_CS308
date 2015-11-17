@@ -9,7 +9,7 @@ public class EditorTabPane {
 	public EditorTabPane(EditorTab... tabs) {
 		editorPane = new TabPane();
 
-		for(EditorTab e:tabs){
+		for(EditorTab e:tabs) {
 			Tab newTab = new Tab();
 			newTab.setClosable(false);
 			newTab.setText(e.getTabDescription());
