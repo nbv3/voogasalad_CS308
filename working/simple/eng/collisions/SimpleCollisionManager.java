@@ -7,14 +7,9 @@ import objects.events.IEvent;
 import simple.obj.ISimpleObject;
 import view.BoundingBox;
 
-public class SimpleCollisionManager implements ISimpleCollisionManager {
+public class SimpleCollisionManager{
 
-	public SimpleCollisionManager() {
-
-	}
-	
-	@Override
-	public void checkCollisions(Collection<ISimpleObject> objectsToCheck) {
+	public static void checkCollisions(Collection<ISimpleObject> objectsToCheck) {
 		for (ISimpleObject a : objectsToCheck) {
 			for (ISimpleObject b : objectsToCheck) {
 				if (b.equals(a)) {
@@ -32,7 +27,7 @@ public class SimpleCollisionManager implements ISimpleCollisionManager {
 		}
 	}
 	
-	private Boolean intersects(ISimpleObject obj, ISimpleObject other) {
+	private static Boolean intersects(ISimpleObject obj, ISimpleObject other) {
 		BoundingBox abox = obj.getBoundingBox();
 		BoundingBox bbox = other.getBoundingBox();
 

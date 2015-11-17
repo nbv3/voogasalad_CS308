@@ -2,6 +2,7 @@ package simple.universe;
 
 import java.util.Collection;
 
+
 import simple.obj.ISimpleObject;
 import simple.universe.map.ISimpleGameMap;
 
@@ -9,6 +10,7 @@ public class SimpleUniverse implements ISimpleUniverse, ISimpleGameMap {
 
 	private Collection<ISimpleObject> myGameObjects;
 	private ISimpleGameMap myGameMap;
+
 	
 	@Override
 	public Collection<ISimpleObject> getGameObjects() {
@@ -23,6 +25,7 @@ public class SimpleUniverse implements ISimpleUniverse, ISimpleGameMap {
 	@Override
 	public void removeGameObject(ISimpleObject toRemove) {
 		myGameObjects.remove(toRemove);
+
 	}
 
 	@Override
