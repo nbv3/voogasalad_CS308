@@ -77,10 +77,11 @@ public class GameEnvironment implements IEnvironment, IGameEventListener, IHandl
 		double tileWidth = 1000.0 / ((double) w);
 		double tileHeight = 1000.0 / ((double) h);
 
-		for (int i = 0; i < w; i++) {
-			for (int j = 0; j < h; j++) {
-				Point2D p = new Point2D((tileWidth * i + tileWidth / 2.0), (tileHeight * j + tileHeight / 2.0));
+		for (int i=0; i<w; i++) {
+			for (int j=0;j<h; j++) {
+				Point2D p = new Point2D(tileWidth*i, tileHeight*j);
 				DecoratorTile dt = new DecoratorTile(currentViewID++, p, tileWidth, tileHeight);
+				myEngine.getViewController().addViewObject(dt.getID(), dt, "path_brick_2.png");
 				map.setTile(p, dt);
 			}
 		}
@@ -92,7 +93,7 @@ public class GameEnvironment implements IEnvironment, IGameEventListener, IHandl
 	public void addToEnvironment(IGameObject g, String path) {
 		environmentObjects.add(g);
 		myEngine.addListener(g);
-		myEngine.getViewController().addViewObject(1, g, "path_brick_1.png");
+		myEngine.getViewController().addViewObject(g.getID(), g, "path_brick_1.png");
 	}
 
 	@Override
@@ -107,6 +108,7 @@ public class GameEnvironment implements IEnvironment, IGameEventListener, IHandl
 		for (IGameObject g : environmentObjects) {
 			g.update();
 		}
+
 
 	}
 
@@ -148,6 +150,7 @@ public class GameEnvironment implements IEnvironment, IGameEventListener, IHandl
 	public GameView getGameView() {
 		return myEngine.getViewController().getGameView();
 	}
+
 
 	@Override
 	public void onEvent(IEvent e) {

@@ -17,20 +17,15 @@ public abstract class AbstractGameObject implements IGameObject {
 
 	// Unique, corresponds to a view object
 	int myID;
-
 	// Maybe this is a list if objects can have multiple types?
-	EObjectType myType;
-	BoundingBox myBoundingBox;
-	Vector<Double> myVelocity;
-
-	Boolean toBeDestroyed;
-
-	Map<EObjectType, List<IEvent>> myCollisionEvents;
-
+	private EObjectType myType;
+	private BoundingBox myBoundingBox;
+	private Vector<Double> myVelocity;
+	private Boolean toBeDestroyed;
+	private Map<EObjectType, List<IEvent>> myCollisionEvents;
 	// This holds all the attributes and items an object has
-	List<IChild> myChildren;
-
-	EventPoster myPoster;
+	private List<IChild> myChildren;
+	private EventPoster myPoster;
 
 	// Methods
 
@@ -76,7 +71,7 @@ public abstract class AbstractGameObject implements IGameObject {
 		}
 	}
 
-	public List<IEvent> onCollision(IGameObject obj) {
+	public List<IEvent> getEventsFromCollision(IGameObject obj) {
 		//Send every event for the right type of object
 		return myCollisionEvents.get(obj.getType());
 	}
@@ -115,7 +110,6 @@ public abstract class AbstractGameObject implements IGameObject {
 			c.update();
 		}
 		move();
-		System.out.println(myBoundingBox.getPoint());
 	}
 
 	public List<IChild> getChildren() {

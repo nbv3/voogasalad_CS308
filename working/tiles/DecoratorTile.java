@@ -8,10 +8,12 @@ import view.ViewableObject;
 public class DecoratorTile extends ViewableObject implements IGameTile {
 	
 	private IGameTile myImplementation;
+	private BoundingBox myBox;
 	
 	public DecoratorTile(int id, Point2D p, double width, double height) {
 		super(id, new BoundingBox(p, width, height));
 		myImplementation = new PathTile(p);
+		myBox = new BoundingBox(p, width, height);
 	}
 
 	@Override
@@ -39,8 +41,7 @@ public class DecoratorTile extends ViewableObject implements IGameTile {
 
 	@Override
 	public BoundingBox getBoundingBox() {
-		// TODO Auto-generated method stub
-		return null;
+		return myBox;
 	}
 	
 }

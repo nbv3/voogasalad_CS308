@@ -1,39 +1,38 @@
-package engine;
+package simple.eng.collisions;
 
-import java.util.List;
+import java.util.Collection;
 
 import objects.IGameObject;
 import objects.events.IEvent;
+import simple.obj.ISimpleObject;
 import view.BoundingBox;
 
-public class CollisionManager implements ICollisionManager {
+public class SimpleCollisionManager implements ISimpleCollisionManager {
 
+	public SimpleCollisionManager() {
 
-	public CollisionManager() {
-		
 	}
 	
 	@Override
-	public void checkCollisions(List<IGameObject> list) {
-		for (IGameObject a : list) {
-			for (IGameObject b : list) {
+	public void checkCollisions(Collection<ISimpleObject> objectsToCheck) {
+		for (ISimpleObject a : objectsToCheck) {
+			for (ISimpleObject b : objectsToCheck) {
 				if (b.equals(a)) {
 					continue;
 				}
-				if (intersects(a, b)) {
-					for (IEvent e: a.getEventsFromCollision(b)) {
-						b.sendEventToChildren(e);
-					}
-					for (IEvent e: b.getEventsFromCollision(a)) {
-						a.sendEventToChildren(e);
-					}
-				}
+//				if (intersects(a, b)) {
+//					for (ISimpleEvent e: a.getEventsFromCollision(b.getType())) {
+//						b.sendEventToChildren(e);
+//					}
+//					for (ISimpleEvent e: b.getEventsFromCollision(a.getType())) {
+//						a.sendEventToChildren(e);
+//					}
+//				}
 			}
 		}
 	}
-
-
-	private Boolean intersects(IGameObject obj, IGameObject other) {
+	
+	private Boolean intersects(ISimpleObject obj, ISimpleObject other) {
 		BoundingBox abox = obj.getBoundingBox();
 		BoundingBox bbox = other.getBoundingBox();
 
@@ -52,7 +51,6 @@ public class CollisionManager implements ICollisionManager {
 		Boolean bInsideAX = (bx + bw >= ax && bx <= ax + aw);
 		Boolean bInsideAY = (by + bh >= ay && by <= ay + ah);
 		return ((aInsideBX && aInsideBY) || (bInsideAX && bInsideAY));
-
 	}
 
 }
