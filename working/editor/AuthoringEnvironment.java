@@ -10,6 +10,13 @@ import java.util.Observer;
 import editor.sidepanes.EditorTab;
 import editor.sidepanes.EditorTabPane;
 import environment.GameMap;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.animation.TranslateTransition;
+import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Menu;
@@ -22,6 +29,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
+import javafx.util.Duration;
 import tiles.DecoratorTile;
 
 public class AuthoringEnvironment implements Observer {
@@ -84,7 +93,8 @@ public class AuthoringEnvironment implements Observer {
 	private MenuBar createMenuBar() {
 		MenuBar mb = new MenuBar();
 		Menu file = new Menu("File");
-
+	//	VBox vbox = new VBox();
+	//	vbox.getChildren().add(file);
 		MenuItem loadMenu = new MenuItem("Load");
 		//loadMenu.setOnAction(e -> loadStuffs());
 
@@ -92,6 +102,26 @@ public class AuthoringEnvironment implements Observer {
 		//saveMenu.setOnAction(e -> saveStuffs());
 
 		file.getItems().addAll(loadMenu, saveMenu);
+		
+		file.setOnShowing(new EventHandler<Event>() {
+			
+		@Override
+		public void handle(Event arg0) {
+	        TranslateTransition translateTransition = new TranslateTransition(Duration.millis(2000),loadMenu.getGraphic());
+	            translateTransition.setFromY(0);
+	            translateTransition.setToY(350);
+	            translateTransition.setCycleCount(1);
+	            translateTransition.setAutoReverse(false);
+	           translateTransition.playFromStart();
+//	        Timeline timeline = new Timeline();
+//	        
+//	        KeyFrame keyframe = new KeyFrame(Duration.millis(300), new KeyValue(file.layoutYProperty(),0));
+//	        timeline.getKeyFrames().add(keyFrame);
+//	          timeline.play();
+		}
+
+        
+		});
 		mb.getMenus().add(file);
 		return mb;
 	}
