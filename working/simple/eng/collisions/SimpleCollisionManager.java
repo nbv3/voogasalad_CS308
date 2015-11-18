@@ -1,6 +1,8 @@
 package simple.eng.collisions;
 
 import java.util.Collection;
+
+import simple.event.ISimpleEvent;
 import simple.obj.ISimpleObject;
 
 public class SimpleCollisionManager{
@@ -12,12 +14,12 @@ public class SimpleCollisionManager{
 					continue;
 				}
 //				if (intersects(a, b)) {
-//					for (ISimpleEvent e: a.getEventsFromCollision(b.getType())) {
-//						b.sendEventToChildren(e);
-//					}
-//					for (ISimpleEvent e: b.getEventsFromCollision(a.getType())) {
-//						a.sendEventToChildren(e);
-//					}
+					if (a.getEventsFromCollision(b.getType()) != null) {
+						System.out.println();
+						for (ISimpleEvent e: a.getEventsFromCollision(b.getType())) {
+							e.executeEvent(b.getAttributes());
+						}
+					}
 //				}
 			}
 		}

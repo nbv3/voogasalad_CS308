@@ -1,13 +1,20 @@
 package simple.manager;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import simple.attribute.SimpleControlAttribute;
+import simple.attribute.SimpleHealthAttribute;
 import simple.conditions.ISimpleCondition;
 import simple.conditions.SimpleConditions;
 import simple.eng.SimpleEngine;
+import simple.event.SimpleHealthChangeEvent;
 import simple.obj.ISimpleObject;
+import simple.obj.SimpleObject;
+import simple.obj.SimpleObjectType;
 import simple.universe.ISimpleUniverse;
+import simple.universe.SimpleUniverse;
 
 public class SimpleGameManager implements ISimpleGameManager {
 
@@ -15,6 +22,24 @@ public class SimpleGameManager implements ISimpleGameManager {
 	// private ISimpleViewController myViewController;
 	private List<ISimpleCondition> myConditions;
 
+	public SimpleGameManager() {
+		myUniverse = new SimpleUniverse();
+		myConditions = new ArrayList<ISimpleCondition>();
+		
+		ISimpleObject player = new SimpleObject(SimpleObjectType.PLAYER);
+		player.addAttribute(new SimpleControlAttribute(player));
+		player.addAttribute(new SimpleHealthAttribute(10, player));
+		
+		ISimpleObject enemy = new SimpleObject(SimpleObjectType.ENEMY);
+		enemy.addCollisionBinding(SimpleObjectType.PLAYER, new SimpleHealthChangeEvent(10));
+		
+		myUniverse.addGameObject(player);
+		myUniverse.addGameObject(enemy);
+		
+		SimpleEngine.frameUpdate(myUniverse);
+		
+	}
+	
 	@Override
 	public void updateGame() {
 		SimpleEngine.frameUpdate(myUniverse);

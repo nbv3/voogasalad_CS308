@@ -67,7 +67,7 @@ public class SimpleControlAttribute extends SimpleAbstractAttribute implements I
 //		ISimpleBoundingBox box = getParent().getBoundingBox();
 //		Point2D oldPoint = box.getPoint();
 //		box.setPoint(new Point2D(oldPoint.getX() + xVelocity, oldPoint.getY() + yVelocity));
-		System.out.println(String.format("X Velocity: %d   Y Velocity: %d", xVelocity, yVelocity));
+		System.out.println(String.format("X Velocity: %f    Y Velocity: %f", xVelocity, yVelocity));
 	}
 	
 	@Override

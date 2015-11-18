@@ -32,6 +32,18 @@ public class SimpleObject implements ISimpleObject {
 	public Collection<ISimpleEvent> getEventsFromCollision(SimpleObjectType type) {
 		return myCollisionEventMap.get(type);
 	}
+	
+	@Override
+	public void addCollisionBinding(SimpleObjectType type, ISimpleEvent event) {
+		if (myCollisionEventMap.containsKey(type)) {
+			getEventsFromCollision(type).add(event);
+		}
+		else {
+			Collection<ISimpleEvent> onCollisionEvents = new ArrayList<ISimpleEvent>();
+			onCollisionEvents.add(event);
+			myCollisionEventMap.put(type, onCollisionEvents);
+		}
+	}
 
 	@Override
 	public SimpleObjectType getType() {
@@ -43,4 +55,9 @@ public class SimpleObject implements ISimpleObject {
 		return myAttributes;
 	}
 
+	@Override
+	public void addAttribute(ISimpleAttribute attribute) {
+		myAttributes.add(attribute);
+	}
+	
 }

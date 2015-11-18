@@ -1,5 +1,5 @@
 package simple.event;
 
-public enum SimpleEvents {
+public enum SimpleEventType {
 	HealthChange
 }
