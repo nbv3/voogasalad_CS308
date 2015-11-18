@@ -15,12 +15,14 @@ import simple.obj.SimpleObject;
 import simple.obj.SimpleObjectType;
 import simple.universe.ISimpleUniverse;
 import simple.universe.SimpleUniverse;
+import simple.utilities.GameInformation;
 
 public class SimpleGameManager implements ISimpleGameManager {
 
 	private ISimpleUniverse myUniverse;
 	// private ISimpleViewController myViewController;
 	private List<ISimpleCondition> myConditions;
+	private GameInformation myInformation;
 
 	public SimpleGameManager() {
 		myUniverse = new SimpleUniverse();
@@ -44,7 +46,13 @@ public class SimpleGameManager implements ISimpleGameManager {
 	public void updateGame() {
 		SimpleEngine.frameUpdate(myUniverse);
 		checkConditions();
+		updateStats();
 
+	}
+
+	private void updateStats() {
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
