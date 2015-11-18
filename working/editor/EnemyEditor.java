@@ -34,10 +34,10 @@ public class EnemyEditor {
 	private ResourceBundle enemyIconBundle;
 	private final String DEFAULT_RESOURCE_PACKAGE = "resources/";
 	private final String PATH_SPAWN_ICON = "spawner.png";
-	private final int NUMBER_ROW_ICON_PANEL = 3;
-	private final int NUMBER_COLUMN_ICON_PANEL = 4;
-	private final double WIDTH_ICON_PANEL = 200;
-	private final double HEIGHT_ICON_PANEL = 150;
+	private final int NUMBER_ROW_ICON_PANEL = 2;
+	private final int NUMBER_COLUMN_ICON_PANEL = 5;
+	private final double WIDTH_ICON_PANEL = 250;
+	private final double HEIGHT_ICON_PANEL = 100;
 	private final int NUMBER_ROW_QUEUE_PANEL = 3;
 	private final int NUMBER_COLUMN_QUEUE_PANEL = 10;
 	private final double WIDTH_QUEUE_PANEL = 500;
