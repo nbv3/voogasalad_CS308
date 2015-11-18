@@ -5,6 +5,8 @@ import java.util.Collection;
 import simple.attribute.ISimpleAttribute;
 import simple.event.ISimpleEvent;
 import simple.universe.ISimpleUniverse;
+import view.BoundingBox;
+import view.ObjectView;
 
 public interface ISimpleObject extends ISimpleAttributeContainer {
 
@@ -32,5 +34,27 @@ public interface ISimpleObject extends ISimpleAttributeContainer {
 	// ISimpleAttributeContainer methods
 	@Override
 	public Collection<ISimpleAttribute> getAttributes();
+	
+	
+	/**
+	 * Sets the ID of this object.
+	 * @param id
+	 * @return
+	 */
+	public void setID(int id);
+	
+	/**
+	 * Returns the ID of this object
+	 * @return id
+	 */
+	public int getID();
+	
+	/**
+	 * 
+	 * @param o
+	 */
+	public void registerObserver(ObjectView o);
+	
+	public BoundingBox getBoundingBox();
 
 }
