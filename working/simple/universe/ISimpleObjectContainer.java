@@ -11,5 +11,6 @@ public interface ISimpleObjectContainer extends ISimpleObjectAdder, ISimpleObjec
 	 * @return
 	 */
 	public Collection<ISimpleObject> getGameObjects();
+
 		
 }

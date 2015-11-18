@@ -27,12 +27,8 @@ public class SimpleGameManager implements ISimpleGameManager {
 		Collection<ISimpleObject> unmodifiableUniverse = myUniverse.getGameObjects();
 
 		for (ISimpleCondition condition : myConditions) {
-			for (ISimpleObject object : unmodifiableUniverse) {
-				// Check for conditions
-				if (condition.checkObject(object)) {
-					switchLevel(condition.returnType());
-				}
-
+			if(condition.checkObject(unmodifiableUniverse)){
+				switchLevel(condition.returnType());
 			}
 		}
 

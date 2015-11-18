@@ -1,13 +1,14 @@
 package simple.conditions;
 
+import java.util.Collection;
+
 import simple.obj.ISimpleObject;
-import simple.obj.SimpleObjectType;
 
 public interface ISimpleCondition{
 
-	public boolean isConditionMet(ISimpleObject object);
+	public boolean isConditionMet();
 	
-	public boolean checkObject(ISimpleObject object);
+	public boolean checkObject(Collection<ISimpleObject> unmodifiableUniverse);
 	
 	public SimpleConditions returnType();
 	
