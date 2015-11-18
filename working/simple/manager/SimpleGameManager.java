@@ -29,10 +29,10 @@ public class SimpleGameManager implements ISimpleGameManager {
 		for (ISimpleCondition condition : myConditions) {
 			for (ISimpleObject object : unmodifiableUniverse) {
 				// Check for conditions
-				if(condition.checkObject(object)){
+				if (condition.checkObject(object)) {
 					switchLevel(condition.returnType());
 				}
-				
+
 			}
 		}
 
@@ -40,13 +40,12 @@ public class SimpleGameManager implements ISimpleGameManager {
 
 	@Override
 	public void switchLevel(SimpleConditions type) {
-		if(type.equals(SimpleConditions.WINNING)){
+		if (type.equals(SimpleConditions.WINNING)) {
 			// go forward
-		}
-		else if(type.equals(SimpleConditions.LOSING)){
+		} else if (type.equals(SimpleConditions.LOSING)) {
 			// go backward?
 		}
-		
+
 	}
 
 }
