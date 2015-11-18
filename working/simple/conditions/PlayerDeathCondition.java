@@ -1,24 +1,29 @@
 package simple.conditions;
 
+import simple.obj.ISimpleObject;
 import simple.obj.SimpleObjectType;
 
 public class PlayerDeathCondition implements ISimpleCondition {
 
-	public PlayerDeathCondition() {
+	private SimpleConditions type = SimpleConditions.LOSING;
+
+	@Override
+	public boolean isConditionMet(ISimpleObject object) {
+		return object.getType().equals(SimpleObjectType.PLAYER);
 	}
 
 	@Override
-	public boolean isConditionMet(SimpleObjectType type) {
-		return type.equals(SimpleObjectType.PLAYER);
+	public boolean checkObject(ISimpleObject object) {
+		if (isConditionMet(object)) {
+			return true;
+		} else
+			return false;
+
 	}
 
 	@Override
-	public void act(SimpleObjectType type) {
-		if (isConditionMet(type)) {
-			// Player death action
-		}
-		return;
-
+	public SimpleConditions returnType() {
+		return type;
 	}
 
 }
