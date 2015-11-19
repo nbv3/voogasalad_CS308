@@ -17,6 +17,8 @@ public class PlayerDeathCondition implements ISimpleCondition {
 
 	@Override
 	public boolean checkObject(Collection<ISimpleObject> universe) {
+		playerscounted = 0;
+		
 		for (ISimpleObject object : universe) {
 			if (object.getType().equals(SimpleObjectType.PLAYER)) {
 				playerscounted++;
