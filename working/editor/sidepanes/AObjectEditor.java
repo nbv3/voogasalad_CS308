@@ -71,10 +71,13 @@ public abstract class AObjectEditor extends VBox {
 		
 		myScrollPane.setContent(myIconPane);
 		for (int i = 0; i < iconPath.length; i++) {
-			ImageView img = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(iconPath[i])));
+			ImageTile img = new ImageTile(
+					getClass().getClassLoader().getResourceAsStream(iconPath[i]), 
+					myIconPane.getPrefWidth() / numColumns,
+					myIconPane.getPrefHeight() / numRows);
 			
 			img.setOnMouseClicked(e -> {
-				selectImg = (ImageTile) img;
+				selectImg = img;
 				img.requestFocus();});
 			
 			img.focusedProperty().addListener((o,oldValue,newValue) -> {

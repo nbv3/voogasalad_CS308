@@ -62,8 +62,9 @@ public class TileEditor extends AObjectEditor implements ITileEditor {
 		//myIconPane.getChildren().clear();
 		
 		//iconBox.getChildren().clear();
-		showImageOptions(NUMBER_ROW_ICON_PANEL, NUMBER_COLUMN_ICON_PANEL, tileIconPath);
 		myIconPane.setPrefSize(WIDTH_ICON_PANEL, HEIGHT_ICON_PANEL);
+		showImageOptions(NUMBER_ROW_ICON_PANEL, NUMBER_COLUMN_ICON_PANEL, tileIconPath);
+		
 				
 		iconBox.getChildren().addAll(myIconPane, createOkButton(s));
 		
