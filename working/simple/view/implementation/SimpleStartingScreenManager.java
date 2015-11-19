@@ -11,7 +11,7 @@ public class SimpleStartingScreenManager implements IViewManager{
 	private Stage myStage;
 	
 	public SimpleStartingScreenManager(Stage stage){
-		SimpleStartingMenu startingScreen = new SimpleStartingMenu(this, WIDTH, HEIGHT, "Vooga - Team Rocket");
+		SimpleStartingMenu startingScreen = new SimpleStartingMenu(this, WIDTH, HEIGHT, "Vooga Salad");
 		Scene welcome = new Scene(startingScreen, WIDTH, HEIGHT);
 		//The following lines can be refactored 
 		myStage = stage;

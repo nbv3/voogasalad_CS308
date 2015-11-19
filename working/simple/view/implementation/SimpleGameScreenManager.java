@@ -1,7 +1,5 @@
 package simple.view.implementation;
 
-import java.awt.Color;
-
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.Scene;
@@ -9,11 +7,10 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import simple.manager.SimpleGameManager;
 import simple.view.IViewManager;
-import javafx.scene.layout.Pane;
 
 public class SimpleGameScreenManager implements IViewManager{
-	
-	private static final double FRAME_LENGTH = 1/60.0;
+
+	private final double FRAME_LENGTH = 1/60.0;
 	private SimpleGameManager myGameManager;
 	/**
 	 * TODO These variables are always the same, put them 

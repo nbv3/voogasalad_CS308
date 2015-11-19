@@ -48,7 +48,6 @@ public class SimpleGameManager implements ISimpleGameManager {
 		SimpleObject enemy = new SimpleObject(SimpleObjectType.ENEMY, new Point2D(200, 200), 100, 100, path, 2);
 
 		enemy.addCollisionBinding(SimpleObjectType.PLAYER, new SimpleHealthChangeEvent(-10));
-
 		myUniverse.addGameObject(player);
 		myUniverse.addGameObject(enemy);
 		myViewController.addViewObject(player);
@@ -76,7 +75,6 @@ public class SimpleGameManager implements ISimpleGameManager {
 		}
 		checkConditions();
 		updateStats();
-
 	}
 
 	private void updateStats() {
