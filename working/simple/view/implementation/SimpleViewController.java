@@ -6,22 +6,21 @@ import java.util.Map;
 import simple.obj.IViewableObject;
 
 public class SimpleViewController {
-	
+
 	private Map<Integer, ObjectView> myViewMap;
 	private GameView myGameView;
-	
-	public ViewController(double size) {
+
+	public SimpleViewController(double size) {
 		myViewMap = new HashMap<Integer, ObjectView>();
 		myGameView = new GameView(size);
 	}
-	
-	public void addViewObject(int id, IViewableObject obj, String path) {
-		ObjectView newView = new ObjectView(path, obj.getBoundingBox(), myGameView);
-		obj.registerObserver(newView);
-		myViewMap.put(id, newView);
+
+	public void addViewObject(IViewableObject obj) {
+		ObjectView newView = new ObjectView(obj.getPath(), obj.getBoundingBox(), myGameView);
+		myViewMap.put(obj.returnID(), newView);
 	}
-	
-	public GameView getGameView(){
+
+	public GameView getGameView() {
 		return myGameView;
 	}
 

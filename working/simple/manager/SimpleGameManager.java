@@ -19,6 +19,7 @@ import simple.obj.SimpleObjectType;
 import simple.universe.ISimpleUniverse;
 import simple.universe.SimpleUniverse;
 import simple.utilities.GameInformation;
+import simple.view.implementation.SimpleViewController;
 import view.ViewController;
 
 public class SimpleGameManager implements ISimpleGameManager {
@@ -27,26 +28,29 @@ public class SimpleGameManager implements ISimpleGameManager {
 	// private ISimpleViewController myViewController;
 	private List<ISimpleCondition> myConditions;
 	private GameInformation myInformation;
-	private ViewController myViewController;
+	private SimpleViewController myViewController;
 
 	public SimpleGameManager() {
 		myUniverse = new SimpleUniverse();
 		myConditions = new ArrayList<ISimpleCondition>();
 
-		myViewController = new ViewController(600.0);
-		String path = "";
+		myViewController = new SimpleViewController(600.0);
+		String path = "enemy_dragon.png";
 		
-		ISimpleObject player = new SimpleObject(SimpleObjectType.PLAYER, new Point2D(0,0),10,10, path, 1);
+		//i changed ISimpleObject to SimpleObject, else addViewObject does not work
+		SimpleObject player = new SimpleObject(SimpleObjectType.PLAYER, new Point2D(0,0),50,50, path, 1);
 		player.addAttribute(new SimpleControlAttribute(player));
 		player.addAttribute(new SimpleHealthAttribute(10, player));
 		
-		ISimpleObject enemy = new SimpleObject(SimpleObjectType.ENEMY, new Point2D(20,20),30,30, path, 2);
+		SimpleObject enemy = new SimpleObject(SimpleObjectType.ENEMY, new Point2D(200,200),100,100, path, 2);
 
 		enemy.addCollisionBinding(SimpleObjectType.PLAYER, new SimpleHealthChangeEvent(10));
 
 		myUniverse.addGameObject(player);
 		myUniverse.addGameObject(enemy);
-
+		myViewController.addViewObject(player);
+		myViewController.addViewObject(enemy);
+		
 		updateGame();
 
 	}
