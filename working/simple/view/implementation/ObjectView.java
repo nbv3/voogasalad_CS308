@@ -37,5 +37,9 @@ public class ObjectView implements Observer{
 		double yCoordinate = box.getPoint().getY()*scalingFactor;
 		myImageView.relocate(xCoordinate, yCoordinate);
 	}
+	
+	public ImageView getImageView(){
+		return myImageView;
+	}
 
 }

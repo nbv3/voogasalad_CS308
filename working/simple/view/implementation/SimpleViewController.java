@@ -23,5 +23,11 @@ public class SimpleViewController {
 	public GameView getGameView() {
 		return myGameView;
 	}
+	
+	public void removeViewObject(IViewableObject obj){
+		ObjectView object = myViewMap.get(obj.returnID());
+		myGameView.getChildren().remove(object.getImageView());
+		myViewMap.remove(obj.returnID());
+	}
 
 }
