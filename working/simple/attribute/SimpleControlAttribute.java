@@ -8,15 +8,10 @@ import java.util.Map;
 import javafx.geometry.Point2D;
 import javafx.scene.input.KeyCode;
 import simple.attribute.movement.ISimpleMover;
-import simple.attribute.movement.algs.IMovementSetter;
-import simple.attribute.movement.algs.MoveDownCardinal;
-import simple.attribute.movement.algs.MoveLeftCardinal;
-import simple.attribute.movement.algs.MoveRightCardinal;
-import simple.attribute.movement.algs.MoveUpCardinal;
+import simple.attribute.movement.algs.*;
 import simple.event.ISimpleEvent;
 import simple.obj.ISimpleBoundingBox;
 import simple.obj.ISimpleObject;
-import simple.obj.SimpleBoundingBox;
 import simple.universe.ISimpleUniverse;
 import simple.universe.userinput.IKeyInputStorage;
 
@@ -35,6 +30,11 @@ public class SimpleControlAttribute extends SimpleAbstractAttribute implements I
 		myCurrentMovement = new ArrayList<IMovementSetter>();
 		setVelocity(0, 0);
 		setSpeed(3);
+//		myKeyBindings.put(KeyCode.RIGHT, new MoveRight());
+//		myKeyBindings.put(KeyCode.LEFT, new MoveLeft());
+//		myKeyBindings.put(KeyCode.DOWN, new MoveDown());
+//		myKeyBindings.put(KeyCode.UP, new MoveUp());
+		
 		myKeyBindings.put(KeyCode.RIGHT, new MoveRightCardinal());
 		myKeyBindings.put(KeyCode.LEFT, new MoveLeftCardinal());
 		myKeyBindings.put(KeyCode.DOWN, new MoveDownCardinal());
@@ -94,12 +94,14 @@ public class SimpleControlAttribute extends SimpleAbstractAttribute implements I
 		setXVelocity(xVel);
 		setYVelocity(yVel);
 	}
-
-	private void setXVelocity(double xvel) {
+	
+	@Override
+	public void setXVelocity(double xvel) {
 		this.xVelocity = xvel;
 	}
 	
-	private void setYVelocity(double yvel) {
+	@Override
+	public void setYVelocity(double yvel) {
 		this.yVelocity = yvel;
 	}
 

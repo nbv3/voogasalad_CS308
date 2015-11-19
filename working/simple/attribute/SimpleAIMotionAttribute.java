@@ -20,8 +20,8 @@ public class SimpleAIMotionAttribute extends SimpleAbstractAttribute implements 
 	private double xVelocity;
 	private double yVelocity;
 	private double mySpeed;
-	private Point2D currentLocation;
-	private Point2D destinationLocation;
+	private Point currentLocation;
+	private Point destinationLocation;
 	
 	private Path myPath;
 	private Point currentTile;
@@ -116,11 +116,13 @@ public class SimpleAIMotionAttribute extends SimpleAbstractAttribute implements 
 		setYVelocity(yVel);
 	}
 
-	private void setXVelocity(double xvel) {
+	@Override
+	public void setXVelocity(double xvel) {
 		this.xVelocity = xvel;
 	}
 	
-	private void setYVelocity(double yvel) {
+	@Override
+	public void setYVelocity(double yvel) {
 		this.yVelocity = yvel;
 	}
 
