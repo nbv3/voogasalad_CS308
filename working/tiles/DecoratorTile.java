@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Observable;
 
 import objects.SpawnerObject;
+import objects.towers.AbstractTower;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import tiles.implementations.SceneryTile;
@@ -16,6 +17,7 @@ public class DecoratorTile extends Observable implements IGameTile, IView {
 	private IGameTile myImplementation;
 	private ImageView myImageView = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream("scenery_grass_1.png")));
 	private List<SpawnerObject> spawnerList;
+	private List<AbstractTower> towerList;
 	
 	public DecoratorTile(Point p) {
 		myImplementation = new SceneryTile(p);
@@ -63,9 +65,19 @@ public class DecoratorTile extends Observable implements IGameTile, IView {
 	public List<SpawnerObject> getSpawnerList() {
 		return spawnerList;
 	}
+	
+	public List<AbstractTower> getTowerList()
+	{
+		return towerList;
+	}
 
 	public void setSpawnerList(List<SpawnerObject> spawnerList) {
 		this.spawnerList = spawnerList;
+	}
+	
+	public void setTowerList(List<AbstractTower> towerList)
+	{
+		this.towerList = towerList;
 	}
 	
 }
