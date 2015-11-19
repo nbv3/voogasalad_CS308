@@ -6,15 +6,12 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-
-
 import editor.sidepanes.EditorTab;
 import editor.sidepanes.EditorTabPane;
-import editor.sidepanes.SpawnerPropertyBox;
 import editor.sidepanes.TilePropertyPane;
 import environment.GameMap;
+import gui.factory.AlertBoxFactory;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -148,6 +145,10 @@ public class AuthoringEnvironment implements Observer {
 	
 	private void changeToPropertyPane() {
 		if (isEditorPane) {
+			if (myTileSelection.size() != 1) {
+				new AlertBoxFactory().createObject("Cannot view properties for multiple tiles");
+				return;
+			}
 			myWindow.setRight(new TilePropertyPane(myTileSelection).getPaneNode());
 			isEditorPane = false;
 		}

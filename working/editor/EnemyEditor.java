@@ -9,9 +9,8 @@ import java.util.ResourceBundle;
 import objects.SpawnerObject;
 import tiles.DecoratorTile;
 import editor.sidepanes.SpawnerPropertyBox;
+import gui.factory.AlertBoxFactory;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
@@ -74,18 +73,18 @@ public class EnemyEditor {
 
 	private void addSpawnerListToSelectedTile() {
 		if (spawnerList.isEmpty()) {
-			showAlertBox("No spawner added, please add at least one spawner");
+			new AlertBoxFactory().createObject("No spawner added, please add at least one spawner");
 			return;
 		}
 		
 		if (currentTileSelection.isEmpty()) {
-			showAlertBox("No tile selected, please slect at least one tile");
+			new AlertBoxFactory().createObject("No tile selected, please slect at least one tile");
 			return;
 		}
 		
 		for (DecoratorTile t: currentTileSelection) {
 			if (!t.isWalkable()) {
-				showAlertBox("Spawner can only be added to path tiles");
+				new AlertBoxFactory().createObject("Spawner can only be added to path tiles");
 				return;
 			}
 		}
@@ -120,7 +119,7 @@ public class EnemyEditor {
 		SpawnerObject spnObj = new SpawnerObject();
 		
 		if (iv == null) {
-			showAlertBox("Please select an spawner image first");
+			new AlertBoxFactory().createObject("Please select an spawner image first");
 			return;
 		}
 
@@ -133,7 +132,7 @@ public class EnemyEditor {
 			System.out.println(spawnerProperty.getSpawnNum());	// test info.
 		}
 		catch (NumberFormatException nfe) {
-			showAlertBox("Bad input, please input an interger number");
+			new AlertBoxFactory().createObject("Bad input, please input an interger number");
 			return;
 		}
 		
@@ -153,10 +152,6 @@ public class EnemyEditor {
 	}
 
 	private void handleClickEvent(MouseEvent e, ImageView i) {
-		if (e.getClickCount() == 1) {
-			diplaySpawnerInfo(i);
-		}
-		
 		if (e.getClickCount() == 2) {
 			removeFromSpawnList(i);
 		}
@@ -164,24 +159,11 @@ public class EnemyEditor {
 		return;
 	}
 
-	private void diplaySpawnerInfo(ImageView i) {
-		// TODO Auto-generated method stub
-		
-	}
-
 	private void removeFromSpawnList(ImageView i) {
 		spawnerList.remove(spawnQueuePane.getChildren().indexOf(i));
 		spawnQueuePane.getChildren().remove(i);
 		System.out.println("The spawn list length is " + spawnerList.size());
 		return;
-	}
-
-	private void showAlertBox(String str) {
-		Alert alert = new Alert(AlertType.INFORMATION);
-		alert.setTitle("Information Dialog");
-		alert.setHeaderText(null);
-		alert.setContentText(str);
-		alert.showAndWait();
 	}
 	
 	private GridPane createEnemyIconPane() {

@@ -1,13 +1,13 @@
 package editor;
 
+import gui.factory.AlertBoxFactory;
+
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
@@ -91,24 +91,15 @@ public class TileEditor {
 		return;
 	}
 	
-	private void showAlertBox(String str) {
-		Alert alert = new Alert(AlertType.INFORMATION);
-		alert.setTitle("Information Dialog");
-		alert.setHeaderText(null);
-		alert.setContentText(str);
-		alert.showAndWait();
-	}
-	
 	private void updateSelectedTile(ImageView iv, String s) {
 		
 		if (currentTileSelection.isEmpty()) {
-			 showAlertBox("No tile selected, please at least select one tile");
+			new AlertBoxFactory().createObject("No tile selected, please at least select one tile");
 			 return;
 		}
 		
 		for (DecoratorTile tile: currentTileSelection) {
 			ImageView i = new ImageView(iv.getImage());
-			//i.getStyleClass().add("tile-select-on");
 			tile.setImage(i);
 			try {
 				Class<?> arg = IGameTile.class;
