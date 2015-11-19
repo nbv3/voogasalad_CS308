@@ -91,7 +91,7 @@ When creating a spawner object, set the spawn number to be the number of identic
 
 ##25. Save individual level XML to a directory of level XML files. 
 
-
+A game folder will a 'level' folder which has multiple 'level' files, each of which is a `Level` object xstreamed into XML.
 
 ##26. Create usable item for player
 In the ItemEditor menu in the tab pane, select attributes and an image that will be associated with the item and set those values as needed. Once that is done, the user will be able to click an add button that will add the new weapon to the current library of items available to the user. 
@@ -109,7 +109,7 @@ This class will exist in the GameManager and will keep track of the statistics r
 
 ##30. Path-finding utility
 
-
+PathFinder object which takes a Map<Point, Boolean> and a start and end point, and finds the shortest path from start to end point. The booleans denote traversable points.
 
 ##31. Resource engine utility
 
