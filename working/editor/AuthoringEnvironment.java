@@ -83,7 +83,7 @@ public class AuthoringEnvironment implements Observer {
 		myScene.getStylesheets().add("css/default.css");
 		Stage stage = new Stage();
 		stage.setScene(myScene);
-		stage.setMaximized(true);
+		//stage.setMaximized(true);
 		return stage;
 	}
 
