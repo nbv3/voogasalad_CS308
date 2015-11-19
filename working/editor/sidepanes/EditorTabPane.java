@@ -5,21 +5,19 @@ import javafx.scene.control.TabPane;
 
 public class EditorTabPane {
 	private TabPane editorPane;
-
-	public EditorTabPane() {
-		editorPane = new TabPane();
-		Tab level = new Tab();
-		level.setText("Level Settings");
-		
-		Tab enemies = new Tab();
-		enemies.setText("Enemies");
-		Tab towers = new Tab();
-		towers.setText("Towers");
-		Tab items = new Tab();
-		items.setText("Items");
-		editorPane.getTabs().addAll(level,enemies,towers,items);
-	}
 	
+	public EditorTabPane(EditorTab... tabs) {
+		editorPane = new TabPane();
+
+		for(EditorTab e:tabs) {
+			Tab newTab = new Tab();
+			newTab.setClosable(false);
+			newTab.setText(e.getTabDescription());
+			newTab.setContent(e.getContent());
+			editorPane.getTabs().add(newTab);
+		}
+	}
+
 	public TabPane getPaneNode() {
 		return editorPane;
 	}
