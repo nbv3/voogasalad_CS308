@@ -2,14 +2,19 @@ package simple.view.implementation;
 
 import java.awt.Color;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import simple.manager.SimpleGameManager;
 import simple.view.IViewManager;
 import javafx.scene.layout.Pane;
 
 public class SimpleGameScreenManager implements IViewManager{
 	
+	private static final double FRAME_LENGTH = 1/60;
+	private SimpleGameManager myGameManager;
 	/**
 	 * TODO These variables are always the same, put them 
 	 * somewhere else
@@ -30,16 +35,29 @@ public class SimpleGameScreenManager implements IViewManager{
 
 	@Override
 	public void launchGame() {
-		SimpleGameManager man = new SimpleGameManager();
-		Scene gameScene = new Scene(man.getGameView(), 600.0, 600.0);
-		myStage.getScene().setOnKeyPressed(e -> man.receiveKeyPressed(e.getCode()));
-		myStage.getScene().setOnKeyReleased(e -> man.receiveKeyReleased(e.getCode()));
+		myGameManager = new SimpleGameManager();
+		Scene gameScene = new Scene(myGameManager.getGameView(), 600.0, 600.0);
+		//initializeAnimation();
+		gameScene.setOnKeyPressed(e -> myGameManager.receiveKeyPressed(e.getCode()));
+		gameScene.setOnKeyReleased(e -> myGameManager.receiveKeyReleased(e.getCode()));
 		myStage.setScene(gameScene);
 	}
-	
-	//useless for now
-	public void launchEditor(){
-		//create editor env, get buckets
+	/*
+	private void initializeAnimation() {
+		KeyFrame frame = new KeyFrame(Duration.seconds(FRAME_LENGTH),
+                e -> myGameManager.update());
+		Timeline animation = new Timeline();
+		animation.setCycleCount(Timeline.INDEFINITE);
+		animation.getKeyFrames().add(frame);
+		this.setAnimation(animation);
+		animation.play();
 	}
+	*/
+	@Override
+	public void launchEditor() {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 }
