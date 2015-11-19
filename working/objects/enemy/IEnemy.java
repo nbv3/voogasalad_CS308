@@ -3,14 +3,12 @@ package objects.enemy;
 import java.awt.Point;
 import java.util.List;
 
+import environment.GameMap;
 import objects.IGameObject;
+import tools.PathFinder;
 
 public interface IEnemy extends IGameObject{
+	public Point getDestination();
 	
-	public Point getPoint();
-	
-	/**
-	 * find path upon spawn
-	 */
-	public List<Point> findPath(); 
+	public List<Point> findPath(GameMap gm);
 }
