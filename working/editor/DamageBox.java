@@ -19,7 +19,7 @@ public class DamageBox {
 		
 		damageValue = new HBox();
 
-		Label damageLabel = new Label("Damange Inflicted");
+		Label damageLabel = new Label("Damage Inflicted");
 		damageLabel.setPrefWidth(150);
 
 		TextField value = new TextField();

@@ -34,6 +34,7 @@ public class TileEditor {
 	public TileEditor(List<DecoratorTile> tiles) {
 		currentTileSelection = tiles;
 		tilePane = new VBox();
+		tilePane.getStyleClass().add("properties-module");
 		iconBox = new VBox();
 		tilePane.getChildren().addAll(createDropdownList(),iconBox);
 	}

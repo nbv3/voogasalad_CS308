@@ -50,12 +50,16 @@ public class TowerEditor {
 		//VBox h = new SpawnerPropertyBox().getNode();
 		towerList = new LinkedList<AbstractTower>();	// here String need to change to Spawner later
 		VBox d = new DamageBox().getNode();
+		d.getStyleClass().add("properties-module");
 		VBox w = new WeaponBox().getNode();
+		w.getChildren().add(createAddSpawnerButton());
+		w.getStyleClass().add("properties-module");
 		spawnQueuePane = createSpawnQueueIconPane();
+		spawnQueuePane.getStyleClass().add("properties-module");
 		towerEditor.getChildren().add(createTowerIconPane());
 		towerEditor.getChildren().addAll(d, w);
 		//towerEditor.getChildren().add(spawnerProperty.getNode());
-		towerEditor.getChildren().add(createAddSpawnerButton());
+		//towerEditor.getChildren().add(createAddSpawnerButton());
 		towerEditor.getChildren().add(createSpawnListPane());
 	}
 
@@ -65,6 +69,7 @@ public class TowerEditor {
 	
 	private VBox createSpawnListPane() {
 		VBox spawnListPane = new VBox();
+		spawnListPane.getStyleClass().add("properties-module");
 		spawnListPane.getChildren().add(createSpawnerQueueText());
 		spawnListPane.getChildren().add(spawnQueuePane);
 		spawnListPane.getChildren().add(createSetSpawnerButton());
@@ -86,7 +91,7 @@ public class TowerEditor {
 		}
 		
 		if (currentTileSelection.isEmpty()) {
-			showAlertBox("No tile selected, please slect at least one tile");
+			showAlertBox("No tile selected, please select at least one tile");
 			return;
 		}
 		
@@ -192,6 +197,7 @@ public class TowerEditor {
 	
 	private GridPane createTowerIconPane() {
 		GridPane towerIconPane = new GridPane();
+		towerIconPane.getStyleClass().add("properties-module");
 		towerIconPane.setPrefSize(WIDTH_ICON_PANEL, HEIGHT_ICON_PANEL);
 		//spawnQueuePane.setGridLinesVisible(true);
 		towerIconBundle = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "TowerIcon");

@@ -21,7 +21,7 @@ public class TilePropertyPane {
 
 	private TilePane CreateSpawnQueuePane() {
 		TilePane spawnQueuePane = new TilePane();
-		
+		spawnQueuePane.getStyleClass().add("properties-module");
 		for (SpawnerObject i: tiles.get(0).getSpawnerList()) {
 			spawnQueuePane.getChildren().add(i.getImage());
 		}

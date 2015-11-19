@@ -46,17 +46,20 @@ public class EnemyEditor {
 	public EnemyEditor(List<DecoratorTile> tiles) {
 		currentTileSelection = tiles;
 		spawnerList = new LinkedList<SpawnerObject>();	// here String need to change to Spawner later
+		VBox spawnerPropModule = new VBox();
 		spawnerProperty = new SpawnerPropertyBox();
+		spawnerPropModule.getChildren().addAll(spawnerProperty.getNode(), createAddSpawnerButton());
+		spawnerPropModule.getStyleClass().add("properties-module");
 		enemyPane = new VBox();
 		spawnQueuePane = createSpawnQueueIconPane();
 		enemyPane.getChildren().add(createEnemyIconPane());
-		enemyPane.getChildren().add(spawnerProperty.getNode());
-		enemyPane.getChildren().add(createAddSpawnerButton());
+		enemyPane.getChildren().add(spawnerPropModule);
 		enemyPane.getChildren().add(createSpawnListPane());
 	}
 
 	private VBox createSpawnListPane() {
 		VBox spawnListPane = new VBox();
+		spawnListPane.getStyleClass().add("properties-module");
 		spawnListPane.getChildren().add(createSpawnerQueueText());
 		spawnListPane.getChildren().add(spawnQueuePane);
 		spawnListPane.getChildren().add(createSetSpawnerButton());
@@ -168,6 +171,7 @@ public class EnemyEditor {
 	
 	private GridPane createEnemyIconPane() {
 		GridPane enemyIconPane = new GridPane();
+		enemyIconPane.getStyleClass().add("properties-module");
 		enemyIconPane.setPrefSize(WIDTH_ICON_PANEL, HEIGHT_ICON_PANEL);
 		//spawnQueuePane.setGridLinesVisible(true);
 		enemyIconBundle = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "EnemyIcon");
