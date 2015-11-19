@@ -13,6 +13,8 @@ public class SimpleUniverse implements ISimpleUniverse {
 
 	private int myObjectCounter;
 	private Collection<ISimpleObject> myGameObjects;
+	private Collection<ISimpleObject> mySpawnYard;
+	private Collection<ISimpleObject> myGraveYard;
 	private ISimpleGameMap myGameMap;
 	private Collection<KeyCode> myCurrentInput;
 
@@ -72,4 +74,26 @@ public class SimpleUniverse implements ISimpleUniverse {
 		return Collections.unmodifiableCollection(myCurrentInput);
 	}
 
+	@Override
+	public void addToSpawnYard(ISimpleObject toAdd){
+		mySpawnYard.add(toAdd);
+	}
+	
+	@Override
+	public void addToGraveYard(ISimpleObject toRemove){
+		myGraveYard.add(toRemove);
+	}
+
+	@Override
+	public void clearSpawnYard() {
+		mySpawnYard.clear();
+		
+	}
+
+	@Override
+	public void clearGraveYard() {
+		myGraveYard.clear();
+		
+	}
+	
 }

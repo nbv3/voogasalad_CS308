@@ -5,7 +5,9 @@ import simple.universe.userinput.IKeyInputProcessor;
 
 public interface ISimpleUniverse extends ISimpleObjectContainer, 
 										 ISimpleGameMap, 
-										 IKeyInputProcessor {
+										 IKeyInputProcessor,
+										 ISimpleSpawner,
+										 ISimpleKiller {
 
 	/**
 	 * A SimpleUniverse (anything that implements this interface) must contain a 

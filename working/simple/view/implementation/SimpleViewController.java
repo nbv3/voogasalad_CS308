@@ -1,6 +1,9 @@
 package simple.view.implementation;
 
 import java.util.HashMap;
+import java.util.Map;
+
+import simple.obj.IViewableObject;
 
 public class SimpleViewController {
 	
@@ -12,7 +15,7 @@ public class SimpleViewController {
 		myGameView = new GameView(size);
 	}
 	
-	public void addViewObject(int id, IViewable obj, String path) {
+	public void addViewObject(int id, IViewableObject obj, String path) {
 		ObjectView newView = new ObjectView(path, obj.getBoundingBox(), myGameView);
 		obj.registerObserver(newView);
 		myViewMap.put(id, newView);
