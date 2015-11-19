@@ -1,22 +1,21 @@
 package simple.event;
 
+import java.util.Collection;
+
 import simple.attribute.ISimpleAttribute;
-import simple.attribute.SimpleAbstractAttribute;
-import simple.attribute.SimpleHealthAttribute;
-import simple.obj.ISimpleObject;
 
 public class SimpleHealthChangeEvent extends SimpleAbstractEvent {
 
 	private double myDeltaHealth;
 	
-	public SimpleHealthChangeEvent(ISimpleObject target, double deltaHealth) {
-		super(SimpleEvents.HealthChange, target);
+	public SimpleHealthChangeEvent(double deltaHealth) {
+		super(SimpleEventType.HealthChange);
 		this.myDeltaHealth = deltaHealth;
 	}
 	
 	@Override
-	public void executeEvent() {
-		for (ISimpleAttribute attribute : getTargetAttributes()) {
+	public void executeEvent(Collection<ISimpleAttribute> targetAttributes) {
+		for (ISimpleAttribute attribute : targetAttributes) {
 			attribute.receiveEvent(this);
 		}
 	}

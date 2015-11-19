@@ -11,14 +11,21 @@ import simple.universe.map.ISimpleGameMap;
 
 public class SimpleUniverse implements ISimpleUniverse {
 
+	private int myObjectCounter;
 	private Collection<ISimpleObject> myGameObjects;
 	private ISimpleGameMap myGameMap;
 	private Collection<KeyCode> myCurrentInput;
 
 	public SimpleUniverse() {
+		myObjectCounter = 0;
 		myGameObjects = new ArrayList<ISimpleObject>();
 //		myGameMap = new SimpleGameMap(width, height);
 		myCurrentInput = new ArrayList<KeyCode>();
+	}
+	
+	@Override
+	public int getNextID() {
+		return myObjectCounter++;
 	}
 	
 	@Override

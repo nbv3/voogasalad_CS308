@@ -6,7 +6,7 @@ import simple.attribute.ISimpleAttribute;
 import simple.event.ISimpleEvent;
 import simple.universe.ISimpleUniverse;
 
-public interface ISimpleObject extends ISimpleAttributeContainer {
+public interface ISimpleObject extends ISimpleAttributeContainer, ISimpleCollidable {
 
 	/**
 	 * Update this object within the context of the whole universe.
@@ -15,22 +15,29 @@ public interface ISimpleObject extends ISimpleAttributeContainer {
 	public void updateSelf(ISimpleUniverse universe);
 	
 	/**
-	 * Returns a Collection of Events associated with colliding with a specific type
-	 * of object.
-	 * @param type
-	 * @return
-	 */
-	public Collection<ISimpleEvent> getEventsFromCollision(SimpleObjectType type);
-	
-	/**
 	 * Returns the Type of this object as specified by the SimpleObjectType enum.
 	 * @return
 	 */
 	public SimpleObjectType getType();
+	
+	public SimpleBoundingBox getBoundingBox();
 
 	
 	// ISimpleAttributeContainer methods
+	
 	@Override
 	public Collection<ISimpleAttribute> getAttributes();
 
+	@Override
+	public void addAttribute(ISimpleAttribute attribute);
+	
+	
+	// ISimpleCollidable methods
+	
+	@Override
+	public Collection<ISimpleEvent> getEventsFromCollision(SimpleObjectType type);
+	
+	@Override
+	public void addCollisionBinding(SimpleObjectType type, ISimpleEvent event);
+	
 }

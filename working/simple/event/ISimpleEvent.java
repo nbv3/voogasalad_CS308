@@ -5,24 +5,19 @@ import java.util.Collection;
 import objects.attributes.AbstractAttribute;
 import simple.attribute.ISimpleAttribute;
 import simple.attribute.SimpleAbstractAttribute;
+import simple.obj.ISimpleObject;
 
 public interface ISimpleEvent {
-	
-	/**
-	 * Return the list of ISimpleAttributes contained by the target of this event.
-	 * @return
-	 */
-	public Collection<ISimpleAttribute> getTargetAttributes();
 	
 	/**
 	 * Return the enum type of this event.
 	 * @return
 	 */
-	public SimpleEvents getEventType();
+	public SimpleEventType getEventType();
 	
 	/**
-	 * Execute this event on the specified Target.
+	 * Execute this event on the specified Target attributes.
 	 */
-	public void executeEvent();
+	public void executeEvent(Collection<ISimpleAttribute> targetAttributes);
 
 }
