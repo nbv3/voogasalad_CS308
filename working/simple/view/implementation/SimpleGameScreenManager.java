@@ -37,22 +37,21 @@ public class SimpleGameScreenManager implements IViewManager{
 	public void launchGame() {
 		myGameManager = new SimpleGameManager();
 		Scene gameScene = new Scene(myGameManager.getGameView(), 600.0, 600.0);
-		//initializeAnimation();
+		initializeAnimation();
 		gameScene.setOnKeyPressed(e -> myGameManager.receiveKeyPressed(e.getCode()));
 		gameScene.setOnKeyReleased(e -> myGameManager.receiveKeyReleased(e.getCode()));
 		myStage.setScene(gameScene);
 	}
-	/*
+	
 	private void initializeAnimation() {
 		KeyFrame frame = new KeyFrame(Duration.seconds(FRAME_LENGTH),
-                e -> myGameManager.update());
+                e -> myGameManager.updateGame());
 		Timeline animation = new Timeline();
 		animation.setCycleCount(Timeline.INDEFINITE);
 		animation.getKeyFrames().add(frame);
-		this.setAnimation(animation);
 		animation.play();
 	}
-	*/
+	
 	@Override
 	public void launchEditor() {
 		// TODO Auto-generated method stub
