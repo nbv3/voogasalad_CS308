@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import javafx.geometry.Point2D;
 import simple.attribute.ISimpleAttribute;
 import simple.event.ISimpleEvent;
 import simple.universe.ISimpleUniverse;
@@ -14,8 +15,10 @@ public class SimpleObject implements ISimpleObject {
 	private SimpleObjectType myType;
 	private Collection<ISimpleAttribute> myAttributes;
 	private Map<SimpleObjectType, Collection<ISimpleEvent>> myCollisionEventMap;
+	private SimpleBoundingBox myBoundingBox;
 
-	public SimpleObject(SimpleObjectType type) {
+	public SimpleObject(SimpleObjectType type, Point2D point, double width, double height) {
+		myBoundingBox = new SimpleBoundingBox(point, width, height);
 		myType = type;
 		myAttributes = new ArrayList<ISimpleAttribute>();
 		myCollisionEventMap = new HashMap<SimpleObjectType, Collection<ISimpleEvent>>();
@@ -60,4 +63,7 @@ public class SimpleObject implements ISimpleObject {
 		myAttributes.add(attribute);
 	}
 	
+	public SimpleBoundingBox getBoundingBox() {
+		return myBoundingBox;
+	}
 }
