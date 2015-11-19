@@ -41,11 +41,11 @@ public class SimpleGameManager implements ISimpleGameManager {
 
 		// i changed ISimpleObject to SimpleObject, else addViewObject does not
 		// work
-		SimpleObject player = new SimpleObject(SimpleObjectType.PLAYER, new Point2D(0, 0), 50, 50, path, 1);
+		SimpleObject player = new SimpleObject(SimpleObjectType.PLAYER, new Point2D(0, 0), 50, 50, path, myUniverse.getNextID());
 		player.addAttribute(new SimpleControlAttribute(player));
 		player.addAttribute(new SimpleHealthAttribute(10, player));
 
-		SimpleObject enemy = new SimpleObject(SimpleObjectType.ENEMY, new Point2D(200, 200), 100, 100, path, 2);
+		SimpleObject enemy = new SimpleObject(SimpleObjectType.ENEMY, new Point2D(200, 200), 100, 100, path, myUniverse.getNextID());
 
 		enemy.addCollisionBinding(SimpleObjectType.PLAYER, new SimpleHealthChangeEvent(-10));
 		myUniverse.addGameObject(player);
@@ -100,7 +100,7 @@ public class SimpleGameManager implements ISimpleGameManager {
 			// go forward
 		} else if (type.equals(SimpleConditionType.LOSING)) {
 			// go backward?
-			System.out.println("YOU LOSE");
+//			System.out.println("YOU LOSE");
 		}
 
 	}
