@@ -9,6 +9,10 @@ import javafx.geometry.Point2D;
 import javafx.scene.input.KeyCode;
 import simple.attribute.movement.ISimpleMover;
 import simple.attribute.movement.algs.IMovementSetter;
+import simple.attribute.movement.algs.MoveDownCardinal;
+import simple.attribute.movement.algs.MoveLeftCardinal;
+import simple.attribute.movement.algs.MoveRightCardinal;
+import simple.attribute.movement.algs.MoveUpCardinal;
 import simple.event.ISimpleEvent;
 import simple.obj.ISimpleBoundingBox;
 import simple.obj.ISimpleObject;
@@ -31,6 +35,10 @@ public class SimpleControlAttribute extends SimpleAbstractAttribute implements I
 		myCurrentMovement = new ArrayList<IMovementSetter>();
 		setVelocity(0, 0);
 		setSpeed(3);
+		myKeyBindings.put(KeyCode.RIGHT, new MoveRightCardinal());
+		myKeyBindings.put(KeyCode.LEFT, new MoveLeftCardinal());
+		myKeyBindings.put(KeyCode.DOWN, new MoveDownCardinal());
+		myKeyBindings.put(KeyCode.UP, new MoveUpCardinal());
 	}
 	
 	private void updateKeyInput(IKeyInputStorage universeKeyInput) {
@@ -62,12 +70,13 @@ public class SimpleControlAttribute extends SimpleAbstractAttribute implements I
 	
 	@Override
 	public void move() {
-//		TODO : Make this real
-//		SET THE NEW LOCATION OF THE PARENT'S BOUNDING BOX BASED ON CURRENT VELOCITY
-//		ISimpleBoundingBox box = getParent().getBoundingBox();
-//		Point2D oldPoint = box.getPoint();
-//		box.setPoint(new Point2D(oldPoint.getX() + xVelocity, oldPoint.getY() + yVelocity));
+		//TODO : Make this real
+	//	SET THE NEW LOCATION OF THE PARENT'S BOUNDING BOX BASED ON CURRENT VELOCITY
+		ISimpleBoundingBox box = getParent().getBoundingBox();
+		Point2D oldPoint = box.getPoint();
+		box.setPoint(new Point2D(oldPoint.getX() + xVelocity, oldPoint.getY() + yVelocity));
 		System.out.println(String.format("X Velocity: %f    Y Velocity: %f", xVelocity, yVelocity));
+		setVelocity(0,0);
 	}
 	
 	@Override

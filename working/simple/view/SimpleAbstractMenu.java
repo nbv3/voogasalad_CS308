@@ -8,6 +8,11 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
+
+/**
+ * Creates a main menu pane. generateOptions() allows to add menu options.
+ * 
+ */
 public abstract class SimpleAbstractMenu extends BorderPane{
 	
 	private IViewManager myManager;

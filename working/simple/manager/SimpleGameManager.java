@@ -10,16 +10,19 @@ import javafx.scene.layout.Pane;
 import simple.attribute.SimpleControlAttribute;
 import simple.attribute.SimpleHealthAttribute;
 import simple.conditions.ISimpleCondition;
+import simple.conditions.PlayerDeathCondition;
 import simple.conditions.SimpleConditions;
 import simple.eng.SimpleEngine;
 import simple.event.SimpleHealthChangeEvent;
 import simple.obj.ISimpleObject;
+import simple.obj.IViewableObject;
 import simple.obj.SimpleObject;
 import simple.obj.SimpleObjectType;
 import simple.universe.ISimpleUniverse;
 import simple.universe.SimpleUniverse;
 import simple.utilities.GameInformation;
 import simple.view.implementation.SimpleViewController;
+import view.IViewable;
 import view.ViewController;
 
 public class SimpleGameManager implements ISimpleGameManager {
@@ -33,24 +36,25 @@ public class SimpleGameManager implements ISimpleGameManager {
 	public SimpleGameManager() {
 		myUniverse = new SimpleUniverse();
 		myConditions = new ArrayList<ISimpleCondition>();
+		myConditions.add(new PlayerDeathCondition());
 
 		myViewController = new SimpleViewController(600.0);
 		String path = "enemy_dragon.png";
-		
-		//i changed ISimpleObject to SimpleObject, else addViewObject does not work
-		SimpleObject player = new SimpleObject(SimpleObjectType.PLAYER, new Point2D(0,0),50,50, path, 1);
+
+		// i changed ISimpleObject to SimpleObject, else addViewObject does not
+		// work
+		SimpleObject player = new SimpleObject(SimpleObjectType.PLAYER, new Point2D(0, 0), 50, 50, path, 1);
 		player.addAttribute(new SimpleControlAttribute(player));
 		player.addAttribute(new SimpleHealthAttribute(10, player));
-		
-		SimpleObject enemy = new SimpleObject(SimpleObjectType.ENEMY, new Point2D(200,200),100,100, path, 2);
 
-		//enemy.addCollisionBinding(SimpleObjectType.PLAYER, new SimpleHealthChangeEvent(0));
+		SimpleObject enemy = new SimpleObject(SimpleObjectType.ENEMY, new Point2D(200, 200), 100, 100, path, 2);
 
+		enemy.addCollisionBinding(SimpleObjectType.PLAYER, new SimpleHealthChangeEvent(-10));
 		myUniverse.addGameObject(player);
 		myUniverse.addGameObject(enemy);
 		myViewController.addViewObject(player);
 		myViewController.addViewObject(enemy);
-		
+
 		updateGame();
 
 	}
@@ -58,6 +62,19 @@ public class SimpleGameManager implements ISimpleGameManager {
 	@Override
 	public void updateGame() {
 		SimpleEngine.frameUpdate(myUniverse);
+
+		// Object cleanup for now
+
+		Collection<ISimpleObject> graveyard = myUniverse.getGraveYard();
+		if (graveyard != null) {
+			for (ISimpleObject obj : graveyard) {
+				myUniverse.removeGameObject(obj);
+				myViewController.removeViewObject((IViewableObject) obj);
+			}
+
+			myUniverse.clearGraveYard();
+
+		}
 		checkConditions();
 		updateStats();
 	}
@@ -85,15 +102,16 @@ public class SimpleGameManager implements ISimpleGameManager {
 			// go forward
 		} else if (type.equals(SimpleConditions.LOSING)) {
 			// go backward?
+			System.out.println("YOU LOSE");
 		}
 
 	}
-	
-	public void receiveKeyPressed(KeyCode code){
+
+	public void receiveKeyPressed(KeyCode code) {
 		myUniverse.receiveKeyPress(code);
 	}
-	
-	public void receiveKeyReleased(KeyCode code){
+
+	public void receiveKeyReleased(KeyCode code) {
 		myUniverse.receiveKeyRelease(code);
 	}
 

@@ -13,21 +13,24 @@ public class SimpleUniverse implements ISimpleUniverse {
 
 	private int myObjectCounter;
 	private Collection<ISimpleObject> myGameObjects;
+	private Collection<ISimpleObject> mySpawnYard;
+	private Collection<ISimpleObject> myGraveYard;
 	private ISimpleGameMap myGameMap;
 	private Collection<KeyCode> myCurrentInput;
 
 	public SimpleUniverse() {
 		myObjectCounter = 0;
 		myGameObjects = new ArrayList<ISimpleObject>();
-//		myGameMap = new SimpleGameMap(width, height);
+		// myGameMap = new SimpleGameMap(width, height);
 		myCurrentInput = new ArrayList<KeyCode>();
+		myGraveYard = new ArrayList<ISimpleObject>();
 	}
-	
+
 	@Override
 	public int getNextID() {
 		return myObjectCounter++;
 	}
-	
+
 	@Override
 	public Collection<ISimpleObject> getGameObjects() {
 		return Collections.unmodifiableCollection(myGameObjects);
@@ -70,6 +73,34 @@ public class SimpleUniverse implements ISimpleUniverse {
 	@Override
 	public Collection<KeyCode> getCurrentKeyInput() {
 		return Collections.unmodifiableCollection(myCurrentInput);
+	}
+
+	@Override
+	public void addToSpawnYard(ISimpleObject toAdd) {
+		mySpawnYard.add(toAdd);
+	}
+
+	@Override
+	public void addToGraveYard(ISimpleObject toRemove) {
+		myGraveYard.add(toRemove);
+	}
+
+	@Override
+	public void clearSpawnYard() {
+		mySpawnYard.clear();
+
+	}
+
+	@Override
+	public void clearGraveYard() {
+		myGraveYard.clear();
+
+	}
+
+	@Override
+	public Collection<ISimpleObject> getGraveYard() {
+		// TODO Auto-generated method stub
+		return myGraveYard;
 	}
 
 }

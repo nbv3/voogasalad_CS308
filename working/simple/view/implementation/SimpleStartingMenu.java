@@ -5,6 +5,12 @@ import javafx.scene.control.Button;
 import simple.view.IViewManager;
 import simple.view.SimpleAbstractMenu;
 
+/**
+ * 
+ * Menu implementation, allows choice Game/Editor
+ * 
+ */
+
 public class SimpleStartingMenu extends SimpleAbstractMenu{
 
 	public SimpleStartingMenu(IViewManager manager, double width, double height, String title) {

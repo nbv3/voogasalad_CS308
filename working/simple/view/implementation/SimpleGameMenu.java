@@ -5,6 +5,12 @@ import javafx.scene.control.Button;
 import simple.view.IViewManager;
 import simple.view.SimpleAbstractMenu;
 
+/**
+ * 
+ * Organizes and manages the game window, including starting/pausing and displaying menu. 
+ *
+ */
+
 public class SimpleGameMenu extends SimpleAbstractMenu{
 
 	public SimpleGameMenu(IViewManager manager, double width, double height, String title) {

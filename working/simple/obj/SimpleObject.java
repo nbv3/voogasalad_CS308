@@ -15,7 +15,7 @@ public class SimpleObject extends AbstractViewableObject implements ISimpleObjec
 	private SimpleObjectType myType;
 	private Collection<ISimpleAttribute> myAttributes;
 	private Map<SimpleObjectType, Collection<ISimpleEvent>> myCollisionEventMap;
-//	private SimpleBoundingBox myBoundingBox;
+	// private SimpleBoundingBox myBoundingBox;
 
 	public SimpleObject(SimpleObjectType type, Point2D point, double width, double height, String path, int id) {
 		super(point, width, height, path, id);
@@ -23,7 +23,7 @@ public class SimpleObject extends AbstractViewableObject implements ISimpleObjec
 		myAttributes = new ArrayList<ISimpleAttribute>();
 		myCollisionEventMap = new HashMap<SimpleObjectType, Collection<ISimpleEvent>>();
 	}
-	
+
 	@Override
 	public void updateSelf(ISimpleUniverse universe) {
 		for (ISimpleAttribute attribute : myAttributes) {
@@ -35,13 +35,12 @@ public class SimpleObject extends AbstractViewableObject implements ISimpleObjec
 	public Collection<ISimpleEvent> getEventsFromCollision(SimpleObjectType type) {
 		return myCollisionEventMap.get(type);
 	}
-	
+
 	@Override
 	public void addCollisionBinding(SimpleObjectType type, ISimpleEvent event) {
 		if (myCollisionEventMap.containsKey(type)) {
 			getEventsFromCollision(type).add(event);
-		}
-		else {
+		} else {
 			Collection<ISimpleEvent> onCollisionEvents = new ArrayList<ISimpleEvent>();
 			onCollisionEvents.add(event);
 			myCollisionEventMap.put(type, onCollisionEvents);
@@ -62,5 +61,5 @@ public class SimpleObject extends AbstractViewableObject implements ISimpleObjec
 	public void addAttribute(ISimpleAttribute attribute) {
 		myAttributes.add(attribute);
 	}
-	
+
 }
