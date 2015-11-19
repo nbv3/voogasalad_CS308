@@ -71,7 +71,6 @@ public class TileEditor {
 			
 			img.setOnMouseClicked(e -> {
 				selectImg.setValue(img);
-				//img.requestFocus();
 				});
 			
 			selectImg.addListener((o,s1,s2) -> {
@@ -91,8 +90,6 @@ public class TileEditor {
 		}
 		
 		iconBox.getChildren().addAll(iconPane, createOkButton(s));
-		
-		//iconPane.add(createOkButton(s),2, tileIconPath.length / NUMBER_COLUMN_ICON_PANEL + 1, 1, 1);
 		return;
 	}
 	
@@ -115,6 +112,7 @@ public class TileEditor {
 					| ClassNotFoundException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
 				e.printStackTrace();
 			}
+			tile.getSpawnerList().clear();
 		}
 	
 	}

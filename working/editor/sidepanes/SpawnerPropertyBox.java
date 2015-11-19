@@ -63,7 +63,7 @@ public class SpawnerPropertyBox {
 	public int getSpawnNum() {
 		return Integer.parseInt(spawnNumTF.getText());
 	}
-
+	
 	public boolean isNumber(String string) {
 	    try {
 	        Integer.parseInt(string);
@@ -71,6 +71,18 @@ public class SpawnerPropertyBox {
 	        return false;
 	    }
 	    return true;
+	}
+	
+	public void setMaxHp(int maxHp) {
+		maxHpTF.setText(Integer.toString(maxHp));
+	}
+	
+	public void setDamage(int damage) {
+		dmgAmtTF.setText(Integer.toString(damage));
+	}
+	
+	public void setSpawnNum(int spawnNum) {
+		spawnNumTF.setText(Integer.toString(spawnNum));
 	}
 	
 	public void clearInput() {
@@ -81,5 +93,29 @@ public class SpawnerPropertyBox {
 	
 	public VBox getNode() {
 		return window;
+	}
+
+	public TextField getMaxHpTF() {
+		return maxHpTF;
+	}
+
+	public void setMaxHpTF(TextField maxHpTF) {
+		this.maxHpTF = maxHpTF;
+	}
+
+	public TextField getDmgAmtTF() {
+		return dmgAmtTF;
+	}
+
+	public void setDmgAmtTF(TextField dmgAmtTF) {
+		this.dmgAmtTF = dmgAmtTF;
+	}
+
+	public TextField getSpawnNumTF() {
+		return spawnNumTF;
+	}
+
+	public void setSpawnNumTF(TextField spawnNumTF) {
+		this.spawnNumTF = spawnNumTF;
 	}
 }

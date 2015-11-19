@@ -91,13 +91,14 @@ public class EnemyEditor {
 		for (DecoratorTile t: currentTileSelection) {
 			ImageView spawnIcon = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(PATH_SPAWN_ICON)));
 			t.setImage(spawnIcon);
-			t.setSpawnerList(spawnerList);
+			t.getSpawnerList().addAll(spawnerList);
 			t.getView().getStyleClass().remove("tile-select-off");
 			t.getView().getStyleClass().add("tile-select-on");
 		}
 		// need to implement later to add the final SpawnerObject list to the selected tiles
 		// (code here)
 		spawnQueuePane.getChildren().clear();
+		spawnerList.clear();
 		return;
 	}
 
