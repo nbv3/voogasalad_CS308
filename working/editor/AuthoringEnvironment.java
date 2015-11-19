@@ -7,10 +7,11 @@ import java.util.Observable;
 import java.util.Observer;
 
 
+
 import editor.sidepanes.EditorTab;
 import editor.sidepanes.EditorTabPane;
-import editor.sidepanes.PropertiesPane;
 import editor.sidepanes.SpawnerPropertyBox;
+import editor.sidepanes.TilePropertyPane;
 import environment.GameMap;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -36,7 +37,6 @@ public class AuthoringEnvironment implements Observer {
 	//private LevelToolBar myLevelMenu;
 	private GridPane myMapDisplay;
 	private EditorTabPane editor;
-	private PropertiesPane myPropertyPane;
 	private List<DecoratorTile> myTileSelection;
 	private GameMap myMap;
 	private boolean isEditorPane;
@@ -56,7 +56,7 @@ public class AuthoringEnvironment implements Observer {
 		myWindow.setLeft(new ToolbarOptions(myTileSelection, myMap));
 		myWindow.setCenter(myMapDisplay);
 		EditorTab levelTab = new EditorTab();
-		setPropertyPane();
+		//setPropertyPane();
 		levelTab.setContent(new VBox());
 		levelTab.setTabDescription("Level Settings");
 		
@@ -85,18 +85,6 @@ public class AuthoringEnvironment implements Observer {
 		stage.setScene(myScene);
 		stage.setMaximized(true);
 		return stage;
-	}
-
-	private void setPropertyPane() {
-		myPropertyPane = new PropertiesPane();
-		SpawnerPropertyBox healthBox = new SpawnerPropertyBox();
-		Button OkButton = new Button("OK");
-		myPropertyPane.addChildren(OkButton);
-		myPropertyPane.addChildren(healthBox.getNode());
-		healthBox.getNode().setLayoutX(-100);
-		healthBox.getNode().setLayoutY(100);
-		OkButton.setLayoutX(-100);
-		OkButton.setLayoutY(200);
 	}
 
 	private MenuBar createMenuBar() {
@@ -160,7 +148,7 @@ public class AuthoringEnvironment implements Observer {
 	
 	private void changeToPropertyPane() {
 		if (isEditorPane) {
-			myWindow.setRight(myPropertyPane.getPane());
+			myWindow.setRight(new TilePropertyPane(myTileSelection).getPaneNode());
 			isEditorPane = false;
 		}
 	}

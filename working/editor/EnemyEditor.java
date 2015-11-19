@@ -97,6 +97,7 @@ public class EnemyEditor {
 		}
 		// need to implement later to add the final SpawnerObject list to the selected tiles
 		// (code here)
+		spawnQueuePane.getChildren().clear();
 		return;
 	}
 
