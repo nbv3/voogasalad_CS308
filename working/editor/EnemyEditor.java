@@ -10,7 +10,7 @@ import objects.SpawnerObject;
 import tiles.DecoratorTile;
 import editor.sidepanes.SpawnerPropertyBox;
 import gui.factory.AlertBoxFactory;
-import javafx.scene.Node;
+import gui.factory.ButtonFactory;
 import javafx.scene.control.Button;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
@@ -59,16 +59,10 @@ public class EnemyEditor {
 		VBox spawnListPane = new VBox();
 		spawnListPane.getChildren().add(createSpawnerQueueText());
 		spawnListPane.getChildren().add(spawnQueuePane);
-		spawnListPane.getChildren().add(createSetSpawnerButton());
+		Button setBtn = new ButtonFactory().createObject("set");
+		setBtn.setOnAction(e -> addSpawnerListToSelectedTile());
+		spawnListPane.getChildren().add(setBtn);
 		return spawnListPane;
-	}
-
-	private Node createSetSpawnerButton() {
-		Button setButton = new Button("Set");
-		setButton.setPrefHeight(30);
-		setButton.setPrefWidth(80);
-		setButton.setOnAction(e -> addSpawnerListToSelectedTile());
-		return setButton;
 	}
 
 	private void addSpawnerListToSelectedTile() {
@@ -169,7 +163,6 @@ public class EnemyEditor {
 	private GridPane createEnemyIconPane() {
 		GridPane enemyIconPane = new GridPane();
 		enemyIconPane.setPrefSize(WIDTH_ICON_PANEL, HEIGHT_ICON_PANEL);
-		//spawnQueuePane.setGridLinesVisible(true);
 		enemyIconBundle = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "EnemyIcon");
 		String[] enemyIconPath = enemyIconBundle.getString("Enemy").split(",");	
 		enemyIconPane.getChildren().clear();
