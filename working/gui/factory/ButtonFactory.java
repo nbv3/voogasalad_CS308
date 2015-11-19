@@ -1,17 +1,17 @@
 package gui.factory;
 
-import javafx.scene.Node;
+import javafx.scene.control.Button;
 
-public class ButtonFactory extends Factory {
+public class ButtonFactory {
 	public ButtonFactory(){
 		
 	}
-	@Override
-	public Node createObject(String id) {
-		switch(id){
-		//case:
-		}
-		return null;
+	
+	public Button createObject(String id) {
+		Button setButton = new Button(id);
+		setButton.setPrefHeight(30);
+		setButton.setPrefWidth(80);
+		return setButton;
 	}
 
 }

@@ -6,10 +6,11 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-
 import editor.sidepanes.EditorTab;
 import editor.sidepanes.EditorTabPane;
+import editor.sidepanes.TilePropertyPane;
 import environment.GameMap;
+import gui.factory.AlertBoxFactory;
 import javafx.scene.Scene;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Menu;
@@ -35,6 +36,7 @@ public class AuthoringEnvironment implements Observer {
 	private EditorTabPane editor;
 	private List<DecoratorTile> myTileSelection;
 	private GameMap myMap;
+	private boolean isEditorPane;
 
 	public AuthoringEnvironment() {
 		myMap = new GameMap();
@@ -44,7 +46,6 @@ public class AuthoringEnvironment implements Observer {
 	}
 
 	private Stage initializeStage() {
-		//VBox menus = new VBox();
 		myMainMenu = createMenuBar();
 		myMapDisplay = createMapDisplay();
 		myWindow = new BorderPane();
@@ -52,6 +53,7 @@ public class AuthoringEnvironment implements Observer {
 		myWindow.setLeft(new ToolbarOptions(myTileSelection, myMap));
 		myWindow.setCenter(myMapDisplay);
 		EditorTab levelTab = new EditorTab();
+		//setPropertyPane();
 		levelTab.setContent(new VBox());
 		levelTab.setTabDescription("Level Settings");
 		
@@ -73,6 +75,7 @@ public class AuthoringEnvironment implements Observer {
 								   towerTab);
 		
 		myWindow.setRight(editor.getPaneNode());
+		isEditorPane = true;
 		myScene = new Scene(myWindow);
 		myScene.getStylesheets().add("css/default.css");
 		Stage stage = new Stage();
@@ -90,7 +93,6 @@ public class AuthoringEnvironment implements Observer {
 
 		MenuItem saveMenu = new MenuItem("Save");
 		//saveMenu.setOnAction(e -> saveStuffs());
-
 		file.getItems().addAll(loadMenu, saveMenu);
 		mb.getMenus().add(file);
 		return mb;
@@ -117,24 +119,19 @@ public class AuthoringEnvironment implements Observer {
 	}
 
 	private void toggleTileSelection(DecoratorTile t, MouseEvent e) {
-		System.out.println("BUtontype = " + e.getButton().toString());
-		if(e.getButton() == MouseButton.SECONDARY)
-		{
-			System.out.println("RIGHT CLICKED");
+		if (e.getButton() == MouseButton.SECONDARY) {
 			ContextMenu menu = new ContextMenu();
 			menu.getStyleClass().add("context-menu");
-			MenuItem item = new MenuItem("Display Properties");
-			MenuItem second = new MenuItem("Edit Properties");
-			//second.setOnAction(e -> changeIconPaneScene());
-			MenuItem third = new MenuItem("Add Object");
-			menu.getItems().addAll(item, second, third);
+			MenuItem editMenu = new MenuItem("Edit");
+			editMenu.setOnAction(e1 -> changeToPropertyPane());
+			MenuItem addMenu = new MenuItem("Add Object");
+			addMenu.setOnAction(e2 -> changeToEditorPane());
+			menu.getItems().addAll(editMenu, addMenu);
 			menu.setAnchorX(e.getSceneX());
 			menu.setAnchorY(e.getSceneY());
 			menu.show(myStage);
-
 		}
-		else
-		{
+		else {
 			if (myTileSelection.contains(t)) {
 				myTileSelection.remove(t);
 				tileOpacityOff(t);
@@ -144,12 +141,30 @@ public class AuthoringEnvironment implements Observer {
 			}
 			System.out.println(t.getImplementation().getClass().getName());
 		}
-		
 	}
 	
-	private void changeIconPaneScene()
-	{
-		//Scene nextScene = new Scene();
+	private void changeToPropertyPane() {
+		if (myTileSelection.size() == 0) {
+			new AlertBoxFactory().createObject("Please select a tile first");
+			return;
+		}
+	
+		if (myTileSelection.size() > 1) {
+			new AlertBoxFactory().createObject("Cannot view properties for multiple tiles");
+			return;
+		}
+		
+		//if (isEditorPane) {
+			myWindow.setRight(new TilePropertyPane(myTileSelection).getPaneNode());
+			isEditorPane = false;
+		//}
+	}
+	
+	private void changeToEditorPane() {
+		if (!isEditorPane) {
+			myWindow.setRight(editor.getPaneNode());
+			isEditorPane = true;
+		}
 	}
 
 	/**

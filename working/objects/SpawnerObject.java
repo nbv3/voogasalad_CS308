@@ -1,12 +1,13 @@
-package objects.towers;
+package objects;
 
 import javafx.scene.image.ImageView;
 
-public class AbstractTower implements ITower {
-	
+public class SpawnerObject {
+
 	private ImageView image;	// later need to replaced by IGameObject instance
 	private int maxHealth;
 	private int damage;
+	private int spawnNum;
 	
 	public ImageView getImage() {
 		return image;
@@ -18,6 +19,10 @@ public class AbstractTower implements ITower {
 
 	public int getDamage() {
 		return damage;
+	}
+	
+	public int getSpawnNum() {
+		return spawnNum;
 	}
 	
 	public void setImage(ImageView image) {
@@ -32,5 +37,8 @@ public class AbstractTower implements ITower {
 		this.damage = damage;
 	}
 
+	public void setSpawnNum(int spawnNum) {
+		this.spawnNum = spawnNum;
+	}
 
 }
