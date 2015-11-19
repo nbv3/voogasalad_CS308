@@ -101,6 +101,8 @@ public class TileEditor {
 		for (DecoratorTile tile: currentTileSelection) {
 			ImageView i = new ImageView(iv.getImage());
 			tile.setImage(i);
+			tile.getView().getStyleClass().remove("tile-select-off");
+			tile.getView().getStyleClass().add("tile-select-on");
 			try {
 				Class<?> arg = IGameTile.class;
 				tile.setImplementation((IGameTile) Class.forName("tiles.implementations." + s + "Tile").getDeclaredConstructor(arg).newInstance(tile));
@@ -109,8 +111,6 @@ public class TileEditor {
 				e.printStackTrace();
 			}
 		}
-		
-		currentTileSelection.clear();
 	
 	}
 

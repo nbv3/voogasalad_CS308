@@ -17,6 +17,9 @@ public class ImageSelector {
 	private final String defaultEnemy = "enemy_soldier_1.png";
 
 	public ImageSelector() {
+		
+	}
+	
 	public ImageSelector(Stage stage) {
 		imageSelector = new HBox();
 		img = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(defaultEnemy)));
@@ -43,3 +46,5 @@ public class ImageSelector {
 	public HBox getNode() {
 		return imageSelector;
 	}
+	
+}
