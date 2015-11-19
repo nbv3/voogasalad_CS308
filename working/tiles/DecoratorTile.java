@@ -7,8 +7,11 @@ import java.util.Observable;
 
 import objects.SpawnerObject;
 import objects.towers.AbstractTower;
+import javafx.scene.effect.ColorAdjust;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
 import tiles.implementations.SceneryTile;
 import view.IView;
 
@@ -23,6 +26,8 @@ public class DecoratorTile extends Observable implements IGameTile, IView {
 		myImplementation = new SceneryTile(p);
 		myImageView.getStyleClass().add("tile");
 		myImageView.getStyleClass().add("tile-select-off");
+		myImageView.setOnMouseEntered(e->hoverOnTile());
+		myImageView.setOnMouseExited(e->hoverOffTile());
 		setImage(myImageView);
 		spawnerList = new LinkedList<SpawnerObject>();
 	}
@@ -78,6 +83,14 @@ public class DecoratorTile extends Observable implements IGameTile, IView {
 	public void setTowerList(List<AbstractTower> towerList)
 	{
 		this.towerList = towerList;
+	}
+	
+	public void hoverOnTile(){
+		myImageView.getStyleClass().add("tile-hover-on");
+	}
+	
+	public void hoverOffTile(){	
+		myImageView.getStyleClass().remove("tile-hover-on");
 	}
 	
 }

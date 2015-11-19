@@ -2,12 +2,16 @@
 
 }
 
-.tile-select-off{
+.tile-select-off .tile-hover-off{
 	-fx-opacity: 1;
 }
 
 .tile-select-on{
-    -fx-opacity: 0.75;
+    -fx-opacity: 0.60;
+}
+
+.tile-hover-on{
+	-fx-opacity:0.75;
 }
 
 .background {
