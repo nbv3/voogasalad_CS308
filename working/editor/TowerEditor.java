@@ -55,6 +55,7 @@ public class TowerEditor {
 		towerEditor.getChildren().add(createTowerIconPane());
 		towerEditor.getChildren().addAll(d, w);
 		towerEditor.getChildren().add(createTowerListPane());
+		currentTileSelection = new ArrayList<DecoratorTile>();
 	}
 
 	public VBox getNode() {
