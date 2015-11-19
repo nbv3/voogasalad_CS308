@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import objects.SpawnerTester;
+import objects.SpawnerObject;
 import tiles.DecoratorTile;
 import editor.sidepanes.SpawnerPropertyBox;
 import javafx.scene.Node;
@@ -27,7 +27,7 @@ import javafx.scene.text.Text;
 public class EnemyEditor {
 	
 	private List<DecoratorTile> currentTileSelection;
-	private List<SpawnerTester> spawnerList;	// here SpawnerTester need to change to Spawner later
+	private List<SpawnerObject> spawnerList;	// here SpawnerTester need to change to Spawner later
 	private SpawnerPropertyBox spawnerProperty;
 	private VBox enemyPane;
 	private TilePane spawnQueuePane;
@@ -46,7 +46,7 @@ public class EnemyEditor {
 
 	public EnemyEditor(List<DecoratorTile> tiles) {
 		currentTileSelection = tiles;
-		spawnerList = new LinkedList<SpawnerTester>();	// here String need to change to Spawner later
+		spawnerList = new LinkedList<SpawnerObject>();	// here String need to change to Spawner later
 		spawnerProperty = new SpawnerPropertyBox();
 		enemyPane = new VBox();
 		spawnQueuePane = createSpawnQueueIconPane();
@@ -93,9 +93,9 @@ public class EnemyEditor {
 		for (DecoratorTile t: currentTileSelection) {
 			ImageView spawnIcon = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(PATH_SPAWN_ICON)));
 			t.setImage(spawnIcon);
+			t.setSpawnerList(spawnerList);
 		}
-		// need to implement later to delete the removed spawners from spawnerList,
-		// and add the final spawnerList to the selected tiles
+		// need to implement later to add the final SpawnerObject list to the selected tiles
 		// (code here)
 		return;
 	}
@@ -116,14 +116,19 @@ public class EnemyEditor {
 
 	private void addSpawnerToQueue(ImageView iv) {
 		
+		SpawnerObject spnObj = new SpawnerObject();
+		
 		if (iv == null) {
 			showAlertBox("Please select an spawner image first");
 			return;
 		}
 
 		try {
-			spawnerList.add(new SpawnerTester(spawnerProperty.getMaxHP(),spawnerProperty.getSpawnNum()));	// here need to change to add new Spawner object later	
+			spnObj.setMaxHealth(spawnerProperty.getMaxHP());
+			spnObj.setDamage(spawnerProperty.getDamage());
+			spnObj.setSpawnNum(spawnerProperty.getSpawnNum());
 			System.out.println(spawnerProperty.getMaxHP());  	// test info.
+			System.out.println(spawnerProperty.getDamage());	// test info.
 			System.out.println(spawnerProperty.getSpawnNum());	// test info.
 		}
 		catch (NumberFormatException nfe) {
@@ -138,6 +143,8 @@ public class EnemyEditor {
 		i.setFitHeight(spawnQueuePane.getPrefHeight() / NUMBER_ROW_QUEUE_PANEL);
 		spawnQueuePane.getChildren().add(i);
 		i.setOnMouseClicked(e -> handleClickEvent(e,i));
+		spnObj.setImage(i);
+		spawnerList.add(spnObj);
 
 		System.out.println("The spawn list length is " + spawnerList.size());
 		 
@@ -208,6 +215,9 @@ public class EnemyEditor {
 	private TilePane createSpawnQueueIconPane() {
 		TilePane spawnQueuePane = new TilePane();
 		spawnQueuePane.setPrefSize(WIDTH_QUEUE_PANEL, HEIGHT_QUEUE_PANEL);
+		for (SpawnerObject sObj: spawnerList) {
+			spawnQueuePane.getChildren().add(sObj.getImage());
+		}
 		return spawnQueuePane;
 	}
 	

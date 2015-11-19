@@ -12,10 +12,6 @@ import editor.sidepanes.EditorTabPane;
 import editor.sidepanes.PropertiesPane;
 import editor.sidepanes.SpawnerPropertyBox;
 import environment.GameMap;
-import javafx.animation.FadeTransition;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
@@ -29,7 +25,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 import tiles.DecoratorTile;
 
 public class AuthoringEnvironment implements Observer {
@@ -54,7 +49,6 @@ public class AuthoringEnvironment implements Observer {
 	}
 
 	private Stage initializeStage() {
-		//VBox menus = new VBox();
 		myMainMenu = createMenuBar();
 		myMapDisplay = createMapDisplay();
 		myWindow = new BorderPane();
@@ -89,7 +83,7 @@ public class AuthoringEnvironment implements Observer {
 		myScene.getStylesheets().add("css/default.css");
 		Stage stage = new Stage();
 		stage.setScene(myScene);
-		//stage.setMaximized(true);
+		stage.setMaximized(true);
 		return stage;
 	}
 
@@ -140,23 +134,19 @@ public class AuthoringEnvironment implements Observer {
 	}
 
 	private void toggleTileSelection(DecoratorTile t, MouseEvent e) {
-		if(e.getButton() == MouseButton.SECONDARY)
-		{
+		if (e.getButton() == MouseButton.SECONDARY) {
 			ContextMenu menu = new ContextMenu();
 			menu.getStyleClass().add("context-menu");
-			MenuItem item = new MenuItem("Display Properties");
-			MenuItem second = new MenuItem("Edit Properties");
-			second.setOnAction(e1 -> changeToPropertyPane());
-			MenuItem third = new MenuItem("Add Object");
-			third.setOnAction(e2 -> changeToEditorPane());
-			menu.getItems().addAll(item, second, third);
+			MenuItem editMenu = new MenuItem("Edit");
+			editMenu.setOnAction(e1 -> changeToPropertyPane());
+			MenuItem addMenu = new MenuItem("Add Object");
+			addMenu.setOnAction(e2 -> changeToEditorPane());
+			menu.getItems().addAll(editMenu, addMenu);
 			menu.setAnchorX(e.getSceneX());
 			menu.setAnchorY(e.getSceneY());
 			menu.show(myStage);
-
 		}
-		else
-		{
+		else {
 			if (myTileSelection.contains(t)) {
 				myTileSelection.remove(t);
 				tileOpacityOff(t);
@@ -166,70 +156,20 @@ public class AuthoringEnvironment implements Observer {
 			}
 			System.out.println(t.getImplementation().getClass().getName());
 		}
-		
 	}
 	
-	private void changeToPropertyPane()
-	{
-		if(isEditorPane)
-		{
-
-			 FadeTransition ftOut = new FadeTransition(Duration.millis(300),myWindow.getRight());
-		     ftOut.setFromValue(1.0);
-		     ftOut.setToValue(0);
-		     ftOut.setCycleCount(1);
-		     ftOut.setAutoReverse(false);
-		     ftOut.play();
-		     ftOut.setOnFinished(e -> fadeInPropertiesPane());
-//		     ftOut.setOnFinished(new EventHandler<ActionEvent>() {
-//		    	    @Override
-//		    	    public void handle(ActionEvent event) {
-//		    	    myPropertyPane.getPane().setOpacity(0);
-//		    	    myWindow.setRight(myPropertyPane.getPane());
-//		    	    
-//		    		FadeTransition ftIn = new FadeTransition(Duration.millis(300),myPropertyPane.getPane());
-//		    		ftIn.setFromValue(0);
-//		    		ftIn.setToValue(1.0);
-//		    		ftIn.setCycleCount(1);
-//		    		ftIn.setAutoReverse(false);
-//		    		ftIn.play();	
-//
-//		   		     isEditorPane = false;
-//		    	    }
-//		    	});
-
+	private void changeToPropertyPane() {
+		if (isEditorPane) {
+			myWindow.setRight(myPropertyPane.getPane());
+			isEditorPane = false;
 		}
-		createNextScene();
 	}
 	
-	private void fadeInPropertiesPane(){
-	    myPropertyPane.getPane().setOpacity(0);
-	    myWindow.setRight(myPropertyPane.getPane());
-	    
-		FadeTransition ftIn = new FadeTransition(Duration.millis(300),myPropertyPane.getPane());
-		ftIn.setFromValue(0);
-		ftIn.setToValue(1.0);
-		ftIn.setCycleCount(1);
-		ftIn.setAutoReverse(false);
-		ftIn.play();	
-
-		isEditorPane = false;
-	}
-	
-	private void changeToEditorPane()
-	{
-		if(!isEditorPane)
-		{
+	private void changeToEditorPane() {
+		if (!isEditorPane) {
 			myWindow.setRight(editor.getPaneNode());
 			isEditorPane = true;
 		}
-		createNextScene();
-	}
-	
-	private void createNextScene() {
-		Scene nextScene = new Scene(myWindow);
-		nextScene.getStylesheets().add("css/default.css");
-		myStage.setScene(nextScene);
 	}
 
 	/**
