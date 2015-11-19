@@ -34,12 +34,13 @@ public class SimpleGameManager implements ISimpleGameManager {
 		myConditions = new ArrayList<ISimpleCondition>();
 
 		myViewController = new ViewController(600.0);
+		String path = "";
 		
-		ISimpleObject player = new SimpleObject(SimpleObjectType.PLAYER, new Point2D(0,0),10,10);
+		ISimpleObject player = new SimpleObject(SimpleObjectType.PLAYER, new Point2D(0,0),10,10, path, 1);
 		player.addAttribute(new SimpleControlAttribute(player));
 		player.addAttribute(new SimpleHealthAttribute(10, player));
 		
-		ISimpleObject enemy = new SimpleObject(SimpleObjectType.ENEMY, new Point2D(20,20),30,30);
+		ISimpleObject enemy = new SimpleObject(SimpleObjectType.ENEMY, new Point2D(20,20),30,30, path, 2);
 
 		enemy.addCollisionBinding(SimpleObjectType.PLAYER, new SimpleHealthChangeEvent(10));
 
