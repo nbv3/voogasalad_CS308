@@ -42,7 +42,8 @@ public class TowerEditor {
 	private final double HEIGHT_QUEUE_PANEL = 150;
 	private ImageView selectImg;
 
-	public TowerEditor() {
+	public TowerEditor(List<DecoratorTile> selectedTiles) {
+		currentTileSelection = selectedTiles;
 		towerEditor = new VBox();
 		towerList = new LinkedList<AbstractTower>();	// here String need to change to Spawner later
 		VBox d = new DamageBox().getNode();
@@ -55,7 +56,6 @@ public class TowerEditor {
 		towerEditor.getChildren().add(createTowerIconPane());
 		towerEditor.getChildren().addAll(d, w);
 		towerEditor.getChildren().add(createTowerListPane());
-		currentTileSelection = new ArrayList<DecoratorTile>();
 	}
 
 	public VBox getNode() {

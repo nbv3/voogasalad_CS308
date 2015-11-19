@@ -66,7 +66,7 @@ public class AuthoringEnvironment implements Observer {
 		enemyEditorTab.setTabDescription("Spawners");
 		
 		EditorTab towerTab = new EditorTab();
-		towerTab.setContent(new TowerEditor().getNode());
+		towerTab.setContent(new TowerEditor(myTileSelection).getNode());
 		towerTab.setTabDescription("Towers");
 		
 		editor = new EditorTabPane(levelTab, 
