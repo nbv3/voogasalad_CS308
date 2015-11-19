@@ -11,7 +11,7 @@ import simple.attribute.SimpleControlAttribute;
 import simple.attribute.SimpleHealthAttribute;
 import simple.conditions.ISimpleCondition;
 import simple.conditions.PlayerDeathCondition;
-import simple.conditions.SimpleConditions;
+import simple.conditions.SimpleConditionType;
 import simple.eng.SimpleEngine;
 import simple.event.SimpleHealthChangeEvent;
 import simple.obj.ISimpleObject;
@@ -22,8 +22,6 @@ import simple.universe.ISimpleUniverse;
 import simple.universe.SimpleUniverse;
 import simple.utilities.GameInformation;
 import simple.view.implementation.SimpleViewController;
-import view.IViewable;
-import view.ViewController;
 
 public class SimpleGameManager implements ISimpleGameManager {
 
@@ -91,7 +89,7 @@ public class SimpleGameManager implements ISimpleGameManager {
 		Collection<ISimpleObject> unmodifiableUniverse = myUniverse.getGameObjects();
 
 		for (ISimpleCondition condition : myConditions) {
-			if (condition.checkObject(unmodifiableUniverse)) {
+			if (condition.checkCondition(unmodifiableUniverse)) {
 				switchLevel(condition.returnType());
 			}
 		}
@@ -99,10 +97,10 @@ public class SimpleGameManager implements ISimpleGameManager {
 	}
 
 	@Override
-	public void switchLevel(SimpleConditions type) {
-		if (type.equals(SimpleConditions.WINNING)) {
+	public void switchLevel(SimpleConditionType type) {
+		if (type.equals(SimpleConditionType.WINNING)) {
 			// go forward
-		} else if (type.equals(SimpleConditions.LOSING)) {
+		} else if (type.equals(SimpleConditionType.LOSING)) {
 			// go backward?
 			System.out.println("YOU LOSE");
 		}

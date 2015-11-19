@@ -7,8 +7,8 @@ import simple.obj.ISimpleObject;
 public interface ISimpleCollisionManager {
 
 	/**
-	 * Performs n^2 intersection comparison on all the objects in the game.
-	 * TODO: Optimize for near-ishs neighbor calculations using Game Map
+	 * Performs O(n) intersection comparison on all the objects in the game.
+	 * TODO: Optimize for near-ish neighbor calculations using Game Map
 	 * @param objectsToCheck
 	 */
 	public void checkCollisions(Collection<ISimpleObject> objectsToCheck);

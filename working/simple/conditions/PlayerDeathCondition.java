@@ -7,28 +7,28 @@ import simple.obj.SimpleObjectType;
 
 public class PlayerDeathCondition implements ISimpleCondition {
 
-	private SimpleConditions type = SimpleConditions.LOSING;
-	private int playerscounted;
+	private SimpleConditionType type = SimpleConditionType.LOSING;
+	private int playersAlive;
 
 	@Override
 	public boolean isConditionMet() {
-		return playerscounted <= 0;
+		return playersAlive <= 0;
 	}
 
 	@Override
-	public boolean checkObject(Collection<ISimpleObject> universe) {
+	public boolean checkCondition(Collection<ISimpleObject> universe) {
+		playersAlive = 0;
 		for (ISimpleObject object : universe) {
 			if (object.getType().equals(SimpleObjectType.PLAYER)) {
-				playerscounted++;
+				playersAlive++;
+				break;
 			}
 		}
-
 		return isConditionMet();
-
 	}
 
 	@Override
-	public SimpleConditions returnType() {
+	public SimpleConditionType returnType() {
 		return type;
 	}
 
