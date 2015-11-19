@@ -19,6 +19,8 @@ public interface ISimpleObject extends ISimpleAttributeContainer, ISimpleCollida
 	 * @return
 	 */
 	public SimpleObjectType getType();
+	
+	public SimpleBoundingBox getBoundingBox();
 
 	
 	// ISimpleAttributeContainer methods
