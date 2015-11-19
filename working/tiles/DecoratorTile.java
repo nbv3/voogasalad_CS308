@@ -77,7 +77,7 @@ public class DecoratorTile extends Observable implements IGameTile, IView {
 	}
 
 	public void setSpawnerList(List<SpawnerObject> spawnerList) {
-		this.spawnerList = spawnerList;
+		this.spawnerList = new LinkedList<SpawnerObject>(spawnerList);
 	}
 	
 	public void setTowerList(List<AbstractTower> towerList)

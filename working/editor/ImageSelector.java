@@ -1,5 +1,7 @@
 package editor;
 
+import gui.factory.ButtonFactory;
+
 import java.io.File;
 
 import javafx.event.ActionEvent;
@@ -27,7 +29,7 @@ public class ImageSelector {
 		img.setFitHeight(100.1);
 		
 
-		Button selectImage = new Button("Load Image");
+		Button selectImage = new ButtonFactory().createObject("Load Image");
 		selectImage.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(final ActionEvent e) {

@@ -144,14 +144,20 @@ public class AuthoringEnvironment implements Observer {
 	}
 	
 	private void changeToPropertyPane() {
-		if (isEditorPane) {
-			if (myTileSelection.size() != 1) {
-				new AlertBoxFactory().createObject("Cannot view properties for multiple tiles");
-				return;
-			}
+		if (myTileSelection.size() == 0) {
+			new AlertBoxFactory().createObject("Please select a tile first");
+			return;
+		}
+	
+		if (myTileSelection.size() > 1) {
+			new AlertBoxFactory().createObject("Cannot view properties for multiple tiles");
+			return;
+		}
+		
+		//if (isEditorPane) {
 			myWindow.setRight(new TilePropertyPane(myTileSelection).getPaneNode());
 			isEditorPane = false;
-		}
+		//}
 	}
 	
 	private void changeToEditorPane() {

@@ -5,7 +5,6 @@ import java.util.ResourceBundle;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 
 public class ImageTile extends ImageView {
 

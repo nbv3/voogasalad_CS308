@@ -6,10 +6,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-
 import editor.sidepanes.SpawnerPropertyBox;
+import gui.factory.AlertBoxFactory;
+import gui.factory.ButtonFactory;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.effect.Glow;
@@ -22,19 +21,17 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import objects.SpawnerObject;
 import objects.towers.AbstractTower;
 import tiles.DecoratorTile;
 
 public class TowerEditor {
 	private VBox towerEditor;
-	private TilePane spawnQueuePane;
+	private TilePane towerQueuePane;
 	private ResourceBundle towerIconBundle;
 	private final String DEFAULT_RESOURCE_PACKAGE = "resources/";
 	private List<AbstractTower> towerList;	// here SpawnerTester need to change to Spawner later
-	private SpawnerPropertyBox spawnerProperty;
+	private SpawnerPropertyBox towerProperty;
 	private List<DecoratorTile> currentTileSelection;
-	private final String PATH_SPAWN_ICON = "spawner.png";
 	private final int NUMBER_ROW_ICON_PANEL = 2;
 	private final int NUMBER_COLUMN_ICON_PANEL = 5;
 	private final double WIDTH_ICON_PANEL = 250;
@@ -47,92 +44,68 @@ public class TowerEditor {
 
 	public TowerEditor() {
 		towerEditor = new VBox();
-		//VBox h = new SpawnerPropertyBox().getNode();
 		towerList = new LinkedList<AbstractTower>();	// here String need to change to Spawner later
 		VBox d = new DamageBox().getNode();
-		d.getStyleClass().add("properties-module");
 		VBox w = new WeaponBox().getNode();
-		w.getChildren().add(createAddSpawnerButton());
-		w.getStyleClass().add("properties-module");
-		spawnQueuePane = createSpawnQueueIconPane();
-		spawnQueuePane.getStyleClass().add("properties-module");
+		towerQueuePane = createSpawnQueueIconPane();
 		towerEditor.getChildren().add(createTowerIconPane());
 		towerEditor.getChildren().addAll(d, w);
-		//towerEditor.getChildren().add(spawnerProperty.getNode());
-		//towerEditor.getChildren().add(createAddSpawnerButton());
-		towerEditor.getChildren().add(createSpawnListPane());
+		towerEditor.getChildren().add(createAddTowerButton());
+		towerEditor.getChildren().add(createTowerListPane());
 	}
 
 	public VBox getNode() {
 		return towerEditor;
 	}
 	
-	private VBox createSpawnListPane() {
+	private VBox createTowerListPane() {
 		VBox spawnListPane = new VBox();
-		spawnListPane.getStyleClass().add("properties-module");
-		spawnListPane.getChildren().add(createSpawnerQueueText());
-		spawnListPane.getChildren().add(spawnQueuePane);
-		spawnListPane.getChildren().add(createSetSpawnerButton());
+		spawnListPane.getChildren().add(createTowerQueueText());
+		spawnListPane.getChildren().add(towerQueuePane);
+		spawnListPane.getChildren().add(createSetTowerButton());
 		return spawnListPane;
 	}
 
-	private Node createSetSpawnerButton() {
-		Button setButton = new Button("Set");
-		setButton.setPrefHeight(30);
-		setButton.setPrefWidth(80);
-		setButton.setOnAction(e -> addSpawnerListToSelectedTile());
+	private Node createSetTowerButton() {
+		Button setButton = new ButtonFactory().createObject("Set");
+		setButton.setOnAction(e -> addTowerListToUniverse());
 		return setButton;
 	}
 
-	private void addSpawnerListToSelectedTile() {
+	private void addTowerListToUniverse() {
 		if (towerList.isEmpty()) {
-			showAlertBox("No tower added, please add at least one spawner");
+			new AlertBoxFactory().createObject("No tower added, please add at least one spawner");
 			return;
 		}
 		
 		if (currentTileSelection.isEmpty()) {
-			showAlertBox("No tile selected, please select at least one tile");
+			new AlertBoxFactory().createObject("No tile selected, please slect at least one tile");
 			return;
 		}
 		
 		for (DecoratorTile t: currentTileSelection) {
-			if (!t.isWalkable()) {
-				showAlertBox("Tower can only be added to path tiles");
+			if (t.isWalkable()) {
+				new AlertBoxFactory().createObject("Tower can only be added to scenary tiles");
 				return;
 			}
 		}
 		
-		for (DecoratorTile t: currentTileSelection) {
-			ImageView spawnIcon = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(PATH_SPAWN_ICON)));
-			t.setImage(spawnIcon);
-			t.setTowerList(towerList);
-		}
 		// need to implement later to add the final SpawnerObject list to the selected tiles
 		// (code here)
-		spawnQueuePane.getChildren().clear();
+		towerQueuePane.getChildren().clear();
 		return;
 	}
 
-	private Button createAddSpawnerButton() {
-		Button addButton = new Button("Add");
-		addButton.setPrefHeight(30);
-		addButton.setPrefWidth(80);
+	private Button createAddTowerButton() {
+		Button addButton = new ButtonFactory().createObject("Add");
 		addButton.setOnAction(e -> addSpawnerToQueue(selectImg));
 		return addButton;
 	}
 	
-	private Text createSpawnerQueueText() {
+	private Text createTowerQueueText() {
 		Text spawnerTitle = new Text("Spawner Queue");
 		spawnerTitle.setFont(Font.font("Times New Roman", FontWeight.BOLD, 20));
 		return spawnerTitle;
-	}
-	
-	private void showAlertBox(String str) {
-		Alert alert = new Alert(AlertType.INFORMATION);
-		alert.setTitle("Information Dialog");
-		alert.setHeaderText(null);
-		alert.setContentText(str);
-		alert.showAndWait();
 	}
 
 	private void addSpawnerToQueue(ImageView iv) {
@@ -140,33 +113,19 @@ public class TowerEditor {
 		AbstractTower towerObj = new AbstractTower();
 		
 		if (iv == null) {
-			showAlertBox("Please select a tower image first");
+			new AlertBoxFactory().createObject("Please select a tower image first");
 			return;
 		}
-
-		try {
-			towerObj.setMaxHealth(spawnerProperty.getMaxHP());
-			towerObj.setDamage(spawnerProperty.getDamage());
-			//spnObj.setSpawnNum(spawnerProperty.getSpawnNum());
-			System.out.println(spawnerProperty.getMaxHP());  	// test info.
-			System.out.println(spawnerProperty.getDamage());	// test info.
-		}
-		catch (NumberFormatException nfe) {
-			showAlertBox("Bad input, please input an integer number");
-			return;
-		}
-		
-		spawnerProperty.clearInput();
 		
 		ImageView i = new ImageView(iv.getImage());
-		i.setFitWidth(spawnQueuePane.getPrefWidth() / NUMBER_COLUMN_QUEUE_PANEL);
-		i.setFitHeight(spawnQueuePane.getPrefHeight() / NUMBER_ROW_QUEUE_PANEL);
-		spawnQueuePane.getChildren().add(i);
+		i.setFitWidth(towerQueuePane.getPrefWidth() / NUMBER_COLUMN_QUEUE_PANEL);
+		i.setFitHeight(towerQueuePane.getPrefHeight() / NUMBER_ROW_QUEUE_PANEL);
+		towerQueuePane.getChildren().add(i);
 		i.setOnMouseClicked(e -> handleClickEvent(e,i));
 		towerObj.setImage(i);
 		towerList.add(towerObj);
 
-		System.out.println("The spawn list length is " + towerList.size());
+		System.out.println("The tower list length is " + towerList.size());
 		 
 		return;
 	}
@@ -189,17 +148,16 @@ public class TowerEditor {
 	}
 
 	private void removeFromSpawnList(ImageView i) {
-		towerList.remove(spawnQueuePane.getChildren().indexOf(i));
-		spawnQueuePane.getChildren().remove(i);
-		System.out.println("The spawn list length is " + towerList.size());
+		towerList.remove(towerQueuePane.getChildren().indexOf(i));
+		towerQueuePane.getChildren().remove(i);
+		System.out.println("The tower list length is " + towerList.size());
 		return;
 	}
 	
 	private GridPane createTowerIconPane() {
 		GridPane towerIconPane = new GridPane();
-		towerIconPane.getStyleClass().add("properties-module");
 		towerIconPane.setPrefSize(WIDTH_ICON_PANEL, HEIGHT_ICON_PANEL);
-		//spawnQueuePane.setGridLinesVisible(true);
+		//towerQueuePane.setGridLinesVisible(true);
 		towerIconBundle = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "TowerIcon");
 		String[] towerIconPath = towerIconBundle.getString("Tower").split(",");	
 		towerIconPane.getChildren().clear();
@@ -226,17 +184,17 @@ public class TowerEditor {
 	}
 	
 	private TilePane createSpawnQueueIconPane() {
-		TilePane spawnQueuePane = new TilePane();
-		spawnQueuePane.setPrefSize(WIDTH_QUEUE_PANEL, HEIGHT_QUEUE_PANEL);
+		TilePane towerQueuePane = new TilePane();
+		towerQueuePane.setPrefSize(WIDTH_QUEUE_PANEL, HEIGHT_QUEUE_PANEL);
 		for (AbstractTower towerObj: towerList) {
-			spawnQueuePane.getChildren().add(towerObj.getImage());
+			towerQueuePane.getChildren().add(towerObj.getImage());
 		}
-		return spawnQueuePane;
+		return towerQueuePane;
 	}
 	
 	public ArrayList<Object> getSpawnQueue()
 	{
-		ArrayList<Object> myList = (ArrayList<Object>) Arrays.asList(spawnQueuePane.getChildren().toArray());
+		ArrayList<Object> myList = (ArrayList<Object>) Arrays.asList(towerQueuePane.getChildren().toArray());
 		return myList;
 	}
 
