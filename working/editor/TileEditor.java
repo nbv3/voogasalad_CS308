@@ -6,6 +6,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ScrollPane;
@@ -23,7 +25,7 @@ public class TileEditor {
 	private VBox tilePane;
 	private VBox iconBox;
 	private ResourceBundle tileIconBundle;
-	private ImageView selectImg;
+	private ObjectProperty<ImageView> selectImg = new SimpleObjectProperty<ImageView>();
 	
 	private final String DEFAULT_RESOURCE_PACKAGE = "resources/";
 	private final int NUMBER_ROW_ICON_PANEL = 3;
@@ -42,7 +44,7 @@ public class TileEditor {
 		Button okButton = new Button("OK");
 		okButton.setPrefHeight(30);
 		okButton.setPrefWidth(80);
-		okButton.setOnAction(e -> {updateSelectedTile(selectImg,s);});
+		okButton.setOnAction(e -> {updateSelectedTile(selectImg.getValue(),s);});
 		return okButton;
 	}
 
@@ -67,16 +69,18 @@ public class TileEditor {
 			ImageView img = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(tileIconPath[i])));
 			
 			img.setOnMouseClicked(e -> {
-				selectImg = img;
-				img.requestFocus();});
+				selectImg.setValue(img);
+				//img.requestFocus();
+				});
 			
-			img.focusedProperty().addListener((o,oldValue,newValue) -> {
-		        if (newValue) {
-		            img.setEffect(new Glow(0.7));
-		        }
-		        else {
-		            img.setEffect(null);
-		        }});
+			selectImg.addListener((o,s1,s2) -> {
+				if (s1 == null) {
+					s2.setEffect(new Glow(0.7));
+					return;
+				}
+				s1.setEffect(null);
+				s2.setEffect(new Glow(0.7));
+				});
 			
 			img.setFitWidth(iconPane.getPrefWidth() / NUMBER_COLUMN_ICON_PANEL);
 			img.setFitHeight(iconPane.getPrefHeight() / NUMBER_ROW_ICON_PANEL);

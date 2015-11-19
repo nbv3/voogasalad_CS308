@@ -11,6 +11,8 @@ import tiles.DecoratorTile;
 import editor.sidepanes.SpawnerPropertyBox;
 import gui.factory.AlertBoxFactory;
 import gui.factory.ButtonFactory;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.control.Button;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
@@ -41,7 +43,7 @@ public class EnemyEditor {
 	private final int NUMBER_COLUMN_QUEUE_PANEL = 10;
 	private final double WIDTH_QUEUE_PANEL = 500;
 	private final double HEIGHT_QUEUE_PANEL = 150;
-	private ImageView selectImg;
+	private ObjectProperty<ImageView> selectImg = new SimpleObjectProperty<ImageView>();
 
 	public EnemyEditor(List<DecoratorTile> tiles) {
 		currentTileSelection = tiles;
@@ -59,7 +61,7 @@ public class EnemyEditor {
 		VBox spawnListPane = new VBox();
 		spawnListPane.getChildren().add(createSpawnerQueueText());
 		spawnListPane.getChildren().add(spawnQueuePane);
-		Button setBtn = new ButtonFactory().createObject("set");
+		Button setBtn = new ButtonFactory().createObject("Set");
 		setBtn.setOnAction(e -> addSpawnerListToSelectedTile());
 		spawnListPane.getChildren().add(setBtn);
 		return spawnListPane;
@@ -87,6 +89,8 @@ public class EnemyEditor {
 			ImageView spawnIcon = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(PATH_SPAWN_ICON)));
 			t.setImage(spawnIcon);
 			t.setSpawnerList(spawnerList);
+			t.getView().getStyleClass().remove("tile-select-off");
+			t.getView().getStyleClass().add("tile-select-on");
 		}
 		// need to implement later to add the final SpawnerObject list to the selected tiles
 		// (code here)
@@ -95,10 +99,8 @@ public class EnemyEditor {
 	}
 
 	private Button createAddSpawnerButton() {
-		Button addButton = new Button("Add");
-		addButton.setPrefHeight(30);
-		addButton.setPrefWidth(80);
-		addButton.setOnAction(e -> addSpawnerToQueue(selectImg));
+		Button addButton = new ButtonFactory().createObject("Add");
+		addButton.setOnAction(e -> addSpawnerToQueue(selectImg.getValue()));
 		return addButton;
 	}
 	
@@ -170,16 +172,17 @@ public class EnemyEditor {
 			ImageView img = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(enemyIconPath[i])));
 			
 			img.setOnMouseClicked(e -> {
-				selectImg = img;
+				selectImg.setValue(img);
 				img.requestFocus();});
 			
-			img.focusedProperty().addListener((o,oldValue,newValue) -> {
-		        if (newValue) {
-		            img.setEffect(new Glow(0.7));
-		        }
-		        else {
-		            img.setEffect(null);
-		        }});
+			selectImg.addListener((o,s1,s2) -> {
+				if (s1 == null) {
+					s2.setEffect(new Glow(0.7));
+					return;
+				}
+				s1.setEffect(null);
+				s2.setEffect(new Glow(0.7));
+				});
 			
 			img.setFitWidth(enemyIconPane.getPrefWidth() / NUMBER_COLUMN_ICON_PANEL);
 			img.setFitHeight(enemyIconPane.getPrefHeight() / NUMBER_ROW_ICON_PANEL);
