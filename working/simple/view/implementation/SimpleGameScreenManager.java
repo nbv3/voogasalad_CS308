@@ -13,7 +13,7 @@ import javafx.scene.layout.Pane;
 
 public class SimpleGameScreenManager implements IViewManager{
 	
-	private static final double FRAME_LENGTH = 1/60;
+	private final double FRAME_LENGTH = 1/60.0;
 	private SimpleGameManager myGameManager;
 	/**
 	 * TODO These variables are always the same, put them 
