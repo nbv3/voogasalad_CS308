@@ -46,11 +46,14 @@ public class TowerEditor {
 		towerEditor = new VBox();
 		towerList = new LinkedList<AbstractTower>();	// here String need to change to Spawner later
 		VBox d = new DamageBox().getNode();
+		d.getStyleClass().add("properties-module");
 		VBox w = new WeaponBox().getNode();
+		w.getChildren().add(createAddTowerButton());
+		w.getStyleClass().add("properties-module");
 		towerQueuePane = createSpawnQueueIconPane();
+		towerQueuePane.getStyleClass().add("properties-module");
 		towerEditor.getChildren().add(createTowerIconPane());
 		towerEditor.getChildren().addAll(d, w);
-		towerEditor.getChildren().add(createAddTowerButton());
 		towerEditor.getChildren().add(createTowerListPane());
 	}
 
@@ -58,8 +61,39 @@ public class TowerEditor {
 		return towerEditor;
 	}
 	
+	private GridPane createTowerIconPane() {
+		GridPane towerIconPane = new GridPane();
+		towerIconPane.getStyleClass().add("properties-module");
+		towerIconPane.setPrefSize(WIDTH_ICON_PANEL, HEIGHT_ICON_PANEL);
+		//towerQueuePane.setGridLinesVisible(true);
+		towerIconBundle = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "TowerIcon");
+		String[] towerIconPath = towerIconBundle.getString("Tower").split(",");	
+		towerIconPane.getChildren().clear();
+		for (int i = 0; i < towerIconPath.length; i++) {
+			ImageView img = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(towerIconPath[i])));
+			
+			img.setOnMouseClicked(e -> {
+				selectImg = img;
+				img.requestFocus();});
+			
+			img.focusedProperty().addListener((o,oldValue,newValue) -> {
+		        if (newValue) {
+		            img.setEffect(new Glow(0.7));
+		        }
+		        else {
+		            img.setEffect(null);
+		        }});
+			
+			img.setFitWidth(towerIconPane.getPrefWidth() / NUMBER_COLUMN_ICON_PANEL);
+			img.setFitHeight(towerIconPane.getPrefHeight() / NUMBER_ROW_ICON_PANEL);
+			towerIconPane.add(img, i % NUMBER_COLUMN_ICON_PANEL, i / NUMBER_COLUMN_ICON_PANEL, 1, 1);
+		}
+		return towerIconPane;
+	}
+	
 	private VBox createTowerListPane() {
 		VBox spawnListPane = new VBox();
+		spawnListPane.getStyleClass().add("properties-module");
 		spawnListPane.getChildren().add(createTowerQueueText());
 		spawnListPane.getChildren().add(towerQueuePane);
 		spawnListPane.getChildren().add(createSetTowerButton());
@@ -154,34 +188,6 @@ public class TowerEditor {
 		return;
 	}
 	
-	private GridPane createTowerIconPane() {
-		GridPane towerIconPane = new GridPane();
-		towerIconPane.setPrefSize(WIDTH_ICON_PANEL, HEIGHT_ICON_PANEL);
-		//towerQueuePane.setGridLinesVisible(true);
-		towerIconBundle = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "TowerIcon");
-		String[] towerIconPath = towerIconBundle.getString("Tower").split(",");	
-		towerIconPane.getChildren().clear();
-		for (int i = 0; i < towerIconPath.length; i++) {
-			ImageView img = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(towerIconPath[i])));
-			
-			img.setOnMouseClicked(e -> {
-				selectImg = img;
-				img.requestFocus();});
-			
-			img.focusedProperty().addListener((o,oldValue,newValue) -> {
-		        if (newValue) {
-		            img.setEffect(new Glow(0.7));
-		        }
-		        else {
-		            img.setEffect(null);
-		        }});
-			
-			img.setFitWidth(towerIconPane.getPrefWidth() / NUMBER_COLUMN_ICON_PANEL);
-			img.setFitHeight(towerIconPane.getPrefHeight() / NUMBER_ROW_ICON_PANEL);
-			towerIconPane.add(img, i % NUMBER_COLUMN_ICON_PANEL, i / NUMBER_COLUMN_ICON_PANEL, 1, 1);
-		}
-		return towerIconPane;
-	}
 	
 	private TilePane createSpawnQueueIconPane() {
 		TilePane towerQueuePane = new TilePane();
