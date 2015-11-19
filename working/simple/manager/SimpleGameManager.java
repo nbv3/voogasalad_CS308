@@ -27,21 +27,21 @@ public class SimpleGameManager implements ISimpleGameManager {
 	public SimpleGameManager() {
 		myUniverse = new SimpleUniverse();
 		myConditions = new ArrayList<ISimpleCondition>();
-		
+
 		ISimpleObject player = new SimpleObject(SimpleObjectType.PLAYER);
 		player.addAttribute(new SimpleControlAttribute(player));
 		player.addAttribute(new SimpleHealthAttribute(10, player));
-		
+
 		ISimpleObject enemy = new SimpleObject(SimpleObjectType.ENEMY);
 		enemy.addCollisionBinding(SimpleObjectType.PLAYER, new SimpleHealthChangeEvent(10));
-		
+
 		myUniverse.addGameObject(player);
 		myUniverse.addGameObject(enemy);
-		
-		SimpleEngine.frameUpdate(myUniverse);
-		
+
+		updateGame();
+
 	}
-	
+
 	@Override
 	public void updateGame() {
 		SimpleEngine.frameUpdate(myUniverse);
@@ -52,7 +52,7 @@ public class SimpleGameManager implements ISimpleGameManager {
 
 	private void updateStats() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -60,7 +60,7 @@ public class SimpleGameManager implements ISimpleGameManager {
 		Collection<ISimpleObject> unmodifiableUniverse = myUniverse.getGameObjects();
 
 		for (ISimpleCondition condition : myConditions) {
-			if(condition.checkObject(unmodifiableUniverse)){
+			if (condition.checkObject(unmodifiableUniverse)) {
 				switchLevel(condition.returnType());
 			}
 		}
