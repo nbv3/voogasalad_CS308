@@ -21,7 +21,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import objects.towers.AbstractTower;
 import simple.universe.map.tiles.DecoratorTile;
 
 public class TowerEditor {
@@ -29,7 +28,7 @@ public class TowerEditor {
 	private TilePane towerQueuePane;
 	private ResourceBundle towerIconBundle;
 	private final String DEFAULT_RESOURCE_PACKAGE = "resources/";
-	private List<AbstractTower> towerList;	// here SpawnerTester need to change to Spawner later
+//	private List<AbstractTower> towerList;	// here SpawnerTester need to change to Spawner later
 	private SpawnerPropertyBox towerProperty;
 	private List<DecoratorTile> currentTileSelection;
 	private final int NUMBER_ROW_ICON_PANEL = 2;
@@ -45,7 +44,7 @@ public class TowerEditor {
 	public TowerEditor(List<DecoratorTile> selectedTiles) {
 		currentTileSelection = selectedTiles;
 		towerEditor = new VBox();
-		towerList = new LinkedList<AbstractTower>();	// here String need to change to Spawner later
+//		towerList = new LinkedList<AbstractTower>();	// here String need to change to Spawner later
 		VBox d = new DamageBox().getNode();
 		d.getStyleClass().add("properties-module");
 		VBox w = new WeaponBox().getNode();
@@ -108,10 +107,10 @@ public class TowerEditor {
 	}
 
 	private void addTowerListToUniverse() {
-		if (towerList.isEmpty()) {
-			new AlertBoxFactory().createObject("No tower added, please add at least one spawner");
-			return;
-		}
+//		if (towerList.isEmpty()) {
+//			new AlertBoxFactory().createObject("No tower added, please add at least one spawner");
+//			return;
+//		}
 		
 		if (currentTileSelection.isEmpty()) {
 			new AlertBoxFactory().createObject("No tile selected, please slect at least one tile");
@@ -145,7 +144,7 @@ public class TowerEditor {
 
 	private void addSpawnerToQueue(ImageView iv) {
 		
-		AbstractTower towerObj = new AbstractTower();
+//		AbstractTower towerObj = new AbstractTower();
 		
 		if (iv == null) {
 			new AlertBoxFactory().createObject("Please select a tower image first");
@@ -157,10 +156,10 @@ public class TowerEditor {
 		i.setFitHeight(towerQueuePane.getPrefHeight() / NUMBER_ROW_QUEUE_PANEL);
 		towerQueuePane.getChildren().add(i);
 		i.setOnMouseClicked(e -> handleClickEvent(e,i));
-		towerObj.setImage(i);
-		towerList.add(towerObj);
+//		towerObj.setImage(i);
+//		towerList.add(towerObj);
 
-		System.out.println("The tower list length is " + towerList.size());
+//		System.out.println("The tower list length is " + towerList.size());
 		 
 		return;
 	}
@@ -183,9 +182,9 @@ public class TowerEditor {
 	}
 
 	private void removeFromSpawnList(ImageView i) {
-		towerList.remove(towerQueuePane.getChildren().indexOf(i));
-		towerQueuePane.getChildren().remove(i);
-		System.out.println("The tower list length is " + towerList.size());
+//		towerList.remove(towerQueuePane.getChildren().indexOf(i));
+//		towerQueuePane.getChildren().remove(i);
+//		System.out.println("The tower list length is " + towerList.size());
 		return;
 	}
 	
@@ -193,9 +192,9 @@ public class TowerEditor {
 	private TilePane createSpawnQueueIconPane() {
 		TilePane towerQueuePane = new TilePane();
 		towerQueuePane.setPrefSize(WIDTH_QUEUE_PANEL, HEIGHT_QUEUE_PANEL);
-		for (AbstractTower towerObj: towerList) {
-			towerQueuePane.getChildren().add(towerObj.getImage());
-		}
+//		for (AbstractTower towerObj: towerList) {
+//			towerQueuePane.getChildren().add(towerObj.getImage());
+//		}
 		return towerQueuePane;
 	}
 	

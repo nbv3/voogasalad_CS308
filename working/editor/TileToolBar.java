@@ -4,7 +4,7 @@ import java.util.List;
 
 import javafx.scene.control.Button;
 import simple.universe.map.ISimpleGameMap;
-import tiles.DecoratorTile;
+import simple.universe.map.tiles.DecoratorTile;
 
 public class TileToolBar extends EditorToolbar{
 

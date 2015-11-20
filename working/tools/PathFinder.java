@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.Stack;
 
-import tiles.DecoratorTile;
+import simple.universe.map.tiles.DecoratorTile;
 
 public class PathFinder {
 	private Map<Point, Boolean> grid;
