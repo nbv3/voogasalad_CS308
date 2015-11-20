@@ -15,7 +15,7 @@ public class PlayerDeathCondition implements ISimpleCondition {
 		return playersAlive <= 0;
 	}
 
-	public boolean checkObject(Collection<ISimpleObject> universe) {
+	public boolean checkCondition(Collection<ISimpleObject> universe) {
 		playersAlive = 0;
 
 		for (ISimpleObject object : universe) {
@@ -31,5 +31,6 @@ public class PlayerDeathCondition implements ISimpleCondition {
 	public SimpleConditionType returnType() {
 		return type;
 	}
+
 
 }

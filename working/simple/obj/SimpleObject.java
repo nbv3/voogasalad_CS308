@@ -16,8 +16,8 @@ public class SimpleObject extends AbstractViewableObject implements ISimpleObjec
 	private Collection<ISimpleAttribute> myAttributes;
 	private Map<SimpleObjectType, Collection<ISimpleEvent>> myCollisionEventMap;
 
-	public SimpleObject(SimpleObjectType type, Point2D point, double width, double height, String path, int id) {
-		super(point, width, height, path, id);
+	public SimpleObject(SimpleObjectType type, Point2D point, double width, double height, String path) {
+		super(point, width, height, path);
 		myType = type;
 		myAttributes = new ArrayList<ISimpleAttribute>();
 		myCollisionEventMap = new HashMap<SimpleObjectType, Collection<ISimpleEvent>>();

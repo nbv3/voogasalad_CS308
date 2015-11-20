@@ -11,7 +11,6 @@ import simple.universe.map.ISimpleGameMap;
 
 public class SimpleUniverse implements ISimpleUniverse {
 
-	private int myObjectCounter;
 	private Collection<ISimpleObject> myGameObjects;
 	private Collection<ISimpleObject> mySpawnYard;
 	private Collection<ISimpleObject> myGraveYard;
@@ -19,17 +18,12 @@ public class SimpleUniverse implements ISimpleUniverse {
 	private Collection<KeyCode> myCurrentInput;
 
 	public SimpleUniverse() {
-		myObjectCounter = 0;
 		myGameObjects = new ArrayList<ISimpleObject>();
 		// myGameMap = new SimpleGameMap(width, height);
 		myCurrentInput = new ArrayList<KeyCode>();
 		myGraveYard = new ArrayList<ISimpleObject>();
 	}
 
-	@Override
-	public int getNextID() {
-		return myObjectCounter++;
-	}
 
 	@Override
 	public Collection<ISimpleObject> getGameObjects() {

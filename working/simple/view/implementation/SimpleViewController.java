@@ -7,17 +7,17 @@ import simple.obj.IViewableObject;
 
 public class SimpleViewController {
 
-	private Map<Integer, ObjectView> myViewMap;
+	private Map<IViewableObject, ObjectView> myViewMap;
 	private GameView myGameView;
 
 	public SimpleViewController(double size) {
-		myViewMap = new HashMap<Integer, ObjectView>();
+		myViewMap = new HashMap<IViewableObject, ObjectView>();
 		myGameView = new GameView(size);
 	}
 
 	public void addViewObject(IViewableObject obj) {
 		ObjectView newView = new ObjectView(obj.getPath(), obj.getBoundingBox(), myGameView);
-		myViewMap.put(obj.returnID(), newView);
+		myViewMap.put(obj, newView);
 	}
 
 	public GameView getGameView() {
@@ -25,9 +25,9 @@ public class SimpleViewController {
 	}
 	
 	public void removeViewObject(IViewableObject obj){
-		ObjectView object = myViewMap.get(obj.returnID());
+		ObjectView object = myViewMap.get(obj);
 		myGameView.getChildren().remove(object.getImageView());
-		myViewMap.remove(obj.returnID());
+		myViewMap.remove(obj);
 	}
 
 }
