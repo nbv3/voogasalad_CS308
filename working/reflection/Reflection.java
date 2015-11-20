@@ -1,10 +1,11 @@
-package working.reflection;
+package reflection;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+
 
 
 /**
@@ -49,6 +50,7 @@ public class Reflection {
             throw new ReflectionException("No matching public constructor for %s", name);
         }
     }
+    
 
     /**
      * Given a target object with a no argument method of the given name, call
@@ -138,7 +140,7 @@ public class Reflection {
     }
 
     // if necessary, convert parameters into varArg array that Java expects
-    private static Object[] convertArgs (Member function, Class<?>[] formals, Object[] actuals) {
+	private static Object[] convertArgs (Member function, Class<?>[] formals, Object[] actuals) {
         Object[] results = actuals;
         if (isVarArgs(function)) {
             results = new Object[formals.length];
