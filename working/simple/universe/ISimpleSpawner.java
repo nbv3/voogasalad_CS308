@@ -1,5 +1,7 @@
 package simple.universe;
 
+import java.util.Collection;
+
 import simple.obj.ISimpleObject;
 
 public interface ISimpleSpawner {
@@ -8,4 +10,6 @@ public interface ISimpleSpawner {
 	
 	public void clearSpawnYard();
 
+	public Collection<ISimpleObject> getSpawnYard();
+	
 }

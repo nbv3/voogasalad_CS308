@@ -64,15 +64,12 @@ public class SimpleGameManager implements ISimpleGameManager {
 		// Object cleanup for now
 
 		Collection<ISimpleObject> graveyard = myUniverse.getGraveYard();
-		if (graveyard != null) {
-			for (ISimpleObject obj : graveyard) {
-				myUniverse.removeGameObject(obj);
-				myViewController.removeViewObject((IViewableObject) obj);
-			}
-
-			myUniverse.clearGraveYard();
-
+		for (ISimpleObject obj : graveyard) {
+			myUniverse.removeGameObject(obj);
+			myViewController.removeViewObject((IViewableObject) obj);
 		}
+		myUniverse.clearGraveYard();
+
 		checkConditions();
 		updateStats();
 	}

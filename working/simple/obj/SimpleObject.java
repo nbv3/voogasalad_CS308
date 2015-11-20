@@ -15,7 +15,6 @@ public class SimpleObject extends AbstractViewableObject implements ISimpleObjec
 	private SimpleObjectType myType;
 	private Collection<ISimpleAttribute> myAttributes;
 	private Map<SimpleObjectType, Collection<ISimpleEvent>> myCollisionEventMap;
-	// private SimpleBoundingBox myBoundingBox;
 
 	public SimpleObject(SimpleObjectType type, Point2D point, double width, double height, String path, int id) {
 		super(point, width, height, path, id);

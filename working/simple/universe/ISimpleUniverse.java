@@ -3,7 +3,9 @@ package simple.universe;
 import simple.universe.map.ISimpleGameMap;
 import simple.universe.userinput.IKeyInputProcessor;
 
-public interface ISimpleUniverse extends ISimpleObjectContainer, 
+public interface ISimpleUniverse extends ISimpleObjectContainer,
+										 ISimpleObjectAdder,
+										 ISimpleObjectRemover,
 										 ISimpleGameMap, 
 										 IKeyInputProcessor,
 										 ISimpleSpawner,

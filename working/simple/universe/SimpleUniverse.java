@@ -88,19 +88,20 @@ public class SimpleUniverse implements ISimpleUniverse {
 	@Override
 	public void clearSpawnYard() {
 		mySpawnYard.clear();
-
 	}
 
 	@Override
 	public void clearGraveYard() {
 		myGraveYard.clear();
-
 	}
 
 	@Override
 	public Collection<ISimpleObject> getGraveYard() {
-		// TODO Auto-generated method stub
-		return myGraveYard;
+		return Collections.unmodifiableCollection(myGraveYard);
 	}
 
+	@Override
+	public Collection<ISimpleObject> getSpawnYard() {
+		return Collections.unmodifiableCollection(mySpawnYard);
+	}
 }
