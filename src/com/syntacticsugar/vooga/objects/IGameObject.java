@@ -1,0 +1,43 @@
+package com.syntacticsugar.vooga.objects;
+
+import java.util.Collection;
+
+import com.syntacticsugar.vooga.attribute.IAttribute;
+import com.syntacticsugar.vooga.event.IGameEvent;
+import com.syntacticsugar.vooga.universe.IGameUniverse;
+
+public interface IGameObject extends IAttributeCollection, ICollidable {
+
+	/**
+	 * Update this object within the context of the whole universe.
+	 * @param universe
+	 */
+	public void updateSelf(IGameUniverse universe);
+	
+	/**
+	 * Returns the Type of this object as specified by the SimpleObjectType enum.
+	 * @return
+	 */
+	public GameObjectType getType();
+	
+	public BoundingBox getBoundingBox();
+
+	
+	// ISimpleAttributeContainer methods
+	
+	@Override
+	public Collection<IAttribute> getAttributes();
+
+	@Override
+	public void addAttribute(IAttribute attribute);
+	
+	
+	// ISimpleCollidable methods
+	
+	@Override
+	public Collection<IGameEvent> getEventsFromCollision(GameObjectType type);
+	
+	@Override
+	public void addCollisionBinding(GameObjectType type, IGameEvent event);
+	
+}
