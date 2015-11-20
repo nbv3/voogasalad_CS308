@@ -12,7 +12,6 @@ import javafx.scene.input.MouseEvent;
 
 public class GameUniverse implements IGameUniverse {
 
-	private int myObjectCounter;
 	private Collection<IGameObject> myGameObjects;
 	private Collection<IGameObject> mySpawnYard;
 	private Collection<IGameObject> myGraveYard;
@@ -20,17 +19,12 @@ public class GameUniverse implements IGameUniverse {
 	private Collection<KeyCode> myCurrentInput;
 
 	public GameUniverse() {
-		myObjectCounter = 0;
 		myGameObjects = new ArrayList<IGameObject>();
 		// myGameMap = new SimpleGameMap(width, height);
 		myCurrentInput = new ArrayList<KeyCode>();
 		myGraveYard = new ArrayList<IGameObject>();
 	}
 
-	@Override
-	public int getNextID() {
-		return myObjectCounter++;
-	}
 
 	@Override
 	public Collection<IGameObject> getGameObjects() {

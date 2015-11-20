@@ -17,8 +17,8 @@ public class GameObject extends AbstractViewableObject implements IGameObject {
 	private Collection<IAttribute> myAttributes;
 	private Map<GameObjectType, Collection<IGameEvent>> myCollisionEventMap;
 
-	public GameObject(GameObjectType type, Point2D point, double width, double height, String path, int id) {
-		super(point, width, height, path, id);
+	public GameObject(GameObjectType type, Point2D point, double width, double height, String path) {
+		super(point, width, height, path);
 		myType = type;
 		myAttributes = new ArrayList<IAttribute>();
 		myCollisionEventMap = new HashMap<GameObjectType, Collection<IGameEvent>>();

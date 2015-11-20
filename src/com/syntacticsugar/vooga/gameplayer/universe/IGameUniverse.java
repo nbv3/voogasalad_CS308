@@ -17,11 +17,6 @@ public interface IGameUniverse extends IObjectCollection,
 	 * and be able to send key press/release/mouse events directly to it's objects
 	 */
 
-	/**
-	 * Return the next integer id for the game object that is being added to the universe.
-	 * @return
-	 */
-	public int getNextID();
 	
 	
 }

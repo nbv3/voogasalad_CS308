@@ -6,7 +6,6 @@ public interface IViewableObject {
 
 	public String getPath();
 
-	public int returnID();
 	
 
 }

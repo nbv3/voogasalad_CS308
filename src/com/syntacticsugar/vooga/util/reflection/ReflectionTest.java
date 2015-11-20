@@ -15,11 +15,10 @@ public class ReflectionTest {
 		Point2D point = new Point2D(10, 10);
 		String path = "enemy_dragon.png";
 		String classname = "com.syntacticsugar.vooga.gameplayer.objects.GameObject";
-		int id = 1;
-		
+
 		System.out.println("HERER");
 		
-		GameObject myObject = (GameObject) Reflection.createInstance(classname, type, point, width, length, path, id);
+		GameObject myObject = (GameObject) Reflection.createInstance(classname, type, point, width, length, path);
 		System.out.println(myObject.getBoundingBox().getHeight());
 		
 		
