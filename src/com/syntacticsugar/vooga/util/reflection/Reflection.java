@@ -1,4 +1,4 @@
-package working.reflection;
+package com.syntacticsugar.vooga.util.reflection;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
