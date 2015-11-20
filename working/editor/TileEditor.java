@@ -1,111 +1,119 @@
 package editor;
 
+import gui.factory.AlertBoxFactory;
+
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import gui.factory.ComboBoxFactory;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
-import tiles.DecoratorTile;
-import tiles.IGameTile;
+import simple.universe.map.tiles.DecoratorTile;
 
-public class TileEditor implements ITileEditorComboBox {
+public class TileEditor {
 
-	// private DecoratorTile tile;
 	private List<DecoratorTile> currentTileSelection;
 	private VBox tilePane;
-	private GridPane iconPane;
+	private VBox iconBox;
 	private ResourceBundle tileIconBundle;
-
+	private ObjectProperty<ImageView> selectImg = new SimpleObjectProperty<ImageView>();
+	
 	private final String DEFAULT_RESOURCE_PACKAGE = "resources/";
-	private final int NUMBER_ROW_ICON_PANEL = 5;
-	private final int NUMBER_COLUMN_ICON_PANEL = 3;
-	private final double WIDTH_ICON_PANEL = 300.1;
-	private final double HEIGHT_ICON_PANEL = 500.1;
-	private ComboBoxFactory comboBoxFactory;
-
+	private final int NUMBER_ROW_ICON_PANEL = 3;
+	private final int NUMBER_COLUMN_ICON_PANEL = 5;
+	private final double WIDTH_ICON_PANEL = 250;
+	private final double HEIGHT_ICON_PANEL = 150;
+			
 	public TileEditor(List<DecoratorTile> tiles) {
-
-		iconPane = new GridPane();
-		iconPane.setPrefSize(WIDTH_ICON_PANEL, HEIGHT_ICON_PANEL);
-		
-		// Goal: Because of reflection, every method must accept the same number of arguments. So we should pass in
-		// one interface with ALL the methods from TileEditor that we want to access from the Factory.
-		// Name that interface ITileEditor + *GUI element* e.g. ITileEditorTab, and have it extend ITileEditor
-		// - Kiwi
-		
-		//
-		// Example
-		ITileEditorComboBox cbInterface = this;
-		comboBoxFactory = new ComboBoxFactory(cbInterface);
-		//
-		//
-		
-		
-		// this.tile = tile;
 		currentTileSelection = tiles;
 		tilePane = new VBox();
-		tilePane.getChildren().add(createMenubar());
-
-		tilePane.getChildren().add(iconPane);
-
-
+		tilePane.getStyleClass().add("properties-module");
+		iconBox = new VBox();
+		tilePane.getChildren().addAll(createDropdownList(),iconBox);
+	}
+	
+	private Button createOkButton(String s) {
+		Button okButton = new Button("OK");
+		okButton.setPrefHeight(30);
+		okButton.setPrefWidth(80);
+		okButton.setOnAction(e -> {updateSelectedTile(selectImg.getValue(),s);});
+		return okButton;
 	}
 
-	public HBox createMenubar() {
-		HBox hbox = new HBox();
-		hbox.setPadding(new Insets(15, 12, 15, 12));
-		hbox.setSpacing(10);
-		hbox.getChildren().addAll(createText(), comboBoxFactory.createObject("TileImageComboBox"));
-		hbox.setAlignment(Pos.BASELINE_CENTER);
-		return hbox;
+	private ComboBox<String> createDropdownList() {
+		ComboBox<String> comboBox = new ComboBox<String>();
+		comboBox.setPromptText("Select a category");
+		comboBox.getItems().add("Scenery");
+		comboBox.getItems().add("Path");
+		comboBox.valueProperty().addListener((o, s1, s2) -> showImageOptions(s2));
+		return comboBox;
 	}
 
-	private Text createText() {
-		Text text = new Text();
-		text.setFont(new Font(20));
-		text.setText("Select Type:");
-		return text;
-	}
-
-	// private ComboBox<String> createDropdownList() {
-	// ComboBox<String> comboBox = new ComboBox<String>();
-	// comboBox.setPromptText("Select a category");
-	// comboBox.getItems().add("Scenery");
-	// comboBox.getItems().add("Path");
-	// comboBox.valueProperty().addListener((o, s1, s2) ->
-	// showTileImageOptions(s2));
-	// return comboBox;
-	// }
-
-	public void showTileImageOptions(String s) {
+	private void showImageOptions(String s) {
 		tileIconBundle = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "TileIcon");
 		String[] tileIconPath = tileIconBundle.getString(s).split(",");
-		iconPane.getChildren().clear();
+		iconBox.getChildren().clear();
+		ScrollPane sp = new ScrollPane();
+		GridPane iconPane = new GridPane();
+		iconPane.setPrefSize(WIDTH_ICON_PANEL, HEIGHT_ICON_PANEL);
+		sp.setContent(iconPane);
 		for (int i = 0; i < tileIconPath.length; i++) {
 			ImageView img = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(tileIconPath[i])));
-			img.setOnMouseClicked(e -> updateTileViews(img));
+			
+			img.setOnMouseClicked(e -> {
+				selectImg.setValue(img);
+				});
+			
+			selectImg.addListener((o,s1,s2) -> {
+				if (s1 == null) {
+					s2.setEffect(new Glow(0.7));
+					return;
+				}
+				s1.setEffect(null);
+				s2.setEffect(new Glow(0.7));
+				});
+			
 			img.setFitWidth(iconPane.getPrefWidth() / NUMBER_COLUMN_ICON_PANEL);
 			img.setFitHeight(iconPane.getPrefHeight() / NUMBER_ROW_ICON_PANEL);
+			//System.out.println("WIdht= " + img.getFitWidth() + "HEIGHt= " + img.getFitHeight());
 			iconPane.add(img, i % NUMBER_COLUMN_ICON_PANEL, i / NUMBER_COLUMN_ICON_PANEL, 1, 1);
+			//System.out.println("indexX= " + i % NUMBER_COLUMN_ICON_PANEL + "indexY= " + i / NUMBER_COLUMN_ICON_PANEL);
 		}
+		
+		iconBox.getChildren().addAll(iconPane, createOkButton(s));
 		return;
 	}
-
-	private void updateTileViews(ImageView iv) {
-//		for (DecoratorTile tile : currentTileSelection) {
+	
+	private void updateSelectedTile(ImageView iv, String s) {
+		
+		if (currentTileSelection.isEmpty()) {
+			new AlertBoxFactory().createObject("No tile selected, please at least select one tile");
+			 return;
+		}
+		
+		for (DecoratorTile tile: currentTileSelection) {
 //			ImageView i = new ImageView(iv.getImage());
-//			i.setOpacity(0.75);
-////			tile.setImage(i);
-//		}
+//			tile.setImage(i);
+//			tile.getView().getStyleClass().remove("tile-select-off");
+//			tile.getView().getStyleClass().add("tile-select-on");
+//			try {
+//				Class<?> arg = IGameTile.class;
+//				tile.setImplementation((IGameTile) Class.forName("tiles.implementations." + s + "Tile").getDeclaredConstructor(arg).newInstance(tile));
+//			} catch (InstantiationException | IllegalAccessException
+//					| ClassNotFoundException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
+//				e.printStackTrace();
+//			}
+//			tile.getSpawnerList().clear();
+		}
+	
 	}
 
 	public VBox getEditorPane() {

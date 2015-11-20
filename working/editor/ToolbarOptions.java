@@ -2,14 +2,14 @@ package editor;
 
 import java.util.List;
 
-import environment.GameMap;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
+import simple.universe.map.ISimpleGameMap;
 import tiles.DecoratorTile;
 
 public class ToolbarOptions extends VBox{
 	
-	public ToolbarOptions(List<DecoratorTile> myTileSelection, GameMap myMap){
+	public ToolbarOptions(List<DecoratorTile> myTileSelection, ISimpleGameMap myMap){
 		addToolbars(new LevelToolBar(), new TileToolBar(myTileSelection, myMap));
 	}
 	

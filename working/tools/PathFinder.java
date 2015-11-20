@@ -1,4 +1,4 @@
-package simple.utilities;
+package tools;
 
 import java.awt.Point;
 import java.util.ArrayList;
@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.Stack;
 
-import simple.universe.map.tiles.DecoratorTile;
+import tiles.DecoratorTile;
 
 public class PathFinder {
 	private Map<Point, Boolean> grid;
@@ -78,6 +78,10 @@ public class PathFinder {
 	
 	public Path getPath() {
 		return new Path(path);
+	}
+
+	public Paths getPaths() {
+		return new Paths(paths);
 	}
 
 	private void findPaths() {
