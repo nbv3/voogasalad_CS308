@@ -11,7 +11,7 @@ import simple.attribute.SimpleControlAttribute;
 import simple.attribute.SimpleHealthAttribute;
 import simple.conditions.ISimpleCondition;
 import simple.conditions.PlayerDeathCondition;
-import simple.conditions.SimpleConditions;
+import simple.conditions.SimpleConditionType;
 import simple.eng.SimpleEngine;
 import simple.event.SimpleHealthChangeEvent;
 import simple.obj.ISimpleObject;
@@ -22,8 +22,6 @@ import simple.universe.ISimpleUniverse;
 import simple.universe.SimpleUniverse;
 import simple.utilities.GameInformation;
 import simple.view.implementation.SimpleViewController;
-import view.IViewable;
-import view.ViewController;
 
 public class SimpleGameManager implements ISimpleGameManager {
 
@@ -43,11 +41,11 @@ public class SimpleGameManager implements ISimpleGameManager {
 
 		// i changed ISimpleObject to SimpleObject, else addViewObject does not
 		// work
-		SimpleObject player = new SimpleObject(SimpleObjectType.PLAYER, new Point2D(0, 0), 50, 50, path, 1);
+		SimpleObject player = new SimpleObject(SimpleObjectType.PLAYER, new Point2D(0, 0), 50, 50, path, myUniverse.getNextID());
 		player.addAttribute(new SimpleControlAttribute(player));
 		player.addAttribute(new SimpleHealthAttribute(10, player));
 
-		SimpleObject enemy = new SimpleObject(SimpleObjectType.ENEMY, new Point2D(200, 200), 100, 100, path, 2);
+		SimpleObject enemy = new SimpleObject(SimpleObjectType.ENEMY, new Point2D(200, 200), 100, 100, path, myUniverse.getNextID());
 
 		enemy.addCollisionBinding(SimpleObjectType.PLAYER, new SimpleHealthChangeEvent(-10));
 		myUniverse.addGameObject(player);
@@ -66,15 +64,12 @@ public class SimpleGameManager implements ISimpleGameManager {
 		// Object cleanup for now
 
 		Collection<ISimpleObject> graveyard = myUniverse.getGraveYard();
-		if (graveyard != null) {
-			for (ISimpleObject obj : graveyard) {
-				myUniverse.removeGameObject(obj);
-				myViewController.removeViewObject((IViewableObject) obj);
-			}
-
-			myUniverse.clearGraveYard();
-
+		for (ISimpleObject obj : graveyard) {
+			myUniverse.removeGameObject(obj);
+			myViewController.removeViewObject((IViewableObject) obj);
 		}
+		myUniverse.clearGraveYard();
+
 		checkConditions();
 		updateStats();
 	}
@@ -89,7 +84,7 @@ public class SimpleGameManager implements ISimpleGameManager {
 		Collection<ISimpleObject> unmodifiableUniverse = myUniverse.getGameObjects();
 
 		for (ISimpleCondition condition : myConditions) {
-			if (condition.checkObject(unmodifiableUniverse)) {
+			if (condition.checkCondition(unmodifiableUniverse)) {
 				switchLevel(condition.returnType());
 			}
 		}
@@ -97,12 +92,12 @@ public class SimpleGameManager implements ISimpleGameManager {
 	}
 
 	@Override
-	public void switchLevel(SimpleConditions type) {
-		if (type.equals(SimpleConditions.WINNING)) {
+	public void switchLevel(SimpleConditionType type) {
+		if (type.equals(SimpleConditionType.WINNING)) {
 			// go forward
-		} else if (type.equals(SimpleConditions.LOSING)) {
+		} else if (type.equals(SimpleConditionType.LOSING)) {
 			// go backward?
-			System.out.println("YOU LOSE");
+//			System.out.println("YOU LOSE");
 		}
 
 	}

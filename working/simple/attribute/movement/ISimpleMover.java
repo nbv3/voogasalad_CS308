@@ -26,4 +26,16 @@ public interface ISimpleMover {
 	 * @param yVel
 	 */
 	public void setVelocity(double xVel, double yVel);
+
+	/**
+	 * Sets the X velocity of this ISimpleMover object independently.
+	 * @param xVel
+	 */
+	public void setXVelocity(double xVel);
+	
+	/**
+	 * Sets the Y velocity of this ISimpleMover object independently.
+	 * @param yVel
+	 */
+	public void setYVelocity(double yVel);
 }

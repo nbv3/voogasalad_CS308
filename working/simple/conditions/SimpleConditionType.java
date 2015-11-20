@@ -1,6 +1,6 @@
 package simple.conditions;
 
-public enum SimpleConditions {
+public enum SimpleConditionType {
 	WINNING, LOSING
 
 }

@@ -8,7 +8,7 @@ import simple.obj.SimpleObjectType;
 public class EnemyDeathCondition implements ISimpleCondition {
 
 	private int enemiesAlive;
-	private SimpleConditions type = SimpleConditions.WINNING;
+	private static final SimpleConditionType type = SimpleConditionType.WINNING;
 
 
 	@Override
@@ -17,18 +17,18 @@ public class EnemyDeathCondition implements ISimpleCondition {
 	}
 
 	@Override
-	public boolean checkObject(Collection<ISimpleObject> universe) {
+	public boolean checkCondition(Collection<ISimpleObject> universe) {
+		enemiesAlive = 0;
 		for(ISimpleObject object: universe){
 			if(object.getType().equals(SimpleObjectType.ENEMY)){
 				enemiesAlive++;
 			}
 		}
-		
 		return isConditionMet();
 	}
 
 	@Override
-	public SimpleConditions returnType() {
+	public SimpleConditionType returnType() {
 		return type;
 	}
 
