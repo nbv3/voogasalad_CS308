@@ -1,4 +1,4 @@
-package simple.utilities;
+package tools;
 
 import java.awt.Point;
 import java.util.ArrayList;
@@ -78,6 +78,10 @@ public class PathFinder {
 	
 	public Path getPath() {
 		return new Path(path);
+	}
+
+	public Paths getPaths() {
+		return new Paths(paths);
 	}
 
 	private void findPaths() {

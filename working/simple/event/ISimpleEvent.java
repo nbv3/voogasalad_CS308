@@ -2,7 +2,6 @@ package simple.event;
 
 import java.util.Collection;
 
-import objects.attributes.AbstractAttribute;
 import simple.attribute.ISimpleAttribute;
 import simple.attribute.SimpleAbstractAttribute;
 import simple.obj.ISimpleObject;

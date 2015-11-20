@@ -6,12 +6,10 @@ public abstract class AbstractViewableObject implements IViewableObject{
 	
 	private SimpleBoundingBox myBoundingBox;
 	private String myPath;
-	private int myID;
 	
-	public AbstractViewableObject(Point2D point, double width, double height, String path, int id){
+	public AbstractViewableObject(Point2D point, double width, double height, String path){
 		myBoundingBox = new SimpleBoundingBox(point, width, height);
 		myPath = path;
-		myID = id;
 	}
 	
 	@Override
@@ -24,9 +22,5 @@ public abstract class AbstractViewableObject implements IViewableObject{
 		return myPath;
 	}
 
-	@Override 
-	public int returnID(){
-		return myID;
-	}
 	
 }
