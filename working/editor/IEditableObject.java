@@ -1,12 +1,12 @@
 package editor;
 
-import objects.EObjectType;
-import objects.events.IEvent;
+import simple.event.ISimpleEvent;
+import simple.obj.SimpleObjectType;
 
 public interface IEditableObject {
 	
-	public void setObjectType(EObjectType type);
+	public void setObjectType(SimpleObjectType type);
 	
-	public void addCollisionEvent(EObjectType type, IEvent e);
+	public void addCollisionEvent(SimpleObjectType type, ISimpleEvent e);
 	
 }

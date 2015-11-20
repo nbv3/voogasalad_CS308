@@ -17,7 +17,7 @@ import org.xml.sax.InputSource;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.StaxDriver;
 
-import engine.environment.IEnvironment;
+import simple.universe.ISimpleUniverse;
 
 public class LoaderSaver {
 	XStream xstream;
@@ -31,11 +31,11 @@ public class LoaderSaver {
 	 * 
 	 * @throws LoadingException
 	 */
-	public IEnvironment loadFromXML(String xml) throws LoadingException {
+	public ISimpleUniverse loadFromXML(String xml) throws LoadingException {
 		System.out.println("Loading the following XML:");
 		System.out.println(formatXml(xml));
 		try {
-			IEnvironment env = (IEnvironment) xstream.fromXML(xml);
+			ISimpleUniverse env = (ISimpleUniverse) xstream.fromXML(xml);
 			validateEnv(env);
 			return env;
 		} catch (Exception e) {
@@ -49,7 +49,7 @@ public class LoaderSaver {
 	 * 
 	 * @throws LoadingException
 	 */
-	public String makeXML(IEnvironment env) throws LoadingException {
+	public String makeXML(ISimpleUniverse env) throws LoadingException {
 		try {
 			validateEnv(env);
 			String xml = xstream.toXML(env);
@@ -62,23 +62,24 @@ public class LoaderSaver {
 		}
 	}
 
-	private List<String> validateEnv(IEnvironment env) throws LoadingException {
-		try {
-			List<String> loadErrors = env.validate();
-			if (loadErrors.isEmpty()) {
-				System.out.println("No Errors");
-				return loadErrors;
-			} else {
-				System.out.println("Known Errors Here:");
-				for (int i = 0; i < loadErrors.size(); i++) {
-					System.out.printf("Error %d: %s\n", i + 1, loadErrors.get(i));
-				}
-			}
-			return loadErrors;
-		} catch (Exception e) {
-			System.out.println("Unknown Error");
-			throw new LoadingException();
-		}
+	private List<String> validateEnv(ISimpleUniverse env) throws LoadingException {
+//		try {
+//			List<String> loadErrors = env.validate();
+//			if (loadErrors.isEmpty()) {
+//				System.out.println("No Errors");
+//				return loadErrors;
+//			} else {
+//				System.out.println("Known Errors Here:");
+//				for (int i = 0; i < loadErrors.size(); i++) {
+//					System.out.printf("Error %d: %s\n", i + 1, loadErrors.get(i));
+//				}
+//			}
+//			return loadErrors;
+//		} catch (Exception e) {
+//			System.out.println("Unknown Error");
+//			throw new LoadingException();
+//		}
+		return null;
 	}
 
 	private static String formatXml(String xml) {
