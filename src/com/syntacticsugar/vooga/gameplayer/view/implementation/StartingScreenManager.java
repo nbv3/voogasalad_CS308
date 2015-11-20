@@ -1,5 +1,6 @@
 package com.syntacticsugar.vooga.gameplayer.view.implementation;
 
+import com.syntacticsugar.vooga.authoring.editor.AuthoringEnvironment;
 import com.syntacticsugar.vooga.gameplayer.view.IViewManager;
 
 import javafx.scene.Scene;
@@ -29,7 +30,7 @@ public class StartingScreenManager implements IViewManager {
 	
 	public void launchEditor(){
 		myStage.close();
-		//create editor env, get buckets
+		new AuthoringEnvironment();
 	}
 
 }

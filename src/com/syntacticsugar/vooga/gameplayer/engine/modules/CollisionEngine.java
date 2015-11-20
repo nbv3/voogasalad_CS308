@@ -1,4 +1,4 @@
-package com.syntacticsugar.vooga.gameplayer.engine;
+package com.syntacticsugar.vooga.gameplayer.engine.modules;
 
 import java.util.Collection;
 
