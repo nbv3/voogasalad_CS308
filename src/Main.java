@@ -1,4 +1,5 @@
-import com.syntacticsugar.vooga.view.implementation.StartingScreenManager;
+import com.syntacticsugar.vooga.authoring.editor.AuthoringEnvironment;
+import com.syntacticsugar.vooga.gameplayer.view.implementation.StartingScreenManager;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -11,7 +12,7 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage stage) throws Exception {
-		new StartingScreenManager(stage);
+		new AuthoringEnvironment();
 	}
 	
 }

@@ -1,5 +1,5 @@
 package com.syntacticsugar.vooga;
-import com.syntacticsugar.vooga.view.implementation.StartingScreenManager;
+import com.syntacticsugar.vooga.gameplayer.view.implementation.StartingScreenManager;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
