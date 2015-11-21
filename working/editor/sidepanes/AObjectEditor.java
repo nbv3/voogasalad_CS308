@@ -40,6 +40,7 @@ public abstract class AObjectEditor extends VBox {
 	
 	protected void showImageOptions(int numRows, int numColumns, String[] iconPath) {
 		myIconPane.getChildren().clear();
+		// testing commits on this new craptop
 		for (int i = 0; i < iconPath.length; i++) {
 			ImageTile img = new ImageTile(
 					getClass().getClassLoader().getResourceAsStream(iconPath[i]), 
