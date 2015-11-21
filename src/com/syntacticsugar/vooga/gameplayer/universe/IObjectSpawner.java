@@ -9,7 +9,5 @@ public interface IObjectSpawner {
 	public void addToSpawnYard(IGameObject toAdd);
 	
 	public void clearSpawnYard();
-
-	public Collection<IGameObject> getSpawnYard();
 	
 }

@@ -11,6 +11,10 @@ public interface IObjectCollection {
 	 * @return
 	 */
 	public Collection<IGameObject> getGameObjects();
+	
+	public Collection<IGameObject> getSpawnYard();
+	
+	public Collection<IGameObject> getGraveYard();
 
 		
 }

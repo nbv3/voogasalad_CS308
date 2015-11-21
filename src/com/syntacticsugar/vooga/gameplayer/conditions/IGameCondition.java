@@ -3,14 +3,9 @@ package com.syntacticsugar.vooga.gameplayer.conditions;
 import java.util.Collection;
 
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
+import com.syntacticsugar.vooga.gameplayer.universe.IObjectCollection;
 
 public interface IGameCondition{
-
-	/**
-	 * Returns whether or not this condition is currently satisfied.
-	 * @return
-	 */
-	public boolean isConditionMet();
 	
 	/**
 	 * Checks to see if this condition has been satisfied by the last 
@@ -18,7 +13,7 @@ public interface IGameCondition{
 	 * @param unmodifiableUniverse
 	 * @return
 	 */
-	public boolean checkCondition(Collection<IGameObject> unmodifiableUniverse);
+	public boolean checkCondition(IObjectCollection universe);
 	
 	/**
 	 * Return the type of this game condition (ie. WINNING vs. LOSING). If a 

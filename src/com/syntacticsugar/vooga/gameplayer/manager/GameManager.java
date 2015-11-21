@@ -61,6 +61,7 @@ public class GameManager implements IGameManager {
 	@Override
 	public void updateGame() {
 		GameEngine.frameUpdate(myUniverse);
+		checkConditions();
 
 		// Object cleanup for now
 
@@ -71,7 +72,6 @@ public class GameManager implements IGameManager {
 		}
 		myUniverse.clearGraveYard();
 
-		checkConditions();
 		updateStats();
 	}
 
@@ -82,10 +82,9 @@ public class GameManager implements IGameManager {
 
 	@Override
 	public void checkConditions() {
-		Collection<IGameObject> unmodifiableUniverse = myUniverse.getGameObjects();
 
 		for (IGameCondition condition : myConditions) {
-			if (condition.checkCondition(unmodifiableUniverse)) {
+			if (condition.checkCondition(myUniverse)) {
 				switchLevel(condition.returnType());
 			}
 		}
@@ -98,7 +97,7 @@ public class GameManager implements IGameManager {
 			// go forward
 		} else if (type.equals(ConditionType.LOSING)) {
 			// go backward?
-//			System.out.println("YOU LOSE");
+			System.out.println("YOU LOSE");
 		}
 
 	}
