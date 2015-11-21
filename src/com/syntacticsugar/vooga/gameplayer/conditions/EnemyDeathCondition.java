@@ -4,32 +4,27 @@ import java.util.Collection;
 
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
+import com.syntacticsugar.vooga.gameplayer.universe.IObjectCollection;
 
-public class EnemyDeathCondition implements IGameCondition {
+public class EnemyDeathCondition extends AbstractCondition {
 
-	private int enemiesAlive;
-	private static final ConditionType type = ConditionType.WINNING;
-
-
-	@Override
-	public boolean isConditionMet() {
-		return enemiesAlive <= 0;
+	public EnemyDeathCondition() {
+		super(ConditionType.WINNING);
 	}
 
+	private int enemiesAlive;
+
 	@Override
-	public boolean checkCondition(Collection<IGameObject> universe) {
+	public boolean checkCondition(IObjectCollection universe) {
+		
+		Collection<IGameObject> theLiving = universe.getGameObjects();
 		enemiesAlive = 0;
-		for(IGameObject object: universe){
-			if(object.getType().equals(GameObjectType.ENEMY)){
+		for (IGameObject object : theLiving) {
+			if (object.getType().equals(GameObjectType.ENEMY)) {
 				enemiesAlive++;
 			}
 		}
-		return isConditionMet();
-	}
-
-	@Override
-	public ConditionType returnType() {
-		return type;
+		return enemiesAlive <= 0;
 	}
 
 }
