@@ -13,7 +13,7 @@ import java.util.ResourceBundle;
 import java.util.Set;
 
 public class FileFinder {
-	private final String DEFAULT_RESOURCE_PACKAGE = "resources.strings/";
+	private final String DEFAULT_RESOURCE_PACKAGE = "com.syntacticsugar.vooga/resources/strings/";
 
 	private Set<String> tileDirectory;
 	private Set<String> enemyDirectory;
@@ -48,6 +48,11 @@ public class FileFinder {
 		gameDirectory = new HashSet<String>(Arrays.asList(directoriesResource.getString("xmlgames").split("\\s+")));
 		saveDirectory = new HashSet<String>(Arrays.asList(directoriesResource.getString("xmlsaves").split("\\s+")));
 
+	}
+	
+	public List<File> chooseXML() {
+		List<File> fs = getXMLFiles(gameDirectory);
+		return fs;
 	}
 
 	public List<File> getImages(String path) {

@@ -36,7 +36,7 @@ public class Directory {
 		directories = new ArrayList<Directory>();
 		files = new ArrayList<File>();
 		File[] listOfFiles = currentFolder.listFiles();
-
+				
 		for (int i = 0; i < listOfFiles.length; i++) {
 			if (listOfFiles[i].isFile()) {
 				files.add(listOfFiles[i]);
