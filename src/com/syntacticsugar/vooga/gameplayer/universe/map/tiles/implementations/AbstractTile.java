@@ -1,14 +1,16 @@
 package com.syntacticsugar.vooga.gameplayer.universe.map.tiles.implementations;
 
+import java.awt.Point;
+
 import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.IGameTile;
 
 import javafx.geometry.Point2D;
 
 public abstract class AbstractTile implements IGameTile {
 
-	private Point2D myPoint;
+	private Point myPoint;
 	
-	public AbstractTile(Point2D point) {
+	public AbstractTile(Point point) {
 		this.myPoint = point;
 	}
 	
@@ -19,7 +21,7 @@ public abstract class AbstractTile implements IGameTile {
 	public abstract boolean isPlaceable();
 
 	@Override
-	public Point2D getPoint() {
+	public Point getPoint() {
 		return this.myPoint;
 	}
 
