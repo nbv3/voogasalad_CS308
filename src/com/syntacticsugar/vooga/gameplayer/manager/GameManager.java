@@ -26,13 +26,14 @@ import javafx.scene.layout.Pane;
 
 public class GameManager implements IGameManager {
 
-	private IGameUniverse myUniverse;
+	private IGameUniverse currentLevel;
+	private List<IGameUniverse> myLevels;
 	private List<IGameCondition> myConditions;
 	// private GameInformation myInformation;
 	private ViewController myViewController;
 
 	public GameManager() {
-		myUniverse = new GameUniverse();
+		currentLevel = new GameUniverse();
 		myConditions = new ArrayList<IGameCondition>();
 		myConditions.add(new PlayerDeathCondition());
 
@@ -48,8 +49,8 @@ public class GameManager implements IGameManager {
 		GameObject enemy = new GameObject(GameObjectType.ENEMY, new Point2D(200, 200), 100, 100, path);
 
 		enemy.addCollisionBinding(GameObjectType.PLAYER, new HealthChangeEvent(-10));
-		myUniverse.addGameObject(player);
-		myUniverse.addGameObject(enemy);
+		currentLevel.addGameObject(player);
+		currentLevel.addGameObject(enemy);
 		myViewController.addViewObject(player);
 		myViewController.addViewObject(enemy);
 
@@ -59,17 +60,17 @@ public class GameManager implements IGameManager {
 
 	@Override
 	public void updateGame() {
-		GameEngine.frameUpdate(myUniverse);
+		GameEngine.frameUpdate(currentLevel);
 		checkConditions();
 
 		// Object cleanup for now
 
-		Collection<IGameObject> graveyard = myUniverse.getGraveYard();
+		Collection<IGameObject> graveyard = currentLevel.getGraveYard();
 		for (IGameObject obj : graveyard) {
-			myUniverse.removeGameObject(obj);
+			currentLevel.removeGameObject(obj);
 			myViewController.removeViewObject((IViewableObject) obj);
 		}
-		myUniverse.clearGraveYard();
+		currentLevel.clearGraveYard();
 
 		updateStats();
 	}
@@ -83,7 +84,7 @@ public class GameManager implements IGameManager {
 	public void checkConditions() {
 
 		for (IGameCondition condition : myConditions) {
-			if (condition.checkCondition(myUniverse)) {
+			if (condition.checkCondition(currentLevel)) {
 				switchLevel(condition.returnType());
 			}
 		}
@@ -102,11 +103,11 @@ public class GameManager implements IGameManager {
 	}
 
 	public void receiveKeyPressed(KeyCode code) {
-		myUniverse.receiveKeyPress(code);
+		currentLevel.receiveKeyPress(code);
 	}
 
 	public void receiveKeyReleased(KeyCode code) {
-		myUniverse.receiveKeyRelease(code);
+		currentLevel.receiveKeyRelease(code);
 	}
 
 	public Pane getGameView() {
