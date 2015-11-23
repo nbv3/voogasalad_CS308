@@ -17,6 +17,7 @@ public class GameUniverse implements IGameUniverse {
 	private Collection<IGameObject> myGameObjects;
 	private Collection<IGameObject> mySpawnYard;
 	private Collection<IGameObject> myGraveYard;
+	private Collection<IGameObject> myTowers;
 	private IGameMap myGameMap;
 	private Collection<KeyCode> myCurrentInput;
 
@@ -25,6 +26,7 @@ public class GameUniverse implements IGameUniverse {
 		// myGameMap = new SimpleGameMap(width, height);
 		myCurrentInput = new ArrayList<KeyCode>();
 		myGraveYard = new ArrayList<IGameObject>();
+		myTowers = new ArrayList<IGameObject>();
 	}
 
 	@Override
@@ -114,5 +116,13 @@ public class GameUniverse implements IGameUniverse {
 	@Override
 	public IGameTile getTile(Point p) {
 		return myGameMap.getTile(p);
+	}
+	
+	public void setSpawnYard(Collection<IGameObject> spawnyard){
+		mySpawnYard = spawnyard;
+	}
+	
+	public void setTowers(Collection<IGameObject> towers){
+		mySpawnYard = towers;
 	}
 }
