@@ -9,6 +9,7 @@ import java.util.Observer;
 import com.syntacticsugar.vooga.authoring.editor.sidepanes.EditorTab;
 import com.syntacticsugar.vooga.authoring.editor.sidepanes.EditorTabPane;
 import com.syntacticsugar.vooga.authoring.editor.sidepanes.TilePropertyPane;
+import com.syntacticsugar.vooga.gameplayer.universe.map.GameMap;
 import com.syntacticsugar.vooga.gameplayer.universe.map.IGameMap;
 import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.DecoratorTile;
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
@@ -40,7 +41,7 @@ public class AuthoringEnvironment implements Observer {
 	private boolean isEditorPane;
 
 	public AuthoringEnvironment() {
-//		myMap = new GameMap();
+		myMap = new GameMap(500, 500, 10, 10);
 		myTileSelection = new ArrayList<>();
 		myStage = initializeStage();
 		myStage.show();
@@ -51,10 +52,10 @@ public class AuthoringEnvironment implements Observer {
 		myMapDisplay = createMapDisplay();
 		myWindow = new BorderPane();
 		myWindow.setTop(myMainMenu);
-//		myWindow.setLeft(new ToolbarOptions(myTileSelection, myMap));
+		myWindow.setLeft(new ToolbarOptions(myTileSelection, myMap));
 		myWindow.setCenter(myMapDisplay);
 		EditorTab levelTab = new EditorTab();
-		//setPropertyPane();
+//		setPropertyPane();
 		levelTab.setContent(new VBox());
 		levelTab.setTabDescription("Level Settings");
 		
@@ -67,7 +68,7 @@ public class AuthoringEnvironment implements Observer {
 		enemyEditorTab.setTabDescription("Spawners");
 		
 		EditorTab towerTab = new EditorTab();
-//		towerTab.setContent(new TowerEditor(myTileSelection).getNode());
+		towerTab.setContent(new TowerEditor(myTileSelection).getNode());
 		towerTab.setTabDescription("Towers");
 		
 		editor = new EditorTabPane(levelTab, 

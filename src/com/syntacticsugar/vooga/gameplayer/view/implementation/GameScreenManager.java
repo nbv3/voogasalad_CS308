@@ -30,27 +30,24 @@ public class GameScreenManager implements IViewManager {
 		myStage.show();
 	}
 
+	private GameManager loadXML() {
+		return new GameManager();
+	}
+
 	@Override
 	public void launchGame() {
-		myGameManager = new GameManager();
+		myGameManager = loadXML();
 		Scene gameScene = new Scene(myGameManager.getGameView(), 600.0, 600.0);
-		initializeAnimation();
+		myGameManager.initializeAnimation(FRAME_LENGTH);
 		gameScene.setOnKeyPressed(e -> myGameManager.receiveKeyPressed(e.getCode()));
 		gameScene.setOnKeyReleased(e -> myGameManager.receiveKeyReleased(e.getCode()));
 		myStage.setScene(gameScene);
 	}
 
-	private void initializeAnimation() {
-		KeyFrame frame = new KeyFrame(Duration.seconds(FRAME_LENGTH), e -> myGameManager.updateGame());
-		Timeline animation = new Timeline();
-		animation.setCycleCount(Timeline.INDEFINITE);
-		animation.getKeyFrames().add(frame);
-		animation.play();
-	}
 
 	@Override
 	public void launchEditor() {
-		// TODO Auto-generated method stub
+		// Takes it back to the authoring environment
 
 	}
 

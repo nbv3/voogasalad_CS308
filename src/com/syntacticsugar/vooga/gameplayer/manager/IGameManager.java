@@ -1,6 +1,7 @@
 package com.syntacticsugar.vooga.gameplayer.manager;
 
 import com.syntacticsugar.vooga.gameplayer.conditions.ConditionType;
+import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 
 public interface IGameManager {
 	
@@ -22,5 +23,17 @@ public interface IGameManager {
 	 * @param satisfiedCondition
 	 */
 	public void switchLevel(ConditionType satisfiedCondition);
+
+	
+	/**
+	 * 
+	 */
+	public void restartGame();
+	
+	public void startLevel(IGameUniverse level);
+
+	public void startGame();
+
+	public void endLevel();
 
 }

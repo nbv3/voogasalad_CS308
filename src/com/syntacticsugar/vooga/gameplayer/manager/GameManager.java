@@ -20,9 +20,12 @@ import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.gameplayer.utilities.GameInformation;
 import com.syntacticsugar.vooga.gameplayer.view.implementation.ViewController;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.geometry.Point2D;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
+import javafx.util.Duration;
 
 public class GameManager implements IGameManager {
 
@@ -54,7 +57,10 @@ public class GameManager implements IGameManager {
 		myViewController.addViewObject(player);
 		myViewController.addViewObject(enemy);
 
-		updateGame();
+	}
+
+	@Override
+	public void restartGame() {
 
 	}
 
@@ -114,4 +120,30 @@ public class GameManager implements IGameManager {
 		return myViewController.getGameView();
 	}
 
+	@Override
+	public void startLevel(IGameUniverse level) {
+		// Take a level
+		// Add everything to view
+		// allow players to place towers
+		// when play is pressed -> start timeline
+	}
+	
+	@Override
+	public void startGame(){
+		
+	}
+
+	@Override
+	public void endLevel(){
+		
+	}
+	
+	public void initializeAnimation(double fl) {
+		KeyFrame frame = new KeyFrame(Duration.seconds(fl), e -> updateGame());
+		Timeline animation = new Timeline();
+		animation.setCycleCount(Timeline.INDEFINITE);
+		animation.getKeyFrames().add(frame);
+		animation.play();
+	}
+	
 }

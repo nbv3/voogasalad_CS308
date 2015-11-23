@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.Collections;
 
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
+import com.syntacticsugar.vooga.gameplayer.universe.map.GameMap;
 import com.syntacticsugar.vooga.gameplayer.universe.map.IGameMap;
 import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.IGameTile;
 
@@ -23,7 +24,7 @@ public class GameUniverse implements IGameUniverse {
 
 	public GameUniverse() {
 		myGameObjects = new ArrayList<IGameObject>();
-		// myGameMap = new SimpleGameMap(width, height);
+		myGameMap = new GameMap(500, 500, 5, 5);
 		myCurrentInput = new ArrayList<KeyCode>();
 		myGraveYard = new ArrayList<IGameObject>();
 		myTowers = new ArrayList<IGameObject>();
