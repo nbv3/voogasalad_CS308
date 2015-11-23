@@ -117,4 +117,12 @@ public class GameUniverse implements IGameUniverse {
 	public IGameTile getTile(Point p) {
 		return myGameMap.getTile(p);
 	}
+	
+	public void setSpawnYard(Collection<IGameObject> spawnyard){
+		mySpawnYard = spawnyard;
+	}
+	
+	public void setTowers(Collection<IGameObject> towers){
+		mySpawnYard = towers;
+	}
 }
