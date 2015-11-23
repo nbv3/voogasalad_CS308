@@ -26,6 +26,7 @@ public class GameUniverse implements IGameUniverse {
 		// myGameMap = new SimpleGameMap(width, height);
 		myCurrentInput = new ArrayList<KeyCode>();
 		myGraveYard = new ArrayList<IGameObject>();
+		myTowers = new ArrayList<IGameObject>();
 	}
 
 	@Override
