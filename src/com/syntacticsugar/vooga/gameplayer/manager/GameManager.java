@@ -27,9 +27,9 @@ import javafx.scene.layout.Pane;
 public class GameManager implements IGameManager {
 
 	private IGameUniverse myUniverse;
-	// private ISimpleViewController myViewController;
+	//private ISimpleViewController myViewController;
 	private List<IGameCondition> myConditions;
-	private GameInformation myInformation;
+	// private GameInformation myInformation;
 	private ViewController myViewController;
 
 	public GameManager() {

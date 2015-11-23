@@ -15,6 +15,7 @@ public class GameUniverse implements IGameUniverse {
 	private Collection<IGameObject> myGameObjects;
 	private Collection<IGameObject> mySpawnYard;
 	private Collection<IGameObject> myGraveYard;
+	private Collection<IGameObject> myTowers;
 	private IGameMap myGameMap;
 	private Collection<KeyCode> myCurrentInput;
 
