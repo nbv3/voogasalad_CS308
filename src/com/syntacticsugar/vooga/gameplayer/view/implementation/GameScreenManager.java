@@ -1,7 +1,16 @@
 package com.syntacticsugar.vooga.gameplayer.view.implementation;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
+import java.util.Scanner;
+
 import com.syntacticsugar.vooga.gameplayer.manager.GameManager;
+import com.syntacticsugar.vooga.gameplayer.manager.IGameManager;
 import com.syntacticsugar.vooga.gameplayer.view.IViewManager;
+import com.syntacticsugar.vooga.util.filefinder.Directory;
+import com.syntacticsugar.vooga.util.xml.LoaderSaver;
+import com.syntacticsugar.vooga.util.xml.LoadingException;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -28,6 +37,38 @@ public class GameScreenManager implements IViewManager {
 		myStage.setScene(welcome);
 		myStage.setTitle("Vooga Salad");
 		myStage.show();
+	}
+	
+	// currently console file selection
+	private IGameManager loadXML() {
+		Directory gameFiles = null;
+		try {
+			gameFiles = new Directory("src\\com\\syntacticsugar\\vooga\\resources\\xml\\games");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		List<File> files = gameFiles.getFilesByExtension(".xml");
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Available game files: ");
+		for (int i=0; i<files.size(); i++) {
+			System.out.printf("%3d : %s\n", i, files.get(i).getName());
+		}
+		System.out.println("Select the desired file by entering number and pressing Enter: ");
+		int selection = Integer.parseInt(sc.nextLine());
+		sc.close();
+		File f = files.get(selection);
+		
+		LoaderSaver ls = new LoaderSaver();
+		IGameManager gm = null;
+		try {
+			gm = ls.loadFromFile(f);
+		} catch (LoadingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return gm;
 	}
 
 	@Override

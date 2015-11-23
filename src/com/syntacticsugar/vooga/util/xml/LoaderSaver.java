@@ -1,7 +1,12 @@
 package com.syntacticsugar.vooga.util.xml;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.List;
 
 import javax.xml.transform.OutputKeys;
@@ -38,9 +43,15 @@ public class LoaderSaver {
 			//validateEnv(env);
 			return env;
 		} catch (Exception e) {
+			e.printStackTrace();
 			System.out.println("Validation Error");
 			throw new LoadingException();
 		}
+	}
+	
+	public IGameManager loadFromFile(File f) throws LoadingException {
+		String xml = fileToXML(f);
+		return  loadFromXML(xml);
 	}
 
 	/**
@@ -79,6 +90,27 @@ public class LoaderSaver {
 //			throw new LoadingException();
 //		}
 		return null;
+	}
+	
+	private String fileToXML(File f) {
+		try {
+			BufferedReader br = new BufferedReader(new FileReader(f));
+			String line;
+			StringBuilder sb = new StringBuilder();
+
+			while((line=br.readLine())!= null){
+			    sb.append(line.trim());
+			}
+			br.close();
+			return sb.toString();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null; // TODO
 	}
 
 	public String formatXml(String xml) {
