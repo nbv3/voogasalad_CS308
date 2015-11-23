@@ -14,6 +14,7 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.xml.sax.InputSource;
 
+import com.syntacticsugar.vooga.gameplayer.Level;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.StaxDriver;
@@ -30,12 +31,12 @@ public class LoaderSaver {
 	 * 
 	 * @throws LoadingException
 	 */
-	public IGameUniverse loadFromXML(String xml) throws LoadingException {
+	public Level loadFromXML(String xml) throws LoadingException {
 		System.out.println("Loading the following XML:");
 		System.out.println(formatXml(xml));
 		try {
-			IGameUniverse env = (IGameUniverse) xstream.fromXML(xml);
-			validateEnv(env);
+			Level env = (Level) xstream.fromXML(xml);
+			//validateEnv(env);
 			return env;
 		} catch (Exception e) {
 			System.out.println("Validation Error");
@@ -48,10 +49,10 @@ public class LoaderSaver {
 	 * 
 	 * @throws LoadingException
 	 */
-	public String makeXML(IGameUniverse env) throws LoadingException {
+	public String makeXML(Level level) throws LoadingException {
 		try {
-			validateEnv(env);
-			String xml = xstream.toXML(env);
+			//validateEnv(level);
+			String xml = xstream.toXML(level);
 			System.out.println("Saving the following XML:");
 			System.out.println(formatXml(xml));
 			return xml;
