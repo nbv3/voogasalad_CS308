@@ -20,6 +20,7 @@ public class TypeEditor {
 	
 	public Scene createScene(){
 		editorPane = new BorderPane();
+		editorPane.getStyleClass().add("pane");
 		editorPane.setCenter(buildTypeSelector());
 		scene = new Scene(editorPane, XDIM, YDIM);
 		scene.getStylesheets().add("/com/syntacticsugar/vooga/authoring/css/default.css");
@@ -30,7 +31,7 @@ public class TypeEditor {
 		ComboBox<GameObjectType> typeChooser = new ComboBox<GameObjectType>();
 		typeChooser.setPromptText(ResourceManager.getString("ChooseObjectType"));
 		typeChooser.getItems().addAll(GameObjectType.values());
-		typeChooser.setOnAction(e -> changeInterface.switchToSelectionScene(typeChooser.getSelectionModel().getSelectedItem()));
+		typeChooser.setOnAction(e -> changeInterface.initSelectionScene(typeChooser.getSelectionModel().getSelectedItem()));
 		return typeChooser;
 	}
 }

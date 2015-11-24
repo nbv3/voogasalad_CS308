@@ -18,8 +18,8 @@
 	-fx-padding: 20 20 20 40;
 }
 
-.background {
-    -fx-background-color: #1d1d1d;
+.pane {
+    -fx-background-color: linear-gradient(from 0% 0% to 80% 80%, #a6e3fb, #6f9dff);
 }
 
 .label {
