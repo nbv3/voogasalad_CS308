@@ -10,6 +10,7 @@ import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.IGameTile;
 import com.syntacticsugar.vooga.gameplayer.view.implementation.GameView;
 import com.syntacticsugar.vooga.gameplayer.view.implementation.ObjectView;
 import com.syntacticsugar.vooga.gameplayer.view.implementation.ViewController;
+import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 
 import javafx.beans.property.ObjectProperty;
@@ -68,7 +69,7 @@ public class TileEditor {
 
 	private void showImageOptions(String s) {
 		tileIconBundle = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "TileIcon");
-		String[] tileIconPath = tileIconBundle.getString(s).split(",");
+		String[] tileIconPath = ResourceManager.getString(s).split(",");
 		iconBox.getChildren().clear();
 		//ScrollPane sp = new ScrollPane();
 		GridPane iconPane = new GridPane();

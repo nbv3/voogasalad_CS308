@@ -10,6 +10,8 @@ import com.syntacticsugar.vooga.gameplayer.universe.IObjectDespawner;
 public class HealthAttribute extends AbstractAttribute {
 
 	private double myHealth;
+	private double myMaxHealth;
+	private int myInvincibleFrames;
 	
 	/**
 	 * Construct a health attribute with default 100 starting health 
@@ -26,14 +28,19 @@ public class HealthAttribute extends AbstractAttribute {
 	 * @param startingHealth
 	 * @param parent
 	 */
-	public HealthAttribute(double startingHealth, IGameObject parent) {
+	private HealthAttribute(double maxHealth, IGameObject parent) {
 		super(parent);
-		this.myHealth = startingHealth;
+		this.myHealth = maxHealth;
+		this.myMaxHealth = maxHealth;
+		this.myInvincibleFrames = 0;
 	}
 	
 	@Override
 	public void updateSelf(IGameUniverse universe) {
 		checkForDeath(universe);
+		if (myInvincibleFrames > 0) {
+			myInvincibleFrames--;
+		}
 	}
 	
 	/**
@@ -41,15 +48,28 @@ public class HealthAttribute extends AbstractAttribute {
 	 * @param healthChange
 	 */
 	public void changeHealth(double healthChange) {
+		if (healthChange > 0) {
+			if (myHealth + healthChange <= myMaxHealth) {
+				return;
+			}
+			else if (myInvincibleFrames > 0) {
+				return;
+			}
+		}
 		System.out.println("OLD HEALTH = " + myHealth);
 		this.myHealth += healthChange;
 		System.out.println("NEW HEALTH = " + myHealth);
+		setInvincibile(30);
 	}
 	
 	private void checkForDeath(IObjectDespawner killer) {
 		if (isDead()) {
 			killer.addToGraveYard(getParent());
 		}
+	}
+	
+	private void setInvincibile(int numFrames) {
+		this.myInvincibleFrames = numFrames;
 	}
 	
 	private boolean isDead() {
