@@ -1,6 +1,5 @@
 package com.syntacticsugar.vooga.authoring.editor;
 
-import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -9,11 +8,17 @@ import java.util.Observer;
 import com.syntacticsugar.vooga.authoring.editor.sidepanes.EditorTab;
 import com.syntacticsugar.vooga.authoring.editor.sidepanes.EditorTabPane;
 import com.syntacticsugar.vooga.authoring.editor.sidepanes.TilePropertyPane;
+import com.syntacticsugar.vooga.gameplayer.objects.BoundingBox;
 import com.syntacticsugar.vooga.gameplayer.universe.map.GameMap;
 import com.syntacticsugar.vooga.gameplayer.universe.map.IGameMap;
 import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.DecoratorTile;
+import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.IGameTile;
+import com.syntacticsugar.vooga.gameplayer.view.implementation.GameView;
+import com.syntacticsugar.vooga.gameplayer.view.implementation.ObjectView;
+import com.syntacticsugar.vooga.gameplayer.view.implementation.ViewController;
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 
+import javafx.geometry.Point2D;
 import javafx.scene.Scene;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Menu;
@@ -27,40 +32,43 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class AuthoringEnvironment implements Observer {
+public class AuthoringEnvironment {
 
 	private Stage myStage;
 	private Scene myScene;
 	private BorderPane myWindow;
 	private MenuBar myMainMenu;
 	//private LevelToolBar myLevelMenu;
-	private GridPane myMapDisplay;
+	//private GameView myMapDisplay;
 	private EditorTabPane editor;
 	private List<DecoratorTile> myTileSelection;
 	private IGameMap myMap;
 	private boolean isEditorPane;
+	private final double DEFAULT_MAP_SIZE = 800;
+	private final int DEFAULT_NUM_TILES = 20;
+	private ViewController myViewController;
 
 	public AuthoringEnvironment() {
-		myMap = new GameMap(500, 500, 10, 10);
+		myMap = new GameMap(DEFAULT_MAP_SIZE,DEFAULT_NUM_TILES);
+		myViewController = new ViewController(DEFAULT_MAP_SIZE);
 		myTileSelection = new ArrayList<>();
 		myStage = initializeStage();
 		myStage.show();
 	}
 
 	private Stage initializeStage() {
-		myMainMenu = createMenuBar();
-		myMapDisplay = createMapDisplay();
 		myWindow = new BorderPane();
+		myMainMenu = createMenuBar();
 		myWindow.setTop(myMainMenu);
-		myWindow.setLeft(new ToolbarOptions(myTileSelection, myMap));
-		myWindow.setCenter(myMapDisplay);
+		myWindow.setLeft(new ToolbarOptions(myTileSelection, myMap, myViewController));
+		createMapDisplay();
+		myWindow.setCenter(myViewController.getGameView());
 		EditorTab levelTab = new EditorTab();
-//		setPropertyPane();
 		levelTab.setContent(new VBox());
 		levelTab.setTabDescription("Level Settings");
 		
 		EditorTab tileTab = new EditorTab();
-		tileTab.setContent(new TileEditor(myTileSelection).getEditorPane());
+		tileTab.setContent(new TileEditor(myViewController, myTileSelection).getEditorPane());
 		tileTab.setTabDescription("Tile Settings");
 		
 		EditorTab enemyEditorTab = new EditorTab();
@@ -82,7 +90,7 @@ public class AuthoringEnvironment implements Observer {
 		myScene.getStylesheets().add("/com/syntacticsugar/vooga/authoring/css/default.css");
 		Stage stage = new Stage();
 		stage.setScene(myScene);
-		//stage.setMaximized(true);
+		stage.setMaximized(true);
 		return stage;
 	}
 
@@ -100,26 +108,26 @@ public class AuthoringEnvironment implements Observer {
 		return mb;
 	}
 
-	private GridPane createMapDisplay() {
-		GridPane gp = new GridPane();
-		gp.setPrefSize(700, 700);
-//		for (Point p : myMap.getTileMap().keySet()) {
-//			DecoratorTile tile = myMap.getTile(p);
-//			tile.addObserver(this);
-//			ImageView i = createTileCell(gp, tile);
-//			gp.add(i, (int) p.getX(), (int) p.getY(), 1, 1);
-//		}
-		return gp;
+	private void createMapDisplay() {
+		for (int i = 0; i < myMap.getTiles().length; i++) {
+			for (int j = 0; j < myMap.getTiles()[0].length; j++) {
+				DecoratorTile tile = (DecoratorTile) myMap.getTiles()[i][j];
+				myViewController.addViewObject(tile);
+				ImageView img = myViewController.getViewMap().get(tile).getImageView();
+				img.setOnMouseClicked(e -> toggleTileSelection(tile,e));
+			}
+		}
+		return;
 	}
 
-	private ImageView createTileCell(GridPane gp, DecoratorTile tile) {
+/*	private ImageView createTileCell(GridPane gp, DecoratorTile tile) {
 		ImageView i = null;
-//		ImageView i = tile.getView();
-//		i.setOnMouseClicked(e -> toggleTileSelection(tile, e));
-//		i.setFitWidth(gp.getPrefWidth() / (new Double(myMap.getMapSize())));
-//		i.setFitHeight(gp.getPrefHeight() / (new Double(myMap.getMapSize())));
+		ImageView i = tile.getView();
+		i.setOnMouseClicked(e -> toggleTileSelection(tile, e));
+		i.setFitWidth(gp.getPrefWidth() / (new Double(myMap.getMapSize())));
+		i.setFitHeight(gp.getPrefHeight() / (new Double(myMap.getMapSize())));
 		return i;
-	}
+	}*/
 
 	private void toggleTileSelection(DecoratorTile t, MouseEvent e) {
 		if (e.getButton() == MouseButton.SECONDARY) {
@@ -135,6 +143,7 @@ public class AuthoringEnvironment implements Observer {
 			menu.show(myStage);
 		}
 		else {
+			System.out.println(t.getImplementation().getClass().getName());
 			if (myTileSelection.contains(t)) {
 				myTileSelection.remove(t);
 				tileOpacityOff(t);
@@ -171,22 +180,24 @@ public class AuthoringEnvironment implements Observer {
 
 	/**
 	 * @param t
+	 * @param img 
 	 */
 	private void tileOpacityOff(DecoratorTile t) {
-//		t.getView().getStyleClass().add("tile-select-off");
-//		t.getView().getStyleClass().remove("tile-select-on");
+		myViewController.getViewMap().get(t).getImageView().getStyleClass().add("tile-select-off");
+		myViewController.getViewMap().get(t).getImageView().getStyleClass().remove("tile-select-on");
 	}
 
 	/**
 	 * @param t
+	 * @param img 
 	 */
 	private void tileOpacityOn(DecoratorTile t) {
-//		t.getView().getStyleClass().remove("tile-select-off");
-//		t.getView().getStyleClass().add("tile-select-on");
+		myViewController.getViewMap().get(t).getImageView().getStyleClass().add("tile-select-on");
+		myViewController.getViewMap().get(t).getImageView().getStyleClass().remove("tile-select-off");
 	}
 
-	private void refreshMapDisplay() {
-		myMapDisplay.getChildren().clear();
+//	private void refreshMapDisplay() {
+//		myMapDisplay.getChildren().clear();
 //		for (DecoratorTile tile : myMap.getTileMap().values()) {
 //			ImageView i = tile.getView();
 //			i.setOnMouseClicked(e -> toggleTileSelection(tile, e));
@@ -194,11 +205,11 @@ public class AuthoringEnvironment implements Observer {
 //			i.setFitHeight(myMapDisplay.getPrefHeight() / (new Double(myMap.getMapSize())));
 //			myMapDisplay.add(tile.getView(), (int) tile.getPoint().getX(), (int) tile.getPoint().getY(),1,1);
 //		}
-	}
-
-	@Override
-	public void update(Observable arg0, Object arg1) {
-		refreshMapDisplay();
-	}
+//	}
+//
+//	@Override
+//	public void update(Observable arg0, Object arg1) {
+//		refreshMapDisplay();
+//	}
 
 }

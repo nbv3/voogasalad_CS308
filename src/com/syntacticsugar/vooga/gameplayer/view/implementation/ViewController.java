@@ -21,6 +21,10 @@ public class ViewController {
 		myViewMap.put(obj, newView);
 	}
 
+	public Map<IViewableObject, ObjectView> getViewMap() {
+		return myViewMap;
+	}
+	
 	public GameView getGameView() {
 		return myGameView;
 	}

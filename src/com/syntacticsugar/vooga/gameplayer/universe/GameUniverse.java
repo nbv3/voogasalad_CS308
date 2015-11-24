@@ -1,6 +1,5 @@
 package com.syntacticsugar.vooga.gameplayer.universe;
 
-import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -10,6 +9,7 @@ import com.syntacticsugar.vooga.gameplayer.universe.map.GameMap;
 import com.syntacticsugar.vooga.gameplayer.universe.map.IGameMap;
 import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.IGameTile;
 
+import javafx.geometry.Point2D;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 
@@ -24,7 +24,7 @@ public class GameUniverse implements IGameUniverse {
 
 	public GameUniverse() {
 		myGameObjects = new ArrayList<IGameObject>();
-		myGameMap = new GameMap(500, 500, 5, 5);
+		myGameMap = new GameMap(500,5);
 		myCurrentInput = new ArrayList<KeyCode>();
 		myGraveYard = new ArrayList<IGameObject>();
 		myTowers = new ArrayList<IGameObject>();
@@ -115,7 +115,7 @@ public class GameUniverse implements IGameUniverse {
 	}
 
 	@Override
-	public IGameTile getTile(Point p) {
+	public IGameTile getTile(Point2D p) {
 		return myGameMap.getTile(p);
 	}
 	

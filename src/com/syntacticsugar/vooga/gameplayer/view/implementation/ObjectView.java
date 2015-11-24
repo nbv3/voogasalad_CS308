@@ -24,6 +24,16 @@ public class ObjectView implements Observer{
 		myGameView.getChildren().add(myImageView);
 		box.addObserver(this);
 	}
+	
+	public ObjectView(ImageView img, BoundingBox box, GameView myGameView) {
+		myImageView = img;
+		scalingFactor = myGameView.getScalingFactor();
+		applyTransform(box);
+		myImageView.setFitHeight(scalingFactor*box.getHeight());
+		myImageView.setFitWidth(scalingFactor*box.getWidth());
+		myGameView.getChildren().add(myImageView);
+		box.addObserver(this);
+	}
 
 	@Override
 	public void update(Observable obs, Object arg1) {

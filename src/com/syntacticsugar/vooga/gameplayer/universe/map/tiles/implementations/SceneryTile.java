@@ -1,12 +1,10 @@
 package com.syntacticsugar.vooga.gameplayer.universe.map.tiles.implementations;
 
-import java.awt.Point;
-
 import javafx.geometry.Point2D;
 
 public class SceneryTile extends AbstractTile {
 
-	public SceneryTile(Point point) {
+	public SceneryTile(Point2D point) {
 		super(point);
 	}
 	

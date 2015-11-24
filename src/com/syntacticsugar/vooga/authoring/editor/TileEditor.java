@@ -4,11 +4,17 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import com.syntacticsugar.vooga.gameplayer.objects.BoundingBox;
 import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.DecoratorTile;
+import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.IGameTile;
+import com.syntacticsugar.vooga.gameplayer.view.implementation.GameView;
+import com.syntacticsugar.vooga.gameplayer.view.implementation.ObjectView;
+import com.syntacticsugar.vooga.gameplayer.view.implementation.ViewController;
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.geometry.Point2D;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ScrollPane;
@@ -25,14 +31,17 @@ public class TileEditor {
 	private VBox iconBox;
 	private ResourceBundle tileIconBundle;
 	private ObjectProperty<ImageView> selectImg = new SimpleObjectProperty<ImageView>();
+	private ViewController myViewController;
 	
-	private final String DEFAULT_RESOURCE_PACKAGE = "resources/";
+	private final String DEFAULT_RESOURCE_PACKAGE = "com/syntacticsugar/vooga/resources/";
+	private final String DEFAULT_TILE_IMPLEMENTATION_PACKAGE = "com.syntacticsugar.vooga.gameplayer.universe.map.tiles.implementations.";
 	private final int NUMBER_ROW_ICON_PANEL = 3;
 	private final int NUMBER_COLUMN_ICON_PANEL = 5;
 	private final double WIDTH_ICON_PANEL = 250;
 	private final double HEIGHT_ICON_PANEL = 150;
 			
-	public TileEditor(List<DecoratorTile> tiles) {
+	public TileEditor(ViewController viewController, List<DecoratorTile> tiles) {
+		myViewController = viewController;
 		currentTileSelection = tiles;
 		tilePane = new VBox();
 		tilePane.getStyleClass().add("properties-module");
@@ -61,10 +70,10 @@ public class TileEditor {
 		tileIconBundle = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "TileIcon");
 		String[] tileIconPath = tileIconBundle.getString(s).split(",");
 		iconBox.getChildren().clear();
-		ScrollPane sp = new ScrollPane();
+		//ScrollPane sp = new ScrollPane();
 		GridPane iconPane = new GridPane();
 		iconPane.setPrefSize(WIDTH_ICON_PANEL, HEIGHT_ICON_PANEL);
-		sp.setContent(iconPane);
+		//sp.setContent(iconPane);
 		for (int i = 0; i < tileIconPath.length; i++) {
 			ImageView img = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(tileIconPath[i])));
 			
@@ -96,21 +105,23 @@ public class TileEditor {
 		
 		if (currentTileSelection.isEmpty()) {
 			new AlertBoxFactory().createObject("No tile selected, please at least select one tile");
-			 return;
+			return;
 		}
-		
+	
 		for (DecoratorTile tile: currentTileSelection) {
-//			ImageView i = new ImageView(iv.getImage());
-//			tile.setImage(i);
-//			tile.getView().getStyleClass().remove("tile-select-off");
-//			tile.getView().getStyleClass().add("tile-select-on");
-//			try {
-//				Class<?> arg = IGameTile.class;
-//				tile.setImplementation((IGameTile) Class.forName("tiles.implementations." + s + "Tile").getDeclaredConstructor(arg).newInstance(tile));
-//			} catch (InstantiationException | IllegalAccessException
-//					| ClassNotFoundException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
-//				e.printStackTrace();
-//			}
+			ImageView i = new ImageView(iv.getImage());
+			myViewController.getGameView().getChildren().remove(myViewController.getViewMap().get(tile).getImageView());
+			myViewController.getViewMap().replace(tile, new ObjectView(i,tile.getBoundingBox(),myViewController.getGameView()));
+//			myViewController.getViewMap().get(tile).getImageView().getStyleClass().remove("tile-select-off");
+//			myViewController.getViewMap().get(tile).getImageView().getStyleClass().add("tile-select-on");
+			System.out.println(tile.getClass().getName());
+			try {
+				Class<?> arg = tile.getPoint().getClass();
+				tile.setImplementation((IGameTile) Class.forName(DEFAULT_TILE_IMPLEMENTATION_PACKAGE + s + "Tile").getDeclaredConstructor(arg).newInstance(tile.getPoint()));
+			} catch (InstantiationException | IllegalAccessException
+					| ClassNotFoundException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
+				e.printStackTrace();
+			}
 //			tile.getSpawnerList().clear();
 		}
 	

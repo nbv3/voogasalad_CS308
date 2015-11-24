@@ -28,7 +28,7 @@ public class TowerEditor {
 	private VBox towerEditor;
 	private TilePane towerQueuePane;
 	private ResourceBundle towerIconBundle;
-	private final String DEFAULT_RESOURCE_PACKAGE = "resources/";
+	private final String DEFAULT_RESOURCE_PACKAGE = "com/syntacticsugar/vooga/resources/";
 //	private List<AbstractTower> towerList;	// here SpawnerTester need to change to Spawner later
 	private SpawnerPropertyBox towerProperty;
 	private List<DecoratorTile> currentTileSelection;

@@ -1,6 +1,6 @@
 package com.syntacticsugar.vooga.gameplayer.universe.map;
 
-import java.awt.Point;
+import javafx.geometry.Point2D;
 
 import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.IGameTile;
 
@@ -19,5 +19,5 @@ public interface IGameMap {
 
 	public boolean[][] isPlaceable();
 
-	public IGameTile getTile(Point p);
+	public IGameTile getTile(Point2D p);
 }

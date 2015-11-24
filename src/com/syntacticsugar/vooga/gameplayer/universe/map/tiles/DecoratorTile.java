@@ -1,17 +1,21 @@
 package com.syntacticsugar.vooga.gameplayer.universe.map.tiles;
 
-import java.awt.Point;
-
-import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.implementations.PathTile;
-
 import javafx.geometry.Point2D;
 
-public class DecoratorTile implements IGameTile {
+import com.syntacticsugar.vooga.gameplayer.objects.AbstractViewableObject;
+import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.implementations.PathTile;
+
+public class DecoratorTile extends AbstractViewableObject implements IGameTile {
 
 	private IGameTile myImplementation;
 	
-	public DecoratorTile(Point point, double width, double height) {
+	public DecoratorTile(Point2D point, double width, double height, String path) {
+		super(point, width, height, path);
 		this.myImplementation = new PathTile(point);
+	}
+	
+	public IGameTile getImplementation() {
+		return myImplementation;
 	}
 	
 	public void setImplementation(IGameTile implementation) {
@@ -29,7 +33,7 @@ public class DecoratorTile implements IGameTile {
 	}
 
 	@Override
-	public Point getPoint() {
+	public Point2D getPoint() {
 		return this.myImplementation.getPoint();
 	}
 

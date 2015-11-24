@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
 
+import com.syntacticsugar.vooga.authoring.editor.AuthoringEnvironment;
 import com.syntacticsugar.vooga.gameplayer.manager.GameManager;
 import com.syntacticsugar.vooga.gameplayer.manager.IGameManager;
 import com.syntacticsugar.vooga.gameplayer.view.IViewManager;
@@ -22,6 +23,7 @@ public class GameScreenManager implements IViewManager {
 
 	private final double FRAME_LENGTH = 1 / 60.0;
 	private GameManager myGameManager;
+	private AuthoringEnvironment myAuthoringEnv;
 	/**
 	 * TODO These variables are always the same, put them somewhere else
 	 */
@@ -89,7 +91,7 @@ public class GameScreenManager implements IViewManager {
 	@Override
 	public void launchEditor() {
 		// Takes it back to the authoring environment
-
+		myAuthoringEnv = new AuthoringEnvironment();
 	}
 
 }
