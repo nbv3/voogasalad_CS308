@@ -5,7 +5,6 @@ import java.awt.Point;
 import com.syntacticsugar.vooga.gameplayer.attribute.movement.IMover;
 import com.syntacticsugar.vooga.gameplayer.attribute.movement.algs.IMovementSetter;
 import com.syntacticsugar.vooga.gameplayer.attribute.movement.algs.MoveRightCardinal;
-import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.gameplayer.utilities.Path;
@@ -36,11 +35,6 @@ public class AIMotionAttribute extends AbstractAttribute implements IMover {
 		myPath = new Path();
 		setVelocity(0, 0);
 		setSpeed(3);
-	}
-	
-	@Override
-	public void receiveEvent(IGameEvent event) {
-		// TODO could be speed changes, make immobile for n seconds, etc.
 	}
 	
 	private void generatePath(IGameUniverse universe) {
