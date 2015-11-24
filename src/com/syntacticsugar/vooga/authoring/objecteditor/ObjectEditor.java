@@ -1,10 +1,5 @@
 package com.syntacticsugar.vooga.authoring.objecteditor;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
-
-import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.util.ResourceManager;
 
@@ -12,12 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
-import javafx.scene.control.MultipleSelectionModel;
-import javafx.scene.control.MultipleSelectionModelBuilder;
 import javafx.scene.control.SelectionMode;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
-import javafx.scene.control.TableSelectionModel;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -30,11 +20,10 @@ import javafx.stage.Stage;
 public class ObjectEditor {
 
 	private Stage myStage;
-	private Scene myScene;
-	private List<Scene> myScenes;
+	private Scene typeScene;
+	private Scene selectionScene;
 	private ComboBox<GameObjectType> myTypeChooser;
 	private BorderPane editorPane;
-	
 	private ObjectData myData;
 
 	public ObjectEditor() {
@@ -46,10 +35,11 @@ public class ObjectEditor {
 		editorPane = new BorderPane();
 		editorPane.setCenter(myTypeChooser);
 		
-		myScene = new Scene(editorPane, 400, 400);
-		myScene.getStylesheets().add("/com/syntacticsugar/vooga/authoring/css/default.css");		
+		typeScene = new Scene(editorPane, 400, 400);
+		typeScene.getStylesheets().add("/com/syntacticsugar/vooga/authoring/css/default.css");	
+		
 		myStage = new Stage();
-		myStage.setScene(myScene);
+		myStage.setScene(typeScene);
 		myStage.show();
 
 	}
@@ -65,23 +55,29 @@ public class ObjectEditor {
 		ComboBox<GameObjectType> typeChooser = new ComboBox<GameObjectType>();
 		typeChooser.setPromptText(ResourceManager.getString("ChooseObjectType"));
 		typeChooser.getItems().addAll(GameObjectType.values());
-		typeChooser.setOnAction(e -> selectObjectInfo(typeChooser.getSelectionModel().getSelectedItem()));
+		typeChooser.setOnAction(e -> setSelectionScene(typeChooser.getSelectionModel().getSelectedItem()));
 		return typeChooser;
 	}
 
-	private void selectObjectInfo(GameObjectType type) {
+	private void setSelectionScene(GameObjectType type) {
+		VBox container = selectObjectInfo(type);
+		Button back = new Button("Choose new Type");
+		back.setOnAction(e -> myStage.setScene(typeScene));
+		container.getChildren().add(back);
+		selectionScene = new Scene(container);
+		myStage.setScene(selectionScene);
+	}
+	
+	private VBox selectObjectInfo(GameObjectType type) {
 		VBox container = new VBox();
 		
 		HBox images = new HBox();
 		images.getChildren().add(buildImages(type));
-		
 		HBox attributes = buildAttributes(type);
-		
 		HBox collisions = buildCollisions(type);
-		
 		container.getChildren().addAll(images, attributes, collisions);
 		
-		editorPane.setCenter(container);
+		return container;
 	}
 
 	private GridPane buildImages(GameObjectType type) {
