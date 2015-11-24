@@ -4,14 +4,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.util.ResourceManager;
 
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ListView;
+import javafx.scene.control.MultipleSelectionModel;
+import javafx.scene.control.MultipleSelectionModelBuilder;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TableSelectionModel;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -67,9 +73,11 @@ public class ObjectEditor {
 		HBox images = new HBox();
 		images.getChildren().add(buildImages(type));
 		
-		HBox attributes = new HBox();
+		HBox attributes = buildAttributes(type);
 		
-		container.getChildren().add(images);
+		HBox collisions = buildCollisions(type);
+		
+		container.getChildren().addAll(images, attributes, collisions);
 		
 		editorPane.setCenter(container);
 	}
@@ -77,8 +85,8 @@ public class ObjectEditor {
 	private GridPane buildImages(GameObjectType type) {
 		GridPane imagePane = new GridPane();
 		imagePane.getStyleClass().add("properties-module");
-		imagePane.setPrefSize(400, 400);
-		String[] towerIconPath = ResourceManager.getString(type.toString().toLowerCase()).split(",");	
+		imagePane.setPrefSize(250, 250);
+		String[] towerIconPath = ResourceManager.getString(String.format("%s_%s", type.name().toLowerCase(), "img")).split(",");	
 		for (int i = 0; i < towerIconPath.length; i++) {
 			System.out.println(towerIconPath[i]);
 			ImageView img = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(towerIconPath[i])));
@@ -100,5 +108,34 @@ public class ObjectEditor {
 		return imagePane;
 	}
 
+	private HBox buildAttributes(GameObjectType type) {
+		HBox ret = new HBox();
+		ListView<String> attributeView = new ListView<String>();
+		String[] attributeNames = ResourceManager.getString(String.format("%s_%s", type.name().toLowerCase(), "attributes")).split(",");
+		attributeView.getItems().addAll(attributeNames);
+		attributeView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+		ret.getChildren().add(attributeView);
+		ret.setSpacing(5);
+		ret.setPrefSize(400, 100);
+		return ret;
+	}
+	
+	private HBox buildCollisions(GameObjectType type) {
+		HBox ret = new HBox();
+		ListView<GameObjectType> types = new ListView<GameObjectType>();
+		types.getItems().addAll(GameObjectType.values());
+		types.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+		
+		ListView<String> events = new ListView<String>();
+		events.getItems().addAll(ResourceManager.getString("game_events").split(","));
+		events.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+		
+		Button add = new Button("Add Collisions");
+		
+		ret.getChildren().addAll(types, events, add);
+		ret.setSpacing(5);
+		ret.setPrefSize(400, 150);
+		return ret;
+	}
 
 }
