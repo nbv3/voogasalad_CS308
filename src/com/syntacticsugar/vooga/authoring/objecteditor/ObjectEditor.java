@@ -17,31 +17,24 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class ObjectEditor {
+public class ObjectEditor implements IChangeObjectEditorScene {
 
 	private Stage myStage;
 	private Scene typeScene;
 	private Scene selectionScene;
-	private ComboBox<GameObjectType> myTypeChooser;
-	private BorderPane editorPane;
 	private ObjectData myData;
-
+	private IChangeObjectEditorScene iChange;
 	public ObjectEditor() {
-	
+		iChange = this;
+		TypeEditor typeEditor = new TypeEditor(iChange);
+		typeScene = typeEditor.createScene();
+		SelectionEditor selectionEditor = new SelectionEditor();
+		selectionScene = selectionEditor.createScene();
+		
 		myData = new ObjectData();
-		
-		myTypeChooser = buildTypeSelector();
-
-		editorPane = new BorderPane();
-		editorPane.setCenter(myTypeChooser);
-		
-		typeScene = new Scene(editorPane, 400, 400);
-		typeScene.getStylesheets().add("/com/syntacticsugar/vooga/authoring/css/default.css");	
-		
 		myStage = new Stage();
 		myStage.setScene(typeScene);
 		myStage.show();
-
 	}
 
 	private HBox buildNavButtons() {
@@ -51,21 +44,23 @@ public class ObjectEditor {
 		return null;
 	}
 	
-	private ComboBox<GameObjectType> buildTypeSelector() {
-		ComboBox<GameObjectType> typeChooser = new ComboBox<GameObjectType>();
-		typeChooser.setPromptText(ResourceManager.getString("ChooseObjectType"));
-		typeChooser.getItems().addAll(GameObjectType.values());
-		typeChooser.setOnAction(e -> setSelectionScene(typeChooser.getSelectionModel().getSelectedItem()));
-		return typeChooser;
-	}
 
-	private void setSelectionScene(GameObjectType type) {
+	
+	@Override
+	public void switchToSelectionScene(GameObjectType type) {
+		BorderPane selectionBorderPane = new BorderPane();
 		VBox container = selectObjectInfo(type);
-		Button back = new Button("Choose new Type");
-		back.setOnAction(e -> myStage.setScene(typeScene));
-		container.getChildren().add(back);
-		selectionScene = new Scene(container);
+		ObjectEditorNav navBar = new ObjectEditorNav(iChange);
+		
+		selectionBorderPane.setCenter(container);
+		selectionBorderPane.setBottom(navBar.createNavBar());
+		selectionScene = new Scene(selectionBorderPane);
 		myStage.setScene(selectionScene);
+	}
+	
+	public void resetToTypeScene(){
+		myStage.setScene(typeScene);
+		return;
 	}
 	
 	private VBox selectObjectInfo(GameObjectType type) {
