@@ -25,6 +25,7 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.DragEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
@@ -66,24 +67,24 @@ public class AuthoringEnvironment {
 		EditorTab levelTab = new EditorTab();
 		levelTab.setContent(new VBox());
 		levelTab.setTabDescription("Level Settings");
-		
+
 		EditorTab tileTab = new EditorTab();
 		tileTab.setContent(new TileEditor(myViewController, myTileSelection).getEditorPane());
 		tileTab.setTabDescription("Tile Settings");
-		
+
 		EditorTab enemyEditorTab = new EditorTab();
 		enemyEditorTab.setContent(new EnemyEditor(myTileSelection).getNode());
 		enemyEditorTab.setTabDescription("Spawners");
-		
+
 		EditorTab towerTab = new EditorTab();
 		towerTab.setContent(new TowerEditor(myTileSelection).getNode());
 		towerTab.setTabDescription("Towers");
-		
+
 		editor = new EditorTabPane(levelTab, 
-								   tileTab, 
-								   enemyEditorTab, 
-								   towerTab);
-		
+				tileTab, 
+				enemyEditorTab, 
+				towerTab);
+
 		myWindow.setRight(editor.getPaneNode());
 		isEditorPane = true;
 		myScene = new Scene(myWindow);
@@ -114,23 +115,20 @@ public class AuthoringEnvironment {
 				DecoratorTile tile = (DecoratorTile) myMap.getTiles()[i][j];
 				myViewController.addViewObject(tile);
 				ImageView img = myViewController.getViewMap().get(tile).getImageView();
-				img.setOnMouseClicked(e -> toggleTileSelection(tile,e));
+				img.setOnMouseClicked(e -> toggleTileSelection(tile, e));
+				img.setOnMouseEntered(e -> multiSelectTile(tile, e));
 			}
 		}
-		return;
+	}
+	
+	private void multiSelectTile(DecoratorTile tile, MouseEvent e) {
+		if (e.isControlDown())
+			toggleTileSelection(tile, e);
 	}
 
-/*	private ImageView createTileCell(GridPane gp, DecoratorTile tile) {
-		ImageView i = null;
-		ImageView i = tile.getView();
-		i.setOnMouseClicked(e -> toggleTileSelection(tile, e));
-		i.setFitWidth(gp.getPrefWidth() / (new Double(myMap.getMapSize())));
-		i.setFitHeight(gp.getPrefHeight() / (new Double(myMap.getMapSize())));
-		return i;
-	}*/
 
 	private void toggleTileSelection(DecoratorTile t, MouseEvent e) {
-		if (e.getButton() == MouseButton.SECONDARY) {
+		if (e.getButton().equals(MouseButton.SECONDARY)) {
 			ContextMenu menu = new ContextMenu();
 			menu.getStyleClass().add("context-menu");
 			MenuItem editMenu = new MenuItem("Edit");
@@ -153,24 +151,24 @@ public class AuthoringEnvironment {
 			}
 		}
 	}
-	
+
 	private void changeToPropertyPane() {
 		if (myTileSelection.size() == 0) {
 			new AlertBoxFactory().createObject("Please select a tile first");
 			return;
 		}
-	
+
 		if (myTileSelection.size() > 1) {
 			new AlertBoxFactory().createObject("Cannot view properties for multiple tiles");
 			return;
 		}
-		
+
 		//if (isEditorPane) {
-//			myWindow.setRight(new TilePropertyPane(myTileSelection).getPaneNode());
-			isEditorPane = false;
+		//			myWindow.setRight(new TilePropertyPane(myTileSelection).getPaneNode());
+		isEditorPane = false;
 		//}
 	}
-	
+
 	private void changeToEditorPane() {
 		if (!isEditorPane) {
 			myWindow.setRight(editor.getPaneNode());
@@ -196,20 +194,20 @@ public class AuthoringEnvironment {
 		myViewController.getViewMap().get(t).getImageView().getStyleClass().remove("tile-select-off");
 	}
 
-//	private void refreshMapDisplay() {
-//		myMapDisplay.getChildren().clear();
-//		for (DecoratorTile tile : myMap.getTileMap().values()) {
-//			ImageView i = tile.getView();
-//			i.setOnMouseClicked(e -> toggleTileSelection(tile, e));
-//			i.setFitWidth(myMapDisplay.getPrefWidth() / (new Double(myMap.getMapSize())));
-//			i.setFitHeight(myMapDisplay.getPrefHeight() / (new Double(myMap.getMapSize())));
-//			myMapDisplay.add(tile.getView(), (int) tile.getPoint().getX(), (int) tile.getPoint().getY(),1,1);
-//		}
-//	}
-//
-//	@Override
-//	public void update(Observable arg0, Object arg1) {
-//		refreshMapDisplay();
-//	}
+	//	private void refreshMapDisplay() {
+	//		myMapDisplay.getChildren().clear();
+	//		for (DecoratorTile tile : myMap.getTileMap().values()) {
+	//			ImageView i = tile.getView();
+	//			i.setOnMouseClicked(e -> toggleTileSelection(tile, e));
+	//			i.setFitWidth(myMapDisplay.getPrefWidth() / (new Double(myMap.getMapSize())));
+	//			i.setFitHeight(myMapDisplay.getPrefHeight() / (new Double(myMap.getMapSize())));
+	//			myMapDisplay.add(tile.getView(), (int) tile.getPoint().getX(), (int) tile.getPoint().getY(),1,1);
+	//		}
+	//	}
+	//
+	//	@Override
+	//	public void update(Observable arg0, Object arg1) {
+	//		refreshMapDisplay();
+	//	}
 
 }

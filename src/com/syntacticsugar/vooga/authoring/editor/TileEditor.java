@@ -2,19 +2,15 @@ package com.syntacticsugar.vooga.authoring.editor;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
-import java.util.ResourceBundle;
 
-import com.syntacticsugar.vooga.gameplayer.objects.BoundingBox;
 import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.DecoratorTile;
 import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.IGameTile;
-import com.syntacticsugar.vooga.gameplayer.view.implementation.GameView;
-import com.syntacticsugar.vooga.gameplayer.view.implementation.ObjectView;
 import com.syntacticsugar.vooga.gameplayer.view.implementation.ViewController;
+import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.geometry.Point2D;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ScrollPane;
@@ -29,11 +25,9 @@ public class TileEditor {
 	private List<DecoratorTile> currentTileSelection;
 	private VBox tilePane;
 	private VBox iconBox;
-	private ResourceBundle tileIconBundle;
 	private ObjectProperty<ImageView> selectImg = new SimpleObjectProperty<ImageView>();
 	private ViewController myViewController;
 	
-	private final String DEFAULT_RESOURCE_PACKAGE = "com/syntacticsugar/vooga/resources/";
 	private final String DEFAULT_TILE_IMPLEMENTATION_PACKAGE = "com.syntacticsugar.vooga.gameplayer.universe.map.tiles.implementations.";
 	private final int NUMBER_ROW_ICON_PANEL = 3;
 	private final int NUMBER_COLUMN_ICON_PANEL = 5;
@@ -67,13 +61,12 @@ public class TileEditor {
 	}
 
 	private void showImageOptions(String s) {
-		tileIconBundle = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "TileIcon");
-		String[] tileIconPath = tileIconBundle.getString(s).split(",");
+		String[] tileIconPath = ResourceManager.getString(s).split(",");
 		iconBox.getChildren().clear();
-		//ScrollPane sp = new ScrollPane();
+		ScrollPane sp = new ScrollPane();
 		GridPane iconPane = new GridPane();
 		iconPane.setPrefSize(WIDTH_ICON_PANEL, HEIGHT_ICON_PANEL);
-		//sp.setContent(iconPane);
+		sp.setContent(iconPane);
 		for (int i = 0; i < tileIconPath.length; i++) {
 			ImageView img = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(tileIconPath[i])));
 			
@@ -92,9 +85,7 @@ public class TileEditor {
 			
 			img.setFitWidth(iconPane.getPrefWidth() / NUMBER_COLUMN_ICON_PANEL);
 			img.setFitHeight(iconPane.getPrefHeight() / NUMBER_ROW_ICON_PANEL);
-			//System.out.println("WIdht= " + img.getFitWidth() + "HEIGHt= " + img.getFitHeight());
 			iconPane.add(img, i % NUMBER_COLUMN_ICON_PANEL, i / NUMBER_COLUMN_ICON_PANEL, 1, 1);
-			//System.out.println("indexX= " + i % NUMBER_COLUMN_ICON_PANEL + "indexY= " + i / NUMBER_COLUMN_ICON_PANEL);
 		}
 		
 		iconBox.getChildren().addAll(iconPane, createOkButton(s));
@@ -109,12 +100,7 @@ public class TileEditor {
 		}
 	
 		for (DecoratorTile tile: currentTileSelection) {
-			ImageView i = new ImageView(iv.getImage());
-			myViewController.getGameView().getChildren().remove(myViewController.getViewMap().get(tile).getImageView());
-			myViewController.getViewMap().replace(tile, new ObjectView(i,tile.getBoundingBox(),myViewController.getGameView()));
-//			myViewController.getViewMap().get(tile).getImageView().getStyleClass().remove("tile-select-off");
-//			myViewController.getViewMap().get(tile).getImageView().getStyleClass().add("tile-select-on");
-			System.out.println(tile.getClass().getName());
+			myViewController.getViewMap().get(tile).getImageView().setImage(iv.getImage());
 			try {
 				Class<?> arg = tile.getPoint().getClass();
 				tile.setImplementation((IGameTile) Class.forName(DEFAULT_TILE_IMPLEMENTATION_PACKAGE + s + "Tile").getDeclaredConstructor(arg).newInstance(tile.getPoint()));
@@ -122,9 +108,7 @@ public class TileEditor {
 					| ClassNotFoundException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
 				e.printStackTrace();
 			}
-//			tile.getSpawnerList().clear();
 		}
-	
 	}
 
 	public VBox getEditorPane() {

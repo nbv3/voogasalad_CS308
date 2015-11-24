@@ -1,7 +1,9 @@
 package com.syntacticsugar.vooga.gameplayer.event;
 
 import java.util.Collection;
+import java.util.Map;
 
+import com.syntacticsugar.vooga.gameplayer.attribute.HealthAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
 
 public class HealthChangeEvent extends AbstractGameEvent {
@@ -14,10 +16,9 @@ public class HealthChangeEvent extends AbstractGameEvent {
 	}
 	
 	@Override
-	public void executeEvent(Collection<IAttribute> targetAttributes) {
-		for (IAttribute attribute : targetAttributes) {
-			attribute.receiveEvent(this);
-		}
+	public void executeEvent(Map<String, IAttribute> targetAttributes) {
+		HealthAttribute health = (HealthAttribute) targetAttributes.get("health");
+		health.changeHealth(myDeltaHealth);
 	}
 	
 	public double getDeltaHealth() {

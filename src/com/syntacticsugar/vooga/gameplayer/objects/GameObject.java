@@ -2,31 +2,33 @@ package com.syntacticsugar.vooga.gameplayer.objects;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
 import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
+import com.syntacticsugar.vooga.util.ResourceManager;
 
 import javafx.geometry.Point2D;
 
 public class GameObject extends AbstractViewableObject implements IGameObject {
 
 	private GameObjectType myType;
-	private Collection<IAttribute> myAttributes;
+	private Map<String, IAttribute> myAttributeMap;
 	private Map<GameObjectType, Collection<IGameEvent>> myCollisionEventMap;
 
 	public GameObject(GameObjectType type, Point2D point, double width, double height, String path) {
 		super(point, width, height, path);
 		myType = type;
-		myAttributes = new ArrayList<IAttribute>();
+		myAttributeMap = new HashMap<String, IAttribute>();
 		myCollisionEventMap = new HashMap<GameObjectType, Collection<IGameEvent>>();
 	}
 
 	@Override
 	public void updateSelf(IGameUniverse universe) {
-		for (IAttribute attribute : myAttributes) {
+		for (IAttribute attribute : myAttributeMap.values()) {
 			attribute.updateSelf(universe);
 		}
 	}
@@ -53,13 +55,14 @@ public class GameObject extends AbstractViewableObject implements IGameObject {
 	}
 
 	@Override
-	public Collection<IAttribute> getAttributes() {
-		return myAttributes;
+	public Map<String, IAttribute> getAttributes() {
+		return Collections.unmodifiableMap(myAttributeMap);
 	}
 
 	@Override
 	public void addAttribute(IAttribute attribute) {
-		myAttributes.add(attribute);
+		String key = ResourceManager.getString(attribute.getClass().getSimpleName());
+		myAttributeMap.put(key, attribute);
 	}
 
 }

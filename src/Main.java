@@ -1,4 +1,5 @@
 import com.syntacticsugar.vooga.authoring.editor.AuthoringEnvironment;
+import com.syntacticsugar.vooga.authoring.objecteditor.ObjectEditor;
 import com.syntacticsugar.vooga.gameplayer.view.implementation.StartingScreenManager;
 
 import javafx.application.Application;

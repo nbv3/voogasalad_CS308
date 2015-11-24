@@ -56,11 +56,6 @@ public class KeyControlAttribute extends AbstractAttribute implements IMover {
 			movement.setMovement(this);
 		}
 	}
-	
-	@Override
-	public void receiveEvent(IGameEvent event) {
-		// TODO could be speed changes, make immobile for n seconds, etc.
-	}
 
 	@Override
 	public void updateSelf(IGameUniverse universe) {

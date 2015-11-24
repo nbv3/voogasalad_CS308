@@ -1,6 +1,6 @@
 package com.syntacticsugar.vooga.gameplayer.event;
 
-import java.util.Collection;
+import java.util.Map;
 
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
 
@@ -16,6 +16,6 @@ public interface IGameEvent {
 	/**
 	 * Execute this event on the specified Target attributes.
 	 */
-	public void executeEvent(Collection<IAttribute> targetAttributes);
+	public void executeEvent(Map<String, IAttribute> targetAttributes);
 
 }

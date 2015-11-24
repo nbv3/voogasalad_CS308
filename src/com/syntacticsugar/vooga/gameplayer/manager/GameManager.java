@@ -47,7 +47,7 @@ public class GameManager implements IGameManager {
 		// work
 		GameObject player = new GameObject(GameObjectType.PLAYER, new Point2D(0, 0), 50, 50, path);
 		player.addAttribute(new KeyControlAttribute(player));
-		player.addAttribute(new HealthAttribute(10, player));
+		player.addAttribute(new HealthAttribute(player));
 
 		GameObject enemy = new GameObject(GameObjectType.ENEMY, new Point2D(200, 200), 100, 100, path);
 

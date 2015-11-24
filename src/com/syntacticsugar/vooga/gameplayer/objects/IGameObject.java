@@ -1,6 +1,7 @@
 package com.syntacticsugar.vooga.gameplayer.objects;
 
 import java.util.Collection;
+import java.util.Map;
 
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
 import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
@@ -26,7 +27,7 @@ public interface IGameObject extends IAttributeCollection, ICollidable {
 	// ISimpleAttributeContainer methods
 	
 	@Override
-	public Collection<IAttribute> getAttributes();
+	public Map<String, IAttribute> getAttributes();
 
 	@Override
 	public void addAttribute(IAttribute attribute);

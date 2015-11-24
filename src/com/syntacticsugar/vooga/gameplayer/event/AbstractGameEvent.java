@@ -1,6 +1,7 @@
 package com.syntacticsugar.vooga.gameplayer.event;
 
 import java.util.Collection;
+import java.util.Map;
 
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
 
@@ -18,6 +19,6 @@ public abstract class AbstractGameEvent implements IGameEvent {
 	}
 	
 	@Override
-	public abstract void executeEvent(Collection<IAttribute> targetAttributes);
+	public abstract void executeEvent(Map<String, IAttribute> targetAttributes);
 	
 }
