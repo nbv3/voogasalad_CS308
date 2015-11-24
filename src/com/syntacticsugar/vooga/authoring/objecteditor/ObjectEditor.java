@@ -32,6 +32,7 @@ public class ObjectEditor {
 	private ObjectData myData;
 
 	public ObjectEditor() {
+	
 		myData = new ObjectData();
 		
 		myTypeChooser = buildTypeSelector();
@@ -40,6 +41,7 @@ public class ObjectEditor {
 		editorPane.setCenter(myTypeChooser);
 		
 		myScene = new Scene(editorPane, 400, 400);
+		myScene.getStylesheets().add("/com/syntacticsugar/vooga/authoring/css/default.css");		
 		myStage = new Stage();
 		myStage.setScene(myScene);
 		myStage.show();
