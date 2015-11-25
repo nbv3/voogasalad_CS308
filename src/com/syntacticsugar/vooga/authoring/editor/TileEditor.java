@@ -20,10 +20,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
-public class TileEditor {
+public class TileEditor extends VBox{
 
 	private List<DecoratorTile> currentTileSelection;
-	private VBox tilePane;
+	//private VBox tilePane;
 	private VBox iconBox;
 	private ObjectProperty<ImageView> selectImg = new SimpleObjectProperty<ImageView>();
 	private ViewController myViewController;
@@ -37,10 +37,10 @@ public class TileEditor {
 	public TileEditor(ViewController viewController, List<DecoratorTile> tiles) {
 		myViewController = viewController;
 		currentTileSelection = tiles;
-		tilePane = new VBox();
-		tilePane.getStyleClass().add("properties-module");
+		//tilePane = new VBox();
+		this.getStyleClass().add("properties-module");
 		iconBox = new VBox();
-		tilePane.getChildren().addAll(createDropdownList(),iconBox);
+		this.getChildren().addAll(createDropdownList(),iconBox);
 	}
 	
 	private Button createOkButton(String s) {
@@ -111,8 +111,8 @@ public class TileEditor {
 		}
 	}
 
-	public VBox getEditorPane() {
-		return tilePane;
-	}
+//	public VBox getEditorPane() {
+//		return tilePane;
+//	}
 
 }

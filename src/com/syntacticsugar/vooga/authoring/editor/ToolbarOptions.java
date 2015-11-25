@@ -9,7 +9,7 @@ import com.syntacticsugar.vooga.gameplayer.view.implementation.ViewController;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
-public class ToolbarOptions extends VBox{
+public class ToolbarOptions extends VBox {
 	
 	public ToolbarOptions(List<DecoratorTile> myTileSelection, IGameMap myMap, ViewController viewController){
 		addToolbars(new LevelToolBar(), new TileToolBar(myTileSelection, myMap, viewController));

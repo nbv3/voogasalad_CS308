@@ -7,10 +7,10 @@ public class ButtonFactory {
 		
 	}
 	
-	public Button createObject(String id) {
+	public Button createObject(String id, double width, double height) {
 		Button setButton = new Button(id);
-		setButton.setPrefHeight(30);
-		setButton.setPrefWidth(80);
+		setButton.setPrefWidth(width);
+		setButton.setPrefHeight(height);
 		return setButton;
 	}
 

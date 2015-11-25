@@ -16,16 +16,16 @@ public class LevelToolBar extends EditorToolbar{
 	}
 
 	private void createRemoveLevelOption() {
-
+		Button remove = createToolbarItem("Remove");
 	}
 
 	private void createChangeLevelOption() {
-		Button remove = createToolbarItem("Change Level");
+		Button change = createToolbarItem("Change Level");
 	}
 	
-	private void switchGridScene()
-	{
-		
-	}
+//	private void switchGridScene()
+//	{
+//		
+//	}
 
 }

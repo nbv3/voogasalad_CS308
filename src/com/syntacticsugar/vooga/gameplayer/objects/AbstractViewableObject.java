@@ -6,7 +6,7 @@ public abstract class AbstractViewableObject implements IViewableObject{
 	
 	private BoundingBox myBoundingBox;
 	private String myPath;
-	private int myID;
+	//private int myID;
 	
 	public AbstractViewableObject(Point2D point, double width, double height, String path){
 		myBoundingBox = new BoundingBox(point, width, height);

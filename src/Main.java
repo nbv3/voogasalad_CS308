@@ -1,4 +1,3 @@
-import com.syntacticsugar.vooga.authoring.editor.AuthoringEnvironment;
 import com.syntacticsugar.vooga.authoring.objecteditor.ObjectEditor;
 import com.syntacticsugar.vooga.gameplayer.view.implementation.StartingScreenManager;
 
@@ -13,6 +12,7 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage stage) throws Exception {
+		new ObjectEditor();
 		new StartingScreenManager(stage);
 	}
 	

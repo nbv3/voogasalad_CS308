@@ -5,12 +5,14 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class ObjectEditor implements IChangeObjectEditorScene {
+	
 	private Stage myStage;
 	private Scene typeScene;
 	private Scene selectionScene;
 	private ObjectData myData;
 	private IChangeObjectEditorScene iChange;
 	private GameObjectType typeChosen;
+	
 	public ObjectEditor() {
 		iChange = this;
 		TypeEditor typeEditor = new TypeEditor(iChange);
@@ -18,6 +20,7 @@ public class ObjectEditor implements IChangeObjectEditorScene {
 		myData = new ObjectData();
 		myStage = new Stage();
 		myStage.setScene(typeScene);
+		myStage.setTitle("Object Editor");
 		myStage.show();
 	}
 
@@ -36,4 +39,5 @@ public class ObjectEditor implements IChangeObjectEditorScene {
 		myStage.setScene(typeScene);
 		return;
 	}
+	
 }

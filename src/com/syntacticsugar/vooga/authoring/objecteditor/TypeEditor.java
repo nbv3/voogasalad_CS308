@@ -8,6 +8,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.layout.BorderPane;
 
 public class TypeEditor {
+	
 	private BorderPane editorPane;
 	private Scene scene;
 	private IChangeObjectEditorScene changeInterface;
@@ -34,4 +35,5 @@ public class TypeEditor {
 		typeChooser.setOnAction(e -> changeInterface.initSelectionScene(typeChooser.getSelectionModel().getSelectedItem()));
 		return typeChooser;
 	}
+	
 }

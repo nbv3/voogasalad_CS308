@@ -31,9 +31,8 @@ public class SelectionEditor {
 	public Scene createScene() {
 		BorderPane selectionBorderPane = new BorderPane();
 		selectionBorderPane.getStyleClass().add("pane");
-		VBox container = selectObjectInfo(typeChosen);
 		ObjectEditorNav navBar = new ObjectEditorNav(iChange);
-		selectionBorderPane.setCenter(container);
+		selectionBorderPane.setTop(selectObjectInfo(typeChosen));
 		selectionBorderPane.setBottom(navBar.createNavBar());
 		scene = new Scene(selectionBorderPane, XDIM, YDIM);
 		scene.getStylesheets().add("/com/syntacticsugar/vooga/authoring/css/default.css");
@@ -42,23 +41,18 @@ public class SelectionEditor {
 
 	private VBox selectObjectInfo(GameObjectType type) {
 		VBox container = new VBox();
-		HBox images = new HBox();
-		images.getChildren().add(buildImages(type));
-		HBox attributes = buildAttributes(type);
-		HBox collisions = buildCollisions(type);
-		container.getChildren().addAll(images, attributes, collisions);
+		container.getChildren().addAll(buildImagesPane(type),buildAttributes(type),buildCollisions(type));
 		return container;
 	}
 
-	private Node buildImages(GameObjectType type) {
+	private Node buildImagesPane(GameObjectType type) {
 		GridPane imagePane = new GridPane();
 		imagePane.getStyleClass().addAll("properties-module");
 		imagePane.setPrefSize(250, 250);
-		String[] towerIconPath = ResourceManager.getString(String.format("%s_%s", type.name().toLowerCase(), "img"))
+		String[] iconPath = ResourceManager.getString(String.format("%s_%s", type.name().toLowerCase(), "img"))
 				.split(",");
-		for (int i = 0; i < towerIconPath.length; i++) {
-			System.out.println(towerIconPath[i]);
-			ImageView img = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(towerIconPath[i])));
+		for (int i = 0; i < iconPath.length; i++) {
+			ImageView img = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(iconPath[i])));
 			img.setOnMouseClicked(e -> img.requestFocus());
 			img.focusedProperty().addListener((o, oldValue, newValue) -> {
 				if (newValue) {
@@ -69,7 +63,7 @@ public class SelectionEditor {
 			});
 			img.setFitWidth(imagePane.getPrefWidth() / 5);
 			img.setFitHeight(imagePane.getPrefHeight() / 5);
-			imagePane.add(img, i % 5, i / 5, 1, 1);
+			imagePane.add(img, i % 10, i / 10, 1, 1);
 		}
 		return imagePane;
 	}

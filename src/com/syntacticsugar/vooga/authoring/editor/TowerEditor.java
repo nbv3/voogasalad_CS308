@@ -102,7 +102,7 @@ public class TowerEditor {
 	}
 
 	private Node createSetTowerButton() {
-		Button setButton = new ButtonFactory().createObject("Set");
+		Button setButton = new ButtonFactory().createObject("Set",80,30);
 		setButton.setOnAction(e -> addTowerListToUniverse());
 		return setButton;
 	}
@@ -132,7 +132,7 @@ public class TowerEditor {
 	}
 
 	private Button createAddTowerButton() {
-		Button addButton = new ButtonFactory().createObject("Add");
+		Button addButton = new ButtonFactory().createObject("Add",80,30);
 		addButton.setOnAction(e -> addSpawnerToQueue(selectImg));
 		return addButton;
 	}

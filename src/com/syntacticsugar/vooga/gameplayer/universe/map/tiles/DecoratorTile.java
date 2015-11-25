@@ -3,7 +3,7 @@ package com.syntacticsugar.vooga.gameplayer.universe.map.tiles;
 import javafx.geometry.Point2D;
 
 import com.syntacticsugar.vooga.gameplayer.objects.AbstractViewableObject;
-import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.implementations.PathTile;
+import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.implementations.SceneryTile;
 
 public class DecoratorTile extends AbstractViewableObject implements IGameTile {
 
@@ -11,7 +11,7 @@ public class DecoratorTile extends AbstractViewableObject implements IGameTile {
 	
 	public DecoratorTile(Point2D point, double width, double height, String path) {
 		super(point, width, height, path);
-		this.myImplementation = new PathTile(point);
+		this.myImplementation = new SceneryTile(point);
 	}
 	
 	public IGameTile getImplementation() {

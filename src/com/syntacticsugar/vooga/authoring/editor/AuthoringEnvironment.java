@@ -2,34 +2,24 @@ package com.syntacticsugar.vooga.authoring.editor;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
 
 import com.syntacticsugar.vooga.authoring.editor.sidepanes.EditorTab;
 import com.syntacticsugar.vooga.authoring.editor.sidepanes.EditorTabPane;
-import com.syntacticsugar.vooga.authoring.editor.sidepanes.TilePropertyPane;
-import com.syntacticsugar.vooga.gameplayer.objects.BoundingBox;
 import com.syntacticsugar.vooga.gameplayer.universe.map.GameMap;
 import com.syntacticsugar.vooga.gameplayer.universe.map.IGameMap;
 import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.DecoratorTile;
-import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.IGameTile;
-import com.syntacticsugar.vooga.gameplayer.view.implementation.GameView;
-import com.syntacticsugar.vooga.gameplayer.view.implementation.ObjectView;
 import com.syntacticsugar.vooga.gameplayer.view.implementation.ViewController;
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 
-import javafx.geometry.Point2D;
 import javafx.scene.Scene;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.DragEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -54,6 +44,7 @@ public class AuthoringEnvironment {
 		myViewController = new ViewController(DEFAULT_MAP_SIZE);
 		myTileSelection = new ArrayList<>();
 		myStage = initializeStage();
+		myStage.setTitle("Authoring Environment");
 		myStage.show();
 	}
 
@@ -64,28 +55,8 @@ public class AuthoringEnvironment {
 		myWindow.setLeft(new ToolbarOptions(myTileSelection, myMap, myViewController));
 		createMapDisplay();
 		myWindow.setCenter(myViewController.getGameView());
-		EditorTab levelTab = new EditorTab();
-		levelTab.setContent(new VBox());
-		levelTab.setTabDescription("Level Settings");
-
-		EditorTab tileTab = new EditorTab();
-		tileTab.setContent(new TileEditor(myViewController, myTileSelection).getEditorPane());
-		tileTab.setTabDescription("Tile Settings");
-
-		EditorTab enemyEditorTab = new EditorTab();
-		enemyEditorTab.setContent(new EnemyEditor(myTileSelection).getNode());
-		enemyEditorTab.setTabDescription("Spawners");
-
-		EditorTab towerTab = new EditorTab();
-		towerTab.setContent(new TowerEditor(myTileSelection).getNode());
-		towerTab.setTabDescription("Towers");
-
-		editor = new EditorTabPane(levelTab, 
-				tileTab, 
-				enemyEditorTab, 
-				towerTab);
-
-		myWindow.setRight(editor.getPaneNode());
+		createEditorTabPane();
+		myWindow.setRight(editor);
 		isEditorPane = true;
 		myScene = new Scene(myWindow);
 		myScene.getStylesheets().add("/com/syntacticsugar/vooga/authoring/css/default.css");
@@ -98,10 +69,8 @@ public class AuthoringEnvironment {
 	private MenuBar createMenuBar() {
 		MenuBar mb = new MenuBar();
 		Menu file = new Menu("File");
-
 		MenuItem loadMenu = new MenuItem("Load");
 		//loadMenu.setOnAction(e -> loadStuffs());
-
 		MenuItem saveMenu = new MenuItem("Save");
 		//saveMenu.setOnAction(e -> saveStuffs());
 		file.getItems().addAll(loadMenu, saveMenu);
@@ -119,6 +88,29 @@ public class AuthoringEnvironment {
 				img.setOnMouseEntered(e -> multiSelectTile(tile, e));
 			}
 		}
+	}
+	
+	private void createEditorTabPane() {
+		EditorTab levelTab = new EditorTab();
+		levelTab.setContent(new VBox());	//need to be modified to the level related content
+		levelTab.setTabDescription("Level Settings");
+
+		EditorTab tileTab = new EditorTab();
+		tileTab.setContent(new TileEditor(myViewController, myTileSelection));
+		tileTab.setTabDescription("Tile Settings");
+
+		EditorTab enemyEditorTab = new EditorTab();
+		enemyEditorTab.setContent(new EnemyEditor(myTileSelection).getNode());
+		enemyEditorTab.setTabDescription("Spawners");
+
+		EditorTab towerTab = new EditorTab();
+		towerTab.setContent(new TowerEditor(myTileSelection).getNode());
+		towerTab.setTabDescription("Towers");
+
+		editor = new EditorTabPane(levelTab, 
+				tileTab, 
+				enemyEditorTab, 
+				towerTab);
 	}
 	
 	private void multiSelectTile(DecoratorTile tile, MouseEvent e) {
@@ -141,7 +133,7 @@ public class AuthoringEnvironment {
 			menu.show(myStage);
 		}
 		else {
-			System.out.println(t.getImplementation().getClass().getName());
+			//System.out.println(t.getImplementation().getClass().getName());
 			if (myTileSelection.contains(t)) {
 				myTileSelection.remove(t);
 				tileOpacityOff(t);
@@ -171,43 +163,19 @@ public class AuthoringEnvironment {
 
 	private void changeToEditorPane() {
 		if (!isEditorPane) {
-			myWindow.setRight(editor.getPaneNode());
+			myWindow.setRight(editor);
 			isEditorPane = true;
 		}
 	}
 
-	/**
-	 * @param t
-	 * @param img 
-	 */
 	private void tileOpacityOff(DecoratorTile t) {
 		myViewController.getViewMap().get(t).getImageView().getStyleClass().add("tile-select-off");
 		myViewController.getViewMap().get(t).getImageView().getStyleClass().remove("tile-select-on");
 	}
 
-	/**
-	 * @param t
-	 * @param img 
-	 */
 	private void tileOpacityOn(DecoratorTile t) {
 		myViewController.getViewMap().get(t).getImageView().getStyleClass().add("tile-select-on");
 		myViewController.getViewMap().get(t).getImageView().getStyleClass().remove("tile-select-off");
 	}
-
-	//	private void refreshMapDisplay() {
-	//		myMapDisplay.getChildren().clear();
-	//		for (DecoratorTile tile : myMap.getTileMap().values()) {
-	//			ImageView i = tile.getView();
-	//			i.setOnMouseClicked(e -> toggleTileSelection(tile, e));
-	//			i.setFitWidth(myMapDisplay.getPrefWidth() / (new Double(myMap.getMapSize())));
-	//			i.setFitHeight(myMapDisplay.getPrefHeight() / (new Double(myMap.getMapSize())));
-	//			myMapDisplay.add(tile.getView(), (int) tile.getPoint().getX(), (int) tile.getPoint().getY(),1,1);
-	//		}
-	//	}
-	//
-	//	@Override
-	//	public void update(Observable arg0, Object arg1) {
-	//		refreshMapDisplay();
-	//	}
 
 }

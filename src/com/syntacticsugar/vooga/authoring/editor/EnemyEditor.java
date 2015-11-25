@@ -67,7 +67,7 @@ public class EnemyEditor {
 		spawnListPane.getStyleClass().add("properties-module");
 		spawnListPane.getChildren().add(createSpawnerQueueText());
 		spawnListPane.getChildren().add(spawnQueuePane);
-		Button setBtn = new ButtonFactory().createObject("Set");
+		Button setBtn = new ButtonFactory().createObject("Set",80,30);
 		setBtn.setOnAction(e -> addSpawnerListToSelectedTile());
 		spawnListPane.getChildren().add(setBtn);
 		return spawnListPane;
@@ -106,7 +106,7 @@ public class EnemyEditor {
 	}
 
 	private Button createAddSpawnerButton() {
-		Button addButton = new ButtonFactory().createObject("Add");
+		Button addButton = new ButtonFactory().createObject("Add",80,30);
 		addButton.setOnAction(e -> addSpawnerToQueue(selectImg.getValue()));
 		return addButton;
 	}
