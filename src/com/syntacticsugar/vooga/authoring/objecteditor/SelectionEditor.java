@@ -3,6 +3,8 @@ package com.syntacticsugar.vooga.authoring.objecteditor;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.util.ResourceManager;
 
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -14,6 +16,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 
 public class SelectionEditor {
@@ -22,7 +25,9 @@ public class SelectionEditor {
 	private GameObjectType typeChosen;
 	private final double XDIM = Double.parseDouble(ResourceManager.getString("selection_editor_x"));
 	private final double YDIM = Double.parseDouble(ResourceManager.getString("selection_editor_y"));
-
+	private final double DEFAULT_ICON_SIZE = 50;
+	private ObjectProperty<ImageView> selectImg = new SimpleObjectProperty<ImageView>();
+	
 	public SelectionEditor(IChangeObjectEditorScene change, GameObjectType type) {
 		iChange = change;
 		typeChosen = type;
@@ -46,24 +51,27 @@ public class SelectionEditor {
 	}
 
 	private Node buildImagesPane(GameObjectType type) {
-		GridPane imagePane = new GridPane();
+		TilePane imagePane = new TilePane();
 		imagePane.getStyleClass().addAll("properties-module");
-		imagePane.setPrefSize(250, 250);
 		String[] iconPath = ResourceManager.getString(String.format("%s_%s", type.name().toLowerCase(), "img"))
 				.split(",");
 		for (int i = 0; i < iconPath.length; i++) {
 			ImageView img = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(iconPath[i])));
-			img.setOnMouseClicked(e -> img.requestFocus());
-			img.focusedProperty().addListener((o, oldValue, newValue) -> {
-				if (newValue) {
-					img.setEffect(new Glow(0.7));
-				} else {
-					img.setEffect(null);
+			img.setOnMouseClicked(e -> {
+				selectImg.setValue(img);});
+			
+			selectImg.addListener((o,s1,s2) -> {
+				if (s1 == null) {
+					s2.setEffect(new Glow(0.7));
+					return;
 				}
-			});
-			img.setFitWidth(imagePane.getPrefWidth() / 5);
-			img.setFitHeight(imagePane.getPrefHeight() / 5);
-			imagePane.add(img, i % 10, i / 10, 1, 1);
+				s1.setEffect(null);
+				s2.setEffect(new Glow(0.7));
+				});
+			
+			img.setFitWidth(DEFAULT_ICON_SIZE);
+			img.setFitHeight(DEFAULT_ICON_SIZE);
+			imagePane.getChildren().add(img);
 		}
 		return imagePane;
 	}

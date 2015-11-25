@@ -41,7 +41,7 @@ public class GameManager implements IGameManager {
 		myConditions.add(new PlayerDeathCondition());
 
 		myViewController = new ViewController(600.0);
-		String path = "enemy_dragon.png";
+		String path = "enemy_moster_1.png";
 
 		// i changed ISimpleObject to SimpleObject, else addViewObject does not
 		// work
