@@ -3,10 +3,6 @@ package com.syntacticsugar.vooga.gameplayer.attribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.movement.HDirection;
 import com.syntacticsugar.vooga.gameplayer.attribute.movement.IMover;
 import com.syntacticsugar.vooga.gameplayer.attribute.movement.VDirection;
-import com.syntacticsugar.vooga.gameplayer.objects.IBoundingBox;
-import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
-
-import javafx.geometry.Point2D;
 
 public abstract class AbstractMotionAttribute extends AbstractAttribute implements IMover {
 	
@@ -14,8 +10,8 @@ public abstract class AbstractMotionAttribute extends AbstractAttribute implemen
 	private double yVelocity;
 	private double mySpeed;
 	
-	public AbstractMotionAttribute(IGameObject parent) {
-		super(parent);
+	public AbstractMotionAttribute() {
+		super();
 		resetVelocity();
 		setSpeed(3);
 	}

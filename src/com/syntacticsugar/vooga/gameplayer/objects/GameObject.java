@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.syntacticsugar.vooga.authoring.objecteditor.ObjectData;
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
 import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
@@ -24,6 +25,25 @@ public class GameObject extends AbstractViewableObject implements IGameObject {
 		myType = type;
 		myAttributeMap = new HashMap<String, IAttribute>();
 		myCollisionEventMap = new HashMap<GameObjectType, Collection<IGameEvent>>();
+	}
+	
+	public GameObject(ObjectData data, Point2D startingPoint, double width, double height) {
+		super(startingPoint, width, height, data.getImagePath());
+		Collection<IAttribute> attributes = data.getAttributes();
+		Map<GameObjectType, Collection<IGameEvent>> collisions = data.getCollisionMap();
+		
+		myType = data.getType();
+		
+		myAttributeMap = new HashMap<String, IAttribute>();
+		myCollisionEventMap = new HashMap<GameObjectType, Collection<IGameEvent>>();
+		
+		for (IAttribute att: attributes) {
+			att.setParent(this);
+			addAttribute(att);
+		}
+		
+		myCollisionEventMap.putAll(collisions);
+		
 	}
 
 	@Override

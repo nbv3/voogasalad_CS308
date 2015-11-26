@@ -8,7 +8,6 @@ import java.util.Map;
 import com.syntacticsugar.vooga.gameplayer.attribute.movement.IMover;
 import com.syntacticsugar.vooga.gameplayer.attribute.movement.algs.*;
 import com.syntacticsugar.vooga.gameplayer.objects.IBoundingBox;
-import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.gameplayer.universe.userinput.IKeyInputStorage;
 
@@ -20,8 +19,8 @@ public class KeyControlAttribute extends AbstractMotionAttribute implements IMov
 	private Map<KeyCode, IMovementSetter> myKeyBindings;
 	private Collection<IMovementSetter> myCurrentMovement;
 	
-	public KeyControlAttribute(IGameObject parent) {
-		super(parent);
+	public KeyControlAttribute() {
+		super();
 		
 		myKeyBindings = new HashMap<KeyCode, IMovementSetter>();
 		myCurrentMovement = new ArrayList<IMovementSetter>();

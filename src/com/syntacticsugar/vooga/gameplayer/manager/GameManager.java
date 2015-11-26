@@ -2,15 +2,20 @@ package com.syntacticsugar.vooga.gameplayer.manager;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import com.syntacticsugar.vooga.authoring.objecteditor.ObjectData;
 import com.syntacticsugar.vooga.gameplayer.attribute.HealthAttribute;
+import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.KeyControlAttribute;
 import com.syntacticsugar.vooga.gameplayer.conditions.ConditionType;
 import com.syntacticsugar.vooga.gameplayer.conditions.IGameCondition;
 import com.syntacticsugar.vooga.gameplayer.conditions.PlayerDeathCondition;
 import com.syntacticsugar.vooga.gameplayer.engine.GameEngine;
 import com.syntacticsugar.vooga.gameplayer.event.HealthChangeEvent;
+import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObject;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
@@ -41,17 +46,31 @@ public class GameManager implements IGameManager {
 		myConditions.add(new PlayerDeathCondition());
 
 		myViewController = new ViewController(600.0);
-		String path = "enemy_moster_1.png";
 
 		// i changed ISimpleObject to SimpleObject, else addViewObject does not
 		// work
-		GameObject player = new GameObject(GameObjectType.PLAYER, new Point2D(0, 0), 50, 50, path);
-		player.addAttribute(new KeyControlAttribute(player));
-		player.addAttribute(new HealthAttribute(player));
+		String path = "enemy_moster_1.png";
+		
+		ObjectData playerData = new ObjectData();
+		List<IAttribute> attributes = new ArrayList<IAttribute>();
+		attributes.add(new HealthAttribute(100));
+		attributes.add(new KeyControlAttribute());
+		playerData.setType(GameObjectType.PLAYER);
+		playerData.setImagePath(path);
+		playerData.setAttributes(attributes);
+		
+		ObjectData enemyData = new ObjectData();
+		Map<GameObjectType, Collection<IGameEvent>> collisions = new HashMap<GameObjectType, Collection<IGameEvent>>();
+		Collection<IGameEvent> enemyEvents = new ArrayList<IGameEvent>();
+		enemyEvents.add(new HealthChangeEvent(-10));
+		collisions.put(GameObjectType.PLAYER, enemyEvents);
+		enemyData.setType(GameObjectType.ENEMY);
+		enemyData.setImagePath(path);
+		enemyData.setCollisionMap(collisions);
 
-		GameObject enemy = new GameObject(GameObjectType.ENEMY, new Point2D(200, 200), 100, 100, path);
-
-		enemy.addCollisionBinding(GameObjectType.PLAYER, new HealthChangeEvent(-10));
+		GameObject player = new GameObject(playerData, new Point2D(10, 10), 50, 50);
+		GameObject enemy = new GameObject(enemyData, new Point2D(100, 100), 100, 100);
+		
 		currentLevel.addGameObject(player);
 		currentLevel.addGameObject(enemy);
 		myViewController.addViewObject(player);
