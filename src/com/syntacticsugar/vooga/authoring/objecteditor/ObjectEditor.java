@@ -32,7 +32,6 @@ public class ObjectEditor implements IChangeObjectEditorScene {
 		selectionScene = selectionEditor.createScene();
 		myStage.setScene(selectionScene);
 		return;
-		
 	}
 	
 	@Override

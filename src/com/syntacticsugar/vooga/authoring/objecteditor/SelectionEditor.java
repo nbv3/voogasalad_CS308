@@ -37,6 +37,7 @@ public class SelectionEditor {
 	private String selectedItem;
 	private final double XDIM = Double.parseDouble(ResourceManager.getString("selection_editor_x"));
 	private final double YDIM = Double.parseDouble(ResourceManager.getString("selection_editor_y"));
+	private static final double DEFAULT_ICON_SIZE = 50;
 	private ObjectProperty<ImageView> selectImg = new SimpleObjectProperty<ImageView>();
 	
 	public SelectionEditor(IChangeObjectEditorScene change, GameObjectType type, ObjectData myData) {
@@ -98,22 +99,23 @@ public class SelectionEditor {
 		imagePane.getStyleClass().addAll("properties-module");
 		String[] iconPath = ResourceManager.getString(String.format("%s_%s", type.name().toLowerCase(), "img"))
 				.split(",");
+		
+		selectImg.addListener((o,s1,s2) -> {
+			if (s1 == null) {
+				s2.setEffect(new Glow(0.7));
+				return;
+			}
+			s1.setEffect(null);
+			s2.setEffect(new Glow(0.7));
+			});
+		
 		for (int i = 0; i < iconPath.length; i++) {
 			ImageView img = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(iconPath[i])));
 			img.setOnMouseClicked(e -> {
 				selectImg.setValue(img);});
 			
-			selectImg.addListener((o,s1,s2) -> {
-				if (s1 == null) {
-					s2.setEffect(new Glow(0.7));
-					return;
-				}
-				s1.setEffect(null);
-				s2.setEffect(new Glow(0.7));
-				});
-			
-			img.setFitWidth(50);
-			img.setFitHeight(50);
+			img.setFitWidth(DEFAULT_ICON_SIZE);
+			img.setFitHeight(DEFAULT_ICON_SIZE);
 			imagePane.getChildren().add(img);
 		}
 		return imagePane;

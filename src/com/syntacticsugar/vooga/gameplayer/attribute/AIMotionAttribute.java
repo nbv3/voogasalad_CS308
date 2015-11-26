@@ -5,35 +5,28 @@ import java.awt.Point;
 import com.syntacticsugar.vooga.gameplayer.attribute.movement.IMover;
 import com.syntacticsugar.vooga.gameplayer.attribute.movement.algs.IMovementSetter;
 import com.syntacticsugar.vooga.gameplayer.attribute.movement.algs.MoveRightCardinal;
-import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.gameplayer.utilities.Path;
 
 import javafx.geometry.Point2D;
 
-public class AIMotionAttribute extends AbstractAttribute implements IMover {
+public class AIMotionAttribute extends AbstractMotionAttribute implements IMover {
 
-	private double xVelocity;
-	private double yVelocity;
-	private double mySpeed;
 	private Point2D currentLocation;
 	private Point2D destinationLocation;
-	
 	private Path myPath;
 	private Point2D currentTile;
 	private Point2D nextTile;
 	private Point2D destinationTile;
-	
 	private IMovementSetter myMover;
 	
-	public AIMotionAttribute(IGameObject parent) {
-		super(parent);
+	public AIMotionAttribute() {
+		super();
 		myMover = new MoveRightCardinal(); // DEFAULT RIGHT MOVEMENT TODO
 		// currentLocation = parent.getBoundingBox().getPoint(); TODO
 		
 		// update currentTile
 		myPath = new Path();
-		setVelocity(0, 0);
 		setSpeed(3);
 	}
 	
@@ -88,33 +81,8 @@ public class AIMotionAttribute extends AbstractAttribute implements IMover {
 		//		box.setPoint(nextPointX, nextPointY);
 		// }
 		// box.setPoint(new Point2D(oldPoint.getX() + xVelocity, oldPoint.getY() + yVelocity));
-		System.out.println(String.format("X Velocity: %d   Y Velocity: %d", xVelocity, yVelocity));
-	}
-	
-	@Override
-	public double getSpeed() {
-		return this.mySpeed;
+		System.out.println(String.format("X Velocity: %d   Y Velocity: %d", getXVelocity(), getYVelocity()));
 	}
 
-	@Override
-	public void setSpeed(double speed) {
-		this.mySpeed = speed;
-	}
-	
-	@Override
-	public void setVelocity(double xVel, double yVel) {
-		setXVelocity(xVel);
-		setYVelocity(yVel);
-	}
-
-	@Override
-	public void setXVelocity(double xvel) {
-		this.xVelocity = xvel;
-	}
-	
-	@Override
-	public void setYVelocity(double yvel) {
-		this.yVelocity = yvel;
-	}
 
 }

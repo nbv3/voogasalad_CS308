@@ -21,21 +21,21 @@ public interface IMover {
 	public void setSpeed(double speed);
 	
 	/**
-	 * Sets the X and Y velocities (vectors) of this ISimpleMover object.
-	 * @param xVel
-	 * @param yVel
+	 * Sets the X velocity of this ISimpleMover object equal to the current
+	 * speed of the object in the specified direction.
+	 * @param xDir
 	 */
-	public void setVelocity(double xVel, double yVel);
-
-	/**
-	 * Sets the X velocity of this ISimpleMover object independently.
-	 * @param xVel
-	 */
-	public void setXVelocity(double xVel);
+	public void setXVelocity(HDirection xDir);
 	
 	/**
-	 * Sets the Y velocity of this ISimpleMover object independently.
-	 * @param yVel
+	 * Sets the Y velocity of this ISimpleMover object equal to the current
+	 * speed of the object in the specified direction.
+	 * @param yDir
 	 */
-	public void setYVelocity(double yVel);
+	public void setYVelocity(VDirection yDir);
+
+	/**
+	 * Sets the X and Y velocity of this ISimpleMover object equal to zero.
+	 */
+	void resetVelocity();
 }

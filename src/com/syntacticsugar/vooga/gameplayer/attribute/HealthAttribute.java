@@ -1,6 +1,5 @@
 package com.syntacticsugar.vooga.gameplayer.attribute;
 
-import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.gameplayer.universe.IObjectDespawner;
 
@@ -16,26 +15,7 @@ public class HealthAttribute extends AbstractAttribute {
 	 * @param startingHealth
 	 */
 	public HealthAttribute(double maxHealth) {
-		this(maxHealth, null);
-	}
-
-	/**
-	 * Construct a health attribute with default 100 starting health 
-	 * and the specified parent object.
-	 * @param parent
-	 */
-	public HealthAttribute(IGameObject parent) {
-		this(100, parent);
-	}
-
-	/**
-	 * Construct a health attribute with the specified starting health 
-	 * and parent object.
-	 * @param startingHealth
-	 * @param parent
-	 */
-	private HealthAttribute(double maxHealth, IGameObject parent) {
-		super(parent);
+		super();
 		this.myHealth = maxHealth;
 		this.myMaxHealth = maxHealth;
 		this.myInvincibleFrames = 0;
