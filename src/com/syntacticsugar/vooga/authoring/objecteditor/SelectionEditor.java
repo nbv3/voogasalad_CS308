@@ -13,6 +13,7 @@ import com.syntacticsugar.vooga.util.reflection.ReflectionException;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -22,6 +23,10 @@ import javafx.scene.control.SelectionMode;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.TilePane;
@@ -102,7 +107,17 @@ public class SelectionEditor {
 			ImageView img = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(iconPath[i])));
 			img.setOnMouseClicked(e -> {
 				selectImg.setValue(img);});
-			
+			final String iconPathName = iconPath[i];
+			img.setOnDragDetected(new EventHandler<MouseEvent>() {
+				@Override
+				public void handle(MouseEvent event) {
+					Dragboard db = img.startDragAndDrop(TransferMode.ANY);
+					ClipboardContent content = new ClipboardContent();
+					content.putString(iconPathName);
+					db.setContent(content);
+					event.consume();				 
+				}
+			});
 			selectImg.addListener((o,s1,s2) -> {
 				if (s1 == null) {
 					s2.setEffect(new Glow(0.7));
