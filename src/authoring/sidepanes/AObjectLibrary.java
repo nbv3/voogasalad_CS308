@@ -1,4 +1,4 @@
-package authoring.editor;
+package authoring.sidepanes;
 
 public class AObjectLibrary {
 
