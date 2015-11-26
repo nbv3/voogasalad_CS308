@@ -1,5 +1,5 @@
 package authoring.bottompanes;
 
-public interface CurrentPlayerPane {
+public class CurrentPlayerPane {
 
 }
