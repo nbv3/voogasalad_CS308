@@ -6,6 +6,7 @@ import com.syntacticsugar.vooga.util.ResourceManager;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ChangeListener;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -28,35 +29,34 @@ public class IconPane extends TilePane {
 
 	protected void showImageOptions(String[] iconPath) {
 		this.getChildren().clear();
+		
+		mySelectedIcon.addListener((o, s1, s2) -> setGlowEffect(s1, s2));
+		
 		for (int i = 0; i < iconPath.length; i++) {
 			Image iconImage = new Image(getClass().getClassLoader().getResourceAsStream(iconPath[i]));
 			ImageView icon = new ImageView(iconImage);
-			setIconOnClickVisual(icon);
+			registerMouseClickHandler(icon);
 			icon.setFitWidth(DEFAULT_ICON_DIMENSION);
 			icon.setFitHeight(DEFAULT_ICON_DIMENSION);
 			this.getChildren().add(icon);
 		}
+	}
+
+	private void setGlowEffect(ImageView iv1, ImageView iv2) {
+		if (iv1 == null) {
+			iv2.setEffect(new Glow(0.7));
+			return;
+		}
+		iv1.setEffect(null);
+		iv2.setEffect(new Glow(0.7));
 	}
 	
 	protected void showImageOptions(File XMLDirectory){
 		
 	}
 	
-	private void setIconOnClickVisual(ImageView icon){
-		icon.setOnMouseClicked(e -> {
-			mySelectedIcon.setValue(icon);
-		});
-		
-		mySelectedIcon.addListener((o,s1,s2) -> {
-			if (s1 == null) {
-				s2.setEffect(new Glow(0.7));
-				return;
-			}
-			
-			s1.setEffect(null);
-			s2.setEffect(new Glow(0.7));
-			});
-		
+	private void registerMouseClickHandler(ImageView icon){
+		icon.setOnMouseClicked(e -> mySelectedIcon.setValue(icon));
 	}
 
 }
