@@ -45,12 +45,14 @@ public class ObjectData {
 		this.myImagePath = myImagePath;
 	}
 
-	public void setAttributes(Collection<IAttribute> myAttributes) {
-		this.myAttributes = myAttributes;
+	public void setAttributes(Collection<IAttribute> attributes) {
+		this.myAttributes.clear();
+		this.myAttributes.addAll(attributes);
 	}
 
-	public void setCollisionMap(Map<GameObjectType, Collection<IGameEvent>> myCollisionMap) {
-		this.myCollisionMap = myCollisionMap;
+	public void setCollisionMap(Map<GameObjectType, Collection<IGameEvent>> collisionMap) {
+		this.myCollisionMap.clear();
+		this.myCollisionMap.putAll(collisionMap);
 	}
 	
 }
