@@ -1,5 +1,5 @@
 package authoring.bottompanes;
 
-public class TowersOnMapPane {
+public class AvailableTowerPane {
 
 }
