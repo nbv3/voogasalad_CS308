@@ -3,7 +3,6 @@ package com.syntacticsugar.vooga.authoring.objecteditor;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
@@ -14,7 +13,7 @@ public class ObjectData {
 
 	private GameObjectType myType;
 	private String myImagePath;
-	private List<IAttribute> myAttributes;
+	private Collection<IAttribute> myAttributes;
 	private Map<GameObjectType, Collection<IGameEvent>> myCollisionMap;
 	
 	public ObjectData() {
@@ -26,40 +25,31 @@ public class ObjectData {
 		return this.myType;
 	}
 	
+	public String getImagePath() {
+		return this.myImagePath;
+	}
+	
+	public Collection<IAttribute> getAttributes() {
+		return this.myAttributes;
+	}
+	
+	public Map<GameObjectType, Collection<IGameEvent>> getCollisionMap() {
+		return this.myCollisionMap;
+	}
+	
 	public void setType(GameObjectType type) {
 		this.myType = type;
 	}
 	
-	public String getImagePath() {
-		return myImagePath;
-	}
-
 	public void setImagePath(String myImagePath) {
 		this.myImagePath = myImagePath;
 	}
 
-	public void setAttributes(List<IAttribute> myAttributes) {
+	public void setAttributes(Collection<IAttribute> myAttributes) {
 		this.myAttributes = myAttributes;
 	}
 
 	public void setCollisionMap(Map<GameObjectType, Collection<IGameEvent>> myCollisionMap) {
-		this.myCollisionMap = myCollisionMap;
-	}
-
-	public List<IAttribute> getMyAttributes() {
-		return myAttributes;
-	}
-	
-	public void setMyAttributes(List<IAttribute> myAttributes) {
-		this.myAttributes = myAttributes;
-	}
-
-	public Map<GameObjectType, Collection<IGameEvent>> getMyCollisionMap() {
-		return myCollisionMap;
-	}
-
-	public void setMyCollisionMap(
-			Map<GameObjectType, Collection<IGameEvent>> myCollisionMap) {
 		this.myCollisionMap = myCollisionMap;
 	}
 	
