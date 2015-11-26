@@ -1,13 +1,14 @@
 package com.syntacticsugar.vooga.authoring.objecteditor;
 
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
+
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class ObjectEditor implements IChangeObjectEditorScene {
 	
 	private Stage myStage;
-	private Scene typeScene;
+	public Scene typeScene;
 	private Scene selectionScene;
 	private ObjectData myData;
 	private IChangeObjectEditorScene iChange;
@@ -27,7 +28,7 @@ public class ObjectEditor implements IChangeObjectEditorScene {
 	@Override
 	public void initSelectionScene(GameObjectType type) {
 		typeChosen = type;
-		SelectionEditor selectionEditor = new SelectionEditor(iChange, type);
+		SelectionEditor selectionEditor = new SelectionEditor(iChange, typeChosen, myData);
 		selectionScene = selectionEditor.createScene();
 		myStage.setScene(selectionScene);
 		return;
@@ -36,7 +37,7 @@ public class ObjectEditor implements IChangeObjectEditorScene {
 	
 	@Override
 	public void resetToTypeScene(){
-		myStage.setScene(typeScene);
+		myStage.setScene(new TypeEditor(iChange).createScene());
 		return;
 	}
 	

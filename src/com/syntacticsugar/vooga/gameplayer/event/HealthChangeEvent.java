@@ -17,7 +17,7 @@ public class HealthChangeEvent extends AbstractGameEvent {
 	
 	@Override
 	public void executeEvent(Map<String, IAttribute> targetAttributes) {
-		HealthAttribute health = (HealthAttribute) targetAttributes.get("health");
+		HealthAttribute health = (HealthAttribute) targetAttributes.get("Max health");
 		health.changeHealth(myDeltaHealth);
 	}
 	

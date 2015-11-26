@@ -23,4 +23,8 @@ public abstract class AbstractAttribute implements IAttribute {
 		return this.myParent;
 	}
 	
+	@Override
+	public void setParent(IGameObject parent) {
+		myParent = parent;
+	}
 }

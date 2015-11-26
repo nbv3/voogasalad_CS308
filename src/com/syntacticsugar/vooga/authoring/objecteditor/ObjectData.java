@@ -29,6 +29,10 @@ public class ObjectData {
 	public void setType(GameObjectType type) {
 		this.myType = type;
 	}
+	
+	public String getImagePath() {
+		return myImagePath;
+	}
 
 	public void setImagePath(String myImagePath) {
 		this.myImagePath = myImagePath;
@@ -39,6 +43,23 @@ public class ObjectData {
 	}
 
 	public void setCollisionMap(Map<GameObjectType, Collection<IGameEvent>> myCollisionMap) {
+		this.myCollisionMap = myCollisionMap;
+	}
+
+	public List<IAttribute> getMyAttributes() {
+		return myAttributes;
+	}
+	
+	public void setMyAttributes(List<IAttribute> myAttributes) {
+		this.myAttributes = myAttributes;
+	}
+
+	public Map<GameObjectType, Collection<IGameEvent>> getMyCollisionMap() {
+		return myCollisionMap;
+	}
+
+	public void setMyCollisionMap(
+			Map<GameObjectType, Collection<IGameEvent>> myCollisionMap) {
 		this.myCollisionMap = myCollisionMap;
 	}
 	

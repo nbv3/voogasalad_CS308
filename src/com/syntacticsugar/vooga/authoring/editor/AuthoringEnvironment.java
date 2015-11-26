@@ -9,15 +9,12 @@ import com.syntacticsugar.vooga.gameplayer.universe.map.GameMap;
 import com.syntacticsugar.vooga.gameplayer.universe.map.IGameMap;
 import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.DecoratorTile;
 import com.syntacticsugar.vooga.gameplayer.view.implementation.ViewController;
-import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 
 import javafx.scene.Scene;
-import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
@@ -34,7 +31,6 @@ public class AuthoringEnvironment {
 	private EditorTabPane editor;
 	private List<DecoratorTile> myTileSelection;
 	private IGameMap myMap;
-	private boolean isEditorPane;
 	private final double DEFAULT_MAP_SIZE = 800;
 	private final int DEFAULT_NUM_TILES = 20;
 	private ViewController myViewController;
@@ -57,7 +53,6 @@ public class AuthoringEnvironment {
 		myWindow.setCenter(myViewController.getGameView());
 		createEditorTabPane();
 		myWindow.setRight(editor);
-		isEditorPane = true;
 		myScene = new Scene(myWindow);
 		myScene.getStylesheets().add("/com/syntacticsugar/vooga/authoring/css/default.css");
 		Stage stage = new Stage();
@@ -92,6 +87,7 @@ public class AuthoringEnvironment {
 	
 	private void createEditorTabPane() {
 		EditorTab levelTab = new EditorTab();
+		
 		levelTab.setContent(new VBox());	//need to be modified to the level related content
 		levelTab.setTabDescription("Level Settings");
 
@@ -100,17 +96,10 @@ public class AuthoringEnvironment {
 		tileTab.setTabDescription("Tile Settings");
 
 		EditorTab enemyEditorTab = new EditorTab();
-		enemyEditorTab.setContent(new EnemyEditor(myTileSelection).getNode());
-		enemyEditorTab.setTabDescription("Spawners");
 
-		EditorTab towerTab = new EditorTab();
-		towerTab.setContent(new TowerEditor(myTileSelection).getNode());
-		towerTab.setTabDescription("Towers");
-
-		editor = new EditorTabPane(levelTab, 
-				tileTab, 
-				enemyEditorTab, 
-				towerTab);
+		enemyEditorTab.setContent(new GameObjectEditor());
+		enemyEditorTab.setTabDescription("Game Object");
+		editor = new EditorTabPane(levelTab, tileTab, enemyEditorTab);
 	}
 	
 	private void multiSelectTile(DecoratorTile tile, MouseEvent e) {
@@ -120,51 +109,13 @@ public class AuthoringEnvironment {
 
 
 	private void toggleTileSelection(DecoratorTile t, MouseEvent e) {
-		if (e.getButton().equals(MouseButton.SECONDARY)) {
-			ContextMenu menu = new ContextMenu();
-			menu.getStyleClass().add("context-menu");
-			MenuItem editMenu = new MenuItem("Edit");
-			editMenu.setOnAction(e1 -> changeToPropertyPane());
-			MenuItem addMenu = new MenuItem("Add Object");
-			addMenu.setOnAction(e2 -> changeToEditorPane());
-			menu.getItems().addAll(editMenu, addMenu);
-			menu.setAnchorX(e.getSceneX());
-			menu.setAnchorY(e.getSceneY());
-			menu.show(myStage);
-		}
-		else {
-			//System.out.println(t.getImplementation().getClass().getName());
-			if (myTileSelection.contains(t)) {
-				myTileSelection.remove(t);
-				tileOpacityOff(t);
-			} else {
-				myTileSelection.add(t);
-				tileOpacityOn(t);
-			}
-		}
-	}
-
-	private void changeToPropertyPane() {
-		if (myTileSelection.size() == 0) {
-			new AlertBoxFactory().createObject("Please select a tile first");
-			return;
-		}
-
-		if (myTileSelection.size() > 1) {
-			new AlertBoxFactory().createObject("Cannot view properties for multiple tiles");
-			return;
-		}
-
-		//if (isEditorPane) {
-		//			myWindow.setRight(new TilePropertyPane(myTileSelection).getPaneNode());
-		isEditorPane = false;
-		//}
-	}
-
-	private void changeToEditorPane() {
-		if (!isEditorPane) {
-			myWindow.setRight(editor);
-			isEditorPane = true;
+		//System.out.println(t.getImplementation().getClass().getName());
+		if (myTileSelection.contains(t)) {
+			myTileSelection.remove(t);
+			tileOpacityOff(t);
+		} else {
+			myTileSelection.add(t);
+			tileOpacityOn(t);
 		}
 	}
 

@@ -13,9 +13,14 @@ public interface IAttribute {
 	
 	/**
 	 * Returns the game object that contains this Attribute (ie. it's parent object)
-	 * @return
+	 * @return IGameObject
 	 */
 	public IGameObject getParent();
 	
+	/**set the parent game object for the this Attribute
+	 * @param  IGameObject
+	 *
+	 */
+	public void setParent(IGameObject parent);
 	
 }

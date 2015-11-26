@@ -13,24 +13,20 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 
 public class TileEditor extends VBox{
 
 	private List<DecoratorTile> currentTileSelection;
-	//private VBox tilePane;
 	private VBox iconBox;
 	private ObjectProperty<ImageView> selectImg = new SimpleObjectProperty<ImageView>();
 	private ViewController myViewController;
 	
 	private final String DEFAULT_TILE_IMPLEMENTATION_PACKAGE = "com.syntacticsugar.vooga.gameplayer.universe.map.tiles.implementations.";
-	private final int NUMBER_ROW_ICON_PANEL = 3;
-	private final int NUMBER_COLUMN_ICON_PANEL = 5;
 	private final double WIDTH_ICON_PANEL = 250;
 	private final double HEIGHT_ICON_PANEL = 150;
 			
@@ -63,10 +59,8 @@ public class TileEditor extends VBox{
 	private void showImageOptions(String s) {
 		String[] tileIconPath = ResourceManager.getString(s).split(",");
 		iconBox.getChildren().clear();
-		ScrollPane sp = new ScrollPane();
-		GridPane iconPane = new GridPane();
+		TilePane iconPane = new TilePane();
 		iconPane.setPrefSize(WIDTH_ICON_PANEL, HEIGHT_ICON_PANEL);
-		sp.setContent(iconPane);
 		for (int i = 0; i < tileIconPath.length; i++) {
 			ImageView img = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(tileIconPath[i])));
 			
@@ -83,9 +77,9 @@ public class TileEditor extends VBox{
 				s2.setEffect(new Glow(0.7));
 				});
 			
-			img.setFitWidth(iconPane.getPrefWidth() / NUMBER_COLUMN_ICON_PANEL);
-			img.setFitHeight(iconPane.getPrefHeight() / NUMBER_ROW_ICON_PANEL);
-			iconPane.add(img, i % NUMBER_COLUMN_ICON_PANEL, i / NUMBER_COLUMN_ICON_PANEL, 1, 1);
+			img.setFitWidth(50);
+			img.setFitHeight(50);
+			iconPane.getChildren().add(img);
 		}
 		
 		iconBox.getChildren().addAll(iconPane, createOkButton(s));
@@ -93,7 +87,6 @@ public class TileEditor extends VBox{
 	}
 	
 	private void updateSelectedTile(ImageView iv, String s) {
-		
 		if (currentTileSelection.isEmpty()) {
 			new AlertBoxFactory().createObject("No tile selected, please at least select one tile");
 			return;
@@ -110,9 +103,5 @@ public class TileEditor extends VBox{
 			}
 		}
 	}
-
-//	public VBox getEditorPane() {
-//		return tilePane;
-//	}
 
 }

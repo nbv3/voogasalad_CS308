@@ -9,6 +9,15 @@ public class HealthAttribute extends AbstractAttribute {
 	private double myHealth;
 	private double myMaxHealth;
 	private int myInvincibleFrames;
+	
+	/**
+	 * Construct a health attribute with the specified starting health 
+	 * and a null parent object
+	 * @param startingHealth
+	 */
+	public HealthAttribute(double maxHealth) {
+		this(maxHealth, null);
+	}
 
 	/**
 	 * Construct a health attribute with default 100 starting health 
