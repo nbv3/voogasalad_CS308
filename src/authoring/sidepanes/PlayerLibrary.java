@@ -1,5 +1,5 @@
 package authoring.sidepanes;
 
-public class PlayerLibrary extends AObjectLibrary{
+public class PlayerLibrary extends AbstractObjectLibrary{
 
 }

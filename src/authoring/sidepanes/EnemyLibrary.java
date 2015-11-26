@@ -1,6 +1,6 @@
 package authoring.sidepanes;
 
-public class EnemyLibrary extends AObjectLibrary {
+public class EnemyLibrary extends AbstractObjectLibrary {
 
 	public void populateIconPane(){
 		

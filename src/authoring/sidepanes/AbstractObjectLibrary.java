@@ -2,7 +2,7 @@ package authoring.sidepanes;
 
 import javafx.scene.layout.VBox;
 
-public class AObjectLibrary {
+public class AbstractObjectLibrary {
 
 	private VBox mySidepaneView;
 	

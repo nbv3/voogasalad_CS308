@@ -1,5 +1,5 @@
 package authoring.sidepanes;
 
-public class TowerLibrary extends AObjectLibrary {
+public class TowerLibrary extends AbstractObjectLibrary {
 
 }
