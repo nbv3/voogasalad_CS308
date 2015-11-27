@@ -1,9 +1,11 @@
 import com.syntacticsugar.vooga.authoring.objecteditor.ObjectEditor;
+import com.syntacticsugar.vooga.gameplayer.manager.GameManager;
+import com.syntacticsugar.vooga.gameplayer.view.implementation.GameScreenManager;
 import com.syntacticsugar.vooga.gameplayer.view.implementation.StartingScreenManager;
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 
 import authoring.AuthoringScreenManager;
-import authoring.level.LevelTab;
+import authoring.level.LevelEditor;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.TabPane;
@@ -31,7 +33,8 @@ public class Main extends Application {
 //		} catch (Exception e) {
 //			AlertBoxFactory.createObject(e.getMessage());
 //		}
-		new AuthoringScreenManager();
+//		new AuthoringScreenManager();
+		new StartingScreenManager(stage);
 	}
 	
 }

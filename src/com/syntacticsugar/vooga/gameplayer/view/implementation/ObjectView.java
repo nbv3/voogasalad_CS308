@@ -13,14 +13,14 @@ public class ObjectView implements Observer{
 	
 
 	private ImageView myImageView;
-	private double scalingFactor;
+	private double[] scalingFactor;
 	
 	public ObjectView(String path, BoundingBox box , GameView myGameView) {
 		this.myImageView = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(path)));
 		scalingFactor = myGameView.getScalingFactor();
 		applyTransform(box);
-		myImageView.setFitHeight(scalingFactor*box.getHeight());
-		myImageView.setFitWidth(scalingFactor*box.getWidth());
+		myImageView.setFitHeight(scalingFactor[0]*box.getWidth());
+		myImageView.setFitWidth(scalingFactor[1]*box.getHeight());
 		myGameView.getChildren().add(myImageView);
 		box.addObserver(this);
 	}
@@ -34,8 +34,8 @@ public class ObjectView implements Observer{
 	}
 	
 	private void applyTransform(BoundingBox box) {
-		double xCoordinate = box.getPoint().getX()*scalingFactor;
-		double yCoordinate = box.getPoint().getY()*scalingFactor;
+		double xCoordinate = box.getPoint().getX()*scalingFactor[0];
+		double yCoordinate = box.getPoint().getY()*scalingFactor[1];
 		myImageView.relocate(xCoordinate, yCoordinate);
 	}
 	

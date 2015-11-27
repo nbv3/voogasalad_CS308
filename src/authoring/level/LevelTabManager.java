@@ -14,9 +14,9 @@ public class LevelTabManager {
 	}
 	
 	public void addNewLevel() throws NumberFormatException {
-		LevelTab newLevel = null;
+		LevelEditor newLevel = null;
 		try {
-			newLevel = new LevelTab();
+			newLevel = new LevelEditor();
 		} catch (NumberFormatException e) {
 			AlertBoxFactory.createObject(e.getMessage());
 			return;
@@ -24,6 +24,7 @@ public class LevelTabManager {
 		newLevel.getTab().setOnClosed(e -> updateLevelNumbers());
 		myTabPane.getTabs().add(newLevel.getTab());
 		updateLevelNumbers();
+		myTabPane.getSelectionModel().select(newLevel.getTab());
 	}
 	
 	public TabPane getTabPane() {

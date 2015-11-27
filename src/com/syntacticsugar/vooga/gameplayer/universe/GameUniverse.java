@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
+import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.universe.map.GameMap;
 import com.syntacticsugar.vooga.gameplayer.universe.map.IGameMap;
@@ -15,6 +16,7 @@ import javafx.scene.input.MouseEvent;
 
 public class GameUniverse implements IGameUniverse {
 
+	private Collection<IGameObject> myPlayers;
 	private Collection<IGameObject> myGameObjects;
 	private Collection<IGameObject> mySpawnYard;
 	private Collection<IGameObject> myGraveYard;
@@ -23,6 +25,7 @@ public class GameUniverse implements IGameUniverse {
 	private Collection<KeyCode> myCurrentInput;
 
 	public GameUniverse() {
+		myPlayers = new ArrayList<IGameObject>();
 		myGameObjects = new ArrayList<IGameObject>();
 		myGameMap = new GameMap(500,5);
 		myCurrentInput = new ArrayList<KeyCode>();
@@ -30,6 +33,17 @@ public class GameUniverse implements IGameUniverse {
 		myTowers = new ArrayList<IGameObject>();
 	}
 
+	@Override
+	public void addPlayer(IGameObject player) {
+		if (player.getType().equals(GameObjectType.PLAYER))	
+			myPlayers.add(player);
+	}
+	
+	@Override
+	public Collection<IGameObject> getPlayers() {
+		return Collections.unmodifiableCollection(myPlayers);
+	}
+	
 	@Override
 	public Collection<IGameObject> getGameObjects() {
 		return Collections.unmodifiableCollection(myGameObjects);
@@ -42,7 +56,12 @@ public class GameUniverse implements IGameUniverse {
 
 	@Override
 	public void removeGameObject(IGameObject toRemove) {
-		myGameObjects.remove(toRemove);
+		if (toRemove.getType().equals(GameObjectType.PLAYER)) {
+			myPlayers.remove(toRemove);
+		}
+		else {
+			myGameObjects.remove(toRemove);
+		}
 	}
 
 	@Override

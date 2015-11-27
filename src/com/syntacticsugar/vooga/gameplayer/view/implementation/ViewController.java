@@ -11,9 +11,9 @@ public class ViewController {
 	private Map<IViewableObject, ObjectView> myViewMap;
 	private GameView myGameView;
 
-	public ViewController(double size) {
+	public ViewController(double width, double height) {
 		myViewMap = new HashMap<IViewableObject, ObjectView>();
-		myGameView = new GameView(size);
+		myGameView = new GameView(width, height);
 	}
 
 	public void addViewObject(IViewableObject obj) {

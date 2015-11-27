@@ -39,6 +39,7 @@ public class GameManager implements IGameManager {
 	private List<IGameCondition> myConditions;
 	// private GameInformation myInformation;
 	private ViewController myViewController;
+	private Timeline myGameTimeline;
 
 	public GameManager() {
 		currentLevel = new GameUniverse();
@@ -71,7 +72,7 @@ public class GameManager implements IGameManager {
 		GameObject player = new GameObject(playerData, new Point2D(10, 10), 50, 50);
 		GameObject enemy = new GameObject(enemyData, new Point2D(100, 100), 100, 100);
 		
-		currentLevel.addGameObject(player);
+		currentLevel.addPlayer(player);
 		currentLevel.addGameObject(enemy);
 		myViewController.addViewObject(player);
 		myViewController.addViewObject(enemy);
@@ -80,7 +81,7 @@ public class GameManager implements IGameManager {
 
 	@Override
 	public void restartGame() {
-
+		
 	}
 
 	@Override
@@ -149,20 +150,20 @@ public class GameManager implements IGameManager {
 	
 	@Override
 	public void startGame(){
-		
+		myGameTimeline.play();
 	}
 
 	@Override
 	public void endLevel(){
-		
+		myGameTimeline.pause();
 	}
 	
 	public void initializeAnimation(double fl) {
 		KeyFrame frame = new KeyFrame(Duration.seconds(fl), e -> updateGame());
-		Timeline animation = new Timeline();
-		animation.setCycleCount(Timeline.INDEFINITE);
-		animation.getKeyFrames().add(frame);
-		animation.play();
+		myGameTimeline = new Timeline();
+		myGameTimeline.setCycleCount(Timeline.INDEFINITE);
+		myGameTimeline.getKeyFrames().add(frame);
+		startGame();
 	}
 	
 }

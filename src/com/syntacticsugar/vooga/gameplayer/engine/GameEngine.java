@@ -6,7 +6,7 @@ import com.syntacticsugar.vooga.gameplayer.engine.modules.*;
 public class GameEngine {
 	
 	public static void frameUpdate(IGameUniverse universe) {
-		CollisionEngine.checkCollisions(universe.getGameObjects());
+		CollisionEngine.checkCollisions(universe);
 		StateEngine.updateState(universe);
 	}
 
