@@ -1,4 +1,4 @@
-package authoring.bottompanes;
+package authoring.level;
 
 public class CurrentPlayerPane {
 

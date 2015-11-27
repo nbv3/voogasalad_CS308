@@ -1,4 +1,4 @@
-package authoring.sidepanes;
+package authoring.library;
 
 public class EnemyLibrary extends AbstractObjectLibrary {
 

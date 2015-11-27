@@ -1,4 +1,4 @@
-package authoring.sidepanes;
+package authoring.library;
 
 import javafx.scene.layout.VBox;
 

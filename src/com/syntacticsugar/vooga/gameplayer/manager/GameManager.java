@@ -45,7 +45,7 @@ public class GameManager implements IGameManager {
 		myConditions = new ArrayList<IGameCondition>();
 		myConditions.add(new PlayerDeathCondition());
 
-		myViewController = new ViewController(600.0);
+		myViewController = new ViewController(600.0, 600.0);
 
 		// i changed ISimpleObject to SimpleObject, else addViewObject does not
 		// work
