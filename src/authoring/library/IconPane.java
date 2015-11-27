@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.syntacticsugar.vooga.authoring.objecteditor.ObjectData;
+import com.thoughtworks.xstream.XStream;
+
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.geometry.Insets;
@@ -26,6 +28,8 @@ public class IconPane {
 	private ObjectProperty<ImageView> mySelectedIcon = new SimpleObjectProperty<ImageView>();
 	private final int DEFAULT_ICON_DIMENSION = 50;
 	private final double GLOW_PERCENTAGE = 0.7;
+	private final int INSETS = 10;
+	private XStream myXStream;
 
 	public IconPane() {
 		myImagePaths = new HashMap<ImageView, String>();
@@ -33,8 +37,9 @@ public class IconPane {
 		myScrollPane.setFitToWidth(true);
 		myScrollPane.setVbarPolicy(ScrollBarPolicy.AS_NEEDED);
 		myIconPane = new TilePane();
-		myIconPane.setPadding(new Insets(10, 10, 10, 10));
+		myIconPane.setPadding(new Insets(INSETS, INSETS, INSETS, INSETS));
 		myScrollPane.setContent(myIconPane);
+		//myXStream = new XStream();
 	}
 	
 	public ScrollPane getIconPane(){
@@ -61,10 +66,12 @@ public class IconPane {
 		}
 	}
 
-	protected void showImageOptions(File XMLDirectory) {
+	public void showImageOptionsFromXML(File XMLDirectory) {
 		for (File file: XMLDirectory.listFiles()){
 			if (file.getName().endsWith("xml")){
-				ObjectData objectData = new ObjectData(); // NEED TO FIND METHOD THAT PARSES XML TO OBJECTDATA FILE
+				ObjectData objectData = new ObjectData();
+				//ObjectData objectData = (ObjectData) myXStream.fromXML(file);
+				// ^ DOES THIS WORK ?
 				Image iconImage = new Image(
 						getClass().getClassLoader().getResourceAsStream(objectData.getImagePath()));
 				ImageView icon = makeIconFromImage(iconImage);

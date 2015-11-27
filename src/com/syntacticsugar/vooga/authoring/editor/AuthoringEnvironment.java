@@ -37,7 +37,7 @@ public class AuthoringEnvironment {
 
 	public AuthoringEnvironment() {
 		myMap = new GameMap(DEFAULT_MAP_SIZE,DEFAULT_NUM_TILES);
-		myViewController = new ViewController(DEFAULT_MAP_SIZE);
+		myViewController = new ViewController(DEFAULT_MAP_SIZE, DEFAULT_MAP_SIZE);
 		myTileSelection = new ArrayList<>();
 		myStage = initializeStage();
 		myStage.setTitle("Authoring Environment");
