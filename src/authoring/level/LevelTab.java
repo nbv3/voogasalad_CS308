@@ -1,12 +1,11 @@
 package authoring.level;
 
-import javafx.geometry.HPos;
-import javafx.geometry.VPos;
+import javafx.geometry.Insets;
 import javafx.scene.control.Tab;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.StackPane;
 
 public class LevelTab {
 
@@ -14,24 +13,14 @@ public class LevelTab {
 	private GridPane myTabContents;
 	private MapEditor myMapEditor;
 	
-	public LevelTab(int levelNum) throws Exception {
+	public LevelTab() throws NumberFormatException {
 		myLevelTab = new Tab();
-		myLevelTab.setText(String.format("%s %d", "Level", levelNum));
 		myTabContents = buildTabContents();
-		
 		myMapEditor = new MapEditor();
-		
-		AnchorPane anchor = new AnchorPane();
-		anchor.getChildren().add(myMapEditor.getMapGrid());
-		AnchorPane.setTopAnchor(myMapEditor.getMapGrid(), 5.0);
-		AnchorPane.setLeftAnchor(myMapEditor.getMapGrid(), 5.0);
-		AnchorPane.setRightAnchor(myMapEditor.getMapGrid(), 5.0);
-		AnchorPane.setBottomAnchor(myMapEditor.getMapGrid(), 5.0);
-
-		myTabContents.add(anchor, 1, 0, 2, 1);
+		StackPane mapPane = new StackPane();
+		mapPane.getChildren().add(myMapEditor.getMapGrid());
+		myTabContents.add(mapPane, 1, 0, 1, 1);
 		myTabContents.add(myMapEditor.getTileControls(), 0, 0, 1, 1);
-
-		
 		myLevelTab.setContent(myTabContents);
 	}
 	
@@ -41,7 +30,7 @@ public class LevelTab {
 	
 	private GridPane buildTabContents() {
 		GridPane grid = new GridPane();
-		
+		grid.setPadding(new Insets(10, 10, 10, 10));
 		addColumnConstraints(grid);
 		addRowConstraints(grid);
 		grid.setGridLinesVisible(true);
@@ -53,9 +42,9 @@ public class LevelTab {
 		ColumnConstraints c1 = new ColumnConstraints();
 		c1.setPercentWidth(20);
 		ColumnConstraints c2 = new ColumnConstraints();
-		c2.setPercentWidth(50);
+		c2.setPercentWidth(40);
 		ColumnConstraints c3 = new ColumnConstraints();
-		c3.setPercentWidth(30);
+		c3.setPercentWidth(40);
 //		ColumnConstraints c4 = new ColumnConstraints();
 //		c4.setPercentWidth(20);
 		grid.getColumnConstraints().addAll(c1, c2, c3);

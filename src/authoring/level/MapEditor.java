@@ -10,6 +10,7 @@ import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 
 import authoring.library.IconPane;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextInputDialog;
@@ -17,12 +18,15 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 public class MapEditor {
 
-	private Map<TileData, ImageView> myTiles;
+	private Map<TileData, ImageView> myTileImageMap;
 	private Collection<TileData> myTileSelection;
+	
+	private TileData[][] myMapData;
 	
 	private Button mySelectAllButton;
 	private Button myClearAllButton;
@@ -34,11 +38,13 @@ public class MapEditor {
 	private int myMapSize;
 	private GridPane myMapGrid;
 	
-	public MapEditor() throws Exception {
-		myTiles = new HashMap<TileData, ImageView>();
+	public MapEditor() throws NumberFormatException {
+		myTileImageMap = new HashMap<TileData, ImageView>();
 		myTileSelection = new ArrayList<TileData>();
 		myMapSize = inputMapSize();
-		myMapGrid = populateGrid(600, 600);
+		
+		initializeMap();
+		
 		mySelectAllButton = buildSelectAllButton();
 		myClearAllButton = buildClearAllButton();
 		myApplyButton = buildApplyButton();
@@ -88,7 +94,7 @@ public class MapEditor {
 		for (TileData tile : myTileSelection) {
 			tile.setImplementation(myTileTypeChooser.getSelectionModel().getSelectedItem());
 			tile.setImagePath(myIconPane.getSelectedImagePath());
-			myTiles.get(tile).setImage(newImage);
+			myTileImageMap.get(tile).setImage(newImage);
 		}
 	}
 	
@@ -110,7 +116,7 @@ public class MapEditor {
 		return myTileControls;
 	}
 
-	private int inputMapSize() throws Exception {
+	private int inputMapSize() throws NumberFormatException {
 		TextInputDialog dialog = new TextInputDialog();
 		dialog.setHeaderText(null);
 		dialog.setContentText("Enter size of grid");
@@ -121,30 +127,35 @@ public class MapEditor {
 		try {
 			size = Integer.parseInt(result);
 		} catch (NumberFormatException e) {
-			throw new Exception("Please input a positive integer.");
+			throw new NumberFormatException("Input a positive integer");
 		}
 		return size;
 	}
 
-	private GridPane populateGrid(double width, double height) {
-		GridPane grid = new GridPane();
-		grid.setPrefSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
-		grid.getStylesheets().add("/com/syntacticsugar/vooga/authoring/css/default.css");
+	private void initializeMap() {
+		myMapData = new TileData[myMapSize][myMapSize];
+		myMapGrid = new GridPane();
+		myMapGrid.setPrefSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
+		myMapGrid.getStylesheets().add("/com/syntacticsugar/vooga/authoring/css/default.css");
 		String default_img_path = "scenery_grass_1.png";
 		Image default_img = new Image(getClass().getClassLoader().getResourceAsStream(default_img_path));
 		for (int i=0; i<myMapSize; i++) {
 			for (int j=0; j<myMapSize; j++) {
+				StackPane pane = new StackPane();
 				TileData tile = new TileData(default_img_path);
+				myMapData[i][j] = tile;
 				ImageView iv = new ImageView(default_img);
-				myTiles.put(tile, iv);
-				iv.setFitWidth(width/myMapSize);
-				iv.setFitHeight(height/myMapSize);
+				myTileImageMap.put(tile, iv);
+				iv.setFitWidth(600/myMapSize);
+				iv.setFitHeight(600/myMapSize);
 				iv.setOnMouseEntered(e -> multiSelectTile(tile, iv, e.isControlDown()));
 				iv.setOnMouseClicked(e -> toggleTileSelection(tile, iv));
-				grid.add(iv, i, j, 1, 1);
+				pane.getChildren().add(iv);
+				pane.setAlignment(Pos.CENTER);
+				myMapGrid.add(pane, i, j, 1, 1);
 			}
 		}
-		return grid;
+		myMapGrid.setAlignment(Pos.CENTER);
 	}
 
 	private void multiSelectTile(TileData tile, ImageView tileView, boolean controlDown) {
@@ -175,19 +186,19 @@ public class MapEditor {
 
 	private void selectAllTiles() {
 		for (TileData tile : myTileSelection) {
-			tileOpacityOff(myTiles.get(tile));
+			tileOpacityOff(myTileImageMap.get(tile));
 		}
 		myTileSelection.clear();
-		for (TileData tile : myTiles.keySet()) {
+		for (TileData tile : myTileImageMap.keySet()) {
 			myTileSelection.add(tile);
-			tileOpacityOn(myTiles.get(tile));
+			tileOpacityOn(myTileImageMap.get(tile));
 		}
 	}
 	
 	private void clearAllTiles() {
 		myTileSelection.clear();
-		for (TileData tile : myTiles.keySet()) {
-			tileOpacityOff(myTiles.get(tile));
+		for (TileData tile : myTileImageMap.keySet()) {
+			tileOpacityOff(myTileImageMap.get(tile));
 		}
 	}
 	

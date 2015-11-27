@@ -1,7 +1,6 @@
 package authoring;
 
 import authoring.level.LevelTabManager;
-import authoring.level.MapEditor;
 import javafx.scene.Scene;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -18,6 +17,7 @@ public class AuthoringScreenManager {
 	private GridPane myWindowGrid;
 	
 	private LevelTabManager myLevelEditor;
+//	private LibraryManager myLibraryManager;
 	private Stage myStage;
 	private Scene myScene;
 	

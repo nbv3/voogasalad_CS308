@@ -13,18 +13,17 @@ public class LevelTabManager {
 		myTabPane = new TabPane();
 	}
 	
-	public void addNewLevel() {
-		int numLevels = myTabPane.getTabs().size();
+	public void addNewLevel() throws NumberFormatException {
 		LevelTab newLevel = null;
 		try {
-			newLevel = new LevelTab(numLevels+1);
-		} catch (Exception e) {
-			e.printStackTrace();
-			AlertBoxFactory.createObject("Error");
+			newLevel = new LevelTab();
+		} catch (NumberFormatException e) {
+			AlertBoxFactory.createObject(e.getMessage());
 			return;
 		}
 		newLevel.getTab().setOnClosed(e -> updateLevelNumbers());
 		myTabPane.getTabs().add(newLevel.getTab());
+		updateLevelNumbers();
 	}
 	
 	public TabPane getTabPane() {

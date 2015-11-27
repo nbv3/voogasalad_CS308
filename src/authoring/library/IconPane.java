@@ -7,6 +7,8 @@ import java.util.Map;
 import com.syntacticsugar.vooga.authoring.objecteditor.ObjectData;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.effect.Glow;
@@ -31,6 +33,7 @@ public class IconPane {
 		myScrollPane.setFitToWidth(true);
 		myScrollPane.setVbarPolicy(ScrollBarPolicy.AS_NEEDED);
 		myIconPane = new TilePane();
+		myIconPane.setPadding(new Insets(10, 10, 10, 10));
 		myScrollPane.setContent(myIconPane);
 	}
 	
