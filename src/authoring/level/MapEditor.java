@@ -24,8 +24,8 @@ public class MapEditor {
 	private TileData[][] myMapData;
 	
 	private int myMapSize;
-	private int mapDisplayWidth = 600;;
-	private int mapDisplayHeight = 600;
+	private double mapDisplayWidth = 600.0;
+	private double mapDisplayHeight = 600.0;
 	private GridPane myMapGrid;
 	
 	
@@ -35,19 +35,19 @@ public class MapEditor {
 		myMapSize = inputMapSize();
 		initializeMap();
 	}
-	public int getMapDisplayWidth() {
+	public double getMapDisplayWidth() {
 		return mapDisplayWidth;
 	}
 
-	public void setMapDisplayWidth(int mapDisplayWidth) {
+	public void setMapDisplayWidth(double mapDisplayWidth) {
 		this.mapDisplayWidth = mapDisplayWidth;
 	}
 
-	public int getMapDisplayHeight() {
+	public double getMapDisplayHeight() {
 		return mapDisplayHeight;
 	}
 
-	public void setMapDisplayHeight(int mapDisplayHeight) {
+	public void setMapDisplayHeight(double mapDisplayHeight) {
 		this.mapDisplayHeight = mapDisplayHeight;
 	}
 

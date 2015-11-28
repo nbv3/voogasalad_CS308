@@ -28,7 +28,7 @@ public abstract class AbstractObjectLibrary {
 	}
 	
 	protected void populateOptionIcons(File XMLDirectory){
-		myObjectIconPane.showImageOptionsFromXML(XMLDirectory);
+//		myObjectIconPane.showImageOptionsFromXML(XMLDirectory);
 		addToVBox("iconPane", myObjectIconPane.getIconPane());
 	}
 	

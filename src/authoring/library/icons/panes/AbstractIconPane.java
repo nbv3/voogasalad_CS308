@@ -18,11 +18,9 @@ public abstract class AbstractIconPane {
 
 	private ScrollPane myScrollPane;
 	private TilePane myIconPane;
-	private AbstractIcon myAddButton;
 	private Map<AbstractIcon, String> myImagePaths;
 
 	private final ObjectProperty<AbstractIcon> mySelectedIcon = new SimpleObjectProperty<AbstractIcon>();
-	private final double DEFAULT_ICON_DIMENSION = 50;
 	private final double GLOW_PERCENTAGE = 0.75;
 	private final double INSET_VALUE = 3;
 
@@ -35,7 +33,6 @@ public abstract class AbstractIconPane {
 		myIconPane = new TilePane();
 		myIconPane.setHgap(INSET_VALUE);
 		myIconPane.setVgap(INSET_VALUE);
-		myAddButton = makeAddButtonIcon();
 		myScrollPane.setContent(myIconPane);
 		myScrollPane.setPadding(new Insets(INSET_VALUE));
 	}
@@ -57,12 +54,6 @@ public abstract class AbstractIconPane {
 		return myScrollPane;
 	}
 	
-	protected AbstractIcon makeAddButtonIcon(){
-		AbstractIcon addButton = new ImageIcon("add_button.png", DEFAULT_ICON_DIMENSION);
-		addButton.setOnMouseClicked(e -> createNewIcon());
-		return addButton;
-	}
-
 	protected void setSelectedEffect(AbstractIcon oldIcon, AbstractIcon newIcon) {
 		if (oldIcon == null) {
 			newIcon.getImageView().setEffect(new Glow(GLOW_PERCENTAGE));
@@ -78,10 +69,6 @@ public abstract class AbstractIconPane {
 
 	protected void setSelectedIcon(AbstractIcon icon) {
 		mySelectedIcon.set(icon);
-	}
-	
-	protected AbstractIcon getAddIcon() {
-		return myAddButton;
 	}
 	
 	protected abstract void createNewIcon();

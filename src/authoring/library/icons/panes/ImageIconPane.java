@@ -22,7 +22,6 @@ public class ImageIconPane extends AbstractIconPane {
 			addIconImageToMap(icon, path);
 		}
 		setSelectedIcon(null);
-		addIconToPane(getAddIcon());
 	}
 
 	private AbstractIcon makeImageIcon(String imagePath) {
