@@ -21,18 +21,14 @@ import javafx.scene.layout.TilePane;
 public class IconPane {
 
 	private ScrollPane myScrollPane;
-	private TilePane myIconPane;
-	private LabeledIcon myAddButton;
-	
+	protected TilePane myIconPane;
+	protected LabeledIcon myAddButton;
 	private Map<LabeledIcon, String> myImagePaths;
-	
 	private ObjectProperty<ImageView> mySelectedIcon = new SimpleObjectProperty<ImageView>();
 	private final int DEFAULT_ICON_DIMENSION = 50;
 	private final double GLOW_PERCENTAGE = 0.7;
 	private final int INSETS = 10;
 	private final String[] myAcceptableImageTypes = {".jpg", ".JPG", ".png", ".PNG"};
-	private final String[] myAcceptableXMLTypes = {".XML", ".xml"};
-	private XStream myXStream;
 
 	public IconPane() {
 		myImagePaths = new HashMap<LabeledIcon, String>();
@@ -42,14 +38,14 @@ public class IconPane {
 		myIconPane = new TilePane();
 		myAddButton = makeAddButtonIcon();
 		myScrollPane.setContent(myIconPane);
-		//myXStream = new XStream();
+		mySelectedIcon.addListener((o, s1, s2) -> setGlowEffect(s1, s2));
 	}
 	
 	public ScrollPane getIconPane(){
 		return myScrollPane;
 	}
 	
-	private LabeledIcon makeAddButtonIcon(){
+	protected LabeledIcon makeAddButtonIcon(){
 		Image image = new Image(getClass().getClassLoader().getResourceAsStream("add_button.png"));
 		LabeledIcon addButton = makeIconFromImage(image);
 		return addButton;
@@ -61,11 +57,6 @@ public class IconPane {
 		return icon;
 	}
 	
-	private LabeledIcon makeLabeledIconFromImage(Image image, String name){
-		LabeledIcon labeledIcon = new LabeledIcon(name, image, DEFAULT_ICON_DIMENSION);
-		registerMouseClickHandler(labeledIcon);
-		return labeledIcon;
-	}
 
 	public void showImageOptions(String[] iconPath) {
 		myIconPane.getChildren().clear();
@@ -81,22 +72,7 @@ public class IconPane {
 		myIconPane.getChildren().add(myAddButton);
 	}
 
-	public void showImageOptionsFromXML(File XMLDirectory) {
-		for (File file: XMLDirectory.listFiles()){
-			if (file.getName().endsWith("xml")){
-				ObjectData objectData = new ObjectData();
-				//ObjectData objectData = (ObjectData) myXStream.fromXML(file);
-				// ^ DOES THIS WORK ?
-				Image iconImage = new Image(
-						getClass().getClassLoader().getResourceAsStream(objectData.getImagePath()));
-				LabeledIcon icon = makeLabeledIconFromImage(iconImage, objectData.getObjectName());
-				myIconPane.getChildren().add(icon);
-			}
-			registerAddButtonMouseClickHandler(myAcceptableXMLTypes);
-			myIconPane.getChildren().add(myAddButton);
-		}
-	}
-	
+
 	private void setGlowEffect(ImageView iv1, ImageView iv2) {
 		if (iv1 == null) {
 			iv2.setEffect(new Glow(GLOW_PERCENTAGE));
@@ -106,11 +82,11 @@ public class IconPane {
 		iv2.setEffect(new Glow(GLOW_PERCENTAGE));
 	}
 
-	private void registerMouseClickHandler(LabeledIcon icon) {
+	protected void registerMouseClickHandler(LabeledIcon icon) {
 		icon.setOnMouseClicked(e -> mySelectedIcon.setValue(icon.getImageView()));
 	}
 	
-	private void registerAddButtonMouseClickHandler(String[] fileTypes){
+	protected void registerAddButtonMouseClickHandler(String[] fileTypes){
 		myAddButton.setOnMouseClicked(e -> displayFileSelector(fileTypes));
 	}
 	
