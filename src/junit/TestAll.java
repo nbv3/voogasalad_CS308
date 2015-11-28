@@ -1,0 +1,162 @@
+package junit;
+
+import org.junit.runner.JUnitCore;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+
+/**
+ * The class <code>TestAll</code> builds a suite that can be used to run all
+ * of the tests within its package as well as within any subpackages of its
+ * package.
+ *
+ * @generatedBy CodePro at 11/28/15 12:57 AM
+ * @author Henry
+ * @version $Revision: 1.0 $
+ */
+@RunWith(Suite.class)
+@Suite.SuiteClasses({
+	AbstractMovementTypeTest.class,
+	MoveLeftCardinalTest.class,
+	PlayerBulletTest.class,
+	IObjectRemoverTest.class,
+	FactoryTest.class,
+	LevelEditorTest.class,
+	AuthoringEnvTest.class,
+	IconPaneTest.class,
+	PathsTest.class,
+	GameObjectTypeTest.class,
+	AbstractGameEventTest.class,
+	HealthAttributeTest.class,
+	ViewControllerTest.class,
+	ObjectDataTest.class,
+	AuthoringEnvironmentTest.class,
+	LevelTest.class,
+	PathFinderTestTest.class,
+	DirectoryTesterTest.class,
+	MoveRightCardinalTest.class,
+	DirectoryTest.class,
+	IViewManagerTest.class,
+	GameViewTest.class,
+	SelectionEditorTest.class,
+	IAttributeCollectionTest.class,
+	IControlActionTest.class,
+	ReflectionTestTest.class,
+	DirectionTest.class,
+	ObjectViewTest.class,
+	XMLTesterTest.class,
+	IObjectDespawnerTest.class,
+	IGameStatTest.class,
+	IMoverTest.class,
+	AlertBoxFactoryTest.class,
+	BoundingBoxTest.class,
+	IUserControlAttributeTest.class,
+	IObjectSpawnerTest.class,
+	AbstractMovementAttributeTest.class,
+	GameEventTypeTest.class,
+	IGameMapTest.class,
+	KeyDataTest.class,
+	EditorToolbarTest.class,
+	IGameManagerTest.class,
+	AbstractConditionTest.class,
+	CurrentPlayerPaneTest.class,
+	HDirectionTest.class,
+	TypeEditorTest.class,
+	AbstractAttributeTest.class,
+	FileFinderTest.class,
+	IAttributeTest.class,
+	PathTest.class,
+	LoaderSaverTest.class,
+	AbstractTileTest.class,
+	MainTest.class,
+	IViewableObjectTest.class,
+	IGameTileTest.class,
+	VDirectionTest.class,
+	IGameConditionTest.class,
+	ConstantMovementAttributeTest.class,
+	EditorTabTest.class,
+	SceneryTileTest.class,
+	GameUniverseTest.class,
+	IGameUniverseTest.class,
+	IGameInformationTest.class,
+	EditorTabPaneTest.class,
+	SpawnerObjectTest.class,
+	GameInformationTest.class,
+	HealthChangeEventTest.class,
+	AttributeListTest.class,
+	AvailableTowerPaneTest.class,
+	EnemyCountStatTest.class,
+	ReflectionTest.class,
+	MsgInputBoxFactoryTest.class,
+	ResourceManagerTest.class,
+	StartingMenuTest.class,
+	AIMovementAttributeTest.class,
+	TowerLibraryTest.class,
+	StateEngineTest.class,
+	GameMenuTest.class,
+	ICollidableTest.class,
+	TileEditorTest.class,
+	AttributeMakerWizardTest.class,
+	GameObjectEditorTest.class,
+	MoveUpCardinalTest.class,
+	LevelToolBarTest.class,
+	GameScreenManagerTest.class,
+	LibraryTabsTest.class,
+	CSSWizardTest.class,
+	LabeledIconTest.class,
+	AbstractGameMenuTest.class,
+	TileDataTest.class,
+	ObjectEditorNavTest.class,
+	ToolbarOptionsTest.class,
+	GameObjectTest.class,
+	DataIconPaneTest.class,
+	ObjectLibraryManagerTest.class,
+	IObjectAdderTest.class,
+	ReflectionExceptionTest.class,
+	EnemyDeathConditionTest.class,
+	GameManagerTest.class,
+	IChangeTileImageTest.class,
+	WeaponAttributeTest.class,
+	IGameEventTest.class,
+	CollisionEngineTest.class,
+	LoadingExceptionTest.class,
+	IGameObjectTest.class,
+	PlayerLibraryTest.class,
+	ObjectEditorTest.class,
+	IKeyInputStorageTest.class,
+	EnemyQueuePaneTest.class,
+	ConditionTypeTest.class,
+	PathTileTest.class,
+	AbstractViewableObjectTest.class,
+	GameEngineTest.class,
+	ButtonFactoryTest.class,
+	DecoratorTileTest.class,
+	IObjectCollectionTest.class,
+	IChangeObjectEditorSceneTest.class,
+	MoveDownCardinalTest.class,
+	FireBulletActionTest.class,
+	IBoundingBoxTest.class,
+	IKeyInputProcessorTest.class,
+	MovementControlAttributeTest.class,
+	GameMapTest.class,
+	StartingScreenManagerTest.class,
+	LevelTabManagerTest.class,
+	PathFinderTest.class,
+	PlayerDeathConditionTest.class,
+	AuthoringScreenManagerTest.class,
+	EnemiesKilledConditionTest.class,
+	EnemyLibraryTest.class,
+	MapEditorTest.class,
+})
+public class TestAll {
+
+	/**
+	 * Launch the test.
+	 *
+	 * @param args the command line arguments
+	 *
+	 * @generatedBy CodePro at 11/28/15 12:57 AM
+	 */
+	public static void main(String[] args) {
+		JUnitCore.runClasses(new Class[] { TestAll.class });
+	}
+}
