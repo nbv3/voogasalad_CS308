@@ -22,22 +22,25 @@ public class IconPane {
 
 	private ScrollPane myScrollPane;
 	private TilePane myIconPane;
+	private LabeledIcon myAddButton;
 	
-	private Map<Node, String> myImagePaths;
+	private Map<LabeledIcon, String> myImagePaths;
 	
 	private ObjectProperty<ImageView> mySelectedIcon = new SimpleObjectProperty<ImageView>();
 	private final int DEFAULT_ICON_DIMENSION = 50;
 	private final double GLOW_PERCENTAGE = 0.7;
 	private final int INSETS = 10;
+	private final String[] myAcceptableImageTypes = {".jpg", ".JPG", ".png", ".PNG"};
+	private final String[] myAcceptableXMLTypes = {".XML", ".xml"};
 	private XStream myXStream;
 
 	public IconPane() {
-		myImagePaths = new HashMap<Node, String>();
+		myImagePaths = new HashMap<LabeledIcon, String>();
 		myScrollPane = new ScrollPane();
 		myScrollPane.setFitToWidth(true);
 		myScrollPane.setVbarPolicy(ScrollBarPolicy.AS_NEEDED);
 		myIconPane = new TilePane();
-//		myIconPane.setPadding(new Insets(INSETS, INSETS, INSETS, INSETS));
+		myAddButton = makeAddButtonIcon();
 		myScrollPane.setContent(myIconPane);
 		//myXStream = new XStream();
 	}
@@ -45,7 +48,13 @@ public class IconPane {
 	public ScrollPane getIconPane(){
 		return myScrollPane;
 	}
-
+	
+	private LabeledIcon makeAddButtonIcon(){
+		Image image = new Image(getClass().getClassLoader().getResourceAsStream("add_button.png"));
+		LabeledIcon addButton = makeIconFromImage(image);
+		return addButton;
+	}
+	
 	private LabeledIcon makeIconFromImage(Image image){
 		LabeledIcon icon = new LabeledIcon(image, DEFAULT_ICON_DIMENSION);
 		registerMouseClickHandler(icon);
@@ -68,6 +77,8 @@ public class IconPane {
 			myImagePaths.put(icon, iconPath[i]);
 			myIconPane.getChildren().add(icon);
 		}
+		registerAddButtonMouseClickHandler(myAcceptableImageTypes);
+		myIconPane.getChildren().add(myAddButton);
 	}
 
 	public void showImageOptionsFromXML(File XMLDirectory) {
@@ -81,6 +92,8 @@ public class IconPane {
 				LabeledIcon icon = makeLabeledIconFromImage(iconImage, objectData.getObjectName());
 				myIconPane.getChildren().add(icon);
 			}
+			registerAddButtonMouseClickHandler(myAcceptableXMLTypes);
+			myIconPane.getChildren().add(myAddButton);
 		}
 	}
 	
@@ -97,6 +110,14 @@ public class IconPane {
 		icon.setOnMouseClicked(e -> mySelectedIcon.setValue(icon.getImageView()));
 	}
 	
+	private void registerAddButtonMouseClickHandler(String[] fileTypes){
+		myAddButton.setOnMouseClicked(e -> displayFileSelector(fileTypes));
+	}
+	
+	private void displayFileSelector(String[] fileType){
+		// needs implementation
+	}
+
 	public Image getSelectedImage() {
 		return mySelectedIcon.get().getImage();
 	}

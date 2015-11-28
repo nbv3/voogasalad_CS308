@@ -35,4 +35,8 @@ public class LabeledIcon extends VBox {
 	public ImageView getImageView(){
 		return myImageView;
 	}
+	
+	public String getIconLabel(){
+		return myLabel.getText();
+	}
 }
