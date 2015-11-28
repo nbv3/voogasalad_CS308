@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import com.syntacticsugar.vooga.util.ResourceManager;
+import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 
 import authoring.library.icons.panes.ImageIconPane;
 import javafx.event.ActionEvent;
@@ -22,6 +23,7 @@ public class TileEditor {
 	private Button mySelectAllButton;
 	private Button myClearAllButton;
 	private ComboBox<String> myTileTypeChooser;
+	private String mySelectedTileType;
 	private Button myAddNewImageButton;
 	private Button myApplyButton;
 	private ImageIconPane myIconPane;
@@ -31,7 +33,7 @@ public class TileEditor {
 		myClearAllButton = buildButton("Clear All", e -> mapEditor.clearAllTiles());
 		myAddNewImageButton = buildButton("Add New Image", e -> selectNewImage());
 		myTileTypeChooser = buildTypeChooser();
-		
+		mySelectedTileType = "";
 		myApplyButton = buildButton(
 				"Apply", 
 				e -> mapEditor.applyTileChanges(
@@ -67,17 +69,17 @@ public class TileEditor {
 		box.setPromptText("Select tile type");
 		box.getItems().add("Path");
 		box.getItems().add("Scenery");
-		box.valueProperty().addListener((o, s1, s2) -> showImageOptions(s2));
+		box.valueProperty().addListener((o, s1, s2) -> updateSelectedType(s2));
 		return box;
 	}
 	
-	private void selectNewImage() {
-		// TODO : New Image selection
-		// Present the user with a file chooser (filtered to only show image files)
-		// and allow them to select as many images as they like. Once selected, move 
-		// the chosen images into the appropriate folder (either images/path or 
-		// images/scenery, depending on the value of the TileTypeChooser combobox at the time).
-		System.out.println("Adding new image");
+	private void updateSelectedType(String type) {
+		setSelectedType(type);
+		showImageOptions(type);
+	}
+	
+	private void setSelectedType(String type) {
+		this.mySelectedTileType = type;
 	}
 	
 	private void showImageOptions(String type) {
@@ -88,6 +90,19 @@ public class TileEditor {
 			imagePaths.add(files[i].getName());
 		}
 		myIconPane.showIcons(imagePaths);
+	}
+	
+	private void selectNewImage() {
+		if (mySelectedTileType.isEmpty()) {
+			AlertBoxFactory.createObject("Select a tile type.");
+			return;
+		}
+		// TODO : New Image selection
+		// Present the user with a file chooser (filtered to only show image files)
+		// and allow them to select as many images as they like. Once selected, move 
+		// the chosen images into the appropriate folder (either images/path or 
+		// images/scenery, depending on the value of the TileTypeChooser combobox at the time).
+		System.out.println("Adding new " + mySelectedTileType + " image");
 	}
 	
 	public VBox getControlBox() {
