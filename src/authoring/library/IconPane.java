@@ -10,7 +10,7 @@ import com.thoughtworks.xstream.XStream;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.effect.Glow;
@@ -23,7 +23,7 @@ public class IconPane {
 	private ScrollPane myScrollPane;
 	private TilePane myIconPane;
 	
-	private Map<ImageView, String> myImagePaths;
+	private Map<Node, String> myImagePaths;
 	
 	private ObjectProperty<ImageView> mySelectedIcon = new SimpleObjectProperty<ImageView>();
 	private final int DEFAULT_ICON_DIMENSION = 50;
@@ -32,12 +32,12 @@ public class IconPane {
 	private XStream myXStream;
 
 	public IconPane() {
-		myImagePaths = new HashMap<ImageView, String>();
+		myImagePaths = new HashMap<Node, String>();
 		myScrollPane = new ScrollPane();
 		myScrollPane.setFitToWidth(true);
 		myScrollPane.setVbarPolicy(ScrollBarPolicy.AS_NEEDED);
 		myIconPane = new TilePane();
-		myIconPane.setPadding(new Insets(INSETS, INSETS, INSETS, INSETS));
+//		myIconPane.setPadding(new Insets(INSETS, INSETS, INSETS, INSETS));
 		myScrollPane.setContent(myIconPane);
 		//myXStream = new XStream();
 	}
@@ -46,21 +46,25 @@ public class IconPane {
 		return myScrollPane;
 	}
 
-	private ImageView makeIconFromImage(Image image){
-		ImageView icon = new ImageView(image);
+	private LabeledIcon makeIconFromImage(Image image){
+		LabeledIcon icon = new LabeledIcon(image, DEFAULT_ICON_DIMENSION);
 		registerMouseClickHandler(icon);
-		icon.setFitWidth(DEFAULT_ICON_DIMENSION);
-		icon.setFitHeight(DEFAULT_ICON_DIMENSION);
 		return icon;
 	}
 	
+	private LabeledIcon makeLabeledIconFromImage(Image image, String name){
+		LabeledIcon labeledIcon = new LabeledIcon(name, image, DEFAULT_ICON_DIMENSION);
+		registerMouseClickHandler(labeledIcon);
+		return labeledIcon;
+	}
+
 	public void showImageOptions(String[] iconPath) {
 		myIconPane.getChildren().clear();
 		myImagePaths.clear();
 		mySelectedIcon.addListener((o, s1, s2) -> setGlowEffect(s1, s2));
 		for (int i = 0; i < iconPath.length; i++) {
 			Image iconImage = new Image(getClass().getClassLoader().getResourceAsStream(iconPath[i]));
-			ImageView icon = makeIconFromImage(iconImage);
+			LabeledIcon icon = makeIconFromImage(iconImage);
 			myImagePaths.put(icon, iconPath[i]);
 			myIconPane.getChildren().add(icon);
 		}
@@ -74,7 +78,7 @@ public class IconPane {
 				// ^ DOES THIS WORK ?
 				Image iconImage = new Image(
 						getClass().getClassLoader().getResourceAsStream(objectData.getImagePath()));
-				ImageView icon = makeIconFromImage(iconImage);
+				LabeledIcon icon = makeLabeledIconFromImage(iconImage, objectData.getObjectName());
 				myIconPane.getChildren().add(icon);
 			}
 		}
@@ -89,8 +93,8 @@ public class IconPane {
 		iv2.setEffect(new Glow(GLOW_PERCENTAGE));
 	}
 
-	private void registerMouseClickHandler(ImageView icon) {
-		icon.setOnMouseClicked(e -> mySelectedIcon.setValue(icon));
+	private void registerMouseClickHandler(LabeledIcon icon) {
+		icon.setOnMouseClicked(e -> mySelectedIcon.setValue(icon.getImageView()));
 	}
 	
 	public Image getSelectedImage() {
