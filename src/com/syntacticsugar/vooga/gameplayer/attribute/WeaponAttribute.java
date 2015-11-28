@@ -1,15 +1,9 @@
 package com.syntacticsugar.vooga.gameplayer.attribute;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.syntacticsugar.vooga.gameplayer.attribute.control.IUserControlAttribute;
-import com.syntacticsugar.vooga.gameplayer.attribute.control.actions.IControlAction;
 import com.syntacticsugar.vooga.gameplayer.attribute.control.actions.movement.Direction;
 import com.syntacticsugar.vooga.gameplayer.attribute.control.actions.movement.algs.*;
-import com.syntacticsugar.vooga.gameplayer.objects.GameObject;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
-import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.objects.implementations.PlayerBullet;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.gameplayer.universe.IObjectSpawner;
@@ -32,7 +26,7 @@ public class WeaponAttribute extends AbstractAttribute implements IUserControlAt
 		this.myBulletDamage = -bulletDamage;
 		this.myFireKeyCode = fireKeyCode;
 		this.isFireKeyPressed = false;
-		this.fireFrameDelay = 60;
+		this.fireFrameDelay = 30;
 		this.delayFrameCounter = 0;
 	}
 	

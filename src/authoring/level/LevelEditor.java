@@ -1,6 +1,7 @@
 package authoring.level;
 
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
@@ -18,9 +19,7 @@ public class LevelEditor {
 		myLevelTab = new Tab();
 		myTabContents = buildTabContents();
 		myMapEditor = new MapEditor();
-		StackPane mapPane = new StackPane();
-		mapPane.getChildren().add(myMapEditor.getMapGrid());
-		myTabContents.add(mapPane, 1, 0, 1, 1);
+		myTabContents.add(myMapEditor.getMapGrid(), 1, 0, 1, 2);
 		myTabContents.add(myMapEditor.getTileControls(), 0, 0, 1, 1);
 		myLevelTab.setContent(myTabContents);
 	}
@@ -35,7 +34,6 @@ public class LevelEditor {
 		addColumnConstraints(grid);
 		addRowConstraints(grid);
 		grid.setGridLinesVisible(true);
-		
 		return grid;
 	}
 	
@@ -46,17 +44,17 @@ public class LevelEditor {
 		c2.setPercentWidth(40);
 		ColumnConstraints c3 = new ColumnConstraints();
 		c3.setPercentWidth(40);
-//		ColumnConstraints c4 = new ColumnConstraints();
-//		c4.setPercentWidth(20);
 		grid.getColumnConstraints().addAll(c1, c2, c3);
 	}
 	
 	private void addRowConstraints(GridPane grid) {
 		RowConstraints r1 = new RowConstraints();
-		r1.setPercentHeight(75);
+		r1.setPercentHeight(40);
 		RowConstraints r2 = new RowConstraints();
-		r2.setPercentHeight(25);
-		grid.getRowConstraints().addAll(r1, r2);
+		r2.setPercentHeight(40);
+		RowConstraints r3 = new RowConstraints();
+		r3.setPercentHeight(20);
+		grid.getRowConstraints().addAll(r1, r2, r3);
 	}
 	
 }

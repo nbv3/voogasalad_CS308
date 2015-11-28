@@ -42,16 +42,19 @@ public class MapEditor {
 	public MapEditor() throws NumberFormatException {
 		myTileImageMap = new HashMap<TileData, ImageView>();
 		myTileSelection = new ArrayList<TileData>();
+		
 		myMapSize = inputMapSize();
 		
 		initializeMap();
-		
-		mySelectAllButton = buildSelectAllButton();
-		myClearAllButton = buildClearAllButton();
-		myApplyButton = buildApplyButton();
-		myTileTypeChooser = buildTypeChooser();
+		buildSelectAllButton();
+		buildClearAllButton();
+		buildApplyButton();
+		buildTypeChooser();
 		myIconPane = new IconPane();
-		
+		buildTileControls();
+	}
+
+	private void buildTileControls() {
 		myTileControls = new VBox();
 		myTileControls.setSpacing(10);
 		myTileControls.setPadding(new Insets(10, 10, 10, 10));
@@ -63,25 +66,22 @@ public class MapEditor {
 										 myApplyButton);
 	}
 	
-	private Button buildSelectAllButton() {
-		Button select = new Button();
-		select.setText("Select All");
-		select.setOnAction(e -> selectAllTiles());
-		return select;
+	private void buildSelectAllButton() {
+		mySelectAllButton = new Button();
+		mySelectAllButton.setText("Select All");
+		mySelectAllButton.setOnAction(e -> selectAllTiles());
 	}
 	
-	private Button buildClearAllButton() {
-		Button clear = new Button();
-		clear.setText("Clear All");
-		clear.setOnAction(e -> clearAllTiles());
-		return clear;
+	private void buildClearAllButton() {
+		myClearAllButton = new Button();
+		myClearAllButton.setText("Clear All");
+		myClearAllButton.setOnAction(e -> clearAllTiles());
 	}
 	
-	private Button buildApplyButton() {
-		Button apply = new Button();
-		apply.setText("Apply");
-		apply.setOnAction(e -> applyTileChanges());
-		return apply;
+	private void buildApplyButton() {
+		myApplyButton = new Button();
+		myApplyButton.setText("Apply");
+		myApplyButton.setOnAction(e -> applyTileChanges());
 	}
 	
 	private void applyTileChanges() {
@@ -99,13 +99,12 @@ public class MapEditor {
 		}
 	}
 	
-	private ComboBox<String> buildTypeChooser() {
-		ComboBox<String> box = new ComboBox<String>();
-		box.setPromptText("Select tile type");
-		box.getItems().add("Path");
-		box.getItems().add("Scenery");
-		box.valueProperty().addListener((o, s1, s2) -> showImageOptions(s2));
-		return box;
+	private void buildTypeChooser() {
+		myTileTypeChooser = new ComboBox<String>();
+		myTileTypeChooser.setPromptText("Select tile type");
+		myTileTypeChooser.getItems().add("Path");
+		myTileTypeChooser.getItems().add("Scenery");
+		myTileTypeChooser.valueProperty().addListener((o, s1, s2) -> showImageOptions(s2));
 	}
 	
 	private void showImageOptions(String type) {
@@ -157,6 +156,7 @@ public class MapEditor {
 			}
 		}
 		myMapGrid.setAlignment(Pos.CENTER);
+		myMapGrid.setPadding(new Insets(5));
 	}
 
 	private void multiSelectTile(TileData tile, ImageView tileView, boolean controlDown, boolean shiftDown) {

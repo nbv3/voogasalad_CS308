@@ -2,7 +2,6 @@ package com.syntacticsugar.vooga.gameplayer.attribute.movement;
 
 import java.awt.Point;
 
-import com.syntacticsugar.vooga.gameplayer.attribute.control.actions.movement.IMover;
 import com.syntacticsugar.vooga.gameplayer.attribute.control.actions.movement.algs.AbstractMovementType;
 import com.syntacticsugar.vooga.gameplayer.attribute.control.actions.movement.algs.MoveRightCardinal;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
@@ -27,7 +26,6 @@ public class AIMovementAttribute extends AbstractMovementAttribute {
 		
 		// update currentTile
 		myPath = new Path();
-		setSpeed(3);
 	}
 	
 	private void generatePath(IGameUniverse universe) {

@@ -10,7 +10,6 @@ import com.thoughtworks.xstream.XStream;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.geometry.Insets;
-import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.effect.Glow;
@@ -24,21 +23,27 @@ public class IconPane {
 	protected TilePane myIconPane;
 	protected LabeledIcon myAddButton;
 	private Map<LabeledIcon, String> myImagePaths;
-	private ObjectProperty<ImageView> mySelectedIcon = new SimpleObjectProperty<ImageView>();
-	private final int DEFAULT_ICON_DIMENSION = 50;
-	private final double GLOW_PERCENTAGE = 0.7;
-	private final int INSETS = 10;
+
+	private static final ObjectProperty<ImageView> mySelectedIcon = new SimpleObjectProperty<ImageView>();
+	private static final int DEFAULT_ICON_DIMENSION = 50;
+	private static final double GLOW_PERCENTAGE = 0.7;
+	private static final int INSET_VALUE = 3;
+
 	private final String[] myAcceptableImageTypes = {".jpg", ".JPG", ".png", ".PNG"};
 
 	public IconPane() {
+		mySelectedIcon.addListener((o, s1, s2) -> setGlowEffect(s1, s2));
 		myImagePaths = new HashMap<LabeledIcon, String>();
 		myScrollPane = new ScrollPane();
-		myScrollPane.setFitToWidth(true);
 		myScrollPane.setVbarPolicy(ScrollBarPolicy.AS_NEEDED);
+		myScrollPane.setHbarPolicy(ScrollBarPolicy.NEVER);
 		myIconPane = new TilePane();
+		myIconPane.setHgap(INSET_VALUE);
+		myIconPane.setVgap(INSET_VALUE);
 		myAddButton = makeAddButtonIcon();
 		myScrollPane.setContent(myIconPane);
-		mySelectedIcon.addListener((o, s1, s2) -> setGlowEffect(s1, s2));
+		myScrollPane.setPadding(new Insets(INSET_VALUE));
+		//myXStream = new XStream();
 	}
 	
 	public ScrollPane getIconPane(){
@@ -61,7 +66,6 @@ public class IconPane {
 	public void showImageOptions(String[] iconPath) {
 		myIconPane.getChildren().clear();
 		myImagePaths.clear();
-		mySelectedIcon.addListener((o, s1, s2) -> setGlowEffect(s1, s2));
 		for (int i = 0; i < iconPath.length; i++) {
 			Image iconImage = new Image(getClass().getClassLoader().getResourceAsStream(iconPath[i]));
 			LabeledIcon icon = makeIconFromImage(iconImage);
