@@ -1,10 +1,12 @@
 package authoring.library;
 
-import java.io.File;
+/* DataIconPane is an implementation of IconPane that gets its images from XML files
+ * and displays the images with labels.
+ */
 
+import java.io.File;
 import com.syntacticsugar.vooga.authoring.objecteditor.ObjectData;
 import com.thoughtworks.xstream.XStream;
-
 import javafx.scene.image.Image;
 
 public class DataIconPane extends IconPane {

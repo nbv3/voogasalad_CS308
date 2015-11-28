@@ -116,6 +116,7 @@ public class MapEditor {
 			tile.setImagePath(myIconPane.getSelectedImagePath());
 			myTileImageMap.get(tile).setImage(newImage);
 		}
+		clearAllTiles(); // clear tile selection after having applied the changes.
 	}
 	
 	private void buildTypeChooser() {
