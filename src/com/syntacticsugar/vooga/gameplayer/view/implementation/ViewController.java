@@ -6,6 +6,7 @@ import java.util.Map;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.objects.IViewableObject;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
+import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.DecoratorTile;
 import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.IGameTile;
 
 public class ViewController {
@@ -38,7 +39,7 @@ public class ViewController {
 	}
 
 	public void initializeView(IGameUniverse universe) {
-		for (IGameTile tile: universe.getTiles()) {
+		for (DecoratorTile tile: universe.getTiles()) {
 			addViewObject(tile);
 		}
 		for (IGameObject player: universe.getPlayers()) {

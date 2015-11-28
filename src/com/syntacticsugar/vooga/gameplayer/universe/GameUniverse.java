@@ -8,6 +8,7 @@ import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.universe.map.GameMap;
 import com.syntacticsugar.vooga.gameplayer.universe.map.IGameMap;
+import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.DecoratorTile;
 import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.IGameTile;
 
 import javafx.geometry.Point2D;
@@ -120,7 +121,7 @@ public class GameUniverse implements IGameUniverse {
 	}
 
 	@Override
-	public Collection<IGameTile> getTiles() {
+	public Collection<DecoratorTile> getTiles() {
 		return myGameMap.getTiles();
 	}
 
