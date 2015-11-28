@@ -25,7 +25,7 @@ public class AttributeViewer {
 	private Button myRemoveButton;
 	private ListView<HBox> myListView;
 
-	public AttributeViewer(double width, double height) {
+	public AttributeViewer() {
 		myView = new HBox();
 		myListView = new ListView<HBox>();
 		myView.getChildren().add(myListView);
