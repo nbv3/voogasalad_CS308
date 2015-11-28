@@ -55,7 +55,7 @@ public class GameManager implements IGameManager {
 		ObjectData playerData = new ObjectData();
 		List<IAttribute> attributes = new ArrayList<IAttribute>();
 		attributes.add(new HealthAttribute(100));
-		attributes.add(new MovementControlAttribute());
+		attributes.add(new MovementControlAttribute(3));
 		attributes.add(new WeaponAttribute("default_tile.jpg", 10, KeyCode.SPACE));
 		playerData.setType(GameObjectType.PLAYER);
 		playerData.setImagePath(playerPath);
