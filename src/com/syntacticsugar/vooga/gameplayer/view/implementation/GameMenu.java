@@ -27,13 +27,13 @@ public class GameMenu extends AbstractGameMenu {
 
 	private Node createHelpButton() {
 		Button newGame = createButton("Help");
-		//set action to load game
+		//set action to launch help file
 		return newGame;
 	}
 
 	private Node createLoadGameButton() {
 		Button newGame = createButton("Load Game");
-		//set action to launch help file
+		//set action to load game
 		return newGame;
 	}
 

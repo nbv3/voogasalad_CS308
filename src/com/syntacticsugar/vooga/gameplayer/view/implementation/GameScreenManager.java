@@ -13,6 +13,7 @@ import com.syntacticsugar.vooga.util.filefinder.Directory;
 import com.syntacticsugar.vooga.util.xml.LoaderSaver;
 import com.syntacticsugar.vooga.util.xml.LoadingException;
 
+import authoring.AuthoringScreenManager;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.Scene;
@@ -23,7 +24,7 @@ public class GameScreenManager implements IViewManager {
 
 	private final double FRAME_LENGTH = 1 / 60.0;
 	private GameManager myGameManager;
-	private AuthoringEnvironment myAuthoringEnv;
+	private AuthoringScreenManager myAuthoringEnv;
 	/**
 	 * TODO These variables are always the same, put them somewhere else
 	 */
@@ -74,13 +75,14 @@ public class GameScreenManager implements IViewManager {
 //	}
 
 	private GameManager loadXML() {
-		return new GameManager();
+		return new GameManager(600.0);
 	}
 
 	@Override
 	public void launchGame() {
-		myGameManager = new GameManager();
-		Scene gameScene = new Scene(myGameManager.getGameView(), 600.0, 600.0);
+		double gameSize = 600.0;
+		myGameManager = new GameManager(gameSize);
+		Scene gameScene = new Scene(myGameManager.getGameView(), gameSize, gameSize);
 		myGameManager.initializeAnimation(FRAME_LENGTH);
 		gameScene.setOnKeyPressed(e -> myGameManager.receiveKeyPressed(e.getCode()));
 		gameScene.setOnKeyReleased(e -> myGameManager.receiveKeyReleased(e.getCode()));
@@ -91,7 +93,7 @@ public class GameScreenManager implements IViewManager {
 	@Override
 	public void launchEditor() {
 		// Takes it back to the authoring environment
-		myAuthoringEnv = new AuthoringEnvironment();
+		myAuthoringEnv = new AuthoringScreenManager();
 	}
 
 }

@@ -1,6 +1,5 @@
 package com.syntacticsugar.vooga.gameplayer.objects;
 
-import java.util.Collection;
 import java.util.Map;
 
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;

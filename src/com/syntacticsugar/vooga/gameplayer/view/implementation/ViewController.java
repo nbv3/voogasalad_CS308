@@ -3,8 +3,11 @@ package com.syntacticsugar.vooga.gameplayer.view.implementation;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.syntacticsugar.vooga.gameplayer.objects.GameObject;
+import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.objects.IViewableObject;
+import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
+import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.DecoratorTile;
+import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.IGameTile;
 
 public class ViewController {
 
@@ -31,8 +34,21 @@ public class ViewController {
 	
 	public void removeViewObject(IViewableObject obj){
 		ObjectView object = myViewMap.get(obj);
-		myGameView.getChildren().remove(object.getImageView());
+		myGameView.getChildren().remove(object.getViewPane());
 		myViewMap.remove(obj);
+	}
+
+	public void initializeView(IGameUniverse universe) {
+		for (DecoratorTile tile: universe.getTiles()) {
+			addViewObject(tile);
+		}
+		for (IGameObject player: universe.getPlayers()) {
+			addViewObject(player);
+		}
+		for (IGameObject object : universe.getGameObjects()) {
+			addViewObject(object);
+		}
+
 	}
 
 }

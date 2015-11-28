@@ -2,6 +2,9 @@ package com.syntacticsugar.vooga.gameplayer.universe.map;
 
 import javafx.geometry.Point2D;
 
+import java.util.Collection;
+
+import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.DecoratorTile;
 import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.IGameTile;
 
 public interface IGameMap {
@@ -13,7 +16,7 @@ public interface IGameMap {
 	 * @return
 	 */
 
-	public IGameTile[][] getTiles();
+	public Collection<DecoratorTile> getTiles();
 
 	public boolean[][] isWalkable();
 

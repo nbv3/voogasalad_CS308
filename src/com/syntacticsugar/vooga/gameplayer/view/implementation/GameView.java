@@ -2,14 +2,14 @@ package com.syntacticsugar.vooga.gameplayer.view.implementation;
 
 import javafx.scene.layout.Pane;
 
-public class GameView extends Pane{
+public class GameView extends Pane {
 	
 	private double mySize;
 	
 	public GameView(double size){
 		mySize = size;
-		this.setWidth(size);
-		this.setHeight(size);
+		this.setWidth(mySize);
+		this.setHeight(mySize);
 	}
 	
 	/**

@@ -18,4 +18,9 @@ public class PathTile extends AbstractTile {
 		return false;
 	}
 
+	@Override
+	public boolean isDestination() {
+		return true;
+	}
+
 }

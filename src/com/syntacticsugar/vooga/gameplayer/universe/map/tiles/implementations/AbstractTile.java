@@ -12,13 +12,10 @@ public abstract class AbstractTile implements IGameTile {
 		this.myPoint = point;
 	}
 	
-	@Override
 	public abstract boolean isWalkable();
 
-	@Override
 	public abstract boolean isPlaceable();
 
-	@Override
 	public Point2D getPoint() {
 		return this.myPoint;
 	}

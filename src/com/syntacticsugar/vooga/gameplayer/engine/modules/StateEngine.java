@@ -9,6 +9,9 @@ public class StateEngine {
 		for (IGameObject object : universe.getGameObjects()) {
 			object.updateSelf(universe);
 		}
+		for (IGameObject player : universe.getPlayers()) {
+			player.updateSelf(universe);
+		}
 	}
 
 }
