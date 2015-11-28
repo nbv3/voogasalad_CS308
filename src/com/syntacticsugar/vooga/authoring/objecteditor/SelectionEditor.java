@@ -143,7 +143,7 @@ public class SelectionEditor {
 	}
 	
 	private void removeCollideEventFromList() {
-		if (!collisions.keySet().isEmpty()) {
+		if (!collisions.get(selectedCollideObjType).isEmpty()) {
 			int selectedIdx = collideEventsComboBox.getSelectionModel().getSelectedIndex();
 			if (selectedIdx == -1) {
 				new AlertBoxFactory().createObject("Please first select an collide event from the list, then double click to remove");
