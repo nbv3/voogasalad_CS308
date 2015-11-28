@@ -14,10 +14,6 @@ public abstract class AbstractMovementAttribute extends AbstractAttribute implem
 	private double yVelocity;
 	private double mySpeed;
 	
-	public AbstractMovementAttribute() {
-		this(3);
-	}
-	
 	public AbstractMovementAttribute(double speed) {
 		super();
 		resetVelocity();
