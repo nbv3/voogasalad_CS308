@@ -8,9 +8,9 @@ public class ObjectEditor {
 
 	private GridPane myView;
 	private Button myFileSelectButton;
-	private ListView myAttributes;
-	private ListView myColliders;
-	private ListView myCollisionEvents;
+	//private ListView myAttributes;
+	//private ListView myColliders;
+	//private ListView myCollisionEvents;
 	
 	private final String SELECT_FILE = "Select File";
 
