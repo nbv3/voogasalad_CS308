@@ -6,7 +6,6 @@ import javafx.scene.control.Tab;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
-import javafx.scene.layout.StackPane;
 
 public class LevelEditor {
 
@@ -19,8 +18,8 @@ public class LevelEditor {
 		myLevelTab = new Tab();
 		myTabContents = buildTabContents();
 		myMapEditor = new MapEditor();
-		myTabContents.add(myMapEditor.getMapGrid(), 1, 0, 1, 2);
 		myTabContents.add(myMapEditor.getTileControls(), 0, 0, 1, 1);
+		myTabContents.add(myMapEditor.getMapGrid(), 1, 0, 1, 2);
 		myLevelTab.setContent(myTabContents);
 	}
 	

@@ -37,7 +37,7 @@ public class AuthoringScreenManager {
 		buildMenuBar();
 		
 		myWindowGrid = new GridPane();
-		myWindowGrid.setGridLinesVisible(true);
+//		myWindowGrid.setGridLinesVisible(true);
 		addGridConstraints();
 		
 		myWindowGrid.add(myLevelEditor.getTabPane(), 0, 0, 1, 3);
@@ -77,9 +77,9 @@ public class AuthoringScreenManager {
 	
 	private void addColumnConstraints() {
 		ColumnConstraints c1 = new ColumnConstraints();
-		c1.setPercentWidth(80.0);
+		c1.setPercentWidth(75.0);
 		ColumnConstraints c2 = new ColumnConstraints();
-		c2.setPercentWidth(20.0);
+		c2.setPercentWidth(25.0);
 		myWindowGrid.getColumnConstraints().addAll(c1, c2);
 	}
 	
