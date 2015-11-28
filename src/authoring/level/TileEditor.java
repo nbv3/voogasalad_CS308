@@ -1,8 +1,6 @@
 package authoring.level;
 
 import com.syntacticsugar.vooga.util.ResourceManager;
-
-import authoring.library.DataIconPane;
 import authoring.library.IconPane;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;

@@ -9,7 +9,7 @@ import javafx.scene.layout.VBox;
 public abstract class AbstractObjectLibrary {
 
 	private VBox myView;
-	protected IconPane myObjectIconPane;
+	protected DataIconPane myObjectIconPane;
 	private HashMap<String, Node> myViewElements;
 	
 	public AbstractObjectLibrary(File XMLDirectory){
