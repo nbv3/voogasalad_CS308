@@ -1,4 +1,4 @@
-package com.syntacticsugar.vooga.gameplayer.attribute.movement;
+package com.syntacticsugar.vooga.gameplayer.attribute.control.actions.movement;
 
 public interface IMover {
 
@@ -34,6 +34,18 @@ public interface IMover {
 	 */
 	public void setYVelocity(VDirection yDir);
 
+	/**
+	 * Sets the rotation value of this object.
+	 * @param rotate
+	 */
+	public void setRotate(double rotate);
+	
+	/**
+	 * Set the direction of this object.
+	 * @param dir
+	 */
+	public void setDirection(Direction dir);
+	
 	/**
 	 * Sets the X and Y velocity of this ISimpleMover object equal to zero.
 	 */

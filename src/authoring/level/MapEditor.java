@@ -8,6 +8,7 @@ import java.util.Map;
 import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 
+import authoring.data.TileData;
 import authoring.library.IconPane;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;

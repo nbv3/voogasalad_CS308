@@ -2,25 +2,22 @@ package com.syntacticsugar.vooga.gameplayer.view.implementation;
 
 import javafx.scene.layout.Pane;
 
-public class GameView extends Pane{
+public class GameView extends Pane {
 	
-	private double myWidth;
-	private double myHeight;
+	private double mySize;
 	
-	public GameView(double width, double height){
-		myWidth = width;
-		myHeight = height;
-		this.setWidth(width);
-		this.setHeight(height);
+	public GameView(double size){
+		mySize = size;
+		this.setWidth(mySize);
+		this.setHeight(mySize);
 	}
 	
 	/**
 	 * TODO: talk to backend to figure out this scaling situation
 	 */
 	
-	public double[] getScalingFactor(){
-		double[] ret = {(1.0/1000) * myWidth, (1.0/1000)*myHeight};
-		return ret;
+	public double getScalingFactor(){
+		return (1.0/1000)*mySize;
 	}
 
 

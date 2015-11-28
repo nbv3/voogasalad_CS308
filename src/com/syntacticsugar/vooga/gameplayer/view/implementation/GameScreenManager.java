@@ -75,13 +75,14 @@ public class GameScreenManager implements IViewManager {
 //	}
 
 	private GameManager loadXML() {
-		return new GameManager();
+		return new GameManager(600.0);
 	}
 
 	@Override
 	public void launchGame() {
-		myGameManager = new GameManager();
-		Scene gameScene = new Scene(myGameManager.getGameView(), 600.0, 600.0);
+		double gameSize = 600.0;
+		myGameManager = new GameManager(gameSize);
+		Scene gameScene = new Scene(myGameManager.getGameView(), gameSize, gameSize);
 		myGameManager.initializeAnimation(FRAME_LENGTH);
 		gameScene.setOnKeyPressed(e -> myGameManager.receiveKeyPressed(e.getCode()));
 		gameScene.setOnKeyReleased(e -> myGameManager.receiveKeyReleased(e.getCode()));

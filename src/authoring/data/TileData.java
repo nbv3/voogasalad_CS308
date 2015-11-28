@@ -1,4 +1,4 @@
-package authoring.level;
+package authoring.data;
 
 import com.syntacticsugar.vooga.util.ResourceManager;
 
