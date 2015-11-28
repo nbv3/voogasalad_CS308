@@ -37,7 +37,10 @@ public class MapEditor {
 	private VBox myTileControls;
 	
 	private int myMapSize;
+	private int mapDisplayWidth = 600;;
+	private int mapDisplayHeight = 600;
 	private GridPane myMapGrid;
+	
 	
 	public MapEditor() throws NumberFormatException {
 		myTileImageMap = new HashMap<TileData, ImageView>();
@@ -53,6 +56,22 @@ public class MapEditor {
 		myIconPane = new IconPane();
 		buildTileControls();
 	}
+	public int getMapDisplayWidth() {
+		return mapDisplayWidth;
+	}
+
+	public void setMapDisplayWidth(int mapDisplayWidth) {
+		this.mapDisplayWidth = mapDisplayWidth;
+	}
+
+	public int getMapDisplayHeight() {
+		return mapDisplayHeight;
+	}
+
+	public void setMapDisplayHeight(int mapDisplayHeight) {
+		this.mapDisplayHeight = mapDisplayHeight;
+	}
+
 
 	private void buildTileControls() {
 		myTileControls = new VBox();
@@ -146,8 +165,8 @@ public class MapEditor {
 				myMapData[i][j] = tile;
 				ImageView iv = new ImageView(default_img);
 				myTileImageMap.put(tile, iv);
-				iv.setFitWidth(600/myMapSize);
-				iv.setFitHeight(600/myMapSize);
+				iv.setFitWidth(mapDisplayWidth/myMapSize);
+				iv.setFitHeight(mapDisplayHeight/myMapSize);
 				iv.setOnMouseEntered(e -> multiSelectTile(tile, iv, e.isControlDown(), e.isShiftDown()));
 				iv.setOnMouseClicked(e -> toggleTileSelection(tile, iv));
 				pane.getChildren().add(iv);

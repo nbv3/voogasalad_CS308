@@ -5,7 +5,9 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
+import javafx.stage.Screen;
 
 public class LevelEditor {
 
@@ -16,10 +18,12 @@ public class LevelEditor {
 	
 	public LevelEditor() throws NumberFormatException {
 		myLevelTab = new Tab();
-		myTabContents = buildTabContents();
 		myMapEditor = new MapEditor();
+		myTabContents = buildTabContents();
 		myTabContents.add(myMapEditor.getTileControls(), 0, 0, 1, 1);
-		myTabContents.add(myMapEditor.getMapGrid(), 1, 0, 1, 2);
+		myTabContents.add(myMapEditor.getMapGrid(), 1, 0, 1, 1);
+		// When you are ready to add the bottom Node on (for the Spawn Queue),
+		// add it into the myLevelTab and the grid lines will automatically appear.
 		myLevelTab.setContent(myTabContents);
 	}
 	
@@ -47,13 +51,9 @@ public class LevelEditor {
 	}
 	
 	private void addRowConstraints(GridPane grid) {
-		RowConstraints r1 = new RowConstraints();
-		r1.setPercentHeight(40);
-		RowConstraints r2 = new RowConstraints();
-		r2.setPercentHeight(40);
-		RowConstraints r3 = new RowConstraints();
-		r3.setPercentHeight(20);
-		grid.getRowConstraints().addAll(r1, r2, r3);
+		RowConstraints r0 = new RowConstraints(myMapEditor.getMapDisplayHeight());
+		grid.getRowConstraints().addAll(r0);
+			
 	}
 	
 }

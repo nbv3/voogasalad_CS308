@@ -37,7 +37,7 @@ public class AuthoringScreenManager {
 		buildMenuBar();
 		
 		myWindowGrid = new GridPane();
-//		myWindowGrid.setGridLinesVisible(true);
+		myWindowGrid.setGridLinesVisible(true);
 		addGridConstraints();
 		
 		myWindowGrid.add(myLevelEditor.getTabPane(), 0, 0, 1, 3);
