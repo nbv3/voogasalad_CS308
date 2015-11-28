@@ -106,13 +106,13 @@ public class SelectionEditor {
 		if (!myAttributes.isEmpty()) {
 			int selectedIdx = attributeComboBox.getSelectionModel().getSelectedIndex();
 			if (selectedIdx == -1) {
-				new AlertBoxFactory().createObject("Please first select an attribute from the list, then double click to remove");
+				AlertBoxFactory.createObject("Please first select an attribute from the list, then double click to remove");
 				return;
 			}
 			removeAttribute(selectedIdx);
 		}
 		else {
-			new AlertBoxFactory().createObject("Attribute list empty, nothing to remove");
+			AlertBoxFactory.createObject("Attribute list empty, nothing to remove");
 		}
 		System.out.println(myAttributes.size());
 	}
@@ -146,13 +146,13 @@ public class SelectionEditor {
 		if (!collisions.get(selectedCollideObjType).isEmpty()) {
 			int selectedIdx = collideEventsComboBox.getSelectionModel().getSelectedIndex();
 			if (selectedIdx == -1) {
-				new AlertBoxFactory().createObject("Please first select an collide event from the list, then double click to remove");
+				AlertBoxFactory.createObject("Please first select an collide event from the list, then double click to remove");
 				return;
 			}
 			removeCollideEvent(selectedIdx);
 		}
 		else {
-			new AlertBoxFactory().createObject("Collision map empty, nothing to remove");
+			AlertBoxFactory.createObject("Collision map empty, nothing to remove");
 		}
 		System.out.println(collisions.values().size());
 		
@@ -222,12 +222,12 @@ public class SelectionEditor {
 
 	private void createAttribute() {
 		if (selectedAttribute == null) {
-			new AlertBoxFactory().createObject("Please select an attribute first");
+			AlertBoxFactory.createObject("Please select an attribute first");
 			return;
 		}
 		for (IAttribute i: myAttributes) {
 			if (selectedAttribute.equals(i.getClass().getSimpleName())) {
-				new AlertBoxFactory().createObject(String.format("Cannot add more than one %s", selectedAttribute));
+				AlertBoxFactory.createObject(String.format("Cannot add more than one %s", selectedAttribute));
 				return;
 			}
 		}	
@@ -291,11 +291,11 @@ public class SelectionEditor {
 
 	private void createCollision() {
 		if (selectedCollideObjType == null) {
-			new AlertBoxFactory().createObject("Please select a GameObjectType first");
+			AlertBoxFactory.createObject("Please select a GameObjectType first");
 			return;
 		}
 		if (selectedCollideObjEvent == null) {
-			new AlertBoxFactory().createObject("Please select a GameEventType first");
+			AlertBoxFactory.createObject("Please select a GameEventType first");
 			return;			
 		}
 		
@@ -304,7 +304,7 @@ public class SelectionEditor {
 			for (IGameEvent i: collisions.get(selectedCollideObjType)) {
 				System.out.println(i.getClass().getSimpleName());
 				if (i.getClass().getSimpleName().equals(selectedCollideObjEvent)) {
-					new AlertBoxFactory().createObject(String.format("Cannot add more than one %s to collide type %s", 
+					AlertBoxFactory.createObject(String.format("Cannot add more than one %s to collide type %s", 
 							selectedCollideObjEvent,selectedCollideObjType));
 					return;
 				}

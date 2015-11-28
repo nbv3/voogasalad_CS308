@@ -19,7 +19,7 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage stage) {
-		//new ObjectEditor();
+		new ObjectEditor();
 //		new StartingScreenManager(stage);
 //		LevelTab level1Tab = null;
 //		TabPane pane = new TabPane();
