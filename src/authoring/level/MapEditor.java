@@ -5,22 +5,16 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 
 import authoring.data.TileData;
-import authoring.library.IconPane;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 
 public class MapEditor {
 
@@ -28,13 +22,6 @@ public class MapEditor {
 	private Collection<TileData> myTileSelection;
 	
 	private TileData[][] myMapData;
-	
-	private Button mySelectAllButton;
-	private Button myClearAllButton;
-	private Button myApplyButton;
-	private ComboBox<String> myTileTypeChooser;
-	private IconPane myIconPane;
-	private VBox myTileControls;
 	
 	private int myMapSize;
 	private int mapDisplayWidth = 600;;
@@ -45,16 +32,8 @@ public class MapEditor {
 	public MapEditor() throws NumberFormatException {
 		myTileImageMap = new HashMap<TileData, ImageView>();
 		myTileSelection = new ArrayList<TileData>();
-		
 		myMapSize = inputMapSize();
-		
 		initializeMap();
-		buildSelectAllButton();
-		buildClearAllButton();
-		buildApplyButton();
-		buildTypeChooser();
-		myIconPane = new IconPane();
-		buildTileControls();
 	}
 	public int getMapDisplayWidth() {
 		return mapDisplayWidth;
@@ -72,68 +51,20 @@ public class MapEditor {
 		this.mapDisplayHeight = mapDisplayHeight;
 	}
 
-
-	private void buildTileControls() {
-		myTileControls = new VBox();
-		myTileControls.setSpacing(10);
-		myTileControls.setPadding(new Insets(10, 10, 10, 10));
-		
-		myTileControls.getChildren().addAll(mySelectAllButton, 
-										 myClearAllButton, 
-										 myTileTypeChooser, 
-										 myIconPane.getIconPane(),
-										 myApplyButton);
-	}
-	
-	private void buildSelectAllButton() {
-		mySelectAllButton = new Button();
-		mySelectAllButton.setText("Select All");
-		mySelectAllButton.setOnAction(e -> selectAllTiles());
-	}
-	
-	private void buildClearAllButton() {
-		myClearAllButton = new Button();
-		myClearAllButton.setText("Clear All");
-		myClearAllButton.setOnAction(e -> clearAllTiles());
-	}
-	
-	private void buildApplyButton() {
-		myApplyButton = new Button();
-		myApplyButton.setText("Apply");
-		myApplyButton.setOnAction(e -> applyTileChanges());
-	}
-	
-	private void applyTileChanges() {
+	public void applyTileChanges(String impl, String imagePath) {
 		Image newImage = null;
 		try {
-			newImage = myIconPane.getSelectedImage();
-		} catch (NullPointerException e) {
+			newImage = new Image(getClass().getClassLoader().getResourceAsStream(imagePath));
+		} catch (Exception e) {
 			AlertBoxFactory.createObject("Must select an image.");
 			return;
 		}
 		for (TileData tile : myTileSelection) {
-			tile.setImplementation(myTileTypeChooser.getSelectionModel().getSelectedItem());
-			tile.setImagePath(myIconPane.getSelectedImagePath());
+			tile.setImplementation(impl);
+			tile.setImagePath(imagePath);
 			myTileImageMap.get(tile).setImage(newImage);
 		}
 		clearAllTiles(); // clear tile selection after having applied the changes.
-	}
-	
-	private void buildTypeChooser() {
-		myTileTypeChooser = new ComboBox<String>();
-		myTileTypeChooser.setPromptText("Select tile type");
-		myTileTypeChooser.getItems().add("Path");
-		myTileTypeChooser.getItems().add("Scenery");
-		myTileTypeChooser.valueProperty().addListener((o, s1, s2) -> showImageOptions(s2));
-	}
-	
-	private void showImageOptions(String type) {
-		String[] imagePaths = ResourceManager.getString(type).split(",");
-		myIconPane.showImageOptions(imagePaths);
-	}
-	
-	public VBox getTileControls() {
-		return myTileControls;
 	}
 
 	private int inputMapSize() throws NumberFormatException {
@@ -175,8 +106,6 @@ public class MapEditor {
 				myMapGrid.add(pane, i, j, 1, 1);
 			}
 		}
-		myMapGrid.setAlignment(Pos.CENTER);
-		myMapGrid.setPadding(new Insets(5));
 	}
 
 	private void multiSelectTile(TileData tile, ImageView tileView, boolean controlDown, boolean shiftDown) {
@@ -198,13 +127,17 @@ public class MapEditor {
 	}
 
 	private void selectTile(TileData tile, ImageView tileView) {
-		myTileSelection.add(tile);
-		tileOpacityOn(tileView);
+		if (!myTileSelection.contains(tile)) {
+			myTileSelection.add(tile);
+			tileOpacityOn(tileView);
+		}
 	}
 
 	private void deselectTile(TileData tile, ImageView tileView) {
-		myTileSelection.remove(tile);
-		tileOpacityOff(tileView);
+		if (myTileSelection.contains(tile)) {
+			myTileSelection.remove(tile);
+			tileOpacityOff(tileView);
+		}
 	}
 	
 	private void tileOpacityOff(ImageView iv) {
@@ -215,7 +148,7 @@ public class MapEditor {
 		iv.getStyleClass().add("tile-select-on");
 	}
 
-	private void selectAllTiles() {
+	public void selectAllTiles() {
 		for (TileData tile : myTileSelection) {
 			tileOpacityOff(myTileImageMap.get(tile));
 		}
@@ -225,7 +158,7 @@ public class MapEditor {
 		}
 	}
 	
-	private void clearAllTiles() {
+	public void clearAllTiles() {
 		for (TileData tile : myTileImageMap.keySet()) {
 			deselectTile(tile, myTileImageMap.get(tile));
 		}

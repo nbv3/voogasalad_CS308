@@ -3,13 +3,14 @@ package authoring.library;
 import java.io.File;
 import java.util.HashMap;
 
+import authoring.library.icons.panes.ObjectIconPane;
 import javafx.scene.Node;
 import javafx.scene.layout.VBox;
 
 public abstract class AbstractObjectLibrary {
 
 	private VBox myView;
-	protected DataIconPane myObjectIconPane;
+	protected ObjectIconPane myObjectIconPane;
 	private HashMap<String, Node> myViewElements;
 	
 	public AbstractObjectLibrary(File XMLDirectory){

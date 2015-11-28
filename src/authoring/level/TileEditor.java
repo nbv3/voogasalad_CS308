@@ -1,7 +1,11 @@
 package authoring.level;
 
+import java.util.Arrays;
+
 import com.syntacticsugar.vooga.util.ResourceManager;
-import authoring.library.IconPane;
+
+import authoring.library.icons.panes.AbstractIconPane;
+import authoring.library.icons.panes.ImageIconPane;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -15,13 +19,15 @@ public class TileEditor {
 	private Button mySelectAllButton;
 	private Button myClearAllButton;
 	private ComboBox<String> myTileTypeChooser;
-	private IconPane myIconPane;
+	private Button myApplyButton;
+	private ImageIconPane myIconPane;
 	
-	public TileEditor(EventHandler<ActionEvent> selectAll, EventHandler<ActionEvent> clearAll) {
-		mySelectAllButton = buildSelectAllButton(selectAll);
-		myClearAllButton = buildClearAllButton(clearAll);
+	public TileEditor(MapEditor mapEditor) {
+		mySelectAllButton = buildSelectAllButton(e -> mapEditor.selectAllTiles());
+		myClearAllButton = buildClearAllButton(e -> mapEditor.clearAllTiles());
 		myTileTypeChooser = buildTypeChooser();
-		myIconPane = new IconPane();
+		myApplyButton = buildApplyButton(e -> mapEditor.applyTileChanges(myTileTypeChooser.getSelectionModel().getSelectedItem(), myIconPane.getSelectedImagePath()));
+		myIconPane = new ImageIconPane();
 		
 		myContainer = new VBox();
 		myContainer.setSpacing(10);
@@ -30,7 +36,8 @@ public class TileEditor {
 		myContainer.getChildren().addAll(mySelectAllButton, 
 										 myClearAllButton, 
 										 myTileTypeChooser, 
-										 myIconPane.getIconPane());
+										 myIconPane.getIconPane(),
+										 myApplyButton);
 	}
 	
 	private Button buildSelectAllButton(EventHandler<ActionEvent> selectAll) {
@@ -47,6 +54,13 @@ public class TileEditor {
 		return clear;
 	}
 	
+	private Button buildApplyButton(EventHandler<ActionEvent> applyChanges) {
+		Button apply = new Button();
+		apply.setText("Apply");
+		apply.setOnAction(applyChanges);
+		return apply;
+	}
+	
 	private ComboBox<String> buildTypeChooser() {
 		ComboBox<String> box = new ComboBox<String>();
 		box.setPromptText("Select tile type");
@@ -58,10 +72,10 @@ public class TileEditor {
 	
 	private void showImageOptions(String type) {
 		String[] imagePaths = ResourceManager.getString(type).split(",");
-		myIconPane.showImageOptions(imagePaths);
+		myIconPane.showIcons(Arrays.asList(imagePaths));
 	}
 	
-	public VBox getContent() {
+	public VBox getControlBox() {
 		return myContainer;
 	}
 	
