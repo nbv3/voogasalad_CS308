@@ -1,8 +1,5 @@
 package com.syntacticsugar.vooga.gameplayer.conditions;
 
-import java.util.Collection;
-
-import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.universe.IObjectCollection;
 
 public interface IGameCondition{

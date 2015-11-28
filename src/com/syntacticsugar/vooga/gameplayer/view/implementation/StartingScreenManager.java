@@ -1,6 +1,5 @@
 package com.syntacticsugar.vooga.gameplayer.view.implementation;
 
-import com.syntacticsugar.vooga.authoring.editor.AuthoringEnvironment;
 import com.syntacticsugar.vooga.gameplayer.view.IViewManager;
 
 import authoring.AuthoringScreenManager;

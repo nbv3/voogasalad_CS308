@@ -5,9 +5,12 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 
+import authoring.data.MapData;
 import authoring.data.TileData;
+import authoring.data.TileImplementation;
 import javafx.geometry.Pos;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
@@ -18,16 +21,17 @@ import javafx.scene.layout.StackPane;
 
 public class MapEditor {
 
+	private static final String DEFAULT_TILE_IMAGE = "path_stone_1.png";
+	
 	private Map<TileData, ImageView> myTileImageMap;
 	private Collection<TileData> myTileSelection;
-	
-	private TileData[][] myMapData;
+
+	private MapData myMapData;
 	
 	private int myMapSize;
 	private double mapDisplayWidth = 600.0;
 	private double mapDisplayHeight = 600.0;
 	private GridPane myMapGrid;
-	
 	
 	public MapEditor() throws NumberFormatException {
 		myTileImageMap = new HashMap<TileData, ImageView>();
@@ -35,6 +39,7 @@ public class MapEditor {
 		myMapSize = inputMapSize();
 		initializeMap();
 	}
+	
 	public double getMapDisplayWidth() {
 		return mapDisplayWidth;
 	}
@@ -49,22 +54,6 @@ public class MapEditor {
 
 	public void setMapDisplayHeight(double mapDisplayHeight) {
 		this.mapDisplayHeight = mapDisplayHeight;
-	}
-
-	public void applyTileChanges(String impl, String imagePath) {
-		Image newImage = null;
-		try {
-			newImage = new Image(getClass().getClassLoader().getResourceAsStream(imagePath));
-		} catch (Exception e) {
-			AlertBoxFactory.createObject("Must select an image.");
-			return;
-		}
-		for (TileData tile : myTileSelection) {
-			tile.setImplementation(impl);
-			tile.setImagePath(imagePath);
-			myTileImageMap.get(tile).setImage(newImage);
-		}
-		clearAllTiles(); // clear tile selection after having applied the changes.
 	}
 
 	private int inputMapSize() throws NumberFormatException {
@@ -84,23 +73,29 @@ public class MapEditor {
 	}
 
 	private void initializeMap() {
-		myMapData = new TileData[myMapSize][myMapSize];
+		initializeMapData();
+		initializeMapView();
+	}
+	
+	private void initializeMapData() {
+		myMapData = new MapData(myMapSize, DEFAULT_TILE_IMAGE);
+	}
+	
+	private void initializeMapView() {
 		myMapGrid = new GridPane();
 		myMapGrid.setPrefSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
 		myMapGrid.getStylesheets().add("/com/syntacticsugar/vooga/authoring/css/default.css");
-		String default_img_path = "scenery_grass_1.png";
-		Image default_img = new Image(getClass().getClassLoader().getResourceAsStream(default_img_path));
+		Image defaultImage = new Image(ResourceManager.getResource(this, DEFAULT_TILE_IMAGE));
 		for (int i=0; i<myMapSize; i++) {
 			for (int j=0; j<myMapSize; j++) {
 				StackPane pane = new StackPane();
-				TileData tile = new TileData(default_img_path);
-				myMapData[i][j] = tile;
-				ImageView iv = new ImageView(default_img);
+				TileData tile = myMapData.getTileData(i, j);
+				ImageView iv = new ImageView(defaultImage);
 				myTileImageMap.put(tile, iv);
 				iv.setFitWidth(mapDisplayWidth/myMapSize);
 				iv.setFitHeight(mapDisplayHeight/myMapSize);
-				iv.setOnMouseEntered(e -> multiSelectTile(tile, iv, e.isControlDown(), e.isShiftDown()));
-				iv.setOnMouseClicked(e -> toggleTileSelection(tile, iv));
+				iv.setOnMouseEntered(e -> multiSelectTile(tile, e.isControlDown(), e.isShiftDown()));
+				iv.setOnMouseClicked(e -> toggleTileSelection(tile));
 				pane.getChildren().add(iv);
 				pane.setAlignment(Pos.CENTER);
 				myMapGrid.add(pane, i, j, 1, 1);
@@ -108,35 +103,35 @@ public class MapEditor {
 		}
 	}
 
-	private void multiSelectTile(TileData tile, ImageView tileView, boolean controlDown, boolean shiftDown) {
+	private void multiSelectTile(TileData tile, boolean controlDown, boolean shiftDown) {
 		if (controlDown) {
-			selectTile(tile, tileView);
+			selectTile(tile);
 		}
 		else if (shiftDown) {
-			deselectTile(tile, tileView);
+			deselectTile(tile);
 		}
 	}
 
-	private void toggleTileSelection(TileData tile, ImageView tileView) {
+	private void toggleTileSelection(TileData tile) {
 		if (myTileSelection.contains(tile)) {
-			deselectTile(tile, tileView);
+			deselectTile(tile);
 		}
 		else {
-			selectTile(tile, tileView);
+			selectTile(tile);
 		}
 	}
 
-	private void selectTile(TileData tile, ImageView tileView) {
+	private void selectTile(TileData tile) {
 		if (!myTileSelection.contains(tile)) {
 			myTileSelection.add(tile);
-			tileOpacityOn(tileView);
+			tileOpacityOn(myTileImageMap.get(tile));
 		}
 	}
 
-	private void deselectTile(TileData tile, ImageView tileView) {
+	private void deselectTile(TileData tile) {
 		if (myTileSelection.contains(tile)) {
 			myTileSelection.remove(tile);
-			tileOpacityOff(tileView);
+			tileOpacityOff(myTileImageMap.get(tile));
 		}
 	}
 	
@@ -154,13 +149,41 @@ public class MapEditor {
 		}
 		myTileSelection.clear();
 		for (TileData tile : myTileImageMap.keySet()) {
-			selectTile(tile, myTileImageMap.get(tile));
+			selectTile(tile);
 		}
 	}
 	
 	public void clearAllTiles() {
 		for (TileData tile : myTileImageMap.keySet()) {
-			deselectTile(tile, myTileImageMap.get(tile));
+			deselectTile(tile);
+		}
+	}
+	
+	public void applyTileChanges(TileImplementation impl, String imagePath) {
+		Image newImage = null;
+		try {
+			newImage = new Image(getClass().getClassLoader().getResourceAsStream(imagePath));
+		} catch (Exception e) {
+			AlertBoxFactory.createObject("Must select an image.");
+			return;
+		}
+		for (TileData tile : myTileSelection) {
+			tile.setImplementation(impl);
+			tile.setImagePath(imagePath);
+			myTileImageMap.get(tile).setImage(newImage);
+		}
+		clearAllTiles(); // clear tile selection after having applied the changes.
+	}
+	
+	public void makeDestination() {
+		boolean alertFlag = false;
+		for (TileData tile : myTileSelection) {
+			alertFlag = tile.getImplementation().equals(TileImplementation.Scenery) ? true: alertFlag; 
+			tile.setDestination(true);
+			
+		}
+		if (alertFlag) {
+			AlertBoxFactory.createObject("Can only set Path Tiles as destinations.");
 		}
 	}
 	
