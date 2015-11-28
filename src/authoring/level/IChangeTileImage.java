@@ -3,6 +3,7 @@ package authoring.level;
 import java.util.ArrayList;
 import java.util.Map;
 
+import authoring.data.TileData;
 import javafx.scene.image.ImageView;
 
 @FunctionalInterface
