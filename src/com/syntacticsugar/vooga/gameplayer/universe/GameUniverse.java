@@ -21,7 +21,7 @@ public class GameUniverse implements IGameUniverse {
 	private Collection<IGameObject> myGameObjects;
 	private Collection<IGameObject> mySpawnYard;
 	private Collection<IGameObject> myGraveYard;
-	private Collection<IGameObject> myTowers;
+//	private Collection<IGameObject> myTowers;
 	private IGameMap myGameMap;
 	private Collection<KeyCode> myCurrentInput;
 
@@ -32,7 +32,7 @@ public class GameUniverse implements IGameUniverse {
 		myCurrentInput = new ArrayList<KeyCode>();
 		mySpawnYard = new ArrayList<IGameObject>();
 		myGraveYard = new ArrayList<IGameObject>();
-		myTowers = new ArrayList<IGameObject>();
+//		myTowers = new ArrayList<IGameObject>();
 	}
 
 	@Override

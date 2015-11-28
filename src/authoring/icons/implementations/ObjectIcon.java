@@ -1,6 +1,6 @@
-package authoring.library.icons.implementations;
+package authoring.icons.implementations;
 
-import authoring.objectediting.ObjectData;
+import authoring.data.ObjectData;
 import javafx.scene.control.Label;
 
 public class ObjectIcon extends AbstractIcon {

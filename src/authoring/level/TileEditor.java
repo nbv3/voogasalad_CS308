@@ -7,10 +7,12 @@ import java.util.Collection;
 import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 
-import authoring.library.icons.panes.ImageIconPane;
+import authoring.data.TileImplementation;
+import authoring.icons.panes.ImageIconPane;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.AnchorPane;
@@ -20,69 +22,70 @@ import javafx.scene.layout.VBox;
 public class TileEditor {
 
 	private VBox myContainer;
-	private Button mySelectAllButton;
-	private Button myClearAllButton;
-	private ComboBox<String> myTileTypeChooser;
-	private String mySelectedTileType;
-	private Button myAddNewImageButton;
-	private Button myApplyButton;
+	private TileImplementation mySelectedTileType;
 	private ImageIconPane myIconPane;
 	
 	public TileEditor(MapEditor mapEditor) {
-		mySelectAllButton = buildButton("Select All", e -> mapEditor.selectAllTiles());
-		myClearAllButton = buildButton("Clear All", e -> mapEditor.clearAllTiles());
-		myAddNewImageButton = buildButton("Add New Image", e -> selectNewImage());
-		myTileTypeChooser = buildTypeChooser();
-		mySelectedTileType = "";
-		myApplyButton = buildButton(
-				"Apply", 
-				e -> mapEditor.applyTileChanges(
-						myTileTypeChooser.getSelectionModel().getSelectedItem(), 
-						myIconPane.getSelectedImagePath()));
+		Button selectAll = buildButton("Select All", e -> mapEditor.selectAllTiles());
+		Button clearAll = buildButton("Clear All", e -> mapEditor.clearAllTiles());
 		
-		AnchorPane anchor = new AnchorPane();
-		anchor.getChildren().addAll(myAddNewImageButton, myApplyButton);
-		AnchorPane.setRightAnchor(myApplyButton, 0.0);
-		AnchorPane.setLeftAnchor(myAddNewImageButton, 0.0);
+		ComboBox<TileImplementation> typeChooser = buildImplementationChooser();
+		Button markDestination = buildButton("Mark as Destination", e -> mapEditor.makeDestination());
+
+		Button addNewImage = buildButton("Add New Image", e -> selectNewImage());
 		myIconPane = new ImageIconPane();
+		Button applyChanges = buildButton("Apply", 
+							e -> mapEditor.applyTileChanges(
+								 typeChooser.getSelectionModel().getSelectedItem(),
+								 myIconPane.getSelectedImagePath()));
+		
+		AnchorPane topAnchor = buildAnchor(selectAll, clearAll);
+		AnchorPane middleAnchor = buildAnchor(typeChooser, markDestination);
+		AnchorPane bottomAnchor = buildAnchor(addNewImage, applyChanges);
 		
 		myContainer = new VBox();
 		myContainer.setSpacing(10);
 		myContainer.setPadding(new Insets(10, 10, 10, 10));
 		myContainer.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-		myContainer.getChildren().addAll(mySelectAllButton, 
-										 myClearAllButton, 
-										 myTileTypeChooser, 
+		myContainer.getChildren().addAll(topAnchor,
+										 middleAnchor,
 										 myIconPane.getIconPane(),
-										 anchor);
+										 bottomAnchor);
 		VBox.setVgrow(myIconPane.getIconPane(), Priority.ALWAYS);
+	}
+
+	private AnchorPane buildAnchor(Node left, Node right) {
+		AnchorPane anchor = new AnchorPane();
+		anchor.getChildren().addAll(left, right);
+		AnchorPane.setLeftAnchor(left, 0.0);
+		AnchorPane.setRightAnchor(right, 0.0);
+		return anchor;
 	}
 	
 	private Button buildButton(String title, EventHandler<ActionEvent> action) {
-		Button select = new Button(title);
-		select.setOnAction(action);
-		return select;
+		Button button = new Button(title);
+		button.setOnAction(action);
+		return button;
 	}
 	
-	private ComboBox<String> buildTypeChooser() {
-		ComboBox<String> box = new ComboBox<String>();
+	private ComboBox<TileImplementation> buildImplementationChooser() {
+		ComboBox<TileImplementation> box = new ComboBox<TileImplementation>();
 		box.setPromptText("Select tile type");
-		box.getItems().add("Path");
-		box.getItems().add("Scenery");
+		box.getItems().addAll(TileImplementation.values());
 		box.valueProperty().addListener((o, s1, s2) -> updateSelectedType(s2));
 		return box;
 	}
 	
-	private void updateSelectedType(String type) {
+	private void updateSelectedType(TileImplementation type) {
 		setSelectedType(type);
 		showImageOptions(type);
 	}
 	
-	private void setSelectedType(String type) {
+	private void setSelectedType(TileImplementation type) {
 		this.mySelectedTileType = type;
 	}
 	
-	private void showImageOptions(String type) {
+	private void showImageOptions(TileImplementation type) {
 		File imgDirectory = new File(ResourceManager.getString(String.format("%s%s", type, "_images")));
 		File[] files = imgDirectory.listFiles(new ImageFileFilter());
 		Collection<String> imagePaths = new ArrayList<String>();
@@ -93,7 +96,7 @@ public class TileEditor {
 	}
 	
 	private void selectNewImage() {
-		if (mySelectedTileType.isEmpty()) {
+		if (mySelectedTileType == null) {
 			AlertBoxFactory.createObject("Select a tile type.");
 			return;
 		}

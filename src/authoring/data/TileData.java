@@ -1,19 +1,14 @@
 package authoring.data;
 
-import com.syntacticsugar.vooga.util.ResourceManager;
-
 public class TileData {
 
-	private static final String PATH = ResourceManager.getString("Path_name");
-	private static final String SCENERY = ResourceManager.getString("Scenery_name");
-	
 	private String myImagePath;
-	private String myImplementation;
+	private TileImplementation myImplementation;
 	private boolean isDestination;
 	
 	public TileData(String imagePath) {
 		setImagePath(imagePath);
-		setImplementation(PATH);
+		setImplementation(TileImplementation.Path);
 		setDestination(false);
 	}
 	
@@ -21,19 +16,24 @@ public class TileData {
 		this.myImagePath = path;
 	}
 	
-	public void setImplementation(String impl) {
-		this.myImplementation = (impl.equals("Path")) ? PATH : SCENERY;
+	public void setImplementation(TileImplementation impl) {
+		this.myImplementation = impl;
 	}
 	
 	public void setDestination(boolean isDestination) {
-		this.isDestination = isDestination;
+		if (this.myImplementation.equals(TileImplementation.Path)) {
+			this.isDestination = isDestination;
+		}
+		else {
+			this.isDestination = false;
+		}
 	}
 	
 	public String getImagePath() {
 		return this.myImagePath;
 	}
 
-	public String getImplementation() {
+	public TileImplementation getImplementation() {
 		return this.myImplementation;
 	}
 	

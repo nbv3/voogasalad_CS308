@@ -6,8 +6,23 @@ import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 
 public interface IObjectSpawner {
 	
+	/**
+	 * Get a Collection of GameObjects that have been added to the 
+	 * SpawnYard in this frame (ie. marked for spawning)
+	 * @return
+	 */
+	public Collection<IGameObject> getSpawnYard();
+	
+	/**
+	 * Add a GameObject to the SpawnYard (ie. mark it for spawning)
+	 * @param toAdd
+	 */
 	public void addToSpawnYard(IGameObject toAdd);
 	
+	/**
+	 * Clear out the SpawnYard (usually called after all spawns have
+	 * been processed).
+	 */
 	public void clearSpawnYard();
 	
 }

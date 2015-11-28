@@ -4,7 +4,6 @@ import javafx.geometry.Point2D;
 
 import com.syntacticsugar.vooga.gameplayer.objects.AbstractViewableObject;
 import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.implementations.AbstractTile;
-import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.implementations.PathTile;
 import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.implementations.SceneryTile;
 
 public class DecoratorTile extends AbstractViewableObject implements IGameTile {
