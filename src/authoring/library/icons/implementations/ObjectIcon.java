@@ -1,4 +1,4 @@
-package authoring.library.implementations;
+package authoring.library.icons.implementations;
 
 import authoring.objectediting.ObjectData;
 import javafx.scene.control.Label;

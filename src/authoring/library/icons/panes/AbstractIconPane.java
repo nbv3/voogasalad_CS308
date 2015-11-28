@@ -1,10 +1,10 @@
-package authoring.library.panes;
+package authoring.library.icons.panes;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import authoring.library.implementations.AbstractIcon;
-import authoring.library.implementations.ImageIcon;
+import authoring.library.icons.implementations.AbstractIcon;
+import authoring.library.icons.implementations.ImageIcon;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.geometry.Insets;

@@ -3,7 +3,7 @@ package authoring.library;
 import java.io.File;
 import java.util.HashMap;
 
-import authoring.library.panes.ObjectIconPane;
+import authoring.library.icons.panes.ObjectIconPane;
 import javafx.scene.Node;
 import javafx.scene.layout.VBox;
 
