@@ -27,8 +27,9 @@ public class GameUniverse implements IGameUniverse {
 	public GameUniverse() {
 		myPlayers = new ArrayList<IGameObject>();
 		myGameObjects = new ArrayList<IGameObject>();
-		myGameMap = new GameMap(500,5);
+		myGameMap = new GameMap(10);
 		myCurrentInput = new ArrayList<KeyCode>();
+		mySpawnYard = new ArrayList<IGameObject>();
 		myGraveYard = new ArrayList<IGameObject>();
 		myTowers = new ArrayList<IGameObject>();
 	}
@@ -119,7 +120,7 @@ public class GameUniverse implements IGameUniverse {
 	}
 
 	@Override
-	public IGameTile[][] getTiles() {
+	public Collection<IGameTile> getTiles() {
 		return myGameMap.getTiles();
 	}
 

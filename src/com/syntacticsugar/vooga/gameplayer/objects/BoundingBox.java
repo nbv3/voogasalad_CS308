@@ -2,6 +2,8 @@ package com.syntacticsugar.vooga.gameplayer.objects;
 
 import java.util.Observable;
 
+import com.syntacticsugar.vooga.gameplayer.attribute.control.actions.movement.Direction;
+
 import javafx.geometry.Point2D;
 
 public class BoundingBox extends Observable implements IBoundingBox {
@@ -9,16 +11,30 @@ public class BoundingBox extends Observable implements IBoundingBox {
 	private Point2D myPoint;
 	private double myWidth;
 	private double myHeight;
+	private Direction myDirection;
+	private double myRotation;
 	
 	public BoundingBox(Point2D point, double width, double height) {
 		myPoint = point;
 		myWidth = width;
 		myHeight = height;
+		myDirection = Direction.RIGHT;
+		myRotation = 0;
 	}
 	
 	@Override
 	public Point2D getPoint() {
 		return new Point2D(myPoint.getX(), myPoint.getY());
+	}
+	
+	@Override
+	public Direction getDirection() {
+		return this.myDirection;
+	}
+	
+	@Override
+	public double getRotate() {
+		return this.myRotation;
 	}
 
 	@Override
@@ -37,6 +53,17 @@ public class BoundingBox extends Observable implements IBoundingBox {
 		triggerViewUpdate();
 	}
 
+	@Override
+	public void setDirection(Direction dir) {
+		this.myDirection = dir;
+	}
+	
+	@Override
+	public void setRotate(double rotation) {
+		this.myRotation = rotation;
+		triggerViewUpdate();
+	}
+	
 	@Override
 	public void setWidth(double width) {
 		myWidth = width;

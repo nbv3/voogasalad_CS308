@@ -1,16 +1,16 @@
-package com.syntacticsugar.vooga.gameplayer.attribute;
+package com.syntacticsugar.vooga.gameplayer.attribute.movement;
 
 import java.awt.Point;
 
-import com.syntacticsugar.vooga.gameplayer.attribute.movement.IMover;
-import com.syntacticsugar.vooga.gameplayer.attribute.movement.algs.IMovementSetter;
-import com.syntacticsugar.vooga.gameplayer.attribute.movement.algs.MoveRightCardinal;
+import com.syntacticsugar.vooga.gameplayer.attribute.control.actions.movement.IMover;
+import com.syntacticsugar.vooga.gameplayer.attribute.control.actions.movement.algs.AbstractMovementType;
+import com.syntacticsugar.vooga.gameplayer.attribute.control.actions.movement.algs.MoveRightCardinal;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.gameplayer.utilities.Path;
 
 import javafx.geometry.Point2D;
 
-public class AIMotionAttribute extends AbstractMotionAttribute implements IMover {
+public class AIMovementAttribute extends AbstractMovementAttribute {
 
 	private Point2D currentLocation;
 	private Point2D destinationLocation;
@@ -18,9 +18,9 @@ public class AIMotionAttribute extends AbstractMotionAttribute implements IMover
 	private Point2D currentTile;
 	private Point2D nextTile;
 	private Point2D destinationTile;
-	private IMovementSetter myMover;
+	private AbstractMovementType myMover;
 	
-	public AIMotionAttribute() {
+	public AIMovementAttribute() {
 		super();
 		myMover = new MoveRightCardinal(); // DEFAULT RIGHT MOVEMENT TODO
 		// currentLocation = parent.getBoundingBox().getPoint(); TODO

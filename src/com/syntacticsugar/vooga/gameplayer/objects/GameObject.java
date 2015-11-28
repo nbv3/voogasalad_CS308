@@ -29,6 +29,7 @@ public class GameObject extends AbstractViewableObject implements IGameObject {
 	
 	public GameObject(ObjectData data, Point2D startingPoint, double width, double height) {
 		super(startingPoint, width, height, data.getImagePath());
+		
 		Collection<IAttribute> attributes = data.getAttributes();
 		Map<GameObjectType, Collection<IGameEvent>> collisions = data.getCollisionMap();
 		

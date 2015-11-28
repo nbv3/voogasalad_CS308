@@ -1,6 +1,7 @@
 package com.syntacticsugar.vooga.gameplayer.view.implementation;
 
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -11,17 +12,18 @@ import javafx.scene.image.Image;
 
 public class ObjectView implements Observer{
 	
-
-	private ImageView myImageView;
-	private double[] scalingFactor;
+	private StackPane myViewPane;
+	private double scalingFactor;
 	
 	public ObjectView(String path, BoundingBox box , GameView myGameView) {
-		this.myImageView = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(path)));
+		myViewPane = new StackPane();
+		ImageView iv = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(path)));
 		scalingFactor = myGameView.getScalingFactor();
 		applyTransform(box);
-		myImageView.setFitHeight(scalingFactor[0]*box.getWidth());
-		myImageView.setFitWidth(scalingFactor[1]*box.getHeight());
-		myGameView.getChildren().add(myImageView);
+		iv.setFitHeight(scalingFactor*box.getWidth());
+		iv.setFitWidth(scalingFactor*box.getHeight());
+		myViewPane.getChildren().add(iv);
+		myGameView.getChildren().add(myViewPane);
 		box.addObserver(this);
 	}
 
@@ -34,13 +36,14 @@ public class ObjectView implements Observer{
 	}
 	
 	private void applyTransform(BoundingBox box) {
-		double xCoordinate = box.getPoint().getX()*scalingFactor[0];
-		double yCoordinate = box.getPoint().getY()*scalingFactor[1];
-		myImageView.relocate(xCoordinate, yCoordinate);
+		double xCoordinate = box.getPoint().getX()*scalingFactor;
+		double yCoordinate = box.getPoint().getY()*scalingFactor;
+		myViewPane.relocate(xCoordinate, yCoordinate);
+		myViewPane.setRotate(box.getRotate());
 	}
 	
-	public ImageView getImageView(){
-		return myImageView;
+	public StackPane getViewPane(){
+		return myViewPane;
 	}
 
 }
