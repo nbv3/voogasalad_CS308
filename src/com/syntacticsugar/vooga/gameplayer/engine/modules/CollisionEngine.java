@@ -3,8 +3,6 @@ package com.syntacticsugar.vooga.gameplayer.engine.modules;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
-import com.syntacticsugar.vooga.gameplayer.objects.BoundingBox;
 import com.syntacticsugar.vooga.gameplayer.objects.IBoundingBox;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
@@ -21,11 +19,7 @@ public class CollisionEngine {
 					continue;
 				}
 				if (intersects(a, b)) {
-					if (a.getEventsFromCollision(b.getType()) != null) {
-						for (IGameEvent e : a.getEventsFromCollision(b.getType())) {
-							e.executeEvent(b.getAttributes());
-						}
-					}
+					a.onCollision(b);
 				}
 			}
 		}
