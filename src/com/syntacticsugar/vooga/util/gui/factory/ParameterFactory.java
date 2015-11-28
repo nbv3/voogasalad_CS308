@@ -2,6 +2,7 @@ package com.syntacticsugar.vooga.util.gui.factory;
 
 import java.lang.reflect.Constructor;
 
+import com.sun.deploy.uitoolkit.impl.fx.ui.resources.ResourceManager;
 import com.syntacticsugar.vooga.gameplayer.attribute.HealthAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.WeaponAttribute;
@@ -25,20 +26,25 @@ public class ParameterFactory {
 		return null;
 	}
 	
-	public Node createNode(double val){
+	public Node createNode(double val, String attributeName){
+		String label = "double"+"_"+attributeName;
 		return null;
 	}
 	
-	public Node createNode(String string){
+	public Node createNode(String string, String attributeName){
+		String label = "String"+"_"+attributeName;
+
 		return null;
 	}
 	
-	public Node createNode(KeyCode keycode){
+	public Node createNode(KeyCode keycode, String attributeName){
+		String label = "KeyCode"+"_"+attributeName;
+
 		return null;
 	}	
-//	public static void main(String[] args){
-//		ParameterFactory paramFactory = new ParameterFactory();
-//		//paramFactory.createNode(new HealthAttribute(100));
-//		paramFactory.createNode(new WeaponAttribute(null, 0, null));
-//	}
+	public static void main(String[] args){
+		ParameterFactory paramFactory = new ParameterFactory();
+		//paramFactory.createNode(new HealthAttribute(100));
+		paramFactory.createNode(1.0, new HealthAttribute(1.0).getClass().getSimpleName());
+	}
 }

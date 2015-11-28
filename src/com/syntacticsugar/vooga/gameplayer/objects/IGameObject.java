@@ -21,9 +21,6 @@ public interface IGameObject extends IAttributeCollection, ICollidable, IViewabl
 	 */
 	public GameObjectType getType();
 	
-	public BoundingBox getBoundingBox();
-
-	
 	// ISimpleAttributeContainer methods
 	
 	@Override
@@ -32,8 +29,7 @@ public interface IGameObject extends IAttributeCollection, ICollidable, IViewabl
 	@Override
 	public void addAttribute(IAttribute attribute);
 	
-	
-	// ISimpleCollidable methods
+	// ICollidable methods
 	
 	@Override
 	public Collection<IGameEvent> getEventsFromCollision(GameObjectType type);
@@ -41,4 +37,6 @@ public interface IGameObject extends IAttributeCollection, ICollidable, IViewabl
 	@Override
 	public void addCollisionBinding(GameObjectType type, IGameEvent event);
 	
+	@Override
+	public void onCollision(IGameObject collidedObject);
 }

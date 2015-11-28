@@ -29,6 +29,7 @@ public abstract class AbstractObjectLibrary {
 	
 	protected void populateOptionIcons(File XMLDirectory){
 		myObjectIconPane.showIcons(null);  // Fix later
+
 		addToVBox("iconPane", myObjectIconPane.getIconPane());
 	}
 	
