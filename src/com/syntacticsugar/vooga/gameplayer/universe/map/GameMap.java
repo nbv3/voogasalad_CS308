@@ -35,8 +35,8 @@ public class GameMap implements IGameMap {
 	}
 
 	@Override
-	public Collection<IGameTile> getTiles() {
-		Collection<IGameTile> tiles = new ArrayList<IGameTile>();
+	public Collection<DecoratorTile> getTiles() {
+		Collection<DecoratorTile> tiles = new ArrayList<DecoratorTile>();
 		for (int i=0; i<myTiles.length; i++) {
 			for (int j=0; j<myTiles[0].length; j++) {
 				tiles.add(myTiles[i][j]);

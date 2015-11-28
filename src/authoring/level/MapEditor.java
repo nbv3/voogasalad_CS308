@@ -149,7 +149,7 @@ public class MapEditor {
 				myTileImageMap.put(tile, iv);
 				iv.setFitWidth(600/myMapSize);
 				iv.setFitHeight(600/myMapSize);
-				iv.setOnMouseEntered(e -> multiSelectTile(tile, iv, e.isControlDown()));
+				iv.setOnMouseEntered(e -> multiSelectTile(tile, iv, e.isControlDown(), e.isShiftDown()));
 				iv.setOnMouseClicked(e -> toggleTileSelection(tile, iv));
 				pane.getChildren().add(iv);
 				pane.setAlignment(Pos.CENTER);
@@ -159,24 +159,34 @@ public class MapEditor {
 		myMapGrid.setAlignment(Pos.CENTER);
 	}
 
-	private void multiSelectTile(TileData tile, ImageView tileView, boolean controlDown) {
+	private void multiSelectTile(TileData tile, ImageView tileView, boolean controlDown, boolean shiftDown) {
 		if (controlDown) {
-			toggleTileSelection(tile, tileView);
+			selectTile(tile, tileView);
+		}
+		else if (shiftDown) {
+			deselectTile(tile, tileView);
 		}
 	}
-
 
 	private void toggleTileSelection(TileData tile, ImageView tileView) {
 		if (myTileSelection.contains(tile)) {
-			myTileSelection.remove(tile);
-			tileOpacityOff(tileView);
-		} else {
-			myTileSelection.add(tile);
-			tileOpacityOn(tileView);
+			deselectTile(tile, tileView);
 		}
-		System.out.println(tile.getImagePath());
+		else {
+			selectTile(tile, tileView);
+		}
 	}
 
+	private void selectTile(TileData tile, ImageView tileView) {
+		myTileSelection.add(tile);
+		tileOpacityOn(tileView);
+	}
+
+	private void deselectTile(TileData tile, ImageView tileView) {
+		myTileSelection.remove(tile);
+		tileOpacityOff(tileView);
+	}
+	
 	private void tileOpacityOff(ImageView iv) {
 		iv.getStyleClass().remove("tile-select-on");
 	}
@@ -191,15 +201,13 @@ public class MapEditor {
 		}
 		myTileSelection.clear();
 		for (TileData tile : myTileImageMap.keySet()) {
-			myTileSelection.add(tile);
-			tileOpacityOn(myTileImageMap.get(tile));
+			selectTile(tile, myTileImageMap.get(tile));
 		}
 	}
 	
 	private void clearAllTiles() {
-		myTileSelection.clear();
 		for (TileData tile : myTileImageMap.keySet()) {
-			tileOpacityOff(myTileImageMap.get(tile));
+			deselectTile(tile, myTileImageMap.get(tile));
 		}
 	}
 	
