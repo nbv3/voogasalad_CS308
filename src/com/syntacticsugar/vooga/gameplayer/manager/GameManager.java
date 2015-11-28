@@ -15,8 +15,8 @@ import com.syntacticsugar.vooga.gameplayer.conditions.ConditionType;
 import com.syntacticsugar.vooga.gameplayer.conditions.IGameCondition;
 import com.syntacticsugar.vooga.gameplayer.conditions.PlayerDeathCondition;
 import com.syntacticsugar.vooga.gameplayer.engine.GameEngine;
-import com.syntacticsugar.vooga.gameplayer.event.HealthChangeEvent;
 import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
+import com.syntacticsugar.vooga.gameplayer.event.implementations.HealthChangeEvent;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObject;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
@@ -55,7 +55,7 @@ public class GameManager implements IGameManager {
 		ObjectData playerData = new ObjectData();
 		List<IAttribute> attributes = new ArrayList<IAttribute>();
 		attributes.add(new HealthAttribute(100));
-		attributes.add(new MovementControlAttribute());
+		attributes.add(new MovementControlAttribute(3));
 		attributes.add(new WeaponAttribute("default_tile.jpg", 10, KeyCode.SPACE));
 		playerData.setType(GameObjectType.PLAYER);
 		playerData.setImagePath(playerPath);

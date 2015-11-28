@@ -29,20 +29,15 @@ public class GameObject extends AbstractViewableObject implements IGameObject {
 	
 	public GameObject(ObjectData data, Point2D startingPoint, double width, double height) {
 		super(startingPoint, width, height, data.getImagePath());
-		
 		Collection<IAttribute> attributes = data.getAttributes();
 		Map<GameObjectType, Collection<IGameEvent>> collisions = data.getCollisionMap();
-		
 		myType = data.getType();
-		
 		myAttributeMap = new HashMap<String, IAttribute>();
 		myCollisionEventMap = new HashMap<GameObjectType, Collection<IGameEvent>>();
-		
 		for (IAttribute att: attributes) {
 			att.setParent(this);
 			addAttribute(att);
 		}
-		
 		myCollisionEventMap.putAll(collisions);
 		
 	}
@@ -67,6 +62,15 @@ public class GameObject extends AbstractViewableObject implements IGameObject {
 			Collection<IGameEvent> onCollisionEvents = new ArrayList<IGameEvent>();
 			onCollisionEvents.add(event);
 			myCollisionEventMap.put(type, onCollisionEvents);
+		}
+	}
+	
+	@Override
+	public void onCollision(IGameObject obj) {
+		if (getEventsFromCollision(obj.getType()) != null) {
+			for (IGameEvent e : getEventsFromCollision(obj.getType())) {
+				e.executeEvent(obj.getAttributes());
+			}
 		}
 	}
 
