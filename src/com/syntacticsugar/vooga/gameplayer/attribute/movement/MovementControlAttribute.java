@@ -20,8 +20,8 @@ public class MovementControlAttribute extends AbstractMovementAttribute implemen
 	private Map<KeyCode, AbstractMovementType> myKeyBindings;
 	private Collection<AbstractMovementType> myCurrentMovement;
 	
-	public MovementControlAttribute() {
-		super();
+	public MovementControlAttribute(double speed) {
+		super(speed);
 		
 		myKeyBindings = new HashMap<KeyCode, AbstractMovementType>();
 		myCurrentMovement = new ArrayList<AbstractMovementType>();

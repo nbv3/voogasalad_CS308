@@ -19,8 +19,8 @@ public class AIMovementAttribute extends AbstractMovementAttribute {
 	private Point2D destinationTile;
 	private AbstractMovementType myMover;
 	
-	public AIMovementAttribute() {
-		super();
+	public AIMovementAttribute(double speed) {
+		super(speed);
 		myMover = new MoveRightCardinal(); // DEFAULT RIGHT MOVEMENT TODO
 		// currentLocation = parent.getBoundingBox().getPoint(); TODO
 		
