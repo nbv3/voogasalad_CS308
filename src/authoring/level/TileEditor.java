@@ -4,8 +4,8 @@ import java.util.Arrays;
 
 import com.syntacticsugar.vooga.util.ResourceManager;
 
-import authoring.library.icons.panes.AbstractIconPane;
-import authoring.library.icons.panes.ImageIconPane;
+import authoring.library.panes.AbstractIconPane;
+import authoring.library.panes.ImageIconPane;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;

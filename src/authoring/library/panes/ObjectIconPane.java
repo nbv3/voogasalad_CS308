@@ -1,4 +1,4 @@
-package authoring.library.icons.panes;
+package authoring.library.panes;
 
 /* ObjectIconPane is an implementation of IconPane that displays graphical 
  * representations of ObjectData instances (ie. different Game Objects)
@@ -6,8 +6,8 @@ package authoring.library.icons.panes;
 
 import java.util.Collection;
 
-import authoring.library.icons.implementations.AbstractIcon;
-import authoring.library.icons.implementations.ObjectIcon;
+import authoring.library.implementations.AbstractIcon;
+import authoring.library.implementations.ObjectIcon;
 import authoring.objectediting.ObjectData;
 
 public class ObjectIconPane extends AbstractIconPane {
