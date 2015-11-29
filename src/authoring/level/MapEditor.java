@@ -91,6 +91,7 @@ public class MapEditor {
 				StackPane pane = new StackPane();
 				TileData tile = myMapData.getTileData(i, j);
 				ImageView iv = new ImageView(defaultImage);
+//				iv.getStyle().add("/com/syntacticsugar/vooga/authoring/css/default.css");
 				myTileImageMap.put(tile, iv);
 				iv.setFitWidth(mapDisplayWidth/myMapSize);
 				iv.setFitHeight(mapDisplayHeight/myMapSize);
@@ -119,6 +120,7 @@ public class MapEditor {
 		else {
 			selectTile(tile);
 		}
+		System.out.println(tile.getImplementation() + " " + tile.isDestination());
 	}
 
 	private void selectTile(TileData tile) {
@@ -175,16 +177,12 @@ public class MapEditor {
 		clearAllTiles(); // clear tile selection after having applied the changes.
 	}
 	
-	public void makeDestination() {
-		boolean alertFlag = false;
-		for (TileData tile : myTileSelection) {
-			alertFlag = tile.getImplementation().equals(TileImplementation.Scenery) ? true: alertFlag; 
-			tile.setDestination(true);
-			
-		}
-		if (alertFlag) {
-			AlertBoxFactory.createObject("Can only set Path Tiles as destinations.");
-		}
+	public void markDestination() {
+		
+	}
+	
+	public void unmarkDestination() {
+		
 	}
 	
 	public GridPane getMapGrid() {
