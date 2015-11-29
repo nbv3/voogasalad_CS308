@@ -1,4 +1,4 @@
-package com.syntacticsugar.vooga.gameplayer.view.implementation;
+package com.syntacticsugar.vooga.gameplayer.view;
 
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;

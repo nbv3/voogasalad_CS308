@@ -1,4 +1,4 @@
-package com.syntacticsugar.vooga.gameplayer.view.implementation;
+package com.syntacticsugar.vooga.gameplayer.view;
 
 import java.util.HashMap;
 import java.util.Map;
