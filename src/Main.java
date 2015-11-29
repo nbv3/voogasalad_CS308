@@ -1,4 +1,5 @@
 import com.syntacticsugar.vooga.gameplayer.view.implementation.StartingScreenManager;
+import com.syntacticsugar.vooga.menu.SceneManager;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -26,7 +27,8 @@ public class Main extends Application {
 //			AlertBoxFactory.createObject(e.getMessage());
 //		}
 //		new AuthoringScreenManager();
-		new StartingScreenManager(stage);
+		//new StartingScreenManager(stage);
+		new SceneManager(stage);
 	}
 }
 	

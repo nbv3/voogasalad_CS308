@@ -16,7 +16,7 @@ import javafx.scene.text.Font;
  * Creates a main menu pane. generateOptions() allows to add menu options.
  * 
  */
-public abstract class AbstractGameMenu extends BorderPane{
+public abstract class AbstractGameMenu extends BorderPane implements IGameMenu{
 	
 	private SceneManager myManager;
 	
@@ -56,7 +56,7 @@ public abstract class AbstractGameMenu extends BorderPane{
 	}
 	
 	protected void launchGame(){
-		myManager.launchGame();
+		myManager.initFirstScene();
 	}
 	
 	protected void launchEditor(){
