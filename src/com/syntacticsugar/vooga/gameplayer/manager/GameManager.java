@@ -56,7 +56,7 @@ public class GameManager implements IGameManager {
 		// work
 		String playerPath = "player_pacman.png";
 		String enemyPath = "enemy_moster_1.png";
-		String missilePath = "default-tile.png";
+		String missilePath = "gray.png";
 		
 		ObjectData playerData = new ObjectData();
 		List<IAttribute> attributes = new ArrayList<IAttribute>();
