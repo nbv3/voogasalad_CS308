@@ -76,11 +76,17 @@ public class AuthoringScreenManager {
 	
 	private void buildMenuBar() {
 		MenuBar menuBar = new MenuBar();
+		// file menu
 		Menu file = new Menu();
 		file.setText("File");
 		MenuItem newLevel = new MenuItem();
 		newLevel.setText("New Level");
 		newLevel.setOnAction(e -> myLevelEditor.addNewLevel());
+		file.getItems().addAll(newLevel);
+		
+		// menu menu
+		Menu menu = new Menu();
+		menu.setText("Menu");
 		// return to main menu
 		MenuItem mainMenu = new MenuItem();
 		mainMenu.setText("Main Menu");
@@ -89,10 +95,9 @@ public class AuthoringScreenManager {
 		MenuItem authoringMenu = new MenuItem();
 		authoringMenu.setText("Authoring Menu");
 		authoringMenu.setOnAction(e -> sceneManager.launchAuthoringMenuFromAuthoring());
+		menu.getItems().addAll(mainMenu, authoringMenu);
 		
-		file.getItems().addAll(newLevel, mainMenu, authoringMenu);
-		
-		menuBar.getMenus().add(file);
+		menuBar.getMenus().addAll(file, menu);
 		myWindow.setTop(menuBar);
 	}
 	
