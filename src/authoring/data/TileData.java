@@ -13,7 +13,7 @@ public class TileData {
 	
 	public TileData(String imagePath) {
 		setImagePath(imagePath);
-		setImplementation(PATH);
+		setImplementation("Path");
 		setDestination(false);
 	}
 	
