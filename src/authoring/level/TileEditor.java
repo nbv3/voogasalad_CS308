@@ -13,6 +13,7 @@ import authoring.icons.panes.ImageIconPane;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -36,7 +37,7 @@ public class TileEditor {
 		VBox dest = new VBox();
 		dest.getChildren().addAll(makeDest, removeDest);
 		dest.setSpacing(3);
-		
+		dest.setAlignment(Pos.CENTER);
 		
 		ComboBox<TileImplementation> typeChooser = buildImplementationChooser();
 

@@ -4,15 +4,15 @@ public class MapData {
 
 	private TileData[][] myTileData;
 	
-	public MapData(int numTiles, String defaultTileImage) {
+	public MapData(int numTiles, String tileImage) {
 		myTileData = new TileData[numTiles][numTiles];
-		initializeTileData(numTiles, defaultTileImage);
+		initializeTileData(numTiles, tileImage);
 	}
 	
-	private void initializeTileData(int numTiles, String defaultImage) {
+	private void initializeTileData(int numTiles, String tileImage) {
 		for (int i=0; i<numTiles; i++) {
 			for (int j=0; j<numTiles; j++) {
-				myTileData[i][j] = new TileData(defaultImage);
+				myTileData[i][j] = new TileData(tileImage);
 			}
 		}
 	}

@@ -13,16 +13,23 @@ import authoring.data.TileData;
 import authoring.data.TileImplementation;
 import javafx.geometry.Pos;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.effect.BlurType;
+import javafx.scene.effect.ColorAdjust;
+import javafx.scene.effect.ColorInput;
+import javafx.scene.effect.Effect;
+import javafx.scene.effect.InnerShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 
 public class MapEditor {
-
-	private static final String DEFAULT_TILE_IMAGE = "path_stone_1.png";
 	
+	private static final String DEFAULT_TILE_IMAGE = "default-tile.png";
+
 	private Map<TileData, ImageView> myTileImageMap;
 	private Collection<TileData> myTileSelection;
 
@@ -125,28 +132,31 @@ public class MapEditor {
 	private void selectTile(TileData tile) {
 		if (!myTileSelection.contains(tile)) {
 			myTileSelection.add(tile);
-			tileOpacityOn(myTileImageMap.get(tile));
+			tileEffectOn(myTileImageMap.get(tile));
 		}
 	}
 
 	private void deselectTile(TileData tile) {
 		if (myTileSelection.contains(tile)) {
 			myTileSelection.remove(tile);
-			tileOpacityOff(myTileImageMap.get(tile));
+			tileEffectOff(myTileImageMap.get(tile));
 		}
 	}
 	
-	private void tileOpacityOff(ImageView iv) {
-		iv.getStyleClass().remove("tile-select-on");
+	private void tileEffectOff(ImageView iv) {
+		iv.setEffect(null);
 	}
 
-	private void tileOpacityOn(ImageView iv) {
-		iv.getStyleClass().add("tile-select-on");
+	private void tileEffectOn(ImageView iv) {
+		InnerShadow shadow = new InnerShadow();
+		shadow.setColor(Color.RED);
+		shadow.setWidth(25);
+		iv.setEffect(shadow);
 	}
 
 	public void selectAllTiles() {
 		for (TileData tile : myTileSelection) {
-			tileOpacityOff(myTileImageMap.get(tile));
+			tileEffectOff(myTileImageMap.get(tile));
 		}
 		myTileSelection.clear();
 		for (TileData tile : myTileImageMap.keySet()) {
