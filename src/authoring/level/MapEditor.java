@@ -74,7 +74,10 @@ public class MapEditor {
 		try {
 			size = Integer.parseInt(result);
 		} catch (NumberFormatException e) {
-			throw new NumberFormatException("Input a positive integer");
+			
+		}
+		if (size < 5 || size > 49) {
+			throw new NumberFormatException("Map size must be between 5 and 49");
 		}
 		return size;
 	}
@@ -98,7 +101,6 @@ public class MapEditor {
 				StackPane pane = new StackPane();
 				TileData tile = myMapData.getTileData(i, j);
 				ImageView iv = new ImageView(defaultImage);
-//				iv.getStyle().add("/com/syntacticsugar/vooga/authoring/css/default.css");
 				myTileImageMap.put(tile, iv);
 				iv.setFitWidth(mapDisplayWidth/myMapSize);
 				iv.setFitHeight(mapDisplayHeight/myMapSize);
@@ -150,7 +152,8 @@ public class MapEditor {
 	private void tileEffectOn(ImageView iv) {
 		InnerShadow shadow = new InnerShadow();
 		shadow.setColor(Color.RED);
-		shadow.setWidth(25);
+		shadow.setWidth(iv.getFitWidth());
+		shadow.setHeight(iv.getFitHeight());
 		iv.setEffect(shadow);
 	}
 
