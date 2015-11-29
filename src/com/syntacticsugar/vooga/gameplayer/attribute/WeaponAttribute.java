@@ -9,6 +9,7 @@ import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.gameplayer.universe.IObjectSpawner;
 import com.syntacticsugar.vooga.gameplayer.universe.userinput.IKeyInputStorage;
 
+import javafx.geometry.Point2D;
 import javafx.scene.input.KeyCode;
 
 public class WeaponAttribute extends AbstractAttribute implements IUserControlAttribute {
@@ -58,9 +59,11 @@ public class WeaponAttribute extends AbstractAttribute implements IUserControlAt
 	
 	private void fireBullet(IObjectSpawner spawner) {
 		if (getParent().getType().equals(GameObjectType.PLAYER)) {
+			Point2D bulletInitPos = new Point2D(getParent().getBoundingBox().getPoint().getX() + getParent().getBoundingBox().getWidth()/2,
+											getParent().getBoundingBox().getPoint().getY() + getParent().getBoundingBox().getHeight()/2);
 			PlayerBullet bullet = 
 					new PlayerBullet(getCurrentDirection(), 
-									 getParent().getBoundingBox().getPoint(), 
+									 bulletInitPos, 
 									 myBulletImagePath, 
 									 myBulletDamage);
 			spawner.addToSpawnYard(bullet);
