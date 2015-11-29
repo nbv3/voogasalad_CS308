@@ -1,5 +1,9 @@
 package authoring.objectediting;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
 
@@ -34,19 +38,13 @@ public class EditingViewer {
 	}
 	
 	private AnchorPane makeTitleStrip(String title){
-		HBox addRemoveStrip = makeAddRemoveStrip();
-		HBox viewerTitle = makeViewerTitle(title);
-		AnchorPane titleStrip = GUIFactory.buildAnchorPane(viewerTitle, addRemoveStrip);
+		Collection<Node> buttons = new ArrayList<Node>(); 
+		buttons.add(makeAddButton()); buttons.add(makeRemoveButton());
+		AnchorPane titleStrip = (AnchorPane) GUIFactory.buildTitleNodeWithButtons(title, buttons);
 		titleStrip.setPadding(myPadding);
 		return titleStrip;
 	}
 	
-	private HBox makeAddRemoveStrip(){
-		HBox addRemoveStrip = new HBox();
-		addRemoveStrip.getChildren().add(makeAddButton());
-		addRemoveStrip.getChildren().add(makeRemoveButton());
-		return addRemoveStrip;
-	}
 	
 	private Button makeAddButton(){
 		myAddButton = GUIFactory.buildButton(ResourceManager.getString("add"), null, 100.0, null);
@@ -56,13 +54,6 @@ public class EditingViewer {
 	private Button makeRemoveButton(){
 		myRemoveButton = GUIFactory.buildButton(ResourceManager.getString("remove"), null, 100.0, null);
 		return myRemoveButton;
-	}
-	
-	protected HBox makeViewerTitle(String text){
-		Text titleText = new Text(text);
-		HBox title = new HBox(titleText);
-		title.setPadding(new Insets(5, 0, 0, 0));
-		return title;
 	}
 	
 	protected void addElementToList(HBox item){

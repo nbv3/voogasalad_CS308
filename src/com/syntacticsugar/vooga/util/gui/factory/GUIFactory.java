@@ -1,10 +1,15 @@
 package com.syntacticsugar.vooga.util.gui.factory;
 
+import java.util.Collection;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.text.Text;
 
 public class GUIFactory {
 
@@ -24,4 +29,29 @@ public class GUIFactory {
 		return button;
 	}
 
+	public static HBox buildTitleNode(String text){
+		Text titleText = new Text(text);
+		HBox title = new HBox(titleText);
+		title.setPadding(new Insets(5, 0, 0, 0));
+		return title;
+	}
+	
+	public static HBox buildButtonStrip(Collection<Node> buttons) {
+		// limited to four because more would look ugly.
+		HBox addRemoveStrip = new HBox();
+		if (buttons.size() > 4){
+			System.out.println("Can only do 4 buttons!");
+			return null;
+		}
+		addRemoveStrip.getChildren().addAll(buttons);
+		return addRemoveStrip;
+	}
+	
+	public static Node buildTitleNodeWithButtons(String text, Collection<Node> buttons){
+		HBox buttonStrip = buildButtonStrip(buttons);
+		HBox titleNode = buildTitleNode(text);
+		AnchorPane titleStrip = GUIFactory.buildAnchorPane(titleNode, buttonStrip);
+		return titleStrip;
+	}
+	
 }
