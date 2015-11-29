@@ -8,7 +8,7 @@ public class TileData {
 	
 	public TileData(String imagePath) {
 		setImagePath(imagePath);
-		setImplementation(TileImplementation.Path);
+		setImplementation(TileImplementation.Scenery);
 		setDestination(false);
 	}
 	
@@ -18,7 +18,6 @@ public class TileData {
 	
 	public void setImplementation(TileImplementation impl) {
 		this.myImplementation = impl;
-		setDestination(this.isDestination);
 	}
 	
 	public void setDestination(boolean isDestination) {
@@ -33,7 +32,7 @@ public class TileData {
 		return this.myImplementation;
 	}
 	
-	public boolean isDestination() {
+	public Boolean isDestination() {
 		return this.isDestination;
 	}
 }

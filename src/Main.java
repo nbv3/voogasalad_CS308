@@ -1,4 +1,3 @@
-import com.syntacticsugar.vooga.authoring.objecteditor.ObjectEditor;
 import com.syntacticsugar.vooga.menu.SceneManager;
 
 import javafx.application.Application;
@@ -12,7 +11,6 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage stage) {
-		new ObjectEditor();
 		new SceneManager(stage);
 	}
 }

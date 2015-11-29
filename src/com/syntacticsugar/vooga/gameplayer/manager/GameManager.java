@@ -22,7 +22,7 @@ import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.universe.GameUniverse;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
-import com.syntacticsugar.vooga.gameplayer.view.implementation.ViewController;
+import com.syntacticsugar.vooga.gameplayer.view.ViewController;
 import com.syntacticsugar.vooga.menu.SceneManager;
 
 import javafx.animation.KeyFrame;
@@ -165,7 +165,17 @@ public class GameManager implements IGameManager {
 	}
 
 	public void receiveKeyPressed(KeyCode code) {
-		currentLevel.receiveKeyPress(code);
+		if (code.equals(KeyCode.P)) {
+			if (myGameTimeline.getCurrentRate() == 0.0) {
+				myGameTimeline.play();
+			}
+			else {
+				myGameTimeline.pause();
+			}
+		}
+		else {
+			currentLevel.receiveKeyPress(code);
+		}
 	}
 
 	public void receiveKeyReleased(KeyCode code) {

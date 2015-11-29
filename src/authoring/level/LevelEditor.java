@@ -14,7 +14,7 @@ public class LevelEditor {
 	private TileEditor myTileEditor;
 //	private SpawnEditor mySpawnEditor;
 	
-	public LevelEditor() throws NumberFormatException {
+	public LevelEditor() throws Exception {
 		myMapEditor = new MapEditor();
 		myTileEditor = new TileEditor(myMapEditor);
 		buildTabContents();

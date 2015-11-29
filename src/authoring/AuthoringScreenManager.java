@@ -9,6 +9,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
@@ -64,10 +66,18 @@ public class AuthoringScreenManager {
 		myWindow.setCenter(myWindowGrid);
 		
 		myScene = new Scene(myWindow);
+		myScene.setOnKeyPressed(e -> handleKeyPress(e));
 		myStage = new Stage();
+		myStage.setOnCloseRequest(e -> sceneManager.launchFirstMenuFromAuthoring());
 		myStage.setScene(myScene);
 		myStage.setMaximized(true);
 		myStage.show();
+	}
+	
+	private void handleKeyPress(KeyEvent e) {
+		if (e.isControlDown() && e.getCode().equals(KeyCode.N)) {
+			myLevelEditor.addNewLevel();
+		}
 	}
 	
 	public void minimize() {
@@ -85,25 +95,21 @@ public class AuthoringScreenManager {
 		file.getItems().addAll(newLevel);
 		
 		// menu menu
-		Menu menu = new Menu();
-		menu.setText("Menu");
+//		Menu menu = new Menu();
+//		menu.setText("Menu");
 		// return to main menu
-		MenuItem mainMenu = new MenuItem();
-		mainMenu.setText("Main Menu");
-		mainMenu.setOnAction(e -> sceneManager.launchFirstMenuFromAuthoring());
 		// return to authoring menu
-		MenuItem authoringMenu = new MenuItem();
-		authoringMenu.setText("Authoring Menu");
-		authoringMenu.setOnAction(e -> sceneManager.launchAuthoringMenuFromAuthoring());
-		menu.getItems().addAll(mainMenu, authoringMenu);
+//		MenuItem authoringMenu = new MenuItem();
+//		authoringMenu.setText("Authoring Menu");
+//		authoringMenu.setOnAction(e -> sceneManager.launchAuthoringMenuFromAuthoring());
+//		menu.getItems().addAll(mainMenu, authoringMenu);
 		
-		menuBar.getMenus().addAll(file, menu);
+		menuBar.getMenus().addAll(file);
 		myWindow.setTop(menuBar);
 	}
 	
 	private void initLevelEditor() {
 		myLevelEditor = new LevelTabManager();
-		myLevelEditor.addNewLevel();
 	}
 	
 	private void addGridConstraints() {

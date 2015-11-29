@@ -8,7 +8,7 @@ import com.syntacticsugar.vooga.authoring.editor.sidepanes.EditorTabPane;
 import com.syntacticsugar.vooga.gameplayer.universe.map.GameMap;
 import com.syntacticsugar.vooga.gameplayer.universe.map.IGameMap;
 import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.DecoratorTile;
-import com.syntacticsugar.vooga.gameplayer.view.implementation.ViewController;
+import com.syntacticsugar.vooga.gameplayer.view.ViewController;
 
 import javafx.scene.Scene;
 import javafx.scene.control.Menu;

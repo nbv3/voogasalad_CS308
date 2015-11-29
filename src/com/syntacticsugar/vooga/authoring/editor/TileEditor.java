@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.DecoratorTile;
 import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.IGameTile;
-import com.syntacticsugar.vooga.gameplayer.view.implementation.ViewController;
+import com.syntacticsugar.vooga.gameplayer.view.ViewController;
 import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 

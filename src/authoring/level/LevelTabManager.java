@@ -18,11 +18,11 @@ public class LevelTabManager {
 		myTabPane = new TabPane();
 	}
 	
-	public void addNewLevel() throws NumberFormatException {
+	public void addNewLevel() {
 		LevelEditor newLevel = null;
 		try {
 			newLevel = new LevelEditor();
-		} catch (NumberFormatException e) {
+		} catch (Exception e) {
 			AlertBoxFactory.createObject(e.getMessage());
 			return;
 		}
