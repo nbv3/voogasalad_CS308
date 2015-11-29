@@ -8,6 +8,7 @@ import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 
 import authoring.data.TileImplementation;
+import authoring.icons.ImageFileFilter;
 import authoring.icons.panes.ImageIconPane;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;

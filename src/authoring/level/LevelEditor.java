@@ -1,7 +1,6 @@
 package authoring.level;
 
 import javafx.geometry.Insets;
-import javafx.scene.control.Tab;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
