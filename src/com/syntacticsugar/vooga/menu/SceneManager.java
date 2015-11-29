@@ -20,7 +20,7 @@ public class SceneManager {
 	public SceneManager(Stage stage) {
 		myStage = stage;
 		myStage.setTitle("Vooga Salad");
-		initFirstGameMenu();
+		launchFirstMenu();
 	}
 	
 	private void viewScene(AbstractGameMenu screen) {
@@ -29,35 +29,35 @@ public class SceneManager {
 		myStage.show();
 	}
 	
-	public void initFirstGameMenu() {
+	public void launchFirstMenu() {
 		AbstractGameMenu screen = new FirstGameMenu(this, WIDTH, HEIGHT, "Vooga Salad");
 		viewScene(screen);
 	}
 	
-	public void initAuthoringGameMenu() {	
+	public void launchAuthoringMenu() {	
 		AbstractGameMenu screen = new AuthoringGameMenu(this, WIDTH, HEIGHT, "Vooga Salad");
 		viewScene(screen);
 	}
 	
-	public void initEngineGameMenu() {
+	public void launchEngineMenu() {
 		AbstractGameMenu screen = new EngineGameMenu(this, WIDTH, HEIGHT, "Vooga Salad");
 		viewScene(screen);
 	}
 	
-	public void initEnginePauseMenu() {
+	public void launchEnginePauseMenu() {
 		// instance of gameScene is stored upon engine launch
 		AbstractGameMenu screen = new EnginePauseMenu(this, WIDTH, HEIGHT, "Vooga Salad");
 		viewScene(screen);
 	}
 	
-	public void initAuthoringGameMenuAuthoring() {
+	public void launchAuthoringMenuFromAuthoring() {
 		myAuthoringEnv.minimize();
-		initAuthoringGameMenu();
+		launchAuthoringMenu();
 	}
 	
-	public void initFirstGameMenuAuthoring() {
+	public void launchFirstMenuFromAuthoring() {
 		myAuthoringEnv.minimize();
-		initFirstGameMenu();
+		launchFirstMenu();
 	}
 	
 	public void launchNewEditor() {
@@ -96,7 +96,7 @@ public class SceneManager {
 		myStage.setScene(gameScene);
 	}
 	
-	public void launchUnPauseEngine() {
+	public void launchUnpauseEngine() {
 		// should be slightly changed from loadEngine
 		// TODO call myGameManager.unpause() or something like that
 		myStage.setScene(gameScene);

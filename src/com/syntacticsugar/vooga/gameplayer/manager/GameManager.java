@@ -96,7 +96,7 @@ public class GameManager implements IGameManager {
 	
 	public void pause() {
 		// call myManager.initEnginePauseMenu() which closes the scene and opens the menu scene
-		myManager.initEnginePauseMenu();
+		myManager.launchEnginePauseMenu();
 		
 		// TODO pause update logic
 	}

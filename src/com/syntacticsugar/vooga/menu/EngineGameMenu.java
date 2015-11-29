@@ -7,6 +7,6 @@ public class EngineGameMenu extends AbstractGameMenu {
 		generateOptions(createButton("New Game", e -> manager.launchNewEngine()),
 				createButton("Load Game", e -> manager.launchLoadEngine()), 
 				createButton("Help", null),
-				createButton("Main Menu", e -> manager.initFirstGameMenu()));
+				createButton("Main Menu", e -> manager.launchFirstMenu()));
 	}
 }

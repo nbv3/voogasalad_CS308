@@ -74,11 +74,11 @@ public class AuthoringScreenManager {
 		// return to main menu
 		MenuItem mainMenu = new MenuItem();
 		mainMenu.setText("Main Menu");
-		mainMenu.setOnAction(e -> sceneManager.initFirstGameMenuAuthoring());
+		mainMenu.setOnAction(e -> sceneManager.launchFirstMenuFromAuthoring());
 		// return to authoring menu
 		MenuItem authoringMenu = new MenuItem();
 		authoringMenu.setText("Authoring Menu");
-		authoringMenu.setOnAction(e -> sceneManager.initAuthoringGameMenuAuthoring());
+		authoringMenu.setOnAction(e -> sceneManager.launchAuthoringMenuFromAuthoring());
 		
 		file.getItems().addAll(newLevel, mainMenu, authoringMenu);
 		
