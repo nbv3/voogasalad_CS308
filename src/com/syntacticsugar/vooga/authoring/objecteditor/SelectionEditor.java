@@ -8,7 +8,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+
 import authoring.icons.ImageFileFilter;
+
 
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
 import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
@@ -18,6 +20,7 @@ import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 import com.syntacticsugar.vooga.util.gui.factory.MsgInputBoxFactory;
 import com.syntacticsugar.vooga.util.reflection.Reflection;
 import com.syntacticsugar.vooga.util.reflection.ReflectionException;
+
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -40,10 +43,9 @@ public class SelectionEditor {
 	private ComboBox<String> collideEventsComboBox;
 	private IChangeObjectEditorScene iChange;
 	private GameObjectType typeChosen;
-	//private ObjectData myData;
+	private ObjectData myData;
 	private List<IAttribute> myAttributes;
 	private Map<GameObjectType, Collection<IGameEvent>> collisions;
-	//private Collection<IGameEvent> collideEvents;
 	private String selectedAttribute;
 	private GameObjectType selectedCollideObjType;
 	private String selectedCollideObjEvent;
@@ -51,21 +53,21 @@ public class SelectionEditor {
 	private final double YDIM = Double.parseDouble(ResourceManager.getString("selection_editor_y"));
 	private final double DEFAULT_ICON_SIZE = 50;
 	private ObjectProperty<ImageView> selectImg = new SimpleObjectProperty<ImageView>();
+	private String selectImgPath;
 	
-	public SelectionEditor(IChangeObjectEditorScene change, GameObjectType type, ObjectData myData) {
+	public SelectionEditor(IChangeObjectEditorScene change, GameObjectType type, ObjectData objData) {
 		iChange = change;
 		typeChosen = type;
 		myAttributes = new ArrayList<IAttribute>();
-		//collideEvents  = new ArrayList<IGameEvent>();
 		collisions  = new HashMap<GameObjectType, Collection<IGameEvent>>();
-		//this.myData = myData;
+		myData = objData;
 	}
 
 	public Scene createScene() {
 		BorderPane selectionBorderPane = new BorderPane();
 		selectionBorderPane.getStyleClass().add("pane");
 		selectionBorderPane.setTop(selectObjectInfo(typeChosen));
-		ObjectEditorNav navBar = new ObjectEditorNav(iChange);
+		ObjectEditorNav navBar = new ObjectEditorNav(this,iChange);
 		selectionBorderPane.setBottom(navBar.createNavBar());
 		scene = new Scene(selectionBorderPane, XDIM, YDIM);
 		scene.getStylesheets().add("/com/syntacticsugar/vooga/authoring/css/default.css");
@@ -95,9 +97,12 @@ public class SelectionEditor {
 			});
 		
 		for (int i = 0; i < files.length; i++) {
-			ImageView img = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(files[i].getName())));
+			String img_path = files[i].getName();
+			ImageView img = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(img_path)));
 			img.setOnMouseClicked(e -> {
-				selectImg.setValue(img);});
+				selectImg.setValue(img);
+				selectImgPath = img_path;
+			});
 			
 			img.setFitWidth(DEFAULT_ICON_SIZE);
 			img.setFitHeight(DEFAULT_ICON_SIZE);
@@ -282,7 +287,7 @@ public class SelectionEditor {
 		attributesComboBox.setPromptText("Click to view created attributes");
 		attributesComboBox.setOnMouseClicked(e -> {
 			if (e.getClickCount() == 1) {
-				displayAttributeParam();
+				displayAttributeParam(); 	// add this functionality if time allows
 			}
 		});
 		return attributesComboBox;
@@ -332,7 +337,7 @@ public class SelectionEditor {
 		collideEventsComboBox.setPromptText("Click to view created collide events");
 		collideEventsComboBox.setOnMouseClicked(e -> {
 			if (e.getClickCount() == 1) {
-				displayCollideEventParam();
+				displayCollideEventParam(); // add this functionality if time allows
 			}
 		});
 		return collideEventsComboBox;
@@ -389,6 +394,31 @@ public class SelectionEditor {
 		    }
 		}
 		//System.out.println("The entry-value set of the map is " + collisions.keySet().size());
+	}
+	
+	public void createGameObject() {
+		if (selectImgPath == null) {
+			AlertBoxFactory.createObject("Please select an image from the list first");
+			return;
+		}
+		myData.setType(typeChosen);
+		myData.setImagePath(selectImgPath);
+		myData.setAttributes(myAttributes);
+		myData.setCollisionMap(collisions);
+		
+		// Test info.
+		System.out.println("**********test***********");
+		System.out.println(myData.getImagePath());
+		System.out.println(myData.getType());
+		for (IAttribute i: myData.getAttributes()) {
+			System.out.println(i.getClass().getSimpleName());
+		}
+		for (GameObjectType gt: myData.getCollisionMap().keySet()) {
+			for (IGameEvent ie: myData.getCollisionMap().get(gt)) {
+				System.out.println(String.format("%s->%s", gt, ie.getClass().getSimpleName()));
+			}
+		}
+		// end Test
 	}
 	
 }
