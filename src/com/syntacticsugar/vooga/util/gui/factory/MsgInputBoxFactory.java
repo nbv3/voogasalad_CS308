@@ -30,7 +30,7 @@ public class MsgInputBoxFactory {
 	    HBox textFieldBox = new HBox();
 	    textFieldBox.setAlignment(Pos.CENTER);
 	    Label textFieldLable = new Label(str);
-	    textFieldLable.setPrefWidth(100);
+	    textFieldLable.setPrefWidth(150);
 	    textField = new TextField();
 	    textField.setMaxWidth(100);
 	    textFieldBox.getChildren().addAll(textFieldLable,textField);
