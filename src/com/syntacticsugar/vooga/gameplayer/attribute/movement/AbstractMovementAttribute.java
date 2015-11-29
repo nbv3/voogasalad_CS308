@@ -6,8 +6,6 @@ import com.syntacticsugar.vooga.gameplayer.attribute.control.actions.movement.HD
 import com.syntacticsugar.vooga.gameplayer.attribute.control.actions.movement.IMover;
 import com.syntacticsugar.vooga.gameplayer.attribute.control.actions.movement.VDirection;
 
-import jdk.nashorn.internal.ir.SetSplitState;
-
 public abstract class AbstractMovementAttribute extends AbstractAttribute implements IMover {
 	
 	private double xVelocity;

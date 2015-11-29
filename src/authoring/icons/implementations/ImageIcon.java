@@ -1,4 +1,4 @@
-package authoring.library.icons.implementations;
+package authoring.icons.implementations;
 
 public class ImageIcon extends AbstractIcon {
 

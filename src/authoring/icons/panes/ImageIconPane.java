@@ -1,9 +1,9 @@
-package authoring.library.icons.panes;
+package authoring.icons.panes;
 
 import java.util.Collection;
 
-import authoring.library.icons.implementations.AbstractIcon;
-import authoring.library.icons.implementations.ImageIcon;
+import authoring.icons.implementations.AbstractIcon;
+import authoring.icons.implementations.ImageIcon;
 
 public class ImageIconPane extends AbstractIconPane {
 

@@ -1,24 +1,11 @@
 package com.syntacticsugar.vooga.gameplayer.view.implementation;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.List;
-import java.util.Scanner;
-
-import com.syntacticsugar.vooga.authoring.editor.AuthoringEnvironment;
 import com.syntacticsugar.vooga.gameplayer.manager.GameManager;
-import com.syntacticsugar.vooga.gameplayer.manager.IGameManager;
 import com.syntacticsugar.vooga.gameplayer.view.IViewManager;
-import com.syntacticsugar.vooga.util.filefinder.Directory;
-import com.syntacticsugar.vooga.util.xml.LoaderSaver;
-import com.syntacticsugar.vooga.util.xml.LoadingException;
 
 import authoring.AuthoringScreenManager;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 public class GameScreenManager implements IViewManager {
 

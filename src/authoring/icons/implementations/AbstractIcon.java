@@ -1,4 +1,4 @@
-package authoring.library.icons.implementations;
+package authoring.icons.implementations;
 
 
 import javafx.scene.image.Image;

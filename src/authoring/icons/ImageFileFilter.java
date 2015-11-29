@@ -1,4 +1,4 @@
-package authoring.level;
+package authoring.icons;
 
 import java.io.File;
 import java.io.FileFilter;

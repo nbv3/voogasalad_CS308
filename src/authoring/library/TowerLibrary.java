@@ -2,7 +2,7 @@ package authoring.library;
 
 import java.io.File;
 
-public class TowerLibrary extends AbstractObjectLibrary {
+public class TowerLibrary extends ObjectLibrary {
 
 	public TowerLibrary(File XMLDirectory) {
 		super(XMLDirectory);

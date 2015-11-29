@@ -1,4 +1,4 @@
-package authoring.objectediting;
+package authoring.data;
 
 import java.util.ArrayList;
 import java.util.Collection;

@@ -1,7 +1,6 @@
 package authoring.level;
 
 import javafx.geometry.Insets;
-import javafx.scene.control.Tab;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
@@ -9,7 +8,6 @@ import javafx.scene.layout.RowConstraints;
 
 public class LevelEditor {
 
-	private Tab myLevelTab;
 	private BorderPane myTabContents;
 	private GridPane myContentGrid;
 	private MapEditor myMapEditor;
@@ -17,7 +15,6 @@ public class LevelEditor {
 //	private SpawnEditor mySpawnEditor;
 	
 	public LevelEditor() throws NumberFormatException {
-		myLevelTab = new Tab();
 		myMapEditor = new MapEditor();
 		myTileEditor = new TileEditor(myMapEditor);
 		buildTabContents();
@@ -27,8 +24,8 @@ public class LevelEditor {
 		
 	}
 	
-	public Tab getTab() {
-		return this.myLevelTab;
+	public BorderPane getContent() {
+		return this.myTabContents;
 	}
 	
 	private void buildTabContents() {
@@ -41,7 +38,6 @@ public class LevelEditor {
 		myContentGrid.add(myMapEditor.getMapGrid(), 1, 0, 1, 2);
 		myContentGrid.setGridLinesVisible(true);
 		myTabContents.setCenter(myContentGrid);
-		myLevelTab.setContent(myTabContents);
 	}
 	
 	private void addColumnConstraints(GridPane grid) {

@@ -1,5 +1,6 @@
 package com.syntacticsugar.vooga.util;
 
+import java.io.InputStream;
 import java.util.Enumeration;
 import java.util.ResourceBundle;
 
@@ -21,6 +22,10 @@ public class ResourceManager {
 	
 	public static boolean containsKey(String key) {
 		return myResources.containsKey(key);
+	}
+	
+	public static InputStream getResource(Object obj, String path) {
+		return obj.getClass().getClassLoader().getResourceAsStream(path);
 	}
 	
 }

@@ -3,14 +3,14 @@ package com.syntacticsugar.vooga.gameplayer.universe.map;
 import javafx.geometry.Point2D;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 
 import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.DecoratorTile;
 import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.IGameTile;
 
 public class GameMap implements IGameMap {
+	
+	private static final double MAP_DIMENSIONS = 1000.0;
 	
 	private DecoratorTile[][] myTiles;
 	private double maxWidth;
@@ -20,8 +20,8 @@ public class GameMap implements IGameMap {
 
 	// TO IMPLEMENT: xDIMENSION, yDIMENSION
 	public GameMap(int dim) {
-		maxWidth = 1000.0;
-		maxHeight = 1000.0;
+		maxWidth = MAP_DIMENSIONS;
+		maxHeight = MAP_DIMENSIONS;
 		xDimension = dim;
 		yDimension = dim;
 		myTiles = new DecoratorTile[xDimension][yDimension];

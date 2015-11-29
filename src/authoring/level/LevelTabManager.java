@@ -1,5 +1,8 @@
 package authoring.level;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 
 import javafx.scene.control.Tab;
@@ -8,8 +11,10 @@ import javafx.scene.control.TabPane;
 public class LevelTabManager {
 
 	private TabPane myTabPane;
+	private Map<Tab, LevelEditor> myLevelMap;
 	
 	public LevelTabManager() {
+		myLevelMap = new HashMap<Tab, LevelEditor>();
 		myTabPane = new TabPane();
 	}
 	
@@ -21,14 +26,23 @@ public class LevelTabManager {
 			AlertBoxFactory.createObject(e.getMessage());
 			return;
 		}
-		newLevel.getTab().setOnClosed(e -> updateLevelNumbers());
-		myTabPane.getTabs().add(newLevel.getTab());
+		Tab newLevelTab = new Tab();
+		newLevelTab.setContent(newLevel.getContent());
+		myLevelMap.put(newLevelTab, newLevel);
+		newLevelTab.setOnClosed(e -> removeLevel(newLevelTab));
+		
+		myTabPane.getTabs().add(newLevelTab);
+		myTabPane.getSelectionModel().select(newLevelTab);
 		updateLevelNumbers();
-		myTabPane.getSelectionModel().select(newLevel.getTab());
 	}
 	
 	public TabPane getTabPane() {
 		return myTabPane;
+	}
+	
+	private void removeLevel(Tab levelTab) {
+		myLevelMap.remove(levelTab);
+		updateLevelNumbers();
 	}
 	
 	private void updateLevelNumbers() {

@@ -1,5 +1,7 @@
 package com.syntacticsugar.vooga.gameplayer.view;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -45,10 +47,11 @@ public abstract class AbstractGameMenu extends BorderPane{
 		this.setCenter(optionsList);
 	}
 	
-	protected Button createButton(String name) {
+	protected Button createButton(String name, EventHandler<ActionEvent> onAction) {
 		Button button = new Button(name);
 		//button.setFont(new Font(30));
 		button.setMaxWidth(Double.MAX_VALUE);
+		button.setOnAction(onAction);
 		return button;
 	}
 	
