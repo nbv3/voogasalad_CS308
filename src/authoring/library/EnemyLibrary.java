@@ -2,7 +2,7 @@ package authoring.library;
 
 import java.io.File;
 
-public class EnemyLibrary extends AbstractObjectLibrary {
+public class EnemyLibrary extends ObjectLibrary {
 
 	public EnemyLibrary(File XMLDirectory) {
 		super(XMLDirectory);
