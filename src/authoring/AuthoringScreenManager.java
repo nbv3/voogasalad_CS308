@@ -1,6 +1,10 @@
 package authoring;
 
+import com.syntacticsugar.vooga.menu.SceneManager;
+
 import authoring.level.LevelTabManager;
+import authoring.library.ObjectLibrary;
+import authoring.objectediting.ObjectEditor;
 import javafx.scene.Scene;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -20,16 +24,30 @@ public class AuthoringScreenManager {
 //	private LibraryManager myLibraryManager;
 	private Stage myStage;
 	private Scene myScene;
+	private ObjectLibrary myObjectLibrary;
+	private ObjectEditor myObjectEditor;
+	
+	// injected for returning to main menu
+	private SceneManager sceneManager;
 	
 	public AuthoringScreenManager() {
 		initLevelEditor();
+		initObjectEditor();
 		initObjectLibrary();
 		initWindow();
 	}
 	
 	private void initObjectLibrary() {
-		// TODO Auto-generated method stub
+		myObjectLibrary = new ObjectLibrary(null);
 		
+	}
+	
+	private void initObjectEditor(){
+		myObjectEditor = new ObjectEditor();
+	}
+	
+	public void setSceneManager(SceneManager sceneManager) {
+		this.sceneManager = sceneManager;
 	}
 
 	private void initWindow() {
@@ -41,7 +59,8 @@ public class AuthoringScreenManager {
 		addGridConstraints();
 		
 		myWindowGrid.add(myLevelEditor.getTabPane(), 0, 0, 1, 3);
-		
+		myWindowGrid.add(myObjectLibrary.getContent(), 1, 0, 1 ,1);
+		myWindowGrid.add(myObjectEditor.getView(), 1, 1, 1, 1);
 		myWindow.setCenter(myWindowGrid);
 		
 		myScene = new Scene(myWindow);
@@ -51,17 +70,34 @@ public class AuthoringScreenManager {
 		myStage.show();
 	}
 	
+	public void minimize() {
+		myStage.hide();
+	}
+	
 	private void buildMenuBar() {
 		MenuBar menuBar = new MenuBar();
+		// file menu
 		Menu file = new Menu();
 		file.setText("File");
 		MenuItem newLevel = new MenuItem();
 		newLevel.setText("New Level");
 		newLevel.setOnAction(e -> myLevelEditor.addNewLevel());
+		file.getItems().addAll(newLevel);
 		
-		file.getItems().add(newLevel);
+		// menu menu
+		Menu menu = new Menu();
+		menu.setText("Menu");
+		// return to main menu
+		MenuItem mainMenu = new MenuItem();
+		mainMenu.setText("Main Menu");
+		mainMenu.setOnAction(e -> sceneManager.launchFirstMenuFromAuthoring());
+		// return to authoring menu
+		MenuItem authoringMenu = new MenuItem();
+		authoringMenu.setText("Authoring Menu");
+		authoringMenu.setOnAction(e -> sceneManager.launchAuthoringMenuFromAuthoring());
+		menu.getItems().addAll(mainMenu, authoringMenu);
 		
-		menuBar.getMenus().add(file);
+		menuBar.getMenus().addAll(file, menu);
 		myWindow.setTop(menuBar);
 	}
 	

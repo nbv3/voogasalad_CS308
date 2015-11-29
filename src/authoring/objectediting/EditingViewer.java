@@ -1,11 +1,17 @@
 package authoring.objectediting;
 
-import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
-import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
-import com.syntacticsugar.vooga.util.ResourceManager;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
+import com.syntacticsugar.vooga.util.ResourceManager;
+import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
+
+import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -13,45 +19,41 @@ import javafx.scene.text.Text;
 public class EditingViewer {
 
 	protected VBox myView;
-	protected HBox myContent;
 	protected Button myAddButton;
 	protected Button myRemoveButton;
 	protected ListView<HBox> myListView;
+	protected Insets myPadding = new Insets(10,10,10,10);
 	
 	public EditingViewer(String viewerTitle){
 		myView = new VBox();
-		myView.getChildren().add(makeViewerTitle(viewerTitle));
-		myView.getChildren().add(makeContentBox());
+		myView.setPadding(myPadding);
+		myView.getChildren().add(makeTitleStrip(viewerTitle));
+		makeContentBox();
 	}
 	
-	private HBox makeContentBox(){ 
-		// makes the HBox that contains the ListView and the buttons.
-		myContent = new HBox();
+	private void makeContentBox(){ 
+		// makes the VBox that contains the ListView and the buttons.
 		myListView = new ListView<HBox>();
-		myContent.getChildren().add(myListView);
-		myContent.getChildren().add(makeAddRemoveStrip());
-		return myContent;
+		myView.getChildren().add(myListView);
 	}
 	
-	private VBox makeAddRemoveStrip(){
-		VBox addRemoveStrip = new VBox();
-		addRemoveStrip.getChildren().add(makeAddButton());
-		addRemoveStrip.getChildren().add(makeRemoveButton());
-		return addRemoveStrip;
+	private AnchorPane makeTitleStrip(String title){
+		Collection<Node> buttons = new ArrayList<Node>(); 
+		buttons.add(makeAddButton()); buttons.add(makeRemoveButton());
+		AnchorPane titleStrip = (AnchorPane) GUIFactory.buildTitleNodeWithButtons(title, buttons);
+		titleStrip.setPadding(myPadding);
+		return titleStrip;
 	}
+	
 	
 	private Button makeAddButton(){
-		myAddButton = new Button(ResourceManager.getString("add"));
+		myAddButton = GUIFactory.buildButton(ResourceManager.getString("add_symbol"), null, 25.0, null);
 		return myAddButton;
 	}
 	
 	private Button makeRemoveButton(){
-		myRemoveButton = new Button(ResourceManager.getString("remove"));
+		myRemoveButton = GUIFactory.buildButton(ResourceManager.getString("remove_symbol"), null, 25.0, null);
 		return myRemoveButton;
-	}
-	
-	protected Text makeViewerTitle(String text){
-		return new Text(text);
 	}
 	
 	protected void addElementToList(HBox item){
