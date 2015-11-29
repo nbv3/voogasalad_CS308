@@ -23,6 +23,7 @@ import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.universe.GameUniverse;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.gameplayer.view.implementation.ViewController;
+import com.syntacticsugar.vooga.menu.SceneManager;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -39,8 +40,12 @@ public class GameManager implements IGameManager {
 	// private GameInformation myInformation;
 	private ViewController myViewController;
 	private Timeline myGameTimeline;
+	
+	// is SceneManager injection necessary?
+	private SceneManager myManager;
 
 	public GameManager(double gameSize) {
+		
 		currentLevel = new GameUniverse();
 		myConditions = new ArrayList<IGameCondition>();
 		myConditions.add(new PlayerDeathCondition());
@@ -83,6 +88,17 @@ public class GameManager implements IGameManager {
 		
 		myViewController.initializeView(currentLevel);
 
+	}
+	
+	public void setManager(SceneManager manager) {
+		myManager = manager;
+	}
+	
+	public void pause() {
+		// call myManager.initEnginePauseMenu() which closes the scene and opens the menu scene
+		myManager.initEnginePauseMenu();
+		
+		// TODO pause update logic
 	}
 
 	@Override

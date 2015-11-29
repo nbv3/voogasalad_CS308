@@ -13,6 +13,7 @@ public class SceneManager {
 	private Stage myStage;
 	
 	private final double FRAME_LENGTH = 1 / 60.0;
+	private Scene gameScene;
 	private GameManager myGameManager;
 	private AuthoringScreenManager myAuthoringEnv;
 	
@@ -44,9 +45,9 @@ public class SceneManager {
 	}
 	
 	public void initEnginePauseMenu() {
+		// instance of gameScene is stored upon engine launch
 		AbstractGameMenu screen = new EnginePauseMenu(this, WIDTH, HEIGHT, "Vooga Salad");
 		viewScene(screen);
-		// TODO call myGameManager.pause()
 	}
 	
 	public void launchNewEditor() {
@@ -54,12 +55,14 @@ public class SceneManager {
 	}
 	
 	public void launchLoadEditor() {
+		// TODO load from XML here or within GameManager?
 		myAuthoringEnv = new AuthoringScreenManager();
 	}
 	
 	public void launchNewEngine() {
 		myGameManager = new GameManager(GAME_SIZE);
-		Scene gameScene = new Scene(myGameManager.getGameView(), GAME_SIZE, GAME_SIZE);
+		myGameManager.setManager(this);
+		gameScene = new Scene(myGameManager.getGameView(), GAME_SIZE, GAME_SIZE);
 		myGameManager.initializeAnimation(FRAME_LENGTH);
 		gameScene.setOnKeyPressed(e -> myGameManager.receiveKeyPressed(e.getCode()));
 		gameScene.setOnKeyReleased(e -> myGameManager.receiveKeyReleased(e.getCode()));
@@ -68,8 +71,11 @@ public class SceneManager {
 	
 	public void launchLoadEngine() {
 		// TODO modify to do direct load instead of launch
+		
+		// TODO load from XML here or within GameManager?
 		myGameManager = new GameManager(GAME_SIZE);
-		Scene gameScene = new Scene(myGameManager.getGameView(), GAME_SIZE, GAME_SIZE);
+		myGameManager.setManager(this);
+		gameScene = new Scene(myGameManager.getGameView(), GAME_SIZE, GAME_SIZE);
 		myGameManager.initializeAnimation(FRAME_LENGTH);
 		gameScene.setOnKeyPressed(e -> myGameManager.receiveKeyPressed(e.getCode()));
 		gameScene.setOnKeyReleased(e -> myGameManager.receiveKeyReleased(e.getCode()));
@@ -79,5 +85,6 @@ public class SceneManager {
 	public void launchUnPauseEngine() {
 		// should be slightly changed from loadEngine
 		// TODO call myGameManager.unpause() or something like that
+		myStage.setScene(gameScene);
 	}
 }
