@@ -1,5 +1,7 @@
 package authoring;
 
+import com.syntacticsugar.vooga.menu.SceneManager;
+
 import authoring.level.LevelTabManager;
 import javafx.scene.Scene;
 import javafx.scene.control.Menu;
@@ -21,6 +23,9 @@ public class AuthoringScreenManager {
 	private Stage myStage;
 	private Scene myScene;
 	
+	// injected for returning to main menu
+	private SceneManager sceneManager;
+	
 	public AuthoringScreenManager() {
 		initLevelEditor();
 		initObjectLibrary();
@@ -30,6 +35,10 @@ public class AuthoringScreenManager {
 	private void initObjectLibrary() {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public void setSceneManager(SceneManager sceneManager) {
+		this.sceneManager = sceneManager;
 	}
 
 	private void initWindow() {
@@ -51,6 +60,10 @@ public class AuthoringScreenManager {
 		myStage.show();
 	}
 	
+	public void minimize() {
+		myStage.hide();
+	}
+	
 	private void buildMenuBar() {
 		MenuBar menuBar = new MenuBar();
 		Menu file = new Menu();
@@ -58,8 +71,16 @@ public class AuthoringScreenManager {
 		MenuItem newLevel = new MenuItem();
 		newLevel.setText("New Level");
 		newLevel.setOnAction(e -> myLevelEditor.addNewLevel());
+		// return to main menu
+		MenuItem mainMenu = new MenuItem();
+		mainMenu.setText("Main Menu");
+		mainMenu.setOnAction(e -> sceneManager.initFirstGameMenuAuthoring());
+		// return to authoring menu
+		MenuItem authoringMenu = new MenuItem();
+		authoringMenu.setText("Authoring Menu");
+		authoringMenu.setOnAction(e -> sceneManager.initAuthoringGameMenuAuthoring());
 		
-		file.getItems().add(newLevel);
+		file.getItems().addAll(newLevel, mainMenu, authoringMenu);
 		
 		menuBar.getMenus().add(file);
 		myWindow.setTop(menuBar);
