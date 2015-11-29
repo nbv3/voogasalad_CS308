@@ -6,6 +6,7 @@ import java.util.Collection;
 
 import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
+import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
 
 import authoring.data.TileImplementation;
 import authoring.icons.ImageFileFilter;
@@ -27,11 +28,11 @@ public class TileEditor {
 	private ImageIconPane myIconPane;
 	
 	public TileEditor(MapEditor mapEditor) {
-		Button selectAll = buildButton("Select All", e -> mapEditor.selectAllTiles());
-		Button clearAll = buildButton("Clear All", e -> mapEditor.clearAllTiles());
+		Button selectAll = GUIFactory.buildButton("Select All", e -> mapEditor.selectAllTiles(),null,null);
+		Button clearAll = GUIFactory.buildButton("Clear All", e -> mapEditor.clearAllTiles(),null,null);
 
-		Button makeDest = buildButton("Make Destination", e -> mapEditor.markDestination());
-		Button removeDest = buildButton("Remove Destination", e -> mapEditor.unmarkDestination());
+		Button makeDest = GUIFactory.buildButton("Make Destination", e -> mapEditor.markDestination(),null,null);
+		Button removeDest = GUIFactory.buildButton("Remove Destination", e -> mapEditor.unmarkDestination(),null,null);
 		makeDest.setMaxWidth(Double.MAX_VALUE);
 		removeDest.setMaxWidth(Double.MAX_VALUE);
 		VBox dest = new VBox();
@@ -41,16 +42,18 @@ public class TileEditor {
 		
 		ComboBox<TileImplementation> typeChooser = buildImplementationChooser();
 
-		Button addNewImage = buildButton("Add New Image", e -> selectNewImage(typeChooser.getSelectionModel().getSelectedItem()));
+		Button addNewImage = GUIFactory.buildButton("Add New Image", e -> selectNewImage(typeChooser.getSelectionModel().getSelectedItem()),
+				null, null);
 		myIconPane = new ImageIconPane();
-		Button applyChanges = buildButton("Apply", 
+		Button applyChanges = GUIFactory.buildButton("Apply", 
 							e -> mapEditor.applyTileChanges(
 								 typeChooser.getSelectionModel().getSelectedItem(),
-								 myIconPane.getSelectedImagePath()));
+								 myIconPane.getSelectedImagePath()),
+							null, null);
 		
-		AnchorPane top = buildAnchorPane(selectAll, clearAll);
-		AnchorPane middle = buildAnchorPane(typeChooser, dest);
-		AnchorPane bottom = buildAnchorPane(addNewImage, applyChanges);
+		AnchorPane top = GUIFactory.buildAnchorPane(selectAll, clearAll);
+		AnchorPane middle = GUIFactory.buildAnchorPane(typeChooser, dest);
+		AnchorPane bottom = GUIFactory.buildAnchorPane(addNewImage, applyChanges);
 		
 		myContainer = new VBox();
 		myContainer.setSpacing(10);
@@ -61,20 +64,6 @@ public class TileEditor {
 										 myIconPane.getIconPane(),
 										 bottom);
 		VBox.setVgrow(myIconPane.getIconPane(), Priority.ALWAYS);
-	}
-
-	private AnchorPane buildAnchorPane(Node left, Node right) {
-		AnchorPane anchor = new AnchorPane();
-		anchor.getChildren().addAll(left, right);
-		AnchorPane.setLeftAnchor(left, 0.0);
-		AnchorPane.setRightAnchor(right, 0.0);
-		return anchor;
-	}
-	
-	private Button buildButton(String title, EventHandler<ActionEvent> action) {
-		Button button = new Button(title);
-		button.setOnAction(action);
-		return button;
 	}
 	
 	private ComboBox<TileImplementation> buildImplementationChooser() {
