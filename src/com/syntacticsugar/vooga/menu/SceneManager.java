@@ -1,7 +1,9 @@
 package com.syntacticsugar.vooga.menu;
 
+import com.syntacticsugar.vooga.gameplayer.view.implementation.GameScreenManager;
 import com.syntacticsugar.vooga.gameplayer.view.implementation.StartingMenu;
 
+import authoring.AuthoringScreenManager;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -12,22 +14,51 @@ public class SceneManager {
 	
 	public SceneManager(Stage stage) {
 		myStage = stage;
+		initFirstGameMenu();
 	}
 	
-	private void initFirstGameMenu(Stage stage) {
-		FirstGameMenu startingScreen = new FirstGameMenu(this, WIDTH, HEIGHT, "Vooga Salad");
-		Scene welcome = new Scene(startingScreen, WIDTH, HEIGHT);
+	public void initFirstGameMenu() {
+		FirstGameMenu screen = new FirstGameMenu(this, WIDTH, HEIGHT, "Vooga Salad");
+		Scene welcome = new Scene(screen, WIDTH, HEIGHT);
 		//The following lines can be refactored 
 		myStage.setScene(welcome);
 		myStage.setTitle("Vooga Salad");
 		myStage.show();
 	}
 	
-	private void initAuthoringGameMenu() {
+	public void initAuthoringGameMenu() {	
+		AuthoringGameMenu screen = new AuthoringGameMenu(this, WIDTH, HEIGHT, "Vooga Salad");
+		Scene welcome = new Scene(screen, WIDTH, HEIGHT);
+		//The following lines can be refactored 
+		myStage.setScene(welcome);
+		myStage.setTitle("Vooga Salad");
+		myStage.show();
+		//myStage.close();
+		//new AuthoringScreenManager();
+	}
+	
+	public void initEngineGameMenu() {
+		EngineGameMenu screen = new EngineGameMenu(this, WIDTH, HEIGHT, "Vooga Salad");
+		Scene welcome = new Scene(screen, WIDTH, HEIGHT);
+		//The following lines can be refactored 
+		myStage.setScene(welcome);
+		myStage.setTitle("Vooga Salad");
+		myStage.show();
+	}
+	
+	public void launchNewEditor() {
 		
 	}
 	
-	private void initEngineGameMenu() {
+	public void launchLoadEditor() {
+		
+	}
+	
+	public void launchNewEngine() {
+		
+	}
+	
+	public void launchLoadEngine() {
 		
 	}
 }

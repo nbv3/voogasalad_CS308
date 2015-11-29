@@ -1,4 +1,4 @@
-package com.syntacticsugar.vooga.gameplayer.view;
+package com.syntacticsugar.vooga.menu;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -9,7 +9,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
 
 
 /**
@@ -18,7 +17,7 @@ import javafx.scene.text.Font;
  */
 public abstract class AbstractGameMenu extends BorderPane implements IGameMenu{
 	
-	private SceneManager myManager;
+	protected SceneManager myManager;
 	
 	public AbstractGameMenu(SceneManager manager, double width, double height, String title){
 		this.getStylesheets().add("/com/syntacticsugar/vooga/gameplayer/css/menu.css");
@@ -54,14 +53,4 @@ public abstract class AbstractGameMenu extends BorderPane implements IGameMenu{
 		button.setOnAction(onAction);
 		return button;
 	}
-	
-	protected void launchGame(){
-		myManager.initFirstScene();
-	}
-	
-	protected void launchEditor(){
-		myManager.launchEditor();
-	}
-	
-
 }
