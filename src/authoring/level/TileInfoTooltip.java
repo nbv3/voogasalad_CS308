@@ -1,12 +1,9 @@
 package authoring.level;
 
 import com.syntacticsugar.vooga.util.ResourceManager;
-import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
 
 import authoring.data.TileData;
-import authoring.data.TileImplementation;
 import javafx.geometry.Pos;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
