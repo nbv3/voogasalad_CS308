@@ -120,7 +120,6 @@ public class MapEditor {
 		else {
 			selectTile(tile);
 		}
-		System.out.println(tile.getImplementation() + " " + tile.isDestination());
 	}
 
 	private void selectTile(TileData tile) {
