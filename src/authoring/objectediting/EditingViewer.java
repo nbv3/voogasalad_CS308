@@ -1,11 +1,13 @@
 package authoring.objectediting;
 
-import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
-import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.util.ResourceManager;
+import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
 
+import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -13,45 +15,54 @@ import javafx.scene.text.Text;
 public class EditingViewer {
 
 	protected VBox myView;
-	protected HBox myContent;
 	protected Button myAddButton;
 	protected Button myRemoveButton;
 	protected ListView<HBox> myListView;
+	protected Insets myPadding = new Insets(10,10,10,10);
 	
 	public EditingViewer(String viewerTitle){
 		myView = new VBox();
-		myView.getChildren().add(makeViewerTitle(viewerTitle));
-		myView.getChildren().add(makeContentBox());
+		myView.setPadding(myPadding);
+		myView.getChildren().add(makeTitleStrip(viewerTitle));
+		makeContentBox();
 	}
 	
-	private HBox makeContentBox(){ 
-		// makes the HBox that contains the ListView and the buttons.
-		myContent = new HBox();
+	private void makeContentBox(){ 
+		// makes the VBox that contains the ListView and the buttons.
 		myListView = new ListView<HBox>();
-		myContent.getChildren().add(myListView);
-		myContent.getChildren().add(makeAddRemoveStrip());
-		return myContent;
+		myView.getChildren().add(myListView);
 	}
 	
-	private VBox makeAddRemoveStrip(){
-		VBox addRemoveStrip = new VBox();
+	private AnchorPane makeTitleStrip(String title){
+		HBox addRemoveStrip = makeAddRemoveStrip();
+		HBox viewerTitle = makeViewerTitle(title);
+		AnchorPane titleStrip = GUIFactory.buildAnchorPane(viewerTitle, addRemoveStrip);
+		titleStrip.setPadding(myPadding);
+		return titleStrip;
+	}
+	
+	private HBox makeAddRemoveStrip(){
+		HBox addRemoveStrip = new HBox();
 		addRemoveStrip.getChildren().add(makeAddButton());
 		addRemoveStrip.getChildren().add(makeRemoveButton());
 		return addRemoveStrip;
 	}
 	
 	private Button makeAddButton(){
-		myAddButton = new Button(ResourceManager.getString("add"));
+		myAddButton = GUIFactory.buildButton(ResourceManager.getString("add"), null, 100.0, null);
 		return myAddButton;
 	}
 	
 	private Button makeRemoveButton(){
-		myRemoveButton = new Button(ResourceManager.getString("remove"));
+		myRemoveButton = GUIFactory.buildButton(ResourceManager.getString("remove"), null, 100.0, null);
 		return myRemoveButton;
 	}
 	
-	protected Text makeViewerTitle(String text){
-		return new Text(text);
+	protected HBox makeViewerTitle(String text){
+		Text titleText = new Text(text);
+		HBox title = new HBox(titleText);
+		title.setPadding(new Insets(5, 0, 0, 0));
+		return title;
 	}
 	
 	protected void addElementToList(HBox item){

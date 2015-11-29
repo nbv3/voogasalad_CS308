@@ -1,6 +1,7 @@
 package authoring;
 
 import authoring.level.LevelTabManager;
+import authoring.library.ObjectLibrary;
 import javafx.scene.Scene;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -20,6 +21,7 @@ public class AuthoringScreenManager {
 //	private LibraryManager myLibraryManager;
 	private Stage myStage;
 	private Scene myScene;
+	private ObjectLibrary myObjectLibrary;
 	
 	public AuthoringScreenManager() {
 		initLevelEditor();
@@ -28,7 +30,7 @@ public class AuthoringScreenManager {
 	}
 	
 	private void initObjectLibrary() {
-		// TODO Auto-generated method stub
+		myObjectLibrary = new ObjectLibrary(null);
 		
 	}
 
@@ -41,7 +43,7 @@ public class AuthoringScreenManager {
 		addGridConstraints();
 		
 		myWindowGrid.add(myLevelEditor.getTabPane(), 0, 0, 1, 3);
-		
+		myWindowGrid.add(myObjectLibrary.getContent(), 1, 0, 1 ,1);
 		myWindow.setCenter(myWindowGrid);
 		
 		myScene = new Scene(myWindow);

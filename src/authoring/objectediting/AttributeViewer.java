@@ -23,8 +23,7 @@ import javafx.scene.text.Text;
 public class AttributeViewer extends EditingViewer {
 
 	public AttributeViewer() {
-		super(ResourceManager.getString("Attributes Added"));
-		
+		super(ResourceManager.getString("attributes_added"));
 	}
 
 	public void addAttributeToList(IAttribute attribute) {
