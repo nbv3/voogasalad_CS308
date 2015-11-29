@@ -25,7 +25,6 @@ public class ObjectLibrary {
 		myContent = new VBox();
 		myIconPane = new ImageIconPane();
 		myContent.getChildren().add(myIconPane.getIconPane());
-		makeObjectEditor();
 		populateOptionIcons(null);
 	}
 	
@@ -36,18 +35,14 @@ public class ObjectLibrary {
 	private void populateOptionIcons(File XMLDirectory){
 		//Parse xml directory to get list of ObjectData instances
 		Collection<ObjectData> xmlData = null;
-		File imgDirectory = new File(ResourceManager.getString(String.format("%s%s", "Path", "_images")));
+	/*	File imgDirectory = new File(ResourceManager.getString(String.format("%s%s", "Path", "_images")));
 		File[] files = imgDirectory.listFiles(new ImageFileFilter());
 		Collection<String> imagePaths = new ArrayList<String>();
 		for (int i=0; i<files.length; i++) {
 			imagePaths.add(files[i].getName());
 		}
 		myIconPane.showIcons(imagePaths);
-	}
-	
-	private void makeObjectEditor(){
-		AttributeViewer attributes = new AttributeViewer();
-		myContent.getChildren().add(attributes.getView());
+		*/
 	}
 	
 }
