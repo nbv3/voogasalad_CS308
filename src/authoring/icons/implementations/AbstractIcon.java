@@ -3,10 +3,19 @@ package authoring.icons.implementations;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
+import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 
-public abstract class AbstractIcon extends VBox {
+public abstract class AbstractIcon extends Pane {
 	
+	private static final double BORDER_WIDTH = 1.0;
+	private static final Border BORDER = new Border(new BorderStroke(
+			Color.BLACK, BorderStrokeStyle.SOLID, null, new BorderWidths(BORDER_WIDTH)));
+
 	private ImageView myImageView;
 	
 	public AbstractIcon(String imagePath, double dimension){
@@ -14,15 +23,18 @@ public abstract class AbstractIcon extends VBox {
 		myImageView = new ImageView(img);
 		setIconDimensions(dimension);
 		this.getChildren().add(myImageView);
+		this.setBorder(BORDER);
 	}
 	
 	private void setIconDimensions(double dimension){
-		myImageView.setFitWidth(dimension);
-		myImageView.setFitHeight(dimension);
+		this.setWidth(dimension);
+		this.setHeight(dimension);
+		myImageView.fitWidthProperty().bind(this.widthProperty().subtract(BORDER_WIDTH));
+		myImageView.fitHeightProperty().bind(this.heightProperty().subtract(BORDER_WIDTH));
 	}
 	
-	public ImageView getImageView(){
-		return myImageView;
+	public void setImage(Image image) {
+		myImageView.setImage(image);
 	}
 	
 }

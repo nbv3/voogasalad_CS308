@@ -21,7 +21,10 @@ public class TileData {
 	}
 	
 	public void setDestination(boolean isDestination) {
-		this.isDestination = isDestination;
+		if (getImplementation().equals(TileImplementation.Path))
+			this.isDestination = isDestination;
+		else
+			this.isDestination = false;
 	}
 	
 	public String getImagePath() {

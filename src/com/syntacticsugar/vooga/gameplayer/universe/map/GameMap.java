@@ -12,24 +12,20 @@ public class GameMap implements IGameMap {
 	
 	private static final double MAP_DIMENSIONS = 1000.0;
 	
-	private DecoratorTile[][] myTiles;
-	private double maxWidth;
-	private double maxHeight;
-	private int xDimension;
-	private int yDimension;
+	private final DecoratorTile[][] myTiles;
+	private int numCols;
+	private int numRows;
 
 	// TO IMPLEMENT: xDIMENSION, yDIMENSION
 	public GameMap(int dim) {
-		maxWidth = MAP_DIMENSIONS;
-		maxHeight = MAP_DIMENSIONS;
-		xDimension = dim;
-		yDimension = dim;
-		myTiles = new DecoratorTile[xDimension][yDimension];
-		for (int row = 0; row < xDimension; row++) {
-			for (int col = 0; col < yDimension; col++) {
-				Point2D point = new Point2D(row * maxHeight/yDimension,col * maxWidth/xDimension);
+		numCols = dim;
+		numRows = dim;
+		myTiles = new DecoratorTile[numCols][numRows];
+		for (int row = 0; row < numCols; row++) {
+			for (int col = 0; col < numRows; col++) {
+				Point2D point = new Point2D(row*MAP_DIMENSIONS/numRows, col*MAP_DIMENSIONS/numCols);
 				String path = "scenery_grass_1.png";
-				myTiles[row][col] = new DecoratorTile(point,maxWidth/xDimension,maxHeight/yDimension,path);
+				myTiles[row][col] = new DecoratorTile(point,MAP_DIMENSIONS/numCols,MAP_DIMENSIONS/numRows,path);
 			}
 		}
 	}
@@ -47,9 +43,9 @@ public class GameMap implements IGameMap {
 
 	@Override
 	public boolean[][] isWalkable() {
-		boolean[][] walk = new boolean[xDimension][yDimension];
-		for (int row = 0; row < xDimension; row++) {
-			for (int col = 0; col < yDimension; col++) {
+		boolean[][] walk = new boolean[numCols][numRows];
+		for (int row = 0; row < numCols; row++) {
+			for (int col = 0; col < numRows; col++) {
 				walk[row][col] = myTiles[row][col].isWalkable();
 			}
 		}
@@ -58,9 +54,9 @@ public class GameMap implements IGameMap {
 
 	@Override
 	public boolean[][] isPlaceable() {
-		boolean[][] place = new boolean[xDimension][yDimension];
-		for (int row = 0; row < xDimension; row++) {
-			for (int col = 0; col < yDimension; col++) {
+		boolean[][] place = new boolean[numCols][numRows];
+		for (int row = 0; row < numCols; row++) {
+			for (int col = 0; col < numRows; col++) {
 				place[row][col] = myTiles[row][col].isPlaceable();
 			}
 		}

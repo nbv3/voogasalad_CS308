@@ -23,8 +23,8 @@ public class GUIFactory {
 	
 	public static Button buildButton(String label, EventHandler<ActionEvent> action, Double width, Double height) {
 		Button button = new Button(label);
-		if (width!=null)  button.setPrefWidth(width);
-		if (height!=null) button.setPrefHeight(height);
+		if (width!=null)  button.setMaxWidth(width);
+		if (height!=null) button.setMaxHeight(height);
 		button.setOnAction(action);
 		return button;
 	}

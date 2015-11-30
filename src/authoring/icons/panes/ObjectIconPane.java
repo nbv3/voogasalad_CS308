@@ -1,5 +1,7 @@
 package authoring.icons.panes;
 
+import java.io.File;
+
 /* ObjectIconPane is an implementation of IconPane that displays graphical 
  * representations of ObjectData instances (ie. different Game Objects)
  */
@@ -22,9 +24,8 @@ public class ObjectIconPane extends AbstractIconPane {
 		clearIconPane();
 		for (ObjectData data : dataList){
 			AbstractIcon icon = makeObjectIcon(data);
-			icon.getImageView().setOnMouseClicked(e -> setSelectedIcon(icon));
-			addIconToPane(icon);
-			addIconImageToMap(icon, data.getImagePath());
+			icon.setOnMouseClicked(e -> setSelectedIcon(icon));
+			addIconToPane(icon, data.getImagePath());
 		}
 		setSelectedIcon(null);
 	}
@@ -34,7 +35,8 @@ public class ObjectIconPane extends AbstractIconPane {
 	}
 	
 	@Override
-	protected void createNewIcon() {
+	public void showIcons(File directory) {
+		// TODO Auto-generated method stub
 		
 	}
 	

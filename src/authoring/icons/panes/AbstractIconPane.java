@@ -1,5 +1,9 @@
 package authoring.icons.panes;
 
+import java.io.File;
+import java.io.FileFilter;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,7 +14,6 @@ import javafx.geometry.Insets;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.effect.Glow;
-import javafx.scene.image.Image;
 import javafx.scene.layout.TilePane;
 
 public abstract class AbstractIconPane {
@@ -36,46 +39,53 @@ public abstract class AbstractIconPane {
 		myScrollPane.setPadding(new Insets(INSET_VALUE));
 	}
 	
+	/**
+	 * Show all icons representing the relevant file types as specified
+	 * by this subclass of AbstractIconPane.
+	 * @param directory
+	 */
+	public abstract void showIcons(File directory);
+	
+	/**
+	 * Return the JavaFX Node used to display this IconPane.
+	 * @return
+	 */
+	public ScrollPane getIconPane(){
+		return myScrollPane;
+	}
+	
+	protected Collection<String> getImagePaths(File directory, FileFilter filter) {
+		File[] files = directory.listFiles(filter);
+		Collection<String> imagePaths = new ArrayList<String>();
+		for (int i=0; i<files.length; i++) {
+			imagePaths.add(files[i].getName());
+		}
+		return imagePaths;
+	}
+	
 	protected void clearIconPane() {
 		myIconPane.getChildren().clear();
 		myImagePaths.clear();
 	}
 	
-	protected void addIconToPane(AbstractIcon icon) {
+	protected void addIconToPane(AbstractIcon icon, String imagePath) {
 		myIconPane.getChildren().add(icon);
-	}
-	
-	protected void addIconImageToMap(AbstractIcon icon, String imagePath) {
 		myImagePaths.put(icon, imagePath);
-	}
-	
-	public ScrollPane getIconPane(){
-		return myScrollPane;
 	}
 	
 	protected void setSelectedEffect(AbstractIcon oldIcon, AbstractIcon newIcon) {
 		if (oldIcon == null) {
-			newIcon.getImageView().setEffect(new Glow(GLOW_PERCENTAGE));
+			newIcon.setEffect(new Glow(GLOW_PERCENTAGE));
 			return;
 		}
-		if (newIcon == null) {
-			oldIcon.getImageView().setEffect(null);
-			return;
-		}
-		oldIcon.getImageView().setEffect(null);
-		newIcon.getImageView().setEffect(new Glow(GLOW_PERCENTAGE));
+		oldIcon.setEffect(null);
+		newIcon.setEffect(new Glow(GLOW_PERCENTAGE));
 	}
 
 	protected void setSelectedIcon(AbstractIcon icon) {
 		mySelectedIcon.set(icon);
 	}
 	
-	protected abstract void createNewIcon();
-
-	public Image getSelectedImage() {
-		return mySelectedIcon.get().getImageView().getImage();
-	}
-
 	public String getSelectedImagePath() {
 		return myImagePaths.get(mySelectedIcon.get());
 	}

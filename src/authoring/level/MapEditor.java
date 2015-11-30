@@ -1,7 +1,5 @@
 package authoring.level;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,74 +12,69 @@ import authoring.data.TileData;
 import authoring.data.TileImplementation;
 import authoring.icons.implementations.AbstractIcon;
 import authoring.icons.implementations.ImageIcon;
-import javafx.geometry.Pos;
-import javafx.scene.control.TextInputDialog;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableSet;
+import javafx.collections.SetChangeListener;
+import javafx.geometry.HPos;
+import javafx.geometry.VPos;
 import javafx.scene.control.Tooltip;
-import javafx.scene.effect.BlurType;
-import javafx.scene.effect.ColorAdjust;
-import javafx.scene.effect.ColorInput;
 import javafx.scene.effect.Effect;
 import javafx.scene.effect.InnerShadow;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderStroke;
-import javafx.scene.layout.BorderStrokeStyle;
-import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
+import javafx.stage.Screen;
 
-public class MapEditor {
+public class MapEditor implements IMapEditor {
 	
+	private static final Effect TILE_EFFECT = createEffect();
 	private static final String DEFAULT_TILE_IMAGE = "gray.png";
 
-	private Map<TileData, AbstractIcon> myTileImageMap;
-	private Collection<TileData> myTileSelection;
+	private ObservableSet<TileData> myTileSelection;
+	private Map<TileData, AbstractIcon> myTileIconMap;
 
 	private MapData myMapData;
-	
 	private int myMapSize;
-	private double mapDisplayWidth = 600.0;
-	private double mapDisplayHeight = 600.0;
+	private double mapDisplayWidth = Screen.getPrimary().getVisualBounds().getHeight()/1.5;
 	private GridPane myMapGrid;
 	
 	public MapEditor() throws Exception {
-		myTileImageMap = new HashMap<TileData, AbstractIcon>();
-		myTileSelection = new ArrayList<TileData>();
-		myMapSize = inputMapSize();
-		initializeMap();
+		myTileIconMap = new HashMap<TileData, AbstractIcon>();
+		myTileSelection = buildSelectionSet();
+		inputMapSize();
+		initializeMapData();
+		initializeMapView();
+	}
+
+	private static Effect createEffect() {
+		InnerShadow shadow = new InnerShadow();
+		shadow.setColor(Color.RED);
+		return shadow;
 	}
 	
-	public double getMapDisplayWidth() {
-		return mapDisplayWidth;
+	private ObservableSet<TileData> buildSelectionSet() {
+		ObservableSet<TileData> set = FXCollections.observableSet();
+		set.addListener(new SetChangeListener<TileData>() {
+			@Override
+			public void onChanged(javafx.collections.SetChangeListener.Change<? extends TileData> change) {
+				if (change.wasAdded())
+					tileEffectOn(myTileIconMap.get(change.getElementAdded()));
+				else if (change.wasRemoved()) {
+					tileEffectOff(myTileIconMap.get(change.getElementRemoved()));
+				}
+			}
+		});
+		return set;
 	}
-
-	public void setMapDisplayWidth(double mapDisplayWidth) {
-		this.mapDisplayWidth = mapDisplayWidth;
-	}
-
-	public double getMapDisplayHeight() {
-		return mapDisplayHeight;
-	}
-
-	public void setMapDisplayHeight(double mapDisplayHeight) {
-		this.mapDisplayHeight = mapDisplayHeight;
-	}
-
-	private int inputMapSize() throws Exception {
-		double size = SliderDialogFactory.createSliderDialog("Input Map Size", 10, 50, 10);
+	
+	private void inputMapSize() throws Exception {
+		double size = SliderDialogFactory.createSliderDialog("Input Map Size", 10, 30, 1);
 		if (size == Double.MIN_VALUE) {
 			throw new Exception("Must select a map size before editing");
 		}
-		return (int) size;
-	}
-
-	private void initializeMap() {
-		initializeMapData();
-		initializeMapView();
+		myMapSize = (int) size;
 	}
 	
 	private void initializeMapData() {
@@ -95,110 +88,89 @@ public class MapEditor {
 		for (int i=0; i<myMapSize; i++) {
 			for (int j=0; j<myMapSize; j++) {
 				TileData tile = myMapData.getTileData(i, j);
-				AbstractIcon icon = new ImageIcon(tile.getImagePath(), mapDisplayWidth/myMapSize-2);
+				AbstractIcon icon = new ImageIcon(tile.getImagePath(), mapDisplayWidth/(1.0*myMapSize));
 				TileInfoTooltip tileInfo = new TileInfoTooltip(tile);
+				myTileIconMap.put(tile, icon);
 				Tooltip.install(icon, tileInfo);
-				myTileImageMap.put(tile, icon);
-				icon.setOnMouseEntered(e -> mouseOverHandler(tile, tileInfo, e.isControlDown(), e.isShiftDown()));
+				icon.setOnMouseEntered(e -> mouseOverHandler(tile, e.isControlDown(), e.isShiftDown()));
 				icon.setOnMouseClicked(e -> mouseClickHandler(tile));
-				myMapGrid.add(icon, i, j, 1, 1);
+				myMapGrid.getChildren().add(icon);
+				GridPane.setConstraints(icon, i, j, 1, 1, HPos.CENTER, VPos.CENTER, Priority.ALWAYS, Priority.ALWAYS, null);
 			}
 		}
 	}
 
-	private void mouseOverHandler(TileData tile, TileInfoTooltip tileInfo, boolean isControlDown, boolean isShiftDown) {
+	private void mouseOverHandler(TileData tile, boolean isControlDown, boolean isShiftDown) {
 		multiSelectTile(tile, isControlDown, isShiftDown);
-	}
-	
-	private void multiSelectTile(TileData tile, boolean isControlDown, boolean isShiftDown) {
-		if (isControlDown) {
-			selectTile(tile);
-		}
-		else if (isShiftDown) {
-			deselectTile(tile);
-		}
 	}
 
 	private void mouseClickHandler(TileData tile) {
 		toggleTileSelection(tile);
 	}
 	
-	private void toggleTileSelection(TileData tile) {
-		if (myTileSelection.contains(tile)) {
-			deselectTile(tile);
-		}
-		else {
-			selectTile(tile);
-		}
-	}
-
-	private void selectTile(TileData tile) {
-		if (!myTileSelection.contains(tile)) {
+	private void multiSelectTile(TileData tile, boolean isControlDown, boolean isShiftDown) {
+		if (isControlDown) {
 			myTileSelection.add(tile);
-			tileEffectOn(myTileImageMap.get(tile));
 		}
-	}
-
-	private void deselectTile(TileData tile) {
-		if (myTileSelection.contains(tile)) {
+		else if (isShiftDown) {
 			myTileSelection.remove(tile);
-			tileEffectOff(myTileImageMap.get(tile));
 		}
 	}
 	
+	private void toggleTileSelection(TileData tile) {
+		if (myTileSelection.contains(tile))
+				myTileSelection.remove(tile);
+		else
+			myTileSelection.add(tile);
+	}
+
 	private void tileEffectOff(AbstractIcon icon) {
 		icon.setEffect(null);
 	}
 
 	private void tileEffectOn(AbstractIcon icon) {
-		InnerShadow shadow = new InnerShadow();
-		shadow.setColor(Color.RED);
-		shadow.setWidth(icon.getWidth());
-		shadow.setHeight(icon.getHeight());
-		icon.setEffect(shadow);
+		icon.setEffect(TILE_EFFECT);
 	}
 
+	@Override
 	public void selectAllTiles() {
-		for (TileData tile : myTileSelection) {
-			tileEffectOff(myTileImageMap.get(tile));
-		}
 		myTileSelection.clear();
-		for (TileData tile : myTileImageMap.keySet()) {
-			selectTile(tile);
-		}
+		myTileSelection.addAll(myMapData.getTiles());
 	}
-	
+
+	@Override
 	public void clearAllTiles() {
-		for (TileData tile : myTileImageMap.keySet()) {
-			deselectTile(tile);
-		}
+		myTileSelection.clear();
 	}
-	
-	public void applyTileChanges(TileImplementation impl, String imagePath) {
-		Image newImage = null;
-		try {
-			newImage = new Image(getClass().getClassLoader().getResourceAsStream(imagePath));
-		} catch (Exception e) {
-			AlertBoxFactory.createObject("Must select an image.");
-			return;
+
+	@Override
+	public void setAsDestination(boolean isDestination) {
+		boolean alertFlag = false;
+		for (TileData tile : myTileSelection) {
+			if (isDestination && tile.getImplementation().equals(TileImplementation.Scenery))
+				alertFlag = true;
+			tile.setDestination(isDestination);
 		}
+		if (alertFlag)
+			AlertBoxFactory.createObject("Can only set Path tiles as destinations.");
+	}
+
+	@Override
+	public void setImplementation(TileImplementation impl) {
 		for (TileData tile : myTileSelection) {
 			tile.setImplementation(impl);
-			tile.setImagePath(imagePath);
-			myTileImageMap.get(tile).getImageView().setImage(newImage);
 		}
-		clearAllTiles(); // clear tile selection after having applied the changes.
 	}
-	
-	public void markDestination() {
-		
+
+	@Override
+	public void setImagePath(String imagePath) {
+		for (TileData tile : myTileSelection) {
+			tile.setImagePath(imagePath);
+			myTileIconMap.get(tile).setImage(new Image(ResourceManager.getResource(this, imagePath)));
+		}
 	}
-	
-	public void unmarkDestination() {
-		
-	}
-	
-	public GridPane getMapGrid() {
+
+	public GridPane getContent() {
 		return myMapGrid;
 	}
 
