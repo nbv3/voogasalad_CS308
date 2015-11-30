@@ -14,6 +14,7 @@ import javafx.geometry.Insets;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.effect.Glow;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.TilePane;
 
 public abstract class AbstractIconPane {
@@ -24,18 +25,21 @@ public abstract class AbstractIconPane {
 
 	private final ObjectProperty<AbstractIcon> mySelectedIcon = new SimpleObjectProperty<AbstractIcon>();
 	private final double GLOW_PERCENTAGE = 0.75;
-	private final double INSET_VALUE = 3;
+	private final double INSET_VALUE = 6;
+	private final int NUM_COLS = 4;
 
 	public AbstractIconPane() {
 		mySelectedIcon.addListener((o, s1, s2) -> setSelectedEffect(s1, s2));
 		myImagePaths = new HashMap<AbstractIcon, String>();
 		myScrollPane = new ScrollPane();
 		myScrollPane.setVbarPolicy(ScrollBarPolicy.AS_NEEDED);
-		myScrollPane.setHbarPolicy(ScrollBarPolicy.NEVER);
+		myScrollPane.setHbarPolicy(ScrollBarPolicy.AS_NEEDED);
 		myIconPane = new TilePane();
+		myIconPane.setPrefColumns(NUM_COLS);
 		myIconPane.setHgap(INSET_VALUE);
 		myIconPane.setVgap(INSET_VALUE);
 		myScrollPane.setContent(myIconPane);
+		myScrollPane.setPrefViewportWidth(Region.USE_COMPUTED_SIZE);
 		myScrollPane.setPadding(new Insets(INSET_VALUE));
 	}
 	
@@ -69,6 +73,8 @@ public abstract class AbstractIconPane {
 	}
 	
 	protected void addIconToPane(AbstractIcon icon, String imagePath) {
+		double size = ((getIconPane().getWidth() - 2.0*INSET_VALUE - (NUM_COLS-1.0)*2.0*INSET_VALUE)/(NUM_COLS));
+		icon.setSize(size);
 		myIconPane.getChildren().add(icon);
 		myImagePaths.put(icon, imagePath);
 	}
@@ -76,6 +82,10 @@ public abstract class AbstractIconPane {
 	protected void setSelectedEffect(AbstractIcon oldIcon, AbstractIcon newIcon) {
 		if (oldIcon == null) {
 			newIcon.setEffect(new Glow(GLOW_PERCENTAGE));
+			return;
+		}
+		if (newIcon == null) {
+			oldIcon.setEffect(null);
 			return;
 		}
 		oldIcon.setEffect(null);

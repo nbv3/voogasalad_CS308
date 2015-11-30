@@ -11,6 +11,8 @@ import java.util.Collection;
 import authoring.data.ObjectData;
 import authoring.icons.implementations.AbstractIcon;
 import authoring.icons.implementations.ObjectIcon;
+import authoring.level.ObjectIconTooltip;
+import javafx.scene.control.Tooltip;
 
 public class ObjectIconPane extends AbstractIconPane {
 
@@ -25,6 +27,7 @@ public class ObjectIconPane extends AbstractIconPane {
 		for (ObjectData data : dataList){
 			AbstractIcon icon = makeObjectIcon(data);
 			icon.setOnMouseClicked(e -> setSelectedIcon(icon));
+			Tooltip.install(icon, new ObjectIconTooltip(data));
 			addIconToPane(icon, data.getImagePath());
 		}
 		setSelectedIcon(null);

@@ -54,4 +54,14 @@ public abstract class AbstractXML implements IXML {
 			System.out.println("Writing to File failed");
 		}
 	}
+	
+	public void writeXMLToFile(String xml, File f) {
+		try {
+			PrintWriter out = new PrintWriter(f.getPath());
+			out.println(xml);
+			out.close();
+		} catch (FileNotFoundException e) {
+			System.out.println("Writing to File failed");
+		}
+	}
 }

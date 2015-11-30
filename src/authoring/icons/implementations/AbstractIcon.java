@@ -26,15 +26,19 @@ public abstract class AbstractIcon extends Pane {
 		this.setBorder(BORDER);
 	}
 	
-	private void setIconDimensions(double dimension){
-		this.setWidth(dimension);
-		this.setHeight(dimension);
+	private void setIconDimensions(double size){
 		myImageView.fitWidthProperty().bind(this.widthProperty().subtract(BORDER_WIDTH));
 		myImageView.fitHeightProperty().bind(this.heightProperty().subtract(BORDER_WIDTH));
+		this.setSize(size);
 	}
 	
 	public void setImage(Image image) {
 		myImageView.setImage(image);
+	}
+	
+	public void setSize(double size) {
+		this.setWidth(size);
+		this.setHeight(size);
 	}
 	
 }

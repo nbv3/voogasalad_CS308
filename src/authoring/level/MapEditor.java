@@ -41,17 +41,24 @@ public class MapEditor implements IMapEditor {
 	private GridPane myMapGrid;
 	
 	public MapEditor() throws Exception {
-		myTileIconMap = new HashMap<TileData, AbstractIcon>();
 		myTileSelection = buildSelectionSet();
-		inputMapSize();
-		initializeMapData();
-		initializeMapView();
+		myMapSize = inputMapSize();
+		myMapData = new MapData(myMapSize, DEFAULT_TILE_IMAGE);
+		myMapGrid = new GridPane();
+		initializeMapView(myMapData);
 	}
 
 	private static Effect createEffect() {
 		InnerShadow shadow = new InnerShadow();
 		shadow.setColor(Color.RED);
 		return shadow;
+	}
+	
+	public void loadMapData(MapData loadedMap) {
+		myTileSelection = buildSelectionSet();
+		myMapData = loadedMap;
+		myMapSize = loadedMap.getMapSize();
+		initializeMapView(loadedMap);
 	}
 	
 	private ObservableSet<TileData> buildSelectionSet() {
@@ -69,25 +76,22 @@ public class MapEditor implements IMapEditor {
 		return set;
 	}
 	
-	private void inputMapSize() throws Exception {
+	private int inputMapSize() throws Exception {
 		double size = SliderDialogFactory.createSliderDialog("Input Map Size", 10, 30, 1);
 		if (size == Double.MIN_VALUE) {
 			throw new Exception("Must select a map size before editing");
 		}
-		myMapSize = (int) size;
+		return (int) size;
 	}
 	
-	private void initializeMapData() {
-		myMapData = new MapData(myMapSize, DEFAULT_TILE_IMAGE);
-	}
-	
-	private void initializeMapView() {
-		myMapGrid = new GridPane();
+	private void initializeMapView(MapData mapData) {
+		myMapGrid.getChildren().clear();
+		myTileIconMap = new HashMap<TileData, AbstractIcon>();
 		myMapGrid.setPrefSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
 		myMapGrid.getStylesheets().add("/com/syntacticsugar/vooga/authoring/css/default.css");
 		for (int i=0; i<myMapSize; i++) {
 			for (int j=0; j<myMapSize; j++) {
-				TileData tile = myMapData.getTileData(i, j);
+				TileData tile = mapData.getTileData(i, j);
 				AbstractIcon icon = new ImageIcon(tile.getImagePath(), mapDisplayWidth/(1.0*myMapSize));
 				TileInfoTooltip tileInfo = new TileInfoTooltip(tile);
 				myTileIconMap.put(tile, icon);
@@ -147,9 +151,10 @@ public class MapEditor implements IMapEditor {
 	public void setAsDestination(boolean isDestination) {
 		boolean alertFlag = false;
 		for (TileData tile : myTileSelection) {
-			if (isDestination && tile.getImplementation().equals(TileImplementation.Scenery))
+			if (tile.getImplementation().equals(TileImplementation.Scenery))
 				alertFlag = true;
-			tile.setDestination(isDestination);
+			else 
+				tile.setDestination(isDestination);
 		}
 		if (alertFlag)
 			AlertBoxFactory.createObject("Can only set Path tiles as destinations.");
@@ -172,6 +177,10 @@ public class MapEditor implements IMapEditor {
 
 	public GridPane getContent() {
 		return myMapGrid;
+	}
+	
+	public MapData getMapData() {
+		return myMapData;
 	}
 
 }

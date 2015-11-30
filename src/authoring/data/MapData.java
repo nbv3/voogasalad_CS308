@@ -7,8 +7,10 @@ import java.util.Collections;
 public class MapData {
 
 	private TileData[][] myTileData;
+	private int myMapSize;
 	
 	public MapData(int numTiles, String tileImage) {
+		myMapSize = numTiles;
 		myTileData = new TileData[numTiles][numTiles];
 		initializeTileData(numTiles, tileImage);
 	}
@@ -35,6 +37,10 @@ public class MapData {
 			}
 		}
 		return Collections.unmodifiableCollection(tiles);
+	}
+	
+	public int getMapSize() {
+		return myMapSize;
 	}
 	
 }
