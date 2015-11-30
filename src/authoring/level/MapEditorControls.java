@@ -76,12 +76,16 @@ public class MapEditorControls {
 	}
 	
 	private void applyChanges(IMapEditor editor) {
-		editor.setImplementation(mySelectedType);
+		if (mySelectedType == null) {
+			AlertBoxFactory.createObject("Please select a tile type.");
+			return;
+		}
 		String imagePath = myIconPane.getSelectedImagePath();
 		if (imagePath == null) {
 			AlertBoxFactory.createObject("Please select an image.");
 			return;
 		}
+		editor.setImplementation(mySelectedType);
 		editor.setImagePath(imagePath);
 	}
 	
