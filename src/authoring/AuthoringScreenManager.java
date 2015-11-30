@@ -4,6 +4,7 @@ import com.syntacticsugar.vooga.menu.SceneManager;
 
 import authoring.level.LevelTabManager;
 import authoring.library.ObjectLibrary;
+import authoring.library.ObjectLibraryManager;
 import authoring.objectediting.ObjectEditor;
 import javafx.scene.Scene;
 import javafx.scene.control.Menu;
@@ -28,6 +29,7 @@ public class AuthoringScreenManager {
 	private Scene myScene;
 	private ObjectLibrary myObjectLibrary;
 	private ObjectEditor myObjectEditor;
+	private ObjectLibraryManager myObjectManager;
 	
 	// injected for returning to main menu
 	private SceneManager sceneManager;
@@ -40,8 +42,8 @@ public class AuthoringScreenManager {
 	}
 	
 	private void initObjectLibrary() {
-		myObjectLibrary = new ObjectLibrary(null);
-		
+//		myObjectLibrary = new ObjectLibrary(null);
+		myObjectManager = new ObjectLibraryManager(null);
 	}
 	
 	private void initObjectEditor(){
@@ -61,7 +63,8 @@ public class AuthoringScreenManager {
 		addGridConstraints();
 		
 		myWindowGrid.add(myLevelEditor.getTabPane(), 0, 0, 1, 3);
-		myWindowGrid.add(myObjectLibrary.getContent(), 1, 0, 1 ,1);
+//		myWindowGrid.add(myObjectLibrary.getContent(), 1, 0, 1 ,1);
+		myWindowGrid.add(myObjectManager.getTabPane(), 1, 0, 1 ,1);
 		myWindowGrid.add(myObjectEditor.getView(), 1, 1, 1, 1);
 		myWindow.setCenter(myWindowGrid);
 		
