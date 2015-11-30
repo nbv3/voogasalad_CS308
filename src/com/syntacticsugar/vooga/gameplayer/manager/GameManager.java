@@ -37,7 +37,7 @@ public class GameManager implements IGameManager {
 	private IGameUniverse currentLevel;
 	private List<IGameUniverse> myLevels;
 	private List<IGameCondition> myConditions;
-	// private GameInformation myInformation;
+	private GameInformation myInformation;
 	private ViewController myViewController;
 	private Timeline myGameTimeline;
 	
@@ -98,7 +98,6 @@ public class GameManager implements IGameManager {
 	public void pause() {
 		// call myManager.initEnginePauseMenu() which closes the scene and opens the menu scene
 		myManager.launchEnginePauseMenu();
-		
 		// TODO pause update logic
 	}
 

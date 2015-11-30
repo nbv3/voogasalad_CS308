@@ -1,14 +1,18 @@
 package com.syntacticsugar.vooga.gameplayer.utilities;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 
-import javafx.collections.ObservableList;
-
 public class GameInformation implements IGameInformation {
 
-	private ObservableList<IGameStat> myStats;
+	private List<IGameStat> myStats;
+	
+	public GameInformation() {
+		myStats = new ArrayList<IGameStat>();
+	}
 
 	@Override
 	public void updateGameInformation(Collection<IGameObject> universe) {
@@ -23,9 +27,7 @@ public class GameInformation implements IGameInformation {
 	@Override
 	public void getObservableStats() {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
-	
 
 }

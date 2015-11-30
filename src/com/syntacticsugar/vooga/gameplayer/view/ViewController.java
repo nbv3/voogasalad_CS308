@@ -13,6 +13,9 @@ public class ViewController {
 
 	private Map<IViewableObject, ObjectView> myViewMap;
 	private GameView myGameView;
+//	private TowerView myTowerView;
+//	private StatView myStatView;
+//	private ControlView myControlView;
 
 	public ViewController(double size) {
 		myViewMap = new HashMap<IViewableObject, ObjectView>();
