@@ -1,5 +1,6 @@
 package authoring.level;
 
+import authoring.data.MapData;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.layout.ColumnConstraints;
@@ -21,6 +22,10 @@ public class LevelEditor {
 		// When you are ready to add the bottom Node on (for the Spawn Queue),
 		// add it into the myLevelTab and the grid lines will automatically appear.
 		
+	}
+	
+	public void loadMap(MapData loadedMap) {
+		myMapEditor.loadMapData(loadedMap);
 	}
 	
 	public Node getContent() {
@@ -55,6 +60,10 @@ public class LevelEditor {
 		RowConstraints r2 = new RowConstraints();
 		r2.setPercentHeight(25);
 		grid.getRowConstraints().addAll(r0, r1, r2);
+	}
+
+	public MapData getMapData() {
+		return myMapEditor.getMapData();
 	}
 	
 }

@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 
+import authoring.data.MapData;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 
@@ -36,6 +37,10 @@ public class LevelTabManager {
 		updateLevelNumbers();
 	}
 	
+	public void loadMap(MapData loadedMap) {
+		myLevelMap.get(myTabPane.getSelectionModel().getSelectedItem()).loadMap(loadedMap);
+	}
+	
 	public TabPane getTabPane() {
 		return myTabPane;
 	}
@@ -51,6 +56,10 @@ public class LevelTabManager {
 			t.setText(String.format("%s %s", "Level", i));
 			i++;
 		}
+	}
+	
+	public MapData getMapData() {
+		return myLevelMap.get(myTabPane.getSelectionModel().getSelectedItem()).getMapData();
 	}
 	
 }
