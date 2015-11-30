@@ -2,8 +2,6 @@ package authoring.objectediting;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
-
 import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
 
@@ -14,7 +12,6 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 
 public class EditingViewer {
 

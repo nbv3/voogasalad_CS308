@@ -51,7 +51,7 @@ public class ObjectEditor {
 	
 	private void makeEditors(){
 		myAttributeViewer = new AttributeViewer(myData);
-		myCollisionViewer = new CollisionViewer();
+		myCollisionViewer = new CollisionViewer(myData);
 	}
 	
 	public Node getView(){

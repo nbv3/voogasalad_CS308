@@ -86,7 +86,6 @@ public class AttributeMakerWizard {
 
 	private void addAttributeToList() {
 		MsgInputBoxFactory msgBox = new MsgInputBoxFactory(ResourceManager.getString(String.format("%s%s", "double_", selectedAttribute)));
-		//System.out.println(msgBox.getValue());
 		if (msgBox.getValue() != 0) {
 			String className = ResourceManager.getString(String.format("%s_%s", selectedAttribute, "name"));
 			try {

@@ -1,11 +1,13 @@
 package authoring.objectediting;
 
 import java.util.ArrayList;
+
 import authoring.data.ObjectData;
 
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
 import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
+
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 
@@ -25,7 +27,9 @@ public class AttributeViewer extends EditingViewer {
 	public void addAttributeToList(IAttribute attribute) {
 		myData.getAttributes().add(attribute);
 		addElementToList(makeListElement(attribute));
-		System.out.println("The attribute number is " + myData.getAttributes().size());
+		
+		System.out.println("*****add attribute******");
+		System.out.println(myData.getType());
 		for (IAttribute i: myData.getAttributes()) {
 			System.out.println(i.getClass().getSimpleName());
 		}
@@ -35,7 +39,7 @@ public class AttributeViewer extends EditingViewer {
 		String attributeName = ResourceManager.getString(attribute.getClass().getSimpleName());
 		HBox element = new HBox();
 		element.getChildren().add(new Text(attributeName));
-		element.getChildren().add(new Text(ResourceManager.getString("doubleclick_edit")));
+		//element.getChildren().add(new Text(ResourceManager.getString("doubleclick_edit")));
 		return element;
 	}
 	
@@ -51,7 +55,12 @@ public class AttributeViewer extends EditingViewer {
 		else {
 			AlertBoxFactory.createObject("Attribute list empty, nothing to remove");
 		}
-		System.out.println(myData.getAttributes().size());
+		
+		System.out.println("*****remove attribute******");
+		System.out.println(myData.getType());
+		for (IAttribute i: myData.getAttributes()) {
+			System.out.println(i.getClass().getSimpleName());
+		}
 	}
 
 	private void removeAttribute(int selectedIdx) {
