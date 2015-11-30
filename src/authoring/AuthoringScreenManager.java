@@ -104,8 +104,12 @@ public class AuthoringScreenManager {
 		MenuItem loadMap = new MenuItem();
 		loadMap.setText("Load map");
 		loadMap.setOnAction(e -> loadMap());
+		
+		MenuItem saveMap = new MenuItem();
+		saveMap.setText("Save map");
+		saveMap.setOnAction(e -> saveMap());
 
-		file.getItems().addAll(newLevel, loadMap);
+		file.getItems().addAll(newLevel, loadMap, saveMap);
 
 		// menu menu
 		//		Menu menu = new Menu();
@@ -131,6 +135,18 @@ public class AuthoringScreenManager {
 			MapDataXML xml = new MapDataXML();
 			MapData toload = xml.loadFromFile(selectedFile);
 			myLevelEditor.loadMap(toload);
+		}
+	}
+	
+	private void saveMap() {
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setTitle("Save Resource File");
+		File selectedFile = fileChooser.showSaveDialog(new Stage());
+		if (selectedFile != null) {
+			MapDataXML xml = new MapDataXML();
+			MapData toSave = myLevelEditor.getMapData();
+			String xmlString = xml.generateXML(toSave);
+			xml.writeXMLToFile(xmlString, selectedFile);
 		}
 	}
 	

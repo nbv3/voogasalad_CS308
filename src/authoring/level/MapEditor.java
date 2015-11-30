@@ -44,6 +44,7 @@ public class MapEditor implements IMapEditor {
 		myTileSelection = buildSelectionSet();
 		myMapSize = inputMapSize();
 		myMapData = new MapData(myMapSize, DEFAULT_TILE_IMAGE);
+		myMapGrid = new GridPane();
 		initializeMapView(myMapData);
 	}
 
@@ -84,7 +85,7 @@ public class MapEditor implements IMapEditor {
 	}
 	
 	private void initializeMapView(MapData mapData) {
-		myMapGrid = new GridPane();
+		myMapGrid.getChildren().clear();
 		myTileIconMap = new HashMap<TileData, AbstractIcon>();
 		myMapGrid.setPrefSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
 		myMapGrid.getStylesheets().add("/com/syntacticsugar/vooga/authoring/css/default.css");
@@ -175,6 +176,10 @@ public class MapEditor implements IMapEditor {
 
 	public GridPane getContent() {
 		return myMapGrid;
+	}
+	
+	public MapData getMapData() {
+		return myMapData;
 	}
 
 }

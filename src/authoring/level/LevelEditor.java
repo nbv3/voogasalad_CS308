@@ -61,5 +61,9 @@ public class LevelEditor {
 		r2.setPercentHeight(25);
 		grid.getRowConstraints().addAll(r0, r1, r2);
 	}
+
+	public MapData getMapData() {
+		return myMapEditor.getMapData();
+	}
 	
 }

@@ -58,4 +58,8 @@ public class LevelTabManager {
 		}
 	}
 	
+	public MapData getMapData() {
+		return myLevelMap.get(myTabPane.getSelectionModel().getSelectedItem()).getMapData();
+	}
+	
 }
