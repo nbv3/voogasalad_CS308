@@ -62,8 +62,7 @@ public class AuthoringScreenManager {
 		myWindowGrid.setGridLinesVisible(true);
 		addGridConstraints();
 		
-		myWindowGrid.add(myLevelEditor.getTabPane(), 0, 0, 1, 3);
-//		myWindowGrid.add(myObjectLibrary.getContent(), 1, 0, 1 ,1);
+		myWindowGrid.add(myLevelEditor.getTabPane(), 0, 0, 1, 2);
 		myWindowGrid.add(myObjectManager.getTabPane(), 1, 0, 1 ,1);
 		myWindowGrid.add(myObjectEditor.getView(), 1, 1, 1, 1);
 		myWindow.setCenter(myWindowGrid);

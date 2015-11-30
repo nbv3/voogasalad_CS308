@@ -21,12 +21,12 @@ public class ParameterFactory {
 		if(constructors.length>1) throw new IllegalArgumentException("This attribute has more than 1 constructor. Please check.");
 		Class[] paramTypes = constructors[0].getParameterTypes();
 		for(Class<?> classType:paramTypes){
-		
+			createNode(classType, "hi");
 		}
 		return null;
 	}
 	
-	public Node createNode(double val, String attributeName){
+	public Node createNode(Class<?> cs, String attributeName){
 		String label = "double"+"_"+attributeName;
 		return null;
 	}

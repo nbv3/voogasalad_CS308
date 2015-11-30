@@ -1,5 +1,9 @@
 package authoring.data;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+
 public class MapData {
 
 	private TileData[][] myTileData;
@@ -21,6 +25,16 @@ public class MapData {
 		if (i<myTileData.length && j<myTileData.length) 
 			return myTileData[i][j];
 		throw new IndexOutOfBoundsException("Specified tile is out of map bounds.");
+	}
+	
+	public Collection<TileData> getTiles() {
+		Collection<TileData> tiles = new ArrayList<>();
+		for (int i=0; i<myTileData.length; i++) {
+			for (int j=0; j<myTileData[0].length; j++) {
+				tiles.add(getTileData(i, j));
+			}
+		}
+		return Collections.unmodifiableCollection(tiles);
 	}
 	
 }
