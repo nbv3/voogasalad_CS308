@@ -151,9 +151,10 @@ public class MapEditor implements IMapEditor {
 	public void setAsDestination(boolean isDestination) {
 		boolean alertFlag = false;
 		for (TileData tile : myTileSelection) {
-			if (isDestination && tile.getImplementation().equals(TileImplementation.Scenery))
+			if (tile.getImplementation().equals(TileImplementation.Scenery))
 				alertFlag = true;
-			tile.setDestination(isDestination);
+			else 
+				tile.setDestination(isDestination);
 		}
 		if (alertFlag)
 			AlertBoxFactory.createObject("Can only set Path tiles as destinations.");

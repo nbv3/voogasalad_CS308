@@ -4,30 +4,26 @@ import com.syntacticsugar.vooga.util.ResourceManager;
 
 import authoring.data.TileData;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
-import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 
-public class TileInfoTooltip extends Tooltip {
+public class TileInfoTooltip extends CustomTooltip {
 
 	private TileData myTileData;
-	private GridPane myInfoGrid; 
 	private Label myType;
 	private Label myDestinationMarker;
 	private ImageView currentImageView;
 	
 	public TileInfoTooltip(TileData tileData) {
-		myTileData = tileData;
-		myInfoGrid = buildInfoGrid();
-		setGraphic(myInfoGrid);
-		setOnShowing(e -> updateTileInfo());
-		updateTileInfo();
+		super();
 	}
 
-	private GridPane buildInfoGrid() {
+	@Override
+	protected Node buildContentNode() {
 		GridPane infoGrid = new GridPane();
 		myType = new Label();
 		myType.setFont(new Font(6));
@@ -44,7 +40,8 @@ public class TileInfoTooltip extends Tooltip {
 		return infoGrid;
 	}	
 	
-	private void updateTileInfo() {
+	@Override
+	protected void updateContent() {
 		currentImageView.setImage(new Image(ResourceManager.getResource(this, myTileData.getImagePath())));
 		myType.setText(myTileData.getImplementation().toString());
 		myDestinationMarker.setText(String.format("%s %s", "Destination?", myTileData.isDestination().toString().toUpperCase()));

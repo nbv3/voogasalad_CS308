@@ -20,6 +20,12 @@ import javafx.scene.layout.VBox;
 public class MapEditorControls {
 
 	private VBox myContainer;
+	private Button selectAll;
+	private Button clearAll;
+	private Button makeDest;
+	private Button removeDest;
+	private Button addNewImage;
+	private Button applyChanges;
 	private TileImplementation mySelectedType;
 	private ImageIconPane myIconPane;
 	
@@ -28,31 +34,31 @@ public class MapEditorControls {
 		myIconPane = new ImageIconPane();
 		ComboBox<TileImplementation> typeChooser = buildImplementationChooser();
 
-		Button selectAll = 
+		selectAll = 
 				GUIFactory.buildButton("Select All", 
 						e -> mapEditor.selectAllTiles(),
 						null, null);
-		Button clearAll = 
+		clearAll = 
 				GUIFactory.buildButton("Clear All", 
 						e -> mapEditor.clearAllTiles(),
 						null, null);
 
-		Button makeDest = 
+		makeDest = 
 				GUIFactory.buildButton("Make Destination", 
 						e -> mapEditor.setAsDestination(true),
 						Double.MAX_VALUE, null);
 		
-		Button removeDest = 
+		removeDest = 
 				GUIFactory.buildButton("Remove Destination", 
 						e -> mapEditor.setAsDestination(false),
 						Double.MAX_VALUE, null);
 		
-		Button addNewImage = 
+		addNewImage = 
 				GUIFactory.buildButton("Add New Image", 
 						e -> selectNewImage(),
 						null, null);
 
-		Button applyChanges = 
+		applyChanges = 
 				GUIFactory.buildButton("Apply", 
 						e -> applyChanges(mapEditor), 
 						null, null);

@@ -6,4 +6,8 @@ public class ImageIcon extends AbstractIcon {
 		super(imagePath, dimension);
 	}
 	
+	public ImageIcon(String imagePath) {
+		super(imagePath, 0);
+	}
+	
 }
