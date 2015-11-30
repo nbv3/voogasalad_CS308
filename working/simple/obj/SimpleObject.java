@@ -5,12 +5,13 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import javafx.geometry.Point2D;
 import simple.attribute.ISimpleAttribute;
 import simple.event.ISimpleEvent;
 import simple.universe.ISimpleUniverse;
 import simple.view.BoundingBox;
 
-public class SimpleObject implements ISimpleObject {
+public class SimpleObject extends AbstractViewableObject implements ISimpleObject {
 
 	private SimpleObjectType myType;
 	private Collection<ISimpleAttribute> myAttributes;
@@ -19,14 +20,15 @@ public class SimpleObject implements ISimpleObject {
 	private BoundingBox myBoundingBox;
 	private int myID;
 
-	public SimpleObject(SimpleObjectType type) {
+	public SimpleObject(SimpleObjectType type, Point2D point, double width, double height, String path, int id) {
+		super(point, width, height, path, id);
 		myType = type;
 		myAttributes = new ArrayList<ISimpleAttribute>();
 		myCollisionEventMap = new HashMap<SimpleObjectType, Collection<ISimpleEvent>>();
 		
 		myBoundingBox = new BoundingBox();
 	}
-	
+
 	@Override
 	public void updateSelf(ISimpleUniverse universe) {
 		for (ISimpleAttribute attribute : myAttributes) {
@@ -40,6 +42,17 @@ public class SimpleObject implements ISimpleObject {
 	}
 
 	@Override
+	public void addCollisionBinding(SimpleObjectType type, ISimpleEvent event) {
+		if (myCollisionEventMap.containsKey(type)) {
+			getEventsFromCollision(type).add(event);
+		} else {
+			Collection<ISimpleEvent> onCollisionEvents = new ArrayList<ISimpleEvent>();
+			onCollisionEvents.add(event);
+			myCollisionEventMap.put(type, onCollisionEvents);
+		}
+	}
+
+	@Override
 	public SimpleObjectType getType() {
 		return myType;
 	}
@@ -47,6 +60,11 @@ public class SimpleObject implements ISimpleObject {
 	@Override
 	public Collection<ISimpleAttribute> getAttributes() {
 		return myAttributes;
+	}
+
+	@Override
+	public void addAttribute(ISimpleAttribute attribute) {
+		myAttributes.add(attribute);
 	}
 
 }

@@ -1,28 +1,34 @@
 package simple.conditions;
 
+import java.util.Collection;
+
 import simple.obj.ISimpleObject;
 import simple.obj.SimpleObjectType;
 
 public class PlayerDeathCondition implements ISimpleCondition {
 
-	private SimpleConditions type = SimpleConditions.LOSING;
+	private SimpleConditionType type = SimpleConditionType.LOSING;
+	private int playersAlive;
 
 	@Override
-	public boolean isConditionMet(ISimpleObject object) {
-		return object.getType().equals(SimpleObjectType.PLAYER);
+	public boolean isConditionMet() {
+		return playersAlive <= 0;
 	}
 
 	@Override
-	public boolean checkObject(ISimpleObject object) {
-		if (isConditionMet(object)) {
-			return true;
-		} else
-			return false;
-
+	public boolean checkCondition(Collection<ISimpleObject> universe) {
+		playersAlive = 0;
+		for (ISimpleObject object : universe) {
+			if (object.getType().equals(SimpleObjectType.PLAYER)) {
+				playersAlive++;
+				break;
+			}
+		}
+		return isConditionMet();
 	}
 
 	@Override
-	public SimpleConditions returnType() {
+	public SimpleConditionType returnType() {
 		return type;
 	}
 

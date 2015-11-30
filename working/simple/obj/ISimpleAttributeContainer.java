@@ -13,4 +13,9 @@ public interface ISimpleAttributeContainer {
 	 */
 	public Collection<ISimpleAttribute> getAttributes();
 	
+	/**
+	 * Adds an attribute to this SimpleAttributeContainer.
+	 */
+	public void addAttribute(ISimpleAttribute attribute);
+	
 }

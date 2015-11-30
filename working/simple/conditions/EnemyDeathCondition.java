@@ -1,38 +1,34 @@
 package simple.conditions;
 
+import java.util.Collection;
+
 import simple.obj.ISimpleObject;
 import simple.obj.SimpleObjectType;
 
 public class EnemyDeathCondition implements ISimpleCondition {
 
-	private final int enemySize;
-	private int enemiesDead;
-	private SimpleConditions type = SimpleConditions.WINNING;
+	private int enemiesAlive;
+	private static final SimpleConditionType type = SimpleConditionType.WINNING;
 
-	public EnemyDeathCondition(int size) {
-		enemySize = size;
-		enemiesDead = 0;
+
+	@Override
+	public boolean isConditionMet() {
+		return enemiesAlive <= 0;
 	}
 
 	@Override
-	public boolean isConditionMet(ISimpleObject object) {
-		if(object.getType().equals(SimpleObjectType.ENEMY)){
-			enemiesDead++;
+	public boolean checkCondition(Collection<ISimpleObject> universe) {
+		enemiesAlive = 0;
+		for(ISimpleObject object: universe){
+			if(object.getType().equals(SimpleObjectType.ENEMY)){
+				enemiesAlive++;
+			}
 		}
-		return enemiesDead >= enemySize;
+		return isConditionMet();
 	}
 
 	@Override
-	public boolean checkObject(ISimpleObject object) {
-		if(isConditionMet(object)){
-			return true;
-		}
-		else
-			return false;
-	}
-
-	@Override
-	public SimpleConditions returnType() {
+	public SimpleConditionType returnType() {
 		return type;
 	}
 

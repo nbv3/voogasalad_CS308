@@ -9,7 +9,6 @@ public class SimpleStateManager {
 		for (ISimpleObject object : universe.getGameObjects()) {
 			object.updateSelf(universe);
 		}
-
 	}
 
 }

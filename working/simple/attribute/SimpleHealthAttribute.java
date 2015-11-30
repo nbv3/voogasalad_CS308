@@ -1,11 +1,11 @@
 package simple.attribute;
 
 import simple.event.ISimpleEvent;
-import simple.event.SimpleEvents;
+import simple.event.SimpleEventType;
 import simple.event.SimpleHealthChangeEvent;
 import simple.obj.ISimpleObject;
+import simple.universe.ISimpleKiller;
 import simple.universe.ISimpleUniverse;
-import simple.universe.fxns.SimpleObjectRemover;
 
 public class SimpleHealthAttribute extends SimpleAbstractAttribute {
 
@@ -33,7 +33,7 @@ public class SimpleHealthAttribute extends SimpleAbstractAttribute {
 	
 	@Override
 	public void updateSelf(ISimpleUniverse universe) {
-		checkForDeath(new SimpleObjectRemover(universe));
+		checkForDeath(universe);
 	}
 	
 	/**
@@ -41,12 +41,14 @@ public class SimpleHealthAttribute extends SimpleAbstractAttribute {
 	 * @param healthChange
 	 */
 	public void changeHealth(double healthChange) {
+		System.out.println("OLD HEALTH = " + myHealth);
 		this.myHealth += healthChange;
+		System.out.println("NEW HEALTH = " + myHealth);
 	}
 	
-	private void checkForDeath(SimpleObjectRemover remover) {
+	private void checkForDeath(ISimpleKiller killer) {
 		if (isDead()) {
-			remover.removeFromEnvironment(getParent());
+			killer.addToGraveYard(getParent());
 		}
 	}
 	
@@ -65,7 +67,7 @@ public class SimpleHealthAttribute extends SimpleAbstractAttribute {
 //		} catch (Exception e) { }
 		
 //********************OPTION 2**************************
-		if (event.getEventType().equals(SimpleEvents.HealthChange)) {
+		if (event.getEventType().equals(SimpleEventType.HealthChange)) {
 			SimpleHealthChangeEvent healthEvent = (SimpleHealthChangeEvent) event;
 			changeHealth(healthEvent.getDeltaHealth());
 			return;
