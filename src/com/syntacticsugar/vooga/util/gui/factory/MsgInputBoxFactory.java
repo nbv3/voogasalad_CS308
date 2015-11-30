@@ -20,9 +20,9 @@ public class MsgInputBoxFactory {
 	public MsgInputBoxFactory(String str){
 	    Stage dialogStage = new Stage();
 	    BorderPane brd_pan = new BorderPane();
-	    brd_pan.getStyleClass().add("pane");
+	    //brd_pan.getStyleClass().add("pane");
 	    Scene scene = new Scene(brd_pan,300,150);
-	    scene.getStylesheets().add("/com/syntacticsugar/vooga/authoring/css/default.css");
+	    //scene.getStylesheets().add("/com/syntacticsugar/vooga/authoring/css/default.css");
 	    dialogStage.setScene(scene);
 	    dialogStage.setTitle("Message Box");
 	    dialogStage.initModality(Modality.APPLICATION_MODAL);
@@ -50,7 +50,7 @@ public class MsgInputBoxFactory {
 	    		dialogStage.close();
 	    	}
 	    	catch (NumberFormatException ex) {
-	    		new AlertBoxFactory().createObject("Bad input, please input an interger number");
+	    		AlertBoxFactory.createObject("Bad input, please input an interger number");
 	    		textField.clear();
 	    	}
 	    });

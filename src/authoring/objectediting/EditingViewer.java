@@ -39,7 +39,8 @@ public class EditingViewer {
 	
 	private AnchorPane makeTitleStrip(String title){
 		Collection<Node> buttons = new ArrayList<Node>(); 
-		buttons.add(makeAddButton()); buttons.add(makeRemoveButton());
+		buttons.add(makeAddButton()); 
+		buttons.add(makeRemoveButton());
 		AnchorPane titleStrip = (AnchorPane) GUIFactory.buildTitleNodeWithButtons(title, buttons);
 		titleStrip.setPadding(myPadding);
 		return titleStrip;

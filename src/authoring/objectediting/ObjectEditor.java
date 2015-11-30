@@ -1,5 +1,15 @@
 package authoring.objectediting;
 
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+
+import authoring.data.ObjectData;
+
+import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
+import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
+import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
+
 import javafx.scene.Node;
 
 /* 
@@ -20,6 +30,8 @@ public class ObjectEditor {
 	private Button myFileSelectButton;
 	private AttributeViewer myAttributeViewer;
 	private CollisionViewer myCollisionViewer;
+	private ObjectData myData;
+	//private Map<GameObjectType,Collection<IGameEvent>> myCollisions;
 	//private ListView myAttributes;
 	//private ListView myColliders;
 	//private ListView myCollisionEvents;
@@ -27,6 +39,8 @@ public class ObjectEditor {
 	private final String SELECT_FILE = "Select File";
 
 	public ObjectEditor(){
+		myData = new ObjectData();
+		myData.setType(GameObjectType.PLAYER);
 		myView = new VBox();
 		makeEditors();
 		myView.getChildren().addAll(myAttributeViewer.getView(),
@@ -36,7 +50,7 @@ public class ObjectEditor {
 	}
 	
 	private void makeEditors(){
-		myAttributeViewer = new AttributeViewer();
+		myAttributeViewer = new AttributeViewer(myData);
 		myCollisionViewer = new CollisionViewer();
 	}
 	

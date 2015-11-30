@@ -1,33 +1,34 @@
 package authoring.objectediting;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Modifier;
 import java.util.ArrayList;
-import java.util.List;
+import authoring.data.ObjectData;
+
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
-import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
-import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.util.ResourceManager;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.ObservableList;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TableView;
+import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 public class AttributeViewer extends EditingViewer {
 
-	public AttributeViewer() {
+	private ObjectData myData;
+	
+	public AttributeViewer(ObjectData data) {
 		super(ResourceManager.getString("attributes_added"));
+		myData = data;
+		myAddButton.setOnAction(e -> {
+			new AttributeMakerWizard(this,myData);
+		});
+		myRemoveButton.setOnAction(e -> removeAttributeFromList());
 	}
 
 	public void addAttributeToList(IAttribute attribute) {
+		myData.getAttributes().add(attribute);
 		addElementToList(makeListElement(attribute));
+		System.out.println("The attribute number is " + myData.getAttributes().size());
+		for (IAttribute i: myData.getAttributes()) {
+			System.out.println(i.getClass().getSimpleName());
+		}
 	}
 	
 	protected HBox makeListElement(IAttribute attribute){
@@ -36,6 +37,26 @@ public class AttributeViewer extends EditingViewer {
 		element.getChildren().add(new Text(attributeName));
 		element.getChildren().add(new Text(ResourceManager.getString("doubleclick_edit")));
 		return element;
+	}
+	
+	public void removeAttributeFromList() {
+		if (!myData.getAttributes().isEmpty()) {
+			int selectedIdx = myListView.getSelectionModel().getSelectedIndex();
+			if (selectedIdx == -1) {
+				AlertBoxFactory.createObject("Please first select an attribute from the list, then double click to remove");
+				return;
+			}
+			removeAttribute(selectedIdx);
+		}
+		else {
+			AlertBoxFactory.createObject("Attribute list empty, nothing to remove");
+		}
+		System.out.println(myData.getAttributes().size());
+	}
+
+	private void removeAttribute(int selectedIdx) {
+		((ArrayList<IAttribute>) myData.getAttributes()).remove(selectedIdx);
+		myListView.getItems().remove(selectedIdx);
 	}
 	
 	/*
