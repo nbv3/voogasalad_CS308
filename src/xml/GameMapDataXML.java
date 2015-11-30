@@ -28,6 +28,7 @@ public class GameMapDataXML extends AbstractXML {
 			return gmd;
 		} catch (Exception e) {
 			System.out.println("GameMapData XML Read Error");
+			return null;
 		}
 	}
 

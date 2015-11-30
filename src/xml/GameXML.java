@@ -12,7 +12,7 @@ public class GameXML extends AbstractXML {
 			String xml = xstream.toXML(g);
 			return xml;
 		} catch (Exception e) {
-			System.out.println("GameMapData XML Write Error");
+			System.out.println("Game XML Write Error");
 			return "";
 		}
 	}
@@ -24,7 +24,8 @@ public class GameXML extends AbstractXML {
 			Game g = (Game) xstream.fromXML(xml);
 			return g;
 		} catch (Exception e) {
-			System.out.println("GameMapData XML Read Error");
+			System.out.println("Game XML Read Error");
+			return null;
 		}
 	}
 
