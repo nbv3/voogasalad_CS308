@@ -20,6 +20,7 @@ public class TileInfoTooltip extends CustomTooltip {
 	
 	public TileInfoTooltip(TileData tileData) {
 		super();
+		myTileData = tileData;
 	}
 
 	@Override

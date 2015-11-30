@@ -1,7 +1,6 @@
-package com.syntacticsugar.vooga.gameplayer.attribute;
+package com.syntacticsugar.vooga.gameplayer.attribute.movement;
 
 import com.syntacticsugar.vooga.gameplayer.attribute.control.actions.movement.algs.AbstractMovementType;
-import com.syntacticsugar.vooga.gameplayer.attribute.movement.AbstractMovementAttribute;
 import com.syntacticsugar.vooga.gameplayer.objects.IBoundingBox;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 

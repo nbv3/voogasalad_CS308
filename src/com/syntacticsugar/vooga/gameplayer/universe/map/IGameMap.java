@@ -23,4 +23,6 @@ public interface IGameMap {
 	public boolean[][] isPlaceable();
 
 	public IGameTile getTile(Point2D p);
+	
+	public Point2D getMapIndexFromCoordinate(Point2D coordinate);
 }

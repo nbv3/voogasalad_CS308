@@ -66,8 +66,20 @@ public class MovementControlAttribute extends AbstractMovementAttribute implemen
 	public void updateSelf(IGameUniverse universe) {
 		updateKeyInput(universe);
 		processKeyInput();
+//		Point2D point = universe.getMap().getMapIndexFromCoordinate(getParent().getBoundingBox().getPoint());
+//		checkMapBounds(point, universe.getMap().isWalkable());
+//		System.out.println(point);
 		move();
 		resetVelocity();
+	}
+	
+	private void checkMapBounds(Point2D mapIndex, boolean[][] isWalkable) {
+		int r = (int) mapIndex.getX();
+		int c = (int) mapIndex.getY();
+		System.out.println(mapIndex);
+		if (!isWalkable[r][c]) {
+			resetVelocity();
+		}
 	}
 	
 	@Override

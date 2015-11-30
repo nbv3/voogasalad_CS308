@@ -2,16 +2,12 @@ package xml;
 
 import java.io.File;
 
-import com.syntacticsugar.vooga.gameplayer.manager.IGameManager;
-import com.syntacticsugar.vooga.gameplayer.universe.map.GameMap;
-import com.syntacticsugar.vooga.util.xml.LoadingException;
-
 import authoring.data.MapData;
 
-public class MapDataXML extends AbstractXML {
+public class MapDataXML extends AbstractXML<MapData> {
 
 	@Override
-	public String generateXML(Object o) {
+	public String generateXML(MapData o) {
 		MapData gmd = (MapData) o;
 		try {
 			String xml = xstream.toXML(gmd);

@@ -4,17 +4,29 @@ import javafx.geometry.Point2D;
 
 import com.syntacticsugar.vooga.gameplayer.objects.AbstractViewableObject;
 import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.implementations.AbstractTile;
+import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.implementations.PathTile;
 import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.implementations.SceneryTile;
+
+import authoring.data.TileData;
+import authoring.data.TileImplementation;
 
 public class DecoratorTile extends AbstractViewableObject implements IGameTile {
 
 	private AbstractTile myImplementation;
-	public boolean isDestination;
+	public boolean myDestination;
 	
-	public DecoratorTile(Point2D point, double width, double height, String path) {
+	public DecoratorTile(TileData tileData, Point2D point, double width, double height) {
+		super(point, width, height, tileData.getImagePath());
+		this.myImplementation = tileData.getImplementation().equals(TileImplementation.Path) ? 
+				new PathTile(point) : new SceneryTile(point);
+		this.myDestination = tileData.isDestination();
+	}
+	
+	public DecoratorTile(Point2D point, TileImplementation type, double width, double height, String path) {
 		super(point, width, height, path);
-		this.myImplementation = new SceneryTile(point);
-		this.isDestination = false;
+		this.myImplementation = type.equals(TileImplementation.Path) ? 
+				new PathTile(point) : new SceneryTile(point);
+		this.myDestination = false;
 	}
 	
 	public AbstractTile getImplementation() {
@@ -26,7 +38,7 @@ public class DecoratorTile extends AbstractViewableObject implements IGameTile {
 	}
 	
 	public void setDestination(boolean isDestination) {
-		this.isDestination = isDestination;
+		this.myDestination = isDestination;
 	}
 	
 	@Override
@@ -46,7 +58,7 @@ public class DecoratorTile extends AbstractViewableObject implements IGameTile {
 
 	@Override
 	public boolean isDestination() {
-		return this.myImplementation.isDestination() && this.isDestination;
+		return this.myImplementation.isDestination() && this.myDestination;
 	}
 	
 }

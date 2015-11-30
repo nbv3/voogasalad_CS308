@@ -1,5 +1,6 @@
 package com.syntacticsugar.vooga.gameplayer.universe;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -11,9 +12,11 @@ import com.syntacticsugar.vooga.gameplayer.universe.map.IGameMap;
 import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.DecoratorTile;
 import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.IGameTile;
 
+import authoring.data.MapData;
 import javafx.geometry.Point2D;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
+import xml.MapDataXML;
 
 public class GameUniverse implements IGameUniverse {
 
@@ -28,7 +31,9 @@ public class GameUniverse implements IGameUniverse {
 	public GameUniverse() {
 		myPlayers = new ArrayList<IGameObject>();
 		myGameObjects = new ArrayList<IGameObject>();
-		myGameMap = new GameMap(10);
+		MapDataXML xml = new MapDataXML();
+		MapData data = xml.loadFromFile(new File("C:\\Users\\Brody\\AppData\\Roaming\\Microsoft\\Windows\\Network Shortcuts\\testmap.xml"));
+		myGameMap = new GameMap(data);
 		myCurrentInput = new ArrayList<KeyCode>();
 		mySpawnYard = new ArrayList<IGameObject>();
 		myGraveYard = new ArrayList<IGameObject>();
@@ -120,31 +125,16 @@ public class GameUniverse implements IGameUniverse {
 		return Collections.unmodifiableCollection(mySpawnYard);
 	}
 
-	@Override
-	public Collection<DecoratorTile> getTiles() {
-		return myGameMap.getTiles();
-	}
-
-	@Override
-	public boolean[][] isWalkable() {
-		return myGameMap.isWalkable();
-	}
-
-	@Override
-	public boolean[][] isPlaceable() {
-		return myGameMap.isPlaceable();
-	}
-
-	@Override
-	public IGameTile getTile(Point2D p) {
-		return myGameMap.getTile(p);
-	}
-	
 	public void setSpawnYard(Collection<IGameObject> spawnyard){
 		mySpawnYard = spawnyard;
 	}
 	
 	public void setTowers(Collection<IGameObject> towers){
 		mySpawnYard = towers;
+	}
+
+	@Override
+	public IGameMap getMap() {
+		return this.myGameMap;
 	}
 }

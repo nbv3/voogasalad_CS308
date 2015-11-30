@@ -4,7 +4,7 @@ import com.syntacticsugar.vooga.gameplayer.attribute.control.IUserControlAttribu
 import com.syntacticsugar.vooga.gameplayer.attribute.control.actions.movement.Direction;
 import com.syntacticsugar.vooga.gameplayer.attribute.control.actions.movement.algs.*;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
-import com.syntacticsugar.vooga.gameplayer.objects.implementations.PlayerBullet;
+import com.syntacticsugar.vooga.gameplayer.objects.items.bullets.PlayerBullet;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.gameplayer.universe.IObjectSpawner;
 import com.syntacticsugar.vooga.gameplayer.universe.userinput.IKeyInputStorage;

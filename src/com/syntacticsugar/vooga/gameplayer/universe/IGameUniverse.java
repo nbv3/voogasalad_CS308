@@ -7,7 +7,6 @@ import com.syntacticsugar.vooga.gameplayer.universe.map.IGameMap;
 import com.syntacticsugar.vooga.gameplayer.universe.userinput.IKeyInputProcessor;
 
 public interface IGameUniverse extends IObjectCollection,
-									   IGameMap, 
 									   IKeyInputProcessor {
 
 	/**
@@ -23,4 +22,9 @@ public interface IGameUniverse extends IObjectCollection,
 	 */
 	public Collection<IGameObject> getPlayers();
 	
+	/**
+	 * Returns a limited data view of the map in the Universe.
+	 * @return
+	 */
+	public IGameMap getMap();
 }

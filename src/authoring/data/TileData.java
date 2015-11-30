@@ -1,6 +1,6 @@
 package authoring.data;
 
-public class TileData {
+public class TileData extends AbstractData {
 
 	private String myImagePath;
 	private TileImplementation myImplementation;

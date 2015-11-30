@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.syntacticsugar.vooga.authoring.objecteditor.ObjectData;
 import com.syntacticsugar.vooga.gameplayer.attribute.HealthAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.WeaponAttribute;
@@ -25,6 +24,7 @@ import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.gameplayer.view.ViewController;
 import com.syntacticsugar.vooga.menu.SceneManager;
 
+import authoring.data.ObjectData;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.geometry.Point2D;
@@ -64,6 +64,7 @@ public class GameManager implements IGameManager {
 		attributes.add(new MovementControlAttribute(3));
 		attributes.add(new WeaponAttribute(missilePath, 10, KeyCode.SPACE));
 		playerData.setType(GameObjectType.PLAYER);
+		playerData.setSpawnPoint(0, 0);
 		playerData.setImagePath(playerPath);
 		playerData.setAttributes(attributes);
 		
@@ -75,12 +76,13 @@ public class GameManager implements IGameManager {
 		enemyEvents.add(new HealthChangeEvent(-10));
 		collisions.put(GameObjectType.PLAYER, enemyEvents);
 		enemyData.setType(GameObjectType.ENEMY);
+		enemyData.setSpawnPoint(150, 150);
 		enemyData.setImagePath(enemyPath);
 		enemyData.setAttributes(enemyAttributes);
 		enemyData.setCollisionMap(collisions);
 
-		IGameObject player = new GameObject(playerData, new Point2D(10, 10), 50, 50);
-		IGameObject enemy = new GameObject(enemyData, new Point2D(100, 100), 100, 100);
+		IGameObject player = new GameObject(playerData, 50, 50);
+		IGameObject enemy = new GameObject(enemyData, 100, 100);
 		
 		currentLevel.addPlayer(player);
 		currentLevel.addGameObject(enemy);

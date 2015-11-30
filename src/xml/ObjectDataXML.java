@@ -2,10 +2,14 @@ package xml;
 
 import java.io.File;
 
-public class PlayerDataXML extends AbstractXML {
+import authoring.data.AbstractData;
+import authoring.data.ObjectData;
+
+public class ObjectDataXML extends AbstractXML<ObjectData> {
+	
 	@Override
-	public String generateXML(Object o) {
-		PlayerData pd = (PlayerData) o;
+	public String generateXML(ObjectData o) {
+		ObjectData pd = (ObjectData) o;
 		try {
 			String xml = xstream.toXML(pd);
 			return xml;
@@ -16,10 +20,10 @@ public class PlayerDataXML extends AbstractXML {
 	}
 
 	@Override
-	public PlayerData loadFromFile(File f) {
+	public ObjectData loadFromFile(File f) {
 		String xml = fileToString(f);
 		try {
-			PlayerData pd = (PlayerData) xstream.fromXML(xml);
+			ObjectData pd = (ObjectData) xstream.fromXML(xml);
 			return pd;
 		} catch (Exception e) {
 			System.out.println("PlayerData XML Read Error");

@@ -6,12 +6,12 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.syntacticsugar.vooga.authoring.objecteditor.ObjectData;
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
 import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.util.ResourceManager;
 
+import authoring.data.ObjectData;
 import javafx.geometry.Point2D;
 
 public class GameObject extends AbstractViewableObject implements IGameObject {
@@ -27,8 +27,8 @@ public class GameObject extends AbstractViewableObject implements IGameObject {
 		myCollisionEventMap = new HashMap<GameObjectType, Collection<IGameEvent>>();
 	}
 	
-	public GameObject(ObjectData data, Point2D startingPoint, double width, double height) {
-		super(startingPoint, width, height, data.getImagePath());
+	public GameObject(ObjectData data, double width, double height) {
+		super(data.getSpawnPoint(), width, height, data.getImagePath());
 		Collection<IAttribute> attributes = data.getAttributes();
 		Map<GameObjectType, Collection<IGameEvent>> collisions = data.getCollisionMap();
 		myType = data.getType();

@@ -9,21 +9,29 @@ import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
 import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 
-public class ObjectData {
+import javafx.geometry.Point2D;
+
+public class ObjectData extends AbstractData {
 
 	private GameObjectType myType;
 	private String myName;
+	private Point2D mySpawnPoint;
 	private String myImagePath;
 	private Collection<IAttribute> myAttributes;
 	private Map<GameObjectType, Collection<IGameEvent>> myCollisionMap;
 	
 	public ObjectData() {
+		mySpawnPoint = new Point2D(0, 0);
 		myAttributes = new ArrayList<IAttribute>();
 		myCollisionMap = new HashMap<GameObjectType, Collection<IGameEvent>>();
 	}
 	
 	public GameObjectType getType() {
 		return this.myType;
+	}
+	
+	public Point2D getSpawnPoint() {
+		return this.mySpawnPoint;
 	}
 	
 	public String getImagePath() {
@@ -44,6 +52,10 @@ public class ObjectData {
 	
 	public void setType(GameObjectType type) {
 		this.myType = type;
+	}
+	
+	public void setSpawnPoint(double x, double y) {
+		this.mySpawnPoint = new Point2D(x, y);
 	}
 	
 	public void setImagePath(String myImagePath) {

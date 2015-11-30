@@ -10,7 +10,7 @@ import java.io.PrintWriter;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.StaxDriver;
 
-public abstract class AbstractXML implements IXML {
+public abstract class AbstractXML<T> implements IXML<T> {
 
 	XStream xstream;
 
@@ -19,10 +19,10 @@ public abstract class AbstractXML implements IXML {
 	}
 	
 	@Override
-	public abstract String generateXML(Object o);
+	public abstract String generateXML(T o);
 	
 	@Override
-	public abstract Object loadFromFile(File f);
+	public abstract T loadFromFile(File f);
 	
 	protected String fileToString(File f) {
 		try {

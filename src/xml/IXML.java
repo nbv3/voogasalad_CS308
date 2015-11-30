@@ -2,9 +2,9 @@ package xml;
 
 import java.io.File;
 
-public interface IXML {
+public interface IXML<T> {
 	
-	public String generateXML(Object o);
+	public String generateXML(T o);
 	
-	public Object loadFromFile(File f);
+	public T loadFromFile(File f);
 }

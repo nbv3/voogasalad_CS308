@@ -21,19 +21,20 @@ public class ObjectLibrary {
 	private VBox myContent;
 	protected ImageIconPane myIconPane;
 	
-	public ObjectLibrary(File XMLDirectory){
+	public ObjectLibrary(File directory){
 		myContent = new VBox();
 		myIconPane = new ImageIconPane();
 		myContent.getChildren().add(myIconPane.getIconPane());
-		populateOptionIcons(null);
+		populateOptionIcons(directory);
 	}
 	
 	public Node getContent(){
 		return myContent;
 	}
 	
-	private void populateOptionIcons(File XMLDirectory){
+	private void populateOptionIcons(File directory){
 		//Parse xml directory to get list of ObjectData instances
+		
 		Collection<ObjectData> xmlData = null;
 	/*	File imgDirectory = new File(ResourceManager.getString(String.format("%s%s", "Path", "_images")));
 		File[] files = imgDirectory.listFiles(new ImageFileFilter());

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
-public class MapData {
+public class MapData extends AbstractData {
 
 	private TileData[][] myTileData;
 	private int myMapSize;

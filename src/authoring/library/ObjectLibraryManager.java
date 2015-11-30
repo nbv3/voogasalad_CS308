@@ -5,6 +5,7 @@ import java.io.File;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TabPane.TabClosingPolicy;
+import javafx.scene.layout.Region;
 
 public class ObjectLibraryManager {
 

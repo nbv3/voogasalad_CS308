@@ -39,7 +39,7 @@ public class ViewController {
 	}
 
 	public void initializeView(IGameUniverse universe) {
-		for (DecoratorTile tile: universe.getTiles()) {
+		for (DecoratorTile tile: universe.getMap().getTiles()) {
 			addViewObject(tile);
 		}
 		for (IGameObject player: universe.getPlayers()) {

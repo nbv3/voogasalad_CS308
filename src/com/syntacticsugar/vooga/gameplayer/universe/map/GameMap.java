@@ -8,6 +8,9 @@ import java.util.Collection;
 import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.DecoratorTile;
 import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.IGameTile;
 
+import authoring.data.MapData;
+import authoring.data.TileImplementation;
+
 public class GameMap implements IGameMap {
 	
 	private static final double MAP_DIMENSIONS = 1000.0;
@@ -16,6 +19,19 @@ public class GameMap implements IGameMap {
 	private int numCols;
 	private int numRows;
 
+	public GameMap(MapData mapData) {
+		numCols = mapData.getMapSize();
+		numRows = mapData.getMapSize();
+		myTiles = new DecoratorTile[numCols][numRows];
+		for (int row = 0; row < numCols; row++) {
+			for (int col = 0; col < numRows; col++) {
+				Point2D point = new Point2D(row*MAP_DIMENSIONS/numRows, col*MAP_DIMENSIONS/numCols);
+				myTiles[row][col] = new DecoratorTile(mapData.getTileData(row, col), point, 
+						MAP_DIMENSIONS/numCols,MAP_DIMENSIONS/numRows);
+			}
+		}
+	}
+	
 	// TO IMPLEMENT: xDIMENSION, yDIMENSION
 	public GameMap(int dim) {
 		numCols = dim;
@@ -25,7 +41,7 @@ public class GameMap implements IGameMap {
 			for (int col = 0; col < numRows; col++) {
 				Point2D point = new Point2D(row*MAP_DIMENSIONS/numRows, col*MAP_DIMENSIONS/numCols);
 				String path = "scenery_grass_1.png";
-				myTiles[row][col] = new DecoratorTile(point,MAP_DIMENSIONS/numCols,MAP_DIMENSIONS/numRows,path);
+				myTiles[row][col] = new DecoratorTile(point,TileImplementation.Path,MAP_DIMENSIONS/numCols,MAP_DIMENSIONS/numRows,path);
 			}
 		}
 	}
@@ -66,6 +82,15 @@ public class GameMap implements IGameMap {
 	@Override
 	public IGameTile getTile(Point2D p) {
 		return myTiles[(int) p.getX()][(int) p.getY()];
+	}
+	
+	@Override
+	public Point2D getMapIndexFromCoordinate(Point2D coordinate) {
+//		double row = 
+//		int r = (int) Math.floor(row);
+//		int c = (int) Math.floor(col);
+//		return new Point2D(r, c);
+		return coordinate;
 	}
 
 }
