@@ -35,7 +35,7 @@ public class GUIFactory {
 	public static HBox buildTitleNode(String text){
 		Text titleText = new Text(text);
 		HBox title = new HBox(titleText);
-		title.setPadding(new Insets(5, 0, 0, 0));
+		title.setPadding(new Insets(5, 0, 0, 5));
 		return title;
 	}
 	

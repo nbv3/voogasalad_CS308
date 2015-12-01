@@ -2,9 +2,11 @@ package authoring;
 
 import java.io.File;
 
+import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.menu.SceneManager;
 
 import authoring.data.MapData;
+import authoring.data.ObjectData;
 import authoring.level.LevelTabManager;
 import authoring.library.ObjectLibrary;
 import authoring.library.ObjectLibraryManager;
@@ -49,11 +51,11 @@ public class AuthoringScreenManager {
 
 	private void initObjectLibrary() {
 		//		myObjectLibrary = new ObjectLibrary(null);
-		myObjectManager = new ObjectLibraryManager(null);
+		myObjectManager = new ObjectLibraryManager();
 	}
 
 	private void initObjectEditor(){
-		myObjectEditor = new ObjectEditor();
+		myObjectEditor = new ObjectEditor(new ObjectData());
 	}
 
 	public void setSceneManager(SceneManager sceneManager) {

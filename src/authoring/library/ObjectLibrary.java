@@ -45,7 +45,7 @@ public class ObjectLibrary {
 	
 	private VBox buildTitledPane(ObjectIconPane pane, GameObjectType type){
 		return GUIFactory.buildTitledPane(pane.getIconPane(),
-				ResourceManager.getString(type.toString()));
+				ResourceManager.getString(type.toString()) + " Objects Available");
 	}
 	
 	public void addIconToPane(ObjectData dataObject){
