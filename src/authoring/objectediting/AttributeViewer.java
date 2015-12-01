@@ -1,10 +1,9 @@
 package authoring.objectediting;
 
-import java.util.ArrayList;
-
-import authoring.data.ObjectData;
+import java.util.List;
 
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
+import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 
@@ -13,24 +12,26 @@ import javafx.scene.text.Text;
 
 public class AttributeViewer extends EditingViewer {
 
-	private ObjectData myData;
+	private GameObjectType typeChosen;
+	private List<IAttribute> myAttributes;
 	
-	public AttributeViewer(ObjectData data) {
+	public AttributeViewer(GameObjectType type, List<IAttribute> attributes) {
 		super(ResourceManager.getString("attributes_added"));
-		myData = data;
+		typeChosen = type;
+		myAttributes = attributes;
 		myAddButton.setOnAction(e -> {
-			new AttributeMakerWizard(this,myData);
+			new AttributeMakerWizard(this,typeChosen,myAttributes);
 		});
 		myRemoveButton.setOnAction(e -> removeAttributeFromList());
 	}
 
 	public void addAttributeToList(IAttribute attribute) {
-		myData.getAttributes().add(attribute);
+		myAttributes.add(attribute);
 		addElementToList(makeListElement(attribute));
 		
 		System.out.println("*****add attribute******");
-		System.out.println(myData.getType());
-		for (IAttribute i: myData.getAttributes()) {
+		System.out.println(typeChosen);
+		for (IAttribute i: myAttributes) {
 			System.out.println(i.getClass().getSimpleName());
 		}
 	}
@@ -44,7 +45,7 @@ public class AttributeViewer extends EditingViewer {
 	}
 	
 	public void removeAttributeFromList() {
-		if (!myData.getAttributes().isEmpty()) {
+		if (!myAttributes.isEmpty()) {
 			int selectedIdx = myListView.getSelectionModel().getSelectedIndex();
 			if (selectedIdx == -1) {
 				AlertBoxFactory.createObject("Please first select an attribute from the list, then double click to remove");
@@ -57,14 +58,14 @@ public class AttributeViewer extends EditingViewer {
 		}
 		
 		System.out.println("*****remove attribute******");
-		System.out.println(myData.getType());
-		for (IAttribute i: myData.getAttributes()) {
+		System.out.println(typeChosen);
+		for (IAttribute i: myAttributes) {
 			System.out.println(i.getClass().getSimpleName());
 		}
 	}
 
 	private void removeAttribute(int selectedIdx) {
-		((ArrayList<IAttribute>) myData.getAttributes()).remove(selectedIdx);
+		myAttributes.remove(selectedIdx);
 		myListView.getItems().remove(selectedIdx);
 	}
 	

@@ -1,6 +1,8 @@
 package authoring.objectediting;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -8,6 +10,7 @@ import authoring.data.ObjectData;
 
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
 import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
+import com.syntacticsugar.vooga.gameplayer.objects.GameObject;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 
 import javafx.scene.Node;
@@ -30,7 +33,11 @@ public class ObjectEditor {
 	private Button myFileSelectButton;
 	private AttributeViewer myAttributeViewer;
 	private CollisionViewer myCollisionViewer;
-	private ObjectData myData;
+	//private ObjectData myData;
+	
+	private GameObjectType typeChosen;
+	private List<IAttribute> myAttributes;
+	private Map<GameObjectType, Collection<IGameEvent>> myCollisions;
 	//private Map<GameObjectType,Collection<IGameEvent>> myCollisions;
 	//private ListView myAttributes;
 	//private ListView myColliders;
@@ -38,24 +45,30 @@ public class ObjectEditor {
 	
 	private final String SELECT_FILE = "Select File";
 
-	public ObjectEditor(){
-		myData = new ObjectData();
-		myData.setType(GameObjectType.PLAYER);
+	public ObjectEditor(GameObjectType type){
+		typeChosen = type;
+		myAttributes = new ArrayList<IAttribute>();
+		myCollisions  = new HashMap<GameObjectType, Collection<IGameEvent>>();
 		myView = new VBox();
 		makeEditors();
-		myView.getChildren().addAll(myAttributeViewer.getView(),
-				myCollisionViewer.getView());
-		//myFileSelectButton = new Button(SELECT_FILE);
-			
+		myView.getChildren().addAll(myAttributeViewer.getView(), myCollisionViewer.getView());			
 	}
 	
 	private void makeEditors(){
-		myAttributeViewer = new AttributeViewer(myData);
-		myCollisionViewer = new CollisionViewer(myData);
+		myAttributeViewer = new AttributeViewer(typeChosen,myAttributes);
+		myCollisionViewer = new CollisionViewer(typeChosen,myCollisions);
 	}
 	
 	public Node getView(){
 		return myView;
+	}
+	
+	public List<IAttribute> getAttributes() {
+		return myAttributes;
+	}
+	
+	public Map<GameObjectType, Collection<IGameEvent>> getCollisions() {
+		return myCollisions;
 	}
 	
 	

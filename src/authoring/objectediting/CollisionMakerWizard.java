@@ -3,6 +3,7 @@ package authoring.objectediting;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -20,24 +21,25 @@ import com.syntacticsugar.vooga.util.gui.factory.MsgInputBoxFactory;
 import com.syntacticsugar.vooga.util.reflection.Reflection;
 import com.syntacticsugar.vooga.util.reflection.ReflectionException;
 
-import authoring.data.ObjectData;
-
 public class CollisionMakerWizard {
 	
 	private Stage myStage;
 	private Scene myScene;
 	private CollisionViewer myCollisionViewer;
-	private ObjectData myData;
+	private GameObjectType typeChosen;
+	private Map<GameObjectType, Collection<IGameEvent>> myCollisions;
 	private IGameEvent collisionEventToAdd;
 	private GameObjectType selectedCollideObjType;
 	private String selectedCollisionEvent;
 	private final double SCENE_DIMENSION = 400;
 
-	public CollisionMakerWizard(CollisionViewer collisionViewer, ObjectData data) {
+	public CollisionMakerWizard(CollisionViewer collisionViewer, GameObjectType type, 
+			Map<GameObjectType, Collection<IGameEvent>> collisions) {
 		myCollisionViewer = collisionViewer;
-		myData = data;
+		typeChosen = type;
+		myCollisions = collisions;
 		myStage = new Stage();
-		myScene = new Scene(buildCollisions(myData.getType()),SCENE_DIMENSION,SCENE_DIMENSION);
+		myScene = new Scene(buildCollisions(typeChosen),SCENE_DIMENSION,SCENE_DIMENSION);
 		myStage = new Stage();
 		myStage.setScene(myScene);
 		myStage.setTitle("AttributeMakerWizard");
@@ -91,9 +93,9 @@ public class CollisionMakerWizard {
 			return;			
 		}
 		
-		if (myData.getCollisionMap().containsKey(selectedCollideObjType)) {
+		if (myCollisions.containsKey(selectedCollideObjType)) {
 			//System.out.println(selectedCollideObjEvent.getClass().getSimpleName());
-			for (IGameEvent i: myData.getCollisionMap().get(selectedCollideObjType)) {
+			for (IGameEvent i: myCollisions.get(selectedCollideObjType)) {
 				//System.out.println(i.getClass().getSimpleName());
 				if (i.getClass().getSimpleName().equals(selectedCollisionEvent)) {
 					AlertBoxFactory.createObject(String.format("Cannot add more than one %s to collide type %s", 
@@ -119,7 +121,7 @@ public class CollisionMakerWizard {
 			catch (ReflectionException ex) {
 				collisionEventToAdd = (IGameEvent) Reflection.createInstance(className);
 			}
-			myData.getCollisionMap().get(selectedCollideObjType).add(collisionEventToAdd);
+			myCollisions.get(selectedCollideObjType).add(collisionEventToAdd);
 			myCollisionViewer.addCollisionEventToList(selectedCollideObjType, collisionEventToAdd);
 		}
 	}
@@ -136,7 +138,7 @@ public class CollisionMakerWizard {
 				collideEvents.add((IGameEvent) Reflection.createInstance(className));
 	
 			}
-			myData.getCollisionMap().put(selectedCollideObjType, collideEvents);
+			myCollisions.put(selectedCollideObjType, collideEvents);
 			myCollisionViewer.addCollisionEventToList(selectedCollideObjType, ((List<IGameEvent>) collideEvents).get(0));
 		}
 	}

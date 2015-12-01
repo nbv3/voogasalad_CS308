@@ -7,7 +7,7 @@ import com.syntacticsugar.vooga.menu.SceneManager;
 import authoring.data.MapData;
 import authoring.level.LevelTabManager;
 import authoring.library.ObjectLibrary;
-import authoring.library.ObjectLibraryManager;
+import authoring.library.AuthoringSidePane;
 import authoring.objectediting.ObjectEditor;
 import javafx.scene.Scene;
 import javafx.scene.control.Menu;
@@ -33,28 +33,28 @@ public class AuthoringScreenManager {
 	//	private LibraryManager myLibraryManager;
 	private Stage myStage;
 	private Scene myScene;
-	private ObjectLibrary myObjectLibrary;
-	private ObjectEditor myObjectEditor;
-	private ObjectLibraryManager myObjectManager;
+	//private ObjectLibrary myObjectLibrary;
+	//private ObjectEditor myObjectEditor;
+	private AuthoringSidePane myObjectManager;
 
 	// injected for returning to main menu
 	private SceneManager sceneManager;
 
 	public AuthoringScreenManager() {
 		initLevelEditor();
-		initObjectEditor();
+		//initObjectEditor();
 		initObjectLibrary();
 		initWindow();
 	}
 
 	private void initObjectLibrary() {
 		//		myObjectLibrary = new ObjectLibrary(null);
-		myObjectManager = new ObjectLibraryManager(null);
+		myObjectManager = new AuthoringSidePane(null);
 	}
 
-	private void initObjectEditor(){
-		myObjectEditor = new ObjectEditor();
-	}
+//	private void initObjectEditor(){
+//		myObjectEditor = new ObjectEditor(myData);
+//	}
 
 	public void setSceneManager(SceneManager sceneManager) {
 		this.sceneManager = sceneManager;
@@ -69,8 +69,8 @@ public class AuthoringScreenManager {
 		addGridConstraints();
 
 		myWindowGrid.add(myLevelEditor.getTabPane(), 0, 0, 1, 2);
-		myWindowGrid.add(myObjectManager.getTabPane(), 1, 0, 1 ,1);
-		myWindowGrid.add(myObjectEditor.getView(), 1, 1, 1, 1);
+		myWindowGrid.add(myObjectManager.getLibrary(), 1, 0, 1 ,1);
+		myWindowGrid.add(myObjectManager.getEditor(), 1, 1, 1, 1);
 		myWindow.setCenter(myWindowGrid);
 
 		myScene = new Scene(myWindow);

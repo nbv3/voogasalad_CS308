@@ -1,5 +1,7 @@
 package authoring.objectediting;
 
+import java.util.List;
+
 import authoring.data.ObjectData;
 
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
@@ -24,16 +26,18 @@ public class AttributeMakerWizard {
 	private Scene myScene;
 	//private VBox myStageContent;
 	private AttributeViewer myAttributeViewer;
-	private ObjectData myData;
+	private GameObjectType typeChosen;
+	private List<IAttribute> myAttributes;
 	private IAttribute attributeToAdd;
 	private String selectedAttribute;
 	private final double SCENE_DIMENSION = 300;
 
-	public AttributeMakerWizard(AttributeViewer attributeViewer, ObjectData data){
+	public AttributeMakerWizard(AttributeViewer attributeViewer, GameObjectType type, List<IAttribute> attributes){
 		myAttributeViewer = attributeViewer;
-		myData = data;
+		typeChosen = type;
+		myAttributes = attributes;
 		myStage = new Stage();
-		myScene = new Scene(buildAttributes(myData.getType()),SCENE_DIMENSION,SCENE_DIMENSION);
+		myScene = new Scene(buildAttributes(typeChosen),SCENE_DIMENSION,SCENE_DIMENSION);
 		myStage = new Stage();
 		myStage.setScene(myScene);
 		myStage.setTitle("AttributeMakerWizard");
@@ -75,7 +79,7 @@ public class AttributeMakerWizard {
 			AlertBoxFactory.createObject("Please select an attribute first");
 			return;
 		}
-		for (IAttribute i: myData.getAttributes()) {
+		for (IAttribute i: myAttributes) {
 			if (selectedAttribute.equals(i.getClass().getSimpleName())) {
 				AlertBoxFactory.createObject(String.format("Cannot add more than one %s", selectedAttribute));
 				return;
