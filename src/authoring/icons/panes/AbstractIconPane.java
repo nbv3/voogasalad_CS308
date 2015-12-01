@@ -72,7 +72,7 @@ public abstract class AbstractIconPane {
 		myImagePaths.clear();
 	}
 	
-	protected void addIconToPane(AbstractIcon icon, String imagePath) {
+	public void addIconToPane(AbstractIcon icon, String imagePath) {
 		double size = ((getIconPane().getWidth() - 2.0*INSET_VALUE - (NUM_COLS-1.0)*2.0*INSET_VALUE)/(NUM_COLS));
 		icon.setSize(size);
 		myIconPane.getChildren().add(icon);

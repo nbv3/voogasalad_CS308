@@ -57,10 +57,14 @@ public class CollisionViewer extends EditingViewer {
 
 	private HBox makeListElement(GameObjectType objectType, IGameEvent gameEvent){
 		HBox element = new HBox();
-		element.setSpacing(10);
-		element.setAlignment(Pos.CENTER);
-		element.getChildren().add(new Text(ResourceManager.getString(objectType.toString())));
-		element.getChildren().add(makeEventDropdown(gameEvent));
+		element.setSpacing(175);
+		element.setAlignment(Pos.BASELINE_LEFT);
+		Text text = new Text(ResourceManager.getString(objectType.toString()));
+		ComboBox<String> dropdown = makeEventDropdown(gameEvent);
+		
+		element.getChildren().add(text);
+		element.getChildren().add(dropdown);
+		
 		return element;
 	}
 	
