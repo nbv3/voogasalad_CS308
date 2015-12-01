@@ -13,14 +13,14 @@ public interface IKeyInputProcessor extends IKeyInputStorage {
 	 * key press event. Adds the key code to the list of current input.
 	 * @param code
 	 */
-	public void receiveKeyPress(List<KeyCode> code);
+	public void receiveKeyPress(KeyCode code);
 	
 	/**
 	 * Function to be called whenever the Game Manager registers a 
 	 * key release event. Removes the key code from the list of current input.
 	 * @param code
 	 */
-	public void receiveKeyRelease(List<KeyCode> code);
+	public void receiveKeyRelease(KeyCode code);
 	
 	/**
 	 * Function to be called whenever the Game Manager registers a 

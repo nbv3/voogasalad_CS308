@@ -4,6 +4,7 @@ import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.gameplayer.view.ViewController;
 
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -30,9 +31,7 @@ public class GameEngine {
 		myUniverse = universe;
 	}
 
-	public void update(List<KeyCode> input, List<KeyCode> released) {
-		receiveKeyPressed(input);
-		receiveKeyReleased(released);
+	public void update() {
 		checkCollisions();
 		updateState();
 		checkConditions();
@@ -115,12 +114,17 @@ public class GameEngine {
 		myUniverse.clearSpawnYard();
 	}
 
-	private void receiveKeyPressed(List<KeyCode> code) {
+	public void receiveKeyPressed(KeyCode code) {
 		myUniverse.receiveKeyPress(code);
 	}
 	
-	private void receiveKeyReleased(List<KeyCode> code) {
+	public void receiveKeyReleased(KeyCode code) {
 		myUniverse.receiveKeyRelease(code);
+	}
+
+	public Pane getGameView() {
+		// TODO Auto-generated method stub
+		return myView.getGameView();
 	}
 
 }
