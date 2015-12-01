@@ -38,8 +38,8 @@ public class ObjectEditor {
 	
 	private final String SELECT_FILE = "Select File";
 
-	public ObjectEditor(){
-		myData = new ObjectData();
+	public ObjectEditor(ObjectData dataObject){
+		myData = dataObject;
 		myData.setType(GameObjectType.PLAYER);
 		myView = new VBox();
 		makeEditors();
@@ -52,6 +52,10 @@ public class ObjectEditor {
 	private void makeEditors(){
 		myAttributeViewer = new AttributeViewer(myData);
 		myCollisionViewer = new CollisionViewer(myData);
+	}
+	
+	public ObjectData getObjectData(){
+		return myData;
 	}
 	
 	public Node getView(){

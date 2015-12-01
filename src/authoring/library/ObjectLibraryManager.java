@@ -1,6 +1,10 @@
 package authoring.library;
 
 import java.io.File;
+import java.util.List;
+
+import com.sun.deploy.uitoolkit.impl.fx.ui.resources.ResourceManager;
+import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -10,36 +14,31 @@ import javafx.scene.layout.Region;
 public class ObjectLibraryManager {
 
 	private TabPane myLibraryTabs;
-	private ObjectLibrary myEnemyLibrary;
-	private ObjectLibrary myTowerLibrary;
-	private ObjectLibrary myPlayerLibrary;
-	private ObjectLibrary myItemLibrary;
 
-	public ObjectLibraryManager(File GameDirectory) {
-		initializeLibraryTabs(GameDirectory);
+	public ObjectLibraryManager() {		
 		myLibraryTabs = new TabPane();
-		populateTabPane();
 		myLibraryTabs.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
+		populateLibraryTabs();
 	}
 
-	private void initializeLibraryTabs(File GameDirectory) {
-		myEnemyLibrary = new EnemyLibrary(GameDirectory);
-		myTowerLibrary = new TowerLibrary(GameDirectory);
-		myPlayerLibrary = new PlayerLibrary(GameDirectory);
-		myItemLibrary = new ItemLibrary(GameDirectory);
+	private GameObjectType[] getObjectTypes(){
+		return GameObjectType.values();
 	}
-
-	private void populateTabPane() {
-		Tab myEnemyTab = new Tab("Enemies");
-		myEnemyTab.setContent(myEnemyLibrary.getContent());
-		Tab myTowerTab = new Tab("Towers");
-		myTowerTab.setContent(myTowerLibrary.getContent());
-		Tab myPlayerTab = new Tab("Players");
-		myPlayerTab.setContent(myPlayerLibrary.getContent());
-		Tab myItemTab = new Tab("Items");
-		myItemTab.setContent(myItemLibrary.getContent());
-		myLibraryTabs.getTabs().addAll(myEnemyTab, myTowerTab, myPlayerTab, myItemTab);
-
+	
+	private void populateLibraryTabs() {
+		for (GameObjectType type: getObjectTypes()){
+			myLibraryTabs.getTabs().add(makeTab(type));
+		}
+	}
+	
+	private ObjectLibrary makeLibrary(GameObjectType objectType){
+		return new ObjectLibrary(objectType);
+	}
+	
+	private Tab makeTab(GameObjectType objectType){
+		Tab tab = new Tab(objectType.toString());
+		tab.setContent(makeLibrary(objectType).getContent());
+		return tab;
 	}
 
 	public TabPane getTabPane() {

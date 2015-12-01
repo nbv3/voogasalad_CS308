@@ -45,12 +45,12 @@ public class EditingViewer {
 	
 	
 	private Button makeAddButton(){
-		myAddButton = GUIFactory.buildButton(ResourceManager.getString("add_symbol"), null, 25.0, null);
+		myAddButton = GUIFactory.buildButton(ResourceManager.getString("add_symbol"), null, 30.0, null);
 		return myAddButton;
 	}
 	
 	private Button makeRemoveButton(){
-		myRemoveButton = GUIFactory.buildButton(ResourceManager.getString("remove_symbol"), null, 25.0, null);
+		myRemoveButton = GUIFactory.buildButton(ResourceManager.getString("remove_symbol"), null, 30.0, null);
 		return myRemoveButton;
 	}
 	

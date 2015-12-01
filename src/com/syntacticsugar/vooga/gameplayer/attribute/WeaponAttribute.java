@@ -2,7 +2,6 @@ package com.syntacticsugar.vooga.gameplayer.attribute;
 
 import com.syntacticsugar.vooga.gameplayer.attribute.control.IUserControlAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.control.actions.movement.Direction;
-import com.syntacticsugar.vooga.gameplayer.attribute.control.actions.movement.algs.*;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.gameplayer.objects.items.bullets.PlayerBullet;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
@@ -70,24 +69,9 @@ public class WeaponAttribute extends AbstractAttribute implements IUserControlAt
 		}
 	}
 	
-	private AbstractMovementType getCurrentDirection() {
+	private Direction getCurrentDirection() {
 		Direction dir = getParent().getBoundingBox().getDirection();
-		AbstractMovementType move = null;
-		switch (dir) {
-			case LEFT :
-				move = new MoveLeftCardinal();
-				break;
-			case RIGHT :
-				move = new MoveRightCardinal();
-				break;
-			case UP :
-				move = new MoveUpCardinal();
-				break;
-			case DOWN :
-				move = new MoveDownCardinal();
-				break;
-		}
-		return move;
+		return dir;
 	}
 	
 }

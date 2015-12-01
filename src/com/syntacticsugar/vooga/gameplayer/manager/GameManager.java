@@ -9,6 +9,7 @@ import java.util.Map;
 import com.syntacticsugar.vooga.gameplayer.attribute.HealthAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.WeaponAttribute;
+import com.syntacticsugar.vooga.gameplayer.attribute.movement.AIMovementAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.movement.MovementControlAttribute;
 import com.syntacticsugar.vooga.gameplayer.conditions.ConditionType;
 import com.syntacticsugar.vooga.gameplayer.conditions.IGameCondition;
@@ -34,30 +35,31 @@ import javafx.util.Duration;
 
 public class GameManager implements IGameManager {
 
-	private IGameUniverse currentLevel;
 	private List<IGameUniverse> myLevels;
-	private List<IGameCondition> myConditions;
+	// private List<IGameCondition> myConditions;
 	// private GameInformation myInformation;
-	private ViewController myViewController;
 	private Timeline myGameTimeline;
-	
+	private GameEngine myGameEngine;
+
 	// is SceneManager injection necessary?
 	private SceneManager myManager;
 
 	public GameManager(double gameSize) {
-		
-		currentLevel = new GameUniverse();
-		myConditions = new ArrayList<IGameCondition>();
-		myConditions.add(new PlayerDeathCondition());
 
-		myViewController = new ViewController(gameSize);
+		GameUniverse currentLevel = new GameUniverse();
+		myLevels = new ArrayList<IGameUniverse>();
+		myLevels.add(currentLevel);
+		// myConditions = new ArrayList<IGameCondition>();
+		// myConditions.add(new PlayerDeathCondition());
+
+		ViewController myViewController = new ViewController(gameSize);
 
 		// i changed ISimpleObject to SimpleObject, else addViewObject does not
 		// work
 		String playerPath = "player_pacman.png";
 		String enemyPath = "enemy_moster_1.png";
 		String missilePath = "gray.png";
-		
+
 		ObjectData playerData = new ObjectData();
 		List<IAttribute> attributes = new ArrayList<IAttribute>();
 		attributes.add(new HealthAttribute(100));
@@ -67,10 +69,11 @@ public class GameManager implements IGameManager {
 		playerData.setSpawnPoint(0, 0);
 		playerData.setImagePath(playerPath);
 		playerData.setAttributes(attributes);
-		
+
 		ObjectData enemyData = new ObjectData();
 		Collection<IAttribute> enemyAttributes = new ArrayList<IAttribute>();
 		enemyAttributes.add(new HealthAttribute(30));
+//		enemyAttributes.add(new AIMovementAttribute(3));
 		Map<GameObjectType, Collection<IGameEvent>> collisions = new HashMap<GameObjectType, Collection<IGameEvent>>();
 		Collection<IGameEvent> enemyEvents = new ArrayList<IGameEvent>();
 		enemyEvents.add(new HealthChangeEvent(-10));
@@ -83,75 +86,37 @@ public class GameManager implements IGameManager {
 
 		IGameObject player = new GameObject(playerData, 50, 50);
 		IGameObject enemy = new GameObject(enemyData, 100, 100);
-		
+
 		currentLevel.addPlayer(player);
 		currentLevel.addGameObject(enemy);
 		myViewController.addViewObject(player);
 		myViewController.addViewObject(enemy);
-		
+
 		myViewController.initializeView(currentLevel);
+		myGameEngine = new GameEngine(myLevels.get(0), myViewController, this);
 
 	}
-	
+
 	public void setManager(SceneManager manager) {
 		myManager = manager;
 	}
-	
+
 	public void pause() {
-		// call myManager.initEnginePauseMenu() which closes the scene and opens the menu scene
+		// call myManager.initEnginePauseMenu() which closes the scene and opens
+		// the menu scene
 		myManager.launchEnginePauseMenu();
-		
+
 		// TODO pause update logic
 	}
 
 	@Override
 	public void restartGame() {
-		
+
 	}
 
 	@Override
 	public void updateGame() {
-		GameEngine.frameUpdate(currentLevel);
-		checkConditions();
-
-		// Object cleanup for now
-
-		processGraveyard();
-		processSpawnyard();
-
-		updateStats();
-	}
-
-	private void processGraveyard() {
-		Collection<IGameObject> graveyard = currentLevel.getGraveYard();
-		for (IGameObject obj : graveyard) {
-			currentLevel.removeGameObject(obj);
-			myViewController.removeViewObject(obj);
-		}
-		currentLevel.clearGraveYard();
-	}
-	
-	private void processSpawnyard() {
-		Collection<IGameObject> spawnyard = currentLevel.getSpawnYard();
-		for (IGameObject obj : spawnyard) {
-			currentLevel.addGameObject(obj);
-			myViewController.addViewObject(obj);
-		}
-		currentLevel.clearSpawnYard();
-	}
-
-	private void updateStats() {
-
-	}
-
-	@Override
-	public void checkConditions() {
-
-		for (IGameCondition condition : myConditions) {
-			if (condition.checkCondition(currentLevel)) {
-				switchLevel(condition.returnType());
-			}
-		}
+		myGameEngine.update();
 
 	}
 
@@ -170,22 +135,20 @@ public class GameManager implements IGameManager {
 		if (code.equals(KeyCode.P)) {
 			if (myGameTimeline.getCurrentRate() == 0.0) {
 				myGameTimeline.play();
-			}
-			else {
+			} else {
 				myGameTimeline.pause();
 			}
-		}
-		else {
-			currentLevel.receiveKeyPress(code);
+		} else {
+			myGameEngine.receiveKeyPressed(code);
 		}
 	}
 
 	public void receiveKeyReleased(KeyCode code) {
-		currentLevel.receiveKeyRelease(code);
+		myGameEngine.receiveKeyReleased(code);
 	}
 
 	public Pane getGameView() {
-		return myViewController.getGameView();
+		return myGameEngine.getGameView();
 	}
 
 	@Override
@@ -195,17 +158,17 @@ public class GameManager implements IGameManager {
 		// allow players to place towers
 		// when play is pressed -> start timeline
 	}
-	
+
 	@Override
-	public void startGame(){
+	public void startGame() {
 		myGameTimeline.play();
 	}
 
 	@Override
-	public void endLevel(){
+	public void endLevel() {
 		myGameTimeline.pause();
 	}
-	
+
 	public void initializeAnimation(double fl) {
 		KeyFrame frame = new KeyFrame(Duration.seconds(fl), e -> updateGame());
 		myGameTimeline = new Timeline();
@@ -213,5 +176,5 @@ public class GameManager implements IGameManager {
 		myGameTimeline.getKeyFrames().add(frame);
 		startGame();
 	}
-	
+
 }

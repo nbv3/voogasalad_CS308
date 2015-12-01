@@ -4,46 +4,63 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 
+import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.util.ResourceManager;
+import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
 
 import authoring.data.ObjectData;
 import authoring.icons.ImageFileFilter;
+import authoring.icons.implementations.ObjectIcon;
 import authoring.icons.panes.ImageIconPane;
 import authoring.icons.panes.ObjectIconPane;
 import authoring.objectediting.AttributeViewer;
+import authoring.objectediting.ObjectEditor;
 import javafx.scene.Node;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.VBox;
 
 public class ObjectLibrary {
 
-	private VBox myContent;
-	protected ImageIconPane myIconPane;
+	private VBox myView;
+	private GameObjectType myType;
+	protected ObjectIconPane myIconPane;
+	protected List<ObjectData> myObjectDataList;
+	protected File myXMLDirectory;
 	
-	public ObjectLibrary(File directory){
-		myContent = new VBox();
-		myIconPane = new ImageIconPane();
-		myContent.getChildren().add(myIconPane.getIconPane());
-		populateOptionIcons(directory);
+	public ObjectLibrary(GameObjectType objectType){
+		// unsure at this point whether a saved game is loaded in one xml,
+		// or in different directories.
+		myType = objectType;
+		myObjectDataList = new ArrayList<ObjectData>();
+		myIconPane = new ObjectIconPane();
+		myView = buildTitledPane(myIconPane, myType);
+		//populateOptionIcons(directory);
 	}
 	
 	public Node getContent(){
-		return myContent;
+		return myView;
 	}
 	
-	private void populateOptionIcons(File directory){
-		//Parse xml directory to get list of ObjectData instances
-		
-		Collection<ObjectData> xmlData = null;
-	/*	File imgDirectory = new File(ResourceManager.getString(String.format("%s%s", "Path", "_images")));
-		File[] files = imgDirectory.listFiles(new ImageFileFilter());
-		Collection<String> imagePaths = new ArrayList<String>();
-		for (int i=0; i<files.length; i++) {
-			imagePaths.add(files[i].getName());
-		}
-		myIconPane.showIcons(imagePaths);
-		*/
+	private VBox buildTitledPane(ObjectIconPane pane, GameObjectType type){
+		return GUIFactory.buildTitledPane(pane.getIconPane(),
+				ResourceManager.getString(type.toString()) + " Objects Available");
+	}
+	
+	public void addIconToPane(ObjectData dataObject){
+		myIconPane.addIconToPane(new ObjectIcon(dataObject), dataObject.getImagePath());
+	}
+	
+	public void addDataObjectToLibrary(ObjectData dataObject){
+		myObjectDataList.add(dataObject);
+		addIconToPane(dataObject);
+		// now we need to actually write out the XML to the right XML directory (???) 
+		// need to figure out how data works.
+	}
+	
+	private void makeDataObject(){
+		ObjectData dataObject = new ObjectData();
 	}
 	
 }

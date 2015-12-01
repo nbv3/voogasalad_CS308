@@ -34,12 +34,12 @@ public class ViewController {
 	
 	public void removeViewObject(IViewableObject obj){
 		ObjectView object = myViewMap.get(obj);
-		myGameView.getChildren().remove(object.getViewPane());
+		myGameView.getView().getChildren().remove(object.getViewPane());
 		myViewMap.remove(obj);
 	}
 
 	public void initializeView(IGameUniverse universe) {
-		for (DecoratorTile tile: universe.getMap().getTiles()) {
+		for (IGameTile tile: universe.getMap().getTiles()) {
 			addViewObject(tile);
 		}
 		for (IGameObject player: universe.getPlayers()) {
