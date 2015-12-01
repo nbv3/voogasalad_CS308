@@ -18,14 +18,15 @@ public class ConstantMovementAttribute extends AbstractMovementAttribute {
 	@Override
 	public void updateSelf(IGameUniverse universe) {
 		myMovement.setMovement(this);
-		move();		
+		move(universe);		
 	}
-
+	
 	@Override
-	public void move() {
+	public void move(IGameUniverse universe) {
 		IBoundingBox box = getParent().getBoundingBox();
 		Point2D oldPoint = box.getPoint();
 		box.setPoint(new Point2D(oldPoint.getX() + getXVelocity(), oldPoint.getY() + getYVelocity()));
 	}
+	
 	
 }

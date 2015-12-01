@@ -85,12 +85,14 @@ public class GameMap implements IGameMap {
 	}
 	
 	@Override
-	public Point2D getMapIndexFromCoordinate(Point2D coordinate) {
-//		double row = 
-//		int r = (int) Math.floor(row);
-//		int c = (int) Math.floor(col);
-//		return new Point2D(r, c);
-		return coordinate;
+	public Point2D getMapIndexFromCoordinate(Point2D coordinate) throws Exception {
+		int r = (int) Math.floor((coordinate.getX() / MAP_DIMENSIONS) * numRows);
+		int c = (int) Math.floor((coordinate.getY() / MAP_DIMENSIONS) * numCols);
+		if (r < 0 || r >= numRows || c < 0 || c >= numCols) {
+			throw new Exception("Out of Map Bounds");
+		}
+		return new Point2D(r, c);
+//		return coordinate;
 	}
 
 }

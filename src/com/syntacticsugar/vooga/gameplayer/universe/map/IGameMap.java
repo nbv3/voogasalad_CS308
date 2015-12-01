@@ -24,5 +24,5 @@ public interface IGameMap {
 
 	public IGameTile getTile(Point2D p);
 	
-	public Point2D getMapIndexFromCoordinate(Point2D coordinate);
+	public Point2D getMapIndexFromCoordinate(Point2D coordinate) throws Exception;
 }

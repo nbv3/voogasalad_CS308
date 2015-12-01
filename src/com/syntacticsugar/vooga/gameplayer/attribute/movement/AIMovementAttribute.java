@@ -19,6 +19,9 @@ public class AIMovementAttribute extends AbstractMovementAttribute {
 	private Point2D destinationTile;
 	private AbstractMovementType myMover;
 	
+	private int myFrameCount;
+	private int myPathUpdateRate; // TODO: Move into a resource file
+	
 	public AIMovementAttribute(double speed) {
 		super(speed);
 		myMover = new MoveRightCardinal(); // DEFAULT RIGHT MOVEMENT TODO
@@ -26,6 +29,9 @@ public class AIMovementAttribute extends AbstractMovementAttribute {
 		
 		// update currentTile
 		myPath = new Path();
+		
+		myFrameCount = 0;
+		myPathUpdateRate = 5;
 	}
 	
 	private void generatePath(IGameUniverse universe) {
@@ -58,17 +64,20 @@ public class AIMovementAttribute extends AbstractMovementAttribute {
 	@Override
 	public void updateSelf(IGameUniverse universe) {
 		// every n frames, run generatePath(universe);
+		myFrameCount++;
+		if (myFrameCount % myPathUpdateRate == 0) {
+			generatePath(universe);
+		}
 		
 		// set new xVelocity, yVelocity
 		// convert currentTile to double and subtract currentLocation
 		// this difference is the velocity in the direction you want to go
 		
 		// move to nextPoint
-		move();
+		move(universe);
 	}
 	
-	@Override
-	public void move() {
+	public void setNextDestination() {
 		Point nextPoint = nextPoint();
 		// ISimpleBoundingBox box = getParent().getBoundingBox();
 		// Point2D oldPoint = box.getPoint();

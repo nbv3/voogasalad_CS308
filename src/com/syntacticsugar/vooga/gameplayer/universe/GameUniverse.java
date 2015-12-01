@@ -32,7 +32,7 @@ public class GameUniverse implements IGameUniverse {
 		myPlayers = new ArrayList<IGameObject>();
 		myGameObjects = new ArrayList<IGameObject>();
 		MapDataXML xml = new MapDataXML();
-		MapData data = xml.loadFromFile(new File("C:\\Users\\Brody\\AppData\\Roaming\\Microsoft\\Windows\\Network Shortcuts\\testmap.xml"));
+		MapData data = xml.loadFromFile(new File("C:\\Users\\Jack\\Documents\\School\\CS_308\\voogasalad_SyntacticSugar\\test_map.xml"));
 		myGameMap = new GameMap(data);
 		myCurrentInput = new ArrayList<KeyCode>();
 		mySpawnYard = new ArrayList<IGameObject>();

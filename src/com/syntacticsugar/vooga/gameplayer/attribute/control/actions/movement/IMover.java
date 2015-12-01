@@ -1,12 +1,14 @@
 package com.syntacticsugar.vooga.gameplayer.attribute.control.actions.movement;
 
+import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
+
 public interface IMover {
 
 	/**
 	 * Update the X and Y position of this ISimpleMover object based on 
 	 * the current X and Y velocities.
 	 */
-	public void move();
+	public void move(IGameUniverse universe);
 	
 	/**
 	 * Returns the current speed (scalar) of this ISimpleMover object.
@@ -50,4 +52,14 @@ public interface IMover {
 	 * Sets the X and Y velocity of this ISimpleMover object equal to zero.
 	 */
 	void resetVelocity();
+	
+	/**
+	 * Checks if the object is on path to enter an unwalkable tile, and fix its velocity if so.
+	 */
+	public void fixBounds(IGameUniverse universe);
+	
+	/*
+	 * Updates the object's position.
+	 */
+	public void updateSelf(IGameUniverse universe);
 }

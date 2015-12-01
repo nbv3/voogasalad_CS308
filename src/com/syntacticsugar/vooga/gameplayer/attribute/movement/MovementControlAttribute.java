@@ -69,7 +69,7 @@ public class MovementControlAttribute extends AbstractMovementAttribute implemen
 //		Point2D point = universe.getMap().getMapIndexFromCoordinate(getParent().getBoundingBox().getPoint());
 //		checkMapBounds(point, universe.getMap().isWalkable());
 //		System.out.println(point);
-		move();
+		move(universe);
 		resetVelocity();
 	}
 	
@@ -80,15 +80,6 @@ public class MovementControlAttribute extends AbstractMovementAttribute implemen
 		if (!isWalkable[r][c]) {
 			resetVelocity();
 		}
-	}
-	
-	@Override
-	public void move() {
-		//TODO : Make this real
-	//	SET THE NEW LOCATION OF THE PARENT'S BOUNDING BOX BASED ON CURRENT VELOCITY
-		IBoundingBox box = getParent().getBoundingBox();
-		Point2D oldPoint = box.getPoint();
-		box.setPoint(new Point2D(oldPoint.getX() + getXVelocity(), oldPoint.getY() + getYVelocity()));
 	}
 	
 }
