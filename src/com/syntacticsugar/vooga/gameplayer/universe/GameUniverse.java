@@ -16,6 +16,9 @@ import com.syntacticsugar.vooga.gameplayer.universe.map.IGameMap;
 import authoring.data.MapData;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
+import javafx.stage.Stage;
 import xml.MapDataXML;
 
 public class GameUniverse implements IGameUniverse {
@@ -33,16 +36,20 @@ public class GameUniverse implements IGameUniverse {
 		myPlayers = new ArrayList<IGameObject>();
 		myGameObjects = new ArrayList<IGameObject>();
 		MapDataXML xml = new MapDataXML();
-		MapData data = xml.loadFromFile(new File("/Users/emanuele/Desktop/map.xml"));
-//		MapData data = xml.loadFromFile(new File("/Users/nbv3/Desktop/Untitled"));
-//		MapData data = xml.loadFromFile(new File("C:\\Users\\Jack\\Documents\\School\\CS_308\\voogasalad_SyntacticSugar\\test_map2.xml"));
-
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.getExtensionFilters().add(new ExtensionFilter("XML Files", "*.xml"));
+		fileChooser.setTitle("Choose Map XML");
+		File selectedFile = fileChooser.showOpenDialog(new Stage());
+		MapData data = null;
+		if (selectedFile != null) {
+			data = xml.loadFromFile(selectedFile);
+		}
 		myGameMap = new GameMap(data);
-		myCurrentInput = new ArrayList<KeyCode>();
-		mySpawnYard = new ArrayList<IGameObject>();
 		myGraveYard = new ArrayList<IGameObject>();
+		mySpawnYard = new ArrayList<IGameObject>();
 		myConditions = new ArrayList<IGameCondition>();
 		myConditions.add(new PlayerDeathCondition());
+		myCurrentInput = new ArrayList<KeyCode>();
 		// myTowers = new ArrayList<IGameObject>();
 	}
 
