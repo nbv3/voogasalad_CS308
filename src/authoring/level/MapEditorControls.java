@@ -1,6 +1,10 @@
 package authoring.level;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 
 import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
@@ -22,6 +26,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
+import javafx.stage.Stage;
 
 public class MapEditorControls {
 
@@ -115,7 +120,8 @@ public class MapEditorControls {
 	}
 	
 	private void showImageOptions(TileImplementation type) {
-		File imgDirectory = new File(ResourceManager.getString(String.format("%s%s", type, "_images")));
+		File imgDirectory = new File(
+				ResourceManager.getString(String.format("%s%s", mySelectedType, "_images")));
 		myIconPane.showIcons(imgDirectory);
 	}
 	
@@ -127,26 +133,20 @@ public class MapEditorControls {
 		FileChooser chooser = new FileChooser();
 		chooser.setTitle("Add Image File");
 		chooser.getExtensionFilters().add(new ExtensionFilter("Image Files", "*.jpeg", "*.gif", "*.png"));
-		File selectedFile = chooser.showOpenDialog(myIconPane.getIconPane().getScene().getWindow());
+		File selectedFile = chooser.showOpenDialog(new Stage());
 		if(selectedFile != null)
 		{
-			String newImagePath = selectedFile.getAbsolutePath();
-			AbstractIcon myIcon = new ImageIcon(newImagePath, 50);
-			myIcon.setOnMouseClicked(e -> {
-				myIconPane.setSelectedIcon(myIcon);
-				});
-			
-			/*myIcon.getImage().addListener((o,s1,s2) -> {
-				if (s1 == null) {
-					s2.setEffect(new Glow(0.7));
-					return;
-				}
-				s1.setEffect(null);
-				s2.setEffect(new Glow(0.7));
-				});*/
-			myIconPane.addIconToPane(myIcon, newImagePath);
-			myIconPane.setNewIconPath(myIcon);
+			String path = ResourceManager.getString(String.format("%s%s", mySelectedType, "_images"));
+//			// get the java.nio.file.path from this
+			try {
+				Files.copy(selectedFile.toPath(),
+				        (new File(path + "/" + selectedFile.getName())).toPath(),
+				        StandardCopyOption.REPLACE_EXISTING);
+			} catch (IOException e) {
+				AlertBoxFactory.createObject("Image already exists. Please select another.");
+			}
 		}
+		showImageOptions(mySelectedType);
 	}
 	
 	/*private void selectNewImage() {
