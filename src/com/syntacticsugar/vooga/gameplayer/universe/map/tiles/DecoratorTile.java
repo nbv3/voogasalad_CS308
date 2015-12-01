@@ -53,12 +53,12 @@ public class DecoratorTile extends AbstractViewableObject implements IGameTile {
 
 	@Override
 	public Point2D getPoint() {
-		return this.myImplementation.getPoint();
+		return this.getBoundingBox().getPoint();
 	}
 
 	@Override
 	public boolean isDestination() {
-		return this.myImplementation.isDestination() && this.myDestination;
+		return this.isWalkable() && this.myDestination;
 	}
 	
 }

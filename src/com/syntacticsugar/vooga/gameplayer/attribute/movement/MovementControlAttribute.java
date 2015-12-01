@@ -1,14 +1,10 @@
 package com.syntacticsugar.vooga.gameplayer.attribute.movement;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 import com.syntacticsugar.vooga.gameplayer.attribute.control.IUserControlAttribute;
-import com.syntacticsugar.vooga.gameplayer.attribute.control.actions.IControlAction;
-import com.syntacticsugar.vooga.gameplayer.attribute.control.actions.movement.algs.*;
-import com.syntacticsugar.vooga.gameplayer.objects.IBoundingBox;
+import com.syntacticsugar.vooga.gameplayer.attribute.control.actions.movement.Direction;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.gameplayer.universe.userinput.IKeyInputStorage;
 
@@ -17,28 +13,28 @@ import javafx.scene.input.KeyCode;
 
 public class MovementControlAttribute extends AbstractMovementAttribute implements IUserControlAttribute {
 
-	private Map<KeyCode, AbstractMovementType> myKeyBindings;
-	private Collection<AbstractMovementType> myCurrentMovement;
+	private Map<KeyCode, Direction> myKeyBindings;
+	private Direction myCurrentMovement;
 	
 	public MovementControlAttribute(double speed) {
 		super(speed);
 		
-		myKeyBindings = new HashMap<KeyCode, AbstractMovementType>();
-		myCurrentMovement = new ArrayList<AbstractMovementType>();
+		myKeyBindings = new HashMap<>();
+		myCurrentMovement = Direction.STOP;
 
 		setDefaultKeyBindings();
 	}
 
 	public void setDefaultKeyBindings() {
-		addKeyBinding(KeyCode.RIGHT, new MoveRightCardinal());
-		addKeyBinding(KeyCode.LEFT, new MoveLeftCardinal());
-		addKeyBinding(KeyCode.DOWN, new MoveDownCardinal());
-		addKeyBinding(KeyCode.UP, new MoveUpCardinal());
+		addKeyBinding(KeyCode.RIGHT, Direction.RIGHT);
+		addKeyBinding(KeyCode.LEFT, Direction.LEFT);
+		addKeyBinding(KeyCode.DOWN, Direction.DOWN);
+		addKeyBinding(KeyCode.UP, Direction.UP);
 	}
 	
 
-	public void addKeyBinding(KeyCode code, IControlAction action) {
-		myKeyBindings.put(code, (AbstractMovementType) action);
+	public void addKeyBinding(KeyCode code, Direction dir) {
+		myKeyBindings.put(code, dir);
 	}
 
 	public void removeKeyBinding(KeyCode code) {
@@ -47,19 +43,17 @@ public class MovementControlAttribute extends AbstractMovementAttribute implemen
 	
 	@Override
 	public void updateKeyInput(IKeyInputStorage universeKeyInput) {
-		myCurrentMovement.clear();
 		for (KeyCode code : universeKeyInput.getCurrentKeyInput()) {
 			if (myKeyBindings.containsKey(code)) {
-				myCurrentMovement.add(myKeyBindings.get(code));
+				myCurrentMovement = myKeyBindings.get(code);
 			}
 		}
 	}
 	
 	@Override
 	public void processKeyInput() {
-		for (AbstractMovementType movement: myCurrentMovement) {
-			movement.setMovement(this);
-		}
+		setDirection(myCurrentMovement);
+		myCurrentMovement = Direction.STOP;
 	}
 
 	@Override
@@ -73,13 +67,13 @@ public class MovementControlAttribute extends AbstractMovementAttribute implemen
 		resetVelocity();
 	}
 	
-	private void checkMapBounds(Point2D mapIndex, boolean[][] isWalkable) {
-		int r = (int) mapIndex.getX();
-		int c = (int) mapIndex.getY();
-		System.out.println(mapIndex);
-		if (!isWalkable[r][c]) {
-			resetVelocity();
-		}
-	}
+//	private void checkMapBounds(Point2D mapIndex, boolean[][] isWalkable) {
+//		int r = (int) mapIndex.getX();
+//		int c = (int) mapIndex.getY();
+//		System.out.println(mapIndex);
+//		if (!isWalkable[r][c]) {
+//			resetVelocity();
+//		}
+//	}
 	
 }

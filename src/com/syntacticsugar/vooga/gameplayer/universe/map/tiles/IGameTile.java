@@ -1,8 +1,10 @@
 package com.syntacticsugar.vooga.gameplayer.universe.map.tiles;
 
+import com.syntacticsugar.vooga.gameplayer.objects.IViewableObject;
+
 import javafx.geometry.Point2D;
 
-public interface IGameTile {
+public interface IGameTile extends IViewableObject{
 
 	/**
 	 * Returns whether or not this Tile can be walked on.

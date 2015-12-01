@@ -2,8 +2,12 @@ package com.syntacticsugar.vooga.gameplayer.universe.map;
 
 import javafx.geometry.Point2D;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.DecoratorTile;
 import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.IGameTile;
@@ -18,6 +22,8 @@ public class GameMap implements IGameMap {
 	private final DecoratorTile[][] myTiles;
 	private int numCols;
 	private int numRows;
+	
+	private Point myDestination;
 
 	public GameMap(MapData mapData) {
 		numCols = mapData.getMapSize();
@@ -47,8 +53,8 @@ public class GameMap implements IGameMap {
 	}
 
 	@Override
-	public Collection<DecoratorTile> getTiles() {
-		Collection<DecoratorTile> tiles = new ArrayList<DecoratorTile>();
+	public Collection<IGameTile> getTiles() {
+		Collection<IGameTile> tiles = new ArrayList<>();
 		for (int i=0; i<myTiles.length; i++) {
 			for (int j=0; j<myTiles[0].length; j++) {
 				tiles.add(myTiles[i][j]);
@@ -85,14 +91,58 @@ public class GameMap implements IGameMap {
 	}
 	
 	@Override
-	public Point2D getMapIndexFromCoordinate(Point2D coordinate) throws Exception {
+	public Point getMapIndexFromCoordinate(Point2D coordinate) throws Exception {
 		int r = (int) Math.floor((coordinate.getX() / MAP_DIMENSIONS) * numRows);
 		int c = (int) Math.floor((coordinate.getY() / MAP_DIMENSIONS) * numCols);
 		if (r < 0 || r >= numRows || c < 0 || c >= numCols) {
 			throw new Exception("Out of Map Bounds");
 		}
-		return new Point2D(r, c);
+		return new Point(r, c);
 //		return coordinate;
+	}
+	
+	@Override
+	public int getSize() {
+		if (numRows == numCols) {
+			return numRows;
+		}
+		return -1;
+	}
+
+	@Override
+	public Map<Point, IGameTile> getPathFindingMap() {
+		Map<Point, IGameTile> map = new HashMap<>();
+		for (int i = 0; i < numRows; i++) {
+			for (int j = 0; j < numCols; j++) {
+				map.put(new Point(i,j), myTiles[i][j]);
+			}
+		}
+		return map;
+	}
+
+	@Override
+	public double getTileSize() {
+		return (MAP_DIMENSIONS / (double) (numRows));
+	}
+
+	@Override
+	public List<Point> getDestinationPoints() {
+		List<Point> destinations = new ArrayList<>();
+		for (int i = 0; i < numRows; i++) {
+			for (int j = 0; j < numCols; j++) {
+				if (myTiles[i][j].isDestination()) {
+					destinations.add(new Point (i,j));
+				}
+			}
+		}
+		return destinations;
+	}
+
+	@Override
+	public Point2D getCoordinateFromMapIndex(Point index) {
+		double x = (index.x * MAP_DIMENSIONS / (double) (numRows));
+		double y = (index.y * MAP_DIMENSIONS / (double) (numCols));
+		return new Point2D(x,y);
 	}
 
 }

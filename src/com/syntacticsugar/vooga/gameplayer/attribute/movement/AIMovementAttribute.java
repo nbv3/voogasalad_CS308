@@ -1,59 +1,47 @@
 package com.syntacticsugar.vooga.gameplayer.attribute.movement;
 
 import java.awt.Point;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
-import com.syntacticsugar.vooga.gameplayer.attribute.control.actions.movement.algs.AbstractMovementType;
-import com.syntacticsugar.vooga.gameplayer.attribute.control.actions.movement.algs.MoveRightCardinal;
+import com.syntacticsugar.vooga.gameplayer.attribute.control.actions.movement.Direction;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
+import com.syntacticsugar.vooga.gameplayer.universe.map.IGameMap;
 import com.syntacticsugar.vooga.gameplayer.utilities.Path;
+import com.syntacticsugar.vooga.gameplayer.utilities.PathFinder;
 
 import javafx.geometry.Point2D;
 
 public class AIMovementAttribute extends AbstractMovementAttribute {
 
-	private Point2D currentLocation;
-	private Point2D destinationLocation;
 	private Path myPath;
-	private Point2D currentTile;
-	private Point2D nextTile;
-	private Point2D destinationTile;
-	private AbstractMovementType myMover;
+	private Point myNextTile;
 	
 	private int myFrameCount;
 	private int myPathUpdateRate; // TODO: Move into a resource file
 	
 	public AIMovementAttribute(double speed) {
 		super(speed);
-		myMover = new MoveRightCardinal(); // DEFAULT RIGHT MOVEMENT TODO
-		// currentLocation = parent.getBoundingBox().getPoint(); TODO
 		
 		// update currentTile
 		myPath = new Path();
 		
 		myFrameCount = 0;
-		myPathUpdateRate = 5;
+		myPathUpdateRate = 20;
 	}
 	
 	private void generatePath(IGameUniverse universe) {
-		// TODO
-		/*
-		 * Find destination point
-		 */
-		//destinationTile = universe.getDestinationPoint();
+		IGameMap map = universe.getMap();
+		List<Point> ends = map.getDestinationPoints();
+		List<Point> starts = new ArrayList<>();
+		starts.add(myCurrentTile);
 		
-		/*
-		 * Get boolean tileMap for path
-		 */
-		//Map<Point, Boolean> tileMap = universe.getTileMap();
-		
-		/*
-		 * Find path
-		 */
-		//myPath = new PathFinder(tileMap, universe.getMapSize(), currentTile, destinationTile);
+		myPath = new PathFinder(map, map.getSize(), starts, ends).getPath();
 	}
 	
 	private Point nextPoint() {
-		int currentIndex = myPath.getList().indexOf(currentTile);
+		int currentIndex = myPath.getList().indexOf(myCurrentTile);
 		if (currentIndex == myPath.getList().size()-1 ) {
 			return myPath.getDestination();
 		} else {
@@ -68,17 +56,20 @@ public class AIMovementAttribute extends AbstractMovementAttribute {
 		if (myFrameCount % myPathUpdateRate == 0) {
 			generatePath(universe);
 		}
-		
-		// set new xVelocity, yVelocity
-		// convert currentTile to double and subtract currentLocation
-		// this difference is the velocity in the direction you want to go
-		
-		// move to nextPoint
+			
+		setNextDestination(universe.getMap());
 		move(universe);
 	}
 	
-	public void setNextDestination() {
-		Point nextPoint = nextPoint();
+	private void setNextDestination(IGameMap map) {
+		
+		if (isInsideTile(map)) {
+			myNextTile = nextPoint();
+		}
+		
+		Direction dir = getDirection();
+		setDirection(dir);
+		
 		// ISimpleBoundingBox box = getParent().getBoundingBox();
 		// Point2D oldPoint = box.getPoint();
 		// convert nextPoint to Point2D
@@ -89,6 +80,39 @@ public class AIMovementAttribute extends AbstractMovementAttribute {
 		// }
 		// box.setPoint(new Point2D(oldPoint.getX() + xVelocity, oldPoint.getY() + yVelocity));
 		System.out.println(String.format("X Velocity: %d   Y Velocity: %d", getXVelocity(), getYVelocity()));
+	}
+	
+	private Boolean isInsideTile(IGameMap map) {
+		Boolean result = false;
+
+		Point2D point = getParent().getBoundingBox().getPoint();
+		Point2D tile = map.getCoordinateFromMapIndex(myNextTile);
+		Boolean xLeft = point.getX() > tile.getX();
+		Boolean xRight = point.getX() + getParent().getBoundingBox().getWidth() < tile.getX() + map.getTileSize();
+		Boolean yBot = point.getY() > tile.getY();
+		Boolean yTop = point.getY() + getParent().getBoundingBox().getHeight() < tile.getY() + map.getTileSize();
+		if (xLeft && xRight && yBot && yTop) {
+			result = true;
+		}
+		
+		
+		return result;
+	}
+	
+	private Direction getDirection() {
+		if (myCurrentTile.x < myNextTile.x) {
+			return Direction.RIGHT;
+		}
+		else if (myCurrentTile.x > myNextTile.x) {
+			return Direction.LEFT;
+		}
+		else if (myCurrentTile.y < myNextTile.y) {
+			return Direction.UP;
+		}
+		else if (myCurrentTile.y > myNextTile.y) {
+			return Direction.DOWN;
+		}
+		return Direction.STOP;
 	}
 
 

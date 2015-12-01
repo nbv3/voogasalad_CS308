@@ -23,24 +23,11 @@ public interface IMover {
 	public void setSpeed(double speed);
 	
 	/**
-	 * Sets the X velocity of this ISimpleMover object equal to the current
+	 * Sets the velocity of this ISimpleMover object equal to the current
 	 * speed of the object in the specified direction.
-	 * @param xDir
+	 * @param Dir
 	 */
-	public void setXVelocity(HDirection xDir);
-	
-	/**
-	 * Sets the Y velocity of this ISimpleMover object equal to the current
-	 * speed of the object in the specified direction.
-	 * @param yDir
-	 */
-	public void setYVelocity(VDirection yDir);
-
-	/**
-	 * Sets the rotation value of this object.
-	 * @param rotate
-	 */
-	public void setRotate(double rotate);
+	public void setVelocity(Direction xDir);
 	
 	/**
 	 * Set the direction of this object.
@@ -52,11 +39,6 @@ public interface IMover {
 	 * Sets the X and Y velocity of this ISimpleMover object equal to zero.
 	 */
 	void resetVelocity();
-	
-	/**
-	 * Checks if the object is on path to enter an unwalkable tile, and fix its velocity if so.
-	 */
-	public void fixBounds(IGameUniverse universe);
 	
 	/*
 	 * Updates the object's position.

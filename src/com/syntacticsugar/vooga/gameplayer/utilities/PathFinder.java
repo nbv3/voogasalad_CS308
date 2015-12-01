@@ -2,6 +2,7 @@ package com.syntacticsugar.vooga.gameplayer.utilities;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -10,7 +11,8 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.Stack;
 
-import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.DecoratorTile;
+import com.syntacticsugar.vooga.gameplayer.universe.map.PathFindingMap;
+import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.IGameTile;
 
 public class PathFinder {
 	private Map<Point, Boolean> grid;
@@ -26,16 +28,16 @@ public class PathFinder {
 	private int rows;
 	private int cols;
 	
-	public PathFinder(Map<Point, DecoratorTile> tileMap, int size, List<Point> start, List<Point> end) {
-		this(fillMap(tileMap), size, size, start, end);
+	public PathFinder(PathFindingMap map, int size, Point start, Point end) {
+		this(fillMap(map.getPathFindingMap()), size, size, start, end);
 	}
 	
-	private static Map<Point, Boolean> fillMap(Map<Point, DecoratorTile> tileMap) {
-		Map<Point, Boolean> bMap = new HashMap<Point, Boolean>();
-		for (Point p : tileMap.keySet()) {
-			bMap.put(p, tileMap.get(p).isWalkable());
-		}
-		return bMap;
+	public PathFinder(PathFindingMap map, int size, List<Point> start, List<Point> end) {
+		this(fillMap(map.getPathFindingMap()), size, size, start, end);
+	}
+	
+	public PathFinder(Map<Point, IGameTile> tileMap, int size, List<Point> start, List<Point> end) {
+		this(fillMap(tileMap), size, size, start, end);
 	}
 
 	public PathFinder(Map<Point, Boolean> pathGrid, int rows, int cols, List<Point> start, List<Point> end) {
@@ -52,7 +54,7 @@ public class PathFinder {
 		findPaths();
 	}
 	
-	public PathFinder(Map<Point, DecoratorTile> tileMap, int size, Point start, Point end) {
+	public PathFinder(Map<Point, IGameTile> tileMap, int size, Point start, Point end) {
 		this(fillMap(tileMap), size, size, start, end);
 	}
 	
@@ -74,6 +76,14 @@ public class PathFinder {
 			path = paths.get(i);
 		}
 
+	}
+	
+	private static Map<Point, Boolean> fillMap(Map<Point, IGameTile> tileMap) {
+		Map<Point, Boolean> bMap = new HashMap<Point, Boolean>();
+		for (Point p : tileMap.keySet()) {
+			bMap.put(p, tileMap.get(p).isWalkable());
+		}
+		return bMap;
 	}
 	
 	public Path getPath() {

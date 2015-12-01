@@ -1,13 +1,12 @@
 package com.syntacticsugar.vooga.gameplayer.attribute.movement;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.syntacticsugar.vooga.gameplayer.attribute.AbstractAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.control.actions.movement.Direction;
-import com.syntacticsugar.vooga.gameplayer.attribute.control.actions.movement.HDirection;
 import com.syntacticsugar.vooga.gameplayer.attribute.control.actions.movement.IMover;
-import com.syntacticsugar.vooga.gameplayer.attribute.control.actions.movement.VDirection;
 import com.syntacticsugar.vooga.gameplayer.objects.IBoundingBox;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.gameplayer.universe.map.IGameMap;
@@ -19,6 +18,8 @@ public abstract class AbstractMovementAttribute extends AbstractAttribute implem
 	private double xVelocity;
 	private double yVelocity;
 	private double mySpeed;
+	
+	protected Point myCurrentTile;
 	
 	public AbstractMovementAttribute(double speed) {
 		super();
@@ -51,39 +52,29 @@ public abstract class AbstractMovementAttribute extends AbstractAttribute implem
 	}
 
 	@Override
-	public void setXVelocity(HDirection xDir) {
-		this.xVelocity = 
-				xDir.equals(HDirection.STOP) ? 
-						0 : (xDir.equals(HDirection.RIGHT) ? mySpeed : -1.0*mySpeed);
-	}
-		
-	@Override
-	public void setYVelocity(VDirection yDir) {
-		this.yVelocity = 
-				yDir.equals(VDirection.STOP) ? 
-						0 : (yDir.equals(VDirection.DOWN) ? mySpeed : -1.0*mySpeed);
-	}
-	
-	@Override
-	public void setRotate(double rotation) {
-		this.getParent().getBoundingBox().setRotate(rotation);
+	public void setVelocity(Direction dir) {
+		if (dir.equals(Direction.LEFT) || dir.equals(Direction.RIGHT)) {
+			this.xVelocity = (dir.equals(Direction.RIGHT) ? mySpeed : -1.0*mySpeed);
+		}
+		else if (dir.equals(Direction.DOWN) || dir.equals(Direction.UP)) {
+			this.yVelocity = (dir.equals(Direction.DOWN) ? mySpeed : -1.0*mySpeed);
+		}
 	}
 	
 	@Override
 	public void setDirection(Direction dir) {
 		this.getParent().getBoundingBox().setDirection(dir);
+		setVelocity(dir);
 	}
 	
-	@Override
-	public void fixBounds(IGameUniverse universe) {
+	private void fixBounds(IGameUniverse universe) {
 		IGameMap map = universe.getMap();
 		List<Point2D> points = getPointsToCheck();
-		System.out.println(points.size());
 		if (points.size() == 0) {
 			return;
 		}
-		Point2D mapPoint;
-		Point2D mapPoint2;
+		Point mapPoint;
+		Point mapPoint2;
 		try {
 			mapPoint = map.getMapIndexFromCoordinate(points.get(0));
 			mapPoint2 = map.getMapIndexFromCoordinate(points.get(1));
@@ -92,15 +83,11 @@ public abstract class AbstractMovementAttribute extends AbstractAttribute implem
 			return;
 		}
 		
-		Boolean canWalkOne = map.isWalkable()[(int) mapPoint.getX()][(int) mapPoint.getY()];
-		Boolean canWalkTwo = map.isWalkable()[(int) mapPoint2.getX()][(int) mapPoint2.getY()];
-//		Boolean onMapOneX = (mapPoint.getX() >= 0 && mapPoint.getX() <= 1000); // TODO: 1000 to resource file
-//		Boolean onMapOneY = (mapPoint.getY() >= 0 && mapPoint.getY() <= 1000); // TODO: 1000 to resource file
-//		Boolean onMapTwoX = (mapPoint2.getX() >= 0 && mapPoint2.getX() <= 1000); // TODO: 1000 to resource file
-//		Boolean onMapTwoY = (mapPoint2.getY() >= 0 && mapPoint2.getY() <= 1000); // TODO: 1000 to resource file
+		Boolean canWalkOne = map.isWalkable()[mapPoint.x][mapPoint.y];
+		Boolean canWalkTwo = map.isWalkable()[mapPoint2.x][mapPoint2.y];
 		
 		
-		if (!(canWalkOne && canWalkTwo)) {// || !(onMapOneX && onMapOneY && onMapTwoX && onMapTwoY)) {
+		if (!(canWalkOne && canWalkTwo)) {
 			resetVelocity();
 		}
 	}
@@ -113,26 +100,26 @@ public abstract class AbstractMovementAttribute extends AbstractAttribute implem
 		
 		List<Point2D> points = new ArrayList<>();
 		if (XVel < 0) {
-			Point2D newPoint = point.add(getXVelocity(), 0);
-			Point2D newPoint2 = point.add(getXVelocity(), getParent().getBoundingBox().getHeight());
+			Point2D newPoint = new Point2D(point.getX() + getXVelocity(), point.getY());
+			Point2D newPoint2 = new Point2D(point.getX() + getXVelocity(), point.getY() + getParent().getBoundingBox().getHeight());
 			points.add(newPoint);
 			points.add(newPoint2);
 		}
 		else if (XVel > 0) {
-			Point2D newPoint = point.add(getXVelocity() + getParent().getBoundingBox().getWidth(), 0);
-			Point2D newPoint2 = point.add(getXVelocity() + getParent().getBoundingBox().getWidth(), getParent().getBoundingBox().getHeight());
+			Point2D newPoint = new Point2D(point.getX() + getXVelocity() + getParent().getBoundingBox().getWidth(), point.getY());
+			Point2D newPoint2 = new Point2D(point.getX() + getXVelocity() + getParent().getBoundingBox().getWidth(), point.getY() + getParent().getBoundingBox().getHeight());
 			points.add(newPoint);
 			points.add(newPoint2);
 		}
 		else if (YVel < 0) {
-			Point2D newPoint = point.add(0, getYVelocity());
-			Point2D newPoint2 = point.add(getParent().getBoundingBox().getWidth(), getYVelocity());
+			Point2D newPoint = new Point2D(point.getX(), point.getY() + getYVelocity());
+			Point2D newPoint2 = new Point2D(point.getX() + getParent().getBoundingBox().getWidth(), point.getY() + getYVelocity());
 			points.add(newPoint);
 			points.add(newPoint2);
 		}
 		else if (YVel > 0) {
-			Point2D newPoint = point.add(0, getYVelocity() + getParent().getBoundingBox().getHeight());
-			Point2D newPoint2 = point.add(getParent().getBoundingBox().getWidth(), getYVelocity() + getParent().getBoundingBox().getHeight());
+			Point2D newPoint = new Point2D(point.getX(), point.getY() + getYVelocity() + getParent().getBoundingBox().getHeight());
+			Point2D newPoint2 = new Point2D(point.getX() + getParent().getBoundingBox().getWidth(), point.getY() + getYVelocity() + getParent().getBoundingBox().getHeight());
 			points.add(newPoint);
 			points.add(newPoint2);
 		}
@@ -148,7 +135,13 @@ public abstract class AbstractMovementAttribute extends AbstractAttribute implem
 		fixBounds(universe);
 		IBoundingBox box = getParent().getBoundingBox();
 		Point2D oldPoint = box.getPoint();
-		box.setPoint(new Point2D(oldPoint.getX() + getXVelocity(), oldPoint.getY() + getYVelocity()));
+		Point2D newPoint = new Point2D(oldPoint.getX() + getXVelocity(), oldPoint.getY() + getYVelocity());
+		box.setPoint(newPoint);
+		try {
+			myCurrentTile = universe.getMap().getMapIndexFromCoordinate(newPoint);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 }
