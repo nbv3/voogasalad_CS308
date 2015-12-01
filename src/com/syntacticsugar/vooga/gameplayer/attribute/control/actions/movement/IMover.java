@@ -36,6 +36,13 @@ public interface IMover {
 	public void setDirection(Direction dir);
 	
 	/**
+	 * Get the direction of this object.
+	 * 
+	 * @return dir
+	 */
+	public Direction getDirection();
+	
+	/**
 	 * Sets the X and Y velocity of this ISimpleMover object equal to zero.
 	 */
 	void resetVelocity();

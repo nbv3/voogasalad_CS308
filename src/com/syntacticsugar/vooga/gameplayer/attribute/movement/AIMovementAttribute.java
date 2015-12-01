@@ -26,6 +26,7 @@ public class AIMovementAttribute extends AbstractMovementAttribute {
 		
 		// update currentTile
 		myPath = new Path();
+		myNextTile = myPath.getNext();
 		
 		myFrameCount = 0;
 		myPathUpdateRate = 20;
@@ -52,13 +53,13 @@ public class AIMovementAttribute extends AbstractMovementAttribute {
 	@Override
 	public void updateSelf(IGameUniverse universe) {
 		// every n frames, run generatePath(universe);
-		myFrameCount++;
 		if (myFrameCount % myPathUpdateRate == 0) {
 			generatePath(universe);
 		}
 			
 		setNextDestination(universe.getMap());
 		move(universe);
+		myFrameCount++;
 	}
 	
 	private void setNextDestination(IGameMap map) {
@@ -66,8 +67,11 @@ public class AIMovementAttribute extends AbstractMovementAttribute {
 		if (isInsideTile(map)) {
 			myNextTile = nextPoint();
 		}
+		if (myNextTile == null) {
+			return;
+		}
 		
-		Direction dir = getDirection();
+		Direction dir = getNewDirection();
 		setDirection(dir);
 		
 		// ISimpleBoundingBox box = getParent().getBoundingBox();
@@ -99,7 +103,7 @@ public class AIMovementAttribute extends AbstractMovementAttribute {
 		return result;
 	}
 	
-	private Direction getDirection() {
+	private Direction getNewDirection() {
 		if (myCurrentTile.x < myNextTile.x) {
 			return Direction.RIGHT;
 		}

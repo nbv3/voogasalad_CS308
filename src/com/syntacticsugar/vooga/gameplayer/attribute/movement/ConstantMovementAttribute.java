@@ -18,6 +18,7 @@ public class ConstantMovementAttribute extends AbstractMovementAttribute {
 	@Override
 	public void updateSelf(IGameUniverse universe) {
 		setDirection(myDir);
+		setVelocity(myDir);
 		move(universe);
 	}
 	

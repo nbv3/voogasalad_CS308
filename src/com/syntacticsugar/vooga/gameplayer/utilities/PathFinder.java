@@ -47,6 +47,7 @@ public class PathFinder {
 		this.rows = rows;
 		this.cols = cols;
 		paths = new ArrayList<Stack<Point>>();
+		path = new Stack<Point>();
 		memo = new HashMap<Point, List<Point>>();
 
 		distanceMap = new HashMap<Point, Integer>();

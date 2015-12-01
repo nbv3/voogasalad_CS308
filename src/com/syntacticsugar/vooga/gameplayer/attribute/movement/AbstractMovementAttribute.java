@@ -25,6 +25,7 @@ public abstract class AbstractMovementAttribute extends AbstractAttribute implem
 		super();
 		resetVelocity();
 		setSpeed(speed);
+		myCurrentTile = new Point(0,0);
 	}
 	
 	public double getXVelocity() {
@@ -64,7 +65,10 @@ public abstract class AbstractMovementAttribute extends AbstractAttribute implem
 	@Override
 	public void setDirection(Direction dir) {
 		this.getParent().getBoundingBox().setDirection(dir);
-		setVelocity(dir);
+	}
+	
+	public Direction getDirection() {
+		return this.getParent().getBoundingBox().getDirection();
 	}
 	
 	private void fixBounds(IGameUniverse universe) {

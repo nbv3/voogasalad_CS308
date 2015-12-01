@@ -52,17 +52,17 @@ public class MovementControlAttribute extends AbstractMovementAttribute implemen
 	
 	@Override
 	public void processKeyInput() {
-		setDirection(myCurrentMovement);
+		if (!myCurrentMovement.equals(Direction.STOP)) {
+			setDirection(myCurrentMovement);
+		}
 		myCurrentMovement = Direction.STOP;
 	}
 
 	@Override
 	public void updateSelf(IGameUniverse universe) {
 		updateKeyInput(universe);
+		setVelocity(myCurrentMovement);
 		processKeyInput();
-//		Point2D point = universe.getMap().getMapIndexFromCoordinate(getParent().getBoundingBox().getPoint());
-//		checkMapBounds(point, universe.getMap().isWalkable());
-//		System.out.println(point);
 		move(universe);
 		resetVelocity();
 	}
