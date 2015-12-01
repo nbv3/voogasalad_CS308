@@ -1,6 +1,7 @@
 package com.syntacticsugar.vooga.gameplayer.universe.userinput;
 
 import java.util.Collection;
+import java.util.List;
 
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
@@ -12,14 +13,14 @@ public interface IKeyInputProcessor extends IKeyInputStorage {
 	 * key press event. Adds the key code to the list of current input.
 	 * @param code
 	 */
-	public void receiveKeyPress(KeyCode code);
+	public void receiveKeyPress(List<KeyCode> code);
 	
 	/**
 	 * Function to be called whenever the Game Manager registers a 
 	 * key release event. Removes the key code from the list of current input.
 	 * @param code
 	 */
-	public void receiveKeyRelease(KeyCode code);
+	public void receiveKeyRelease(List<KeyCode> code);
 	
 	/**
 	 * Function to be called whenever the Game Manager registers a 

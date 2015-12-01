@@ -34,23 +34,29 @@ import javafx.util.Duration;
 
 public class GameManager implements IGameManager {
 
-	private IGameUniverse currentLevel;
 	private List<IGameUniverse> myLevels;
-	private List<IGameCondition> myConditions;
+//	private List<IGameCondition> myConditions;
 	// private GameInformation myInformation;
 	private ViewController myViewController;
 	private Timeline myGameTimeline;
+	private GameEngine myGameEngine;
+	private List<KeyCode> myKeyInput;
+	private List<KeyCode> myKeysReleased;
 	
 	// is SceneManager injection necessary?
 	private SceneManager myManager;
 
 	public GameManager(double gameSize) {
 		
-		currentLevel = new GameUniverse();
-		myConditions = new ArrayList<IGameCondition>();
-		myConditions.add(new PlayerDeathCondition());
+		GameUniverse currentLevel = new GameUniverse();
+		myLevels = new ArrayList<IGameUniverse>();
+		myLevels.add(currentLevel);
+//		myConditions = new ArrayList<IGameCondition>();
+//		myConditions.add(new PlayerDeathCondition());
 
 		myViewController = new ViewController(gameSize);
+		myKeyInput = new ArrayList<KeyCode>();
+		myKeysReleased = new ArrayList<KeyCode>();
 
 		// i changed ISimpleObject to SimpleObject, else addViewObject does not
 		// work
@@ -90,6 +96,7 @@ public class GameManager implements IGameManager {
 		myViewController.addViewObject(enemy);
 		
 		myViewController.initializeView(currentLevel);
+		myGameEngine = new GameEngine(currentLevel, myViewController, this);
 
 	}
 	
@@ -111,49 +118,11 @@ public class GameManager implements IGameManager {
 
 	@Override
 	public void updateGame() {
-		GameEngine.frameUpdate(currentLevel);
-		checkConditions();
-
-		// Object cleanup for now
-
-		processGraveyard();
-		processSpawnyard();
-
-		updateStats();
+		myGameEngine.update(myKeyInput, myKeysReleased);
+		myKeyInput.clear();
+		myKeysReleased.clear();
 	}
 
-	private void processGraveyard() {
-		Collection<IGameObject> graveyard = currentLevel.getGraveYard();
-		for (IGameObject obj : graveyard) {
-			currentLevel.removeGameObject(obj);
-			myViewController.removeViewObject(obj);
-		}
-		currentLevel.clearGraveYard();
-	}
-	
-	private void processSpawnyard() {
-		Collection<IGameObject> spawnyard = currentLevel.getSpawnYard();
-		for (IGameObject obj : spawnyard) {
-			currentLevel.addGameObject(obj);
-			myViewController.addViewObject(obj);
-		}
-		currentLevel.clearSpawnYard();
-	}
-
-	private void updateStats() {
-
-	}
-
-	@Override
-	public void checkConditions() {
-
-		for (IGameCondition condition : myConditions) {
-			if (condition.checkCondition(currentLevel)) {
-				switchLevel(condition.returnType());
-			}
-		}
-
-	}
 
 	@Override
 	public void switchLevel(ConditionType type) {
@@ -176,12 +145,12 @@ public class GameManager implements IGameManager {
 			}
 		}
 		else {
-			currentLevel.receiveKeyPress(code);
+			myKeyInput.add(code);
 		}
 	}
 
 	public void receiveKeyReleased(KeyCode code) {
-		currentLevel.receiveKeyRelease(code);
+		myKeysReleased.add(code);
 	}
 
 	public Pane getGameView() {
@@ -213,5 +182,8 @@ public class GameManager implements IGameManager {
 		myGameTimeline.getKeyFrames().add(frame);
 		startGame();
 	}
+
+
+
 	
 }
