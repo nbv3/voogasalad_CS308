@@ -19,13 +19,11 @@ public class AttributeViewer extends EditingViewer {
 		super(ResourceManager.getString("attributes_added"));
 		typeChosen = type;
 		myAttributes = attributes;
-		System.out.println("The view type is " + typeChosen);
 		myAddButton.setOnAction(e ->openAttributeMakerWizard());
 		myRemoveButton.setOnAction(e -> removeAttributeFromList());
 	}
 
 	private void openAttributeMakerWizard() {
-		System.out.println("The type just before open wizard is " + typeChosen);
 		new AttributeMakerWizard(this,typeChosen,myAttributes);
 	}
 

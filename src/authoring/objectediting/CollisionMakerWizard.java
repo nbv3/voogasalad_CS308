@@ -10,6 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
@@ -38,6 +39,7 @@ public class CollisionMakerWizard {
 		Stage myStage = new Stage();
 		myScene = new Scene(buildCollisions(typeChosen),SCENE_DIMENSION,SCENE_DIMENSION);
 		myStage.setScene(myScene);
+		myStage.initModality(Modality.APPLICATION_MODAL);
 		myStage.showAndWait();
 	}
 

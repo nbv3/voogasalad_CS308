@@ -13,15 +13,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TabPane.TabClosingPolicy;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
 public class AuthoringSidePane {
 
-	private VBox myView;
 	private VBox myEditorView;
 	private TabPane myLibraryTabs;
-	private GameObjectType type;
 	private ObjectEditor myLibraryEditor;
 	private ObjectData myData;
 	private ObjectLibrary myEnemyLibrary;
@@ -30,7 +27,6 @@ public class AuthoringSidePane {
 	private ObjectLibrary myItemLibrary;
 
 	public AuthoringSidePane(File GameDirectory) {
-		myView = new VBox();
 		myEditorView = new VBox();
 		initializeLibraryTabs(GameDirectory);
 		myLibraryTabs = new TabPane();
@@ -38,11 +34,9 @@ public class AuthoringSidePane {
 		myLibraryTabs.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
 		myData = new ObjectData();
 		myLibraryEditor = new ObjectEditor(GameObjectType.ENEMY);
-		
 		myLibraryTabs.getSelectionModel().selectedItemProperty().addListener((e,ov,nv) -> {
 			myLibraryEditor.setTypeChosen(GameObjectType.valueOf(nv.getText().toUpperCase()));
 		});
-		
 		myEditorView.getChildren().addAll(myLibraryEditor.getView(),createBtn());
 		myData.setType(GameObjectType.valueOf(myLibraryTabs.getSelectionModel().getSelectedItem().getText().toUpperCase()));
 	}

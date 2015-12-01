@@ -45,6 +45,6 @@ public class ParameterFactory {
 	public static void main(String[] args){
 		ParameterFactory paramFactory = new ParameterFactory();
 		//paramFactory.createNode(new HealthAttribute(100));
-		paramFactory.createNode(1.0, new HealthAttribute(1.0).getClass().getSimpleName());
+		//paramFactory.createNode(1.0, new HealthAttribute(1.0).getClass().getSimpleName());
 	}
 }
