@@ -54,7 +54,7 @@ public class ObjectEditor {
 		myView.getChildren().addAll(myAttributeViewer.getView(), myCollisionViewer.getView());			
 	}
 	
-	private void makeEditors(){
+	public void makeEditors(){
 		myAttributeViewer = new AttributeViewer(typeChosen,myAttributes);
 		myCollisionViewer = new CollisionViewer(typeChosen,myCollisions);
 	}
@@ -71,5 +71,8 @@ public class ObjectEditor {
 		return myCollisions;
 	}
 	
+	public void setTypeChosen(GameObjectType type) {
+		typeChosen = type;
+	}
 	
 }

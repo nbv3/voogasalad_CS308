@@ -19,6 +19,7 @@ import javafx.scene.layout.VBox;
 public class AuthoringSidePane {
 
 	private VBox myView;
+	private VBox myEditorView;
 	private TabPane myLibraryTabs;
 	private GameObjectType type;
 	private ObjectEditor myLibraryEditor;
@@ -30,6 +31,7 @@ public class AuthoringSidePane {
 
 	public AuthoringSidePane(File GameDirectory) {
 		myView = new VBox();
+		myEditorView = new VBox();
 		initializeLibraryTabs(GameDirectory);
 		myLibraryTabs = new TabPane();
 		populateTabPane();
@@ -37,7 +39,13 @@ public class AuthoringSidePane {
 		myData = new ObjectData();
 		type = GameObjectType.valueOf(myLibraryTabs.getSelectionModel().getSelectedItem().getText().toUpperCase());
 		myLibraryEditor = new ObjectEditor(type);
-		myView.getChildren().addAll(myLibraryTabs,myLibraryEditor.getView(),createBtn());
+		myLibraryTabs.getSelectionModel().selectedItemProperty().addListener((e,ov,nv) -> {
+			System.out.println(GameObjectType.valueOf(nv.getText().toUpperCase()));
+			myLibraryEditor.setTypeChosen(GameObjectType.valueOf(nv.getText().toUpperCase()));
+			myLibraryEditor.makeEditors();
+			System.out.println("Changed");
+		});
+		myEditorView.getChildren().addAll(myLibraryEditor.getView(),createBtn());
 		myData.setType(GameObjectType.valueOf(myLibraryTabs.getSelectionModel().getSelectedItem().getText().toUpperCase()));
 	}
 
@@ -88,6 +96,7 @@ public class AuthoringSidePane {
 	}
 	
 	public Node getEditor() {
-		return myLibraryEditor.getView();
+		return myEditorView;
 	}
+	
 }
