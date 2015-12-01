@@ -1,10 +1,11 @@
 package com.syntacticsugar.vooga.util.parameters;
 
-public abstract class AbstractParameter<R> {
+import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
 
-	private Property
+public abstract class AbstractParameter<R> implements IParameterContainer{
 	
-	public AbstractParameter(R value) {
+
+	public AbstractParameter() {
 		
 	}
 	

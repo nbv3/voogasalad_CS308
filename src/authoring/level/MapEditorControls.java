@@ -7,15 +7,21 @@ import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
 
 import authoring.data.TileImplementation;
+import authoring.icons.implementations.AbstractIcon;
+import authoring.icons.implementations.ImageIcon;
 import authoring.icons.panes.ImageIconPane;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.effect.Glow;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 
 public class MapEditorControls {
 
@@ -55,7 +61,7 @@ public class MapEditorControls {
 		
 		addNewImage = 
 				GUIFactory.buildButton("Add New Image", 
-						e -> selectNewImage(),
+						e -> createNewImage(),
 						null, null);
 
 		applyChanges = 
@@ -113,18 +119,45 @@ public class MapEditorControls {
 		myIconPane.showIcons(imgDirectory);
 	}
 	
-	private void selectNewImage() {
+	private void createNewImage(){
 		if (mySelectedType == null) {
 			AlertBoxFactory.createObject("Select a tile type.");
 			return;
 		}
+		FileChooser chooser = new FileChooser();
+		chooser.setTitle("Add Image File");
+		chooser.getExtensionFilters().add(new ExtensionFilter("Image Files", "*.jpeg", "*.gif", "*.png"));
+		File selectedFile = chooser.showOpenDialog(myIconPane.getIconPane().getScene().getWindow());
+		if(selectedFile != null)
+		{
+			String newImagePath = selectedFile.getAbsolutePath();
+			AbstractIcon myIcon = new ImageIcon(newImagePath, 50);
+			myIcon.setOnMouseClicked(e -> {
+				myIconPane.setSelectedIcon(myIcon);
+				});
+			
+			/*myIcon.getImage().addListener((o,s1,s2) -> {
+				if (s1 == null) {
+					s2.setEffect(new Glow(0.7));
+					return;
+				}
+				s1.setEffect(null);
+				s2.setEffect(new Glow(0.7));
+				});*/
+			myIconPane.addIconToPane(myIcon, newImagePath);
+			myIconPane.setNewIconPath(myIcon);
+		}
+	}
+	
+	/*private void selectNewImage() {
+	
 		// TODO : New Image selection
 		// Present the user with a file chooser (filtered to only show image files)
 		// and allow them to select as many images as they like. Once selected, move 
 		// the chosen images into the appropriate folder (either images/path or 
 		// images/scenery, depending on the value of the TileTypeChooser combobox at the time).
 		System.out.println("Adding new " + mySelectedType + " image");
-	}
+	}*/
 	
 	public Node getContent() {
 		return myContainer;

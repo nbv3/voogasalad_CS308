@@ -1,5 +1,7 @@
 package authoring.level;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -92,7 +94,7 @@ public class MapEditor implements IMapEditor {
 		for (int i=0; i<myMapSize; i++) {
 			for (int j=0; j<myMapSize; j++) {
 				TileData tile = mapData.getTileData(i, j);
-				AbstractIcon icon = new ImageIcon(tile.getImagePath(), mapDisplayWidth/(1.0*myMapSize));
+				AbstractIcon icon = new ImageIcon(tile.getImagePath(),  mapDisplayWidth/(1.0*myMapSize));
 				TileInfoTooltip tileInfo = new TileInfoTooltip(tile);
 				myTileIconMap.put(tile, icon);
 				Tooltip.install(icon, tileInfo);
