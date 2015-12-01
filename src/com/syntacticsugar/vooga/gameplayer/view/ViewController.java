@@ -34,7 +34,7 @@ public class ViewController {
 	
 	public void removeViewObject(IViewableObject obj){
 		ObjectView object = myViewMap.get(obj);
-		myGameView.getChildren().remove(object.getViewPane());
+		myGameView.getView().getChildren().remove(object.getViewPane());
 		myViewMap.remove(obj);
 	}
 

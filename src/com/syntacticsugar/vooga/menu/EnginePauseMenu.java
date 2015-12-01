@@ -7,6 +7,6 @@ public class EnginePauseMenu extends AbstractGameMenu {
 		generateOptions(createButton("Save Game", null ),
 				createButton("Resume Game", e -> manager.launchUnpauseEngine()), 
 				createButton("Help", null),
-				createButton("Main Menu", e -> manager.launchFirstMenu()));
+				createButton("Exit", e -> manager.launchFirstMenu()));
 	}
 }
