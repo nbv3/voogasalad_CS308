@@ -40,8 +40,6 @@ public class AttributeMakerWizard {
 		myScene = new Scene(buildAttributes(typeChosen),SCENE_DIMENSION,SCENE_DIMENSION);
 		myStage = new Stage();
 		myStage.setScene(myScene);
-		myStage.setTitle("AttributeMakerWizard");
-		myStage.initModality(Modality.APPLICATION_MODAL);
 		myStage.showAndWait();
 	}
 	
@@ -98,7 +96,7 @@ public class AttributeMakerWizard {
 			catch (ReflectionException ex) {
 				attributeToAdd = (IAttribute) Reflection.createInstance(className);
 			}
-        	myAttributeViewer.addAttributeToList(attributeToAdd);
+			myAttributeViewer.addAttributeToList(attributeToAdd);
 		}
 	}
 	

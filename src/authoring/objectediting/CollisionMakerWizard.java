@@ -10,7 +10,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
@@ -22,8 +21,6 @@ import com.syntacticsugar.vooga.util.reflection.Reflection;
 import com.syntacticsugar.vooga.util.reflection.ReflectionException;
 
 public class CollisionMakerWizard {
-	
-	private Stage myStage;
 	private Scene myScene;
 	private CollisionViewer myCollisionViewer;
 	private GameObjectType typeChosen;
@@ -38,12 +35,9 @@ public class CollisionMakerWizard {
 		myCollisionViewer = collisionViewer;
 		typeChosen = type;
 		myCollisions = collisions;
-		myStage = new Stage();
+		Stage myStage = new Stage();
 		myScene = new Scene(buildCollisions(typeChosen),SCENE_DIMENSION,SCENE_DIMENSION);
-		myStage = new Stage();
 		myStage.setScene(myScene);
-		myStage.setTitle("AttributeMakerWizard");
-		myStage.initModality(Modality.APPLICATION_MODAL);
 		myStage.showAndWait();
 	}
 

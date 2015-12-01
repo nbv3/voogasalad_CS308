@@ -1,6 +1,10 @@
 package authoring.icons.implementations;
 
 
+import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Border;
@@ -17,13 +21,29 @@ public abstract class AbstractIcon extends Pane {
 			Color.BLACK, BorderStrokeStyle.SOLID, null, new BorderWidths(BORDER_WIDTH)));
 
 	private ImageView myImageView;
+	private String myPath;
+	private String fileName;
 	
 	public AbstractIcon(String imagePath, double dimension){
-		Image img = new Image(getClass().getClassLoader().getResourceAsStream(imagePath));
+		setFileName(imagePath);
+		Image img = new Image(getClass().getClassLoader().getResourceAsStream(fileName));
+		myPath = imagePath;
 		myImageView = new ImageView(img);
 		setIconDimensions(dimension);
 		this.getChildren().add(myImageView);
 		this.setBorder(BORDER);
+	}
+	
+	private void setFileName(String path)
+	{
+		Path p = Paths.get(path);
+		String file = p.getFileName().toString();
+		fileName = file;
+	}
+	
+	public String getFileName()
+	{
+		return fileName;
 	}
 	
 	private void setIconDimensions(double size){
@@ -32,8 +52,28 @@ public abstract class AbstractIcon extends Pane {
 		this.setSize(size);
 	}
 	
+	public String getPath()
+	{
+		return myPath;
+	}
+	
 	public void setImage(Image image) {
 		myImageView.setImage(image);
+	}
+	
+	public void setImagePath(String newPath)
+	{
+		File a = new File(myPath);
+		String fullPath = newPath + "/" + a.getName();
+		a.renameTo(new File(fullPath));
+		Image img = new Image(getClass().getClassLoader().getResourceAsStream(a.getName()));
+		myImageView = new ImageView(img);
+		a.delete();
+	}
+	
+	public ImageView getImage()
+	{
+		return myImageView;
 	}
 	
 	public void setSize(double size) {

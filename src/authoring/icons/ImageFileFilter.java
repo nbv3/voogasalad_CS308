@@ -14,7 +14,7 @@ public class ImageFileFilter implements FileFilter {
 	
 	@Override
 	public boolean accept(File pathname) {
-		String ext = pathname.getPath().replaceAll("^.*\\.(.*)$", "$1");
+		String ext = pathname.getPath().replaceAll("^.*\\.(.*)$", "$1").toLowerCase();
 		return IMAGE_FILE_EXTENSIONS.contains(ext);
 	}
 

@@ -65,10 +65,10 @@ public class AuthoringSidePane {
 	}
 
 	private void initializeLibraryTabs(File GameDirectory) {
-		myEnemyLibrary = new EnemyLibrary(GameDirectory);
-		myTowerLibrary = new TowerLibrary(GameDirectory);
-		myPlayerLibrary = new PlayerLibrary(GameDirectory);
-		myItemLibrary = new ItemLibrary(GameDirectory);
+		myEnemyLibrary = new EnemyLibrary(GameObjectType.ENEMY);
+		myTowerLibrary = new TowerLibrary(GameObjectType.TOWER);
+		myPlayerLibrary = new PlayerLibrary(GameObjectType.PLAYER);
+		myItemLibrary = new ItemLibrary(GameObjectType.ITEM);
 	}
 
 	private void populateTabPane() {
