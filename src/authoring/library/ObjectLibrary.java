@@ -16,13 +16,14 @@ import authoring.icons.implementations.ObjectIcon;
 import authoring.icons.panes.ImageIconPane;
 import authoring.icons.panes.ObjectIconPane;
 import authoring.objectediting.AttributeViewer;
+import authoring.objectediting.ObjectEditor;
 import javafx.scene.Node;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.VBox;
 
 public class ObjectLibrary {
 
-	private VBox myContent;
+	private VBox myView;
 	private GameObjectType myType;
 	protected ObjectIconPane myIconPane;
 	protected List<ObjectData> myObjectDataList;
@@ -34,12 +35,12 @@ public class ObjectLibrary {
 		myType = objectType;
 		myObjectDataList = new ArrayList<ObjectData>();
 		myIconPane = new ObjectIconPane();
-		myContent = buildTitledPane(myIconPane, myType);
+		myView = buildTitledPane(myIconPane, myType);
 		//populateOptionIcons(directory);
 	}
 	
 	public Node getContent(){
-		return myContent;
+		return myView;
 	}
 	
 	private VBox buildTitledPane(ObjectIconPane pane, GameObjectType type){
@@ -56,6 +57,10 @@ public class ObjectLibrary {
 		addIconToPane(dataObject);
 		// now we need to actually write out the XML to the right XML directory (???) 
 		// need to figure out how data works.
+	}
+	
+	private void makeDataObject(){
+		ObjectData dataObject = new ObjectData();
 	}
 	
 }

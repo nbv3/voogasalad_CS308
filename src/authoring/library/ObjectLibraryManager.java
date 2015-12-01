@@ -2,6 +2,8 @@ package authoring.library;
 
 import java.io.File;
 
+import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
+
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TabPane.TabClosingPolicy;
@@ -15,18 +17,18 @@ public class ObjectLibraryManager {
 	private ObjectLibrary myPlayerLibrary;
 	private ObjectLibrary myItemLibrary;
 
-	public ObjectLibraryManager(File GameDirectory) {
-		initializeLibraryTabs(GameDirectory);
+	public ObjectLibraryManager() {
+		initializeLibraryTabs();
 		myLibraryTabs = new TabPane();
 		populateTabPane();
 		myLibraryTabs.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
 	}
 
-	private void initializeLibraryTabs(File GameDirectory) {
-		myEnemyLibrary = new EnemyLibrary(GameDirectory);
-		myTowerLibrary = new TowerLibrary(GameDirectory);
-		myPlayerLibrary = new PlayerLibrary(GameDirectory);
-		myItemLibrary = new ItemLibrary(GameDirectory);
+	private void initializeLibraryTabs() {
+		myEnemyLibrary = new EnemyLibrary(GameObjectType.ENEMY);
+		myTowerLibrary = new TowerLibrary(GameObjectType.TOWER);
+		myPlayerLibrary = new PlayerLibrary(GameObjectType.PLAYER);
+		myItemLibrary = new ItemLibrary(GameObjectType.ITEM);
 	}
 
 	private void populateTabPane() {
