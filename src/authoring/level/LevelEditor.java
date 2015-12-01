@@ -5,33 +5,40 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 
 public class LevelEditor {
 
 	private GridPane myContentGrid;
 	private MapEditor myMapEditor;
 	private MapEditorControls myTileEditor;
-//	private SpawnEditor mySpawnEditor;
-	
+	private EnemyQueuePane myQueue;
+	// private SpawnEditor mySpawnEditor;
+
 	public LevelEditor() throws Exception {
 		myMapEditor = new MapEditor();
 		myTileEditor = new MapEditorControls(myMapEditor);
+		myQueue = new EnemyQueuePane();
 		buildTabContents();
-		
+
 		// When you are ready to add the bottom Node on (for the Spawn Queue),
-		// add it into the myLevelTab and the grid lines will automatically appear.
-		
+		// add it into the myLevelTab and the grid lines will automatically
+		// appear.
+
 	}
-	
+
 	public void loadMap(MapData loadedMap) {
 		myMapEditor.loadMapData(loadedMap);
 	}
-	
+
 	public Node getContent() {
 		return this.myContentGrid;
 	}
-	
+
 	private void buildTabContents() {
 		myContentGrid = new GridPane();
 		myContentGrid.setPadding(new Insets(10, 10, 10, 10));
@@ -39,9 +46,10 @@ public class LevelEditor {
 		addRowConstraints(myContentGrid);
 		myContentGrid.add(myTileEditor.getContent(), 0, 0, 1, 1);
 		myContentGrid.add(myMapEditor.getContent(), 1, 0, 1, 2);
+		myContentGrid.add(myQueue.getContent(), 0, 2, 3, 1);
 		myContentGrid.setGridLinesVisible(true);
 	}
-	
+
 	private void addColumnConstraints(GridPane grid) {
 		ColumnConstraints c1 = new ColumnConstraints();
 		c1.setPercentWidth(25);
@@ -51,7 +59,7 @@ public class LevelEditor {
 		c3.setPercentWidth(25);
 		grid.getColumnConstraints().addAll(c1, c2, c3);
 	}
-	
+
 	private void addRowConstraints(GridPane grid) {
 		RowConstraints r0 = new RowConstraints();
 		r0.setPercentHeight(45);
@@ -65,5 +73,5 @@ public class LevelEditor {
 	public MapData getMapData() {
 		return myMapEditor.getMapData();
 	}
-	
+
 }
