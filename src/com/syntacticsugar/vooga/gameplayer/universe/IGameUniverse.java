@@ -2,6 +2,7 @@ package com.syntacticsugar.vooga.gameplayer.universe;
 
 import java.util.Collection;
 
+import com.syntacticsugar.vooga.gameplayer.conditions.IGameCondition;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.universe.map.IGameMap;
 import com.syntacticsugar.vooga.gameplayer.universe.userinput.IKeyInputProcessor;
@@ -27,4 +28,7 @@ public interface IGameUniverse extends IObjectCollection,
 	 * @return
 	 */
 	public IGameMap getMap();
+	
+	public Collection<IGameCondition> getConditions();
+	
 }
