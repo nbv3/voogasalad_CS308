@@ -77,20 +77,19 @@ public class GameUniverse implements IGameUniverse {
 	}
 
 	@Override
-	public void receiveKeyPress(List<KeyCode> code) {
-		for(KeyCode element : code){
-		if (!myCurrentInput.contains(element)) {
-			myCurrentInput.add(element);
-		}
+	public void receiveKeyPress(KeyCode code) {
+		if (!myCurrentInput.contains(code)) {
+			myCurrentInput.add(code);
+
 		}
 	}
 
 	@Override
-	public void receiveKeyRelease(List<KeyCode> code) {
-		for (KeyCode element : code) {
-			if (myCurrentInput.contains(element)) {
-				myCurrentInput.remove(element);
-			}
+	public void receiveKeyRelease(KeyCode code) {
+
+		if (myCurrentInput.contains(code)) {
+			myCurrentInput.remove(code);
+
 		}
 	}
 

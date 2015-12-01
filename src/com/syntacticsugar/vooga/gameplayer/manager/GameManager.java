@@ -35,35 +35,30 @@ import javafx.util.Duration;
 public class GameManager implements IGameManager {
 
 	private List<IGameUniverse> myLevels;
-//	private List<IGameCondition> myConditions;
+	// private List<IGameCondition> myConditions;
 	// private GameInformation myInformation;
-	private ViewController myViewController;
 	private Timeline myGameTimeline;
 	private GameEngine myGameEngine;
-	private List<KeyCode> myKeyInput;
-	private List<KeyCode> myKeysReleased;
-	
+
 	// is SceneManager injection necessary?
 	private SceneManager myManager;
 
 	public GameManager(double gameSize) {
-		
+
 		GameUniverse currentLevel = new GameUniverse();
 		myLevels = new ArrayList<IGameUniverse>();
 		myLevels.add(currentLevel);
-//		myConditions = new ArrayList<IGameCondition>();
-//		myConditions.add(new PlayerDeathCondition());
+		// myConditions = new ArrayList<IGameCondition>();
+		// myConditions.add(new PlayerDeathCondition());
 
-		myViewController = new ViewController(gameSize);
-		myKeyInput = new ArrayList<KeyCode>();
-		myKeysReleased = new ArrayList<KeyCode>();
+		ViewController myViewController = new ViewController(gameSize);
 
 		// i changed ISimpleObject to SimpleObject, else addViewObject does not
 		// work
 		String playerPath = "player_pacman.png";
 		String enemyPath = "enemy_moster_1.png";
 		String missilePath = "gray.png";
-		
+
 		ObjectData playerData = new ObjectData();
 		List<IAttribute> attributes = new ArrayList<IAttribute>();
 		attributes.add(new HealthAttribute(100));
@@ -73,7 +68,7 @@ public class GameManager implements IGameManager {
 		playerData.setSpawnPoint(0, 0);
 		playerData.setImagePath(playerPath);
 		playerData.setAttributes(attributes);
-		
+
 		ObjectData enemyData = new ObjectData();
 		Collection<IAttribute> enemyAttributes = new ArrayList<IAttribute>();
 		enemyAttributes.add(new HealthAttribute(30));
@@ -89,40 +84,39 @@ public class GameManager implements IGameManager {
 
 		IGameObject player = new GameObject(playerData, 50, 50);
 		IGameObject enemy = new GameObject(enemyData, 100, 100);
-		
+
 		currentLevel.addPlayer(player);
 		currentLevel.addGameObject(enemy);
 		myViewController.addViewObject(player);
 		myViewController.addViewObject(enemy);
-		
+
 		myViewController.initializeView(currentLevel);
-		myGameEngine = new GameEngine(currentLevel, myViewController, this);
+		myGameEngine = new GameEngine(myLevels.get(0), myViewController, this);
 
 	}
-	
+
 	public void setManager(SceneManager manager) {
 		myManager = manager;
 	}
-	
+
 	public void pause() {
-		// call myManager.initEnginePauseMenu() which closes the scene and opens the menu scene
+		// call myManager.initEnginePauseMenu() which closes the scene and opens
+		// the menu scene
 		myManager.launchEnginePauseMenu();
-		
+
 		// TODO pause update logic
 	}
 
 	@Override
 	public void restartGame() {
-		
+
 	}
 
 	@Override
 	public void updateGame() {
-		myGameEngine.update(myKeyInput, myKeysReleased);
-		myKeyInput.clear();
-		myKeysReleased.clear();
-	}
+		myGameEngine.update();
 
+	}
 
 	@Override
 	public void switchLevel(ConditionType type) {
@@ -139,22 +133,20 @@ public class GameManager implements IGameManager {
 		if (code.equals(KeyCode.P)) {
 			if (myGameTimeline.getCurrentRate() == 0.0) {
 				myGameTimeline.play();
-			}
-			else {
+			} else {
 				myGameTimeline.pause();
 			}
-		}
-		else {
-			myKeyInput.add(code);
+		} else {
+			myGameEngine.receiveKeyPressed(code);
 		}
 	}
 
 	public void receiveKeyReleased(KeyCode code) {
-		myKeysReleased.add(code);
+		myGameEngine.receiveKeyReleased(code);
 	}
 
 	public Pane getGameView() {
-		return myViewController.getGameView();
+		return myGameEngine.getGameView();
 	}
 
 	@Override
@@ -164,17 +156,17 @@ public class GameManager implements IGameManager {
 		// allow players to place towers
 		// when play is pressed -> start timeline
 	}
-	
+
 	@Override
-	public void startGame(){
+	public void startGame() {
 		myGameTimeline.play();
 	}
 
 	@Override
-	public void endLevel(){
+	public void endLevel() {
 		myGameTimeline.pause();
 	}
-	
+
 	public void initializeAnimation(double fl) {
 		KeyFrame frame = new KeyFrame(Duration.seconds(fl), e -> updateGame());
 		myGameTimeline = new Timeline();
@@ -183,7 +175,4 @@ public class GameManager implements IGameManager {
 		startGame();
 	}
 
-
-
-	
 }
