@@ -2,8 +2,6 @@ package authoring.objectediting;
 
 import java.util.List;
 
-import authoring.data.ObjectData;
-
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.util.ResourceManager;
@@ -40,6 +38,7 @@ public class AttributeMakerWizard {
 		myScene = new Scene(buildAttributes(typeChosen),SCENE_DIMENSION,SCENE_DIMENSION);
 		myStage = new Stage();
 		myStage.setScene(myScene);
+		myStage.initModality(Modality.APPLICATION_MODAL);
 		myStage.showAndWait();
 	}
 	

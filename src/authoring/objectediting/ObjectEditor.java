@@ -6,11 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import authoring.data.ObjectData;
-
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
 import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
-import com.syntacticsugar.vooga.gameplayer.objects.GameObject;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 
 import javafx.scene.Node;
@@ -22,15 +19,12 @@ import javafx.scene.Node;
  */
 
 import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 public class ObjectEditor {
 
 	private VBox myView;
-	private Button myFileSelectButton;
+	//private Button myFileSelectButton;
 	private AttributeViewer myAttributeViewer;
 	private CollisionViewer myCollisionViewer;
 	//private ObjectData myData;
@@ -73,6 +67,11 @@ public class ObjectEditor {
 	
 	public void setTypeChosen(GameObjectType type) {
 		typeChosen = type;
+		myAttributeViewer.setTypeChosen(typeChosen);
+	}
+	
+	public GameObjectType getTypeChosen() {
+		return typeChosen;
 	}
 	
 }

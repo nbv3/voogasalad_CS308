@@ -19,10 +19,14 @@ public class AttributeViewer extends EditingViewer {
 		super(ResourceManager.getString("attributes_added"));
 		typeChosen = type;
 		myAttributes = attributes;
-		myAddButton.setOnAction(e -> {
-			new AttributeMakerWizard(this,typeChosen,myAttributes);
-		});
+		System.out.println("The view type is " + typeChosen);
+		myAddButton.setOnAction(e ->openAttributeMakerWizard());
 		myRemoveButton.setOnAction(e -> removeAttributeFromList());
+	}
+
+	private void openAttributeMakerWizard() {
+		System.out.println("The type just before open wizard is " + typeChosen);
+		new AttributeMakerWizard(this,typeChosen,myAttributes);
 	}
 
 	public void addAttributeToList(IAttribute attribute) {
@@ -40,7 +44,6 @@ public class AttributeViewer extends EditingViewer {
 		String attributeName = ResourceManager.getString(attribute.getClass().getSimpleName());
 		HBox element = new HBox();
 		element.getChildren().add(new Text(attributeName));
-		//element.getChildren().add(new Text(ResourceManager.getString("doubleclick_edit")));
 		return element;
 	}
 	
@@ -69,49 +72,12 @@ public class AttributeViewer extends EditingViewer {
 		myListView.getItems().remove(selectedIdx);
 	}
 	
-	/*
-	 private void selectedNewParameter(String t1, Text attributeValue, IAttribute attribute) {                
-         attribute.getClass();
-		 attributeValue.setText("");              
-     }    
-
-	private HBox makeListElement(IAttribute attribute) {
-		HBox listElement = new HBox();
-
-		Text attributeName = new Text(attribute.getClass().getSimpleName());
-		listElement.getChildren().add(attributeName);
-		
-		Text attributeValue = new Text();
-		
-		ComboBox<String> attributeParameter = new ComboBox<String>();
-		attributeParameter.valueProperty().addListener((ov, t, t1) -> {
-			selectedNewParameter(t1, attributeValue, attribute);
-		});
-        
-		attributeParameter.getItems().addAll(makeParametersList(attribute));
-
-	
-		
-		return listElement;
-
+	public void setTypeChosen(GameObjectType type) {
+		typeChosen = type;
 	}
 	
-	private List<String> makeParametersList(IAttribute attribute) {
-		ArrayList<String> parameters = new ArrayList<String>();
-
-		Constructor[] constructors = attribute.getClass().getDeclaredConstructors();
-		for (int i = 0; i < constructors.length; i++) {
-			Constructor c = constructors[i];
-			Class[] paramTypes = c.getParameterTypes();
-
-			for (int j = 0; j < paramTypes.length; j++) {
-				if (j > 0)
-					parameters.add(paramTypes[j].getCanonicalName());
-			}
-		}
-
-		return parameters;
+	public GameObjectType getTypeChosen() {
+		return typeChosen;
 	}
-	*/
 
 }

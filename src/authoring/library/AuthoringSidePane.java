@@ -37,14 +37,12 @@ public class AuthoringSidePane {
 		populateTabPane();
 		myLibraryTabs.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
 		myData = new ObjectData();
-		type = GameObjectType.valueOf(myLibraryTabs.getSelectionModel().getSelectedItem().getText().toUpperCase());
-		myLibraryEditor = new ObjectEditor(type);
+		myLibraryEditor = new ObjectEditor(GameObjectType.ENEMY);
+		
 		myLibraryTabs.getSelectionModel().selectedItemProperty().addListener((e,ov,nv) -> {
-			System.out.println(GameObjectType.valueOf(nv.getText().toUpperCase()));
 			myLibraryEditor.setTypeChosen(GameObjectType.valueOf(nv.getText().toUpperCase()));
-			myLibraryEditor.makeEditors();
-			System.out.println("Changed");
 		});
+		
 		myEditorView.getChildren().addAll(myLibraryEditor.getView(),createBtn());
 		myData.setType(GameObjectType.valueOf(myLibraryTabs.getSelectionModel().getSelectedItem().getText().toUpperCase()));
 	}
