@@ -17,10 +17,5 @@ public class SceneryTile extends AbstractTile {
 	public boolean isPlaceable() {
 		return true;
 	}
-	
-	@Override
-	public boolean isDestination() {
-		return false;
-	}
 
 }

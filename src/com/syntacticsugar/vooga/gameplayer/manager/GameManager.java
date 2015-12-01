@@ -9,6 +9,7 @@ import java.util.Map;
 import com.syntacticsugar.vooga.gameplayer.attribute.HealthAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.WeaponAttribute;
+import com.syntacticsugar.vooga.gameplayer.attribute.movement.AIMovementAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.movement.MovementControlAttribute;
 import com.syntacticsugar.vooga.gameplayer.conditions.ConditionType;
 import com.syntacticsugar.vooga.gameplayer.conditions.IGameCondition;
@@ -72,6 +73,7 @@ public class GameManager implements IGameManager {
 		ObjectData enemyData = new ObjectData();
 		Collection<IAttribute> enemyAttributes = new ArrayList<IAttribute>();
 		enemyAttributes.add(new HealthAttribute(30));
+//		enemyAttributes.add(new AIMovementAttribute(3));
 		Map<GameObjectType, Collection<IGameEvent>> collisions = new HashMap<GameObjectType, Collection<IGameEvent>>();
 		Collection<IGameEvent> enemyEvents = new ArrayList<IGameEvent>();
 		enemyEvents.add(new HealthChangeEvent(-10));
