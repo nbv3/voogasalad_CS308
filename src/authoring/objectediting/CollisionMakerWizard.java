@@ -9,8 +9,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 
 import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
@@ -22,26 +20,18 @@ import com.syntacticsugar.vooga.util.reflection.ReflectionException;
 
 import authoring.data.ObjectData;
 
-public class CollisionMakerWizard {
+public class CollisionMakerWizard extends AbstractMakerWizard{
 	
-	private Stage myStage;
 	private Scene myScene;
-	private CollisionViewer myCollisionViewer;
-	private ObjectData myData;
 	private IGameEvent collisionEventToAdd;
 	private GameObjectType selectedCollideObjType;
 	private String selectedCollisionEvent;
 	private final double SCENE_DIMENSION = 400;
 
 	public CollisionMakerWizard(CollisionViewer collisionViewer, ObjectData data) {
-		myCollisionViewer = collisionViewer;
-		myData = data;
-		myStage = new Stage();
+		super(collisionViewer, data);
 		myScene = new Scene(buildCollisions(myData.getType()),SCENE_DIMENSION,SCENE_DIMENSION);
-		myStage = new Stage();
 		myStage.setScene(myScene);
-		myStage.setTitle("AttributeMakerWizard");
-		myStage.initModality(Modality.APPLICATION_MODAL);
 		myStage.showAndWait();
 	}
 
@@ -120,7 +110,7 @@ public class CollisionMakerWizard {
 				collisionEventToAdd = (IGameEvent) Reflection.createInstance(className);
 			}
 			myData.getCollisionMap().get(selectedCollideObjType).add(collisionEventToAdd);
-			myCollisionViewer.addCollisionEventToList(selectedCollideObjType, collisionEventToAdd);
+			((CollisionViewer) myEditingViewer).addCollisionEventToList(selectedCollideObjType, collisionEventToAdd);
 		}
 	}
 
@@ -137,7 +127,7 @@ public class CollisionMakerWizard {
 	
 			}
 			myData.getCollisionMap().put(selectedCollideObjType, collideEvents);
-			myCollisionViewer.addCollisionEventToList(selectedCollideObjType, ((List<IGameEvent>) collideEvents).get(0));
+			((CollisionViewer)myEditingViewer).addCollisionEventToList(selectedCollideObjType, ((List<IGameEvent>) collideEvents).get(0));
 		}
 	}
 

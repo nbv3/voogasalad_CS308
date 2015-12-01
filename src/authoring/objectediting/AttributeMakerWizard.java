@@ -18,26 +18,18 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class AttributeMakerWizard {
+public class AttributeMakerWizard extends AbstractMakerWizard {
 
-	private Stage myStage;
-	private Scene myScene;
-	//private VBox myStageContent;
-	private AttributeViewer myAttributeViewer;
-	private ObjectData myData;
 	private IAttribute attributeToAdd;
 	private String selectedAttribute;
+	private Scene myScene;
 	private final double SCENE_DIMENSION = 300;
 
+
 	public AttributeMakerWizard(AttributeViewer attributeViewer, ObjectData data){
-		myAttributeViewer = attributeViewer;
-		myData = data;
-		myStage = new Stage();
+		super(attributeViewer, data);
 		myScene = new Scene(buildAttributes(myData.getType()),SCENE_DIMENSION,SCENE_DIMENSION);
-		myStage = new Stage();
 		myStage.setScene(myScene);
-		myStage.setTitle("AttributeMakerWizard");
-		myStage.initModality(Modality.APPLICATION_MODAL);
 		myStage.showAndWait();
 	}
 	
@@ -94,7 +86,7 @@ public class AttributeMakerWizard {
 			catch (ReflectionException ex) {
 				attributeToAdd = (IAttribute) Reflection.createInstance(className);
 			}
-        	myAttributeViewer.addAttributeToList(attributeToAdd);
+        	((AttributeViewer)myEditingViewer).addAttributeToList(attributeToAdd);
 		}
 	}
 	
