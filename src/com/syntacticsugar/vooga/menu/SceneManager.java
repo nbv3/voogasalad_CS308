@@ -76,7 +76,7 @@ public class SceneManager {
 	public void launchNewEngine() {
 		myGameManager = new GameManager(GAME_SIZE);
 		myGameManager.setManager(this);
-		gameScene = new Scene(myGameManager.getGameView(), GAME_SIZE, GAME_SIZE);
+		gameScene = new Scene(myGameManager.getGameView());
 		myGameManager.initializeAnimation(FRAME_LENGTH);
 		gameScene.setOnKeyPressed(e -> myGameManager.receiveKeyPressed(e.getCode()));
 		gameScene.setOnKeyReleased(e -> myGameManager.receiveKeyReleased(e.getCode()));

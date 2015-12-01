@@ -12,11 +12,8 @@ import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.universe.map.GameMap;
 import com.syntacticsugar.vooga.gameplayer.universe.map.IGameMap;
-import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.DecoratorTile;
-import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.IGameTile;
 
 import authoring.data.MapData;
-import javafx.geometry.Point2D;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import xml.MapDataXML;
@@ -36,7 +33,10 @@ public class GameUniverse implements IGameUniverse {
 		myPlayers = new ArrayList<IGameObject>();
 		myGameObjects = new ArrayList<IGameObject>();
 		MapDataXML xml = new MapDataXML();
-		MapData data = xml.loadFromFile(new File("/Users/nbv3/Desktop/Untitled"));
+		MapData data = xml.loadFromFile(new File("/Users/emanuele/Desktop/map.xml"));
+//		MapData data = xml.loadFromFile(new File("/Users/nbv3/Desktop/Untitled"));
+//		MapData data = xml.loadFromFile(new File("C:\\Users\\Jack\\Documents\\School\\CS_308\\voogasalad_SyntacticSugar\\test_map2.xml"));
+
 		myGameMap = new GameMap(data);
 		myCurrentInput = new ArrayList<KeyCode>();
 		mySpawnYard = new ArrayList<IGameObject>();

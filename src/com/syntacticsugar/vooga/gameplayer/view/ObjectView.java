@@ -23,7 +23,8 @@ public class ObjectView implements Observer{
 		iv.setFitHeight(scalingFactor*box.getWidth());
 		iv.setFitWidth(scalingFactor*box.getHeight());
 		myViewPane.getChildren().add(iv);
-		myGameView.getChildren().add(myViewPane);
+		//myGameView.getChildren().add(myViewPane);
+		myGameView.addObjectView(myViewPane);
 		box.addObserver(this);
 	}
 
