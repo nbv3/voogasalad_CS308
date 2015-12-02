@@ -1,25 +1,28 @@
 package com.syntacticsugar.vooga.gameplayer.view;
 
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.StackPane;
-
 import java.util.Observable;
 import java.util.Observer;
 
 import com.syntacticsugar.vooga.gameplayer.objects.BoundingBox;
 
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
 
-public class ObjectView implements Observer{
+public class ObjectView extends Observable implements Observer {
 	
 	private StackPane myViewPane;
 	private double scalingFactor;
+	protected double tempCoord1;
+	protected double tempCoord2;
 	
 	public ObjectView(String path, BoundingBox box , GameView myGameView) {
 		myViewPane = new StackPane();
 		ImageView iv = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(path)));
 		scalingFactor = myGameView.getScalingFactor();
 		applyTransform(box);
+		tempCoord1 = box.getPoint().getX();
+		tempCoord2 = box.getPoint().getY();
 		iv.setFitHeight(scalingFactor*box.getWidth());
 		iv.setFitWidth(scalingFactor*box.getHeight());
 		myViewPane.getChildren().add(iv);

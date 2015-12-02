@@ -1,5 +1,9 @@
 package com.syntacticsugar.vooga.gameplayer.view;
 
+import java.util.concurrent.Callable;
+
+import com.syntacticsugar.vooga.gameplayer.view.implementation.TileView;
+
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
@@ -19,7 +23,7 @@ public class GameView extends BorderPane {
 		gameField = new Pane();
 		this.setCenter(gameField);
 		myTowerBox = new TowerBox();
-		this.setRight(myTowerBox);
+		this.setRight(myTowerBox.getContent());
 		myInfoBox = new InformationBox();
 		this.setBottom(myInfoBox);
 	}
@@ -39,6 +43,9 @@ public class GameView extends BorderPane {
 	public Pane getView() {
 		return gameField;
 	}
-
+	
+	public void initializeTowerTileObserver(TileView tile){
+		myTowerBox.addObserver(tile);
+	}
 
 }
