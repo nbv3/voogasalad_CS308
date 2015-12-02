@@ -42,9 +42,6 @@ public class ViewController implements IViewRemover, IViewAdder {
 		for (IGameTile tile : universe.getMap().getTiles()) {
 			addViewObject(tile);
 		}
-		for (IGameObject player : universe.getPlayers()) {
-			addViewObject(player);
-		}
 		for (IGameObject object : universe.getGameObjects()) {
 			addViewObject(object);
 		}

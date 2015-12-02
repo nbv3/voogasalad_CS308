@@ -9,11 +9,8 @@ import java.util.Map;
 import com.syntacticsugar.vooga.gameplayer.attribute.HealthAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.WeaponAttribute;
-import com.syntacticsugar.vooga.gameplayer.attribute.movement.AIMovementAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.movement.MovementControlAttribute;
 import com.syntacticsugar.vooga.gameplayer.conditions.ConditionType;
-import com.syntacticsugar.vooga.gameplayer.conditions.IGameCondition;
-import com.syntacticsugar.vooga.gameplayer.conditions.PlayerDeathCondition;
 import com.syntacticsugar.vooga.gameplayer.engine.GameEngine;
 import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.HealthChangeEvent;
@@ -28,7 +25,6 @@ import com.syntacticsugar.vooga.menu.SceneManager;
 import authoring.data.ObjectData;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.geometry.Point2D;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
@@ -87,6 +83,7 @@ public class GameManager implements IGameManager {
 		IGameObject player = new GameObject(playerData, 50, 50);
 		IGameObject enemy = new GameObject(enemyData, 100, 100);
 
+		currentLevel.addPlayer(player);
 		currentLevel.addGameObject(player);
 		currentLevel.addGameObject(enemy);
 		myViewController.addViewObject(player);
