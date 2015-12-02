@@ -17,12 +17,14 @@ public class LevelEditor {
 	private MapEditor myMapEditor;
 	private MapEditorControls myTileEditor;
 	private EnemyQueueTabManager myQueue;
+	private WaveController myWaveControl;
 	// private SpawnEditor mySpawnEditor;
 
 	public LevelEditor() throws Exception {
 		myMapEditor = new MapEditor();
 		myTileEditor = new MapEditorControls(myMapEditor);
 		myQueue = new EnemyQueueTabManager();
+		myWaveControl = new WaveController();
 		buildTabContents();
 
 		// When you are ready to add the bottom Node on (for the Spawn Queue),
@@ -46,7 +48,8 @@ public class LevelEditor {
 		addRowConstraints(myContentGrid);
 		myContentGrid.add(myTileEditor.getContent(), 0, 0, 1, 1);
 		myContentGrid.add(myMapEditor.getContent(), 1, 0, 1, 2);
-		myContentGrid.add(myQueue.getTabPane(), 0, 2, 3, 1);
+		myContentGrid.add(myWaveControl.getView(), 0, 2, 1, 1);
+		myContentGrid.add(myQueue.getView(), 1, 2, 2, 1);
 		myContentGrid.setGridLinesVisible(true);
 	}
 
