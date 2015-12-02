@@ -13,7 +13,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
+import com.syntacticsugar.vooga.gameplayer.event.ICollisionEvent;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
@@ -24,9 +24,14 @@ import com.syntacticsugar.vooga.util.reflection.ReflectionException;
 public class CollisionMakerWizard {
 	private Scene myScene;
 	private CollisionViewer myCollisionViewer;
+<<<<<<< HEAD
 	private GameObjectType typeChosen;
 	private Map<GameObjectType, Collection<IGameEvent>> myCollisions;
 	private IGameEvent collisionEventToAdd;
+=======
+	private ObjectData myData;
+	private ICollisionEvent collisionEventToAdd;
+>>>>>>> feature/towers
 	private GameObjectType selectedCollideObjType;
 	private String selectedCollisionEvent;
 	private final double SCENE_DIMENSION = 400;
@@ -91,7 +96,11 @@ public class CollisionMakerWizard {
 		
 		if (myCollisions.containsKey(selectedCollideObjType)) {
 			//System.out.println(selectedCollideObjEvent.getClass().getSimpleName());
+<<<<<<< HEAD
 			for (IGameEvent i: myCollisions.get(selectedCollideObjType)) {
+=======
+			for (ICollisionEvent i: myData.getCollisionMap().get(selectedCollideObjType)) {
+>>>>>>> feature/towers
 				//System.out.println(i.getClass().getSimpleName());
 				if (i.getClass().getSimpleName().equals(selectedCollisionEvent)) {
 					AlertBoxFactory.createObject(String.format("Cannot add more than one %s to collide type %s", 
@@ -112,10 +121,10 @@ public class CollisionMakerWizard {
 		String className = ResourceManager.getString(String.format("%s_%s", selectedCollisionEvent, "name"));
 		if (msgBox.getValue() != 0) {
 			try {
-				collisionEventToAdd = (IGameEvent) Reflection.createInstance(className, msgBox.getValue());
+				collisionEventToAdd = (ICollisionEvent) Reflection.createInstance(className, msgBox.getValue());
 			}
 			catch (ReflectionException ex) {
-				collisionEventToAdd = (IGameEvent) Reflection.createInstance(className);
+				collisionEventToAdd = (ICollisionEvent) Reflection.createInstance(className);
 			}
 			myCollisions.get(selectedCollideObjType).add(collisionEventToAdd);
 			myCollisionViewer.addCollisionEventToList(selectedCollideObjType, collisionEventToAdd);
@@ -126,16 +135,21 @@ public class CollisionMakerWizard {
 		MsgInputBoxFactory msgBox = new MsgInputBoxFactory(ResourceManager.getString(String.format("%s%s", "double_", selectedCollisionEvent)));
 		String className = ResourceManager.getString(String.format("%s_%s", selectedCollisionEvent, "name"));
 		if (msgBox.getValue() != 0) {
-			Collection<IGameEvent> collideEvents  = new ArrayList<IGameEvent>();
+			Collection<ICollisionEvent> collideEvents  = new ArrayList<ICollisionEvent>();
 			try {
-				collideEvents.add((IGameEvent) Reflection.createInstance(className, msgBox.getValue()));
+				collideEvents.add((ICollisionEvent) Reflection.createInstance(className, msgBox.getValue()));
 			}
 			catch (ReflectionException ex) {
-				collideEvents.add((IGameEvent) Reflection.createInstance(className));
+				collideEvents.add((ICollisionEvent) Reflection.createInstance(className));
 	
 			}
+<<<<<<< HEAD
 			myCollisions.put(selectedCollideObjType, collideEvents);
 			myCollisionViewer.addCollisionEventToList(selectedCollideObjType, ((List<IGameEvent>) collideEvents).get(0));
+=======
+			myData.getCollisionMap().put(selectedCollideObjType, collideEvents);
+			myCollisionViewer.addCollisionEventToList(selectedCollideObjType, ((List<ICollisionEvent>) collideEvents).get(0));
+>>>>>>> feature/towers
 		}
 	}
 

@@ -4,7 +4,13 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 
+<<<<<<< HEAD
 import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
+=======
+import authoring.data.ObjectData;
+
+import com.syntacticsugar.vooga.gameplayer.event.ICollisionEvent;
+>>>>>>> feature/towers
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
@@ -31,7 +37,7 @@ public class CollisionViewer extends EditingViewer {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public void addCollisionEventToList(GameObjectType objectType, IGameEvent gameEvent) {
+	public void addCollisionEventToList(GameObjectType objectType, ICollisionEvent gameEvent) {
 		if (myListView.getItems().isEmpty()) {
 			addElementToList(makeListElement(objectType, gameEvent));
 		}
@@ -48,15 +54,21 @@ public class CollisionViewer extends EditingViewer {
 		}
 		
 		System.out.println("*****add collision******");
+<<<<<<< HEAD
 		System.out.println(typeChosen);
 		for (GameObjectType g: myCollisions.keySet()) {
 			for (IGameEvent i: myCollisions.get(g)) {
+=======
+		System.out.println(myData.getType());
+		for (GameObjectType g: myData.getCollisionMap().keySet()) {
+			for (ICollisionEvent i: myData.getCollisionMap().get(g)) {
+>>>>>>> feature/towers
 				System.out.println(String.format("%s->%s", g, i.getClass().getSimpleName()));
 			}
 		}
 	}
 
-	private HBox makeListElement(GameObjectType objectType, IGameEvent gameEvent){
+	private HBox makeListElement(GameObjectType objectType, ICollisionEvent gameEvent){
 		HBox element = new HBox();
 		
 		element.setAlignment(Pos.BASELINE_CENTER);
@@ -69,7 +81,7 @@ public class CollisionViewer extends EditingViewer {
 		return element;
 	}
 	
-	private ComboBox<String> makeEventDropdown(IGameEvent gameEvent){
+	private ComboBox<String> makeEventDropdown(ICollisionEvent gameEvent){
 		ComboBox<String> eventDropdown = new ComboBox<String>();
 		String eventName = gameEvent.getClass().getSimpleName();
 		eventDropdown.getItems().add(eventName);
@@ -98,27 +110,41 @@ public class CollisionViewer extends EditingViewer {
 		}
 		
 		System.out.println("*****remove collision******");
+<<<<<<< HEAD
 		System.out.println(typeChosen);
 		for (GameObjectType g: myCollisions.keySet()) {
 			for (IGameEvent i: myCollisions.get(g)) {
+=======
+		System.out.println(myData.getType());
+		for (GameObjectType g: myData.getCollisionMap().keySet()) {
+			for (ICollisionEvent i: myData.getCollisionMap().get(g)) {
+>>>>>>> feature/towers
 				System.out.println(String.format("%s->%s", g, i.getClass().getSimpleName()));
 			}
 		}
 	}
 
 	private void removeCollideEvent(int selectedIdx, String collisionObjTypeToRemove, String collisionEventToRemove) {		
+<<<<<<< HEAD
 		Iterator<IGameEvent> iter = myCollisions.get(GameObjectType.valueOf(collisionObjTypeToRemove)).iterator();
+=======
+		Iterator<ICollisionEvent> iter = myData.getCollisionMap().get(GameObjectType.valueOf(collisionObjTypeToRemove)).iterator();
+>>>>>>> feature/towers
 		while (iter.hasNext()) {
-		    IGameEvent str = iter.next();
+		    ICollisionEvent str = iter.next();
 		    if (str.getClass().getSimpleName().equals(collisionEventToRemove)) {
 		    	iter.remove();
 		    }
 		}
 		
 //	    System.out.println("The value size after removal is " + myData.getCollisionMap().get(GameObjectType.valueOf(collisionObjTypeToRemove)).size());	
+<<<<<<< HEAD
 		Iterator<Map.Entry<GameObjectType,Collection<IGameEvent>>> iter2 = myCollisions.entrySet().iterator();
+=======
+		Iterator<Map.Entry<GameObjectType,Collection<ICollisionEvent>>> iter2 = myData.getCollisionMap().entrySet().iterator();
+>>>>>>> feature/towers
 		while (iter2.hasNext()) {
-			Map.Entry<GameObjectType,Collection<IGameEvent>> entry = iter2.next();
+			Map.Entry<GameObjectType,Collection<ICollisionEvent>> entry = iter2.next();
 		    if(entry.getValue().isEmpty()){
 		        iter2.remove();
 		    }

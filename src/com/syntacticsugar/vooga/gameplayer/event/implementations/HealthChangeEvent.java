@@ -4,17 +4,17 @@ import java.util.Map;
 
 import com.syntacticsugar.vooga.gameplayer.attribute.HealthAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
-import com.syntacticsugar.vooga.gameplayer.event.AbstractGameEvent;
-import com.syntacticsugar.vooga.gameplayer.event.GameEventType;
+import com.syntacticsugar.vooga.gameplayer.event.CollisionEvent;
+import com.syntacticsugar.vooga.gameplayer.event.CollisionEventType;
 import com.syntacticsugar.vooga.util.ResourceManager;
 
-public class HealthChangeEvent extends AbstractGameEvent {
+public class HealthChangeEvent extends CollisionEvent {
 
 	private final String TARGET_ATTRIBUTE = ResourceManager.getString("HealthAttribute");
 	private double myDeltaHealth;
 	
 	public HealthChangeEvent(double deltaHealth) {
-		super(GameEventType.HealthChange);
+		super(CollisionEventType.HealthChange);
 		this.myDeltaHealth = deltaHealth;
 	}
 	

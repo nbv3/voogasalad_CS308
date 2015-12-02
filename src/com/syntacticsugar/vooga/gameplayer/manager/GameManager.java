@@ -15,6 +15,7 @@ import com.syntacticsugar.vooga.gameplayer.conditions.ConditionType;
 import com.syntacticsugar.vooga.gameplayer.conditions.IGameCondition;
 import com.syntacticsugar.vooga.gameplayer.conditions.PlayerDeathCondition;
 import com.syntacticsugar.vooga.gameplayer.engine.GameEngine;
+import com.syntacticsugar.vooga.gameplayer.event.ICollisionEvent;
 import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.HealthChangeEvent;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObject;
@@ -43,6 +44,8 @@ public class GameManager implements IGameManager {
 
 	// is SceneManager injection necessary?
 	private SceneManager myManager;
+	
+	ViewController myViewController;
 
 	public GameManager(double gameSize) {
 
@@ -52,7 +55,7 @@ public class GameManager implements IGameManager {
 		// myConditions = new ArrayList<IGameCondition>();
 		// myConditions.add(new PlayerDeathCondition());
 
-		ViewController myViewController = new ViewController(gameSize);
+		myViewController = new ViewController(gameSize);
 
 		// i changed ISimpleObject to SimpleObject, else addViewObject does not
 		// work
@@ -74,8 +77,8 @@ public class GameManager implements IGameManager {
 		Collection<IAttribute> enemyAttributes = new ArrayList<IAttribute>();
 		enemyAttributes.add(new HealthAttribute(30));
 //		enemyAttributes.add(new AIMovementAttribute(3));
-		Map<GameObjectType, Collection<IGameEvent>> collisions = new HashMap<GameObjectType, Collection<IGameEvent>>();
-		Collection<IGameEvent> enemyEvents = new ArrayList<IGameEvent>();
+		Map<GameObjectType, Collection<ICollisionEvent>> collisions = new HashMap<GameObjectType, Collection<ICollisionEvent>>();
+		Collection<ICollisionEvent> enemyEvents = new ArrayList<ICollisionEvent>();
 		enemyEvents.add(new HealthChangeEvent(-10));
 		collisions.put(GameObjectType.PLAYER, enemyEvents);
 		enemyData.setType(GameObjectType.ENEMY);
@@ -106,7 +109,7 @@ public class GameManager implements IGameManager {
 		// the menu scene
 		myManager.launchEnginePauseMenu();
 
-		// TODO pause update logic
+		myGameTimeline.pause();
 	}
 
 	@Override
@@ -175,6 +178,12 @@ public class GameManager implements IGameManager {
 		myGameTimeline.setCycleCount(Timeline.INDEFINITE);
 		myGameTimeline.getKeyFrames().add(frame);
 		startGame();
+	}
+
+	@Override
+	public void postEvent(IGameEvent event) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.Map;
 
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
-import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
+import com.syntacticsugar.vooga.gameplayer.event.ICollisionEvent;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 
 public interface IGameObject extends IAttributeCollection, ICollidable, IViewableObject {
@@ -20,23 +20,5 @@ public interface IGameObject extends IAttributeCollection, ICollidable, IViewabl
 	 * @return
 	 */
 	public GameObjectType getType();
-	
-	// ISimpleAttributeContainer methods
-	
-	@Override
-	public Map<String, IAttribute> getAttributes();
 
-	@Override
-	public void addAttribute(IAttribute attribute);
-	
-	// ICollidable methods
-	
-	@Override
-	public Collection<IGameEvent> getEventsFromCollision(GameObjectType type);
-	
-	@Override
-	public void addCollisionBinding(GameObjectType type, IGameEvent event);
-	
-	@Override
-	public void onCollision(IGameObject collidedObject);
 }
