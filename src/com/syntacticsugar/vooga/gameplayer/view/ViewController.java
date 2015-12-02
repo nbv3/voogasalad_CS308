@@ -19,8 +19,8 @@ import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.IGameTile;
 import com.syntacticsugar.vooga.gameplayer.view.implementation.TileView;
 
-import authoring.data.ObjectData;
 import javafx.geometry.Point2D;
+import xml.data.ObjectData;
 
 public class ViewController implements IViewRemover, IViewAdder, Observer {
 
@@ -72,6 +72,7 @@ public class ViewController implements IViewRemover, IViewAdder, Observer {
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		//Test version, will need to know what tower is selected
+		/*
 		Point2D point =  (Point2D) arg1;
 		String imgPath = "tower_1.png";
 		ObjectData enemyData = new ObjectData();
@@ -93,6 +94,7 @@ public class ViewController implements IViewRemover, IViewAdder, Observer {
 		IViewableObject obj = (IViewableObject) enemy;
 		ObjectView animal = new ObjectView(obj.getPath(), obj.getBoundingBox(), myGameView);
 		myViewMap.put(obj, animal);
+		*/
 		
 	}
 
