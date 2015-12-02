@@ -49,8 +49,8 @@ public class GameManager implements IGameManager {
 		GameUniverse currentLevel = new GameUniverse();
 		myLevels = new ArrayList<IGameUniverse>();
 		myLevels.add(currentLevel);
-		// myConditions = new ArrayList<IGameCondition>();
-		// myConditions.add(new PlayerDeathCondition());
+//		 myConditions = new ArrayList<IGameCondition>();
+//		 myConditions.add(new PlayerDeathCondition());
 
 		ViewController myViewController = new ViewController(gameSize);
 
@@ -87,7 +87,7 @@ public class GameManager implements IGameManager {
 		IGameObject player = new GameObject(playerData, 50, 50);
 		IGameObject enemy = new GameObject(enemyData, 100, 100);
 
-		currentLevel.addPlayer(player);
+		currentLevel.addGameObject(player);
 		currentLevel.addGameObject(enemy);
 		myViewController.addViewObject(player);
 		myViewController.addViewObject(enemy);
