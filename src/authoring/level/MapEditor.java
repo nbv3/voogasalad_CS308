@@ -5,6 +5,7 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.syntacticsugar.vooga.authoring.css.CSSWizard;
 import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 import com.syntacticsugar.vooga.util.gui.factory.SliderDialogFactory;
@@ -104,48 +105,11 @@ public class MapEditor implements IMapEditor {
 				Tooltip.install(icon, tileInfo);
 				icon.setOnMouseEntered(e -> mouseOverHandler(tile, e.isControlDown(), e.isShiftDown()));
 				icon.setOnMouseClicked(e -> mouseClickHandler(tile));
-				icon.setOnDragOver(new EventHandler<DragEvent>() {
-				    public void handle(DragEvent event) {
-				        /* data is dragged over the target */
-				        /* accept it only if it is not dragged from the same node 
-				         * and if it has a string data */
-				    		Dragboard db = event.getDragboard();
-				    		System.out.println(db);
-				            /* allow for both copying and moving, whatever user chooses */
-				        	System.out.println("Tile is ready to accept dragged object");
-				            event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
-
-				     
-				        event.consume();
-				    }
-				});
+				icon.setOnDragOver((DragEvent event) -> dragOverHandler(event));
+				icon.setOnDragEntered((DragEvent event) -> dragEnteredHandler(icon, event)); 
+				icon.setOnDragExited((DragEvent event) -> dragExitedHandler(icon,event));
 				
-				icon.setOnDragEntered(new EventHandler<DragEvent>() {
-				    public void handle(DragEvent event) {
-				    /* the drag-and-drop gesture entered the target */
-				    /* show to the user that it is an actual gesture target */
-
-			            if (event.getGestureSource() != icon &&
-		                        event.getDragboard().hasString()) {
-			            	icon.setOpacity(0);
-		                }
-		                
-				    }
-				});
-				
-				icon.setOnDragExited(new EventHandler<DragEvent>(){
-
-					@Override
-					public void handle(DragEvent event) {
-						// TODO Auto-generated method stub
-						if (event.getGestureSource() != icon &&
-		                        event.getDragboard().hasString()) {
-							icon.setOpacity(1);
-						}
-						
-					}
-					
-				});
+			
 				icon.setOnDragDropped(new EventHandler<DragEvent>() {
 				    public void handle(DragEvent event) {
 				        /* data dropped */
@@ -169,7 +133,37 @@ public class MapEditor implements IMapEditor {
 			}
 		}
 	}
+	// Move these methods to AbstractIcon
+	private void dragOverHandler(DragEvent event) {
+		/* data is dragged over the target */
+        /* accept it only if it is not dragged from the same node 
+         * and if it has a string data */
+    		Dragboard db = event.getDragboard();
+    		System.out.println(db);
+            /* allow for both copying and moving, whatever user chooses */
+        	System.out.println("Tile is ready to accept dragged object");
+            event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
 
+     
+        event.consume();
+	}
+	private void dragEnteredHandler(AbstractIcon icon, DragEvent event) {
+		/* the drag-and-drop gesture entered the target */
+    /* show to the user that it is an actual gesture target */
+
+        if (event.getGestureSource() != icon &&
+                event.getDragboard().hasString()) {
+        		// Upgrade in the next revision.
+           		icon.setOpacity(0);
+        }
+	}
+	private void dragExitedHandler(AbstractIcon icon, DragEvent event) {
+		if (event.getGestureSource() != icon &&
+                event.getDragboard().hasString()) {
+			icon.setOpacity(1);
+		}
+	}
+	
 	private void mouseOverHandler(TileData tile, boolean isControlDown, boolean isShiftDown) {
 		multiSelectTile(tile, isControlDown, isShiftDown);
 	}
