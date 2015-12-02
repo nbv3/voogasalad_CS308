@@ -127,6 +127,7 @@ public class GameManager implements IGameManager {
 		} else if (type.equals(ConditionType.LOSING)) {
 			// go backward?
 			System.out.println("YOU LOSE");
+			pause();
 		}
 
 	}

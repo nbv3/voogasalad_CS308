@@ -33,10 +33,9 @@ public class GameEngine {
 	public void update() {
 		checkCollisions();
 		updateState();
-		checkConditions();
 		processGraveyard();
 		processSpawnyard();
-
+		checkConditions();
 	}
 
 	private void checkCollisions() {
