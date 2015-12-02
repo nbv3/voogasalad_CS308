@@ -12,6 +12,8 @@ import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.universe.map.GameMap;
 import com.syntacticsugar.vooga.gameplayer.universe.map.IGameMap;
+import com.syntacticsugar.vooga.gameplayer.view.IViewAdder;
+import com.syntacticsugar.vooga.gameplayer.view.IViewRemover;
 
 import authoring.data.MapData;
 import javafx.scene.input.KeyCode;
@@ -25,8 +27,8 @@ public class GameUniverse implements IGameUniverse {
 
 	private Collection<IGameObject> myPlayers;
 	private Collection<IGameObject> myGameObjects;
-	private Collection<IGameObject> mySpawnYard;
-	private Collection<IGameObject> myGraveYard;
+	private SpawnYard mySpawnYard;
+	private GraveYard myGraveYard;
 	private List<IGameCondition> myConditions;
 	// private Collection<IGameObject> myTowers;
 	private IGameMap myGameMap;
@@ -45,8 +47,8 @@ public class GameUniverse implements IGameUniverse {
 			data = xml.loadFromFile(selectedFile);
 		}
 		myGameMap = new GameMap(data);
-		myGraveYard = new ArrayList<IGameObject>();
-		mySpawnYard = new ArrayList<IGameObject>();
+		myGraveYard = new GraveYard(this);
+		mySpawnYard = new SpawnYard(this);
 		myConditions = new ArrayList<IGameCondition>();
 		myConditions.add(new PlayerDeathCondition());
 		myCurrentInput = new ArrayList<KeyCode>();
@@ -71,16 +73,8 @@ public class GameUniverse implements IGameUniverse {
 
 	@Override
 	public void addGameObject(IGameObject toAdd) {
+		System.out.println("ADD");
 		myGameObjects.add(toAdd);
-	}
-
-	@Override
-	public void removeGameObject(IGameObject toRemove) {
-		if (toRemove.getType().equals(GameObjectType.PLAYER)) {
-			myPlayers.remove(toRemove);
-		} else {
-			myGameObjects.remove(toRemove);
-		}
 	}
 
 	@Override
@@ -112,40 +106,23 @@ public class GameUniverse implements IGameUniverse {
 
 	@Override
 	public void addToSpawnYard(IGameObject toAdd) {
-		mySpawnYard.add(toAdd);
+		mySpawnYard.addToYard(toAdd);
 	}
 
 	@Override
 	public void addToGraveYard(IGameObject toRemove) {
-		myGraveYard.add(toRemove);
+		myGraveYard.addToYard(toRemove);
 	}
 
 	@Override
-	public void clearSpawnYard() {
-		mySpawnYard.clear();
+	public void removeFromUniverse(IViewRemover remover) {
+		myGraveYard.alterUniverse(remover);
+
 	}
 
 	@Override
-	public void clearGraveYard() {
-		myGraveYard.clear();
-	}
-
-	@Override
-	public Collection<IGameObject> getGraveYard() {
-		return Collections.unmodifiableCollection(myGraveYard);
-	}
-
-	@Override
-	public Collection<IGameObject> getSpawnYard() {
-		return Collections.unmodifiableCollection(mySpawnYard);
-	}
-
-	public void setSpawnYard(Collection<IGameObject> spawnyard) {
-		mySpawnYard = spawnyard;
-	}
-
-	public void setTowers(Collection<IGameObject> towers) {
-		mySpawnYard = towers;
+	public void addToUniverse(IViewAdder adder) {
+		mySpawnYard.alterUniverse(adder);
 	}
 
 	@Override
@@ -155,7 +132,23 @@ public class GameUniverse implements IGameUniverse {
 
 	@Override
 	public Collection<IGameCondition> getConditions() {
-		// TODO Auto-generated method stub
 		return Collections.unmodifiableCollection(myConditions);
 	}
+
+	@Override
+	public void removeGameObject(IGameObject obj) {
+		System.out.println("HERE");
+		myGameObjects.remove(obj);
+	}
+
+	@Override
+	public SpawnYard getSpawnYard() {
+		return mySpawnYard;
+	}
+
+	@Override
+	public GraveYard getGraveYard() {
+		return myGraveYard;
+	}
+
 }

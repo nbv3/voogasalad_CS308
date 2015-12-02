@@ -9,7 +9,7 @@ import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.DecoratorTile;
 import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.IGameTile;
 
-public class ViewController {
+public class ViewController implements IViewController {
 
 	private Map<IViewableObject, ObjectView> myViewMap;
 	private GameView myGameView;
@@ -27,22 +27,22 @@ public class ViewController {
 	public Map<IViewableObject, ObjectView> getViewMap() {
 		return myViewMap;
 	}
-	
+
 	public GameView getGameView() {
 		return myGameView;
 	}
-	
-	public void removeViewObject(IViewableObject obj){
+
+	public void removeViewObject(IViewableObject obj) {
 		ObjectView object = myViewMap.get(obj);
 		myGameView.getView().getChildren().remove(object.getViewPane());
 		myViewMap.remove(obj);
 	}
 
 	public void initializeView(IGameUniverse universe) {
-		for (IGameTile tile: universe.getMap().getTiles()) {
+		for (IGameTile tile : universe.getMap().getTiles()) {
 			addViewObject(tile);
 		}
-		for (IGameObject player: universe.getPlayers()) {
+		for (IGameObject player : universe.getPlayers()) {
 			addViewObject(player);
 		}
 		for (IGameObject object : universe.getGameObjects()) {

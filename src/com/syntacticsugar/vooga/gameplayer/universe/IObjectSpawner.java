@@ -3,6 +3,7 @@ package com.syntacticsugar.vooga.gameplayer.universe;
 import java.util.Collection;
 
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
+import com.syntacticsugar.vooga.gameplayer.view.IViewAdder;
 
 public interface IObjectSpawner {
 	
@@ -11,7 +12,7 @@ public interface IObjectSpawner {
 	 * SpawnYard in this frame (ie. marked for spawning)
 	 * @return
 	 */
-	public Collection<IGameObject> getSpawnYard();
+	public void addToUniverse(IViewAdder adder);
 	
 	/**
 	 * Add a GameObject to the SpawnYard (ie. mark it for spawning)
@@ -19,10 +20,7 @@ public interface IObjectSpawner {
 	 */
 	public void addToSpawnYard(IGameObject toAdd);
 	
-	/**
-	 * Clear out the SpawnYard (usually called after all spawns have
-	 * been processed).
-	 */
-	public void clearSpawnYard();
+	public SpawnYard getSpawnYard();
+
 	
 }

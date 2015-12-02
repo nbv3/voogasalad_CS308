@@ -15,15 +15,5 @@ public interface IObjectCollection extends IObjectSpawner,
 	 */
 	public Collection<IGameObject> getGameObjects();
 
-	
-	// IObjectAdder method
-	
-	@Override
-	public void addGameObject(IGameObject toAdd);
-	
-	// IObjectRemover method
-	
-	@Override
-	public void removeGameObject(IGameObject toRemove);
 		
 }

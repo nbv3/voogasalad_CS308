@@ -2,7 +2,7 @@ package com.syntacticsugar.vooga.gameplayer.attribute.control.actions;
 
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 
-public interface IControlAction {
+public interface IControlAction  {
 
 	/**
 	 * Method to execute this attribute control action. Usually 

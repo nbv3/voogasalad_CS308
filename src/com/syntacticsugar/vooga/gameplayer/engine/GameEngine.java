@@ -8,7 +8,6 @@ import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import com.syntacticsugar.vooga.gameplayer.conditions.IGameCondition;
 import com.syntacticsugar.vooga.gameplayer.manager.ILevelSwitcher;
@@ -97,33 +96,22 @@ public class GameEngine {
 	}
 
 	private void processGraveyard() {
-		Collection<IGameObject> graveyard = myUniverse.getGraveYard();
-		for (IGameObject obj : graveyard) {
-			myUniverse.removeGameObject(obj);
-			myView.removeViewObject(obj);
-		}
-		myUniverse.clearGraveYard();
+		myUniverse.removeFromUniverse(myView);
 	}
 
 	private void processSpawnyard() {
-		Collection<IGameObject> spawnyard = myUniverse.getSpawnYard();
-		for (IGameObject obj : spawnyard) {
-			myUniverse.addGameObject(obj);
-			myView.addViewObject(obj);
-		}
-		myUniverse.clearSpawnYard();
+		myUniverse.addToUniverse(myView);
 	}
 
 	public void receiveKeyPressed(KeyCode code) {
 		myUniverse.receiveKeyPress(code);
 	}
-	
+
 	public void receiveKeyReleased(KeyCode code) {
 		myUniverse.receiveKeyRelease(code);
 	}
 
 	public Pane getGameView() {
-		// TODO Auto-generated method stub
 		return myView.getGameView();
 	}
 
