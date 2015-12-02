@@ -14,6 +14,8 @@ import javafx.geometry.Point2D;
 
 public class ObjectData {
 	
+	private String myName;
+	
 	private GameObjectType myType;
 	private Point2D mySpawnPoint;
 	private double width;
@@ -82,6 +84,14 @@ public class ObjectData {
 	
 	public void setImagePath(String myImagePath) {
 		this.myImagePath = myImagePath;
+	}
+	
+	public void setObjectName(String name) {
+		this.myName = name;
+	}
+	
+	public String getObjectName() {
+		return myName;
 	}
 
 	public void setAttributes(Collection<IAttribute> attributes) {

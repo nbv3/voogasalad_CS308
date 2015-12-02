@@ -21,6 +21,10 @@ public class GUIFactory {
 		anchor.getChildren().addAll(left, right);
 		AnchorPane.setLeftAnchor(left, 0.0);
 		AnchorPane.setRightAnchor(right, 0.0);
+		AnchorPane.setBottomAnchor(left, 0.0);
+		AnchorPane.setBottomAnchor(right, 0.0);
+		AnchorPane.setTopAnchor(left, 0.0);
+		AnchorPane.setTopAnchor(right, 0.0);
 		return anchor;
 	}
 	

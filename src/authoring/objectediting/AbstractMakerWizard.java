@@ -1,6 +1,5 @@
 package authoring.objectediting;
 
-import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
 import com.syntacticsugar.vooga.util.ResourceManager;
 
 import javafx.stage.Modality;

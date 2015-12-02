@@ -73,5 +73,10 @@ public class HealthAttribute extends AbstractAttribute {
 	private boolean isDead() {
 		return this.myHealth <= 0;
 	}
+	
+	// test code here
+	public double getHealth() {
+		return myMaxHealth;
+	}
 
 }

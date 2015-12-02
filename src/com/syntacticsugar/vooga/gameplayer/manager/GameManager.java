@@ -20,7 +20,6 @@ import com.syntacticsugar.vooga.gameplayer.game.Game;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObject;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
-import com.syntacticsugar.vooga.gameplayer.universe.GameUniverse;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.gameplayer.view.ViewController;
 import com.syntacticsugar.vooga.menu.SceneManager;
@@ -61,7 +60,7 @@ public class GameManager implements IGameManager {
 		// i changed ISimpleObject to SimpleObject, else addViewObject does not
 		// work
 		String playerPath = "player_pacman.png";
-		String enemyPath = "enemy_moster_1.png";
+		String enemyPath = "enemy_monster_1.png";
 		String missilePath = "gray.png";
 
 		ObjectData playerData = new ObjectData();
@@ -96,6 +95,7 @@ public class GameManager implements IGameManager {
 		IGameObject enemy = new GameObject(enemyData);
 
 		currentLevel.addPlayer(player);
+		currentLevel.addGameObject(player);
 		currentLevel.addGameObject(enemy);
 		myViewController.addViewObject(player);
 		myViewController.addViewObject(enemy);
@@ -135,6 +135,7 @@ public class GameManager implements IGameManager {
 		} else if (type.equals(ConditionType.LOSING)) {
 			// go backward?
 			System.out.println("YOU LOSE");
+			pause();
 		}
 
 	}

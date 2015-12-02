@@ -1,7 +1,5 @@
 package authoring.level;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,6 +13,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableSet;
 import javafx.collections.SetChangeListener;
 import javafx.geometry.HPos;
+import javafx.geometry.Insets;
 import javafx.geometry.VPos;
 import javafx.scene.control.Tooltip;
 import javafx.scene.effect.Effect;
@@ -90,7 +89,6 @@ public class MapEditor implements IMapEditor {
 		myMapGrid.getChildren().clear();
 		myTileIconMap = new HashMap<TileData, AbstractIcon>();
 		myMapGrid.setPrefSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
-		myMapGrid.getStylesheets().add("/com/syntacticsugar/vooga/authoring/css/default.css");
 		for (int i=0; i<myMapSize; i++) {
 			for (int j=0; j<myMapSize; j++) {
 				TileData tile = mapData.getTileData(i, j);
@@ -104,6 +102,7 @@ public class MapEditor implements IMapEditor {
 				GridPane.setConstraints(icon, i, j, 1, 1, HPos.CENTER, VPos.CENTER, Priority.ALWAYS, Priority.ALWAYS, null);
 			}
 		}
+		myMapGrid.setPadding(new Insets(10));
 	}
 
 	private void mouseOverHandler(TileData tile, boolean isControlDown, boolean isShiftDown) {

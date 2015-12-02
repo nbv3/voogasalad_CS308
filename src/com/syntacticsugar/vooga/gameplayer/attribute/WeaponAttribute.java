@@ -1,5 +1,6 @@
 package com.syntacticsugar.vooga.gameplayer.attribute;
 
+
 import com.syntacticsugar.vooga.gameplayer.attribute.control.IUserControlAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.control.actions.movement.Direction;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;

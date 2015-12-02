@@ -14,7 +14,6 @@ import javafx.geometry.Insets;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.effect.Glow;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.TilePane;
 
@@ -23,7 +22,6 @@ public abstract class AbstractIconPane {
 	private ScrollPane myScrollPane;
 	private TilePane myIconPane;
 	private Map<AbstractIcon, String> myImagePaths;
-	private File myDirectory;
 
 	private final ObjectProperty<AbstractIcon> mySelectedIcon = new SimpleObjectProperty<AbstractIcon>();
 	private final double GLOW_PERCENTAGE = 0.75;
@@ -61,7 +59,6 @@ public abstract class AbstractIconPane {
 	}
 	
 	protected Collection<String> getImagePaths(File directory, FileFilter filter) {
-		myDirectory = directory;
 		File[] files = directory.listFiles(filter);
 		Collection<String> imagePaths = new ArrayList<String>();
 		for (int i=0; i<files.length; i++) {
@@ -79,7 +76,7 @@ public abstract class AbstractIconPane {
 		double size = ((getIconPane().getWidth() - 2.0*INSET_VALUE - (NUM_COLS-1.0)*2.0*INSET_VALUE)/(NUM_COLS));
 		icon.setSize(size);
 		myIconPane.getChildren().add(icon);
-		myImagePaths.put(icon, icon.getFileName());
+		myImagePaths.put(icon, imagePath);
 	}
 	
 	protected void setSelectedEffect(AbstractIcon oldIcon, AbstractIcon newIcon) {
@@ -97,15 +94,6 @@ public abstract class AbstractIconPane {
 
 	public void setSelectedIcon(AbstractIcon icon) {
 		mySelectedIcon.set(icon);
-	}
-	
-	public void setNewIconPath(AbstractIcon icon)
-	{
-		if(myDirectory != null)
-		{
-			icon.setImagePath(myDirectory.getAbsolutePath());
-		}
-
 	}
 	
 	public String getSelectedImagePath() {

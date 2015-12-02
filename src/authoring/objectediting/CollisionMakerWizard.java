@@ -2,7 +2,6 @@ package authoring.objectediting;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 
 import javafx.scene.Scene;
@@ -12,7 +11,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import xml.data.ObjectData;
 
 import com.syntacticsugar.vooga.gameplayer.event.ICollisionEvent;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
@@ -24,27 +22,26 @@ import com.syntacticsugar.vooga.util.reflection.ReflectionException;
 
 public class CollisionMakerWizard {
 	private Scene myScene;
-	private CollisionViewer myCollisionViewer;
-	private GameObjectType typeChosen;
+	private Stage myStage;
 	private Map<GameObjectType, Collection<ICollisionEvent>> myCollisions;
 	private ICollisionEvent collisionEventToAdd;
-	private ObjectData myData;
 	private GameObjectType selectedCollideObjType;
 	private String selectedCollisionEvent;
 	private final double SCENE_DIMENSION = 400;
 
-	public CollisionMakerWizard(CollisionViewer collisionViewer, GameObjectType type, 
-			Map<GameObjectType, Collection<ICollisionEvent>> collisions) {
-		myCollisionViewer = collisionViewer;
-		typeChosen = type;
+	public CollisionMakerWizard(GameObjectType type, Map<GameObjectType, Collection<ICollisionEvent>> collisions) {
 		myCollisions = collisions;
-		Stage myStage = new Stage();
-		myScene = new Scene(buildCollisions(typeChosen),SCENE_DIMENSION,SCENE_DIMENSION);
+		myStage = new Stage();
+		setType(type);
+	}
+
+	public void setType(GameObjectType type) {
+		myScene = new Scene(buildCollisions(type),SCENE_DIMENSION,SCENE_DIMENSION);
 		myStage.setScene(myScene);
 		myStage.initModality(Modality.APPLICATION_MODAL);
 		myStage.showAndWait();
 	}
-
+	
 	private VBox buildCollisions(GameObjectType type) {
 		VBox ret = new VBox();
 		HBox listViewsBox = new HBox();
@@ -76,8 +73,8 @@ public class CollisionMakerWizard {
 	private Button createAddCollisionBtn() {
 		Button addCollision = new Button("Add Collision");
 		addCollision.setOnMouseClicked(e -> {
-        	createCollision();
-        });
+			createCollision();
+		});
 		return addCollision;
 	}
 
@@ -90,10 +87,10 @@ public class CollisionMakerWizard {
 			AlertBoxFactory.createObject("Please select a GameEventType first");
 			return;			
 		}
-		
+
 		if (myCollisions.containsKey(selectedCollideObjType)) {
 			//System.out.println(selectedCollideObjEvent.getClass().getSimpleName());
-			for (ICollisionEvent i: myData.getCollisionMap().get(selectedCollideObjType)) {
+			for (ICollisionEvent i: myCollisions.get(selectedCollideObjType)) {
 				//System.out.println(i.getClass().getSimpleName());
 				if (i.getClass().getSimpleName().equals(selectedCollisionEvent)) {
 					AlertBoxFactory.createObject(String.format("Cannot add more than one %s to collide type %s", 
@@ -120,7 +117,7 @@ public class CollisionMakerWizard {
 				collisionEventToAdd = (ICollisionEvent) Reflection.createInstance(className);
 			}
 			myCollisions.get(selectedCollideObjType).add(collisionEventToAdd);
-			myCollisionViewer.addCollisionEventToList(selectedCollideObjType, collisionEventToAdd);
+//			myCollisionViewer.addCollisionEventToList(selectedCollideObjType, collisionEventToAdd);
 		}
 	}
 
@@ -134,15 +131,9 @@ public class CollisionMakerWizard {
 			}
 			catch (ReflectionException ex) {
 				collideEvents.add((ICollisionEvent) Reflection.createInstance(className));
-	
 			}
 			myCollisions.put(selectedCollideObjType, collideEvents);
-			myCollisionViewer.addCollisionEventToList(selectedCollideObjType, ((List<ICollisionEvent>) collideEvents).get(0));
-			myData.getCollisionMap().put(selectedCollideObjType, collideEvents);
-			myCollisionViewer.addCollisionEventToList(selectedCollideObjType, ((List<ICollisionEvent>) collideEvents).get(0));
 		}
 	}
-
-
 
 }

@@ -6,8 +6,7 @@ import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.menu.SceneManager;
 
 import authoring.level.LevelTabManager;
-import authoring.library.ObjectLibrary;
-import authoring.library.AuthoringSidePane;
+import authoring.library.ObjectLibraryManager;
 import authoring.objectediting.ObjectEditor;
 import javafx.scene.Scene;
 import javafx.scene.control.Menu;
@@ -19,13 +18,13 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 import xml.MapDataXML;
 import xml.data.MapData;
+import xml.data.ObjectData;
+import xml.ObjectDataXML;
 
 public class AuthoringScreenManager {
 
@@ -33,31 +32,27 @@ public class AuthoringScreenManager {
 	private GridPane myWindowGrid;
 
 	private LevelTabManager myLevelEditor;
-	//	private LibraryManager myLibraryManager;
+	private ObjectLibraryManager myObjectLibraryManager;
 	private Stage myStage;
 	private Scene myScene;
 	//private ObjectLibrary myObjectLibrary;
-	//private ObjectEditor myObjectEditor;
-	private AuthoringSidePane myObjectManager;
+	private ObjectEditor myObjectEditor;
 
 	// injected for returning to main menu
 	private SceneManager sceneManager;
 
 	public AuthoringScreenManager() {
-		initLevelEditor();
-		//initObjectEditor();
-		initObjectLibrary();
+		myLevelEditor = new LevelTabManager();
+		myObjectLibraryManager = new ObjectLibraryManager();
+		myObjectEditor = new ObjectEditor();
 		initWindow();
 	}
 
-	private void initObjectLibrary() {
-		//		myObjectLibrary = new ObjectLibrary(null);
-		myObjectManager = new AuthoringSidePane(null);
-	}
+	//	private void initObjectLibrary() {
+	//		myObjectLibrary = new ObjectLibrary(null);
+	//		myObjectManager = new AuthoringSidePane(null);
+	//	}
 
-//	private void initObjectEditor(){
-//		myObjectEditor = new ObjectEditor(myData);
-//	}
 
 	public void setSceneManager(SceneManager sceneManager) {
 		this.sceneManager = sceneManager;
@@ -72,8 +67,8 @@ public class AuthoringScreenManager {
 		addGridConstraints();
 
 		myWindowGrid.add(myLevelEditor.getTabPane(), 0, 0, 1, 2);
-		myWindowGrid.add(myObjectManager.getLibrary(), 1, 0, 1 ,1);
-		myWindowGrid.add(myObjectManager.getEditor(), 1, 1, 1, 1);
+		//		myWindowGrid.add(myObjectManager.getLibrary(), 1, 0, 1 ,1);
+		myWindowGrid.add(myObjectEditor.getView(), 1, 1, 1, 1);
 		myWindow.setCenter(myWindowGrid);
 
 		myScene = new Scene(myWindow);
@@ -88,6 +83,12 @@ public class AuthoringScreenManager {
 	private void handleKeyPress(KeyEvent e) {
 		if (e.isControlDown() && e.getCode().equals(KeyCode.N)) {
 			myLevelEditor.addNewLevel();
+		}
+		if (e.getCode().equals(KeyCode.S)) {
+			ObjectData data = new ObjectData();
+			data.setImagePath("enemy_moster_1.png");
+			data.setType(GameObjectType.TOWER);
+			myObjectEditor.displayData(data);
 		}
 	}
 
@@ -107,12 +108,16 @@ public class AuthoringScreenManager {
 		MenuItem loadMap = new MenuItem();
 		loadMap.setText("Load map");
 		loadMap.setOnAction(e -> loadMap());
-		
+
 		MenuItem saveMap = new MenuItem();
 		saveMap.setText("Save map");
 		saveMap.setOnAction(e -> saveMap());
 
-		file.getItems().addAll(newLevel, loadMap, saveMap);
+		MenuItem loadData = new MenuItem();
+		loadData.setText("Load ObjectData");
+		loadData.setOnAction(e -> loadData());
+
+		file.getItems().addAll(newLevel, loadMap, saveMap, loadData);
 
 		// menu menu
 		//		Menu menu = new Menu();
@@ -128,6 +133,21 @@ public class AuthoringScreenManager {
 		myWindow.setTop(menuBar);
 	}
 
+	private void loadData() {
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setTitle("Open Resource File");
+		fileChooser.getExtensionFilters().addAll(
+				new ExtensionFilter("XML Files", "*.xml"));
+		File selectedFile = fileChooser.showOpenDialog(new Stage());
+		if (selectedFile != null) {
+			ObjectDataXML xml = new ObjectDataXML();
+			ObjectData toload = xml.loadFromFile(selectedFile);
+			System.out.println(toload);
+			System.out.println(toload.getAttributes());
+			myObjectEditor.displayData(toload);
+		}
+	}
+
 	private void loadMap() {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Open Resource File");
@@ -140,7 +160,7 @@ public class AuthoringScreenManager {
 			myLevelEditor.loadMap(toload);
 		}
 	}
-	
+
 	private void saveMap() {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Save Resource File");
@@ -152,10 +172,7 @@ public class AuthoringScreenManager {
 			xml.writeXMLToFile(xmlString, selectedFile);
 		}
 	}
-	
-	private void initLevelEditor() {
-		myLevelEditor = new LevelTabManager();
-	}
+
 
 	private void addGridConstraints() {
 		addColumnConstraints();

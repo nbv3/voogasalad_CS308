@@ -87,6 +87,7 @@ public class SceneManager {
 		// TODO modify to do direct load instead of launch
 		
 		// TODO load from XML here or within GameManager?
+		// DO IT
 		myGameManager = new GameManager(GAME_SIZE);
 		myGameManager.setManager(this);
 		gameScene = new Scene(myGameManager.getGameView(), GAME_SIZE, GAME_SIZE);
