@@ -2,6 +2,7 @@ package com.syntacticsugar.vooga.gameplayer.game;
 
 import java.util.Collection;
 
+import com.syntacticsugar.vooga.gameplayer.universe.GameUniverse;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 
 public class Game implements IGame {
@@ -11,7 +12,7 @@ public class Game implements IGame {
 	private int myWave;
 	
 	public Game(GameData data) {
-		myUniverse = data.getUniverse();
+		myUniverse = new GameUniverse(data.getUniverse());
 	}
 
 	@Override

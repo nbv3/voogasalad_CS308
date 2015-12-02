@@ -16,7 +16,7 @@ import javafx.geometry.Point2D;
 
 public class GameObject extends AbstractViewableObject implements IGameObject {
 
-	private GameObjectType myType;
+	protected GameObjectType myType;
 	private Map<String, IAttribute> myAttributeMap;
 	private Map<GameObjectType, Collection<ICollisionEvent>> myCollisionEventMap;
 
