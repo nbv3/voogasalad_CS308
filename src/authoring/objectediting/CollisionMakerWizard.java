@@ -135,5 +135,4 @@ public class CollisionMakerWizard {
 			myCollisions.put(selectedCollideObjType, collideEvents);
 		}
 	}
-
 }

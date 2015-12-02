@@ -1,5 +1,6 @@
 package authoring.icons.implementations;
 
+import javafx.beans.property.DoubleProperty;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Border;
@@ -17,25 +18,41 @@ public abstract class AbstractIcon extends Pane {
 
 	private ImageView myImageView;
 	
-	public AbstractIcon(String imagePath, double dimension){
+	public AbstractIcon(String imagePath, boolean showBorder){
 		Image img = new Image(getClass().getClassLoader().getResourceAsStream(imagePath));
 		myImageView = new ImageView(img);
-		setIconDimensions(dimension);
+		setIconDimensions(showBorder);
 		this.getChildren().add(myImageView);
-		this.setBorder(BORDER);
+		if (showBorder)	
+			this.setBorder(BORDER);
 	}
 	
-	private void setIconDimensions(double size){
-		myImageView.fitWidthProperty().bind(this.widthProperty().subtract(2*BORDER_WIDTH));
-		myImageView.fitHeightProperty().bind(this.heightProperty().subtract(1*BORDER_WIDTH));
-		myImageView.translateXProperty().bind(this.translateXProperty().add(1));
-		myImageView.translateYProperty().bind(this.translateYProperty().add(0));
-		this.setSize(size);
+	private void setIconDimensions(boolean showBorder){
+		if (showBorder) {
+			myImageView.fitWidthProperty().bind(this.widthProperty().subtract(2*BORDER_WIDTH));
+			myImageView.fitHeightProperty().bind(this.heightProperty().subtract(1*BORDER_WIDTH));
+			myImageView.translateXProperty().bind(this.translateXProperty().add(1));
+			myImageView.translateYProperty().bind(this.translateYProperty().add(0));
+		}
+		else {
+			myImageView.fitWidthProperty().bind(this.widthProperty());
+			myImageView.fitHeightProperty().bind(this.heightProperty());
+//			myImageView.translateXProperty().bind(this.translateXProperty());
+//			myImageView.translateYProperty().bind(this.translateYProperty());
+		}
 	}
 	
 	public void setSize(double size) {
 		this.setWidth(size);
 		this.setHeight(size);
+	}
+	
+	public DoubleProperty getWidthProperty() {
+		return myImageView.fitWidthProperty();
+	}
+	
+	public DoubleProperty getHeightProperty() {
+		return myImageView.fitHeightProperty();
 	}
 	
 	public void setImage(Image image) {

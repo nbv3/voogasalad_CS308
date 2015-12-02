@@ -10,13 +10,13 @@ public class ObjectIcon extends AbstractIcon {
 	private final Label myLabel;
 	
 	public ObjectIcon(ObjectData data, double dimension) {
-		super(data.getImagePath(), dimension);
+		super(data.getImagePath(), true);
 		myLayout = new GridPane();
 		myLabel = new Label(data.getObjectName());
 	}
 	
 	public ObjectIcon(ObjectData data) {
-		super(data.getImagePath(), 0);
+		super(data.getImagePath(), true);
 		myLayout = new GridPane();
 		myLabel = new Label(data.getObjectName());
 		this.getChildren().add(myLabel);

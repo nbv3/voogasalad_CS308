@@ -18,7 +18,7 @@ public class ImageIconPane extends AbstractIconPane {
 		clearIconPane();
 		Collection<String> imagePaths = getImagePaths(directory, new ImageFileFilter());
 		for (String path : imagePaths) {
-			AbstractIcon icon = new ImageIcon(path);
+			AbstractIcon icon = new ImageIcon(path, true);
 			icon.setOnMouseClicked(e -> setSelectedIcon(icon));
 			addIconToPane(icon, path);
 		}

@@ -8,6 +8,8 @@ import com.syntacticsugar.vooga.menu.SceneManager;
 import authoring.level.LevelTabManager;
 import authoring.library.ObjectLibraryManager;
 import authoring.objectediting.ObjectEditor;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -21,6 +23,7 @@ import javafx.scene.layout.RowConstraints;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import xml.MapDataXML;
 import xml.data.MapData;
 import xml.data.ObjectData;
@@ -38,14 +41,11 @@ public class AuthoringScreenManager {
 	//private ObjectLibrary myObjectLibrary;
 	private ObjectEditor myObjectEditor;
 
-	// injected for returning to main menu
-	private SceneManager sceneManager;
-
-	public AuthoringScreenManager() {
+	public AuthoringScreenManager(EventHandler<WindowEvent> onClose) {
 		myLevelEditor = new LevelTabManager();
 		myObjectLibraryManager = new ObjectLibraryManager();
 		myObjectEditor = new ObjectEditor();
-		initWindow();
+		initWindow(onClose);
 	}
 
 	//	private void initObjectLibrary() {
@@ -53,12 +53,7 @@ public class AuthoringScreenManager {
 	//		myObjectManager = new AuthoringSidePane(null);
 	//	}
 
-
-	public void setSceneManager(SceneManager sceneManager) {
-		this.sceneManager = sceneManager;
-	}
-
-	private void initWindow() {
+	private void initWindow(EventHandler<WindowEvent> onClose) {
 		myWindow = new BorderPane();
 		buildMenuBar();
 
@@ -74,7 +69,7 @@ public class AuthoringScreenManager {
 		myScene = new Scene(myWindow);
 		myScene.setOnKeyPressed(e -> handleKeyPress(e));
 		myStage = new Stage();
-		myStage.setOnCloseRequest(e -> sceneManager.launchFirstMenuFromAuthoring());
+		myStage.setOnCloseRequest(onClose);
 		myStage.setScene(myScene);
 		myStage.setMaximized(true);
 		myStage.show();

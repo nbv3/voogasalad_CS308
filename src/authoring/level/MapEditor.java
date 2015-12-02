@@ -92,7 +92,7 @@ public class MapEditor implements IMapEditor {
 		for (int i=0; i<myMapSize; i++) {
 			for (int j=0; j<myMapSize; j++) {
 				TileData tile = mapData.getTileData(i, j);
-				AbstractIcon icon = new ImageIcon(tile.getImagePath(),  mapDisplayWidth/(1.0*myMapSize));
+				AbstractIcon icon = new ImageIcon(tile.getImagePath(), true);
 				TileInfoTooltip tileInfo = new TileInfoTooltip(tile);
 				myTileIconMap.put(tile, icon);
 				Tooltip.install(icon, tileInfo);

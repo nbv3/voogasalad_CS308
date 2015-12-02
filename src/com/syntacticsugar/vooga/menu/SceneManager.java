@@ -67,21 +67,19 @@ public class SceneManager {
 	}
 	
 	public void launchFirstMenuFromAuthoring() {
-		myAuthoringEnv.minimize();
+//		myAuthoringEnv.minimize();
 		launchFirstMenu();
 	}
 	
 	public void launchNewEditor() {
 		myStage.hide();
-		myAuthoringEnv = new AuthoringScreenManager();
-		myAuthoringEnv.setSceneManager(this);
+		myAuthoringEnv = new AuthoringScreenManager(e -> launchFirstMenuFromAuthoring());
 	}
 	
 	public void launchLoadEditor() {
 		myStage.hide();
 		// TODO load from XML here or within GameManager?
-		myAuthoringEnv = new AuthoringScreenManager();
-		myAuthoringEnv.setSceneManager(this);
+		myAuthoringEnv = new AuthoringScreenManager(e -> launchFirstMenuFromAuthoring());
 	}
 	
 	public void launchNewEngine() {
