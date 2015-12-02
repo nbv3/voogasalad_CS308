@@ -106,46 +106,37 @@ public class SelectionEditor {
 				.split(",");
 		
 		selectImg.addListener((o,s1,s2) -> {
-			if (s1 == null) {
-				s2.setEffect(new Glow(0.7));
-				return;
-			}
-			s1.setEffect(null);
-			s2.setEffect(new Glow(0.7));
+			setGlowEffectsOnSelectedImg(s1, s2);
 			});
 		
 		for (int i = 0; i < iconPath.length; i++) {
 			ImageView img = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(iconPath[i])));
-			img.setOnMouseClicked(e -> {
-				selectImg.setValue(img);});
+			img.setOnMouseClicked(e -> 	selectImg.setValue(img));
 			final String iconPathName = iconPath[i];
-			img.setOnDragDetected(new EventHandler<MouseEvent>() {
-				@Override
-				public void handle(MouseEvent event) {
-					Dragboard db = img.startDragAndDrop(TransferMode.ANY);
-					ClipboardContent content = new ClipboardContent();
-					content.putString(iconPathName);
-					db.setContent(content);
-					event.consume();				 
-				}
-			});
-			selectImg.addListener((o,s1,s2) -> {
-				if (s1 == null) {
-					s2.setEffect(new Glow(0.7));
-					return;
-				}
-				s1.setEffect(null);
-				s2.setEffect(new Glow(0.7));
-				});
-			
+			img.setOnDragDetected((MouseEvent e) -> createDragClipBoards(img, iconPathName, e));
+			selectImg.addListener((o,s1,s2) -> setGlowEffectsOnSelectedImg(s1, s2));
 			img.setFitWidth(DEFAULT_ICON_SIZE);
 			img.setFitHeight(DEFAULT_ICON_SIZE);
-
 			imagePane.getChildren().add(img);
 		}
 		return imagePane;
 	}
 
+	private void setGlowEffectsOnSelectedImg(ImageView s1, ImageView s2) {
+		if (s1 == null) {
+			s2.setEffect(new Glow(0.7));
+			return;
+		}
+		s1.setEffect(null);
+		s2.setEffect(new Glow(0.7));
+	}
+	private void createDragClipBoards(ImageView img, final String iconPathName, MouseEvent event) {
+		Dragboard db = img.startDragAndDrop(TransferMode.ANY);
+		ClipboardContent content = new ClipboardContent();
+		content.putString(iconPathName);
+		db.setContent(content);
+		event.consume();
+	}
 	private HBox buildAttributes(GameObjectType type) {
 		HBox ret = new HBox();
 		ListView<String> attributeView = new ListView<String>();
