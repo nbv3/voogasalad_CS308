@@ -57,7 +57,7 @@ public class GameManager implements IGameManager {
 		// i changed ISimpleObject to SimpleObject, else addViewObject does not
 		// work
 		String playerPath = "player_pacman.png";
-		String enemyPath = "enemy_moster_1.png";
+		String enemyPath = "enemy_monster_1.png";
 		String missilePath = "gray.png";
 
 		ObjectData playerData = new ObjectData();
