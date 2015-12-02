@@ -7,9 +7,6 @@ import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 import com.syntacticsugar.vooga.util.gui.factory.SliderDialogFactory;
 
-import authoring.data.MapData;
-import authoring.data.TileData;
-import authoring.data.TileImplementation;
 import authoring.icons.implementations.AbstractIcon;
 import authoring.icons.implementations.ImageIcon;
 import javafx.collections.FXCollections;
@@ -27,6 +24,9 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.stage.Screen;
+import xml.data.MapData;
+import xml.data.TileData;
+import xml.data.TileImplementation;
 
 public class MapEditor implements IMapEditor {
 	

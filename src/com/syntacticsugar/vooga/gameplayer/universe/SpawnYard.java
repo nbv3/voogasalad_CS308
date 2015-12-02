@@ -3,11 +3,14 @@ package com.syntacticsugar.vooga.gameplayer.universe;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import com.syntacticsugar.vooga.gameplayer.event.GameEventListener;
+import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
+import com.syntacticsugar.vooga.gameplayer.event.implementations.ObjectSpawnEvent;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.view.IViewAdder;
 
-public class SpawnYard implements IYard<IViewAdder> {
+public class SpawnYard implements IYard<IViewAdder>, GameEventListener{
 
 	private Collection<IGameObject> objectsInYard;
 	private IObjectAdder myUniverse;
@@ -49,6 +52,17 @@ public class SpawnYard implements IYard<IViewAdder> {
 			}
 		}
 		return ret;
+	}
+
+	@Override
+	public void onEvent(IGameEvent e) {
+		try {
+			ObjectSpawnEvent event = (ObjectSpawnEvent) e;
+			addToYard(event.getObj());
+		}
+		catch (Exception ex){
+			
+		}
 	}
 
 }

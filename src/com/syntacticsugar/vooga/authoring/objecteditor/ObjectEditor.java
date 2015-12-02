@@ -4,6 +4,7 @@ import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import xml.data.ObjectData;
 
 public class ObjectEditor implements IChangeObjectEditorScene {
 	

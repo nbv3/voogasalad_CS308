@@ -1,8 +1,8 @@
 package authoring.icons.implementations;
 
-import authoring.data.ObjectData;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
+import xml.data.ObjectData;
 
 public class ObjectIcon extends AbstractIcon {
 

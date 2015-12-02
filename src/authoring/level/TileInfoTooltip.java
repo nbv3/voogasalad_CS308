@@ -2,7 +2,6 @@ package authoring.level;
 
 import com.syntacticsugar.vooga.util.ResourceManager;
 
-import authoring.data.TileData;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -10,6 +9,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
+import xml.data.TileData;
 
 public class TileInfoTooltip extends CustomTooltip {
 

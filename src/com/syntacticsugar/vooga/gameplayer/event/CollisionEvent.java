@@ -4,16 +4,16 @@ import java.util.Map;
 
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
 
-public abstract class AbstractGameEvent implements IGameEvent {
+public abstract class CollisionEvent implements ICollisionEvent {
 
-	private GameEventType myType;
+	private CollisionEventType myType;
 	
-	public AbstractGameEvent(GameEventType type) {
+	public CollisionEvent(CollisionEventType type) {
 		this.myType = type;
 	}
 	
 	@Override
-	public GameEventType getEventType() {
+	public CollisionEventType getEventType() {
 		return this.myType;
 	}
 	

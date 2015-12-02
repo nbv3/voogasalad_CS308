@@ -2,6 +2,7 @@ package com.syntacticsugar.vooga.gameplayer.manager;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.EventListener;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,30 +12,30 @@ import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.WeaponAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.movement.MovementControlAttribute;
 import com.syntacticsugar.vooga.gameplayer.conditions.ConditionType;
-
-import com.syntacticsugar.vooga.gameplayer.conditions.IGameCondition;
-
 import com.syntacticsugar.vooga.gameplayer.engine.GameEngine;
+import com.syntacticsugar.vooga.gameplayer.event.ICollisionEvent;
 import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.HealthChangeEvent;
+import com.syntacticsugar.vooga.gameplayer.game.Game;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObject;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
-import com.syntacticsugar.vooga.gameplayer.universe.GameUniverse;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.gameplayer.view.ViewController;
 import com.syntacticsugar.vooga.menu.SceneManager;
 
-import authoring.data.ObjectData;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
+import xml.data.GameData;
+import xml.data.ObjectData;
 
 public class GameManager implements IGameManager {
 
-	private List<IGameUniverse> myLevels;
+	private Game myGame;
+	private IGameUniverse currentLevel;
 	// private List<IGameCondition> myConditions;
 	// private GameInformation myInformation;
 	private Timeline myGameTimeline;
@@ -42,22 +43,25 @@ public class GameManager implements IGameManager {
 
 	// is SceneManager injection necessary?
 	private SceneManager myManager;
+	
+	ViewController myViewController;
+	
+	private List<EventListener> myListeners; // Will go in game players
 
-	public GameManager(double gameSize) {
+	public GameManager(double gameSize, GameData data) {
 
-		GameUniverse currentLevel = new GameUniverse();
-		myLevels = new ArrayList<IGameUniverse>();
-		myLevels.add(currentLevel);
+		myGame = new Game(data);
+		currentLevel = myGame.getLevel(1);
 		// myConditions = new ArrayList<IGameCondition>();
 		// myConditions.add(new PlayerDeathCondition());
 
-		ViewController myViewController = new ViewController(gameSize);
+		myViewController = new ViewController(gameSize);
 
 		// i changed ISimpleObject to SimpleObject, else addViewObject does not
 		// work
 		String playerPath = "player_pacman.png";
 		String enemyPath = "enemy_monster_1.png";
-		String missilePath = "gray.png";
+		String missilePath = "pink.png";
 
 		ObjectData playerData = new ObjectData();
 		List<IAttribute> attributes = new ArrayList<IAttribute>();
@@ -66,25 +70,29 @@ public class GameManager implements IGameManager {
 		attributes.add(new WeaponAttribute(missilePath, 10, KeyCode.SPACE));
 		playerData.setType(GameObjectType.PLAYER);
 		playerData.setSpawnPoint(0, 0);
+		playerData.setWidth(50);
+		playerData.setHeight(50);
 		playerData.setImagePath(playerPath);
 		playerData.setAttributes(attributes);
 
 		ObjectData enemyData = new ObjectData();
 		Collection<IAttribute> enemyAttributes = new ArrayList<IAttribute>();
 		enemyAttributes.add(new HealthAttribute(30));
-		// enemyAttributes.add(new AIMovementAttribute(3));
-		Map<GameObjectType, Collection<IGameEvent>> collisions = new HashMap<GameObjectType, Collection<IGameEvent>>();
-		Collection<IGameEvent> enemyEvents = new ArrayList<IGameEvent>();
+//		enemyAttributes.add(new AIMovementAttribute(3));
+		Map<GameObjectType, Collection<ICollisionEvent>> collisions = new HashMap<GameObjectType, Collection<ICollisionEvent>>();
+		Collection<ICollisionEvent> enemyEvents = new ArrayList<ICollisionEvent>();
 		enemyEvents.add(new HealthChangeEvent(-10));
 		collisions.put(GameObjectType.PLAYER, enemyEvents);
 		enemyData.setType(GameObjectType.ENEMY);
 		enemyData.setSpawnPoint(150, 150);
+		enemyData.setWidth(100);
+		enemyData.setHeight(100);
 		enemyData.setImagePath(enemyPath);
 		enemyData.setAttributes(enemyAttributes);
 		enemyData.setCollisionMap(collisions);
 
-		IGameObject player = new GameObject(playerData, 50, 50);
-		IGameObject enemy = new GameObject(enemyData, 100, 100);
+		IGameObject player = new GameObject(playerData);
+		IGameObject enemy = new GameObject(enemyData);
 
 		currentLevel.addPlayer(player);
 		currentLevel.addGameObject(player);
@@ -93,7 +101,7 @@ public class GameManager implements IGameManager {
 		myViewController.addViewObject(enemy);
 
 		myViewController.initializeView(currentLevel);
-		myGameEngine = new GameEngine(myLevels.get(0), myViewController, this);
+		myGameEngine = new GameEngine(currentLevel, myViewController, this);
 
 	}
 
@@ -106,7 +114,7 @@ public class GameManager implements IGameManager {
 		// the menu scene
 		myManager.launchEnginePauseMenu();
 
-		// TODO pause update logic
+		myGameTimeline.pause();
 	}
 
 	@Override
@@ -123,7 +131,7 @@ public class GameManager implements IGameManager {
 	@Override
 	public void switchLevel(ConditionType type) {
 		if (type.equals(ConditionType.WINNING)) {
-			// go forward
+			currentLevel = myGame.nextLevel();
 		} else if (type.equals(ConditionType.LOSING)) {
 			// go backward?
 			System.out.println("YOU LOSE");
@@ -153,21 +161,8 @@ public class GameManager implements IGameManager {
 	}
 
 	@Override
-	public void startLevel(IGameUniverse level) {
-		// Take a level
-		// Add everything to view
-		// allow players to place towers
-		// when play is pressed -> start timeline
-	}
-
-	@Override
 	public void startGame() {
 		myGameTimeline.play();
-	}
-
-	@Override
-	public void endLevel() {
-		myGameTimeline.pause();
 	}
 
 	public void initializeAnimation(double fl) {
@@ -176,6 +171,12 @@ public class GameManager implements IGameManager {
 		myGameTimeline.setCycleCount(Timeline.INDEFINITE);
 		myGameTimeline.getKeyFrames().add(frame);
 		startGame();
+	}
+
+	@Override
+	public void postEvent(IGameEvent event) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

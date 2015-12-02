@@ -2,8 +2,7 @@ package xml;
 
 import java.io.File;
 
-import authoring.data.AbstractData;
-import authoring.data.ObjectData;
+import xml.data.ObjectData;
 
 public class ObjectDataXML extends AbstractXML<ObjectData> {
 	

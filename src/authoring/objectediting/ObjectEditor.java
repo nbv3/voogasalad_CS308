@@ -6,7 +6,6 @@ import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
 
-import authoring.data.ObjectData;
 import authoring.icons.implementations.ImageIcon;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -28,6 +27,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import xml.ObjectDataXML;
+import xml.data.ObjectData;
 import javafx.stage.FileChooser.ExtensionFilter;
 
 public class ObjectEditor {
@@ -144,7 +144,7 @@ public class ObjectEditor {
 	private GridPane createIconGrid() {
 		GridPane grid = new GridPane();
 		grid.setAlignment(Pos.CENTER);
-		myIcon = new ImageIcon("gray.png");
+		myIcon = new ImageIcon("gray.png", false);
 		Button button = GUIFactory.buildButton("Select Image", e -> selectImage(), null, null);
 		grid.getChildren().addAll(button, myIcon);
 		GridPane.setConstraints(button, 0, 0, 1, 1);

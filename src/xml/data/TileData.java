@@ -1,14 +1,28 @@
-package authoring.data;
+package xml.data;
 
-public class TileData extends AbstractData {
+import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.DecoratorTile;
+import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.IGameTile;
+
+public class TileData {
 
 	private String myImagePath;
 	private TileImplementation myImplementation;
 	private boolean isDestination;
 	
+	public TileData(IGameTile tile) {
+		myImagePath = tile.getPath();
+		if (tile.isWalkable()) {
+			myImplementation = TileImplementation.Path;
+		}
+		else {
+			myImplementation = TileImplementation.Scenery;
+		}
+		isDestination = tile.isDestination();
+	}
+	
 	public TileData(String imagePath) {
 		setImagePath(imagePath);
-		setImplementation(TileImplementation.Scenery);
+		setImplementation(TileImplementation.Path);
 		setDestination(false);
 	}
 	

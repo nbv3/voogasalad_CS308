@@ -1,25 +1,27 @@
 package com.syntacticsugar.vooga.gameplayer.universe.map.tiles;
 
 import javafx.geometry.Point2D;
+import xml.data.TileData;
+import xml.data.TileImplementation;
 
 import com.syntacticsugar.vooga.gameplayer.objects.AbstractViewableObject;
 import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.implementations.AbstractTile;
 import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.implementations.PathTile;
 import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.implementations.SceneryTile;
 
-import authoring.data.TileData;
-import authoring.data.TileImplementation;
-
 public class DecoratorTile extends AbstractViewableObject implements IGameTile {
 
 	private AbstractTile myImplementation;
 	public boolean myDestination;
+	
+	public boolean placeable;
 	
 	public DecoratorTile(TileData tileData, Point2D point, double width, double height) {
 		super(point, width, height, tileData.getImagePath());
 		this.myImplementation = tileData.getImplementation().equals(TileImplementation.Path) ? 
 				new PathTile(point) : new SceneryTile(point);
 		this.myDestination = tileData.isDestination();
+		this.placeable = true;
 	}
 	
 	public DecoratorTile(Point2D point, TileImplementation type, double width, double height, String path) {
@@ -48,7 +50,7 @@ public class DecoratorTile extends AbstractViewableObject implements IGameTile {
 
 	@Override
 	public boolean isPlaceable() {
-		return this.myImplementation.isPlaceable();
+		return this.myImplementation.isPlaceable() && placeable;
 	}
 
 	@Override
@@ -59,6 +61,11 @@ public class DecoratorTile extends AbstractViewableObject implements IGameTile {
 	@Override
 	public boolean isDestination() {
 		return this.isWalkable() && this.myDestination;
+	}
+	
+	@Override
+	public void setIsPlaceable(boolean state) {
+		placeable = state;
 	}
 	
 }

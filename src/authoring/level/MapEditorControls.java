@@ -9,7 +9,6 @@ import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
 
-import authoring.data.TileImplementation;
 import authoring.icons.panes.ImageIconPane;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -22,6 +21,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
+import xml.data.TileImplementation;
 
 public class MapEditorControls {
 

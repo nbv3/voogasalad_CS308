@@ -7,12 +7,12 @@ import com.syntacticsugar.vooga.gameplayer.attribute.HealthAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObject;
 
-import authoring.data.ObjectData;
 import authoring.icons.panes.ImageIconPane;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import xml.data.ObjectData;
 
 public class QueueBox {
 	private VBox myEnemy;

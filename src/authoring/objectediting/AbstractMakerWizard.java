@@ -2,9 +2,9 @@ package authoring.objectediting;
 
 import com.syntacticsugar.vooga.util.ResourceManager;
 
-import authoring.data.ObjectData;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import xml.data.ObjectData;
 
 public abstract class AbstractMakerWizard {
 

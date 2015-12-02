@@ -1,9 +1,8 @@
 package com.syntacticsugar.vooga.gameplayer.universe;
 
-import java.util.Collection;
-
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.view.IViewAdder;
+import com.syntacticsugar.vooga.gameplayer.universe.spawner.ISpawner;
 
 public interface IObjectSpawner {
 	
@@ -22,5 +21,7 @@ public interface IObjectSpawner {
 	
 	public SpawnYard getSpawnYard();
 
+	
+	public ISpawner getSpawner();
 	
 }
