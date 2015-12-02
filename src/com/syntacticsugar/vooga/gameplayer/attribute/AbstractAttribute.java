@@ -8,11 +8,11 @@ public abstract class AbstractAttribute implements IAttribute {
 	private IGameObject myParent;
 	
 	/**
-	 * Construct a new SimpleAttribute object with a parent object.
+	 * Construct a new SimpleAttribute object with a null parent.
 	 * @param parent
 	 */
-	public AbstractAttribute(IGameObject parent) {
-		this.myParent = parent;
+	public AbstractAttribute() {
+		this.myParent = null;
 	}
 	
 	@Override

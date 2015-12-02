@@ -17,9 +17,9 @@ public interface IAttribute {
 	 */
 	public IGameObject getParent();
 	
-	/**set the parent game object for the this Attribute
+	/**
+	 * Set the parent game object for the this Attribute
 	 * @param  IGameObject
-	 *
 	 */
 	public void setParent(IGameObject parent);
 	
