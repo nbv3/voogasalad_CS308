@@ -58,7 +58,6 @@ public class GameUniverse implements IGameUniverse {
 	@Override
 	public void addPlayer(IGameObject player) {
 		if (player.getType().equals(GameObjectType.PLAYER)) {
-			System.out.println("HERE");
 			myPlayers.add(player);
 		}
 	}

@@ -8,6 +8,7 @@ import com.syntacticsugar.vooga.menu.SceneManager;
 import authoring.data.MapData;
 import authoring.data.ObjectData;
 import authoring.level.LevelTabManager;
+import authoring.library.ObjectLibraryManager;
 import authoring.objectediting.ObjectEditor;
 import javafx.scene.Scene;
 import javafx.scene.control.Menu;
@@ -31,7 +32,7 @@ public class AuthoringScreenManager {
 	private GridPane myWindowGrid;
 
 	private LevelTabManager myLevelEditor;
-	//	private LibraryManager myLibraryManager;
+	private ObjectLibraryManager myObjectLibraryManager;
 	private Stage myStage;
 	private Scene myScene;
 	//private ObjectLibrary myObjectLibrary;
@@ -42,15 +43,15 @@ public class AuthoringScreenManager {
 
 	public AuthoringScreenManager() {
 		myLevelEditor = new LevelTabManager();
-//		myObjectLibrary = new ObjectLibrary();
+		myObjectLibraryManager = new ObjectLibraryManager();
 		myObjectEditor = new ObjectEditor();
 		initWindow();
 	}
 
-//	private void initObjectLibrary() {
-		//		myObjectLibrary = new ObjectLibrary(null);
-//		myObjectManager = new AuthoringSidePane(null);
-//	}
+	//	private void initObjectLibrary() {
+	//		myObjectLibrary = new ObjectLibrary(null);
+	//		myObjectManager = new AuthoringSidePane(null);
+	//	}
 
 
 	public void setSceneManager(SceneManager sceneManager) {
@@ -66,7 +67,7 @@ public class AuthoringScreenManager {
 		addGridConstraints();
 
 		myWindowGrid.add(myLevelEditor.getTabPane(), 0, 0, 1, 2);
-//		myWindowGrid.add(myObjectManager.getLibrary(), 1, 0, 1 ,1);
+		//		myWindowGrid.add(myObjectManager.getLibrary(), 1, 0, 1 ,1);
 		myWindowGrid.add(myObjectEditor.getView(), 1, 1, 1, 1);
 		myWindow.setCenter(myWindowGrid);
 
@@ -107,7 +108,7 @@ public class AuthoringScreenManager {
 		MenuItem loadMap = new MenuItem();
 		loadMap.setText("Load map");
 		loadMap.setOnAction(e -> loadMap());
-		
+
 		MenuItem saveMap = new MenuItem();
 		saveMap.setText("Save map");
 		saveMap.setOnAction(e -> saveMap());
@@ -115,7 +116,7 @@ public class AuthoringScreenManager {
 		MenuItem loadData = new MenuItem();
 		loadData.setText("Load ObjectData");
 		loadData.setOnAction(e -> loadData());
-		
+
 		file.getItems().addAll(newLevel, loadMap, saveMap, loadData);
 
 		// menu menu
@@ -146,7 +147,7 @@ public class AuthoringScreenManager {
 			myObjectEditor.displayData(toload);
 		}
 	}
-	
+
 	private void loadMap() {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Open Resource File");
@@ -159,7 +160,7 @@ public class AuthoringScreenManager {
 			myLevelEditor.loadMap(toload);
 		}
 	}
-	
+
 	private void saveMap() {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Save Resource File");
