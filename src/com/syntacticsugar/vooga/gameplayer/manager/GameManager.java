@@ -51,7 +51,7 @@ public class GameManager implements IGameManager {
 	public GameManager(double gameSize, GameData data) {
 
 		myGame = new Game(data);
-		currentLevel = myGame.nextLevel();
+		currentLevel = myGame.getLevel(1);
 		// myConditions = new ArrayList<IGameCondition>();
 		// myConditions.add(new PlayerDeathCondition());
 
@@ -61,7 +61,7 @@ public class GameManager implements IGameManager {
 		// work
 		String playerPath = "player_pacman.png";
 		String enemyPath = "enemy_monster_1.png";
-		String missilePath = "gray.png";
+		String missilePath = "pink.png";
 
 		ObjectData playerData = new ObjectData();
 		List<IAttribute> attributes = new ArrayList<IAttribute>();

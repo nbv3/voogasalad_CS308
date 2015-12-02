@@ -50,14 +50,14 @@ public class GameUniverse implements IGameUniverse {
 		
 		myPlayers = new ArrayList<IGameObject>();
 		myGameObjects = new ArrayList<IGameObject>();
-		MapDataXML xml = new MapDataXML();
-		FileChooser fileChooser = new FileChooser();
-		fileChooser.getExtensionFilters().add(new ExtensionFilter("XML Files", "*.xml"));
-		fileChooser.setTitle("Choose Map XML");
-		File selectedFile = fileChooser.showOpenDialog(new Stage());
-//		if (selectedFile != null) {
-//			data = xml.loadFromFile(selectedFile);
-//		}
+//		MapDataXML xml = new MapDataXML();
+//		FileChooser fileChooser = new FileChooser();
+//		fileChooser.getExtensionFilters().add(new ExtensionFilter("XML Files", "*.xml"));
+//		fileChooser.setTitle("Choose Map XML");
+//		File selectedFile = fileChooser.showOpenDialog(new Stage());
+////		if (selectedFile != null) {
+////			data = xml.loadFromFile(selectedFile);
+////		}
 		myGameMap = new GameMap(data.getMap());
 		mySpawner = new Spawner(data.getSpawns().getWaves(), this);
 		Collection<ObjectData> towerdata = data.getTowers().getTowers();

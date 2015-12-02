@@ -1,10 +1,21 @@
 package com.syntacticsugar.vooga.menu;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import com.syntacticsugar.vooga.gameplayer.manager.GameManager;
 
 import authoring.AuthoringScreenManager;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import xml.data.GameData;
+import xml.data.GlobalSettings;
+import xml.data.MapData;
+import xml.data.ObjectData;
+import xml.data.SpawnerData;
+import xml.data.TowerData;
+import xml.data.UniverseData;
+import xml.data.WaveData;
 
 public class SceneManager {
 	private final double WIDTH = 600.0;
@@ -74,7 +85,8 @@ public class SceneManager {
 	}
 	
 	public void launchNewEngine() {
-		myGameManager = new GameManager(GAME_SIZE);
+		GameData data = makeEmptyData();
+		myGameManager = new GameManager(GAME_SIZE, data);
 		myGameManager.setManager(this);
 		gameScene = new Scene(myGameManager.getGameView());
 		myGameManager.initializeAnimation(FRAME_LENGTH);
@@ -88,13 +100,25 @@ public class SceneManager {
 		
 		// TODO load from XML here or within GameManager?
 		// DO IT
-		myGameManager = new GameManager(GAME_SIZE);
+		GameData data = makeEmptyData();
+		myGameManager = new GameManager(GAME_SIZE, data);
 		myGameManager.setManager(this);
 		gameScene = new Scene(myGameManager.getGameView(), GAME_SIZE, GAME_SIZE);
 		myGameManager.initializeAnimation(FRAME_LENGTH);
 		gameScene.setOnKeyPressed(e -> myGameManager.receiveKeyPressed(e.getCode()));
 		gameScene.setOnKeyReleased(e -> myGameManager.receiveKeyReleased(e.getCode()));
 		myStage.setScene(gameScene);
+	}
+	
+	private GameData makeEmptyData() {
+		SpawnerData spawn = new SpawnerData(new ArrayList<WaveData>());
+		MapData map = new MapData(10, "gray.png");
+		TowerData towers = new TowerData(new ArrayList<ObjectData>());
+		Collection<UniverseData> uni = new ArrayList<>();
+		uni.add(new UniverseData(spawn, towers, map));
+		GlobalSettings settings = new GlobalSettings(1);
+		GameData data = new GameData(uni, settings);
+		return data;
 	}
 	
 	public void launchUnpauseEngine() {

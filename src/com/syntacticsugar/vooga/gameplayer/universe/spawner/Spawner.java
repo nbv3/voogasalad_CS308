@@ -29,7 +29,7 @@ public class Spawner implements ISpawner {
 		for (WaveData d: data) {
 			myWaves.add(new Wave(d));
 		}
-		if (myWaves.peek().getWaveNum() == 0) {
+		if (myWaves.size() != 0 && myWaves.peek().getWaveNum() == 0) {
 			myCurrentWave = myWaves.poll();
 		}
 		

@@ -22,7 +22,7 @@ public class TileData {
 	
 	public TileData(String imagePath) {
 		setImagePath(imagePath);
-		setImplementation(TileImplementation.Scenery);
+		setImplementation(TileImplementation.Path);
 		setDestination(false);
 	}
 	

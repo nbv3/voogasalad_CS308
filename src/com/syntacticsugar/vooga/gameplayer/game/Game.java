@@ -17,11 +17,12 @@ public class Game implements IGame {
 	
 	private List<UniverseData> myUniverseData; // For saving
 	
-	private int myLevel;
+	private int myLevel; // STARTS AT 1 BY CONVENTION
 	
 	public Game(GameData data) {
 		Collection<UniverseData> udata =  data.getUniverses();
 		myUniverses = new ArrayList<>();
+		myUniverseData = new ArrayList<>();
 		for (UniverseData d: udata) {
 			myUniverses.add(new GameUniverse(d));
 			myUniverseData.add(d);
@@ -36,7 +37,7 @@ public class Game implements IGame {
 	
 	@Override
 	public IGameUniverse getLevel(int i) {
-		return myUniverses.get(i);
+		return myUniverses.get(i - 1);
 	}
 	
 	@Override
