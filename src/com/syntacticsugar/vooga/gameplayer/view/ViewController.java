@@ -9,7 +9,7 @@ import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.DecoratorTile;
 import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.IGameTile;
 
-public class ViewController implements IViewController {
+public class ViewController implements IViewRemover, IViewAdder {
 
 	private Map<IViewableObject, ObjectView> myViewMap;
 	private GameView myGameView;
