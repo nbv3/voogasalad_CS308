@@ -19,11 +19,14 @@ public class GraveYard implements IYard<IViewRemover> {
 
 	@Override
 	public void alterUniverse(IViewRemover remover) {
+
 		for (IGameObject obj : objectsInYard) {
-			myUniverse.removeGameObject(obj);
 			remover.removeViewObject(obj);
+			myUniverse.removeGameObject(obj);
+			
 		}
 		objectsInYard.clear();
+
 	}
 
 	@Override
@@ -35,7 +38,7 @@ public class GraveYard implements IYard<IViewRemover> {
 	@Override
 	public boolean containsType(GameObjectType type) {
 		boolean ret = false;
-		if(countType(type) > 0){
+		if (countType(type) > 0) {
 			ret = true;
 		}
 		return ret;
@@ -44,9 +47,9 @@ public class GraveYard implements IYard<IViewRemover> {
 	@Override
 	public int countType(GameObjectType type) {
 		int ret = 0;
-		for(IGameObject obj : objectsInYard){
-			if(obj.getType().equals(type)){
-				ret ++;
+		for (IGameObject obj : objectsInYard) {
+			if (obj.getType().equals(type)) {
+				ret++;
 			}
 		}
 		return ret;
