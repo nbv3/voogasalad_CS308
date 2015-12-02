@@ -61,6 +61,10 @@ public class ObjectData extends AbstractData {
 	public void setImagePath(String myImagePath) {
 		this.myImagePath = myImagePath;
 	}
+	
+	public void setObjectName(String name) {
+		this.myName = name;
+	}
 
 	public void setAttributes(Collection<IAttribute> attributes) {
 		this.myAttributes.clear();

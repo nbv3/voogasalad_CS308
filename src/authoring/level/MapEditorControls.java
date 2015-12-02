@@ -3,7 +3,6 @@ package authoring.level;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 
 import com.syntacticsugar.vooga.util.ResourceManager;
@@ -81,7 +80,7 @@ public class MapEditorControls {
 
 		myContainer = new VBox();
 		myContainer.setSpacing(10);
-		myContainer.setPadding(new Insets(10, 10, 10, 10));
+		myContainer.setPadding(new Insets(10));
 		myContainer.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 		myContainer.getChildren()
 		.addAll(top, middle, myIconPane.getIconPane(), bottom);
@@ -142,16 +141,6 @@ public class MapEditorControls {
 		}
 		showImageOptions(mySelectedType);
 	}
-
-	/*private void selectNewImage() {
-
-		// TODO : New Image selection
-		// Present the user with a file chooser (filtered to only show image files)
-		// and allow them to select as many images as they like. Once selected, move 
-		// the chosen images into the appropriate folder (either images/path or 
-		// images/scenery, depending on the value of the TileTypeChooser combobox at the time).
-		System.out.println("Adding new " + mySelectedType + " image");
-	}*/
 
 	public Node getContent() {
 		return myContainer;
