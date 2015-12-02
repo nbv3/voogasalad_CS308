@@ -7,7 +7,7 @@ import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.view.IViewAdder;
 
-public class SpawnYard implements IYard {
+public class SpawnYard implements IYard<IViewAdder> {
 
 	private Collection<IGameObject> objectsInYard;
 	private IObjectAdder myUniverse;
@@ -22,6 +22,7 @@ public class SpawnYard implements IYard {
 		objectsInYard.add(obj);
 	}
 
+	@Override
 	public void alterUniverse(IViewAdder adder) {
 		for (IGameObject obj : objectsInYard) {
 			myUniverse.addGameObject(obj);

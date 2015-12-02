@@ -3,12 +3,11 @@ package com.syntacticsugar.vooga.gameplayer.universe;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import com.syntacticsugar.vooga.gameplayer.objects.GameObject;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.view.IViewRemover;
 
-public class GraveYard implements IYard {
+public class GraveYard implements IYard<IViewRemover> {
 
 	private Collection<IGameObject> objectsInYard;
 	private IObjectRemover myUniverse;
@@ -18,6 +17,7 @@ public class GraveYard implements IYard {
 		myUniverse = universe;
 	}
 
+	@Override
 	public void alterUniverse(IViewRemover remover) {
 		for (IGameObject obj : objectsInYard) {
 			myUniverse.removeGameObject(obj);
