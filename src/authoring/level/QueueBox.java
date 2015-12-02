@@ -26,14 +26,7 @@ public class QueueBox {
 		myEnemy = new VBox();
 		addImage(data.getImagePath());
 		addHealth();
-		//	 addSpawnCount(data.size());
 	}
-
-//	public QueueBox() {
-//		myEnemy = new VBox();
-//		addImage("enemy_ghost_1.png");
-//		addSpawnCount(10);
-//	}
 
 	private void addImage(String path) {
 		myImage = new ImageView(path);
@@ -49,12 +42,12 @@ public class QueueBox {
 		mySpawnCount.getChildren().add(spawnText);
 		myEnemy.getChildren().add(mySpawnCount);
 	}
-	
+
 	private void addHealth() {
 		System.out.println(myData.getAttributes().size());
-		double db = ((HealthAttribute)((ArrayList<IAttribute>) myData.getAttributes()).get(0)).getHealth();
-		myHealth = new Label(String.format("Health: %d",(int) db));
-//		mySpawnCount.getChildren().add(spawnText);
+		double db = ((HealthAttribute) ((ArrayList<IAttribute>) myData.getAttributes()).get(0)).getHealth();
+		myHealth = new Label(String.format("Health: %d", (int) db));
+		// mySpawnCount.getChildren().add(spawnText);
 		myEnemy.getChildren().add(myHealth);
 	}
 
