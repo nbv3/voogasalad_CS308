@@ -8,16 +8,13 @@ import java.io.File;
 
 import java.util.Collection;
 
-import authoring.icons.implementations.AbstractIcon;
-import authoring.icons.implementations.ObjectIcon;
+import authoring.icons.implementations.Icon;
 import authoring.level.ObjectIconTooltip;
 import javafx.scene.control.Tooltip;
 import xml.data.ObjectData;
 
 public class ObjectIconPane extends AbstractIconPane {
 
-	private final double DEFAULT_ICON_DIMENSION = 50;
-	
 	public ObjectIconPane(){
 		super();
 	}
@@ -25,7 +22,7 @@ public class ObjectIconPane extends AbstractIconPane {
 	public void showIcons(Collection<ObjectData> dataList) {
 		clearIconPane();
 		for (ObjectData data : dataList){
-			AbstractIcon icon = makeObjectIcon(data);
+			Icon icon = makeObjectIcon(data);
 			icon.setOnMouseClicked(e -> setSelectedIcon(icon));
 			Tooltip.install(icon, new ObjectIconTooltip(data));
 			addIconToPane(icon, data.getImagePath());
@@ -33,8 +30,8 @@ public class ObjectIconPane extends AbstractIconPane {
 		setSelectedIcon(null);
 	}
 	
-	private AbstractIcon makeObjectIcon(ObjectData data){
-		return new ObjectIcon(data, DEFAULT_ICON_DIMENSION);
+	private Icon makeObjectIcon(ObjectData data){
+		return new Icon(data.getImagePath());
 	}
 	
 	@Override

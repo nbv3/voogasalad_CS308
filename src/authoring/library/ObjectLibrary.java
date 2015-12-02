@@ -2,22 +2,15 @@ package authoring.library;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
 
-import authoring.icons.ImageFileFilter;
-import authoring.icons.implementations.ObjectIcon;
-import authoring.icons.panes.ImageIconPane;
+import authoring.icons.implementations.Icon;
 import authoring.icons.panes.ObjectIconPane;
-import authoring.objectediting.AttributeViewer;
-import authoring.objectediting.ObjectEditor;
 import javafx.scene.Node;
-import javafx.scene.control.Tab;
 import javafx.scene.layout.VBox;
 import xml.data.ObjectData;
 
@@ -49,7 +42,7 @@ public class ObjectLibrary {
 	}
 	
 	public void addIconToPane(ObjectData dataObject){
-		myIconPane.addIconToPane(new ObjectIcon(dataObject), dataObject.getImagePath());
+		myIconPane.addIconToPane(new Icon(dataObject.getImagePath()), dataObject.getImagePath());
 	}
 	
 	public void addDataObjectToLibrary(ObjectData dataObject){

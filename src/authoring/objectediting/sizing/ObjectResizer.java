@@ -1,6 +1,5 @@
 package authoring.objectediting.sizing;
 
-import authoring.icons.implementations.ImageIcon;
 import authoring.objectediting.DragResizer;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;

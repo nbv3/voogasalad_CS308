@@ -1,9 +1,0 @@
-package authoring.icons.implementations;
-
-public class ImageIcon extends AbstractIcon {
-
-	public ImageIcon(String imagePath, boolean showBorder) {
-		super(imagePath, showBorder);
-	}
-	
-}

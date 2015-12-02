@@ -4,8 +4,7 @@ import java.io.File;
 import java.util.Collection;
 
 import authoring.icons.ImageFileFilter;
-import authoring.icons.implementations.AbstractIcon;
-import authoring.icons.implementations.ImageIcon;
+import authoring.icons.implementations.Icon;
 
 public class ImageIconPane extends AbstractIconPane {
 
@@ -18,7 +17,7 @@ public class ImageIconPane extends AbstractIconPane {
 		clearIconPane();
 		Collection<String> imagePaths = getImagePaths(directory, new ImageFileFilter());
 		for (String path : imagePaths) {
-			AbstractIcon icon = new ImageIcon(path, true);
+			Icon icon = new Icon(path);
 			icon.setOnMouseClicked(e -> setSelectedIcon(icon));
 			addIconToPane(icon, path);
 		}

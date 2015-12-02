@@ -7,8 +7,7 @@ import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 import com.syntacticsugar.vooga.util.gui.factory.SliderDialogFactory;
 
-import authoring.icons.implementations.AbstractIcon;
-import authoring.icons.implementations.ImageIcon;
+import authoring.icons.implementations.Icon;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableSet;
 import javafx.collections.SetChangeListener;
@@ -34,7 +33,7 @@ public class MapEditor implements IMapEditor {
 	private static final String DEFAULT_TILE_IMAGE = "gray.png";
 
 	private ObservableSet<TileData> myTileSelection;
-	private Map<TileData, AbstractIcon> myTileIconMap;
+	private Map<TileData, Icon> myTileIconMap;
 
 	private MapData myMapData;
 	private int myMapSize;
@@ -87,21 +86,21 @@ public class MapEditor implements IMapEditor {
 	
 	private void initializeMapView(MapData mapData) {
 		myMapGrid.getChildren().clear();
-		myTileIconMap = new HashMap<TileData, AbstractIcon>();
+		myTileIconMap = new HashMap<>();
 		myMapGrid.setPrefSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
 		for (int i=0; i<myMapSize; i++) {
 			for (int j=0; j<myMapSize; j++) {
 				TileData tile = mapData.getTileData(i, j);
-				AbstractIcon icon = new ImageIcon(tile.getImagePath(), true);
-				TileInfoTooltip tileInfo = new TileInfoTooltip(tile);
+				Icon icon = new Icon(tile.getImagePath());
 				myTileIconMap.put(tile, icon);
-				Tooltip.install(icon, tileInfo);
+				Tooltip.install(icon, new TileInfoTooltip(tile));
 				icon.setOnMouseEntered(e -> mouseOverHandler(tile, e.isControlDown(), e.isShiftDown()));
 				icon.setOnMouseClicked(e -> mouseClickHandler(tile));
 				myMapGrid.getChildren().add(icon);
 				GridPane.setConstraints(icon, i, j, 1, 1, HPos.CENTER, VPos.CENTER, Priority.ALWAYS, Priority.ALWAYS, null);
 			}
 		}
+		myMapGrid.setGridLinesVisible(true);
 		myMapGrid.setPadding(new Insets(10));
 	}
 
@@ -129,11 +128,11 @@ public class MapEditor implements IMapEditor {
 			myTileSelection.add(tile);
 	}
 
-	private void tileEffectOff(AbstractIcon icon) {
+	private void tileEffectOff(Icon icon) {
 		icon.setEffect(null);
 	}
 
-	private void tileEffectOn(AbstractIcon icon) {
+	private void tileEffectOn(Icon icon) {
 		icon.setEffect(TILE_EFFECT);
 	}
 

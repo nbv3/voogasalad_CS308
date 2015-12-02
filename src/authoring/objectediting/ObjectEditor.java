@@ -6,7 +6,7 @@ import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
 
-import authoring.icons.implementations.ImageIcon;
+import authoring.icons.implementations.Icon;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
@@ -35,7 +35,7 @@ public class ObjectEditor {
 	private GridPane myView;
 	private AttributeViewer myAttributeViewer;
 	private CollisionViewer myCollisionViewer;
-	private ImageIcon myIcon;
+	private Icon myIcon;
 	private Button myCreateButton;
 	private ObjectData currentData;
 
@@ -144,7 +144,7 @@ public class ObjectEditor {
 	private GridPane createIconGrid() {
 		GridPane grid = new GridPane();
 		grid.setAlignment(Pos.CENTER);
-		myIcon = new ImageIcon("gray.png", false);
+		myIcon = new Icon("gray.png");
 		Button button = GUIFactory.buildButton("Select Image", e -> selectImage(), null, null);
 		grid.getChildren().addAll(button, myIcon);
 		GridPane.setConstraints(button, 0, 0, 1, 1);
