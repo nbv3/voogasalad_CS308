@@ -22,7 +22,6 @@ public class EnemyQueuePane {
 		myWave = new ListView<VBox>();
 		List<VBox> list1 = new ArrayList<VBox>();
 		ObservableList<VBox> observable1 = FXCollections.observableList(list1);
-		observable1.add(new QueueBox().getContent());
 		myWave.setItems(observable1);
 		myWave.setOrientation(Orientation.HORIZONTAL);
 	}
