@@ -16,10 +16,10 @@ public class Main extends Application {
 	public void start(Stage stage) {
 		//new ObjectEditor();
 		new SceneManager(stage);
-		ObjectData data = new ObjectData();
-		data.setImagePath("gray.png");
-		String tileImagePath = "scenery_grass_2.png";
-		new ObjectResizer(data, tileImagePath);
+//		ObjectData data = new ObjectData();
+//		data.setImagePath("gray.png");
+//		String tileImagePath = "scenery_grass_2.png";
+//		new ObjectResizer(data, tileImagePath);
 	}
 }
 	
