@@ -8,7 +8,7 @@ import com.syntacticsugar.vooga.authoring.editor.sidepanes.EditorTabPane;
 import com.syntacticsugar.vooga.gameplayer.universe.map.GameMap;
 import com.syntacticsugar.vooga.gameplayer.universe.map.IGameMap;
 import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.DecoratorTile;
-import com.syntacticsugar.vooga.gameplayer.view.implementation.ViewController;
+import com.syntacticsugar.vooga.gameplayer.view.ViewController;
 
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -48,7 +48,7 @@ public class AuthoringEnvironment {
 
 	public AuthoringEnvironment() {
 		myMap = new GameMap(DEFAULT_MAP_SIZE,DEFAULT_NUM_TILES);
-		myViewController = new ViewController(DEFAULT_MAP_SIZE);
+		myViewController = new ViewController(DEFAULT_MAP_SIZE, DEFAULT_MAP_SIZE);
 		myTileSelection = new ArrayList<>();
 		myStage = initializeStage();
 		myStage.setTitle("Authoring Environment");

@@ -9,9 +9,11 @@ import javafx.scene.layout.HBox;
 
 public class ObjectEditorNav{
 	
+	private SelectionEditor selectionEditor;
 	private IChangeObjectEditorScene changeInterface;
 	
-	public ObjectEditorNav(IChangeObjectEditorScene ichange){
+	public ObjectEditorNav(SelectionEditor se, IChangeObjectEditorScene ichange) {
+		selectionEditor = se;
 		changeInterface = ichange;
 	}
 	
@@ -19,14 +21,20 @@ public class ObjectEditorNav{
 		HBox navBar = new HBox();
 		navBar.setPadding(new Insets(50,50,50,50));
 		navBar.setSpacing(400);
-		
+		navBar.getChildren().addAll(createBackBtn(),createCreateBtn());
+		return navBar;
+	}
+	
+	private Button createBackBtn() {
 		Button backButton = new Button(ResourceManager.getString("BackToTypeScene"));
 		backButton.setOnAction(e -> changeInterface.resetToTypeScene());
-		
-		Button createButton = new Button("Create");
-		
-		navBar.getChildren().addAll(backButton,createButton);
-		return navBar;
+		return backButton;
+	}
+
+	private Button createCreateBtn() {
+		Button createButton = new Button("Create Object");
+		createButton.setOnAction(e -> selectionEditor.createGameObject());
+		return createButton;
 	}
 	
 }

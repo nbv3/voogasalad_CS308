@@ -1,13 +1,15 @@
 package com.syntacticsugar.vooga.authoring.editor;
 
+import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.DecoratorTile;
 import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.IGameTile;
-import com.syntacticsugar.vooga.gameplayer.view.implementation.ViewController;
+import com.syntacticsugar.vooga.gameplayer.view.ViewController;
 import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
+import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -18,11 +20,15 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
+import javafx.stage.Stage;
 
 public class TileEditor extends VBox{
 
 	private List<DecoratorTile> currentTileSelection;
 	private VBox iconBox;
+	private TilePane tilePane;
 	private ObjectProperty<ImageView> selectImg = new SimpleObjectProperty<ImageView>();
 	private ViewController myViewController;
 	
@@ -55,12 +61,13 @@ public class TileEditor extends VBox{
 		comboBox.valueProperty().addListener((o, s1, s2) -> showImageOptions(s2));
 		return comboBox;
 	}
+	
 
 	private void showImageOptions(String s) {
 		String[] tileIconPath = ResourceManager.getString(s).split(",");
 		iconBox.getChildren().clear();
-		TilePane iconPane = new TilePane();
-		iconPane.setPrefSize(WIDTH_ICON_PANEL, HEIGHT_ICON_PANEL);
+		tilePane = new TilePane();
+		tilePane.setPrefSize(WIDTH_ICON_PANEL, HEIGHT_ICON_PANEL);
 		for (int i = 0; i < tileIconPath.length; i++) {
 			ImageView img = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(tileIconPath[i])));
 			
@@ -79,10 +86,10 @@ public class TileEditor extends VBox{
 			
 			img.setFitWidth(50);
 			img.setFitHeight(50);
-			iconPane.getChildren().add(img);
+			tilePane.getChildren().add(img);
 		}
 		
-		iconBox.getChildren().addAll(iconPane, createOkButton(s));
+		iconBox.getChildren().addAll(tilePane, createOkButton(s));
 		return;
 	}
 	

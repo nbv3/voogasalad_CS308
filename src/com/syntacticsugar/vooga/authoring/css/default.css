@@ -7,11 +7,16 @@
 }
 
 .tile-select-on{
-    -fx-opacity: 0.60;
+  	-fx-background-color: red;
+	-fx-opacity: 0.60;
 }
 
 .tile-hover-on{
 	-fx-opacity:0.75;
+}
+
+.icon-selected{
+	-fx-opacity: 0.5;
 }
 
 .properties-module{
@@ -24,7 +29,7 @@
 
 .label {
     -fx-font-size: 11pt;
-    -fx-font-family: "Arial";
+    -fx-font-family: "Helvetica";
     -fx-opacity: 0.6;
 }
 
@@ -71,7 +76,7 @@
     -fx-background-radius: 0;
     -fx-background-color: #1d1d1d;
     -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
-    -fx-font-size: 8pt;
+    -fx-font-size: 15px;
     -fx-text-fill: #d8d8d8;
 }
 
@@ -87,6 +92,7 @@
 .button:default {
     -fx-background-color: -fx-focus-color;
     -fx-text-fill: #ffffff;
+    -fx-font-size: 20px;
 }
 
 .button:default:hover {

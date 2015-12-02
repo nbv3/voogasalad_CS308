@@ -12,6 +12,7 @@ import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 public class ObjectData {
 
 	private GameObjectType myType;
+	private String myName;
 	private String myImagePath;
 	private Collection<IAttribute> myAttributes;
 	private Map<GameObjectType, Collection<IGameEvent>> myCollisionMap;
@@ -27,6 +28,10 @@ public class ObjectData {
 	
 	public String getImagePath() {
 		return this.myImagePath;
+	}
+	
+	public String getObjectName(){
+		return this.myName;
 	}
 	
 	public Collection<IAttribute> getAttributes() {

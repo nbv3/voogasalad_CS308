@@ -7,7 +7,7 @@ import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
 import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 
-public interface IGameObject extends IAttributeCollection, ICollidable {
+public interface IGameObject extends IAttributeCollection, ICollidable, IViewableObject {
 
 	/**
 	 * Update this object within the context of the whole universe.
@@ -21,9 +21,6 @@ public interface IGameObject extends IAttributeCollection, ICollidable {
 	 */
 	public GameObjectType getType();
 	
-	public BoundingBox getBoundingBox();
-
-	
 	// ISimpleAttributeContainer methods
 	
 	@Override
@@ -32,8 +29,7 @@ public interface IGameObject extends IAttributeCollection, ICollidable {
 	@Override
 	public void addAttribute(IAttribute attribute);
 	
-	
-	// ISimpleCollidable methods
+	// ICollidable methods
 	
 	@Override
 	public Collection<IGameEvent> getEventsFromCollision(GameObjectType type);
@@ -41,4 +37,6 @@ public interface IGameObject extends IAttributeCollection, ICollidable {
 	@Override
 	public void addCollisionBinding(GameObjectType type, IGameEvent event);
 	
+	@Override
+	public void onCollision(IGameObject collidedObject);
 }

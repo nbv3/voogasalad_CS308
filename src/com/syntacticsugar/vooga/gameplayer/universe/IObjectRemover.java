@@ -8,6 +8,6 @@ public interface IObjectRemover {
 	 * Remove this game object from the container.
 	 * @param toRemove
 	 */
-	public void removeGameObject(IGameObject toRemove);
+	public void removeGameObject(IGameObject obj);
 	
 }

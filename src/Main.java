@@ -1,5 +1,5 @@
 import com.syntacticsugar.vooga.authoring.objecteditor.ObjectEditor;
-import com.syntacticsugar.vooga.gameplayer.view.implementation.StartingScreenManager;
+import com.syntacticsugar.vooga.menu.SceneManager;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -11,9 +11,9 @@ public class Main extends Application {
 	}
 
 	@Override
-	public void start(Stage stage) throws Exception {
+	public void start(Stage stage) {
 		//new ObjectEditor();
-		new StartingScreenManager(stage);
+		new SceneManager(stage);
 	}
-	
 }
+	

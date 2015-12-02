@@ -21,4 +21,10 @@ public interface ICollidable {
 	 */
 	public void addCollisionBinding(GameObjectType type, IGameEvent event);
 	
+	/**
+	 * Method to be called when a collision involving this object is detected.
+	 * @param collidedObject
+	 */
+	public void onCollision(IGameObject collidedObject);
+	
 }

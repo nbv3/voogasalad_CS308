@@ -9,13 +9,12 @@ public class AlertBoxFactory {
 		
 	}
 
-	public Alert createObject(String id) {
+	public static void createObject(String id) {
 		Alert alert = new Alert(AlertType.INFORMATION);
-		alert.setTitle("Information Dialog");
+		alert.setTitle("Error");
 		alert.setHeaderText(null);
 		alert.setContentText(id);
 		alert.showAndWait();
-		return alert;
 	}
 	
 }

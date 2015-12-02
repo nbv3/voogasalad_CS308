@@ -1,26 +1,25 @@
 package com.syntacticsugar.vooga.gameplayer.engine.modules;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
-import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
-import com.syntacticsugar.vooga.gameplayer.objects.BoundingBox;
 import com.syntacticsugar.vooga.gameplayer.objects.IBoundingBox;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
+import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 
 public class CollisionEngine {
 
-	public static void checkCollisions(Collection<IGameObject> collection) {
-		for (IGameObject a : collection) {
-			for (IGameObject b : collection) {
+	public static void checkCollisions(IGameUniverse universe) {
+		Collection<IGameObject> objectsToCheck = new ArrayList<IGameObject>();
+		objectsToCheck.addAll(universe.getGameObjects());
+		objectsToCheck.addAll(universe.getPlayers());
+		for (IGameObject a : objectsToCheck) {
+			for (IGameObject b : objectsToCheck) {
 				if (b.equals(a)) {
 					continue;
 				}
 				if (intersects(a, b)) {
-					if (a.getEventsFromCollision(b.getType()) != null) {
-						for (IGameEvent e : a.getEventsFromCollision(b.getType())) {
-							e.executeEvent(b.getAttributes());
-						}
-					}
+					a.onCollision(b);
 				}
 			}
 		}
