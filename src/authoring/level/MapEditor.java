@@ -17,12 +17,16 @@ import authoring.icons.implementations.ImageIcon;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableSet;
 import javafx.collections.SetChangeListener;
+import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 import javafx.scene.control.Tooltip;
 import javafx.scene.effect.Effect;
 import javafx.scene.effect.InnerShadow;
 import javafx.scene.image.Image;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
@@ -100,6 +104,66 @@ public class MapEditor implements IMapEditor {
 				Tooltip.install(icon, tileInfo);
 				icon.setOnMouseEntered(e -> mouseOverHandler(tile, e.isControlDown(), e.isShiftDown()));
 				icon.setOnMouseClicked(e -> mouseClickHandler(tile));
+				icon.setOnDragOver(new EventHandler<DragEvent>() {
+				    public void handle(DragEvent event) {
+				        /* data is dragged over the target */
+				        /* accept it only if it is not dragged from the same node 
+				         * and if it has a string data */
+				    		Dragboard db = event.getDragboard();
+				    		System.out.println(db);
+				            /* allow for both copying and moving, whatever user chooses */
+				        	System.out.println("Tile is ready to accept dragged object");
+				            event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
+
+				     
+				        event.consume();
+				    }
+				});
+				
+				icon.setOnDragEntered(new EventHandler<DragEvent>() {
+				    public void handle(DragEvent event) {
+				    /* the drag-and-drop gesture entered the target */
+				    /* show to the user that it is an actual gesture target */
+
+			            if (event.getGestureSource() != icon &&
+		                        event.getDragboard().hasString()) {
+			            	icon.setOpacity(0);
+		                }
+		                
+				    }
+				});
+				
+				icon.setOnDragExited(new EventHandler<DragEvent>(){
+
+					@Override
+					public void handle(DragEvent event) {
+						// TODO Auto-generated method stub
+						if (event.getGestureSource() != icon &&
+		                        event.getDragboard().hasString()) {
+							icon.setOpacity(1);
+						}
+						
+					}
+					
+				});
+				icon.setOnDragDropped(new EventHandler<DragEvent>() {
+				    public void handle(DragEvent event) {
+				        /* data dropped */
+				        /* if there is a string data on dragboard, read it and use it */
+				        Dragboard db = event.getDragboard();
+				        boolean success = false;
+				        if (db.hasString()) {
+				        	icon.setOpacity(1);
+				        	icon.setImage(new Image(getClass().getClassLoader().getResourceAsStream(db.getString())));
+				           success = true;
+				        }
+				        /* let the source know whether the string was successfully 
+				         * transferred and used */
+				        event.setDropCompleted(success);
+				        
+				        event.consume();
+				     }
+				});
 				myMapGrid.getChildren().add(icon);
 				GridPane.setConstraints(icon, i, j, 1, 1, HPos.CENTER, VPos.CENTER, Priority.ALWAYS, Priority.ALWAYS, null);
 			}
