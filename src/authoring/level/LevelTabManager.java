@@ -17,6 +17,7 @@ public class LevelTabManager {
 	public LevelTabManager() {
 		myLevelMap = new HashMap<Tab, LevelEditor>();
 		myTabPane = new TabPane();
+		addNewLevel();
 	}
 	
 	public void addNewLevel() {

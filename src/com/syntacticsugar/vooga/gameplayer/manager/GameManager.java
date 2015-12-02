@@ -49,15 +49,15 @@ public class GameManager implements IGameManager {
 		GameUniverse currentLevel = new GameUniverse();
 		myLevels = new ArrayList<IGameUniverse>();
 		myLevels.add(currentLevel);
-		// myConditions = new ArrayList<IGameCondition>();
-		// myConditions.add(new PlayerDeathCondition());
+//		 myConditions = new ArrayList<IGameCondition>();
+//		 myConditions.add(new PlayerDeathCondition());
 
 		ViewController myViewController = new ViewController(gameSize);
 
 		// i changed ISimpleObject to SimpleObject, else addViewObject does not
 		// work
 		String playerPath = "player_pacman.png";
-		String enemyPath = "enemy_moster_1.png";
+		String enemyPath = "enemy_monster_1.png";
 		String missilePath = "gray.png";
 
 		ObjectData playerData = new ObjectData();
@@ -127,6 +127,7 @@ public class GameManager implements IGameManager {
 		} else if (type.equals(ConditionType.LOSING)) {
 			// go backward?
 			System.out.println("YOU LOSE");
+			pause();
 		}
 
 	}
