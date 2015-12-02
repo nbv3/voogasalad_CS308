@@ -2,7 +2,7 @@ package xml;
 
 import java.io.File;
 
-import authoring.data.MapData;
+import xml.data.MapData;
 
 public class MapDataXML extends AbstractXML<MapData> {
 

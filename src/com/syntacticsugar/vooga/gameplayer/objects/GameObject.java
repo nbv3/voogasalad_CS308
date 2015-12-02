@@ -11,8 +11,8 @@ import com.syntacticsugar.vooga.gameplayer.event.ICollisionEvent;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.util.ResourceManager;
 
-import authoring.data.ObjectData;
 import javafx.geometry.Point2D;
+import xml.data.ObjectData;
 
 public class GameObject extends AbstractViewableObject implements IGameObject {
 
@@ -27,8 +27,8 @@ public class GameObject extends AbstractViewableObject implements IGameObject {
 		myCollisionEventMap = new HashMap<GameObjectType, Collection<ICollisionEvent>>();
 	}
 	
-	public GameObject(ObjectData data, double width, double height) {
-		super(data.getSpawnPoint(), width, height, data.getImagePath());
+	public GameObject(ObjectData data) {
+		super(data.getSpawnPoint(), data.getWidth(), data.getHeight(), data.getImagePath());
 		Collection<IAttribute> attributes = data.getAttributes();
 		Map<GameObjectType, Collection<ICollisionEvent>> collisions = data.getCollisionMap();
 		myType = data.getType();
@@ -81,6 +81,11 @@ public class GameObject extends AbstractViewableObject implements IGameObject {
 	@Override
 	public Map<String, IAttribute> getAttributes() {
 		return Collections.unmodifiableMap(myAttributeMap);
+	}
+	
+	@Override
+	public Map<GameObjectType, Collection<ICollisionEvent>> getCollisionMap() {
+		return Collections.unmodifiableMap(myCollisionEventMap);
 	}
 
 	@Override

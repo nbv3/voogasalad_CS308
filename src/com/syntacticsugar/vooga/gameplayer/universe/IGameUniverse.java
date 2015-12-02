@@ -32,4 +32,6 @@ public interface IGameUniverse extends IObjectCollection,
 	
 	public Collection<IGameCondition> getConditions();
 	
+	public void saveGame();
+	
 }

@@ -1,9 +1,15 @@
 package com.syntacticsugar.vooga.gameplayer.universe.spawner;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import com.syntacticsugar.vooga.gameplayer.objects.GameObject;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
+
+import xml.data.ObjectData;
+import xml.data.WaveData;
 
 public class Wave implements IWave {
 	
@@ -14,7 +20,7 @@ public class Wave implements IWave {
 	public Wave (WaveData data) {
 		objs = new LinkedList<>();
 		for(ObjectData o: data.getObjs()) {
-			objs.add(new IGameObject(o));
+			objs.add(new GameObject(o));
 		}
 	}
 
@@ -31,6 +37,11 @@ public class Wave implements IWave {
 	@Override
 	public int getWaveNum() {
 		return myWaveNum;
+	}
+
+	@Override
+	public Collection<IGameObject> getAllObjs() {
+		return Collections.unmodifiableCollection(objs);
 	}
 
 }

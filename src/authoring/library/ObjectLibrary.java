@@ -10,7 +10,6 @@ import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
 
-import authoring.data.ObjectData;
 import authoring.icons.ImageFileFilter;
 import authoring.icons.implementations.ObjectIcon;
 import authoring.icons.panes.ImageIconPane;
@@ -20,6 +19,7 @@ import authoring.objectediting.ObjectEditor;
 import javafx.scene.Node;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.VBox;
+import xml.data.ObjectData;
 
 public class ObjectLibrary {
 

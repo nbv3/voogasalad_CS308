@@ -1,5 +1,7 @@
 package com.syntacticsugar.vooga.gameplayer.universe.spawner;
 
+import java.util.Collection;
+
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 
 public interface IWave {
@@ -9,5 +11,7 @@ public interface IWave {
 	public int getWaveSize();
 	
 	public int getWaveNum();
+	
+	public Collection<IGameObject> getAllObjs();
 
 }

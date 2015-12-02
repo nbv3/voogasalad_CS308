@@ -1,10 +1,10 @@
 package authoring.level;
 
 
-import authoring.data.ObjectData;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.text.Font;
+import xml.data.ObjectData;
 
 public class ObjectIconTooltip extends CustomTooltip {
 

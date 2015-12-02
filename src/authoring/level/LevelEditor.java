@@ -1,6 +1,5 @@
 package authoring.level;
 
-import authoring.data.MapData;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.layout.ColumnConstraints;
@@ -10,6 +9,7 @@ import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import xml.data.MapData;
 
 public class LevelEditor {
 

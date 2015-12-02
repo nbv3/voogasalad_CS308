@@ -1,12 +1,18 @@
 package com.syntacticsugar.vooga.gameplayer.universe.spawner;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.ObjectSpawnEvent;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.universe.IEventPoster;
+
+import xml.data.ObjectData;
+import xml.data.SpawnerData;
+import xml.data.WaveData;
 
 public class Spawner implements ISpawner {
 	
@@ -32,7 +38,7 @@ public class Spawner implements ISpawner {
 
 	@Override
 	public void nextWave() {
-		Wave myCurrentWave = myWaves.poll();
+		myCurrentWave = myWaves.poll();
 	}
 	
 	@Override
@@ -61,6 +67,25 @@ public class Spawner implements ISpawner {
 		IGameObject obj = myCurrentWave.getObj();
 		ObjectSpawnEvent event = new ObjectSpawnEvent(obj);
 		myPoster.postEvent(event);
+	}
+
+	@Override
+	public void onEvent(IGameEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public SpawnerData saveGame() {
+		Collection<WaveData> waves = new ArrayList<>();
+		for (Wave w: myWaves) {
+			Collection<ObjectData> objs = new ArrayList<>();
+			for (IGameObject o: w.getAllObjs()) {
+				objs.add(new ObjectData(o));
+			}
+			waves.add(new WaveData(objs));
+		}
+		return new SpawnerData(waves);
 	}
 	
 	

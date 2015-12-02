@@ -1,5 +1,8 @@
 package com.syntacticsugar.vooga.gameplayer.objects;
 
+import java.util.Collection;
+import java.util.Map;
+
 import com.syntacticsugar.vooga.gameplayer.event.ICollisionEvent;
 
 public interface ICollidable {
@@ -16,5 +19,7 @@ public interface ICollidable {
 	 * @param collidedObject
 	 */
 	public void onCollision(IGameObject collidedObject);
+	
+	public Map<GameObjectType, Collection<ICollisionEvent>> getCollisionMap();
 	
 }

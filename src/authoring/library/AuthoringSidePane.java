@@ -3,10 +3,9 @@ package authoring.library;
 import java.io.File;
 
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
-import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
+import com.syntacticsugar.vooga.gameplayer.event.ICollisionEvent;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 
-import authoring.data.ObjectData;
 import authoring.objectediting.ObjectEditor;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -14,6 +13,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TabPane.TabClosingPolicy;
 import javafx.scene.layout.VBox;
+import xml.data.ObjectData;
 
 public class AuthoringSidePane {
 
@@ -58,7 +58,7 @@ public class AuthoringSidePane {
 			System.out.println(i.getClass().getSimpleName());
 		}
 		for (GameObjectType g: myData.getCollisionMap().keySet()) {
-			for (IGameEvent i: myData.getCollisionMap().get(g)) {
+			for (ICollisionEvent i: myData.getCollisionMap().get(g)) {
 				System.out.println(String.format("%s->%s",g,i.getClass().getSimpleName()));
 			}
 		}

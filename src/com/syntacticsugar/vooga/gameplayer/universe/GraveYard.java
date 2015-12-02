@@ -3,11 +3,13 @@ package com.syntacticsugar.vooga.gameplayer.universe;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import com.syntacticsugar.vooga.gameplayer.event.GameEventListener;
+import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.view.IViewRemover;
 
-public class GraveYard implements IYard<IViewRemover> {
+public class GraveYard implements IYard<IViewRemover>, GameEventListener {
 
 	private Collection<IGameObject> objectsInYard;
 	private IObjectRemover myUniverse;
@@ -50,6 +52,12 @@ public class GraveYard implements IYard<IViewRemover> {
 			}
 		}
 		return ret;
+	}
+
+	@Override
+	public void onEvent(IGameEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

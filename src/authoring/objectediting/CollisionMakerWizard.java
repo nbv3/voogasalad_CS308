@@ -12,6 +12,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import xml.data.ObjectData;
 
 import com.syntacticsugar.vooga.gameplayer.event.ICollisionEvent;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
@@ -24,20 +25,16 @@ import com.syntacticsugar.vooga.util.reflection.ReflectionException;
 public class CollisionMakerWizard {
 	private Scene myScene;
 	private CollisionViewer myCollisionViewer;
-<<<<<<< HEAD
 	private GameObjectType typeChosen;
-	private Map<GameObjectType, Collection<IGameEvent>> myCollisions;
-	private IGameEvent collisionEventToAdd;
-=======
-	private ObjectData myData;
+	private Map<GameObjectType, Collection<ICollisionEvent>> myCollisions;
 	private ICollisionEvent collisionEventToAdd;
->>>>>>> feature/towers
+	private ObjectData myData;
 	private GameObjectType selectedCollideObjType;
 	private String selectedCollisionEvent;
 	private final double SCENE_DIMENSION = 400;
 
 	public CollisionMakerWizard(CollisionViewer collisionViewer, GameObjectType type, 
-			Map<GameObjectType, Collection<IGameEvent>> collisions) {
+			Map<GameObjectType, Collection<ICollisionEvent>> collisions) {
 		myCollisionViewer = collisionViewer;
 		typeChosen = type;
 		myCollisions = collisions;
@@ -96,11 +93,7 @@ public class CollisionMakerWizard {
 		
 		if (myCollisions.containsKey(selectedCollideObjType)) {
 			//System.out.println(selectedCollideObjEvent.getClass().getSimpleName());
-<<<<<<< HEAD
-			for (IGameEvent i: myCollisions.get(selectedCollideObjType)) {
-=======
 			for (ICollisionEvent i: myData.getCollisionMap().get(selectedCollideObjType)) {
->>>>>>> feature/towers
 				//System.out.println(i.getClass().getSimpleName());
 				if (i.getClass().getSimpleName().equals(selectedCollisionEvent)) {
 					AlertBoxFactory.createObject(String.format("Cannot add more than one %s to collide type %s", 
@@ -143,13 +136,10 @@ public class CollisionMakerWizard {
 				collideEvents.add((ICollisionEvent) Reflection.createInstance(className));
 	
 			}
-<<<<<<< HEAD
 			myCollisions.put(selectedCollideObjType, collideEvents);
-			myCollisionViewer.addCollisionEventToList(selectedCollideObjType, ((List<IGameEvent>) collideEvents).get(0));
-=======
+			myCollisionViewer.addCollisionEventToList(selectedCollideObjType, ((List<ICollisionEvent>) collideEvents).get(0));
 			myData.getCollisionMap().put(selectedCollideObjType, collideEvents);
 			myCollisionViewer.addCollisionEventToList(selectedCollideObjType, ((List<ICollisionEvent>) collideEvents).get(0));
->>>>>>> feature/towers
 		}
 	}
 

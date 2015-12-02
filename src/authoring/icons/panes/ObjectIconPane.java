@@ -8,11 +8,11 @@ import java.io.File;
 
 import java.util.Collection;
 
-import authoring.data.ObjectData;
 import authoring.icons.implementations.AbstractIcon;
 import authoring.icons.implementations.ObjectIcon;
 import authoring.level.ObjectIconTooltip;
 import javafx.scene.control.Tooltip;
+import xml.data.ObjectData;
 
 public class ObjectIconPane extends AbstractIconPane {
 

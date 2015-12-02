@@ -31,7 +31,7 @@ public class ObjectEditor {
 	
 	private GameObjectType typeChosen;
 	private List<IAttribute> myAttributes;
-	private Map<GameObjectType, Collection<IGameEvent>> myCollisions;
+	private Map<GameObjectType, Collection<ICollisionEvent>> myCollisions;
 	//private Map<GameObjectType,Collection<IGameEvent>> myCollisions;
 	//private ListView myAttributes;
 	//private ListView myColliders;
@@ -42,7 +42,7 @@ public class ObjectEditor {
 	public ObjectEditor(GameObjectType type){
 		typeChosen = type;
 		myAttributes = new ArrayList<IAttribute>();
-		myCollisions  = new HashMap<GameObjectType, Collection<IGameEvent>>();
+		myCollisions  = new HashMap<GameObjectType, Collection<ICollisionEvent>>();
 		myView = new VBox();
 		makeEditors();
 		myView.getChildren().addAll(myAttributeViewer.getView(), myCollisionViewer.getView());			
@@ -61,7 +61,7 @@ public class ObjectEditor {
 		return myAttributes;
 	}
 	
-	public Map<GameObjectType, Collection<IGameEvent>> getCollisions() {
+	public Map<GameObjectType, Collection<ICollisionEvent>> getCollisions() {
 		return myCollisions;
 	}
 	

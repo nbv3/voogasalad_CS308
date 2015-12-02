@@ -2,7 +2,6 @@ package authoring.level;
 
 import java.util.List;
 
-import com.syntacticsugar.vooga.authoring.objecteditor.ObjectData;
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObject;
 

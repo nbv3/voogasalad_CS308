@@ -16,11 +16,7 @@ public interface IGameManager extends ILevelSwitcher, IEventPoster {
 	 * 
 	 */
 	public void restartGame();
-	
-	public void startLevel(IGameUniverse level);
 
 	public void startGame();
-
-	public void endLevel();
 
 }

@@ -9,6 +9,7 @@ import com.syntacticsugar.vooga.gameplayer.view.ViewController;
 import javafx.geometry.Point2D;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
+import xml.data.ObjectData;
 
 import java.awt.Point;
 import java.util.ArrayList;
@@ -131,8 +132,16 @@ public class GameEngine {
 	private void placeTower(ObjectData obj, Point2D point) {
 		IGameMap map = myUniverse.getMap();
 		double size = map.getTileSize();
-		Point2D spawnPoint = map.getCoordinateFromMapIndex(map.getMapIndexFromCoordinate(point));
-		IGameObject tower = new Tower(obj, spawnPoint, size, size);
+		Point2D spawnPoint;
+		try {
+			spawnPoint = map.getCoordinateFromMapIndex(map.getMapIndexFromCoordinate(point));
+		} catch (Exception e) {
+			return;
+		}
+		obj.setWidth(size);
+		obj.setHeight(size);
+		obj.setSpawnPoint(spawnPoint.getX(), spawnPoint.getY());
+		IGameObject tower = new Tower(obj);
 		
 		ITowerHolder tile = map.getTile(point);
 		tile.setIsPlaceable(false);

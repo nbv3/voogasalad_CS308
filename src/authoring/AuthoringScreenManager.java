@@ -5,8 +5,6 @@ import java.io.File;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.menu.SceneManager;
 
-import authoring.data.MapData;
-import authoring.data.ObjectData;
 import authoring.level.LevelTabManager;
 import authoring.library.ObjectLibrary;
 import authoring.library.AuthoringSidePane;
@@ -27,6 +25,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 import xml.MapDataXML;
+import xml.data.MapData;
 
 public class AuthoringScreenManager {
 
