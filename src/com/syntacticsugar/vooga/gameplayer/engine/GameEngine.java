@@ -1,6 +1,7 @@
 package com.syntacticsugar.vooga.gameplayer.engine;
 
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
+import com.syntacticsugar.vooga.gameplayer.universe.spawner.ISpawner;
 import com.syntacticsugar.vooga.gameplayer.view.ViewController;
 
 import javafx.scene.input.KeyCode;
@@ -35,6 +36,7 @@ public class GameEngine {
 		checkCollisions();
 		updateState();
 		checkConditions();
+		processSpawner();
 		processGraveyard();
 		processSpawnyard();
 
@@ -94,6 +96,11 @@ public class GameEngine {
 			}
 		}
 
+	}
+	
+	private void processSpawner() {
+		ISpawner spawner = myUniverse.getSpawner();
+		spawner.update();
 	}
 
 	private void processGraveyard() {

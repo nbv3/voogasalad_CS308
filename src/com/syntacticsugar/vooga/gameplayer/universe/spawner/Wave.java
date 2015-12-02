@@ -13,6 +13,9 @@ public class Wave implements IWave {
 	
 	public Wave (WaveData data) {
 		objs = new LinkedList<>();
+		for(ObjectData o: data.getObjs()) {
+			objs.add(new IGameObject(o));
+		}
 	}
 
 	@Override

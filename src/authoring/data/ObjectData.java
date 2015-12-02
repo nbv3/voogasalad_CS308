@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
-import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
+import com.syntacticsugar.vooga.gameplayer.event.ICollisionEvent;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 
 import javafx.geometry.Point2D;
@@ -18,12 +18,12 @@ public class ObjectData extends AbstractData {
 	private Point2D mySpawnPoint;
 	private String myImagePath;
 	private Collection<IAttribute> myAttributes;
-	private Map<GameObjectType, Collection<IGameEvent>> myCollisionMap;
+	private Map<GameObjectType, Collection<ICollisionEvent>> myCollisionMap;
 	
 	public ObjectData() {
 		mySpawnPoint = new Point2D(0, 0);
 		myAttributes = new ArrayList<IAttribute>();
-		myCollisionMap = new HashMap<GameObjectType, Collection<IGameEvent>>();
+		myCollisionMap = new HashMap<GameObjectType, Collection<ICollisionEvent>>();
 	}
 	
 	public GameObjectType getType() {
@@ -46,7 +46,7 @@ public class ObjectData extends AbstractData {
 		return this.myAttributes;
 	}
 	
-	public Map<GameObjectType, Collection<IGameEvent>> getCollisionMap() {
+	public Map<GameObjectType, Collection<ICollisionEvent>> getCollisionMap() {
 		return this.myCollisionMap;
 	}
 	
@@ -67,7 +67,7 @@ public class ObjectData extends AbstractData {
 		this.myAttributes.addAll(attributes);
 	}
 
-	public void setCollisionMap(Map<GameObjectType, Collection<IGameEvent>> collisionMap) {
+	public void setCollisionMap(Map<GameObjectType, Collection<ICollisionEvent>> collisionMap) {
 		this.myCollisionMap.clear();
 		this.myCollisionMap.putAll(collisionMap);
 	}

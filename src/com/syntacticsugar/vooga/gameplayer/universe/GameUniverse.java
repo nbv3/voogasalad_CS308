@@ -8,10 +8,13 @@ import java.util.List;
 
 import com.syntacticsugar.vooga.gameplayer.conditions.IGameCondition;
 import com.syntacticsugar.vooga.gameplayer.conditions.PlayerDeathCondition;
+import com.syntacticsugar.vooga.gameplayer.event.ICollisionEvent;
+import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.universe.map.GameMap;
 import com.syntacticsugar.vooga.gameplayer.universe.map.IGameMap;
+import com.syntacticsugar.vooga.gameplayer.universe.spawner.ISpawner;
 
 import authoring.data.MapData;
 import javafx.scene.input.KeyCode;
@@ -29,8 +32,11 @@ public class GameUniverse implements IGameUniverse {
 	private Collection<IGameObject> myGraveYard;
 	private List<IGameCondition> myConditions;
 	// private Collection<IGameObject> myTowers;
+	private ISpawner mySpawner;
 	private IGameMap myGameMap;
 	private Collection<KeyCode> myCurrentInput;
+	
+	private IEventPoster myPoster;
 
 	public GameUniverse() {
 		myPlayers = new ArrayList<IGameObject>();
@@ -157,5 +163,16 @@ public class GameUniverse implements IGameUniverse {
 	public Collection<IGameCondition> getConditions() {
 		// TODO Auto-generated method stub
 		return Collections.unmodifiableCollection(myConditions);
+	}
+
+	@Override
+	public ISpawner getSpawner() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void postEvent(IGameEvent event) {
+		myPoster.postEvent(event);
 	}
 }
