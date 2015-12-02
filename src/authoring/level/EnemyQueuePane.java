@@ -47,7 +47,7 @@ public class EnemyQueuePane {
 	
 	// test code
 	private void testCreatedObjectDataList() {
-		for (int i=1;i<10;i++) {
+		for (int i=1;i<23;i++) {
 			ObjectData objToAdd = new ObjectData();
 			objToAdd.setImagePath(String.format("enemy_moster_%d.png",i));
 			objToAdd.setType(GameObjectType.ENEMY);

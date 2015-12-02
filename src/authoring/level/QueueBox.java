@@ -37,8 +37,8 @@ public class QueueBox {
 
 	private void addImage(String path) {
 		myImage = new ImageView(path);
-		myImage.setFitHeight(30);
-		myImage.setFitWidth(30);
+		myImage.setFitHeight(80);
+		myImage.setFitWidth(80);
 		myImage.setPreserveRatio(true);
 		myEnemy.getChildren().add(myImage);
 	}
