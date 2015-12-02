@@ -43,6 +43,8 @@ public class GameManager implements IGameManager {
 
 	// is SceneManager injection necessary?
 	private SceneManager myManager;
+	
+	ViewController myViewController;
 
 	public GameManager(double gameSize) {
 
@@ -52,7 +54,7 @@ public class GameManager implements IGameManager {
 		// myConditions = new ArrayList<IGameCondition>();
 		// myConditions.add(new PlayerDeathCondition());
 
-		ViewController myViewController = new ViewController(gameSize);
+		myViewController = new ViewController(gameSize);
 
 		// i changed ISimpleObject to SimpleObject, else addViewObject does not
 		// work
@@ -106,7 +108,7 @@ public class GameManager implements IGameManager {
 		// the menu scene
 		myManager.launchEnginePauseMenu();
 
-		// TODO pause update logic
+		myGameTimeline.pause();
 	}
 
 	@Override
@@ -175,6 +177,12 @@ public class GameManager implements IGameManager {
 		myGameTimeline.setCycleCount(Timeline.INDEFINITE);
 		myGameTimeline.getKeyFrames().add(frame);
 		startGame();
+	}
+
+	@Override
+	public void postEvent(IGameEvent event) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
