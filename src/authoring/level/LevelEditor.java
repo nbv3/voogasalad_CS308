@@ -23,7 +23,7 @@ public class LevelEditor {
 		myMapEditor = new MapEditor();
 		myTileEditor = new MapEditorControls(myMapEditor);
 		myQueue = new EnemyQueueTabManager();
-		myWaveControl = new WaveController();
+		myWaveControl = new WaveController(myQueue);
 		buildTabContents();
 
 		// When you are ready to add the bottom Node on (for the Spawn Queue),
