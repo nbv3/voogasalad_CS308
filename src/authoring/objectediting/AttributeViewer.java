@@ -1,81 +1,92 @@
 package authoring.objectediting;
 
-import java.util.List;
+import java.util.Collection;
 
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
-import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
+import javafx.scene.Node;
+import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 
-public class AttributeViewer extends EditingViewer {
+public class AttributeViewer implements IUserInterface, 
+										IListViewDisplay, 
+										IDataDisplay<Collection<IAttribute>> {
 
-	private GameObjectType typeChosen;
-	private List<IAttribute> myAttributes;
+	private ListView<HBox> myListView;
+	private ObservableList<IAttribute> myAttributes;
+	private ObservableList<HBox> myAttributeDisplays;
+
 	
-	public AttributeViewer(GameObjectType type, List<IAttribute> attributes) {
-		super(ResourceManager.getString("attributes_added"));
-		typeChosen = type;
-		myAttributes = attributes;
-		myAddButton.setOnAction(e ->openAttributeMakerWizard());
-		myRemoveButton.setOnAction(e -> removeAttributeFromList());
+	public AttributeViewer() {
+		myAttributeDisplays = FXCollections.observableArrayList();
+		myAttributes = FXCollections.observableArrayList();
+		myAttributes.addListener(new ListChangeListener<IAttribute>() {
+			@Override
+			public void onChanged(Change<? extends IAttribute> change) {
+				change.next();
+				if (change.wasAdded()) {
+					for (IAttribute att : change.getAddedSubList()) {
+						myAttributeDisplays.add(makeListElement(att));
+					}
+				}
+				if (change.wasRemoved()) {
+					myAttributeDisplays.remove(change.getFrom());
+				}
+			}
+		});
+		myListView = new ListView<HBox>(myAttributeDisplays);
 	}
 
-	private void openAttributeMakerWizard() {
-		new AttributeMakerWizard(this,typeChosen,myAttributes);
+	@Override
+	public Node getView() {
+		return this.myListView;
 	}
 
-	public void addAttributeToList(IAttribute attribute) {
-		myAttributes.add(attribute);
-		addElementToList(makeListElement(attribute));
-		
-		System.out.println("*****add attribute******");
-		System.out.println(typeChosen);
-		for (IAttribute i: myAttributes) {
-			System.out.println(i.getClass().getSimpleName());
+	@Override
+	public void removeSelectedItem() {
+		if (!myAttributes.isEmpty()) {
+			int selectedIdx = myListView.getSelectionModel().getSelectedIndex();
+			if (selectedIdx == -1) {
+				AlertBoxFactory.createObject(ResourceManager.getString("invalid-selection"));
+				return;
+			}
+			System.out.println(selectedIdx);
+			myAttributes.remove(selectedIdx);
+		}
+		else {
+			AlertBoxFactory.createObject(ResourceManager.getString("empty-remove"));
 		}
 	}
+
+	@Override
+	public void displayData(Collection<IAttribute> data) {
+		myAttributes.clear();
+		for (IAttribute att : data) {
+			myAttributes.add(att);
+		}
+	}
+
+	@Override
+	public void clearDisplay() {
+		myAttributes.clear();
+	}
 	
-	protected HBox makeListElement(IAttribute attribute){
+	@Override
+	public Collection<IAttribute> getData() {
+		return this.myAttributes;
+	}
+
+	private HBox makeListElement(IAttribute attribute){
 		String attributeName = ResourceManager.getString(attribute.getClass().getSimpleName());
 		HBox element = new HBox();
 		element.getChildren().add(new Text(attributeName));
 		return element;
-	}
-	
-	public void removeAttributeFromList() {
-		if (!myAttributes.isEmpty()) {
-			int selectedIdx = myListView.getSelectionModel().getSelectedIndex();
-			if (selectedIdx == -1) {
-				AlertBoxFactory.createObject("Please first select an attribute from the list, then double click to remove");
-				return;
-			}
-			removeAttribute(selectedIdx);
-		}
-		else {
-			AlertBoxFactory.createObject("Attribute list empty, nothing to remove");
-		}
-		
-		System.out.println("*****remove attribute******");
-		System.out.println(typeChosen);
-		for (IAttribute i: myAttributes) {
-			System.out.println(i.getClass().getSimpleName());
-		}
-	}
-
-	private void removeAttribute(int selectedIdx) {
-		myAttributes.remove(selectedIdx);
-		myListView.getItems().remove(selectedIdx);
-	}
-	
-	public void setTypeChosen(GameObjectType type) {
-		typeChosen = type;
-	}
-	
-	public GameObjectType getTypeChosen() {
-		return typeChosen;
 	}
 
 }

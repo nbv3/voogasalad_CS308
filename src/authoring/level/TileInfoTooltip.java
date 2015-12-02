@@ -27,9 +27,9 @@ public class TileInfoTooltip extends CustomTooltip {
 	protected Node buildContentNode() {
 		GridPane infoGrid = new GridPane();
 		myType = new Label();
-		myType.setFont(new Font(6));
+//		myType.setFont(new Font(8));
 		myDestinationMarker = new Label();
-		myDestinationMarker.setFont(new Font(6));
+//		myDestinationMarker.setFont(new Font(8));
 		currentImageView = new ImageView();
 		currentImageView.setFitWidth(40);
 		currentImageView.setFitHeight(40);

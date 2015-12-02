@@ -1,14 +1,11 @@
 package authoring.icons.panes;
 
 import java.io.File;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Collection;
 
 import authoring.icons.ImageFileFilter;
 import authoring.icons.implementations.AbstractIcon;
 import authoring.icons.implementations.ImageIcon;
-import javafx.scene.image.ImageView;
 
 public class ImageIconPane extends AbstractIconPane {
 
