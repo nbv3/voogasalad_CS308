@@ -4,15 +4,19 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
+import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
 
 import authoring.data.MapData;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.Event;
 import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TabPane.TabClosingPolicy;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
 public class EnemyQueueTabManager {
 	private TabPane myTabPane;
@@ -20,6 +24,7 @@ public class EnemyQueueTabManager {
 
 	public EnemyQueueTabManager() {
 		myTabPane = new TabPane();
+		myTabPane.setPrefWidth(600);
 
 		Tab addTab = new Tab("+");
 		Tab tab1 = new Tab("Wave 1");
@@ -60,10 +65,6 @@ public class EnemyQueueTabManager {
 
 	}
 
-	public TabPane getTabPane() {
-		return myTabPane;
-	}
-
 	private void updateLevelNumbers() {
 		int i = 1;
 		for (Tab t : myTabPane.getTabs()) {
@@ -73,4 +74,9 @@ public class EnemyQueueTabManager {
 			}
 		}
 	}
+	
+	public Node getView() {
+		return myTabPane;
+	}
+	
 }
