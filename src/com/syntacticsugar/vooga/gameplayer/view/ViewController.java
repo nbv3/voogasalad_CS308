@@ -9,6 +9,7 @@ import java.util.Observer;
 
 import com.syntacticsugar.vooga.gameplayer.attribute.HealthAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
+import com.syntacticsugar.vooga.gameplayer.event.ICollisionEvent;
 import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.HealthChangeEvent;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObject;
@@ -26,6 +27,8 @@ public class ViewController implements IViewRemover, IViewAdder, Observer {
 
 	private Map<IViewableObject, ObjectView> myViewMap;
 	private GameView myGameView;
+	
+	//refer to universe as ISpawner (diff interface)
 	private IGameUniverse myUniverse; 
 
 	public ViewController(double size) {
@@ -54,6 +57,7 @@ public class ViewController implements IViewRemover, IViewAdder, Observer {
 
 	public void initializeView(IGameUniverse universe) {
 		myUniverse = universe;
+		myGameView.initializeAvailableTowers(universe.getAvailableTowers(), universe);
 		for (IGameTile tile: universe.getMap().getTiles()) {
 			addTileObject(tile);
 		}
@@ -64,7 +68,7 @@ public class ViewController implements IViewRemover, IViewAdder, Observer {
 
 	private void addTileObject(IGameTile obj) {
 		TileView newView = new TileView(obj.getPath(), obj.getBoundingBox(), myGameView, obj.isWalkable());
-		newView.addObserver(this);
+		//newView.addObserver(this);
 		myGameView.initializeTowerTileObserver(newView);
 		myViewMap.put(obj, newView);
 	}
@@ -72,30 +76,25 @@ public class ViewController implements IViewRemover, IViewAdder, Observer {
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		//Test version, will need to know what tower is selected
-		/*
+		
 		Point2D point =  (Point2D) arg1;
-		String imgPath = "tower_1.png";
-		ObjectData enemyData = new ObjectData();
-		Collection<IAttribute> enemyAttributes = new ArrayList<IAttribute>();
-		enemyAttributes.add(new HealthAttribute(30));
-		// enemyAttributes.add(new AIMovementAttribute(3));
-		Map<GameObjectType, Collection<IGameEvent>> collisions = new HashMap<GameObjectType, Collection<IGameEvent>>();
-		Collection<IGameEvent> enemyEvents = new ArrayList<IGameEvent>();
-		enemyEvents.add(new HealthChangeEvent(-10));
-		collisions.put(GameObjectType.PLAYER, enemyEvents);
-		enemyData.setType(GameObjectType.ENEMY);
-		enemyData.setSpawnPoint(point.getX(), point.getY());
-		enemyData.setImagePath(imgPath);
-		enemyData.setAttributes(enemyAttributes);
-		enemyData.setCollisionMap(collisions);
-		IGameObject enemy = new GameObject(enemyData, 50, 50);
-		myUniverse.addGameObject(enemy);
-		
-		IViewableObject obj = (IViewableObject) enemy;
-		ObjectView animal = new ObjectView(obj.getPath(), obj.getBoundingBox(), myGameView);
-		myViewMap.put(obj, animal);
-		*/
-		
+//		String imgPath = "tower_1.png";
+//		ObjectData towerData = new ObjectData();
+//		Collection<IAttribute> towerAttributes = new ArrayList<IAttribute>();
+//		towerAttributes.add(new HealthAttribute(30));
+//		// towerAttributes.add(new AIMovementAttribute(3));
+//		Map<GameObjectType, Collection<ICollisionEvent>> collisions = new HashMap<GameObjectType, Collection<ICollisionEvent>>();
+//		Collection<ICollisionEvent> towerEvents = new ArrayList<ICollisionEvent>();
+//		towerEvents.add(new HealthChangeEvent(-10));
+//		towerData.setType(GameObjectType.TOWER);
+//		towerData.setSpawnPoint(point.getX(), point.getY());
+//		towerData.setImagePath(imgPath);
+//		towerData.setAttributes(towerAttributes);
+//		towerData.setCollisionMap(collisions);
+//		towerData.setWidth(50);
+//		towerData.setHeight(50);
+//		IGameObject tower = new GameObject(towerData);
+//		myUniverse.addToSpawnYard(tower);
 	}
 
 }
