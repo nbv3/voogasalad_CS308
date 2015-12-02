@@ -3,20 +3,17 @@ package authoring.icons.implementations;
 import javafx.beans.property.DoubleProperty;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderStroke;
-import javafx.scene.layout.BorderStrokeStyle;
-import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 
 public class Icon extends Pane {
 
 	private ImageView myImageView;
+	private String myImagePath;
 
 	public Icon(String imagePath){
 		Image img = new Image(getClass().getClassLoader().getResourceAsStream(imagePath));
 		myImageView = new ImageView(img);
+		myImagePath = imagePath;
 		makeResizable(myImageView);
 		this.getChildren().add(myImageView);
 	}
@@ -38,6 +35,10 @@ public class Icon extends Pane {
 
 	public void setImage(Image image) {
 		myImageView.setImage(image);
+	}
+	
+	public String getImagePath() {
+		return this.myImagePath;
 	}
 	
 }

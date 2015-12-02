@@ -32,6 +32,10 @@ import javafx.scene.control.ListView;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.TilePane;
@@ -99,6 +103,8 @@ public class SelectionEditor {
 		for (int i = 0; i < files.length; i++) {
 			String img_path = files[i].getName();
 			ImageView img = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(img_path)));
+			img.setOnDragDetected((MouseEvent e) -> createDragClipBoards(img, img_path, e));
+			System.out.println(img_path);
 			img.setOnMouseClicked(e -> {
 				selectImg.setValue(img);
 				selectImgPath = img_path;
@@ -111,6 +117,13 @@ public class SelectionEditor {
 		return imagePane;
 	}
 
+	private void createDragClipBoards(ImageView img, final String iconPathName, MouseEvent event) {
+		Dragboard db = img.startDragAndDrop(TransferMode.ANY);
+		ClipboardContent content = new ClipboardContent();
+		content.putString(iconPathName);
+		db.setContent(content);
+		event.consume();
+	}
 	private HBox buildAttributes(GameObjectType type) {
 		HBox ret = new HBox();
 		ListView<String> attributeView = createAttributeListView(type);

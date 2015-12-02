@@ -3,14 +3,18 @@ package authoring.level;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.syntacticsugar.vooga.authoring.css.CSSWizard;
 import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 import com.syntacticsugar.vooga.util.gui.factory.SliderDialogFactory;
 
 import authoring.icons.implementations.Icon;
+import groovy.lang.Binding;
+import groovy.lang.GroovyShell;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableSet;
 import javafx.collections.SetChangeListener;
+import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.VPos;
@@ -18,6 +22,9 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.effect.Effect;
 import javafx.scene.effect.InnerShadow;
 import javafx.scene.image.Image;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
@@ -96,6 +103,35 @@ public class MapEditor implements IMapEditor {
 				Tooltip.install(icon, new TileInfoTooltip(tile));
 				icon.setOnMouseEntered(e -> mouseOverHandler(tile, e.isControlDown(), e.isShiftDown()));
 				icon.setOnMouseClicked(e -> mouseClickHandler(tile));
+				icon.setOnDragOver((DragEvent event) -> dragOverHandler(event));
+				icon.setOnDragEntered((DragEvent event) -> dragEnteredHandler(icon, event)); 
+				icon.setOnDragExited((DragEvent event) -> dragExitedHandler(icon,event));
+				
+			
+				icon.setOnDragDropped(new EventHandler<DragEvent>() {
+				    public void handle(DragEvent event) {
+				        /* data dropped */
+				        /* if there is a string data on dragboard, read it and use it */
+				        Dragboard db = event.getDragboard();
+				        boolean success = false;
+				        if (db.hasString()) {
+				        	undoDragOverState(icon);
+				        	icon.setImage(new Image(getClass().getClassLoader().getResourceAsStream(db.getString())));
+				        	tile.setImagePath(db.getString());
+				        	System.out.println(db.getString());
+				        	StringBuilder newPathName = extractImplementationType(db);
+				        	TileImplementation enumTileImp = recreateImplementationObject(newPathName);
+				        	tile.setImplementation(enumTileImp);
+				        	success = true;
+				        }
+				        /* let the source know whether the string was successfully 
+				         * transferred and used */
+				        event.setDropCompleted(success);
+				        
+				        event.consume();
+				     }
+
+				});
 				myMapGrid.getChildren().add(icon);
 				GridPane.setConstraints(icon, i, j, 1, 1, HPos.CENTER, VPos.CENTER, Priority.ALWAYS, Priority.ALWAYS, null);
 			}
@@ -104,6 +140,64 @@ public class MapEditor implements IMapEditor {
 		myMapGrid.setPadding(new Insets(10));
 	}
 
+	private void undoDragOverState(Icon icon) {
+		icon.setOpacity(1);
+	}
+	private void setDragOverState(Icon icon) {
+		icon.setOpacity(0);
+	}
+	private TileImplementation recreateImplementationObject(StringBuilder newPathName) {
+		TileImplementation enumTileImp = TileImplementation.valueOf(newPathName.toString());
+		System.out.println(newPathName.toString());
+		return enumTileImp;
+	}
+
+	private StringBuilder extractImplementationType(Dragboard db) {
+		// Must ensure that each image file has path_ or scenery_ in front of it
+
+		String pathType = db.getString().split("_")[0];
+		char firstChar = Character.toUpperCase(pathType.charAt(0));
+		StringBuilder newPathName = new StringBuilder();
+		newPathName.append(firstChar);
+		for(int i=1;i<pathType.length();i++){
+			newPathName.append(pathType.charAt(i));
+		}
+		return newPathName;
+	}
+	
+	// Move these methods to AbstractIcon
+	private void dragOverHandler(DragEvent event) {
+		/* data is dragged over the target */
+        /* accept it only if it is not dragged from the same node 
+         * and if it has a string data */
+    		Dragboard db = event.getDragboard();
+    		System.out.println(db);
+            /* allow for both copying and moving, whatever user chooses */
+        	System.out.println("Tile is ready to accept dragged object");
+            event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
+
+     
+        event.consume();
+	}
+	private void dragEnteredHandler(Icon icon, DragEvent event) {
+		/* the drag-and-drop gesture entered the target */
+    /* show to the user that it is an actual gesture target */
+
+        if (event.getGestureSource() != icon &&
+                event.getDragboard().hasString()) {
+        		// Upgrade in the next revision.
+           		setDragOverState(icon);
+        }
+	}
+
+
+	private void dragExitedHandler(Icon icon, DragEvent event) {
+		if (event.getGestureSource() != icon &&
+                event.getDragboard().hasString()) {
+				undoDragOverState(icon);
+		}
+	}
+	
 	private void mouseOverHandler(TileData tile, boolean isControlDown, boolean isShiftDown) {
 		multiSelectTile(tile, isControlDown, isShiftDown);
 	}
