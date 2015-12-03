@@ -126,13 +126,11 @@ public class MapEditor implements IMapEditor {
 	
 	private TileImplementation recreateImplementationObject(StringBuilder newPathName) {
 		TileImplementation enumTileImp = TileImplementation.valueOf(newPathName.toString());
-		System.out.println(newPathName.toString());
 		return enumTileImp;
 	}
 
 	private StringBuilder extractImplementationType(Dragboard db) {
 		// Must ensure that each image file has path_ or scenery_ in front of it
-
 		String pathType = db.getString().split("_")[0];
 		char firstChar = Character.toUpperCase(pathType.charAt(0));
 		StringBuilder newPathName = new StringBuilder();

@@ -10,11 +10,11 @@ import com.syntacticsugar.vooga.authoring.dragdrop.DragDropManager;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.effect.Glow;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.TilePane;
 
 public class IconPane {
@@ -26,7 +26,7 @@ public class IconPane {
 	private final ObjectProperty<Icon> mySelectedIcon = new SimpleObjectProperty<>();
 	private final double GLOW_PERCENTAGE = 0.75;
 	private final double INSET_VALUE = 6;
-	private final int NUM_COLS = 4;
+	private final int NUM_COLS = 3;
 
 	public IconPane() {
 		mySelectedIcon.addListener((o, s1, s2) -> setSelectedEffect(s1, s2));
@@ -34,14 +34,27 @@ public class IconPane {
 		myScrollPane = new ScrollPane();
 		myScrollPane.setVbarPolicy(ScrollBarPolicy.AS_NEEDED);
 		myScrollPane.setHbarPolicy(ScrollBarPolicy.AS_NEEDED);
+		initializeGridPane();
+		myScrollPane.setPadding(new Insets(INSET_VALUE));
+	}
+
+	private void initializeGridPane() {
 		myIconPane = new TilePane();
 		myIconPane.setPrefColumns(NUM_COLS);
 		myIconPane.setHgap(INSET_VALUE);
 		myIconPane.setVgap(INSET_VALUE);
+		myIconPane.setTileAlignment(Pos.CENTER);
+		myIconPane.maxWidthProperty().bind(myScrollPane.prefViewportWidthProperty());
 		myScrollPane.setContent(myIconPane);
-		myScrollPane.setPrefViewportWidth(Region.USE_COMPUTED_SIZE);
-		myScrollPane.setPadding(new Insets(INSET_VALUE));
 	}
+	
+//	private void addColumnConstraints() {
+//		for (int i=0; i<NUM_COLS; i++) {
+//			ColumnConstraints c1 = new ColumnConstraints();
+//			c1.setPercentWidth(100.0 / (1.0*NUM_COLS));
+//			myIconPane.getColumnConstraints().add(c1);
+//		}
+//	}
 	
 	/**
 	 * Show all icons representing the relevant file types as specified
@@ -50,12 +63,14 @@ public class IconPane {
 	 */
 	public void showIcons(File directory, IConverter fileConverter) {
 		clearIconPane();
+		initializeGridPane();
 		Collection<String> imagePaths = fileConverter.getImages(directory);
 		for (String path : imagePaths) {
 			Icon icon = new Icon(path);
 			icon.setOnDragDetected((MouseEvent e) -> DragDropManager.createDragClipBoards(icon, e));
 			icon.setOnMouseClicked(e -> setSelectedIcon(icon));
-			addIconToPane(icon, path);
+			myIconPane.getChildren().add(icon);
+			myImagePaths.put(icon, path);
 		}
 		setSelectedIcon(null);
 	}
@@ -71,11 +86,7 @@ public class IconPane {
 	protected void clearIconPane() {
 		myIconPane.getChildren().clear();
 		myImagePaths.clear();
-	}
-	
-	public void addIconToPane(Icon icon, String imagePath) {
-		myIconPane.getChildren().add(icon);
-		myImagePaths.put(icon, imagePath);
+		myScrollPane.setContent(null);
 	}
 	
 	protected void setSelectedEffect(Icon oldIcon, Icon newIcon) {

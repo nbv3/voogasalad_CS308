@@ -10,15 +10,11 @@ import java.util.Queue;
 
 import com.syntacticsugar.vooga.gameplayer.attribute.HealthAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
-import com.syntacticsugar.vooga.gameplayer.attribute.movement.AIMovementAttribute;
-import com.syntacticsugar.vooga.gameplayer.attribute.movement.MovementControlAttribute;
 import com.syntacticsugar.vooga.gameplayer.event.ICollisionEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.HealthChangeEvent;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Orientation;
@@ -92,7 +88,6 @@ public class EnemyQueuePane {
 	}
 
 	public Node createQueueBoxFromObjData(ObjectData obj) {
-		// later will pass in ObjectData instance to QueueBox constructor
 		QueueBox queueBox = new QueueBox(obj);
 		return queueBox.getContent();
 	}
