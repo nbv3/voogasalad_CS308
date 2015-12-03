@@ -26,9 +26,8 @@ import com.syntacticsugar.vooga.xml.data.UniverseData;
 import com.syntacticsugar.vooga.xml.data.WaveData;
 
 import javafx.scene.Scene;
-import javafx.stage.FileChooser;
-import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
+import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 
 public class SceneManager {
@@ -36,17 +35,15 @@ public class SceneManager {
 	private final double HEIGHT = 600.0;
 	private final double GAME_SIZE = 600.0;
 	private Stage myStage;
+	private final String TITLE = "Vooga Salad";
 	
 	private final double FRAME_LENGTH = 1 / 60.0;
-	private Scene gameScene;
-	private GameManager myGameManager;
-	private AuthoringScreenManager myAuthoringEnv;
 	
 	public SceneManager(Stage stage) {
 		// Windows 10 - Bug Fix for JavaFX
 		System.setProperty("glass.accessible.force", "false");
 		myStage = stage;
-		myStage.setTitle("Vooga Salad");
+		myStage.setTitle(TITLE);
 		launchFirstMenu();
 	}
 	
@@ -57,65 +54,45 @@ public class SceneManager {
 	}
 	
 	public void launchFirstMenu() {
-		AbstractGameMenu screen = new FirstGameMenu(this, WIDTH, HEIGHT, "Vooga Salad");
+		AbstractGameMenu screen = new FirstGameMenu(this, WIDTH, HEIGHT, TITLE);
 		viewScene(screen);
 	}
 	
 	public void launchAuthoringMenu() {	
-		AbstractGameMenu screen = new AuthoringGameMenu(this, WIDTH, HEIGHT, "Vooga Salad");
+		AbstractGameMenu screen = new AuthoringGameMenu(this, WIDTH, HEIGHT, TITLE);
 		viewScene(screen);
 	}
 	
 	public void launchEngineMenu() {
-		AbstractGameMenu screen = new EngineGameMenu(this, WIDTH, HEIGHT, "Vooga Salad");
+		AbstractGameMenu screen = new EngineGameMenu(this, WIDTH, HEIGHT, TITLE);
 		viewScene(screen);
-	}
-	
-	public void launchEnginePauseMenu() {
-		// instance of gameScene is stored upon engine launch
-		AbstractGameMenu screen = new EnginePauseMenu(this, WIDTH, HEIGHT, "Vooga Salad");
-		viewScene(screen);
-	}
-	
-	public void launchAuthoringMenuFromAuthoring() {
-		myAuthoringEnv.minimize();
-		launchAuthoringMenu();
-	}
-	
-	public void launchFirstMenuFromAuthoring() {
-//		myAuthoringEnv.minimize();
-		launchFirstMenu();
 	}
 	
 	public void launchNewEditor() {
+		new AuthoringScreenManager(e -> launchFirstMenu());
 		myStage.hide();
-		myAuthoringEnv = new AuthoringScreenManager(e -> launchFirstMenuFromAuthoring());
 	}
 	
 	public void launchLoadEditor() {
-		myStage.hide();
 		// TODO load from XML here or within GameManager?
-		myAuthoringEnv = new AuthoringScreenManager(e -> launchFirstMenuFromAuthoring());
+		new AuthoringScreenManager(e -> launchFirstMenu());
+		myStage.hide();
 	}
 	
 	public void launchNewEngine() {
 		GameData data = makeEmptyData();
-		myGameManager = new GameManager(GAME_SIZE, data);
-		myGameManager.setManager(this);
-		gameScene = new Scene(myGameManager.getGameView());
-		myGameManager.initializeAnimation(FRAME_LENGTH);
-		gameScene.addEventFilter(KeyEvent.KEY_PRESSED, e -> myGameManager.receiveKeyPressed(e.getCode()));
-		gameScene.addEventFilter(KeyEvent.KEY_RELEASED, e -> myGameManager.receiveKeyReleased(e.getCode()));
-//		gameScene.addEventFilter(KeyEvent.KEY_PRESSED, e -> System.out.println(e.getCode()));
-//		gameScene.addEventFilter(KeyEvent.KEY_RELEASED, e -> System.out.println(e.getCode()));
-//		gameScene.setOnKeyPressed(e -> myGameManager.receiveKeyPressed(e.getCode()));
-//		gameScene.setOnKeyReleased(e -> myGameManager.receiveKeyReleased(e.getCode()));
-		myStage.setScene(gameScene);
+		new GameManager(e -> launchFirstMenu(), GAME_SIZE, data, FRAME_LENGTH);
+		myStage.hide();
 	}
 	
 	public void launchLoadEngine() {
 		// TODO modify to do direct load instead of launch
-		
+		GameData data = loadData();
+		new GameManager(e -> launchFirstMenu(), GAME_SIZE, data, FRAME_LENGTH);
+		myStage.hide();
+	}
+	
+	private GameData loadData() {
 		GameData data = null;
 		XMLHandler<GameData> xml = new XMLHandler<>();
 		FileChooser fileChooser = new FileChooser();
@@ -125,13 +102,7 @@ public class SceneManager {
 		if (selectedFile != null) {
 			data = xml.read(selectedFile);
 		}
-		myGameManager = new GameManager(GAME_SIZE, data);
-		myGameManager.setManager(this);
-		gameScene = new Scene(myGameManager.getGameView(), GAME_SIZE, GAME_SIZE);
-		myGameManager.initializeAnimation(FRAME_LENGTH);
-		gameScene.setOnKeyPressed(e -> myGameManager.receiveKeyPressed(e.getCode()));
-		gameScene.setOnKeyReleased(e -> myGameManager.receiveKeyReleased(e.getCode()));
-		myStage.setScene(gameScene);
+		return data;
 	}
 	
 	private GameData makeEmptyData() {
@@ -190,9 +161,4 @@ public class SceneManager {
 		return data;
 	}
 	
-	public void launchUnpauseEngine() {
-		// should be slightly changed from loadEngine
-		// TODO call myGameManager.unpause() or something like that
-		myStage.setScene(gameScene);
-	}
 }
