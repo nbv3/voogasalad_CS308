@@ -30,8 +30,11 @@ public class EnemyQueuePane {
 	private ListView<Node> myQueuePane;
 	private Queue<ObjectData> myQueue;
 	private ObservableList<Node> myWave;
+	private Node selectedItem;
+	private HashMap<Node, ObjectData>  myObjects;
 
 	public EnemyQueuePane() {
+		myObjects = new HashMap<Node, ObjectData>();
 		myQueuePane = new ListView<Node>();
 		myQueue = new LinkedList<ObjectData>();
 		myWave = FXCollections.observableArrayList();
@@ -65,7 +68,34 @@ public class EnemyQueuePane {
 	// called when drag-drop happens
 	public void addObjectToQueue(ObjectData obj) {
 		myQueue.add(obj);
-		myWave.add(createQueueBoxFromObjData(obj));
+		Node temp = createQueueBoxFromObjData(obj);
+		myWave.add(temp);
+		myObjects.put(temp, obj);
+		setHandlers();
+	}
+	
+	private void setHandlers()
+	{
+		for(int i = 0; i < myQueuePane.getItems().size(); i++)
+		{
+			Node temp = myQueuePane.getItems().get(i);
+			temp.setOnMouseClicked(e-> setSelectedItem(temp));
+		}
+	}
+	
+	private void setSelectedItem(Node n)
+	{
+		selectedItem = n;
+	}
+	
+	public void removeObjectFromQueue()
+	{
+		if(selectedItem != null)
+		{
+			myQueue.remove(myObjects.get(selectedItem));
+			myWave.remove(selectedItem);
+		}
+
 	}
 	
 	public Node createQueueBoxFromObjData(ObjectData obj) {
@@ -76,6 +106,16 @@ public class EnemyQueuePane {
 
 	public ListView<Node> getContent() {
 		return myQueuePane;
+	}
+	
+	public ObjectData getSelectedItem()
+	{
+		if(selectedItem != null)
+		{
+			return myObjects.get(selectedItem);
+		}
+		return null;
+
 	}
 
 

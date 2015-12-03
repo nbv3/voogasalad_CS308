@@ -1,6 +1,8 @@
 package authoring;
 
 import java.io.File;
+import java.util.Observable;
+import java.util.Observer;
 
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.menu.SceneManager;
@@ -8,6 +10,8 @@ import com.syntacticsugar.vooga.menu.SceneManager;
 import authoring.level.LevelTabManager;
 import authoring.library.ObjectLibraryManager;
 import authoring.objectediting.ObjectEditor;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -24,12 +28,13 @@ import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import javafx.util.Duration;
 import xml.MapDataXML;
 import xml.data.MapData;
 import xml.data.ObjectData;
 import xml.ObjectDataXML;
 
-public class AuthoringScreenManager {
+public class AuthoringScreenManager implements Observer{
 
 	private BorderPane myWindow;
 	private GridPane myWindowGrid;
@@ -61,6 +66,7 @@ public class AuthoringScreenManager {
 		myWindowGrid.setGridLinesVisible(true);
 		addGridConstraints();
 
+		setUpObserver();
 		myWindowGrid.add(myLevelEditor.getTabPane(), 0, 0, 1, 2);
 		//		myWindowGrid.add(myObjectManager.getLibrary(), 1, 0, 1 ,1);
 		myWindowGrid.add(myObjectEditor.getView(), 1, 1, 1, 1);
@@ -73,6 +79,14 @@ public class AuthoringScreenManager {
 		myStage.setScene(myScene);
 //		myStage.setMaximized(true);
 		myStage.show();
+	}
+	
+	private void setUpObserver()
+	{
+		for(int i = 0; i < myLevelEditor.getLevels().size();i ++)
+		{
+			myLevelEditor.getLevels().get(i).getWaveControl().addObserver(this);
+		}
 	}
 
 	private void handleKeyPress(KeyEvent e) {
@@ -167,8 +181,7 @@ public class AuthoringScreenManager {
 			xml.writeXMLToFile(xmlString, selectedFile);
 		}
 	}
-
-
+	
 	private void addGridConstraints() {
 		addColumnConstraints();
 		addRowConstraints();
@@ -188,6 +201,12 @@ public class AuthoringScreenManager {
 		RowConstraints r2 = new RowConstraints();
 		r2.setPercentHeight(50);
 		myWindowGrid.getRowConstraints().addAll(r1, r2);
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		myObjectEditor.displayData((ObjectData) arg);
+		
 	}
 
 }

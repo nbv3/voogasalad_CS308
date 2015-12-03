@@ -12,9 +12,7 @@ public class WaveEditor {
 		myView = new HBox();
 		
 	}
-	
-	
-	
+
 	public Node getView() {
 		return myView;
 	}

@@ -1,18 +1,23 @@
 package authoring.level;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Observable;
+import java.util.Observer;
 
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import xml.data.MapData;
+import xml.data.ObjectData;
 
-public class LevelTabManager {
+public class LevelTabManager{
 
 	private TabPane myTabPane;
 	private Map<Tab, LevelEditor> myLevelMap;
+	private ObjectData itemToEdit;
 	
 	public LevelTabManager() {
 		myLevelMap = new HashMap<Tab, LevelEditor>();
@@ -45,7 +50,16 @@ public class LevelTabManager {
 	public TabPane getTabPane() {
 		return myTabPane;
 	}
-	
+
+	public ArrayList<LevelEditor> getLevels()
+	{
+		ArrayList<LevelEditor> levels = new ArrayList<LevelEditor>();
+		for(LevelEditor level: myLevelMap.values())
+		{
+			levels.add(level);
+		}
+		return levels;
+	}
 	private void removeLevel(Tab levelTab) {
 		myLevelMap.remove(levelTab);
 		updateLevelNumbers();
@@ -62,5 +76,6 @@ public class LevelTabManager {
 	public MapData getMapData() {
 		return myLevelMap.get(myTabPane.getSelectionModel().getSelectedItem()).getMapData();
 	}
+
 	
 }

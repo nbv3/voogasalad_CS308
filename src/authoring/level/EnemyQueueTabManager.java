@@ -17,16 +17,19 @@ import javafx.scene.control.TabPane;
 import javafx.scene.control.TabPane.TabClosingPolicy;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import xml.data.ObjectData;
 
 public class EnemyQueueTabManager {
 	private TabPane myTabPane;
+	private EnemyQueuePane currentEnemyPane;
 
 	public EnemyQueueTabManager() {
 		myTabPane = new TabPane();
 		myTabPane.setPrefWidth(600);
 
 		Tab tab1 = new Tab("Wave 1");
-		tab1.setContent(new EnemyQueuePane().getContent());
+		currentEnemyPane = new EnemyQueuePane();
+		tab1.setContent(currentEnemyPane.getContent());
 		myTabPane.getTabs().addAll(tab1);
 		myTabPane.getSelectionModel().select(tab1);
 	}
@@ -39,6 +42,7 @@ public class EnemyQueueTabManager {
 			AlertBoxFactory.createObject(e.getMessage());
 			return;
 		}
+		currentEnemyPane = newWave;
 		MsgInputBoxFactory msgBox = new MsgInputBoxFactory("Choose Wave Number");
 
 		Tab newWaveTab = new Tab(String.format("%s %d", "Wave", (int) msgBox.getValue()));
@@ -62,5 +66,17 @@ public class EnemyQueueTabManager {
 	public Node getView() {
 		return myTabPane;
 	}
+	
+	public void removeItem()
+	{
+		currentEnemyPane.removeObjectFromQueue();
+	}
+	
+	
+	public ObjectData getSelectedItem()
+	{
+		return currentEnemyPane.getSelectedItem();
+	}
+
 
 }

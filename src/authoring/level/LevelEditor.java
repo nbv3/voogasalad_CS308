@@ -1,5 +1,8 @@
 package authoring.level;
 
+import java.util.Observable;
+import java.util.Observer;
+
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.layout.ColumnConstraints;
@@ -9,14 +12,16 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import xml.data.MapData;
+import xml.data.ObjectData;
 
-public class LevelEditor {
+public class LevelEditor{
 
 	private GridPane myContentGrid;
 	private MapEditor myMapEditor;
 	private MapEditorControls myTileEditor;
 	private EnemyQueueTabManager myQueue;
 	private WaveController myWaveControl;
+	private ObjectData itemToEdit;
 	// private SpawnEditor mySpawnEditor;
 
 	public LevelEditor() throws Exception {
@@ -24,12 +29,18 @@ public class LevelEditor {
 		myTileEditor = new MapEditorControls(myMapEditor);
 		myQueue = new EnemyQueueTabManager();
 		myWaveControl = new WaveController(myQueue);
+		//myWaveControl.addObserver(this);
 		buildTabContents();
 
 		// When you are ready to add the bottom Node on (for the Spawn Queue),
 		// add it into the myLevelTab and the grid lines will automatically
 		// appear.
 
+	}
+	
+	public WaveController getWaveControl()
+	{
+		return myWaveControl;
 	}
 
 	public void loadMap(MapData loadedMap) {
@@ -71,9 +82,10 @@ public class LevelEditor {
 		r2.setPercentHeight(25);
 		grid.getRowConstraints().addAll(r0, r1, r2);
 	}
-
+	
 	public MapData getMapData() {
 		return myMapEditor.getMapData();
 	}
+
 
 }
