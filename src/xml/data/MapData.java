@@ -33,6 +33,9 @@ public class MapData {
 		for (int i=0; i<numTiles; i++) {
 			for (int j=0; j<numTiles; j++) {
 				myTileData[i][j] = new TileData(tileImage);
+				if(i == j){
+					myTileData[i][j].setImplementation(TileImplementation.Scenery);
+				}
 			}
 		}
 	}

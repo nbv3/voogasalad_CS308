@@ -71,7 +71,7 @@ public class AuthoringScreenManager {
 		myStage = new Stage();
 		myStage.setOnCloseRequest(onClose);
 		myStage.setScene(myScene);
-		myStage.setMaximized(true);
+//		myStage.setMaximized(true);
 		myStage.show();
 	}
 

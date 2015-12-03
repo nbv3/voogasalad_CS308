@@ -36,6 +36,7 @@ public class ObjectData {
 		height = obj.getBoundingBox().getHeight();
 		myAttributes = obj.getAttributes().values();
 		myCollisionMap = obj.getCollisionMap();
+		myImagePath = obj.getPath();
 	}
 	
 	public GameObjectType getType() {

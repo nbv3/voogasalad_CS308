@@ -7,6 +7,8 @@ import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.universe.map.IGameMap;
 import com.syntacticsugar.vooga.gameplayer.universe.userinput.IKeyInputProcessor;
 
+import xml.data.ObjectData;
+
 public interface IGameUniverse extends IObjectCollection,
 									   IKeyInputProcessor,
 									   IEventPoster{
@@ -33,5 +35,7 @@ public interface IGameUniverse extends IObjectCollection,
 	public Collection<IGameCondition> getConditions();
 	
 	public void saveGame();
+	
+	public Collection<ObjectData> getAvailableTowers();
 	
 }

@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
+import com.syntacticsugar.vooga.util.gui.factory.MsgInputBoxFactory;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -19,29 +20,15 @@ import javafx.scene.layout.VBox;
 
 public class EnemyQueueTabManager {
 	private TabPane myTabPane;
-	private boolean canAdd = true;
 
 	public EnemyQueueTabManager() {
 		myTabPane = new TabPane();
 		myTabPane.setPrefWidth(600);
 
-		Tab addTab = new Tab("+");
 		Tab tab1 = new Tab("Wave 1");
 		tab1.setContent(new EnemyQueuePane().getContent());
-		myTabPane.getTabs().addAll(addTab, tab1);
+		myTabPane.getTabs().addAll(tab1);
 		myTabPane.getSelectionModel().select(tab1);
-		myTabPane.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
-
-		myTabPane.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>() {
-
-			@Override
-			public void changed(ObservableValue<? extends Tab> arg0, Tab arg1, Tab arg2) {
-				if (arg2 == addTab && (!arg1.getText().equals("Wave 1") || canAdd == true)) {
-					addNewWave();
-					updateLevelNumbers();
-				}
-			}
-		});
 	}
 
 	public void addNewWave() {
@@ -52,15 +39,13 @@ public class EnemyQueueTabManager {
 			AlertBoxFactory.createObject(e.getMessage());
 			return;
 		}
-		canAdd = false;
-		Tab newWaveTab = new Tab("");
+		MsgInputBoxFactory msgBox = new MsgInputBoxFactory("Choose Wave Number");
+
+		Tab newWaveTab = new Tab(String.format("%s %d", "Wave", (int) msgBox.getValue()));
 		newWaveTab.setContent(newWave.getContent());
 
 		myTabPane.getTabs().add(newWaveTab);
 		myTabPane.getSelectionModel().select(newWaveTab);
-
-		updateLevelNumbers();
-		System.out.println(myTabPane.getTabs().size());
 
 	}
 
@@ -73,9 +58,9 @@ public class EnemyQueueTabManager {
 			}
 		}
 	}
-	
+
 	public Node getView() {
 		return myTabPane;
 	}
-	
+
 }
