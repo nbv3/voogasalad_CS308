@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.syntacticsugar.vooga.authoring.dragdrop.DragDropManager;
-import com.syntacticsugar.vooga.authoring.icons.Icon;
+import com.syntacticsugar.vooga.authoring.icon.Icon;
 import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 import com.syntacticsugar.vooga.util.gui.factory.SliderDialogFactory;

@@ -5,32 +5,39 @@ import java.util.Collection;
 import java.util.Observable;
 import java.util.Observer;
 
-import com.syntacticsugar.vooga.authoring.icons.Icon;
+import com.syntacticsugar.vooga.authoring.icon.Icon;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObject;
-import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
 
 import javafx.geometry.Point2D;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 public class TowerBox extends Observable implements Observer{
 	
 	private final static double CONTENT_SPACING = 20.0;
+	//private VBox myContent;
 	private VBox myContent;
+	private ScrollPane towerList;
 	private boolean selected;
 	private ObjectData currentSelection;
 	private IGameUniverse myUniverse;
 	private Collection<Icon> myTowerIcons;
+	
+	/**
+	 * TODO: fixed hardcoded functions here
+	 */
 
 	public TowerBox() {
+		//myContent = new VBox();
 		myContent = new VBox();
 		selected = false;
 		Label title = new Label("Tower Controls");
-		//change to gridpane
-		VBox content = new VBox(CONTENT_SPACING);
-		myContent.getChildren().addAll(title, content);
+		myContent.getChildren().add(title);
+		towerList = new ScrollPane(myContent);
 	}
 
 
@@ -43,10 +50,20 @@ public class TowerBox extends Observable implements Observer{
 		myTowerIcons = new ArrayList<>();
 		for(ObjectData towerObject: availableTowers){
 			Icon tower = new Icon(towerObject.getImagePath());
+			tower.setPrefHeight(100); tower.setPrefWidth(100);
 			tower.setOnMouseClicked(e -> selectedTower(tower, towerObject));
-			myContent.getChildren().add(tower);
+			addTowerInfo(tower, towerObject);
+			//myContent.getChildren().add(tower);
 			myTowerIcons.add(tower);
 		}
+	}
+	
+	private void addTowerInfo(Icon towerIcon, ObjectData towerData){
+		HBox towerInfo = new HBox(10);
+		VBox towerValues = new VBox(5);
+		towerValues.getChildren().addAll(new Label("Tower       "));
+		towerInfo.getChildren().addAll(towerIcon, towerValues);
+		myContent.getChildren().add(towerInfo);
 	}
 
 	private void selectedTower(Icon tower, ObjectData towerObject) {
@@ -67,8 +84,8 @@ public class TowerBox extends Observable implements Observer{
 
 	}
 	
-	public VBox getContent(){
-		return myContent;
+	public ScrollPane getContent(){
+		return towerList;
 	}
 	
 	@Override

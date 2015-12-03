@@ -18,7 +18,7 @@ public class ObjectLibraryManager {
 	public ObjectLibraryManager() {		
 		myLibraryTabs = new TabPane();
 		myLibraryTabs.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
-		populateLibraryTabs();
+//		populateLibraryTabs();
 	}
 
 	private GameObjectType[] getObjectTypes(){
@@ -32,7 +32,8 @@ public class ObjectLibraryManager {
 	}
 	
 	private ObjectLibrary makeLibrary(GameObjectType objectType){
-		return new ObjectLibrary(objectType);
+//		return new ObjectLibrary(objectType);
+		return null;
 	}
 	
 	private Tab makeTab(GameObjectType objectType){

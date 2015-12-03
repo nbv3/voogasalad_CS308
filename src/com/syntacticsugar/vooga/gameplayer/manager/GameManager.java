@@ -14,7 +14,6 @@ import com.syntacticsugar.vooga.gameplayer.attribute.movement.MovementControlAtt
 import com.syntacticsugar.vooga.gameplayer.conditions.ConditionType;
 import com.syntacticsugar.vooga.gameplayer.engine.GameEngine;
 import com.syntacticsugar.vooga.gameplayer.event.ICollisionEvent;
-import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.HealthChangeEvent;
 import com.syntacticsugar.vooga.gameplayer.game.Game;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObject;
@@ -31,6 +30,7 @@ import javafx.animation.Timeline;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -108,8 +108,6 @@ public class GameManager implements IGameManager {
 		currentLevel.addPlayer(player);
 		currentLevel.addGameObject(player);
 		currentLevel.addGameObject(enemy);
-		myViewController.addViewObject(player);
-		myViewController.addViewObject(enemy);
 
 		myViewController.initializeView(currentLevel);
 		myGameEngine = new GameEngine(currentLevel, myViewController, this);
@@ -120,6 +118,10 @@ public class GameManager implements IGameManager {
 	private void stageInit() {
 		Scene gameScene = new Scene(getGameView());
 		initializeAnimation(frameLength);
+		gameScene.addEventFilter(KeyEvent.KEY_PRESSED, e -> receiveKeyPressed(e.getCode()));
+		gameScene.addEventFilter(KeyEvent.KEY_RELEASED, e -> receiveKeyReleased(e.getCode()));
+//		gameScene.addEventFilter(KeyEvent.KEY_PRESSED, e -> System.out.println(e.getCode()));
+//		gameScene.addEventFilter(KeyEvent.KEY_RELEASED, e -> System.out.println(e.getCode()));
 		gameScene.setOnKeyPressed(e -> receiveKeyPressed(e.getCode()));
 		gameScene.setOnKeyReleased(e -> receiveKeyReleased(e.getCode()));
 		myStage.setScene(gameScene);

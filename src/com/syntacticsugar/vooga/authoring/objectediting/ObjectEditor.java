@@ -2,7 +2,7 @@ package com.syntacticsugar.vooga.authoring.objectediting;
 
 import java.io.File;
 
-import com.syntacticsugar.vooga.authoring.icons.Icon;
+import com.syntacticsugar.vooga.authoring.icon.Icon;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
