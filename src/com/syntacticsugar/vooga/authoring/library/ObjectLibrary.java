@@ -42,6 +42,10 @@ public class ObjectLibrary {
 		myIconPane.showIcons(XMLFolder, e -> makeDataAndReturnPathsFromXMLs(XMLFolder));
 	}
 	
+	public void refresh(){
+		populatePaneFromXMLFiles(myXMLDirectory);
+	}
+	
 	private Collection<String> makeDataAndReturnPathsFromXMLs(File XMLFolder){
 		makeObjectDataFromXMLs(XMLFolder);
 		return makeImagePathsFromObjectData();

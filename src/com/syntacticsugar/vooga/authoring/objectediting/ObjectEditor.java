@@ -93,7 +93,7 @@ public class ObjectEditor {
 	
 	private void saveObject() {
 		currentData.setAttributes(myAttributeViewer.getData());
-		currentData.setCollisionMap(currentData.getCollisionMap());
+		currentData.setCollisionMap(myCollisionViewer.getData());
 		currentData.setType(currentData.getType());
 		
 		TextInputDialog td = new TextInputDialog("Name your creation");
@@ -106,7 +106,7 @@ public class ObjectEditor {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.getExtensionFilters().add(new ExtensionFilter("XML Data", "*.xml"));
 		fileChooser.setTitle("Save Resource File");
-		fileChooser.setInitialDirectory(new File(ResourceManager.getString(String.format("%s_%s", currentData.getType().toString().toLowerCase(), "data"))));
+		fileChooser.setInitialDirectory(new File(ResourceManager.getString(String.format("%s_%s", currentData.getType().toString().toUpperCase(), "data"))));
 		fileChooser.setInitialFileName(String.format("%s.%s", currentData.getObjectName(), "xml"));
 		File selectedFile = fileChooser.showSaveDialog(new Stage());
 		if (selectedFile != null) {
