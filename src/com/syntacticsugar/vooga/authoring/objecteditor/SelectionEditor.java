@@ -13,7 +13,7 @@ import authoring.icons.ImageFileFilter;
 
 
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
-import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
+import com.syntacticsugar.vooga.gameplayer.event.ICollisionEvent;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
@@ -49,7 +49,7 @@ public class SelectionEditor {
 	private GameObjectType typeChosen;
 	private ObjectData myData;
 	private List<IAttribute> myAttributes;
-	private Map<GameObjectType, Collection<IGameEvent>> collisions;
+	private Map<GameObjectType, Collection<ICollisionEvent>> collisions;
 	private String selectedAttribute;
 	private GameObjectType selectedCollideObjType;
 	private String selectedCollideObjEvent;
@@ -63,7 +63,7 @@ public class SelectionEditor {
 		iChange = change;
 		typeChosen = type;
 		myAttributes = new ArrayList<IAttribute>();
-		collisions  = new HashMap<GameObjectType, Collection<IGameEvent>>();
+		collisions  = new HashMap<GameObjectType, Collection<ICollisionEvent>>();
 		myData = objData;
 	}
 
@@ -234,7 +234,7 @@ public class SelectionEditor {
 		
 		if (collisions.containsKey(selectedCollideObjType)) {
 			//System.out.println(selectedCollideObjEvent.getClass().getSimpleName());
-			for (IGameEvent i: collisions.get(selectedCollideObjType)) {
+			for (ICollisionEvent i: collisions.get(selectedCollideObjType)) {
 				//System.out.println(i.getClass().getSimpleName());
 				if (i.getClass().getSimpleName().equals(selectedCollideObjEvent)) {
 					AlertBoxFactory.createObject(String.format("Cannot add more than one %s to collide type %s", 
@@ -255,10 +255,10 @@ public class SelectionEditor {
 		String className = ResourceManager.getString(String.format("%s_%s", selectedCollideObjEvent, "name"));
 		if (msgBox.getValue() != 0) {
 			try {
-				collisions.get(selectedCollideObjType).add((IGameEvent) Reflection.createInstance(className, msgBox.getValue()));
+				collisions.get(selectedCollideObjType).add((ICollisionEvent) Reflection.createInstance(className, msgBox.getValue()));
 			}
 			catch (ReflectionException ex) {
-				collisions.get(selectedCollideObjType).add((IGameEvent) Reflection.createInstance(className));
+				collisions.get(selectedCollideObjType).add((ICollisionEvent) Reflection.createInstance(className));
 			}
 			collideEventsComboBox.getItems().add(String.format("%s->%s", selectedCollideObjType,selectedCollideObjEvent));
 		}
@@ -268,12 +268,12 @@ public class SelectionEditor {
 		MsgInputBoxFactory msgBox = new MsgInputBoxFactory(ResourceManager.getString(String.format("%s%s", "double_", selectedCollideObjEvent)));
 		String className = ResourceManager.getString(String.format("%s_%s", selectedCollideObjEvent, "name"));
 		if (msgBox.getValue() != 0) {
-			Collection<IGameEvent> collideEvents  = new ArrayList<IGameEvent>();
+			Collection<ICollisionEvent> collideEvents  = new ArrayList<ICollisionEvent>();
 			try {
-				collideEvents.add((IGameEvent) Reflection.createInstance(className, msgBox.getValue()));
+				collideEvents.add((ICollisionEvent) Reflection.createInstance(className, msgBox.getValue()));
 			}
 			catch (ReflectionException ex) {
-				collideEvents.add((IGameEvent) Reflection.createInstance(className));
+				collideEvents.add((ICollisionEvent) Reflection.createInstance(className));
 	
 			}
 			collisions.put(selectedCollideObjType, collideEvents);
@@ -387,10 +387,10 @@ public class SelectionEditor {
 		String collideObjType = strs[0];
 		String collideEvent = strs[1];		
 		
-		Iterator<IGameEvent> iter = collisions.get(GameObjectType.valueOf(collideObjType)).iterator();
+		Iterator<ICollisionEvent> iter = collisions.get(GameObjectType.valueOf(collideObjType)).iterator();
 
 		while (iter.hasNext()) {
-		    IGameEvent str = iter.next();
+		    ICollisionEvent str = iter.next();
 		    if (str.getClass().getSimpleName().equals(collideEvent)) {
 		    	iter.remove();
 		    }
@@ -399,9 +399,9 @@ public class SelectionEditor {
 		
 		collideEventsComboBox.getItems().remove(selectedIdx);
 	
-		Iterator<Map.Entry<GameObjectType,Collection<IGameEvent>>> iter2 = collisions.entrySet().iterator();
+		Iterator<Map.Entry<GameObjectType,Collection<ICollisionEvent>>> iter2 = collisions.entrySet().iterator();
 		while (iter2.hasNext()) {
-			Map.Entry<GameObjectType,Collection<IGameEvent>> entry = iter2.next();
+			Map.Entry<GameObjectType,Collection<ICollisionEvent>> entry = iter2.next();
 		    if(entry.getValue().isEmpty()){
 		        iter2.remove();
 		    }
@@ -427,7 +427,7 @@ public class SelectionEditor {
 			System.out.println(i.getClass().getSimpleName());
 		}
 		for (GameObjectType gt: myData.getCollisionMap().keySet()) {
-			for (IGameEvent ie: myData.getCollisionMap().get(gt)) {
+			for (ICollisionEvent ie: myData.getCollisionMap().get(gt)) {
 				System.out.println(String.format("%s->%s", gt, ie.getClass().getSimpleName()));
 			}
 		}

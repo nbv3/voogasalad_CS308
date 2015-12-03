@@ -7,7 +7,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import authoring.icons.implementations.AbstractIcon;
+import authoring.icons.implementations.Icon;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.geometry.Insets;
@@ -26,17 +26,16 @@ public abstract class AbstractIconPane {
 
 	private ScrollPane myScrollPane;
 	private TilePane myIconPane;
-	private Map<AbstractIcon, String> myImagePaths;
-	private File myDirectory;
+	private Map<Icon, String> myImagePaths;
 
-	private final ObjectProperty<AbstractIcon> mySelectedIcon = new SimpleObjectProperty<AbstractIcon>();
+	private final ObjectProperty<Icon> mySelectedIcon = new SimpleObjectProperty<>();
 	private final double GLOW_PERCENTAGE = 0.75;
 	private final double INSET_VALUE = 6;
 	private final int NUM_COLS = 4;
 
 	public AbstractIconPane() {
 		mySelectedIcon.addListener((o, s1, s2) -> setSelectedEffect(s1, s2));
-		myImagePaths = new HashMap<AbstractIcon, String>();
+		myImagePaths = new HashMap<>();
 		myScrollPane = new ScrollPane();
 		myScrollPane.setVbarPolicy(ScrollBarPolicy.AS_NEEDED);
 		myScrollPane.setHbarPolicy(ScrollBarPolicy.AS_NEEDED);
@@ -65,7 +64,6 @@ public abstract class AbstractIconPane {
 	}
 	
 	protected Collection<String> getImagePaths(File directory, FileFilter filter) {
-		myDirectory = directory;
 		File[] files = directory.listFiles(filter);
 		Collection<String> imagePaths = new ArrayList<String>();
 		for (int i=0; i<files.length; i++) {
@@ -79,14 +77,13 @@ public abstract class AbstractIconPane {
 		myImagePaths.clear();
 	}
 	
-	public void addIconToPane(AbstractIcon icon, String imagePath) {
+	public void addIconToPane(Icon icon, String imagePath) {
 		double size = ((getIconPane().getWidth() - 2.0*INSET_VALUE - (NUM_COLS-1.0)*2.0*INSET_VALUE)/(NUM_COLS));
-		icon.setSize(size);
 		myIconPane.getChildren().add(icon);
-		myImagePaths.put(icon, icon.getFileName());
+		myImagePaths.put(icon, imagePath);
 	}
 	
-	protected void setSelectedEffect(AbstractIcon oldIcon, AbstractIcon newIcon) {
+	protected void setSelectedEffect(Icon oldIcon, Icon newIcon) {
 		if (oldIcon == null) {
 			newIcon.setEffect(new Glow(GLOW_PERCENTAGE));
 			return;
@@ -99,27 +96,18 @@ public abstract class AbstractIconPane {
 		newIcon.setEffect(new Glow(GLOW_PERCENTAGE));
 	}
 
-	public void setSelectedIcon(AbstractIcon icon) {
+	public void setSelectedIcon(Icon icon) {
 		mySelectedIcon.set(icon);
-	}
-	
-	public void setNewIconPath(AbstractIcon icon)
-	{
-		if(myDirectory != null)
-		{
-			icon.setImagePath(myDirectory.getAbsolutePath());
-		}
-
 	}
 	
 	public String getSelectedImagePath() {
 		return myImagePaths.get(mySelectedIcon.get());
 	}
-	protected void createDragClipBoards(ImageView img, final String iconPathName, MouseEvent event) {
-		Dragboard db = img.startDragAndDrop(TransferMode.ANY);
+	protected void createDragClipBoards(Icon icon, MouseEvent event) {
+		Dragboard db = icon.startDragAndDrop(TransferMode.ANY);
 		System.out.println("Dragboard and Clipboard created");
 		ClipboardContent content = new ClipboardContent();
-		content.putString(iconPathName);
+		content.putString(icon.getImagePath());
 		db.setContent(content);
 		event.consume();
 	}

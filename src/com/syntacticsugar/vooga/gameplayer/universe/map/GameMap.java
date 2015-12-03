@@ -1,6 +1,9 @@
 package com.syntacticsugar.vooga.gameplayer.universe.map;
 
 import javafx.geometry.Point2D;
+import xml.data.MapData;
+import xml.data.TileImplementation;
+import xml.data.TileData;
 
 import java.awt.Point;
 import java.util.ArrayList;
@@ -12,8 +15,6 @@ import java.util.Map;
 import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.DecoratorTile;
 import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.IGameTile;
 
-import authoring.data.MapData;
-import authoring.data.TileImplementation;
 
 public class GameMap implements IGameMap {
 	

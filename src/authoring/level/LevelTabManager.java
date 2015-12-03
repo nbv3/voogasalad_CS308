@@ -5,9 +5,9 @@ import java.util.Map;
 
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 
-import authoring.data.MapData;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import xml.data.MapData;
 
 public class LevelTabManager {
 
@@ -17,6 +17,7 @@ public class LevelTabManager {
 	public LevelTabManager() {
 		myLevelMap = new HashMap<Tab, LevelEditor>();
 		myTabPane = new TabPane();
+		addNewLevel();
 	}
 	
 	public void addNewLevel() {

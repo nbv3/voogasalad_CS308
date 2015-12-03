@@ -1,15 +1,14 @@
 package authoring.level;
 
-import authoring.data.MapData;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import xml.data.MapData;
 
 public class LevelEditor {
 
@@ -17,12 +16,14 @@ public class LevelEditor {
 	private MapEditor myMapEditor;
 	private MapEditorControls myTileEditor;
 	private EnemyQueueTabManager myQueue;
+	private WaveController myWaveControl;
 	// private SpawnEditor mySpawnEditor;
 
 	public LevelEditor() throws Exception {
 		myMapEditor = new MapEditor();
 		myTileEditor = new MapEditorControls(myMapEditor);
 		myQueue = new EnemyQueueTabManager();
+		myWaveControl = new WaveController();
 		buildTabContents();
 
 		// When you are ready to add the bottom Node on (for the Spawn Queue),
@@ -46,7 +47,8 @@ public class LevelEditor {
 		addRowConstraints(myContentGrid);
 		myContentGrid.add(myTileEditor.getContent(), 0, 0, 1, 1);
 		myContentGrid.add(myMapEditor.getContent(), 1, 0, 1, 2);
-		myContentGrid.add(myQueue.getTabPane(), 0, 2, 3, 1);
+		myContentGrid.add(myWaveControl.getView(), 0, 2, 1, 1);
+		myContentGrid.add(myQueue.getView(), 1, 2, 2, 1);
 		myContentGrid.setGridLinesVisible(true);
 	}
 

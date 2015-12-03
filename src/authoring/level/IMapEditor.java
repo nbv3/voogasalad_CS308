@@ -1,6 +1,6 @@
 package authoring.level;
 
-import authoring.data.TileImplementation;
+import xml.data.TileImplementation;
 
 public interface IMapEditor {
 

@@ -7,33 +7,33 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
-import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
+import com.syntacticsugar.vooga.gameplayer.event.ICollisionEvent;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.util.ResourceManager;
 
-import authoring.data.ObjectData;
 import javafx.geometry.Point2D;
+import xml.data.ObjectData;
 
 public class GameObject extends AbstractViewableObject implements IGameObject {
 
-	private GameObjectType myType;
+	protected GameObjectType myType;
 	private Map<String, IAttribute> myAttributeMap;
-	private Map<GameObjectType, Collection<IGameEvent>> myCollisionEventMap;
+	private Map<GameObjectType, Collection<ICollisionEvent>> myCollisionEventMap;
 
 	public GameObject(GameObjectType type, Point2D point, double width, double height, String path) {
 		super(point, width, height, path);
 		myType = type;
 		myAttributeMap = new HashMap<String, IAttribute>();
-		myCollisionEventMap = new HashMap<GameObjectType, Collection<IGameEvent>>();
+		myCollisionEventMap = new HashMap<GameObjectType, Collection<ICollisionEvent>>();
 	}
 	
-	public GameObject(ObjectData data, double width, double height) {
-		super(data.getSpawnPoint(), width, height, data.getImagePath());
+	public GameObject(ObjectData data) {
+		super(data.getSpawnPoint(), data.getWidth(), data.getHeight(), data.getImagePath());
 		Collection<IAttribute> attributes = data.getAttributes();
-		Map<GameObjectType, Collection<IGameEvent>> collisions = data.getCollisionMap();
+		Map<GameObjectType, Collection<ICollisionEvent>> collisions = data.getCollisionMap();
 		myType = data.getType();
 		myAttributeMap = new HashMap<String, IAttribute>();
-		myCollisionEventMap = new HashMap<GameObjectType, Collection<IGameEvent>>();
+		myCollisionEventMap = new HashMap<GameObjectType, Collection<ICollisionEvent>>();
 		for (IAttribute att: attributes) {
 			att.setParent(this);
 			addAttribute(att);
@@ -49,17 +49,16 @@ public class GameObject extends AbstractViewableObject implements IGameObject {
 		}
 	}
 
-	@Override
-	public Collection<IGameEvent> getEventsFromCollision(GameObjectType type) {
+	private Collection<ICollisionEvent> getEventsFromCollision(GameObjectType type) {
 		return myCollisionEventMap.get(type);
 	}
 
 	@Override
-	public void addCollisionBinding(GameObjectType type, IGameEvent event) {
+	public void addCollisionBinding(GameObjectType type, ICollisionEvent event) {
 		if (myCollisionEventMap.containsKey(type)) {
 			getEventsFromCollision(type).add(event);
 		} else {
-			Collection<IGameEvent> onCollisionEvents = new ArrayList<IGameEvent>();
+			Collection<ICollisionEvent> onCollisionEvents = new ArrayList<ICollisionEvent>();
 			onCollisionEvents.add(event);
 			myCollisionEventMap.put(type, onCollisionEvents);
 		}
@@ -68,7 +67,7 @@ public class GameObject extends AbstractViewableObject implements IGameObject {
 	@Override
 	public void onCollision(IGameObject obj) {
 		if (getEventsFromCollision(obj.getType()) != null) {
-			for (IGameEvent e : getEventsFromCollision(obj.getType())) {
+			for (ICollisionEvent e : getEventsFromCollision(obj.getType())) {
 				e.executeEvent(obj.getAttributes());
 			}
 		}
@@ -82,6 +81,11 @@ public class GameObject extends AbstractViewableObject implements IGameObject {
 	@Override
 	public Map<String, IAttribute> getAttributes() {
 		return Collections.unmodifiableMap(myAttributeMap);
+	}
+	
+	@Override
+	public Map<GameObjectType, Collection<ICollisionEvent>> getCollisionMap() {
+		return Collections.unmodifiableMap(myCollisionEventMap);
 	}
 
 	@Override

@@ -4,7 +4,7 @@ import com.syntacticsugar.vooga.gameplayer.objects.IViewableObject;
 
 import javafx.geometry.Point2D;
 
-public interface IGameTile extends IViewableObject{
+public interface IGameTile extends IViewableObject, ITowerHolder{
 
 	/**
 	 * Returns whether or not this Tile can be walked on.

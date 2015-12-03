@@ -8,7 +8,8 @@ import com.syntacticsugar.vooga.gameplayer.universe.map.IGameMap;
 import com.syntacticsugar.vooga.gameplayer.universe.userinput.IKeyInputProcessor;
 
 public interface IGameUniverse extends IObjectCollection,
-									   IKeyInputProcessor {
+									   IKeyInputProcessor,
+									   IEventPoster{
 
 	/**
 	 * A SimpleUniverse (anything that implements this interface) must contain a 
@@ -30,5 +31,7 @@ public interface IGameUniverse extends IObjectCollection,
 	public IGameMap getMap();
 	
 	public Collection<IGameCondition> getConditions();
+	
+	public void saveGame();
 	
 }

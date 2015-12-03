@@ -1,6 +1,6 @@
 package authoring.objectediting;
 
-import java.util.List;
+import java.util.Collection;
 
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
@@ -22,21 +22,20 @@ public class AttributeMakerWizard {
 
 	private Stage myStage;
 	private Scene myScene;
-	//private VBox myStageContent;
-	private AttributeViewer myAttributeViewer;
-	private GameObjectType typeChosen;
-	private List<IAttribute> myAttributes;
+	private Collection<IAttribute> myAttributes;
 	private IAttribute attributeToAdd;
 	private String selectedAttribute;
 	private final double SCENE_DIMENSION = 300;
 
-	public AttributeMakerWizard(AttributeViewer attributeViewer, GameObjectType type, List<IAttribute> attributes){
-		myAttributeViewer = attributeViewer;
-		typeChosen = type;
+	public AttributeMakerWizard(GameObjectType type, Collection<IAttribute> attributes){
+		System.out.println(type + " in wizard");
 		myAttributes = attributes;
 		myStage = new Stage();
-		myScene = new Scene(buildAttributes(typeChosen),SCENE_DIMENSION,SCENE_DIMENSION);
-		myStage = new Stage();
+		setType(type);
+	}
+	
+	public void setType(GameObjectType type) {
+		myScene = new Scene(buildAttributes(type),SCENE_DIMENSION,SCENE_DIMENSION);
 		myStage.setScene(myScene);
 		myStage.initModality(Modality.APPLICATION_MODAL);
 		myStage.showAndWait();
@@ -95,7 +94,7 @@ public class AttributeMakerWizard {
 			catch (ReflectionException ex) {
 				attributeToAdd = (IAttribute) Reflection.createInstance(className);
 			}
-			myAttributeViewer.addAttributeToList(attributeToAdd);
+			myAttributes.add(attributeToAdd);
 		}
 	}
 	

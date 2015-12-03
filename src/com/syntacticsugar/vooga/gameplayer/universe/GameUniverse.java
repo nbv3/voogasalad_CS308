@@ -8,20 +8,29 @@ import java.util.List;
 
 import com.syntacticsugar.vooga.gameplayer.conditions.IGameCondition;
 import com.syntacticsugar.vooga.gameplayer.conditions.PlayerDeathCondition;
+import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
+import com.syntacticsugar.vooga.gameplayer.objects.GameObject;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.universe.map.GameMap;
 import com.syntacticsugar.vooga.gameplayer.universe.map.IGameMap;
 import com.syntacticsugar.vooga.gameplayer.view.IViewAdder;
 import com.syntacticsugar.vooga.gameplayer.view.IViewRemover;
+import com.syntacticsugar.vooga.gameplayer.universe.spawner.ISpawner;
+import com.syntacticsugar.vooga.gameplayer.universe.spawner.Spawner;
 
-import authoring.data.MapData;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 import xml.MapDataXML;
+import xml.ObjectDataXML;
+import xml.data.MapData;
+import xml.data.ObjectData;
+import xml.data.SpawnerData;
+import xml.data.TowerData;
+import xml.data.UniverseData;
 
 public class GameUniverse implements IGameUniverse {
 
@@ -30,23 +39,31 @@ public class GameUniverse implements IGameUniverse {
 	private SpawnYard mySpawnYard;
 	private GraveYard myGraveYard;
 	private List<IGameCondition> myConditions;
-	// private Collection<IGameObject> myTowers;
+	private Collection<IGameObject> myTowers;
+	private ISpawner mySpawner;
 	private IGameMap myGameMap;
 	private Collection<KeyCode> myCurrentInput;
+	
+	private IEventPoster myPoster;
 
-	public GameUniverse() {
+	public GameUniverse(UniverseData data) {
+		
 		myPlayers = new ArrayList<IGameObject>();
 		myGameObjects = new ArrayList<IGameObject>();
-		MapDataXML xml = new MapDataXML();
-		FileChooser fileChooser = new FileChooser();
-		fileChooser.getExtensionFilters().add(new ExtensionFilter("XML Files", "*.xml"));
-		fileChooser.setTitle("Choose Map XML");
-		File selectedFile = fileChooser.showOpenDialog(new Stage());
-		MapData data = null;
-		if (selectedFile != null) {
-			data = xml.loadFromFile(selectedFile);
+//		MapDataXML xml = new MapDataXML();
+//		FileChooser fileChooser = new FileChooser();
+//		fileChooser.getExtensionFilters().add(new ExtensionFilter("XML Files", "*.xml"));
+//		fileChooser.setTitle("Choose Map XML");
+//		File selectedFile = fileChooser.showOpenDialog(new Stage());
+////		if (selectedFile != null) {
+////			data = xml.loadFromFile(selectedFile);
+////		}
+		myGameMap = new GameMap(data.getMap());
+		mySpawner = new Spawner(data.getSpawns().getWaves(), this);
+		Collection<ObjectData> towerdata = data.getTowers().getTowers();
+		for (ObjectData d: towerdata) {
+			myTowers.add(new GameObject(d));
 		}
-		myGameMap = new GameMap(data);
 		myGraveYard = new GraveYard(this);
 		mySpawnYard = new SpawnYard(this);
 		myConditions = new ArrayList<IGameCondition>();
@@ -57,8 +74,9 @@ public class GameUniverse implements IGameUniverse {
 
 	@Override
 	public void addPlayer(IGameObject player) {
-		if (player.getType().equals(GameObjectType.PLAYER))
+		if (player.getType().equals(GameObjectType.PLAYER)) {
 			myPlayers.add(player);
+		}
 	}
 
 	@Override
@@ -151,4 +169,30 @@ public class GameUniverse implements IGameUniverse {
 		return myGraveYard;
 	}
 
+	@Override
+	public ISpawner getSpawner() {
+		return mySpawner;
+	}
+
+	@Override
+	public void postEvent(IGameEvent event) {
+		myPoster.postEvent(event);
+	}
+
+	@Override
+	public void saveGame() {
+		SpawnerData spawn = mySpawner.saveGame();
+		TowerData towers = saveTowers();
+		MapData map = new MapData(myGameMap);
+		UniverseData data = new UniverseData(spawn, towers, map);
+		
+	}
+	
+	private TowerData saveTowers() {
+		Collection<ObjectData> data = new ArrayList<>();
+		for (IGameObject o: myTowers) {
+			data.add(new ObjectData(o));
+		}
+		return new TowerData(data);
+	}
 }
