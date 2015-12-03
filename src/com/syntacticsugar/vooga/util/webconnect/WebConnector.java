@@ -119,27 +119,5 @@ public class WebConnector {
 		}
 		return null;
 	}
-
-	public static void printArray(JSONArray arr) {
-		for (int i = 0; i < arr.length(); i++) {
-			try {
-				JSONObject entry = (JSONObject) arr.get(i);
-				System.out.println(entry.toString());
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-	}
 	
-	public static String extractXML(JSONObject json) {
-		try {
-			String xml = json.getString("xml");
-			return xml;
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return "";
-		}
-	}
 }

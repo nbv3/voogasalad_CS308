@@ -19,7 +19,7 @@ public class WebConnectorTest {
 		try {
 			JSONArray fields = jsonOutput.getJSONArray("xmls");
 			System.out.println(fields.toString());
-			WebConnector.printArray(fields);
+			JSONHelper.printArray(fields);
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -29,7 +29,7 @@ public class WebConnectorTest {
 	public static void getXMLTest(int gameindex) {
 		JSONObject jsonOutput = WebConnector.getXML(gameindex);
 		System.out.println("Output: " + jsonOutput);
-		System.out.println("XML: " + WebConnector.extractXML(jsonOutput));
+		System.out.println("XML: " + JSONHelper.extractXML(jsonOutput));
 	}
 
 	public static void postXMLTest() {
