@@ -1,6 +1,6 @@
 package com.syntacticsugar.vooga.authoring.objectediting.sizing;
 
-import com.syntacticsugar.vooga.authoring.objectediting.DragResizer;
+//import com.syntacticsugar.vooga.authoring.objectediting.DragResizer;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
 
 import javafx.beans.property.ObjectProperty;
