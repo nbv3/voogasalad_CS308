@@ -36,6 +36,7 @@ public class Score implements IScore {
 	
 	private void changeScore(ScoreChangeEvent event) {
 		myScore += event.getScore();
+		System.out.println(myScore);
 	}
 	
 	@Override

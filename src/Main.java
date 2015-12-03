@@ -18,7 +18,7 @@ public class Main extends Application {
 		ObjectData data = new ObjectData();
 		data.setImagePath("gray.png");
 		String tileImagePath = "scenery_grass_2.png";
-		new ObjectResizer(data, tileImagePath);
+//		new ObjectResizer(data, tileImagePath);
 	}
 }
 	

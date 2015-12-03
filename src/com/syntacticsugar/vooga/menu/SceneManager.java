@@ -9,12 +9,11 @@ import java.util.Map;
 import com.syntacticsugar.vooga.authoring.AuthoringScreenManager;
 import com.syntacticsugar.vooga.gameplayer.attribute.HealthAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
+import com.syntacticsugar.vooga.gameplayer.attribute.ScoreAttribute;
 import com.syntacticsugar.vooga.gameplayer.event.ICollisionEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.HealthChangeEvent;
 import com.syntacticsugar.vooga.gameplayer.manager.GameManager;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
-import com.syntacticsugar.vooga.xml.GameDataXML;
-import com.syntacticsugar.vooga.xml.MapDataXML;
 import com.syntacticsugar.vooga.xml.XMLHandler;
 import com.syntacticsugar.vooga.xml.data.GameData;
 import com.syntacticsugar.vooga.xml.data.GlobalSettings;
@@ -139,6 +138,7 @@ public class SceneManager {
 		ObjectData enemyData = new ObjectData();
 		Collection<IAttribute> enemyAttributes = new ArrayList<IAttribute>();
 		enemyAttributes.add(new HealthAttribute(30));
+		enemyAttributes.add(new ScoreAttribute(30));
 //		enemyAttributes.add(new AIMovementAttribute(3));
 		Map<GameObjectType, Collection<ICollisionEvent>> collisions = new HashMap<GameObjectType, Collection<ICollisionEvent>>();
 		Collection<ICollisionEvent> enemyEvents = new ArrayList<ICollisionEvent>();
@@ -153,14 +153,20 @@ public class SceneManager {
 		enemyData.setCollisionMap(collisions);
 		
 		ObjectData enemyData2 = new ObjectData();
+		Collection<IAttribute> enemyAttributes2 = new ArrayList<IAttribute>();
+		enemyAttributes2.add(new HealthAttribute(30));
+		enemyAttributes2.add(new ScoreAttribute(40));
 //		enemyAttributes.add(new AIMovementAttribute(3));
+		Map<GameObjectType, Collection<ICollisionEvent>> collisions2 = new HashMap<GameObjectType, Collection<ICollisionEvent>>();
+		Collection<ICollisionEvent> enemyEvents2 = new ArrayList<ICollisionEvent>();
+		enemyEvents2.add(new HealthChangeEvent(-10));
 		enemyData2.setType(GameObjectType.ENEMY);
 		enemyData2.setSpawnPoint(350, 150);
 		enemyData2.setWidth(100);
 		enemyData2.setHeight(100);
 		enemyData2.setImagePath(enemyPath);
-		enemyData2.setAttributes(enemyAttributes);
-		enemyData2.setCollisionMap(collisions);
+		enemyData2.setAttributes(enemyAttributes2);
+		enemyData2.setCollisionMap(collisions2);
 		
 		odata.add(enemyData);
 		odata.add(enemyData2);
