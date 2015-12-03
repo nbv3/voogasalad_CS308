@@ -12,12 +12,17 @@ public class WaveController {
 
 	private VBox myView;
 	private Button myAddButton;
+	private Button myClearButton;
+	private Button myRemoveButton;
 
 	public WaveController(EnemyQueueTabManager tabs) {
 		myView = new VBox();
-		myAddButton = GUIFactory.buildButton("Create wave", null, 100.0, 50.0);
-		myAddButton.setOnMouseClicked(e->tabs.addNewWave());
-		myView.getChildren().addAll(myAddButton, GUIFactory.buildButton("Clear wave", null, 100.0, 50.0));
+		myAddButton = GUIFactory.buildButton("Create wave", e -> tabs.addNewWave(), 100.0, 50.0);
+		// myAddButton.setOnMouseClicked(e->);
+		myClearButton = GUIFactory.buildButton("Clear wave", e -> tabs.clearWave(), 100.0, 50.0);
+		// myClearButton.setOnMouseClicked(e-> tabs.clearWave());
+		myRemoveButton = GUIFactory.buildButton("Remove Selected", e -> tabs.removeSelected(), 100.0, 50.0);
+		myView.getChildren().addAll(myAddButton, myClearButton, myRemoveButton);
 		myView.setAlignment(Pos.CENTER);
 		myView.setSpacing(20);
 	}
