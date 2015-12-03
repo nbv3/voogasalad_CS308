@@ -58,12 +58,6 @@ public class EnemyQueueTabManager {
 		ListView<VBox> wave = (ListView<VBox>) myTabPane.getSelectionModel().getSelectedItem().getContent();
 		wave.getItems().clear();
 	}
-	
-	public void removeSelected() {
-		int index = ((ListView<VBox>) myTabPane.getSelectionModel().getSelectedItem().getContent()).getSelectionModel().getSelectedIndex();
-		ListView<VBox> wave = (ListView<VBox>) myTabPane.getSelectionModel().getSelectedItem().getContent();
-		wave.getItems().remove(index);
-	}
 
 	private void updateLevelNumbers() {
 		int i = 1;
@@ -83,7 +77,6 @@ public class EnemyQueueTabManager {
 	{
 		currentEnemyPane.removeObjectFromQueue();
 	}
-	
 	
 	public ObjectData getSelectedItem()
 	{

@@ -69,25 +69,10 @@ public class EnemyQueuePane {
 	public void addObjectToQueue(ObjectData obj) {
 		myQueue.add(obj);
 		Node temp = createQueueBoxFromObjData(obj);
+		temp.setOnMouseClicked(e->selectedItem = temp);
 		myWave.add(temp);
 		myObjects.put(temp, obj);
-		setHandlers();
 	}
-	
-	private void setHandlers()
-	{
-		for(int i = 0; i < myQueuePane.getItems().size(); i++)
-		{
-			Node temp = myQueuePane.getItems().get(i);
-			temp.setOnMouseClicked(e-> setSelectedItem(temp));
-		}
-	}
-	
-	private void setSelectedItem(Node n)
-	{
-		selectedItem = n;
-	}
-	
 	public void removeObjectFromQueue()
 	{
 		if(selectedItem != null)
@@ -95,6 +80,15 @@ public class EnemyQueuePane {
 			myQueue.remove(myObjects.get(selectedItem));
 			myWave.remove(selectedItem);
 		}
+	}
+	
+	public ObjectData getSelectedItem()
+	{
+		if(selectedItem != null)
+		{
+			return myObjects.get(selectedItem);
+		}
+		return null;
 
 	}
 	
@@ -108,15 +102,7 @@ public class EnemyQueuePane {
 		return myQueuePane;
 	}
 	
-	public ObjectData getSelectedItem()
-	{
-		if(selectedItem != null)
-		{
-			return myObjects.get(selectedItem);
-		}
-		return null;
 
-	}
 
 
 }

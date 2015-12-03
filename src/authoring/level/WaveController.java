@@ -27,7 +27,7 @@ public class WaveController extends Observable{
 		// myAddButton.setOnMouseClicked(e->);
 		myClearButton = GUIFactory.buildButton("Clear wave", e -> tabs.clearWave(), 100.0, 50.0);
 		// myClearButton.setOnMouseClicked(e-> tabs.clearWave());
-		myRemoveButton = GUIFactory.buildButton("Remove Selected", e -> tabs.removeSelected(), 150.0, 50.0);
+		myRemoveButton = GUIFactory.buildButton("Remove Selected", e -> tabs.removeItem(), 150.0, 50.0);
 		myEditButton = GUIFactory.buildButton("Edit Selected", e -> editItem(tabs), 100.0, 50.0);
 		myView.getChildren().addAll(myAddButton, myClearButton, myEditButton, myRemoveButton);
 		myView.setAlignment(Pos.CENTER);
@@ -37,12 +37,8 @@ public class WaveController extends Observable{
 	private void editItem(EnemyQueueTabManager tabs)
 	{
 		selectedItem = tabs.getSelectedItem();
-		if(selectedItem != null)
-		{
-			setChanged();
-			notifyObservers(selectedItem);
-		}
-
+		setChanged();
+		notifyObservers(selectedItem);
 	}
 	
 	public ObjectData getItemToEdit()
