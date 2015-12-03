@@ -9,5 +9,6 @@
 	<classpathentry kind="lib" path="images/enemy"/>
 	<classpathentry kind="lib" path="images/player"/>
 	<classpathentry kind="lib" path="images/tower"/>
+	<classpathentry kind="lib" path="D:/CS308/voogasalad_SyntacticSugar/lib/java-json.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
