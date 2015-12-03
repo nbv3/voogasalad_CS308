@@ -25,10 +25,9 @@ public class AIMovementAttribute extends AbstractMovementAttribute {
 		if (!reachedNext) {
 			// move along line from transformed currentTile to transformed nextTile
 			move(universe);
-			if (isPastNext()) {
+			if (isPastNext(universe.getMap())) {
 				// transform myNextPoint to raw double coordinate
 				// set location to transformed nextTile
-				
 				reachedNext = true;
 			}
 		} else {
@@ -43,9 +42,12 @@ public class AIMovementAttribute extends AbstractMovementAttribute {
 		}
 	}
 	
-	private boolean isPastNext() {
+	private boolean isPastNext(IGameMap map) {
 		// calculates if you are past myNextTile on the line from myCurrentTile to myNextTile
-		return true;
+		Point2D centerPoint = this.getParent().getCenterPoint();
+		Point2D tileCenterPoint = map.getCoordinateFromMapIndex(myNextTile);
+		
+		return centerPoint.distance(tileCenterPoint) < getSpeed();
 	}
 	
 	private Boolean isInsideTile(IGameMap map) {
