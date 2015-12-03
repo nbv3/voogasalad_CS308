@@ -2,11 +2,11 @@ package com.syntacticsugar.vooga.authoring.objectediting;
 
 import java.io.File;
 
-import com.syntacticsugar.vooga.authoring.icons.implementations.Icon;
+import com.syntacticsugar.vooga.authoring.icons.Icon;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
-import com.syntacticsugar.vooga.xml.ObjectDataXML;
+import com.syntacticsugar.vooga.xml.XMLHandler;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
 
 import javafx.event.ActionEvent;
@@ -70,9 +70,9 @@ public class ObjectEditor {
 		myCreateButton.setAlignment(Pos.CENTER_RIGHT);
 		myCreateButton.setDisable(true);
 		
-		grid.add(att, 0, 0, 1, 1);
+		grid.add(iconGrid, 0, 0, 1, 1);
 		grid.add(coll, 0, 1, 2, 1);
-		grid.add(iconGrid, 1, 0, 1, 1);
+		grid.add(att, 1, 0, 1, 1);
 		grid.add(myCreateButton, 1, 2, 1, 1);
 		GridPane.setHalignment(myCreateButton, HPos.RIGHT);
 		GridPane.setValignment(myCreateButton, VPos.CENTER);
@@ -110,14 +110,12 @@ public class ObjectEditor {
 		fileChooser.setInitialFileName(String.format("%s.%s", currentData.getObjectName(), "xml"));
 		File selectedFile = fileChooser.showSaveDialog(new Stage());
 		if (selectedFile != null) {
-			ObjectDataXML xml = new ObjectDataXML();
-			String xmlString = xml.generateXML(currentData);
-			xml.writeXMLToFile(xmlString, selectedFile);
+			XMLHandler<ObjectData> xml = new XMLHandler<>();
+			xml.write(currentData, selectedFile);
 		}
 	}
 	
 	private void selectImage() {
-		//TODO: OPEN UP A FILE CHOOSER AND SELECT AN IMAGE FROM ONE OF OUR BUILD PATH DIRECTORIES
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.getExtensionFilters().add(new ExtensionFilter("Image Files", "*.jpeg", "*.gif", "*.png"));
 		fileChooser.setTitle("Save Resource File");
@@ -150,7 +148,7 @@ public class ObjectEditor {
 		GridPane.setConstraints(button, 0, 0, 1, 1);
 		GridPane.setConstraints(myIcon, 0, 1, 1, 1);
 		GridPane.setHalignment(myIcon, HPos.CENTER);
-		GridPane.setHalignment(button, HPos.CENTER);
+		GridPane.setHalignment(button, HPos.LEFT);
 		grid.setAlignment(Pos.CENTER);
 		grid.setHgap(10);
 		grid.setVgap(10);

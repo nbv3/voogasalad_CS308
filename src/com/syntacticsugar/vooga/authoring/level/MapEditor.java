@@ -3,9 +3,8 @@ package com.syntacticsugar.vooga.authoring.level;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.syntacticsugar.vooga.authoring.css.CSSWizard;
 import com.syntacticsugar.vooga.authoring.dragdrop.DragDropManager;
-import com.syntacticsugar.vooga.authoring.icons.implementations.Icon;
+import com.syntacticsugar.vooga.authoring.icons.Icon;
 import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 import com.syntacticsugar.vooga.util.gui.factory.SliderDialogFactory;
@@ -13,27 +12,18 @@ import com.syntacticsugar.vooga.xml.data.MapData;
 import com.syntacticsugar.vooga.xml.data.TileData;
 import com.syntacticsugar.vooga.xml.data.TileImplementation;
 
-import groovy.lang.Binding;
-import groovy.lang.GroovyShell;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableSet;
 import javafx.collections.SetChangeListener;
 import javafx.event.EventHandler;
-import javafx.geometry.HPos;
-import javafx.geometry.Insets;
-import javafx.geometry.VPos;
 import javafx.scene.control.Tooltip;
 import javafx.scene.effect.Effect;
 import javafx.scene.effect.InnerShadow;
 import javafx.scene.image.Image;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
-import javafx.scene.input.TransferMode;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
-import javafx.stage.Screen;
 
 public class MapEditor implements IMapEditor {
 	
@@ -45,12 +35,11 @@ public class MapEditor implements IMapEditor {
 
 	private MapData myMapData;
 	private int myMapSize;
-	private double mapDisplayWidth = Screen.getPrimary().getVisualBounds().getHeight()/1.5;
 	private GridPane myMapGrid;
 	
 	public MapEditor() throws Exception {
-		myTileSelection = buildSelectionSet();
 		myMapSize = inputMapSize();
+		myTileSelection = buildSelectionSet();
 		myMapData = new MapData(myMapSize, DEFAULT_TILE_IMAGE);
 		myMapGrid = new GridPane();
 		initializeMapView(myMapData);
@@ -66,7 +55,7 @@ public class MapEditor implements IMapEditor {
 		myTileSelection = buildSelectionSet();
 		myMapData = loadedMap;
 		myMapSize = loadedMap.getMapSize();
-		initializeMapView(loadedMap);
+		initializeMapView(myMapData);
 	}
 	
 	private ObservableSet<TileData> buildSelectionSet() {
@@ -85,7 +74,7 @@ public class MapEditor implements IMapEditor {
 	}
 	
 	private int inputMapSize() throws Exception {
-		double size = SliderDialogFactory.createSliderDialog("Input Map Size", 10, 30, 1);
+		double size = SliderDialogFactory.createSliderDialog("Input Map Size", 10, 40, 1);
 		if (size == Double.MIN_VALUE) {
 			throw new Exception("Must select a map size before editing");
 		}
@@ -95,7 +84,6 @@ public class MapEditor implements IMapEditor {
 	private void initializeMapView(MapData mapData) {
 		myMapGrid.getChildren().clear();
 		myTileIconMap = new HashMap<>();
-		myMapGrid.setPrefSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
 		for (int i=0; i<myMapSize; i++) {
 			for (int j=0; j<myMapSize; j++) {
 				TileData tile = mapData.getTileData(i, j);
@@ -117,7 +105,6 @@ public class MapEditor implements IMapEditor {
 									        	DragDropManager.undoDragOverState(icon);
 									        	icon.setImage(new Image(getClass().getClassLoader().getResourceAsStream(db.getString())));
 									        	tile.setImagePath(db.getString());
-									        	System.out.println(db.getString());
 									        	StringBuilder newPathName = extractImplementationType(db);
 									        	TileImplementation enumTileImp = recreateImplementationObject(newPathName);
 									        	tile.setImplementation(enumTileImp);
@@ -131,12 +118,9 @@ public class MapEditor implements IMapEditor {
 									     }
 					
 									});
-				myMapGrid.getChildren().add(icon);
-				GridPane.setConstraints(icon, i, j, 1, 1, HPos.CENTER, VPos.CENTER, Priority.ALWAYS, Priority.ALWAYS, null);
+				myMapGrid.add(icon, i, j, 1, 1);
 			}
 		}
-		myMapGrid.setGridLinesVisible(true);
-		myMapGrid.setPadding(new Insets(10));
 	}
 
 	

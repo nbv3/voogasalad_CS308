@@ -1,5 +1,6 @@
 package com.syntacticsugar.vooga.gameplayer.event;
 
 public enum GameEventType {
-	ObjectSpawn, ScoreChange, LevelChange
+	ObjectSpawn, ObjectDespawn,
+	ScoreChange, LevelChange,
 }

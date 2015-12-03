@@ -3,8 +3,10 @@ package com.syntacticsugar.vooga.gameplayer.universe;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import com.syntacticsugar.vooga.gameplayer.attribute.ScoreAttribute;
 import com.syntacticsugar.vooga.gameplayer.event.GameEventListener;
 import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
+import com.syntacticsugar.vooga.gameplayer.event.implementations.ObjectDespawnEvent;
 import com.syntacticsugar.vooga.gameplayer.manager.IEventManager;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
@@ -61,8 +63,15 @@ public class GraveYard implements IYard<IViewRemover>, GameEventListener {
 
 	@Override
 	public void onEvent(IGameEvent e) {
-		// TODO Auto-generated method stub
-		
+		try {
+			ObjectDespawnEvent event = (ObjectDespawnEvent) e;
+			IGameObject obj = event.getObj();
+			addToYard(obj);
+			obj.getAttributes().get(ScoreAttribute.class.getSimpleName());
+		}
+		catch (ClassCastException ex) {
+			
+		}
 	}
 
 }

@@ -8,15 +8,10 @@ import com.syntacticsugar.vooga.authoring.level.LevelTabManager;
 import com.syntacticsugar.vooga.authoring.library.ObjectLibraryManager;
 import com.syntacticsugar.vooga.authoring.objectediting.ObjectEditor;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
-import com.syntacticsugar.vooga.menu.SceneManager;
-import com.syntacticsugar.vooga.xml.MapDataXML;
-import com.syntacticsugar.vooga.xml.ObjectDataXML;
+import com.syntacticsugar.vooga.xml.XMLHandler;
 import com.syntacticsugar.vooga.xml.data.MapData;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Menu;
@@ -32,9 +27,8 @@ import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import javafx.util.Duration;
 
-public class AuthoringScreenManager implements Observer{
+public class AuthoringScreenManager implements Observer {
 
 	private BorderPane myWindow;
 	private GridPane myWindowGrid;
@@ -43,7 +37,7 @@ public class AuthoringScreenManager implements Observer{
 	private ObjectLibraryManager myObjectLibraryManager;
 	private Stage myStage;
 	private Scene myScene;
-	//private ObjectLibrary myObjectLibrary;
+	// private ObjectLibrary myObjectLibrary;
 	private ObjectEditor myObjectEditor;
 
 	public AuthoringScreenManager(EventHandler<WindowEvent> onClose) {
@@ -53,10 +47,10 @@ public class AuthoringScreenManager implements Observer{
 		initWindow(onClose);
 	}
 
-	//	private void initObjectLibrary() {
-	//		myObjectLibrary = new ObjectLibrary(null);
-	//		myObjectManager = new AuthoringSidePane(null);
-	//	}
+	// private void initObjectLibrary() {
+	// myObjectLibrary = new ObjectLibrary(null);
+	// myObjectManager = new AuthoringSidePane(null);
+	// }
 
 	private void initWindow(EventHandler<WindowEvent> onClose) {
 		myWindow = new BorderPane();
@@ -68,7 +62,7 @@ public class AuthoringScreenManager implements Observer{
 
 		setUpObserver();
 		myWindowGrid.add(myLevelEditor.getTabPane(), 0, 0, 1, 2);
-		//		myWindowGrid.add(myObjectManager.getLibrary(), 1, 0, 1 ,1);
+		myWindowGrid.add(myObjectLibraryManager.getTabPane(), 1, 0, 1 ,1);
 		myWindowGrid.add(myObjectEditor.getView(), 1, 1, 1, 1);
 		myWindow.setCenter(myWindowGrid);
 
@@ -77,21 +71,20 @@ public class AuthoringScreenManager implements Observer{
 		myStage = new Stage();
 		myStage.setOnCloseRequest(onClose);
 		myStage.setScene(myScene);
-//		myStage.setMaximized(true);
+		// myStage.setMaximized(true);
 		myStage.show();
 	}
-	
-	private void setUpObserver()
-	{
-		for(int i = 0; i < myLevelEditor.getLevels().size();i ++)
-		{
+
+	private void setUpObserver() {
+		for (int i = 0; i < myLevelEditor.getLevels().size(); i++) {
 			myLevelEditor.getLevels().get(i).getWaveControl().addObserver(this);
+			myLevelEditor.getLevels().get(i).getTowerControl().addObserver(this);
 		}
 	}
 
 	private void handleKeyPress(KeyEvent e) {
 		if (e.isControlDown() && e.getCode().equals(KeyCode.N)) {
-			myLevelEditor.addNewLevel();
+			addLevelRefresh();
 		}
 		if (e.getCode().equals(KeyCode.S)) {
 			ObjectData data = new ObjectData();
@@ -105,6 +98,11 @@ public class AuthoringScreenManager implements Observer{
 		myStage.hide();
 	}
 
+	private void addLevelRefresh() {
+		myLevelEditor.addNewLevel();
+		setUpObserver();
+	}
+
 	private void buildMenuBar() {
 		MenuBar menuBar = new MenuBar();
 		// file menu
@@ -112,7 +110,8 @@ public class AuthoringScreenManager implements Observer{
 		file.setText("File");
 		MenuItem newLevel = new MenuItem();
 		newLevel.setText("New Level");
-		newLevel.setOnAction(e -> myLevelEditor.addNewLevel());
+		// newLevel.setOnAction(e -> myLevelEditor.addNewLevel());
+		newLevel.setOnAction(e -> addLevelRefresh());
 
 		MenuItem loadMap = new MenuItem();
 		loadMap.setText("Load map");
@@ -129,14 +128,15 @@ public class AuthoringScreenManager implements Observer{
 		file.getItems().addAll(newLevel, loadMap, saveMap, loadData);
 
 		// menu menu
-		//		Menu menu = new Menu();
-		//		menu.setText("Menu");
+		// Menu menu = new Menu();
+		// menu.setText("Menu");
 		// return to main menu
 		// return to authoring menu
-		//		MenuItem authoringMenu = new MenuItem();
-		//		authoringMenu.setText("Authoring Menu");
-		//		authoringMenu.setOnAction(e -> sceneManager.launchAuthoringMenuFromAuthoring());
-		//		menu.getItems().addAll(mainMenu, authoringMenu);
+		// MenuItem authoringMenu = new MenuItem();
+		// authoringMenu.setText("Authoring Menu");
+		// authoringMenu.setOnAction(e ->
+		// sceneManager.launchAuthoringMenuFromAuthoring());
+		// menu.getItems().addAll(mainMenu, authoringMenu);
 
 		menuBar.getMenus().addAll(file);
 		myWindow.setTop(menuBar);
@@ -145,14 +145,11 @@ public class AuthoringScreenManager implements Observer{
 	private void loadData() {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Open Resource File");
-		fileChooser.getExtensionFilters().addAll(
-				new ExtensionFilter("XML Files", "*.xml"));
+		fileChooser.getExtensionFilters().addAll(new ExtensionFilter("XML Files", "*.xml"));
 		File selectedFile = fileChooser.showOpenDialog(new Stage());
 		if (selectedFile != null) {
-			ObjectDataXML xml = new ObjectDataXML();
-			ObjectData toload = xml.loadFromFile(selectedFile);
-			System.out.println(toload);
-			System.out.println(toload.getAttributes());
+			XMLHandler<ObjectData> xml = new XMLHandler<>();
+			ObjectData toload = xml.read(selectedFile);
 			myObjectEditor.displayData(toload);
 		}
 	}
@@ -160,12 +157,11 @@ public class AuthoringScreenManager implements Observer{
 	private void loadMap() {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Open Resource File");
-		fileChooser.getExtensionFilters().addAll(
-				new ExtensionFilter("XML Files", "*.xml"));
+		fileChooser.getExtensionFilters().addAll(new ExtensionFilter("XML Files", "*.xml"));
 		File selectedFile = fileChooser.showOpenDialog(new Stage());
 		if (selectedFile != null) {
-			MapDataXML xml = new MapDataXML();
-			MapData toload = xml.loadFromFile(selectedFile);
+			XMLHandler<MapData> xml = new XMLHandler<>();
+			MapData toload = xml.read(selectedFile);
 			myLevelEditor.loadMap(toload);
 		}
 	}
@@ -175,13 +171,12 @@ public class AuthoringScreenManager implements Observer{
 		fileChooser.setTitle("Save Resource File");
 		File selectedFile = fileChooser.showSaveDialog(new Stage());
 		if (selectedFile != null) {
-			MapDataXML xml = new MapDataXML();
+			XMLHandler<MapData> xml = new XMLHandler<>();
 			MapData toSave = myLevelEditor.getMapData();
-			String xmlString = xml.generateXML(toSave);
-			xml.writeXMLToFile(xmlString, selectedFile);
+			xml.write(toSave, selectedFile);
 		}
 	}
-	
+
 	private void addGridConstraints() {
 		addColumnConstraints();
 		addRowConstraints();
@@ -206,7 +201,7 @@ public class AuthoringScreenManager implements Observer{
 	@Override
 	public void update(Observable o, Object arg) {
 		myObjectEditor.displayData((ObjectData) arg);
-		
+
 	}
 
 }

@@ -1,12 +1,9 @@
 package com.syntacticsugar.vooga.authoring.level;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import com.syntacticsugar.vooga.authoring.icons.panes.ImageIconPane;
 import com.syntacticsugar.vooga.gameplayer.attribute.HealthAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
-import com.syntacticsugar.vooga.gameplayer.objects.GameObject;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
 
 import javafx.scene.control.Label;
@@ -25,7 +22,7 @@ public class QueueBox {
 		myData = data;
 		myEnemy = new VBox();
 		addImage(data.getImagePath());
-		addHealth();
+//		addHealth();
 	}
 
 	private void addImage(String path) {
@@ -44,7 +41,6 @@ public class QueueBox {
 	}
 
 	private void addHealth() {
-		System.out.println(myData.getAttributes().size());
 		double db = ((HealthAttribute) ((ArrayList<IAttribute>) myData.getAttributes()).get(0)).getHealth();
 		myHealth = new Label(String.format("Health: %d", (int) db));
 		// mySpawnCount.getChildren().add(spawnText);

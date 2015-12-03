@@ -8,8 +8,7 @@ import java.util.List;
 import com.syntacticsugar.vooga.gameplayer.manager.IEventManager;
 import com.syntacticsugar.vooga.gameplayer.universe.GameUniverse;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
-import com.syntacticsugar.vooga.xml.GameDataXML;
-import com.syntacticsugar.vooga.xml.MapDataXML;
+import com.syntacticsugar.vooga.xml.XMLHandler;
 import com.syntacticsugar.vooga.xml.data.GameData;
 import com.syntacticsugar.vooga.xml.data.MapData;
 import com.syntacticsugar.vooga.xml.data.UniverseData;
@@ -57,14 +56,13 @@ public class Game implements IGame {
 		Collection<UniverseData> gameData = (Collection<UniverseData>) myUniverseData;
 		mySettings.setLevel(myLevel);
 		GameData gameSave = new GameData(gameData, mySettings);
-		GameDataXML xmlMake = new GameDataXML();
-		String xmldata = xmlMake.generateXML(gameSave);
+		XMLHandler<GameData> xmlMake = new XMLHandler<>();
 
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Save Game");
 		File selectedFile = fileChooser.showSaveDialog(new Stage());
 		if (selectedFile != null) {
-			xmlMake.writeXMLToFile(xmldata, selectedFile);
+			xmlMake.write(gameSave, selectedFile);
 		}
 		//TODO: Write it to a file (look at the authoring env object save
 //		xmlMake.writeXMLToFile(xmldata, f);

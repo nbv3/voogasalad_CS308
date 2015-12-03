@@ -1,5 +1,7 @@
 package com.syntacticsugar.vooga.gameplayer.attribute;
 
+import com.syntacticsugar.vooga.gameplayer.event.implementations.ObjectDespawnEvent;
+import com.syntacticsugar.vooga.gameplayer.universe.IEventPoster;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.gameplayer.universe.IObjectDespawner;
 
@@ -60,9 +62,10 @@ public class HealthAttribute extends AbstractAttribute {
 		myHealth += healthInc;
 	}
 
-	private void checkForDeath(IObjectDespawner killer) {
+	private void checkForDeath(IEventPoster killer) {
 		if (isDead()) {
-			killer.addToGraveYard(getParent());
+			ObjectDespawnEvent event = new ObjectDespawnEvent(getParent());
+			killer.postEvent(event);
 		}
 	}
 

@@ -15,6 +15,7 @@ import com.syntacticsugar.vooga.gameplayer.manager.GameManager;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.xml.GameDataXML;
 import com.syntacticsugar.vooga.xml.MapDataXML;
+import com.syntacticsugar.vooga.xml.XMLHandler;
 import com.syntacticsugar.vooga.xml.data.GameData;
 import com.syntacticsugar.vooga.xml.data.GlobalSettings;
 import com.syntacticsugar.vooga.xml.data.LevelSettings;
@@ -112,13 +113,13 @@ public class SceneManager {
 		// TODO modify to do direct load instead of launch
 		
 		GameData data = null;
-		GameDataXML xml = new GameDataXML();
+		XMLHandler<GameData> xml = new XMLHandler<>();
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.getExtensionFilters().add(new ExtensionFilter("XML Files", "*.xml"));
 		fileChooser.setTitle("Choose Map XML");
 		File selectedFile = fileChooser.showOpenDialog(new Stage());
 		if (selectedFile != null) {
-			data = xml.loadFromFile(selectedFile);
+			data = xml.read(selectedFile);
 		}
 		myGameManager = new GameManager(GAME_SIZE, data);
 		myGameManager.setManager(this);

@@ -23,6 +23,7 @@ public class LevelEditor{
 	private EnemyQueueTabManager myQueue;
 	private WaveController myWaveControl;
 	private ObjectData itemToEdit;
+	private TowerManager myTowers;
 	// private SpawnEditor mySpawnEditor;
 
 	public LevelEditor() throws Exception {
@@ -30,6 +31,7 @@ public class LevelEditor{
 		myTileEditor = new MapEditorControls(myMapEditor);
 		myQueue = new EnemyQueueTabManager();
 		myWaveControl = new WaveController(myQueue);
+		myTowers = new TowerManager();
 		//myWaveControl.addObserver(this);
 		buildTabContents();
 
@@ -43,6 +45,12 @@ public class LevelEditor{
 	{
 		return myWaveControl;
 	}
+	
+	public TowerController getTowerControl()
+	{
+		return myTowers.getControl();
+	}
+
 
 	public void loadMap(MapData loadedMap) {
 		myMapEditor.loadMapData(loadedMap);
@@ -61,6 +69,9 @@ public class LevelEditor{
 		myContentGrid.add(myMapEditor.getContent(), 1, 0, 1, 2);
 		myContentGrid.add(myWaveControl.getView(), 0, 2, 1, 1);
 		myContentGrid.add(myQueue.getView(), 1, 2, 2, 1);
+
+		myContentGrid.add(myTowers.getView(), 2, 0, 1, 1);
+		//coordinates for tower list
 		myContentGrid.setGridLinesVisible(true);
 	}
 
