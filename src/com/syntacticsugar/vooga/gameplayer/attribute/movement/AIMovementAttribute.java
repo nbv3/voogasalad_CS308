@@ -12,69 +12,36 @@ import javafx.geometry.Point2D;
 
 public class AIMovementAttribute extends AbstractMovementAttribute {
 
-	private PathFinder pathFinder;
-	private List<Point> myPath;
 	private Point myNextTile;
-	
-	private int myFrameCount;
-	private int myPathUpdateRate; // TODO: Move into a resource file
+	boolean reachedNext;
 	
 	public AIMovementAttribute(double speed) {
 		super(speed);
-		
-		// update currentTile
-		
-		myFrameCount = 0;
-		myPathUpdateRate = 20;
-	}
-	
-	private void generatePath(IGameUniverse universe) {
-		IGameMap map = universe.getMap();
-		List<Point> ends = map.getDestinationPoints();
-		
-		pathFinder = new PathFinder(map.isWalkable(), myCurrentTile, ends);
-		myPath = pathFinder.getPath();
-	}
-	
-	private Point nextPoint() {
-		myNextTile = new Point(pathFinder.getNext());
-		return pathFinder.getNext();
+		reachedNext = true;
 	}
 
 	@Override
 	public void updateSelf(IGameUniverse universe) {
-		// every n frames, run generatePath(universe);
-		if (myFrameCount % myPathUpdateRate == 0) {
-			generatePath(universe);
+		if (!reachedNext) {
+			// move along line from transformed currentTile to transformed nextTile
+			Direction moveDirection = getNewDirection();
+			// move(universe);
+			if (isPastNext()) {
+				// set location to transformed nextTile
+				reachedNext = true;
+			}
+		} else {
+			reachedNext = false;
+			IGameMap map = universe.getMap();
+			List<Point> ends = map.getDestinationPoints();
+			PathFinder pathFinder = new PathFinder(map.isWalkable(), myCurrentTile, ends);
+			myNextTile = pathFinder.getNext();
 		}
-			
-		setNextDestination(universe.getMap());
-		move(universe);
-		myFrameCount++;
 	}
 	
-	private void setNextDestination(IGameMap map) {
-		
-		if (isInsideTile(map)) {
-			myNextTile = nextPoint();
-		}
-		if (myNextTile == null) {
-			return;
-		}
-		
-		Direction dir = getNewDirection();
-		setDirection(dir);
-		
-		// ISimpleBoundingBox box = getParent().getBoundingBox();
-		// Point2D oldPoint = box.getPoint();
-		// convert nextPoint to Point2D
-		// if (distance from nextPoint is greater than xVelocity + yVelocity) {
-		// 		box.setPoint(new Point2D(oldPoint.getX() + xVelocity, oldPoint.getY() + yVelocity));
-		// } else {
-		//		box.setPoint(nextPointX, nextPointY);
-		// }
-		// box.setPoint(new Point2D(oldPoint.getX() + xVelocity, oldPoint.getY() + yVelocity));
-		System.out.println(String.format("X Velocity: %d   Y Velocity: %d", getXVelocity(), getYVelocity()));
+	private boolean isPastNext() {
+		// calculates if you are past myNextTile on the line from myCurrentTile to myNextTile
+		return true;
 	}
 	
 	private Boolean isInsideTile(IGameMap map) {
