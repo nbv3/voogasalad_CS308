@@ -10,14 +10,23 @@ import com.syntacticsugar.vooga.gameplayer.universe.map.IGameMap;
 import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.DecoratorTile;
 import com.syntacticsugar.vooga.gameplayer.view.ViewController;
 
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.DataFormat;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class AuthoringEnvironment {
@@ -34,6 +43,8 @@ public class AuthoringEnvironment {
 	private final double DEFAULT_MAP_SIZE = 800;
 	private final int DEFAULT_NUM_TILES = 20;
 	private ViewController myViewController;
+	private String imageFileName = "enemy_ghost_1.png";
+
 
 	public AuthoringEnvironment() {
 		myMap = new GameMap(DEFAULT_MAP_SIZE,DEFAULT_NUM_TILES);
@@ -78,9 +89,71 @@ public class AuthoringEnvironment {
 			for (int j = 0; j < myMap.getTiles()[0].length; j++) {
 				DecoratorTile tile = (DecoratorTile) myMap.getTiles()[i][j];
 				myViewController.addViewObject(tile);
+				
 				ImageView img = myViewController.getViewMap().get(tile).getImageView();
 				img.setOnMouseClicked(e -> toggleTileSelection(tile, e));
 				img.setOnMouseEntered(e -> multiSelectTile(tile, e));
+				img.setOnDragOver(new EventHandler<DragEvent>() {
+				    public void handle(DragEvent event) {
+				        /* data is dragged over the target */
+				        /* accept it only if it is not dragged from the same node 
+				         * and if it has a string data */
+				    		Dragboard db = event.getDragboard();
+				    		System.out.println(db);
+				            /* allow for both copying and moving, whatever user chooses */
+				        	System.out.println("Tile is ready to accept dragged object");
+				            event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
+
+				     
+				        event.consume();
+				    }
+				});
+				
+				img.setOnDragEntered(new EventHandler<DragEvent>() {
+				    public void handle(DragEvent event) {
+				    /* the drag-and-drop gesture entered the target */
+				    /* show to the user that it is an actual gesture target */
+
+			            if (event.getGestureSource() != img &&
+		                        event.getDragboard().hasString()) {
+		                    img.setOpacity(0);
+		                }
+		                
+				    }
+				});
+				
+				img.setOnDragExited(new EventHandler<DragEvent>(){
+
+					@Override
+					public void handle(DragEvent event) {
+						// TODO Auto-generated method stub
+						if (event.getGestureSource() != img &&
+		                        event.getDragboard().hasString()) {
+						img.setOpacity(1);
+						}
+						
+					}
+					
+				});
+				img.setOnDragDropped(new EventHandler<DragEvent>() {
+				    public void handle(DragEvent event) {
+				        /* data dropped */
+				        /* if there is a string data on dragboard, read it and use it */
+				        Dragboard db = event.getDragboard();
+				        boolean success = false;
+				        if (db.hasString()) {
+				        	img.setOpacity(1);
+				           img.setImage(new Image(getClass().getClassLoader().getResourceAsStream(db.getString())));
+				           success = true;
+				        }
+				        /* let the source know whether the string was successfully 
+				         * transferred and used */
+				        event.setDropCompleted(success);
+				        
+				        event.consume();
+				     }
+				});
+
 			}
 		}
 	}
@@ -99,6 +172,7 @@ public class AuthoringEnvironment {
 
 		enemyEditorTab.setContent(new GameObjectEditor());
 		enemyEditorTab.setTabDescription("Game Object");
+	
 		editor = new EditorTabPane(levelTab, tileTab, enemyEditorTab);
 	}
 	

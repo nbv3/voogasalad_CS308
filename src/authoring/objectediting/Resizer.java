@@ -2,10 +2,29 @@ package authoring.objectediting;
 
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
+import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Region;
 
-public class DragResizer {
+public class Resizer {
+    public interface OnResizeEventListener{
+    	void onResize(Node node, double x, double y, double h, double w);
+    }
+    
+    private static final OnResizeEventListener resizeListener = new OnResizeEventListener(){
+    	@Override
+    	public void onResize(Node node, double x, double y, double h, double w){
+    		setNodeSize(node, x, y, h, w);
+    	}
+    };
+    
+    private static void setNodeSize(Node node, double x, double y, double h, double w){
+    	node.setLayoutX(x);
+    	node.setLayoutX(y);
+    	// Set width and height here
+    	
+    }
+    
     
     /**
      * The margin around the control that a user can click in to start resizing
@@ -17,12 +36,12 @@ public class DragResizer {
     private boolean initMinHeight;
     private boolean dragging;
 
-    private DragResizer(Region region) {
+    private Resizer(Region region) {
         this.region = region;
     }
 
     public static void makeResizable(Region region) {
-        final DragResizer resizer = new DragResizer(region);
+        final Resizer resizer = new Resizer(region);
         
         region.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override

@@ -29,6 +29,8 @@ public class SceneManager {
 	private AuthoringScreenManager myAuthoringEnv;
 	
 	public SceneManager(Stage stage) {
+		// Windows 10 - Bug Fix for JavaFX
+		System.setProperty("glass.accessible.force", "false");
 		myStage = stage;
 		myStage.setTitle("Vooga Salad");
 		launchFirstMenu();
