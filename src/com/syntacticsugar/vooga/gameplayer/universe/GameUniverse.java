@@ -20,6 +20,8 @@ import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.universe.map.GameMap;
 import com.syntacticsugar.vooga.gameplayer.universe.map.IGameMap;
+import com.syntacticsugar.vooga.gameplayer.universe.spawner.ISpawner;
+import com.syntacticsugar.vooga.gameplayer.universe.spawner.Spawner;
 import com.syntacticsugar.vooga.gameplayer.view.IViewAdder;
 import com.syntacticsugar.vooga.gameplayer.view.IViewRemover;
 import com.syntacticsugar.vooga.xml.XMLHandler;
@@ -29,8 +31,6 @@ import com.syntacticsugar.vooga.xml.data.ObjectData;
 import com.syntacticsugar.vooga.xml.data.SpawnerData;
 import com.syntacticsugar.vooga.xml.data.TowerData;
 import com.syntacticsugar.vooga.xml.data.UniverseData;
-import com.syntacticsugar.vooga.gameplayer.universe.spawner.ISpawner;
-import com.syntacticsugar.vooga.gameplayer.universe.spawner.Spawner;
 
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
@@ -89,7 +89,7 @@ public class GameUniverse implements IGameUniverse {
 		Map<GameObjectType, Collection<ICollisionEvent>> collisions = new HashMap<GameObjectType, Collection<ICollisionEvent>>();
 		Collection<ICollisionEvent> towerEvents = new ArrayList<ICollisionEvent>();
 		towerEvents.add(new HealthChangeEvent(-10));
-		towerData.setType(GameObjectType.TOWER);
+		towerData.setType(GameObjectType.ENEMY);
 		towerData.setImagePath(imgPath);
 		towerData.setAttributes(towerAttributes);
 		towerData.setCollisionMap(collisions);

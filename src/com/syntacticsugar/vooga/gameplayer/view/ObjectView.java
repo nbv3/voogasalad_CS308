@@ -19,6 +19,7 @@ public class ObjectView extends Observable implements Observer {
 	public ObjectView(String path, BoundingBox box , GameView myGameView) {
 		myViewPane = new StackPane();
 		ImageView iv = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(path)));
+		iv.setFocusTraversable(true);
 		scalingFactor = myGameView.getScalingFactor();
 		applyTransform(box);
 		tempCoord1 = box.getPoint().getX();
