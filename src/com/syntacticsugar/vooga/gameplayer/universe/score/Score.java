@@ -1,11 +1,13 @@
 package com.syntacticsugar.vooga.gameplayer.universe.score;
 
+import java.util.Observable;
+
 import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.ScoreChangeEvent;
 import com.syntacticsugar.vooga.gameplayer.manager.IEventManager;
 import com.syntacticsugar.vooga.xml.data.LevelSettings;
 
-public class Score implements IScore {
+public class Score extends Observable implements IScore {
 	
 	int myScore;
 	int myScoreThreshold;
@@ -36,6 +38,8 @@ public class Score implements IScore {
 	
 	private void changeScore(ScoreChangeEvent event) {
 		myScore += event.getScore();
+		setChanged();
+		notifyObservers(myScore);
 		System.out.println(myScore);
 	}
 	
@@ -43,5 +47,6 @@ public class Score implements IScore {
 	public int getScoreThreshold() {
 		return myScoreThreshold;
 	}
+	
 
 }

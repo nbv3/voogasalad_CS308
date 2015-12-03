@@ -1,6 +1,7 @@
 package com.syntacticsugar.vooga.gameplayer.universe;
 
 import java.util.Collection;
+import java.util.Observer;
 
 import com.syntacticsugar.vooga.gameplayer.conditions.IGameCondition;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
@@ -40,5 +41,7 @@ public interface IGameUniverse extends IObjectCollection,
 	public Collection<ObjectData> getAvailableTowers();
 	
 	public IScore getScore();
+	
+	public void observeScore(Observer observer);
 	
 }

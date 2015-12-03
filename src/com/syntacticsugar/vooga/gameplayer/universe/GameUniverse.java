@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Observer;
 
 import com.syntacticsugar.vooga.gameplayer.attribute.HealthAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
@@ -256,4 +257,8 @@ public class GameUniverse implements IGameUniverse {
 		return myScore;
 	}
 	
+	@Override
+	public void observeScore(Observer observer){
+		myScore.addObserver(observer);
+	}
 }
