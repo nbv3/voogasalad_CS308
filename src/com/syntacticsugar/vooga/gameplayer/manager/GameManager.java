@@ -28,8 +28,12 @@ import com.syntacticsugar.vooga.xml.data.ObjectData;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.event.EventHandler;
+import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 
 public class GameManager implements IGameManager {
@@ -42,15 +46,21 @@ public class GameManager implements IGameManager {
 	private GameEngine myGameEngine;
 
 	// is SceneManager injection necessary?
-	private SceneManager myManager;
 	private IEventManager myEventManager;
 	
-	ViewController myViewController;
+	private ViewController myViewController;
+	
+	// engine stage
+	private Stage myStage;
+	
+	private double frameLength;
 	
 	private List<EventListener> myListeners; // Will go in game players
 
-	public GameManager(double gameSize, GameData data) {
-		
+	public GameManager(EventHandler<WindowEvent> onClose, double gameSize, GameData data, double frameRate) {
+		this.frameLength = frameRate;
+		myStage = new Stage();
+		myStage.setOnCloseRequest(onClose);
 		myEventManager = new EventManager();
 
 		myGame = new Game(data, myEventManager);
@@ -108,16 +118,13 @@ public class GameManager implements IGameManager {
 
 	}
 
-	public void setManager(SceneManager manager) {
-		myManager = manager;
-	}
-
-	public void pause() {
-		// call myManager.initEnginePauseMenu() which closes the scene and opens
-		// the menu scene
-		myManager.launchEnginePauseMenu();
-
-		myGameTimeline.pause();
+	public void stageInit() {
+		Scene gameScene = new Scene(getGameView());
+		initializeAnimation(frameLength);
+		gameScene.setOnKeyPressed(e -> receiveKeyPressed(e.getCode()));
+		gameScene.setOnKeyReleased(e -> receiveKeyReleased(e.getCode()));
+		myStage.setScene(gameScene);
+		myStage.show();
 	}
 
 	@Override
@@ -128,8 +135,13 @@ public class GameManager implements IGameManager {
 	@Override
 	public void updateGame() {
 		myGameEngine.update();
-
+		
 	}
+	
+	public void pause() {
+		
+	}
+	
 
 	@Override
 	public void switchLevel(ConditionType type) {

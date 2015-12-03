@@ -24,9 +24,8 @@ public class SceneManager {
 	private Stage myStage;
 	
 	private final double FRAME_LENGTH = 1 / 60.0;
-	private Scene gameScene;
 	private GameManager myGameManager;
-	private AuthoringScreenManager myAuthoringEnv;
+	private AuthoringScreenManager myAuthoringManager;
 	
 	public SceneManager(Stage stage) {
 		// Windows 10 - Bug Fix for JavaFX
@@ -64,7 +63,7 @@ public class SceneManager {
 	}
 	
 	public void launchAuthoringMenuFromAuthoring() {
-		myAuthoringEnv.minimize();
+		myAuthoringManager.minimize();
 		launchAuthoringMenu();
 	}
 	
@@ -73,41 +72,33 @@ public class SceneManager {
 		launchFirstMenu();
 	}
 	
+	public void launchFirstMenuFromEngine() {
+		launchFirstMenu();
+	}
+	
 	public void launchNewEditor() {
 		myStage.hide();
-		myAuthoringEnv = new AuthoringScreenManager(e -> launchFirstMenuFromAuthoring());
+		myAuthoringManager = new AuthoringScreenManager(e -> launchFirstMenu());
 	}
 	
 	public void launchLoadEditor() {
 		myStage.hide();
 		// TODO load from XML here or within GameManager?
-		myAuthoringEnv = new AuthoringScreenManager(e -> launchFirstMenuFromAuthoring());
+		myAuthoringManager = new AuthoringScreenManager(e -> launchFirstMenu());
 	}
 	
 	public void launchNewEngine() {
 		GameData data = makeEmptyData();
-		myGameManager = new GameManager(GAME_SIZE, data);
-		myGameManager.setManager(this);
-		gameScene = new Scene(myGameManager.getGameView());
-		myGameManager.initializeAnimation(FRAME_LENGTH);
-		gameScene.setOnKeyPressed(e -> myGameManager.receiveKeyPressed(e.getCode()));
-		gameScene.setOnKeyReleased(e -> myGameManager.receiveKeyReleased(e.getCode()));
-		myStage.setScene(gameScene);
+		myGameManager = new GameManager(e -> launchFirstMenu(), GAME_SIZE, data, FRAME_LENGTH);
+		myGameManager.stageInit();
+		myStage.hide();
 	}
 	
 	public void launchLoadEngine() {
 		// TODO modify to do direct load instead of launch
 		
 		// TODO load from XML here or within GameManager?
-		// DO IT
-		GameData data = makeEmptyData();
-		myGameManager = new GameManager(GAME_SIZE, data);
-		myGameManager.setManager(this);
-		gameScene = new Scene(myGameManager.getGameView(), GAME_SIZE, GAME_SIZE);
-		myGameManager.initializeAnimation(FRAME_LENGTH);
-		gameScene.setOnKeyPressed(e -> myGameManager.receiveKeyPressed(e.getCode()));
-		gameScene.setOnKeyReleased(e -> myGameManager.receiveKeyReleased(e.getCode()));
-		myStage.setScene(gameScene);
+		
 	}
 	
 	private GameData makeEmptyData() {
@@ -124,6 +115,5 @@ public class SceneManager {
 	public void launchUnpauseEngine() {
 		// should be slightly changed from loadEngine
 		// TODO call myGameManager.unpause() or something like that
-		myStage.setScene(gameScene);
 	}
 }
