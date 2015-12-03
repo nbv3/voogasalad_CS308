@@ -16,6 +16,7 @@ import com.syntacticsugar.vooga.xml.XMLHandler;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
 
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 
 public class ObjectLibrary {
@@ -71,9 +72,12 @@ public class ObjectLibrary {
 		return myView;
 	}
 	
+	
 	private VBox buildTitledPane(IconPane pane, GameObjectType type){
-		return GUIFactory.buildTitledPane(pane.getIconPane(),
-				ResourceManager.getString(type.toString()) + " Objects Available");
+		Collection<Node> buttonList = new ArrayList<Node>();
+		buttonList.add(GUIFactory.buildButton("Remove Object", e->{}, 150.0, 30.0)); 
+		return GUIFactory.buildTitledPaneWithButtons(pane.getIconPane(),
+				(ResourceManager.getString(type.toString()) + " Objects Available"), buttonList);
 	}
 
 	public IRefresher getRefreshMethod() {
