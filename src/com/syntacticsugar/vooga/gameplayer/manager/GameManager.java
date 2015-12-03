@@ -45,14 +45,12 @@ public class GameManager implements IGameManager {
 	private Timeline myGameTimeline;
 	private GameEngine myGameEngine;
 
-	// is SceneManager injection necessary?
 	private IEventManager myEventManager;
 	
 	private ViewController myViewController;
 	
 	// engine stage
 	private Stage myStage;
-	
 	private double frameLength;
 	
 	private List<EventListener> myListeners; // Will go in game players
@@ -116,9 +114,10 @@ public class GameManager implements IGameManager {
 		myViewController.initializeView(currentLevel);
 		myGameEngine = new GameEngine(currentLevel, myViewController, this);
 
+		stageInit();
 	}
 
-	public void stageInit() {
+	private void stageInit() {
 		Scene gameScene = new Scene(getGameView());
 		initializeAnimation(frameLength);
 		gameScene.setOnKeyPressed(e -> receiveKeyPressed(e.getCode()));
