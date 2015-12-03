@@ -62,7 +62,7 @@ public class AuthoringScreenManager implements Observer {
 
 		setUpObserver();
 		myWindowGrid.add(myLevelEditor.getTabPane(), 0, 0, 1, 2);
-		myWindowGrid.add(myObjectLibraryManager.getTabPane(), 1, 0, 1 ,1);
+//		myWindowGrid.add(myObjectLibraryManager.getTabPane(), 1, 0, 1 ,1);
 		myWindowGrid.add(myObjectEditor.getView(), 1, 1, 1, 1);
 		myWindow.setCenter(myWindowGrid);
 

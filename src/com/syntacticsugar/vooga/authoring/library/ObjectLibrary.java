@@ -47,7 +47,7 @@ public class ObjectLibrary {
 	}
 	
 	private Collection<String> makeDataAndReturnPathsFromXMLs(File XMLFolder){
-		makeObjectDataFromXMLs(XMLFolder);
+//		 makeObjectDataFromXMLs(XMLFolder);
 		return makeImagePathsFromObjectData();
 	}
 	
