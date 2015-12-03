@@ -10,8 +10,12 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 
 /*
- * Basic Documentation:
+ * NOTES:
+ * 
  * This class implements the Drag and Drop function that handles copying of string data to the clipboard.
+ * 		createDragClipBoards() needs to be implemented for: the Icon that is being dragged.
+ * 		dragOverHandler(), dragEnteredHandler(), dragExitedHandler() must be implemented for: the Icon that is receiving the dragged item.
+ * 		undoDragOverState(), setDragOverState() implements UI features to show effects of an object being dragged.
  * The dragDropped event method must be implemented individually.
  */
 
@@ -58,30 +62,6 @@ public class DragDropManager {
 		if (event.getGestureSource() != icon && event.getDragboard().hasString()) {
 			undoDragOverState(icon);
 		}
-	}
-
-	public static void dragDropHandler(MapEditor editor, Icon icon, DragEvent event) {
-		/* data dropped */
-		/* if there is a string data on dragboard, read it and use it */
-		Dragboard db = event.getDragboard();
-		boolean success = false;
-		if (db.hasString()) {
-			icon.setOpacity(1);
-			// May need to pass in both the image file and the tile
-			// implementation
-
-			// this.setImplementation();
-			editor.setImagePath(db.getString());
-			icon.setImage(new Image(editor.getClass().getClassLoader().getResourceAsStream(db.getString())));
-			success = true;
-		}
-		/*
-		 * let the source know whether the string was successfully transferred
-		 * and used
-		 */
-		event.setDropCompleted(success);
-
-		event.consume();
 	}
 
 	public static void undoDragOverState(Icon icon) {
