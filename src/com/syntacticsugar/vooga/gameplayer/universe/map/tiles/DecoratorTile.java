@@ -1,13 +1,13 @@
 package com.syntacticsugar.vooga.gameplayer.universe.map.tiles;
 
 import javafx.geometry.Point2D;
-import xml.data.TileData;
-import xml.data.TileImplementation;
 
 import com.syntacticsugar.vooga.gameplayer.objects.AbstractViewableObject;
 import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.implementations.AbstractTile;
 import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.implementations.PathTile;
 import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.implementations.SceneryTile;
+import com.syntacticsugar.vooga.xml.data.TileData;
+import com.syntacticsugar.vooga.xml.data.TileImplementation;
 
 public class DecoratorTile extends AbstractViewableObject implements IGameTile {
 

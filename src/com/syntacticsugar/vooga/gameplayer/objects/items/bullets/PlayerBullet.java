@@ -4,6 +4,7 @@ import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.control.actions.movement.Direction;
 import com.syntacticsugar.vooga.gameplayer.attribute.movement.ConstantMovementAttribute;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.HealthChangeEvent;
+import com.syntacticsugar.vooga.gameplayer.event.implementations.ObjectDespawnEvent;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObject;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.gameplayer.objects.IBoundingBox;
@@ -31,14 +32,16 @@ public class PlayerBullet extends GameObject {
 	public void updateSelf(IGameUniverse universe) {
 		super.updateSelf(universe);
 		if (despawnFlag) {
-			universe.addToGraveYard(this);
+			ObjectDespawnEvent event = new ObjectDespawnEvent(this);
+			universe.postEvent(event);
 		}
 	};
 	
 	@Override
 	public void onCollision(IGameObject obj) {
 		super.onCollision(obj);
-		if (obj.getType().equals(GameObjectType.ENEMY)) {
+		System.out.println(obj.getType());
+		if (obj.getType().equals(GameObjectType.ENEMY) || obj.getType().equals(GameObjectType.TOWER)) {
 			setDespawnFlag(true);
 		}
 	}

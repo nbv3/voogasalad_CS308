@@ -1,11 +1,12 @@
-import com.syntacticsugar.vooga.authoring.objecteditor.ObjectEditor;
-import com.syntacticsugar.vooga.menu.SceneManager;
+import com.syntacticsugar.vooga.authoring.objectediting.sizing.ObjectResizer;
 
-import authoring.objectediting.sizing.ObjectResizer;
+import com.syntacticsugar.vooga.menu.SceneManager;
+import com.syntacticsugar.vooga.xml.data.ObjectData;
+
 import javafx.application.Application;
 import javafx.stage.Stage;
 import junit.AllTests;
-import xml.data.ObjectData;
+//import xml.data.ObjectData;
 
 public class Main extends Application {
 
@@ -18,10 +19,10 @@ public class Main extends Application {
 		//new AllTests();
 		//new ObjectEditor();
 		new SceneManager(stage);
-//		ObjectData data = new ObjectData();
-//		data.setImagePath("gray.png");
-//		String tileImagePath = "scenery_grass_2.png";
-//		new ObjectResizer(data, tileImagePath);
+		/*ObjectData data = new ObjectData();
+		data.setImagePath("gray.png");
+		String tileImagePath = "scenery_grass_2.png";
+		new ObjectResizer(data, tileImagePath);*/
 	}
 }
 	

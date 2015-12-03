@@ -1,36 +1,35 @@
 package com.syntacticsugar.vooga.gameplayer.view;
 
 import java.util.Collection;
+import java.util.Observer;
 
-import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
+import com.syntacticsugar.vooga.gameplayer.view.implementation.InformationBox;
 import com.syntacticsugar.vooga.gameplayer.view.implementation.TileView;
+import com.syntacticsugar.vooga.xml.data.ObjectData;
 
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-import xml.data.ObjectData;
 
 public class GameView extends BorderPane {
 	
 	private double mySize;
 	private Pane gameField;
 	private InformationBox myInfoBox; 
-	private TowerBox myTowerBox;
+	private TowerControlSection myTowerBox;
 	
 	public GameView(double size){
+		this.getStylesheets().add("/com/syntacticsugar/vooga/gameplayer/css/game.css");
+		this.setFocusTraversable(true);
 		mySize = size;
 		gameField = new Pane();
 		this.setCenter(gameField);
-		myTowerBox = new TowerBox();
+		myTowerBox = new TowerControlSection();
 		this.setRight(myTowerBox.getContent());
 		myInfoBox = new InformationBox();
 		this.setBottom(myInfoBox);
 	}
-	
-	/**
-	 * TODO: talk to backend to figure out this scaling situation
-	 */
-	
+
 	public double getScalingFactor(){
 		return (1.0/1000)*mySize;
 	}
@@ -51,6 +50,10 @@ public class GameView extends BorderPane {
 	public void initializeAvailableTowers(Collection<ObjectData> availableTowers, IGameUniverse universe) {
 		myTowerBox.initialize(availableTowers, universe);
 		
+	}
+
+	public Observer getScoreBox() {
+		return myInfoBox;
 	}
 
 }

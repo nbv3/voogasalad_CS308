@@ -6,6 +6,7 @@ import java.util.Collection;
 import com.syntacticsugar.vooga.gameplayer.event.GameEventListener;
 import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.ObjectSpawnEvent;
+import com.syntacticsugar.vooga.gameplayer.manager.IEventManager;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.view.IViewAdder;
@@ -15,9 +16,10 @@ public class SpawnYard implements IYard<IViewAdder>, GameEventListener{
 	private Collection<IGameObject> objectsInYard;
 	private IObjectAdder myUniverse;
 
-	public SpawnYard(IObjectAdder universe) {
+	public SpawnYard(IObjectAdder universe, IEventManager manager) {
 		objectsInYard = new ArrayList<IGameObject>();
 		myUniverse = universe;
+		manager.registerListener(this);
 	}
 
 	@Override

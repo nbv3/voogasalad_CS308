@@ -1,12 +1,12 @@
 package com.syntacticsugar.vooga.gameplayer.universe;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Observer;
 
 import com.syntacticsugar.vooga.gameplayer.attribute.HealthAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
@@ -15,28 +15,29 @@ import com.syntacticsugar.vooga.gameplayer.conditions.PlayerDeathCondition;
 import com.syntacticsugar.vooga.gameplayer.event.ICollisionEvent;
 import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.HealthChangeEvent;
+import com.syntacticsugar.vooga.gameplayer.manager.IEventManager;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObject;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.universe.map.GameMap;
 import com.syntacticsugar.vooga.gameplayer.universe.map.IGameMap;
-import com.syntacticsugar.vooga.gameplayer.view.IViewAdder;
-import com.syntacticsugar.vooga.gameplayer.view.IViewRemover;
+import com.syntacticsugar.vooga.gameplayer.universe.score.IScore;
+import com.syntacticsugar.vooga.gameplayer.universe.score.Score;
 import com.syntacticsugar.vooga.gameplayer.universe.spawner.ISpawner;
 import com.syntacticsugar.vooga.gameplayer.universe.spawner.Spawner;
+import com.syntacticsugar.vooga.gameplayer.view.IViewAdder;
+import com.syntacticsugar.vooga.gameplayer.view.IViewRemover;
+import com.syntacticsugar.vooga.xml.XMLHandler;
+import com.syntacticsugar.vooga.xml.data.GlobalSettings;
+import com.syntacticsugar.vooga.xml.data.LevelSettings;
+import com.syntacticsugar.vooga.xml.data.MapData;
+import com.syntacticsugar.vooga.xml.data.ObjectData;
+import com.syntacticsugar.vooga.xml.data.SpawnerData;
+import com.syntacticsugar.vooga.xml.data.TowerData;
+import com.syntacticsugar.vooga.xml.data.UniverseData;
 
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.FileChooser;
-import javafx.stage.FileChooser.ExtensionFilter;
-import javafx.stage.Stage;
-import xml.MapDataXML;
-import xml.ObjectDataXML;
-import xml.data.MapData;
-import xml.data.ObjectData;
-import xml.data.SpawnerData;
-import xml.data.TowerData;
-import xml.data.UniverseData;
 
 public class GameUniverse implements IGameUniverse {
 
@@ -48,33 +49,33 @@ public class GameUniverse implements IGameUniverse {
 	private Collection<IGameObject> myTowers;
 	private ISpawner mySpawner;
 	private IGameMap myGameMap;
+	private IScore myScore;
+	
 	private Collection<KeyCode> myCurrentInput;
 	
-	private IEventPoster myPoster;
+	private IEventManager myPoster;
 
-	public GameUniverse(UniverseData data) {
+	public GameUniverse(UniverseData data, GlobalSettings settings, IEventManager manager) {
+		
+		myPoster = manager;
+		myScore = new Score(manager, data.getSettings());
 		
 		myPlayers = new ArrayList<IGameObject>();
 		myGameObjects = new ArrayList<IGameObject>();
-//		MapDataXML xml = new MapDataXML();
-//		FileChooser fileChooser = new FileChooser();
-//		fileChooser.getExtensionFilters().add(new ExtensionFilter("XML Files", "*.xml"));
-//		fileChooser.setTitle("Choose Map XML");
-//		File selectedFile = fileChooser.showOpenDialog(new Stage());
-////		if (selectedFile != null) {
-////			data = xml.loadFromFile(selectedFile);
-////		}
 		myGameMap = new GameMap(data.getMap());
-		mySpawner = new Spawner(data.getSpawns().getWaves(), this);
+		mySpawner = new Spawner(data.getSpawns().getWaves(), this, settings.getSpawnRate());
+		myTowers = new ArrayList<>();
 		Collection<ObjectData> towerdata = data.getTowers().getTowers();
 		for (ObjectData d: towerdata) {
+			System.out.println(d);
 			myTowers.add(new GameObject(d));
 		}
-		myGraveYard = new GraveYard(this);
-		mySpawnYard = new SpawnYard(this);
+		myGraveYard = new GraveYard(this, manager);
+		mySpawnYard = new SpawnYard(this, manager);
+		XMLHandler<MapData> xml = new XMLHandler<>();
+		myCurrentInput = new ArrayList<KeyCode>();
 		myConditions = new ArrayList<IGameCondition>();
 		myConditions.add(new PlayerDeathCondition());
-		myCurrentInput = new ArrayList<KeyCode>();
 		myTowers = new ArrayList<IGameObject>();
 		testTower();
 	}
@@ -89,7 +90,7 @@ public class GameUniverse implements IGameUniverse {
 		Map<GameObjectType, Collection<ICollisionEvent>> collisions = new HashMap<GameObjectType, Collection<ICollisionEvent>>();
 		Collection<ICollisionEvent> towerEvents = new ArrayList<ICollisionEvent>();
 		towerEvents.add(new HealthChangeEvent(-10));
-		towerData.setType(GameObjectType.TOWER);
+		towerData.setType(GameObjectType.ENEMY);
 		towerData.setImagePath(imgPath);
 		towerData.setAttributes(towerAttributes);
 		towerData.setCollisionMap(collisions);
@@ -225,12 +226,13 @@ public class GameUniverse implements IGameUniverse {
 	}
 
 	@Override
-	public void saveGame() {
+	public UniverseData saveGame() {
 		SpawnerData spawn = mySpawner.saveGame();
 		TowerData towers = saveTowers();
 		MapData map = new MapData(myGameMap);
-		UniverseData data = new UniverseData(spawn, towers, map);
-		
+		LevelSettings settings = new LevelSettings(myScore.getScoreThreshold());
+		UniverseData data = new UniverseData(spawn, towers, map, settings);
+		return data;
 	}
 	
 	private TowerData saveTowers() {
@@ -248,5 +250,15 @@ public class GameUniverse implements IGameUniverse {
 			towerData.add(new ObjectData(tower));
 		}
 		return towerData;
+	}
+
+	@Override
+	public IScore getScore() {
+		return myScore;
+	}
+	
+	@Override
+	public void observeScore(Observer observer){
+		myScore.addObserver(observer);
 	}
 }

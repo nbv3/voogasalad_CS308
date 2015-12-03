@@ -1,8 +1,7 @@
 package com.syntacticsugar.vooga.gameplayer.universe.spawner;
 
 import com.syntacticsugar.vooga.gameplayer.event.GameEventListener;
-
-import xml.data.SpawnerData;
+import com.syntacticsugar.vooga.xml.data.SpawnerData;
 
 public interface ISpawner extends GameEventListener {
 	

@@ -1,8 +1,7 @@
 package com.syntacticsugar.vooga.gameplayer.game;
 
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
-
-import xml.data.UniverseData;
+import com.syntacticsugar.vooga.xml.data.UniverseData;
 
 public interface IGame {
 	

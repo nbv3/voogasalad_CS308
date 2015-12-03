@@ -9,6 +9,7 @@ import java.util.Map;
 
 import com.syntacticsugar.vooga.gameplayer.attribute.HealthAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
+import com.syntacticsugar.vooga.gameplayer.attribute.ScoreAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.WeaponAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.movement.MovementControlAttribute;
 import com.syntacticsugar.vooga.gameplayer.conditions.ConditionType;
@@ -16,23 +17,29 @@ import com.syntacticsugar.vooga.gameplayer.engine.GameEngine;
 import com.syntacticsugar.vooga.gameplayer.event.ICollisionEvent;
 import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.HealthChangeEvent;
+import com.syntacticsugar.vooga.gameplayer.event.implementations.LevelChangeEvent;
 import com.syntacticsugar.vooga.gameplayer.game.Game;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObject;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.gameplayer.view.ViewController;
-import com.syntacticsugar.vooga.menu.SceneManager;
+import com.syntacticsugar.vooga.xml.data.GameData;
+import com.syntacticsugar.vooga.xml.data.ObjectData;
+import com.syntacticsugar.vooga.xml.data.UniverseData;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.event.EventHandler;
+import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import javafx.util.Duration;
-import xml.data.GameData;
-import xml.data.ObjectData;
 
-public class GameManager implements IGameManager {
+public class GameManager implements IGameManager{
 
 	private Game myGame;
 	private IGameUniverse currentLevel;
@@ -41,16 +48,24 @@ public class GameManager implements IGameManager {
 	private Timeline myGameTimeline;
 	private GameEngine myGameEngine;
 
-	// is SceneManager injection necessary?
-	private SceneManager myManager;
+	private IEventManager myEventManager;
 	
-	ViewController myViewController;
+	private ViewController myViewController;
+	
+	// engine stage
+	private Stage myStage;
+	private double frameLength;
 	
 	private List<EventListener> myListeners; // Will go in game players
 
-	public GameManager(double gameSize, GameData data) {
+	public GameManager(EventHandler<WindowEvent> onClose, double gameSize, GameData data, double frameRate) {
+		this.frameLength = frameRate;
+		myStage = new Stage();
+		myStage.setOnCloseRequest(onClose);
 
-		myGame = new Game(data);
+		myEventManager = new EventManager();
+
+		myGame = new Game(data, myEventManager);
 		currentLevel = myGame.getLevel(1);
 		// myConditions = new ArrayList<IGameCondition>();
 		// myConditions.add(new PlayerDeathCondition());
@@ -67,7 +82,7 @@ public class GameManager implements IGameManager {
 		List<IAttribute> attributes = new ArrayList<IAttribute>();
 		attributes.add(new HealthAttribute(100));
 		attributes.add(new MovementControlAttribute(3));
-		attributes.add(new WeaponAttribute(missilePath, 10, KeyCode.SPACE));
+		attributes.add(new WeaponAttribute(missilePath, 100, KeyCode.SPACE));
 		playerData.setType(GameObjectType.PLAYER);
 		playerData.setSpawnPoint(0, 0);
 		playerData.setWidth(50);
@@ -78,6 +93,7 @@ public class GameManager implements IGameManager {
 		ObjectData enemyData = new ObjectData();
 		Collection<IAttribute> enemyAttributes = new ArrayList<IAttribute>();
 		enemyAttributes.add(new HealthAttribute(30));
+		enemyAttributes.add(new ScoreAttribute(50));
 //		enemyAttributes.add(new AIMovementAttribute(3));
 		Map<GameObjectType, Collection<ICollisionEvent>> collisions = new HashMap<GameObjectType, Collection<ICollisionEvent>>();
 		Collection<ICollisionEvent> enemyEvents = new ArrayList<ICollisionEvent>();
@@ -97,24 +113,24 @@ public class GameManager implements IGameManager {
 		currentLevel.addPlayer(player);
 		currentLevel.addGameObject(player);
 		currentLevel.addGameObject(enemy);
-		myViewController.addViewObject(player);
-		myViewController.addViewObject(enemy);
 
 		myViewController.initializeView(currentLevel);
 		myGameEngine = new GameEngine(currentLevel, myViewController, this);
 
+		stageInit();
 	}
 
-	public void setManager(SceneManager manager) {
-		myManager = manager;
-	}
-
-	public void pause() {
-		// call myManager.initEnginePauseMenu() which closes the scene and opens
-		// the menu scene
-		myManager.launchEnginePauseMenu();
-
-		myGameTimeline.pause();
+	private void stageInit() {
+		Scene gameScene = new Scene(getGameView());
+		initializeAnimation(frameLength);
+		gameScene.addEventFilter(KeyEvent.KEY_PRESSED, e -> receiveKeyPressed(e.getCode()));
+		gameScene.addEventFilter(KeyEvent.KEY_RELEASED, e -> receiveKeyReleased(e.getCode()));
+//		gameScene.addEventFilter(KeyEvent.KEY_PRESSED, e -> System.out.println(e.getCode()));
+//		gameScene.addEventFilter(KeyEvent.KEY_RELEASED, e -> System.out.println(e.getCode()));
+		gameScene.setOnKeyPressed(e -> receiveKeyPressed(e.getCode()));
+		gameScene.setOnKeyReleased(e -> receiveKeyReleased(e.getCode()));
+		myStage.setScene(gameScene);
+		myStage.show();
 	}
 
 	@Override
@@ -125,8 +141,13 @@ public class GameManager implements IGameManager {
 	@Override
 	public void updateGame() {
 		myGameEngine.update();
-
+		
 	}
+	
+	public void pause() {
+		
+	}
+	
 
 	@Override
 	public void switchLevel(ConditionType type) {
@@ -147,7 +168,11 @@ public class GameManager implements IGameManager {
 			} else {
 				myGameTimeline.pause();
 			}
-		} else {
+		} 
+		else if (code.equals(KeyCode.S)) {
+			saveGame();
+		}
+		else {
 			myGameEngine.receiveKeyPressed(code);
 		}
 	}
@@ -174,9 +199,19 @@ public class GameManager implements IGameManager {
 	}
 
 	@Override
-	public void postEvent(IGameEvent event) {
-		// TODO Auto-generated method stub
-		
+	public void onEvent(IGameEvent e) {
+		try {
+			LevelChangeEvent event = (LevelChangeEvent) e;
+			myGame.nextLevel();
+		}
+		catch (ClassCastException ex) {
+			
+		}
+	}
+	
+	private void saveGame() {
+		UniverseData data = currentLevel.saveGame();
+		myGame.saveGame(data);
 	}
 
 }
