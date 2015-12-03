@@ -86,14 +86,12 @@ public class EnemyQueuePane {
 	public void removeObjectFromQueue() {
 		if (selectedItem != null) {
 			 durationOfRemoval = 150;
-		     FadeTransitionWizard.fadeOut(selectedItem,
-		    		 					   durationOfRemoval,
-		    		 					   1,0,1,
-		    		 					   toExecuteOnFinished -> {
-		    		 						   	myQueue.remove(myObjects.get(selectedItem));
-		    		 						   	myWave.remove(selectedItem);
-		    		 					   }
-		     );
+		     FadeTransitionWizard
+		     	.fadeOut(selectedItem, durationOfRemoval,1,0,1)
+		     	.setOnFinished(toExecuteOnFinished -> {
+			   		myQueue.remove(myObjects.get(selectedItem));
+			   		myWave.remove(selectedItem);
+			});
 		}
 	}
 

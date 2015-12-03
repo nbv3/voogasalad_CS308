@@ -80,13 +80,12 @@ public class TowerList {
 	public void removeObjectFromList() {
 		if (selectedItem != null) {
 			 durationOfRemoval = 150;
-		     FadeTransitionWizard.fadeOut((Node) selectedItem,
-		    		 					   durationOfRemoval,
-		    		 					   1,0,1,
-		    		 					   toExecuteOnFinished -> {		
-		    		 							myObservable.remove(selectedItem);
-		    		 							myMap.remove(selectedItem);
-		    		 					   });
+		     FadeTransitionWizard
+		     	.fadeOut((Node) selectedItem, durationOfRemoval,1,0,1)
+		     	.setOnFinished(toExecuteOnFinished -> {
+		     		myObservable.remove(selectedItem);
+					myMap.remove(selectedItem);
+			});
 		}
 	}
 
