@@ -12,6 +12,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
+import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TabPane.TabClosingPolicy;
@@ -47,6 +48,17 @@ public class EnemyQueueTabManager {
 		myTabPane.getTabs().add(newWaveTab);
 		myTabPane.getSelectionModel().select(newWaveTab);
 
+	}
+
+	public void clearWave() {
+		ListView<VBox> wave = (ListView<VBox>) myTabPane.getSelectionModel().getSelectedItem().getContent();
+		wave.getItems().clear();
+	}
+	
+	public void removeSelected() {
+		int index = ((ListView<VBox>) myTabPane.getSelectionModel().getSelectedItem().getContent()).getSelectionModel().getSelectedIndex();
+		ListView<VBox> wave = (ListView<VBox>) myTabPane.getSelectionModel().getSelectedItem().getContent();
+		wave.getItems().remove(index);
 	}
 
 	private void updateLevelNumbers() {
