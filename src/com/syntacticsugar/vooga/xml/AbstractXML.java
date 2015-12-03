@@ -23,7 +23,7 @@ public abstract class AbstractXML<T> implements IXML<T> {
 	
 	@Override
 	public abstract T loadFromFile(File f);
-	
+		
 	protected String fileToString(File f) {
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(f));

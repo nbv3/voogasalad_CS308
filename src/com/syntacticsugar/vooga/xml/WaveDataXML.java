@@ -13,7 +13,7 @@ public class WaveDataXML extends AbstractXML<WaveData> {
 			String xml = xstream.toXML(gmd);
 			return xml;
 		} catch (Exception e) {
-			System.out.println("GameMapData XML Write Error");
+			System.out.println("Wave XML Write Error");
 			return "";
 		}
 	}
@@ -25,7 +25,7 @@ public class WaveDataXML extends AbstractXML<WaveData> {
 			WaveData gmd = (WaveData) xstream.fromXML(xml);
 			return gmd;
 		} catch (Exception e) {
-			System.out.println("GameMapData XML Read Error");
+			System.out.println("Wave XML Read Error");
 			return null;
 		}
 	}

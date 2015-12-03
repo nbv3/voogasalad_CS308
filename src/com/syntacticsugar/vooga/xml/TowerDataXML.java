@@ -13,7 +13,7 @@ public class TowerDataXML extends AbstractXML<TowerData> {
 			String xml = xstream.toXML(gmd);
 			return xml;
 		} catch (Exception e) {
-			System.out.println("GameMapData XML Write Error");
+			System.out.println("TowerData XML Write Error");
 			return "";
 		}
 	}
@@ -25,7 +25,7 @@ public class TowerDataXML extends AbstractXML<TowerData> {
 			TowerData gmd = (TowerData) xstream.fromXML(xml);
 			return gmd;
 		} catch (Exception e) {
-			System.out.println("GameMapData XML Read Error");
+			System.out.println("TowerData XML Read Error");
 			return null;
 		}
 	}

@@ -13,7 +13,7 @@ public class UniverseDataXML extends AbstractXML<UniverseData> {
 			String xml = xstream.toXML(gmd);
 			return xml;
 		} catch (Exception e) {
-			System.out.println("GameMapData XML Write Error");
+			System.out.println("UniverseData XML Write Error");
 			return "";
 		}
 	}
@@ -25,7 +25,7 @@ public class UniverseDataXML extends AbstractXML<UniverseData> {
 			UniverseData gmd = (UniverseData) xstream.fromXML(xml);
 			return gmd;
 		} catch (Exception e) {
-			System.out.println("GameMapData XML Read Error");
+			System.out.println("UniverseData XML Read Error");
 			return null;
 		}
 	}

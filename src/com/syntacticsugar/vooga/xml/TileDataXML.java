@@ -13,7 +13,7 @@ public class TileDataXML extends AbstractXML<TileData> {
 			String xml = xstream.toXML(gmd);
 			return xml;
 		} catch (Exception e) {
-			System.out.println("GameMapData XML Write Error");
+			System.out.println("TileData XML Write Error");
 			return "";
 		}
 	}
@@ -25,7 +25,7 @@ public class TileDataXML extends AbstractXML<TileData> {
 			TileData gmd = (TileData) xstream.fromXML(xml);
 			return gmd;
 		} catch (Exception e) {
-			System.out.println("GameMapData XML Read Error");
+			System.out.println("TileData XML Read Error");
 			return null;
 		}
 	}
