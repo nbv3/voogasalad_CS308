@@ -26,7 +26,7 @@ public class IconPane {
 	private final ObjectProperty<Icon> mySelectedIcon = new SimpleObjectProperty<>();
 	private final double GLOW_PERCENTAGE = 0.75;
 	private final double INSET_VALUE = 6;
-	private final int NUM_COLS = 3;
+	private final int NUM_COLS = 2;
 
 	public IconPane() {
 		mySelectedIcon.addListener((o, s1, s2) -> setSelectedEffect(s1, s2));
@@ -34,6 +34,7 @@ public class IconPane {
 		myScrollPane = new ScrollPane();
 		myScrollPane.setVbarPolicy(ScrollBarPolicy.AS_NEEDED);
 		myScrollPane.setHbarPolicy(ScrollBarPolicy.AS_NEEDED);
+		myScrollPane.setFitToWidth(true);
 		initializeGridPane();
 		myScrollPane.setPadding(new Insets(INSET_VALUE));
 	}
@@ -43,8 +44,6 @@ public class IconPane {
 		myIconPane.setPrefColumns(NUM_COLS);
 		myIconPane.setHgap(INSET_VALUE);
 		myIconPane.setVgap(INSET_VALUE);
-		myIconPane.setTileAlignment(Pos.CENTER);
-		myIconPane.maxWidthProperty().bind(myScrollPane.prefViewportWidthProperty());
 		myScrollPane.setContent(myIconPane);
 	}
 	
@@ -67,6 +66,8 @@ public class IconPane {
 		Collection<String> imagePaths = fileConverter.getImages(directory);
 		for (String path : imagePaths) {
 			Icon icon = new Icon(path);
+//			icon.getWidthProperty().set(myIconPane.getTileWidth());
+//			icon.getHeightProperty().set(myIconPane.getTileHeight());
 			icon.setOnDragDetected((MouseEvent e) -> DragDropManager.createDragClipBoards(icon, e));
 			icon.setOnMouseClicked(e -> setSelectedIcon(icon));
 			myIconPane.getChildren().add(icon);

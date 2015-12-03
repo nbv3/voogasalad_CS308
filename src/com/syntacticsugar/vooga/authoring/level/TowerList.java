@@ -39,7 +39,7 @@ public class TowerList {
 
 	// test method
 	private void testCreatedObjectDataList() {
-		for (int i = 1; i < 11; i++) {
+		for (int i = 1; i < 3; i++) {
 			ObjectData objToAdd = new ObjectData();
 			objToAdd.setImagePath(String.format(String.format("tower_%d.png", i)));
 			objToAdd.setType(GameObjectType.TOWER);
@@ -63,6 +63,12 @@ public class TowerList {
 		myMap.put(newTower, data);
 		Tooltip.install(newTower, new QueueTooltip(myMap.get(newTower)));
 		myObservable.add(newTower);
+	}
+	
+	//method to use when back end needs to retrieve list of tower object data associated
+	//with a level
+	public Collection<ObjectData> getObjectDataList() {
+		return myMap.values();
 	}
 
 	public Node createQueueBoxFromObjData(ObjectData obj) {
