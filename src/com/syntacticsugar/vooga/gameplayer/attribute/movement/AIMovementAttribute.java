@@ -14,7 +14,7 @@ public class AIMovementAttribute extends AbstractMovementAttribute {
 
 	private Point myNextTile;
 	boolean reachedNext;
-	
+
 	public AIMovementAttribute(double speed) {
 		super(speed);
 		reachedNext = true;
@@ -23,7 +23,8 @@ public class AIMovementAttribute extends AbstractMovementAttribute {
 	@Override
 	public void updateSelf(IGameUniverse universe) {
 		if (!reachedNext) {
-			// move along line from transformed currentTile to transformed nextTile
+			// move along line from transformed currentTile to transformed
+			// nextTile
 			move(universe);
 			if (isPastNext(universe.getMap())) {
 				// transform myNextPoint to raw double coordinate
@@ -41,47 +42,27 @@ public class AIMovementAttribute extends AbstractMovementAttribute {
 			setVelocity(moveDirection);
 		}
 	}
-	
+
 	private boolean isPastNext(IGameMap map) {
-		// calculates if you are past myNextTile on the line from myCurrentTile to myNextTile
+		// calculates if you are past myNextTile on the line from myCurrentTile
+		// to myNextTile
 		Point2D centerPoint = this.getParent().getCenterPoint();
 		Point2D tileCenterPoint = map.getCoordinateFromMapIndex(myNextTile);
-		
+
 		return centerPoint.distance(tileCenterPoint) < getSpeed();
 	}
-	
-	private Boolean isInsideTile(IGameMap map) {
-		Boolean result = false;
 
-		Point2D point = getParent().getBoundingBox().getPoint();
-		Point2D tile = map.getCoordinateFromMapIndex(myNextTile);
-		Boolean xLeft = point.getX() > tile.getX();
-		Boolean xRight = point.getX() + getParent().getBoundingBox().getWidth() < tile.getX() + map.getTileSize();
-		Boolean yBot = point.getY() > tile.getY();
-		Boolean yTop = point.getY() + getParent().getBoundingBox().getHeight() < tile.getY() + map.getTileSize();
-		if (xLeft && xRight && yBot && yTop) {
-			result = true;
-		}
-		
-		
-		return result;
-	}
-	
 	private Direction getNewDirection() {
 		if (myCurrentTile.x < myNextTile.x) {
 			return Direction.RIGHT;
-		}
-		else if (myCurrentTile.x > myNextTile.x) {
+		} else if (myCurrentTile.x > myNextTile.x) {
 			return Direction.LEFT;
-		}
-		else if (myCurrentTile.y < myNextTile.y) {
+		} else if (myCurrentTile.y < myNextTile.y) {
 			return Direction.UP;
-		}
-		else if (myCurrentTile.y > myNextTile.y) {
+		} else if (myCurrentTile.y > myNextTile.y) {
 			return Direction.DOWN;
 		}
 		return Direction.STOP;
 	}
-
 
 }
