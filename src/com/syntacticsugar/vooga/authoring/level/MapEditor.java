@@ -3,7 +3,7 @@ package com.syntacticsugar.vooga.authoring.level;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.syntacticsugar.vooga.authoring.css.CSSWizard;
+
 import com.syntacticsugar.vooga.authoring.dragdrop.DragDropManager;
 import com.syntacticsugar.vooga.authoring.icons.implementations.Icon;
 import com.syntacticsugar.vooga.util.ResourceManager;

@@ -24,14 +24,15 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Orientation;
 import javafx.scene.Node;
 import javafx.scene.control.ListView;
+import javafx.scene.control.Tooltip;
 
 public class EnemyQueuePane {
-	
+
 	private ListView<Node> myQueuePane;
 	private Queue<ObjectData> myQueue;
 	private ObservableList<Node> myWave;
 	private Node selectedItem;
-	private HashMap<Node, ObjectData>  myObjects;
+	private HashMap<Node, ObjectData> myObjects;
 
 	public EnemyQueuePane() {
 		myObjects = new HashMap<Node, ObjectData>();
@@ -40,69 +41,64 @@ public class EnemyQueuePane {
 		myWave = FXCollections.observableArrayList();
 		myQueuePane.setItems(myWave);
 		myQueuePane.setOrientation(Orientation.HORIZONTAL);
-		
+
 		// test code
 		testCreatedObjectDataList();
 	}
-	
+
 	// test code
 	private void testCreatedObjectDataList() {
-		for (int i=1;i<23;i++) {
+		for (int i = 1; i < 23; i++) {
 			ObjectData objToAdd = new ObjectData();
-			objToAdd.setImagePath(String.format("enemy_monster_%d.png",i));
+			objToAdd.setImagePath(String.format("enemy_monster_%d.png", i));
 			objToAdd.setType(GameObjectType.ENEMY);
 			List<IAttribute> attributeList = new ArrayList<IAttribute>();
-			attributeList.add(new HealthAttribute(i*100));
+			attributeList.add(new HealthAttribute(i * 100));
 			objToAdd.setAttributes(attributeList);
 			Map<GameObjectType, Collection<ICollisionEvent>> eventMap = new HashMap<GameObjectType, Collection<ICollisionEvent>>();
 			List<ICollisionEvent> eventList = new ArrayList<ICollisionEvent>();
-			ICollisionEvent eventToAdd = new HealthChangeEvent(-i*10);
+			ICollisionEvent eventToAdd = new HealthChangeEvent(-i * 10);
 			eventList.add(eventToAdd);
-			eventMap.put(GameObjectType.ENEMY,eventList);
+			eventMap.put(GameObjectType.ENEMY, eventList);
 			objToAdd.setCollisionMap(eventMap);
 			addObjectToQueue(objToAdd);
 		}
 	}
 	// end test
-	
+
 	// called when drag-drop happens
 	public void addObjectToQueue(ObjectData obj) {
 		myQueue.add(obj);
 		Node temp = createQueueBoxFromObjData(obj);
-		temp.setOnMouseClicked(e->selectedItem = temp);
-		myWave.add(temp);
+		temp.setOnMouseClicked(e -> selectedItem = temp);
 		myObjects.put(temp, obj);
+		Tooltip.install(temp, new QueueTooltip(myObjects.get(temp)));
+		myWave.add(temp);
 	}
-	public void removeObjectFromQueue()
-	{
-		if(selectedItem != null)
-		{
+
+	public void removeObjectFromQueue() {
+		if (selectedItem != null) {
 			myQueue.remove(myObjects.get(selectedItem));
 			myWave.remove(selectedItem);
 		}
 	}
-	
-	public ObjectData getSelectedItem()
-	{
-		if(selectedItem != null)
-		{
+
+	public ObjectData getSelectedItem() {
+		if (selectedItem != null) {
 			return myObjects.get(selectedItem);
 		}
 		return null;
 
 	}
-	
+
 	public Node createQueueBoxFromObjData(ObjectData obj) {
 		// later will pass in ObjectData instance to QueueBox constructor
 		QueueBox queueBox = new QueueBox(obj);
-		return queueBox.getContent();	
+		return queueBox.getContent();
 	}
 
 	public ListView<Node> getContent() {
 		return myQueuePane;
 	}
-	
-
-
 
 }
