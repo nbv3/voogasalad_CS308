@@ -24,7 +24,6 @@ import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.gameplayer.view.ViewController;
-import com.syntacticsugar.vooga.menu.SceneManager;
 import com.syntacticsugar.vooga.xml.data.GameData;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
 import com.syntacticsugar.vooga.xml.data.UniverseData;

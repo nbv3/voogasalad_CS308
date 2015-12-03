@@ -69,14 +69,14 @@ public class SceneManager {
 	}
 	
 	public void launchNewEditor() {
-		myStage.hide();
 		new AuthoringScreenManager(e -> launchFirstMenu());
+		myStage.hide();
 	}
 	
 	public void launchLoadEditor() {
-		myStage.hide();
 		// TODO load from XML here or within GameManager?
 		new AuthoringScreenManager(e -> launchFirstMenu());
+		myStage.hide();
 	}
 	
 	public void launchNewEngine() {
@@ -87,6 +87,12 @@ public class SceneManager {
 	
 	public void launchLoadEngine() {
 		// TODO modify to do direct load instead of launch
+		GameData data = loadData();
+		new GameManager(e -> launchFirstMenu(), GAME_SIZE, data, FRAME_LENGTH);
+		myStage.hide();
+	}
+	
+	private GameData loadData() {
 		GameData data = null;
 		XMLHandler<GameData> xml = new XMLHandler<>();
 		FileChooser fileChooser = new FileChooser();
@@ -96,8 +102,7 @@ public class SceneManager {
 		if (selectedFile != null) {
 			data = xml.read(selectedFile);
 		}
-		new GameManager(e -> launchFirstMenu(), GAME_SIZE, data, FRAME_LENGTH);
-		myStage.hide();
+		return data;
 	}
 	
 	private GameData makeEmptyData() {
