@@ -10,21 +10,25 @@ import java.io.PrintWriter;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.StaxDriver;
 
-public abstract class AbstractXML<T> implements IXML<T> {
+public class XMLHandler<T> implements IXML<T> {
 
-	XStream xstream;
+	private XStream myXStream;
 
-	public AbstractXML () {
-		xstream = new XStream(new StaxDriver());
+	public XMLHandler () {
+		this.myXStream = new XStream(new StaxDriver());
 	}
 	
-	@Override
-	public abstract String generateXML(T o);
+	private String generateXML(T obj) {
+		try {
+			String xml = myXStream.toXML(obj);
+			return xml;
+		} catch (Exception e) {
+			System.out.println("Game XML Write Error");
+			return "";
+		}
+	}
 	
-	@Override
-	public abstract T loadFromFile(File f);
-	
-	protected String fileToString(File f) {
+	private String fileToString(File f) {
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(f));
 			String line;
@@ -45,7 +49,7 @@ public abstract class AbstractXML<T> implements IXML<T> {
 		return "";
 	}
 	
-	public void writeXMLToFile(String xml, String path) {
+	private void writeXMLToFile(String xml, String path) {
 		try {
 			PrintWriter out = new PrintWriter(path);
 			out.println(xml);
@@ -54,14 +58,22 @@ public abstract class AbstractXML<T> implements IXML<T> {
 			System.out.println("Writing to File failed");
 		}
 	}
+
+	@Override
+	public void write(T object, File f) {
+		writeXMLToFile(generateXML(object), f.getPath());
+	}
 	
-	public void writeXMLToFile(String xml, File f) {
+	@Override
+	public T read(File f) {
+		String xml = fileToString(f);
 		try {
-			PrintWriter out = new PrintWriter(f.getPath());
-			out.println(xml);
-			out.close();
-		} catch (FileNotFoundException e) {
-			System.out.println("Writing to File failed");
+			T object = (T) myXStream.fromXML(xml);
+			return object;
+		} catch (Exception e) {
+			System.out.println("Game XML Read Error");
+			return null;
 		}
 	}
+	
 }

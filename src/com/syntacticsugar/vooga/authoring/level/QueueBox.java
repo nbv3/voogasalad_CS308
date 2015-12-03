@@ -1,12 +1,9 @@
 package com.syntacticsugar.vooga.authoring.level;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import com.syntacticsugar.vooga.authoring.icons.panes.ImageIconPane;
 import com.syntacticsugar.vooga.gameplayer.attribute.HealthAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
-import com.syntacticsugar.vooga.gameplayer.objects.GameObject;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
 
 import javafx.scene.control.Label;

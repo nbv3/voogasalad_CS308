@@ -1,6 +1,6 @@
 package com.syntacticsugar.vooga.authoring.dragdrop;
 
-import com.syntacticsugar.vooga.authoring.icons.implementations.Icon;
+import com.syntacticsugar.vooga.authoring.icons.Icon;
 import com.syntacticsugar.vooga.authoring.level.MapEditor;
 
 import javafx.scene.image.Image;

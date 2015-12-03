@@ -4,7 +4,7 @@ import java.io.File;
 
 public interface IXML<T> {
 	
-	public String generateXML(T o);
+	public void write(T object, File destination);
 	
-	public T loadFromFile(File f);
+	public T read(File f);
 }

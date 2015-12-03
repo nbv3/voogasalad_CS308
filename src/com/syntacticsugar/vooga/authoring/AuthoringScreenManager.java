@@ -8,15 +8,10 @@ import com.syntacticsugar.vooga.authoring.level.LevelTabManager;
 import com.syntacticsugar.vooga.authoring.library.ObjectLibraryManager;
 import com.syntacticsugar.vooga.authoring.objectediting.ObjectEditor;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
-import com.syntacticsugar.vooga.menu.SceneManager;
-import com.syntacticsugar.vooga.xml.MapDataXML;
-import com.syntacticsugar.vooga.xml.ObjectDataXML;
+import com.syntacticsugar.vooga.xml.XMLHandler;
 import com.syntacticsugar.vooga.xml.data.MapData;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Menu;
@@ -32,7 +27,6 @@ import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import javafx.util.Duration;
 
 public class AuthoringScreenManager implements Observer{
 
@@ -149,10 +143,8 @@ public class AuthoringScreenManager implements Observer{
 				new ExtensionFilter("XML Files", "*.xml"));
 		File selectedFile = fileChooser.showOpenDialog(new Stage());
 		if (selectedFile != null) {
-			ObjectDataXML xml = new ObjectDataXML();
-			ObjectData toload = xml.loadFromFile(selectedFile);
-			System.out.println(toload);
-			System.out.println(toload.getAttributes());
+			XMLHandler<ObjectData> xml = new XMLHandler<>();
+			ObjectData toload = xml.read(selectedFile);
 			myObjectEditor.displayData(toload);
 		}
 	}
@@ -164,8 +156,8 @@ public class AuthoringScreenManager implements Observer{
 				new ExtensionFilter("XML Files", "*.xml"));
 		File selectedFile = fileChooser.showOpenDialog(new Stage());
 		if (selectedFile != null) {
-			MapDataXML xml = new MapDataXML();
-			MapData toload = xml.loadFromFile(selectedFile);
+			XMLHandler<MapData> xml = new XMLHandler<>();
+			MapData toload = xml.read(selectedFile);
 			myLevelEditor.loadMap(toload);
 		}
 	}
@@ -175,10 +167,9 @@ public class AuthoringScreenManager implements Observer{
 		fileChooser.setTitle("Save Resource File");
 		File selectedFile = fileChooser.showSaveDialog(new Stage());
 		if (selectedFile != null) {
-			MapDataXML xml = new MapDataXML();
+			XMLHandler<MapData> xml = new XMLHandler<>();
 			MapData toSave = myLevelEditor.getMapData();
-			String xmlString = xml.generateXML(toSave);
-			xml.writeXMLToFile(xmlString, selectedFile);
+			xml.write(toSave, selectedFile);
 		}
 	}
 	

@@ -1,6 +1,5 @@
 package com.syntacticsugar.vooga.gameplayer.universe;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -22,8 +21,6 @@ import com.syntacticsugar.vooga.gameplayer.universe.map.GameMap;
 import com.syntacticsugar.vooga.gameplayer.universe.map.IGameMap;
 import com.syntacticsugar.vooga.gameplayer.view.IViewAdder;
 import com.syntacticsugar.vooga.gameplayer.view.IViewRemover;
-import com.syntacticsugar.vooga.xml.MapDataXML;
-import com.syntacticsugar.vooga.xml.ObjectDataXML;
 import com.syntacticsugar.vooga.xml.data.MapData;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
 import com.syntacticsugar.vooga.xml.data.SpawnerData;
@@ -34,9 +31,6 @@ import com.syntacticsugar.vooga.gameplayer.universe.spawner.Spawner;
 
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.FileChooser;
-import javafx.stage.FileChooser.ExtensionFilter;
-import javafx.stage.Stage;
 
 public class GameUniverse implements IGameUniverse {
 

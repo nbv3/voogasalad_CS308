@@ -6,7 +6,7 @@ import java.util.List;
 
 import com.syntacticsugar.vooga.gameplayer.universe.GameUniverse;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
-import com.syntacticsugar.vooga.xml.GameDataXML;
+import com.syntacticsugar.vooga.xml.XMLHandler;
 import com.syntacticsugar.vooga.xml.data.GameData;
 import com.syntacticsugar.vooga.xml.data.UniverseData;
 
@@ -44,8 +44,8 @@ public class Game implements IGame {
 		myUniverseData.remove(myLevel - 1);
 		myUniverseData.add(myLevel - 1, d);
 		Collection<UniverseData> gameSave = (Collection<UniverseData>) myUniverseData;
-		GameDataXML xmlMake = new GameDataXML();
-		String xmldata = xmlMake.generateXML(gameSave);
+		XMLHandler<GameData> xmlMake = new XMLHandler<>();
+//		xmlMake.write(object, f);
 		//TODO: Write it to a file (look at the authoring env object save
 //		xmlMake.writeXMLToFile(xmldata, f);
 	}

@@ -3,9 +3,8 @@ package com.syntacticsugar.vooga.authoring.level;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.syntacticsugar.vooga.authoring.css.CSSWizard;
 import com.syntacticsugar.vooga.authoring.dragdrop.DragDropManager;
-import com.syntacticsugar.vooga.authoring.icons.implementations.Icon;
+import com.syntacticsugar.vooga.authoring.icons.Icon;
 import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 import com.syntacticsugar.vooga.util.gui.factory.SliderDialogFactory;
@@ -13,8 +12,6 @@ import com.syntacticsugar.vooga.xml.data.MapData;
 import com.syntacticsugar.vooga.xml.data.TileData;
 import com.syntacticsugar.vooga.xml.data.TileImplementation;
 
-import groovy.lang.Binding;
-import groovy.lang.GroovyShell;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableSet;
 import javafx.collections.SetChangeListener;
@@ -28,7 +25,6 @@ import javafx.scene.effect.InnerShadow;
 import javafx.scene.image.Image;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
-import javafx.scene.input.TransferMode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
@@ -94,6 +90,7 @@ public class MapEditor implements IMapEditor {
 	
 	private void initializeMapView(MapData mapData) {
 		myMapGrid.getChildren().clear();
+		myMapGrid = new GridPane();
 		myTileIconMap = new HashMap<>();
 		myMapGrid.setPrefSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
 		for (int i=0; i<myMapSize; i++) {
