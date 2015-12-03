@@ -1,12 +1,23 @@
 package com.syntacticsugar.vooga.menu;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.syntacticsugar.vooga.authoring.AuthoringScreenManager;
+import com.syntacticsugar.vooga.gameplayer.attribute.HealthAttribute;
+import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
+import com.syntacticsugar.vooga.gameplayer.event.ICollisionEvent;
+import com.syntacticsugar.vooga.gameplayer.event.implementations.HealthChangeEvent;
 import com.syntacticsugar.vooga.gameplayer.manager.GameManager;
+import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
+import com.syntacticsugar.vooga.xml.GameDataXML;
+import com.syntacticsugar.vooga.xml.MapDataXML;
 import com.syntacticsugar.vooga.xml.data.GameData;
 import com.syntacticsugar.vooga.xml.data.GlobalSettings;
+import com.syntacticsugar.vooga.xml.data.LevelSettings;
 import com.syntacticsugar.vooga.xml.data.MapData;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
 import com.syntacticsugar.vooga.xml.data.SpawnerData;
@@ -15,7 +26,9 @@ import com.syntacticsugar.vooga.xml.data.UniverseData;
 import com.syntacticsugar.vooga.xml.data.WaveData;
 
 import javafx.scene.Scene;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.stage.FileChooser.ExtensionFilter;
 
 public class SceneManager {
 	private final double WIDTH = 600.0;
@@ -98,9 +111,15 @@ public class SceneManager {
 	public void launchLoadEngine() {
 		// TODO modify to do direct load instead of launch
 		
-		// TODO load from XML here or within GameManager?
-		// DO IT
-		GameData data = makeEmptyData();
+		GameData data = null;
+		GameDataXML xml = new GameDataXML();
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.getExtensionFilters().add(new ExtensionFilter("XML Files", "*.xml"));
+		fileChooser.setTitle("Choose Map XML");
+		File selectedFile = fileChooser.showOpenDialog(new Stage());
+		if (selectedFile != null) {
+			data = xml.loadFromFile(selectedFile);
+		}
 		myGameManager = new GameManager(GAME_SIZE, data);
 		myGameManager.setManager(this);
 		gameScene = new Scene(myGameManager.getGameView(), GAME_SIZE, GAME_SIZE);
@@ -111,11 +130,49 @@ public class SceneManager {
 	}
 	
 	private GameData makeEmptyData() {
-		SpawnerData spawn = new SpawnerData(new ArrayList<WaveData>());
+		
+		Collection<ObjectData> odata = new ArrayList<>();
+		
+		
+		String enemyPath = "enemy_monster_1.png";
+		ObjectData enemyData = new ObjectData();
+		Collection<IAttribute> enemyAttributes = new ArrayList<IAttribute>();
+		enemyAttributes.add(new HealthAttribute(30));
+//		enemyAttributes.add(new AIMovementAttribute(3));
+		Map<GameObjectType, Collection<ICollisionEvent>> collisions = new HashMap<GameObjectType, Collection<ICollisionEvent>>();
+		Collection<ICollisionEvent> enemyEvents = new ArrayList<ICollisionEvent>();
+		enemyEvents.add(new HealthChangeEvent(-10));
+		collisions.put(GameObjectType.PLAYER, enemyEvents);
+		enemyData.setType(GameObjectType.ENEMY);
+		enemyData.setSpawnPoint(250, 150);
+		enemyData.setWidth(100);
+		enemyData.setHeight(100);
+		enemyData.setImagePath(enemyPath);
+		enemyData.setAttributes(enemyAttributes);
+		enemyData.setCollisionMap(collisions);
+		
+		ObjectData enemyData2 = new ObjectData();
+//		enemyAttributes.add(new AIMovementAttribute(3));
+		enemyData2.setType(GameObjectType.ENEMY);
+		enemyData2.setSpawnPoint(350, 150);
+		enemyData2.setWidth(100);
+		enemyData2.setHeight(100);
+		enemyData2.setImagePath(enemyPath);
+		enemyData2.setAttributes(enemyAttributes);
+		enemyData2.setCollisionMap(collisions);
+		
+		odata.add(enemyData);
+		odata.add(enemyData2);
+		WaveData wdata = new WaveData(odata);
+		Collection<WaveData> sdata = new ArrayList<>();
+		sdata.add(wdata);
+		SpawnerData spawn = new SpawnerData(sdata);
+		
 		MapData map = new MapData(10, "gray.png");
 		TowerData towers = new TowerData(new ArrayList<ObjectData>());
+		LevelSettings lSetting = new LevelSettings(50);
 		Collection<UniverseData> uni = new ArrayList<>();
-		uni.add(new UniverseData(spawn, towers, map));
+		uni.add(new UniverseData(spawn, towers, map, lSetting));
 		GlobalSettings settings = new GlobalSettings(1, 60);
 		GameData data = new GameData(uni, settings);
 		return data;
