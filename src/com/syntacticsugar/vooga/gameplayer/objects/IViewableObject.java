@@ -17,10 +17,10 @@ public interface IViewableObject {
 	public String getPath();
 	
 	/**
-	 * Return the raw centerpoint coordinate of this ViewableObject.
+	 * Return the raw coordinate of this ViewableObject.
 	 * @return
 	 */
-	public Point2D getCenterPoint();
+	public Point2D getPoint();
 
 	/**
 	 * Explicitly move this ViewableObject to the desired point.
