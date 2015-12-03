@@ -115,7 +115,7 @@ public class GameManager implements IGameManager{
 		currentLevel.addGameObject(player);
 		currentLevel.addGameObject(enemy);
 //		currentLevel.getMap().getTile(0, 2).setDestination(true);
-		currentLevel.getMap().getTile(8, 3).setDestination(true);
+		currentLevel.getMap().getTile(3, 3).setDestination(true);
 		myViewController.initializeView(currentLevel);
 		myGameEngine = new GameEngine(currentLevel, myViewController, this);
 

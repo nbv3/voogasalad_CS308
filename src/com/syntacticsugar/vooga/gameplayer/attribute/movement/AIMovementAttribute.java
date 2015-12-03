@@ -40,9 +40,15 @@ public class AIMovementAttribute extends AbstractMovementAttribute {
 			List<Point> ends = map.getDestinationPoints();
 			PathFinder pathFinder = new PathFinder(map.isWalkable(), myCurrentTile, ends);
 			myNextTile = pathFinder.getNext();
-			Direction moveDirection = getNewDirection();
-			setDirection(moveDirection);
-			setVelocity(moveDirection);
+			if (myNextTile == null) {
+				setDirection(Direction.STOP);
+				setVelocity(Direction.STOP);
+				reachedNext = true;
+			} else {
+				Direction moveDirection = getNewDirection();
+				setDirection(moveDirection);
+				setVelocity(getDirection());
+			}
 		}
 	}
 	

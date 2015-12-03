@@ -42,7 +42,7 @@ public class PathFinder {
 	public Point getNext() {
 		List<Point> shortestPath = shortestPath();
 		if (shortestPath.size()<=1) {
-			return startPoint;
+			return null;
 		}
 		return shortestPath.get(1);
 	}
