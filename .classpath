@@ -9,7 +9,5 @@
 	<classpathentry kind="lib" path="images/enemy"/>
 	<classpathentry kind="lib" path="images/player"/>
 	<classpathentry kind="lib" path="images/tower"/>
-	<classpathentry kind="lib" path="data/enemy"/>
-	<classpathentry kind="lib" path="data/tower"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

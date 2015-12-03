@@ -32,9 +32,7 @@ public class ViewController implements IViewRemover, IViewAdder{
 		return myGameView;
 	}
 
-	private int count = 0;
 	public void removeViewObject(IViewableObject obj) {
-		count ++;
 		ObjectView object = myViewMap.get(obj);
 		myGameView.getView().getChildren().remove(object.getViewPane());
 		myViewMap.remove(obj);
@@ -42,6 +40,7 @@ public class ViewController implements IViewRemover, IViewAdder{
 
 	public void initializeView(IGameUniverse universe) {
 		myGameView.initializeAvailableTowers(universe.getAvailableTowers(), universe);
+		universe.observeScore(myGameView.getScoreBox());
 		for (IGameTile tile: universe.getMap().getTiles()) {
 			addTileObject(tile);
 		}

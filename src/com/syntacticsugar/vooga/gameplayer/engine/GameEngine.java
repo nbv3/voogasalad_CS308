@@ -3,6 +3,7 @@ package com.syntacticsugar.vooga.gameplayer.engine;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.gameplayer.universe.map.IGameMap;
 import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.ITowerHolder;
+import com.syntacticsugar.vooga.gameplayer.universe.score.IScore;
 import com.syntacticsugar.vooga.gameplayer.universe.spawner.ISpawner;
 import com.syntacticsugar.vooga.gameplayer.view.ViewController;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
@@ -17,6 +18,7 @@ import java.util.Collection;
 
 import com.syntacticsugar.vooga.gameplayer.conditions.IGameCondition;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.ObjectSpawnEvent;
+import com.syntacticsugar.vooga.gameplayer.manager.IEventManager;
 import com.syntacticsugar.vooga.gameplayer.manager.ILevelSwitcher;
 import com.syntacticsugar.vooga.gameplayer.objects.IBoundingBox;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
@@ -27,6 +29,8 @@ public class GameEngine {
 	private IGameUniverse myUniverse;
 	private ViewController myView;
 	private ILevelSwitcher myManager;
+	
+	private IScore myScore;
 
 	public GameEngine(IGameUniverse universe, ViewController view, ILevelSwitcher manager) {
 		myUniverse = universe;
@@ -41,10 +45,10 @@ public class GameEngine {
 	public void update() {
 		checkCollisions();
 		updateState();
-		checkConditions();
 		processSpawner();
 		processGraveyard();
 		processSpawnyard();
+		processScore();
 		checkConditions();
 	}
 
@@ -102,6 +106,11 @@ public class GameEngine {
 	private void processSpawner() {
 		ISpawner spawner = myUniverse.getSpawner();
 		spawner.update();
+	}
+	
+	private void processScore() {
+		IScore score = myUniverse.getScore();
+		score.update();
 	}
 
 	private void processGraveyard() {

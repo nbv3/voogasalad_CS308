@@ -16,13 +16,10 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-public class TowerBox extends Observable implements Observer{
+public class TowerControlSection extends Observable implements Observer{
 	
-	private final static double CONTENT_SPACING = 20.0;
-	//private VBox myContent;
 	private VBox myContent;
 	private ScrollPane towerList;
-	private boolean selected;
 	private ObjectData currentSelection;
 	private IGameUniverse myUniverse;
 	private Collection<Icon> myTowerIcons;
@@ -31,11 +28,11 @@ public class TowerBox extends Observable implements Observer{
 	 * TODO: fixed hardcoded functions here
 	 */
 
-	public TowerBox() {
+	public TowerControlSection() {
 		//myContent = new VBox();
 		myContent = new VBox();
-		selected = false;
 		Label title = new Label("Tower Controls");
+		title.getStyleClass().add("title");
 		myContent.getChildren().add(title);
 		towerList = new ScrollPane(myContent);
 	}
@@ -53,7 +50,6 @@ public class TowerBox extends Observable implements Observer{
 			tower.setPrefHeight(100); tower.setPrefWidth(100);
 			tower.setOnMouseClicked(e -> selectedTower(tower, towerObject));
 			addTowerInfo(tower, towerObject);
-			//myContent.getChildren().add(tower);
 			myTowerIcons.add(tower);
 		}
 	}

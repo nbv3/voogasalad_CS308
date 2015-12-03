@@ -4,6 +4,7 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Map;
 
 import com.syntacticsugar.vooga.gameplayer.universe.map.IGameMap;
 import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.IGameTile;
@@ -14,9 +15,11 @@ public class MapData {
 	private int myMapSize;
 	
 	public MapData(IGameMap map) {
+		myTileData = new TileData[map.getSize()][map.getSize()];
 		for (int i = 0; i < map.getSize(); i++) {
 			for (int j = 0; j < map.getSize(); j++) {
-				IGameTile tile = map.getPathFindingMap().get(new Point(i,j));
+				Map<Point, IGameTile> pMap = map.getPathFindingMap();
+				IGameTile tile = pMap.get(new Point(i,j));
 				myTileData[i][j] = new TileData(tile);
 			}
 		}
