@@ -1,15 +1,11 @@
 package com.syntacticsugar.vooga.gameplayer.attribute.movement;
 
 import java.awt.Point;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import com.syntacticsugar.vooga.gameplayer.attribute.control.actions.movement.Direction;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.gameplayer.universe.map.IGameMap;
-import com.syntacticsugar.vooga.gameplayer.utilities.Path;
-import com.syntacticsugar.vooga.gameplayer.utilities.PathFinder;
 import com.syntacticsugar.vooga.util.pathfinder.PF;
 
 import javafx.geometry.Point2D;
