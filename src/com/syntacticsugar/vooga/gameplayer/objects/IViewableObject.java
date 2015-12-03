@@ -1,5 +1,7 @@
 package com.syntacticsugar.vooga.gameplayer.objects;
 
+import javafx.geometry.Point2D;
+
 public interface IViewableObject {
 	
 	/**
@@ -13,6 +15,12 @@ public interface IViewableObject {
 	 * @return
 	 */
 	public String getPath();
+	
+	/**
+	 * Return the raw centerpoint coordinate of this ViewableObject.
+	 * @return
+	 */
+	public Point2D getCenterPoint();
 
 	
 

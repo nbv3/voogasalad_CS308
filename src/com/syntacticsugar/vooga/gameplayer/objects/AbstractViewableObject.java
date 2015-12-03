@@ -22,6 +22,12 @@ public abstract class AbstractViewableObject implements IViewableObject{
 	public String getPath(){
 		return myPath;
 	}
+	
+	@Override
+	public Point2D getCenterPoint() {
+		Point2D topLeft = myBoundingBox.getPoint();
+		return new Point2D(topLeft.getX()+myBoundingBox.getWidth(), topLeft.getY()+myBoundingBox.getHeight());
+	}
 
 	
 }
