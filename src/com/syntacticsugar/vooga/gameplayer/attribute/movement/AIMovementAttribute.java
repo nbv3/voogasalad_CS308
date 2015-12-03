@@ -24,10 +24,11 @@ public class AIMovementAttribute extends AbstractMovementAttribute {
 	public void updateSelf(IGameUniverse universe) {
 		if (!reachedNext) {
 			// move along line from transformed currentTile to transformed nextTile
-			Direction moveDirection = getNewDirection();
-			// move(universe);
+			move(universe);
 			if (isPastNext()) {
+				// transform myNextPoint to raw double coordinate
 				// set location to transformed nextTile
+				
 				reachedNext = true;
 			}
 		} else {
@@ -36,6 +37,9 @@ public class AIMovementAttribute extends AbstractMovementAttribute {
 			List<Point> ends = map.getDestinationPoints();
 			PathFinder pathFinder = new PathFinder(map.isWalkable(), myCurrentTile, ends);
 			myNextTile = pathFinder.getNext();
+			Direction moveDirection = getNewDirection();
+			setDirection(moveDirection);
+			setVelocity(moveDirection);
 		}
 	}
 	
