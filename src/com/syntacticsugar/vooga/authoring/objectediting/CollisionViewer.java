@@ -1,5 +1,6 @@
 package com.syntacticsugar.vooga.authoring.objectediting;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -55,7 +56,7 @@ public class CollisionViewer implements IUserInterface,
     private HBox makeHBoxDisplay(GameObjectType type, Collection<ICollisionEvent> events) {
         HBox element = new HBox();
         element.setAlignment(Pos.BASELINE_CENTER);
-        Text text = new Text(ResourceManager.getString(type.toString()));
+        Text text = new Text(type.toString());
         ComboBox<String> dropdown = makeEventDropdown(events);
         element.setSpacing(100);
         element.getChildren().add(text);
@@ -80,7 +81,14 @@ public class CollisionViewer implements IUserInterface,
     @Override
     public void displayData(Map<GameObjectType, Collection<ICollisionEvent>> data) {
         myCollisions.clear();
-        myCollisions.putAll(data);
+        //myCollisions.putAll(data);
+        for (GameObjectType type: data.keySet()){
+        	Collection<ICollisionEvent> collisions = new ArrayList<ICollisionEvent>();
+        	for (ICollisionEvent collision: data.get(type)){
+        		collisions.add(collision);
+        	}
+        	myCollisions.put(type, collisions);
+        }
     }
 
     @Override

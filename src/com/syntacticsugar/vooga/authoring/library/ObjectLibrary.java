@@ -2,60 +2,58 @@ package com.syntacticsugar.vooga.authoring.library;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 
-import com.syntacticsugar.vooga.authoring.icon.Icon;
 import com.syntacticsugar.vooga.authoring.icon.IconPane;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
+import com.syntacticsugar.vooga.xml.XMLFileFilter;
+import com.syntacticsugar.vooga.xml.XMLHandler;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
 
-import javafx.scene.Node;
+import javafx.scene.control.Tab;
 import javafx.scene.layout.VBox;
 
-public class ObjectLibrary {
+public class ObjectLibrary extends Tab {
 
-	private VBox myView;
 	private GameObjectType myType;
-	protected IconPane myIconPane;
-	protected List<ObjectData> myObjectDataList;
-	protected File myXMLDirectory;
+	private IconPane myIconPane;
+	private final File myXMLDirectory;
 	
-	public ObjectLibrary(GameObjectType objectType, File XMLDirectory){
+	public ObjectLibrary(GameObjectType objectType) {
 		myType = objectType;
-		myObjectDataList = new ArrayList<ObjectData>();
+		this.setText(objectType.toString());
 		myIconPane = new IconPane();
-		myView = buildTitledPane(myIconPane, myType);
-
+		setContent(buildTitledPane(myIconPane, myType));
+		myXMLDirectory = new File(ResourceManager.getString(String.format("%s_%s", objectType.toString().toLowerCase(), "data")));
+		populatePaneFromXMLFiles(myXMLDirectory);
 	}
 	
-	private void populatePaneFromXML(File XMLDirectory){
-		
+	public void refresh() {
+		populatePaneFromXMLFiles(myXMLDirectory);
 	}
 	
-	public Node getContent(){
-		return myView;
+	private void populatePaneFromXMLFiles(File XMLFolder){
+		myIconPane.showIcons(XMLFolder, e -> getImagePathsFromXML(XMLFolder));
 	}
+	
+	private Collection<String> getImagePathsFromXML(File directory){
+		File[] files = directory.listFiles(new XMLFileFilter());
+		XMLHandler<ObjectData> xml = new XMLHandler<>();
+		Collection<String> imagePaths = new ArrayList<String>();
+		for (int i=0; i<files.length; i++) {
+			ObjectData obj = xml.read(files[i]);
+			imagePaths.add(obj.getImagePath());
+			System.out.println(obj.getImagePath());
+		}
+		return imagePaths;
+	}
+	
 	
 	private VBox buildTitledPane(IconPane pane, GameObjectType type){
 		return GUIFactory.buildTitledPane(pane.getIconPane(),
-				ResourceManager.getString(type.toString()) + " Objects Available");
+				type.toString() + " Objects Available");
 	}
-	
-	public void addIconToPane(ObjectData dataObject){
-		myIconPane.addIconToPane(new Icon(dataObject.getImagePath()), dataObject.getImagePath());
-	}
-	
-	public void addDataObjectToLibrary(ObjectData dataObject){
-		myObjectDataList.add(dataObject);
-		addIconToPane(dataObject);
-		// now we need to actually write out the XML to the right XML directory (???) 
-		// need to figure out how data works.
-	}
-	
-	private void makeDataObject(){
-		ObjectData dataObject = new ObjectData();
-	}
-	
+
 }

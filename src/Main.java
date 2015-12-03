@@ -5,6 +5,8 @@ import com.syntacticsugar.vooga.xml.data.ObjectData;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
+import junit.AllTests;
+//import xml.data.ObjectData;
 
 public class Main extends Application {
 
@@ -14,6 +16,8 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage stage) {
+		//new AllTests();
+		//new ObjectEditor();
 		new SceneManager(stage);
 		/*ObjectData data = new ObjectData();
 		data.setImagePath("gray.png");
