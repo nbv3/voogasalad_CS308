@@ -37,6 +37,7 @@ public class ObjectData {
 		myAttributes = obj.getAttributes().values();
 		myCollisionMap = obj.getCollisionMap();
 		myImagePath = obj.getPath();
+		myType = obj.getType();
 	}
 	
 	public GameObjectType getType() {

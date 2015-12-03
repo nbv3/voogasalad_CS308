@@ -4,8 +4,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.syntacticsugar.vooga.authoring.icons.Icon;
-import com.syntacticsugar.vooga.authoring.icons.IconPane;
+import com.syntacticsugar.vooga.authoring.icon.Icon;
+import com.syntacticsugar.vooga.authoring.icon.IconPane;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;

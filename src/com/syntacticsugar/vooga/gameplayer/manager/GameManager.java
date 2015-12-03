@@ -102,8 +102,6 @@ public class GameManager implements IGameManager{
 		currentLevel.addPlayer(player);
 		currentLevel.addGameObject(player);
 		currentLevel.addGameObject(enemy);
-		myViewController.addViewObject(player);
-		myViewController.addViewObject(enemy);
 
 		myViewController.initializeView(currentLevel);
 		myGameEngine = new GameEngine(currentLevel, myViewController, this);

@@ -40,7 +40,8 @@ public class PlayerBullet extends GameObject {
 	@Override
 	public void onCollision(IGameObject obj) {
 		super.onCollision(obj);
-		if (obj.getType().equals(GameObjectType.ENEMY)) {
+		System.out.println(obj.getType());
+		if (obj.getType().equals(GameObjectType.ENEMY) || obj.getType().equals(GameObjectType.TOWER)) {
 			setDespawnFlag(true);
 		}
 	}
