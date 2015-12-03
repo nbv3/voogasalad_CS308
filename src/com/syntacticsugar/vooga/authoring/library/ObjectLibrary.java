@@ -22,17 +22,15 @@ public class ObjectLibrary {
 	protected List<ObjectData> myObjectDataList;
 	protected File myXMLDirectory;
 	
-	public ObjectLibrary(GameObjectType objectType){
-		// unsure at this point whether a saved game is loaded in one xml,
-		// or in different directories.
+	public ObjectLibrary(GameObjectType objectType, File XMLDirectory){
 		myType = objectType;
 		myObjectDataList = new ArrayList<ObjectData>();
 		myIconPane = new IconPane();
 		myView = buildTitledPane(myIconPane, myType);
-		//populateOptionIcons(directory);
+
 	}
 	
-	public ObjectLibrary(GameObjectType objectType, File XMLDirectory){
+	private void populatePaneFromXML(File XMLDirectory){
 		
 	}
 	
