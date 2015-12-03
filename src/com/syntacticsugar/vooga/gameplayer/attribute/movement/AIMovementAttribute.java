@@ -6,13 +6,13 @@ import java.util.List;
 import com.syntacticsugar.vooga.gameplayer.attribute.control.actions.movement.Direction;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.gameplayer.universe.map.IGameMap;
-import com.syntacticsugar.vooga.util.pathfinder.PF;
+import com.syntacticsugar.vooga.util.pathfinder.PathFinder;
 
 import javafx.geometry.Point2D;
 
 public class AIMovementAttribute extends AbstractMovementAttribute {
 
-	private PF pf;
+	private PathFinder pathFinder;
 	private List<Point> myPath;
 	private Point myNextTile;
 	
@@ -32,13 +32,13 @@ public class AIMovementAttribute extends AbstractMovementAttribute {
 		IGameMap map = universe.getMap();
 		List<Point> ends = map.getDestinationPoints();
 		
-		pf = new PF(map.isWalkable(), myCurrentTile, ends);
-		myPath = pf.getPath();
+		pathFinder = new PathFinder(map.isWalkable(), myCurrentTile, ends);
+		myPath = pathFinder.getPath();
 	}
 	
 	private Point nextPoint() {
-		myNextTile = new Point(pf.getNext());
-		return pf.getNext();
+		myNextTile = new Point(pathFinder.getNext());
+		return pathFinder.getNext();
 	}
 
 	@Override
