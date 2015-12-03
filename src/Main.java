@@ -1,5 +1,5 @@
 import com.syntacticsugar.vooga.authoring.objectediting.sizing.ObjectResizer;
-import com.syntacticsugar.vooga.authoring.objecteditor.ObjectEditor;
+import com.syntacticsugar.vooga.authoring.objectediting.ObjectEditor;
 import com.syntacticsugar.vooga.menu.SceneManager;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
 

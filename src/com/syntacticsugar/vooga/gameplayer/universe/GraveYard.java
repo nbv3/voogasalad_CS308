@@ -5,6 +5,7 @@ import java.util.Collection;
 
 import com.syntacticsugar.vooga.gameplayer.event.GameEventListener;
 import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
+import com.syntacticsugar.vooga.gameplayer.manager.IEventManager;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.view.IViewRemover;
@@ -14,9 +15,10 @@ public class GraveYard implements IYard<IViewRemover>, GameEventListener {
 	private Collection<IGameObject> objectsInYard;
 	private IObjectRemover myUniverse;
 
-	public GraveYard(IObjectRemover universe) {
+	public GraveYard(IObjectRemover universe, IEventManager manager) {
 		objectsInYard = new ArrayList<IGameObject>();
 		myUniverse = universe;
+		manager.registerListener(this);
 	}
 
 	@Override

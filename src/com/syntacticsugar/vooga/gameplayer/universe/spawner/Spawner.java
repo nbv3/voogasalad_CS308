@@ -23,7 +23,7 @@ public class Spawner implements ISpawner {
 	private int myFrameCount;
 	private int mySpawnRate;
 	
-	public Spawner (Collection<WaveData> data, IEventPoster poster) {
+	public Spawner (Collection<WaveData> data, IEventPoster poster, int spawnRate) {
 		myWaves = new LinkedList<>();
 		for (WaveData d: data) {
 			myWaves.add(new Wave(d));
@@ -33,6 +33,7 @@ public class Spawner implements ISpawner {
 		}
 		
 		myPoster = poster;
+		mySpawnRate = spawnRate;
 	}
 
 	@Override
@@ -51,8 +52,16 @@ public class Spawner implements ISpawner {
 			return;
 		}
 		
-		if (myFrameCount % mySpawnRate == 0 && myCurrentWave.getWaveSize() != 0) {
+		if (mySpawnRate == 0) {
+			while (myCurrentWave.getWaveSize() != 0) {
+				spawn();
+			}
+			return;
+		}
+		
+		if (myFrameCount >= mySpawnRate && myCurrentWave.getWaveSize() != 0) {
 			spawn();
+			myFrameCount = 0;
 		}
 		myFrameCount++;
 	}

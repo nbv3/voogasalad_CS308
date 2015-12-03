@@ -43,14 +43,17 @@ public class GameManager implements IGameManager {
 
 	// is SceneManager injection necessary?
 	private SceneManager myManager;
+	private IEventManager myEventManager;
 	
 	ViewController myViewController;
 	
 	private List<EventListener> myListeners; // Will go in game players
 
 	public GameManager(double gameSize, GameData data) {
+		
+		myEventManager = new EventManager();
 
-		myGame = new Game(data);
+		myGame = new Game(data, myEventManager);
 		currentLevel = myGame.getLevel(1);
 		// myConditions = new ArrayList<IGameCondition>();
 		// myConditions.add(new PlayerDeathCondition());
@@ -171,12 +174,6 @@ public class GameManager implements IGameManager {
 		myGameTimeline.setCycleCount(Timeline.INDEFINITE);
 		myGameTimeline.getKeyFrames().add(frame);
 		startGame();
-	}
-
-	@Override
-	public void postEvent(IGameEvent event) {
-		// TODO Auto-generated method stub
-		
 	}
 
 }
