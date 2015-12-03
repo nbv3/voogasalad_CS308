@@ -7,9 +7,8 @@ import java.util.Queue;
 
 import com.syntacticsugar.vooga.gameplayer.objects.GameObject;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
-
-import xml.data.ObjectData;
-import xml.data.WaveData;
+import com.syntacticsugar.vooga.xml.data.ObjectData;
+import com.syntacticsugar.vooga.xml.data.WaveData;
 
 public class Wave implements IWave {
 	

@@ -6,8 +6,7 @@ import com.syntacticsugar.vooga.gameplayer.conditions.IGameCondition;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.universe.map.IGameMap;
 import com.syntacticsugar.vooga.gameplayer.universe.userinput.IKeyInputProcessor;
-
-import xml.data.ObjectData;
+import com.syntacticsugar.vooga.xml.data.ObjectData;
 
 public interface IGameUniverse extends IObjectCollection,
 									   IKeyInputProcessor,

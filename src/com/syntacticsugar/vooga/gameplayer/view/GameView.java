@@ -5,10 +5,10 @@ import java.util.Collection;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.gameplayer.view.implementation.TileView;
+import com.syntacticsugar.vooga.xml.data.ObjectData;
 
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-import xml.data.ObjectData;
 
 public class GameView extends BorderPane {
 	

@@ -23,14 +23,14 @@ import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.gameplayer.view.ViewController;
 import com.syntacticsugar.vooga.menu.SceneManager;
+import com.syntacticsugar.vooga.xml.data.GameData;
+import com.syntacticsugar.vooga.xml.data.ObjectData;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
-import xml.data.GameData;
-import xml.data.ObjectData;
 
 public class GameManager implements IGameManager {
 

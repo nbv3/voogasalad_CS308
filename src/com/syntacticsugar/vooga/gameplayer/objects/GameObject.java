@@ -10,9 +10,9 @@ import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
 import com.syntacticsugar.vooga.gameplayer.event.ICollisionEvent;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.util.ResourceManager;
+import com.syntacticsugar.vooga.xml.data.ObjectData;
 
 import javafx.geometry.Point2D;
-import xml.data.ObjectData;
 
 public class GameObject extends AbstractViewableObject implements IGameObject {
 

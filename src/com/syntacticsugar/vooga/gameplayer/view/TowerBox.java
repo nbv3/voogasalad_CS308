@@ -5,15 +5,15 @@ import java.util.Collection;
 import java.util.Observable;
 import java.util.Observer;
 
+import com.syntacticsugar.vooga.authoring.icons.implementations.Icon;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObject;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
+import com.syntacticsugar.vooga.xml.data.ObjectData;
 
-import authoring.icons.implementations.Icon;
 import javafx.geometry.Point2D;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
-import xml.data.ObjectData;
 
 public class TowerBox extends Observable implements Observer{
 	

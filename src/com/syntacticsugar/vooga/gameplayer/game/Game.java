@@ -6,10 +6,9 @@ import java.util.List;
 
 import com.syntacticsugar.vooga.gameplayer.universe.GameUniverse;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
-
-import xml.GameDataXML;
-import xml.data.GameData;
-import xml.data.UniverseData;
+import com.syntacticsugar.vooga.xml.GameDataXML;
+import com.syntacticsugar.vooga.xml.data.GameData;
+import com.syntacticsugar.vooga.xml.data.UniverseData;
 
 public class Game implements IGame {
 	

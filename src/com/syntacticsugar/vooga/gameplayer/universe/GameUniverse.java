@@ -22,6 +22,13 @@ import com.syntacticsugar.vooga.gameplayer.universe.map.GameMap;
 import com.syntacticsugar.vooga.gameplayer.universe.map.IGameMap;
 import com.syntacticsugar.vooga.gameplayer.view.IViewAdder;
 import com.syntacticsugar.vooga.gameplayer.view.IViewRemover;
+import com.syntacticsugar.vooga.xml.MapDataXML;
+import com.syntacticsugar.vooga.xml.ObjectDataXML;
+import com.syntacticsugar.vooga.xml.data.MapData;
+import com.syntacticsugar.vooga.xml.data.ObjectData;
+import com.syntacticsugar.vooga.xml.data.SpawnerData;
+import com.syntacticsugar.vooga.xml.data.TowerData;
+import com.syntacticsugar.vooga.xml.data.UniverseData;
 import com.syntacticsugar.vooga.gameplayer.universe.spawner.ISpawner;
 import com.syntacticsugar.vooga.gameplayer.universe.spawner.Spawner;
 
@@ -30,13 +37,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
-import xml.MapDataXML;
-import xml.ObjectDataXML;
-import xml.data.MapData;
-import xml.data.ObjectData;
-import xml.data.SpawnerData;
-import xml.data.TowerData;
-import xml.data.UniverseData;
 
 public class GameUniverse implements IGameUniverse {
 

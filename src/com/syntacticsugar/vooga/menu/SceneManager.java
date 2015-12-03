@@ -3,19 +3,19 @@ package com.syntacticsugar.vooga.menu;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import com.syntacticsugar.vooga.authoring.AuthoringScreenManager;
 import com.syntacticsugar.vooga.gameplayer.manager.GameManager;
+import com.syntacticsugar.vooga.xml.data.GameData;
+import com.syntacticsugar.vooga.xml.data.GlobalSettings;
+import com.syntacticsugar.vooga.xml.data.MapData;
+import com.syntacticsugar.vooga.xml.data.ObjectData;
+import com.syntacticsugar.vooga.xml.data.SpawnerData;
+import com.syntacticsugar.vooga.xml.data.TowerData;
+import com.syntacticsugar.vooga.xml.data.UniverseData;
+import com.syntacticsugar.vooga.xml.data.WaveData;
 
-import authoring.AuthoringScreenManager;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import xml.data.GameData;
-import xml.data.GlobalSettings;
-import xml.data.MapData;
-import xml.data.ObjectData;
-import xml.data.SpawnerData;
-import xml.data.TowerData;
-import xml.data.UniverseData;
-import xml.data.WaveData;
 
 public class SceneManager {
 	private final double WIDTH = 600.0;

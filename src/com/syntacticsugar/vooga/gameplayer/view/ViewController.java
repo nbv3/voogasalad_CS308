@@ -19,9 +19,9 @@ import com.syntacticsugar.vooga.gameplayer.objects.IViewableObject;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.IGameTile;
 import com.syntacticsugar.vooga.gameplayer.view.implementation.TileView;
+import com.syntacticsugar.vooga.xml.data.ObjectData;
 
 import javafx.geometry.Point2D;
-import xml.data.ObjectData;
 
 public class ViewController implements IViewRemover, IViewAdder, Observer {
 

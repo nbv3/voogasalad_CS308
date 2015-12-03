@@ -9,10 +9,9 @@ import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.ObjectSpawnEvent;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.universe.IEventPoster;
-
-import xml.data.ObjectData;
-import xml.data.SpawnerData;
-import xml.data.WaveData;
+import com.syntacticsugar.vooga.xml.data.ObjectData;
+import com.syntacticsugar.vooga.xml.data.SpawnerData;
+import com.syntacticsugar.vooga.xml.data.WaveData;
 
 public class Spawner implements ISpawner {
 	
