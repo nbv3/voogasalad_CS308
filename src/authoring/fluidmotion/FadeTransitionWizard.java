@@ -1,5 +1,7 @@
 package authoring.fluidmotion;
 
+import java.util.List;
+
 import javafx.animation.Animation;
 import javafx.animation.FadeTransition;
 import javafx.event.ActionEvent;
@@ -8,6 +10,12 @@ import javafx.scene.Node;
 import javafx.util.Duration;
 
 public class FadeTransitionWizard {
+	
+//	public static Animation fadeOut(List<Node> nodes,int timeDuration,  
+//			int initVal, int endVal, int cycleNo, EventHandler<ActionEvent> onFinished){
+//		
+//	}
+	
 	public static Animation fadeOut(Node node,int timeDuration,  
 			int initVal, int endVal, int cycleNo, EventHandler<ActionEvent> onFinished){
 		FadeTransition ft = initFadeTransitionObject(node, timeDuration, onFinished);
