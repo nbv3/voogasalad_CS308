@@ -1,7 +1,11 @@
-package com.syntacticsugar.vooga.gameplayer.manager;
+package com.syntacticsugar.vooga.gameplayer.universe.score;
 
 import com.syntacticsugar.vooga.gameplayer.event.GameEventListener;
 
 public interface IScore extends GameEventListener {
 
+	public void update();
+	
+	public int getScoreThreshold();
+	
 }

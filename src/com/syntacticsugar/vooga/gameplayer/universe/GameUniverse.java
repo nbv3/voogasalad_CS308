@@ -20,12 +20,15 @@ import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.universe.map.GameMap;
 import com.syntacticsugar.vooga.gameplayer.universe.map.IGameMap;
+import com.syntacticsugar.vooga.gameplayer.universe.score.IScore;
+import com.syntacticsugar.vooga.gameplayer.universe.score.Score;
 import com.syntacticsugar.vooga.gameplayer.universe.spawner.ISpawner;
 import com.syntacticsugar.vooga.gameplayer.universe.spawner.Spawner;
 import com.syntacticsugar.vooga.gameplayer.view.IViewAdder;
 import com.syntacticsugar.vooga.gameplayer.view.IViewRemover;
 import com.syntacticsugar.vooga.xml.XMLHandler;
 import com.syntacticsugar.vooga.xml.data.GlobalSettings;
+import com.syntacticsugar.vooga.xml.data.LevelSettings;
 import com.syntacticsugar.vooga.xml.data.MapData;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
 import com.syntacticsugar.vooga.xml.data.SpawnerData;
@@ -45,6 +48,8 @@ public class GameUniverse implements IGameUniverse {
 	private Collection<IGameObject> myTowers;
 	private ISpawner mySpawner;
 	private IGameMap myGameMap;
+	private IScore myScore;
+	
 	private Collection<KeyCode> myCurrentInput;
 	
 	private IEventManager myPoster;
@@ -52,21 +57,16 @@ public class GameUniverse implements IGameUniverse {
 	public GameUniverse(UniverseData data, GlobalSettings settings, IEventManager manager) {
 		
 		myPoster = manager;
+		myScore = new Score(manager, data.getSettings());
 		
 		myPlayers = new ArrayList<IGameObject>();
 		myGameObjects = new ArrayList<IGameObject>();
-//		MapDataXML xml = new MapDataXML();
-//		FileChooser fileChooser = new FileChooser();
-//		fileChooser.getExtensionFilters().add(new ExtensionFilter("XML Files", "*.xml"));
-//		fileChooser.setTitle("Choose Map XML");
-//		File selectedFile = fileChooser.showOpenDialog(new Stage());
-////		if (selectedFile != null) {
-////			data = xml.loadFromFile(selectedFile);
-////		}
 		myGameMap = new GameMap(data.getMap());
 		mySpawner = new Spawner(data.getSpawns().getWaves(), this, settings.getSpawnRate());
+		myTowers = new ArrayList<>();
 		Collection<ObjectData> towerdata = data.getTowers().getTowers();
 		for (ObjectData d: towerdata) {
+			System.out.println(d);
 			myTowers.add(new GameObject(d));
 		}
 		myGraveYard = new GraveYard(this, manager);
@@ -225,12 +225,13 @@ public class GameUniverse implements IGameUniverse {
 	}
 
 	@Override
-	public void saveGame() {
+	public UniverseData saveGame() {
 		SpawnerData spawn = mySpawner.saveGame();
 		TowerData towers = saveTowers();
 		MapData map = new MapData(myGameMap);
-		UniverseData data = new UniverseData(spawn, towers, map);
-		
+		LevelSettings settings = new LevelSettings(myScore.getScoreThreshold());
+		UniverseData data = new UniverseData(spawn, towers, map, settings);
+		return data;
 	}
 	
 	private TowerData saveTowers() {
@@ -248,6 +249,11 @@ public class GameUniverse implements IGameUniverse {
 			towerData.add(new ObjectData(tower));
 		}
 		return towerData;
+	}
+
+	@Override
+	public IScore getScore() {
+		return myScore;
 	}
 	
 }
