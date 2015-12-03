@@ -55,7 +55,7 @@ public class XMLHandler<T> implements IXML<T> {
 			out.println(xml);
 			out.close();
 		} catch (FileNotFoundException e) {
-			System.out.println("Writing to File failed");
+			e.printStackTrace();
 		}
 	}
 
@@ -69,10 +69,11 @@ public class XMLHandler<T> implements IXML<T> {
 		String xml = fileToString(f);
 		try {
 			T object = (T) myXStream.fromXML(xml);
+			System.out.println(object);
 			return object;
 		} catch (Exception e) {
-			System.out.println("Game XML Read Error");
-			return null;
+			e.printStackTrace();
+			throw e;
 		}
 	}
 	

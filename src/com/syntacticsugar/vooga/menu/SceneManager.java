@@ -116,7 +116,7 @@ public class SceneManager {
 		TowerData towers = new TowerData(new ArrayList<ObjectData>());
 		Collection<UniverseData> uni = new ArrayList<>();
 		uni.add(new UniverseData(spawn, towers, map));
-		GlobalSettings settings = new GlobalSettings(1);
+		GlobalSettings settings = new GlobalSettings(1, 60);
 		GameData data = new GameData(uni, settings);
 		return data;
 	}

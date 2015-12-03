@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import com.syntacticsugar.vooga.gameplayer.manager.IEventManager;
 import com.syntacticsugar.vooga.gameplayer.universe.GameUniverse;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.xml.XMLHandler;
@@ -18,12 +19,12 @@ public class Game implements IGame {
 	
 	private int myLevel; // STARTS AT 1 BY CONVENTION
 	
-	public Game(GameData data) {
+	public Game(GameData data, IEventManager manager) {
 		Collection<UniverseData> udata =  data.getUniverses();
 		myUniverses = new ArrayList<>();
 		myUniverseData = new ArrayList<>();
 		for (UniverseData d: udata) {
-			myUniverses.add(new GameUniverse(d));
+			myUniverses.add(new GameUniverse(d, data.getSettings(), manager));
 			myUniverseData.add(d);
 		}
 		myLevel = data.getSettings().getLevel();

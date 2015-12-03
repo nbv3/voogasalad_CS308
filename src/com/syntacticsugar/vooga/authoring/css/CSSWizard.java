@@ -1,4 +1,4 @@
-package authoring.css;
+package com.syntacticsugar.vooga.authoring.css;
 
 import javafx.scene.Node;
 

@@ -41,7 +41,6 @@ public class QueueBox {
 	}
 
 	private void addHealth() {
-		System.out.println(myData.getAttributes().size());
 		double db = ((HealthAttribute) ((ArrayList<IAttribute>) myData.getAttributes()).get(0)).getHealth();
 		myHealth = new Label(String.format("Health: %d", (int) db));
 		// mySpawnCount.getChildren().add(spawnText);

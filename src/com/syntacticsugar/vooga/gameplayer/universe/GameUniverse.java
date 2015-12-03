@@ -14,6 +14,7 @@ import com.syntacticsugar.vooga.gameplayer.conditions.PlayerDeathCondition;
 import com.syntacticsugar.vooga.gameplayer.event.ICollisionEvent;
 import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.HealthChangeEvent;
+import com.syntacticsugar.vooga.gameplayer.manager.IEventManager;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObject;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
@@ -21,6 +22,8 @@ import com.syntacticsugar.vooga.gameplayer.universe.map.GameMap;
 import com.syntacticsugar.vooga.gameplayer.universe.map.IGameMap;
 import com.syntacticsugar.vooga.gameplayer.view.IViewAdder;
 import com.syntacticsugar.vooga.gameplayer.view.IViewRemover;
+import com.syntacticsugar.vooga.xml.XMLHandler;
+import com.syntacticsugar.vooga.xml.data.GlobalSettings;
 import com.syntacticsugar.vooga.xml.data.MapData;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
 import com.syntacticsugar.vooga.xml.data.SpawnerData;
@@ -44,9 +47,11 @@ public class GameUniverse implements IGameUniverse {
 	private IGameMap myGameMap;
 	private Collection<KeyCode> myCurrentInput;
 	
-	private IEventPoster myPoster;
+	private IEventManager myPoster;
 
-	public GameUniverse(UniverseData data) {
+	public GameUniverse(UniverseData data, GlobalSettings settings, IEventManager manager) {
+		
+		myPoster = manager;
 		
 		myPlayers = new ArrayList<IGameObject>();
 		myGameObjects = new ArrayList<IGameObject>();
@@ -59,16 +64,17 @@ public class GameUniverse implements IGameUniverse {
 ////			data = xml.loadFromFile(selectedFile);
 ////		}
 		myGameMap = new GameMap(data.getMap());
-		mySpawner = new Spawner(data.getSpawns().getWaves(), this);
+		mySpawner = new Spawner(data.getSpawns().getWaves(), this, settings.getSpawnRate());
 		Collection<ObjectData> towerdata = data.getTowers().getTowers();
 		for (ObjectData d: towerdata) {
 			myTowers.add(new GameObject(d));
 		}
-		myGraveYard = new GraveYard(this);
-		mySpawnYard = new SpawnYard(this);
+		myGraveYard = new GraveYard(this, manager);
+		mySpawnYard = new SpawnYard(this, manager);
+		XMLHandler<MapData> xml = new XMLHandler<>();
+		myCurrentInput = new ArrayList<KeyCode>();
 		myConditions = new ArrayList<IGameCondition>();
 		myConditions.add(new PlayerDeathCondition());
-		myCurrentInput = new ArrayList<KeyCode>();
 		myTowers = new ArrayList<IGameObject>();
 		testTower();
 	}
@@ -243,4 +249,5 @@ public class GameUniverse implements IGameUniverse {
 		}
 		return towerData;
 	}
+	
 }
