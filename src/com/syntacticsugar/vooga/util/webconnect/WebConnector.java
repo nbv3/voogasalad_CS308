@@ -22,40 +22,6 @@ public class WebConnector {
 	private final static String GET_GAME_URL = "http://easywebapi.com/api/xml/";
 	private final static String POST_GAME_URL = "http://easywebapi.com/api/newxml";
 
-	public static void main(String args[]) {
-		//getXMLsTest();
-		//getXMLTest();
-		//postXMLTest();
-	}
-
-	public static void getXMLsTest() {
-		JSONObject jsonOutput = getXMLs();
-		try {
-			JSONArray fields = jsonOutput.getJSONArray("xmls");
-			System.out.println(fields.toString());
-			printArray(fields);
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
-	public static void getXMLTest() {
-		int gameindex = 1;
-		JSONObject jsonOutput = getXML(gameindex);
-		System.out.println("Output: "+jsonOutput);
-	}
-
-	public static void postXMLTest() {
-		String author = "Author anme";
-		String gamename = "Mario ";
-		String description = "game descritppion goes here";
-		String xml = "the xml or any blob goes here";
-		JSONObject request = createJSON(author, gamename, description, xml);
-		System.out.println("Sending Request: " + request.toString());
-		String output = postXML(request);
-		System.out.println("Output: " + output);
-	}
 
 	public static JSONObject createJSON(String author, String gamename, String description, String xml) {
 		Map<String, String> map = new HashMap<String, String>();
@@ -163,6 +129,17 @@ public class WebConnector {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		}
+	}
+	
+	public static String extractXML(JSONObject json) {
+		try {
+			String xml = json.getString("xml");
+			return xml;
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "";
 		}
 	}
 }
