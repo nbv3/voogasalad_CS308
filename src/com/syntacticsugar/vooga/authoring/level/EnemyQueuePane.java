@@ -17,14 +17,20 @@ import com.syntacticsugar.vooga.gameplayer.event.implementations.HealthChangeEve
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
 
+import authoring.fluidmotion.FadeTransitionsWizard;
+import javafx.animation.Animation;
+import javafx.animation.FadeTransition;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Orientation;
 import javafx.scene.Node;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Tooltip;
+import javafx.util.Duration;
 
 public class EnemyQueuePane {
 
@@ -33,6 +39,7 @@ public class EnemyQueuePane {
 	private ObservableList<Node> myWave;
 	private Node selectedItem;
 	private HashMap<Node, ObjectData> myObjects;
+	private int durationOfRemoval;
 
 	public EnemyQueuePane() {
 		myObjects = new HashMap<Node, ObjectData>();
@@ -78,8 +85,15 @@ public class EnemyQueuePane {
 
 	public void removeObjectFromQueue() {
 		if (selectedItem != null) {
-			myQueue.remove(myObjects.get(selectedItem));
-			myWave.remove(selectedItem);
+			 durationOfRemoval = 150;
+		     FadeTransitionsWizard.fadeOut(selectedItem,
+		    		 					   durationOfRemoval,
+		    		 					   1,0,1,
+		    		 					   toExecuteOnFinished -> {
+		    		 						   	myQueue.remove(myObjects.get(selectedItem));
+		    		 						   	myWave.remove(selectedItem);
+		    		 					   }
+		     );
 		}
 	}
 
