@@ -3,7 +3,6 @@ package com.syntacticsugar.vooga.gameplayer.view.implementation;
 import java.util.Observable;
 
 import com.syntacticsugar.vooga.gameplayer.objects.BoundingBox;
-import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.view.GameView;
 import com.syntacticsugar.vooga.gameplayer.view.ObjectView;
 
@@ -13,12 +12,14 @@ import javafx.scene.layout.StackPane;
 public class TileView extends ObjectView{
 	
 	private boolean walkable;
+	private boolean occupied;
 	private boolean selectMode;
 
 	public TileView(String path, BoundingBox box, GameView myGameView, Boolean isPath) {
 		super(path, box, myGameView);
 		walkable = isPath;
 		selectMode = false; 
+		occupied = false;
 		initializeHoverProperties();
 	}
 

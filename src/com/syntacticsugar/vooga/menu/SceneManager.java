@@ -15,6 +15,7 @@ import com.syntacticsugar.vooga.xml.data.UniverseData;
 import com.syntacticsugar.vooga.xml.data.WaveData;
 
 import javafx.scene.Scene;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 public class SceneManager {
@@ -90,8 +91,12 @@ public class SceneManager {
 		myGameManager.setManager(this);
 		gameScene = new Scene(myGameManager.getGameView());
 		myGameManager.initializeAnimation(FRAME_LENGTH);
-		gameScene.setOnKeyPressed(e -> myGameManager.receiveKeyPressed(e.getCode()));
-		gameScene.setOnKeyReleased(e -> myGameManager.receiveKeyReleased(e.getCode()));
+		gameScene.addEventFilter(KeyEvent.KEY_PRESSED, e -> myGameManager.receiveKeyPressed(e.getCode()));
+		gameScene.addEventFilter(KeyEvent.KEY_RELEASED, e -> myGameManager.receiveKeyReleased(e.getCode()));
+//		gameScene.addEventFilter(KeyEvent.KEY_PRESSED, e -> System.out.println(e.getCode()));
+//		gameScene.addEventFilter(KeyEvent.KEY_RELEASED, e -> System.out.println(e.getCode()));
+//		gameScene.setOnKeyPressed(e -> myGameManager.receiveKeyPressed(e.getCode()));
+//		gameScene.setOnKeyReleased(e -> myGameManager.receiveKeyReleased(e.getCode()));
 		myStage.setScene(gameScene);
 	}
 	

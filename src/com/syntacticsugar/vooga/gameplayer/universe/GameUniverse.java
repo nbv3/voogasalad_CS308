@@ -1,6 +1,5 @@
 package com.syntacticsugar.vooga.gameplayer.universe;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -17,29 +16,25 @@ import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.HealthChangeEvent;
 import com.syntacticsugar.vooga.gameplayer.manager.IEventManager;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObject;
-import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.universe.map.GameMap;
 import com.syntacticsugar.vooga.gameplayer.universe.map.IGameMap;
+import com.syntacticsugar.vooga.gameplayer.universe.spawner.ISpawner;
+import com.syntacticsugar.vooga.gameplayer.universe.spawner.Spawner;
 import com.syntacticsugar.vooga.gameplayer.view.IViewAdder;
 import com.syntacticsugar.vooga.gameplayer.view.IViewRemover;
 import com.syntacticsugar.vooga.xml.MapDataXML;
-import com.syntacticsugar.vooga.xml.ObjectDataXML;
 import com.syntacticsugar.vooga.xml.data.GlobalSettings;
 import com.syntacticsugar.vooga.xml.data.MapData;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
 import com.syntacticsugar.vooga.xml.data.SpawnerData;
 import com.syntacticsugar.vooga.xml.data.TowerData;
 import com.syntacticsugar.vooga.xml.data.UniverseData;
-import com.syntacticsugar.vooga.gameplayer.universe.spawner.ISpawner;
-import com.syntacticsugar.vooga.gameplayer.universe.spawner.Spawner;
 
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.FileChooser;
-import javafx.stage.FileChooser.ExtensionFilter;
-import javafx.stage.Stage;
+
 
 public class GameUniverse implements IGameUniverse {
 
@@ -97,7 +92,7 @@ public class GameUniverse implements IGameUniverse {
 		Map<GameObjectType, Collection<ICollisionEvent>> collisions = new HashMap<GameObjectType, Collection<ICollisionEvent>>();
 		Collection<ICollisionEvent> towerEvents = new ArrayList<ICollisionEvent>();
 		towerEvents.add(new HealthChangeEvent(-10));
-		towerData.setType(GameObjectType.TOWER);
+		towerData.setType(GameObjectType.ENEMY);
 		towerData.setImagePath(imgPath);
 		towerData.setAttributes(towerAttributes);
 		towerData.setCollisionMap(collisions);

@@ -33,7 +33,7 @@ public class MapData {
 		for (int i=0; i<numTiles; i++) {
 			for (int j=0; j<numTiles; j++) {
 				myTileData[i][j] = new TileData(tileImage);
-				if(i == j){
+				if(i == j && i!=0){
 					myTileData[i][j].setImplementation(TileImplementation.Scenery);
 				}
 			}

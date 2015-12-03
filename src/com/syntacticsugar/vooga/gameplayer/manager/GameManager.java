@@ -14,7 +14,6 @@ import com.syntacticsugar.vooga.gameplayer.attribute.movement.MovementControlAtt
 import com.syntacticsugar.vooga.gameplayer.conditions.ConditionType;
 import com.syntacticsugar.vooga.gameplayer.engine.GameEngine;
 import com.syntacticsugar.vooga.gameplayer.event.ICollisionEvent;
-import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.HealthChangeEvent;
 import com.syntacticsugar.vooga.gameplayer.game.Game;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObject;
@@ -100,8 +99,6 @@ public class GameManager implements IGameManager {
 		currentLevel.addPlayer(player);
 		currentLevel.addGameObject(player);
 		currentLevel.addGameObject(enemy);
-		myViewController.addViewObject(player);
-		myViewController.addViewObject(enemy);
 
 		myViewController.initializeView(currentLevel);
 		myGameEngine = new GameEngine(currentLevel, myViewController, this);

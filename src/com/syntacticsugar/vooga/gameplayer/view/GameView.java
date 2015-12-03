@@ -2,7 +2,6 @@ package com.syntacticsugar.vooga.gameplayer.view;
 
 import java.util.Collection;
 
-import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.gameplayer.view.implementation.TileView;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
@@ -18,6 +17,7 @@ public class GameView extends BorderPane {
 	private TowerBox myTowerBox;
 	
 	public GameView(double size){
+		this.setFocusTraversable(true);
 		mySize = size;
 		gameField = new Pane();
 		this.setCenter(gameField);
