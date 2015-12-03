@@ -107,27 +107,8 @@ public class MapEditor implements IMapEditor {
 				icon.setOnMouseClicked(e -> mouseClickHandler(tile));
 				icon.setOnDragOver((DragEvent event) -> dragOverHandler(event));
 				icon.setOnDragEntered((DragEvent event) -> dragEnteredHandler(icon, event)); 
-				icon.setOnDragExited((DragEvent event) -> dragExitedHandler(icon,event));
-				
-			
-				icon.setOnDragDropped(new EventHandler<DragEvent>() {
-				    public void handle(DragEvent event) {
-				        /* data dropped */
-				        /* if there is a string data on dragboard, read it and use it */
-				        Dragboard db = event.getDragboard();
-				        boolean success = false;
-				        if (db.hasString()) {
-				        	icon.setOpacity(1);
-				        	icon.setImage(new Image(getClass().getClassLoader().getResourceAsStream(db.getString())));
-				           success = true;
-				        }
-				        /* let the source know whether the string was successfully 
-				         * transferred and used */
-				        event.setDropCompleted(success);
-				        
-				        event.consume();
-				     }
-				});
+				icon.setOnDragExited((DragEvent event) -> dragExitedHandler(icon, event));
+				icon.setOnDragDropped((DragEvent event) -> dragDropHandler(icon, event));
 				myMapGrid.getChildren().add(icon);
 				GridPane.setConstraints(icon, i, j, 1, 1, HPos.CENTER, VPos.CENTER, Priority.ALWAYS, Priority.ALWAYS, null);
 			}
@@ -157,11 +138,33 @@ public class MapEditor implements IMapEditor {
            		icon.setOpacity(0);
         }
 	}
+	
 	private void dragExitedHandler(AbstractIcon icon, DragEvent event) {
 		if (event.getGestureSource() != icon &&
                 event.getDragboard().hasString()) {
 			icon.setOpacity(1);
 		}
+	}
+	
+	private void dragDropHandler(AbstractIcon icon, DragEvent event) {
+		/* data dropped */
+        /* if there is a string data on  dragboard, read it and use it */
+        Dragboard db = event.getDragboard();
+        boolean success = false;
+        if (db.hasString()) {
+        	icon.setOpacity(1);
+        	// May need to pass in both the image file and the tile implementation
+        	
+        	//this.setImplementation();
+        	this.setImagePath(db.getString());
+        	icon.setImage(new Image(getClass().getClassLoader().getResourceAsStream(db.getString())));
+           success = true;
+        }
+        /* let the source know whether the string was successfully 
+         * transferred and used */
+        event.setDropCompleted(success);
+
+        event.consume();
 	}
 	
 	private void mouseOverHandler(TileData tile, boolean isControlDown, boolean isShiftDown) {
