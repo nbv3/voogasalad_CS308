@@ -37,7 +37,7 @@ public class WebConnectorTest {
 		String gamename = "SS";
 		String description = "game djlfakjdlkfjdlkfjdljflkdlfjdlfjk goes here";
 		String xml = "the xml or any blob goes herethe xml or any blob goes herethe xml or any blob goes herethe xml or any blob goes herethe xml or any blob goes herethe xml or any blob goes herethe xml or any blob goes herethe xml or any blob goes herethe xml or any blob goes herethe xml or any blob goes here";
-		JSONObject request = WebConnector.createJSON(author, gamename, description, xml);
+		JSONObject request = JSONHelper.createJSON(author, gamename, description, xml);
 		System.out.println("Sending Request: " + request.toString());
 		String output = WebConnector.postXML(request);
 		System.out.println("Output: " + output);
