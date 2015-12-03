@@ -25,10 +25,10 @@ public class AIMovementAttribute extends AbstractMovementAttribute {
 		if (!reachedNext) {
 			// move along line from transformed currentTile to transformed nextTile
 			move(universe);
-			if (isPastNext()) {
+			if (isPastNext(universe.getMap())) {
 				// transform myNextPoint to raw double coordinate
 				// set location to transformed nextTile
-				
+				getParent().setPoint(universe.getMap().getCoordinateFromMapIndex(myNextTile));
 				reachedNext = true;
 			}
 		} else {
@@ -43,27 +43,29 @@ public class AIMovementAttribute extends AbstractMovementAttribute {
 		}
 	}
 	
-	private boolean isPastNext() {
+	private boolean isPastNext(IGameMap map) {
 		// calculates if you are past myNextTile on the line from myCurrentTile to myNextTile
-		return true;
+		Point2D centerPoint = getParent().getCenterPoint();
+		Point2D destPoint = map.getCoordinateFromMapIndex(myNextTile);
+		return centerPoint.distance(destPoint) <= getSpeed();
 	}
 	
-	private Boolean isInsideTile(IGameMap map) {
-		Boolean result = false;
-
-		Point2D point = getParent().getBoundingBox().getPoint();
-		Point2D tile = map.getCoordinateFromMapIndex(myNextTile);
-		Boolean xLeft = point.getX() > tile.getX();
-		Boolean xRight = point.getX() + getParent().getBoundingBox().getWidth() < tile.getX() + map.getTileSize();
-		Boolean yBot = point.getY() > tile.getY();
-		Boolean yTop = point.getY() + getParent().getBoundingBox().getHeight() < tile.getY() + map.getTileSize();
-		if (xLeft && xRight && yBot && yTop) {
-			result = true;
-		}
-		
-		
-		return result;
-	}
+//	private Boolean isInsideTile(IGameMap map) {
+//		Boolean result = false;
+//
+//		Point2D point = getParent().getBoundingBox().getPoint();
+//		Point2D tile = map.getCoordinateFromMapIndex(myNextTile);
+//		Boolean xLeft = point.getX() > tile.getX();
+//		Boolean xRight = point.getX() + getParent().getBoundingBox().getWidth() < tile.getX() + map.getTileSize();
+//		Boolean yBot = point.getY() > tile.getY();
+//		Boolean yTop = point.getY() + getParent().getBoundingBox().getHeight() < tile.getY() + map.getTileSize();
+//		if (xLeft && xRight && yBot && yTop) {
+//			result = true;
+//		}
+//		
+//		
+//		return result;
+//	}
 	
 	private Direction getNewDirection() {
 		if (myCurrentTile.x < myNextTile.x) {

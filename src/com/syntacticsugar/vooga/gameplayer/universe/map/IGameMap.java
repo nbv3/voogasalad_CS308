@@ -24,7 +24,7 @@ public interface IGameMap extends PathFindingMap{
 
 	public boolean[][] isPlaceable();
 
-	public IGameTile getTile(Point2D p);
+	public IGameTile getTile(int i, int j);
 	
 	public Point getMapIndexFromCoordinate(Point2D coordinate) throws Exception;
 	

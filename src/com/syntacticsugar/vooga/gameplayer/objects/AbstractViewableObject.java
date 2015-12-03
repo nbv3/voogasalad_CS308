@@ -24,6 +24,11 @@ public abstract class AbstractViewableObject implements IViewableObject{
 	}
 	
 	@Override
+	public void setPoint(Point2D point) {
+		myBoundingBox.setPoint(point);
+	}
+	
+	@Override
 	public Point2D getCenterPoint() {
 		Point2D topLeft = myBoundingBox.getPoint();
 		return new Point2D(topLeft.getX()+myBoundingBox.getWidth(), topLeft.getY()+myBoundingBox.getHeight());

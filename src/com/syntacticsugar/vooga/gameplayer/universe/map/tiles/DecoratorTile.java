@@ -39,6 +39,7 @@ public class DecoratorTile extends AbstractViewableObject implements IGameTile {
 		this.myImplementation = implementation;
 	}
 	
+	@Override
 	public void setDestination(boolean isDestination) {
 		this.myDestination = isDestination;
 	}
@@ -62,7 +63,7 @@ public class DecoratorTile extends AbstractViewableObject implements IGameTile {
 	public boolean isDestination() {
 		return this.isWalkable() && this.myDestination;
 	}
-	
+
 	@Override
 	public void setIsPlaceable(boolean state) {
 		placeable = state;

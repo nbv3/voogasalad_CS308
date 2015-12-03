@@ -11,6 +11,7 @@ import com.syntacticsugar.vooga.gameplayer.attribute.HealthAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.ScoreAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.WeaponAttribute;
+import com.syntacticsugar.vooga.gameplayer.attribute.movement.AIMovementAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.movement.MovementControlAttribute;
 import com.syntacticsugar.vooga.gameplayer.conditions.ConditionType;
 import com.syntacticsugar.vooga.gameplayer.engine.GameEngine;
@@ -84,7 +85,7 @@ public class GameManager implements IGameManager{
 		attributes.add(new MovementControlAttribute(3));
 		attributes.add(new WeaponAttribute(missilePath, 100, KeyCode.SPACE));
 		playerData.setType(GameObjectType.PLAYER);
-		playerData.setSpawnPoint(0, 0);
+		playerData.setSpawnPoint(300, 0);
 		playerData.setWidth(50);
 		playerData.setHeight(50);
 		playerData.setImagePath(playerPath);
@@ -94,13 +95,13 @@ public class GameManager implements IGameManager{
 		Collection<IAttribute> enemyAttributes = new ArrayList<IAttribute>();
 		enemyAttributes.add(new HealthAttribute(30));
 		enemyAttributes.add(new ScoreAttribute(50));
-//		enemyAttributes.add(new AIMovementAttribute(3));
+		enemyAttributes.add(new AIMovementAttribute(3));
 		Map<GameObjectType, Collection<ICollisionEvent>> collisions = new HashMap<GameObjectType, Collection<ICollisionEvent>>();
 		Collection<ICollisionEvent> enemyEvents = new ArrayList<ICollisionEvent>();
 		enemyEvents.add(new HealthChangeEvent(-10));
 		collisions.put(GameObjectType.PLAYER, enemyEvents);
 		enemyData.setType(GameObjectType.ENEMY);
-		enemyData.setSpawnPoint(150, 150);
+		enemyData.setSpawnPoint(0, 0);
 		enemyData.setWidth(100);
 		enemyData.setHeight(100);
 		enemyData.setImagePath(enemyPath);
@@ -113,7 +114,8 @@ public class GameManager implements IGameManager{
 		currentLevel.addPlayer(player);
 		currentLevel.addGameObject(player);
 		currentLevel.addGameObject(enemy);
-
+//		currentLevel.getMap().getTile(0, 2).setDestination(true);
+		currentLevel.getMap().getTile(8, 3).setDestination(true);
 		myViewController.initializeView(currentLevel);
 		myGameEngine = new GameEngine(currentLevel, myViewController, this);
 

@@ -22,6 +22,12 @@ public interface IViewableObject {
 	 */
 	public Point2D getCenterPoint();
 
+	/**
+	 * Explicitly move this ViewableObject to the desired point.
+	 * @param point
+	 */
+	void setPoint(Point2D point);
+
 	
 
 }
