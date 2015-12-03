@@ -103,12 +103,4 @@ public abstract class AbstractIconPane {
 	public String getSelectedImagePath() {
 		return myImagePaths.get(mySelectedIcon.get());
 	}
-	protected void createDragClipBoards(Icon icon, MouseEvent event) {
-		Dragboard db = icon.startDragAndDrop(TransferMode.ANY);
-		System.out.println("Dragboard and Clipboard created");
-		ClipboardContent content = new ClipboardContent();
-		content.putString(icon.getImagePath());
-		db.setContent(content);
-		event.consume();
-	}
 }
