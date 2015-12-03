@@ -56,26 +56,6 @@ public class SceneManager {
 		viewScene(screen);
 	}
 	
-	public void launchEnginePauseMenu() {
-		// instance of gameScene is stored upon engine launch
-		AbstractGameMenu screen = new EnginePauseMenu(this, WIDTH, HEIGHT, "Vooga Salad");
-		viewScene(screen);
-	}
-	
-	public void launchAuthoringMenuFromAuthoring() {
-		myAuthoringManager.minimize();
-		launchAuthoringMenu();
-	}
-	
-	public void launchFirstMenuFromAuthoring() {
-//		myAuthoringEnv.minimize();
-		launchFirstMenu();
-	}
-	
-	public void launchFirstMenuFromEngine() {
-		launchFirstMenu();
-	}
-	
 	public void launchNewEditor() {
 		myStage.hide();
 		myAuthoringManager = new AuthoringScreenManager(e -> launchFirstMenu());
