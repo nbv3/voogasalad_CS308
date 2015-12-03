@@ -75,6 +75,10 @@ public class ObjectLibrary {
 		return GUIFactory.buildTitledPane(pane.getIconPane(),
 				ResourceManager.getString(type.toString()) + " Objects Available");
 	}
+
+	public IRefresher getRefreshMethod() {
+		return () -> this.refresh();
+	}
 	
 //	public void addIconToPane(ObjectData dataObject){
 //		myIconPane.addIconToPane(new Icon(dataObject.getImagePath()), dataObject.getImagePath());

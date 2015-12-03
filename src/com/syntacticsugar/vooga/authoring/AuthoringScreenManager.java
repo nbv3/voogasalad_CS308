@@ -43,7 +43,7 @@ public class AuthoringScreenManager implements Observer {
 	public AuthoringScreenManager(EventHandler<WindowEvent> onClose) {
 		myLevelEditor = new LevelTabManager();
 		myObjectLibraryManager = new ObjectLibraryManager();
-		myObjectEditor = new ObjectEditor();
+		myObjectEditor = new ObjectEditor(myObjectLibraryManager.getRefreshMethod());
 		initWindow(onClose);
 	}
 

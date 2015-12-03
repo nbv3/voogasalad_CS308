@@ -14,6 +14,7 @@ import javafx.scene.layout.Region;
 public class ObjectLibraryManager {
 
 	private TabPane myLibraryTabs;
+	private IRefresher myRefreshMethod;
 
 	public ObjectLibraryManager() {		
 		myLibraryTabs = new TabPane();
@@ -32,8 +33,9 @@ public class ObjectLibraryManager {
 	}
 	
 	private ObjectLibrary makeLibrary(GameObjectType objectType){
-		return new ObjectLibrary(objectType);
-		//return null;
+		ObjectLibrary library = new ObjectLibrary(objectType);
+		myRefreshMethod = library.getRefreshMethod();
+		return library;
 	}
 	
 	private Tab makeTab(GameObjectType objectType){
@@ -44,5 +46,9 @@ public class ObjectLibraryManager {
 
 	public TabPane getTabPane() {
 		return myLibraryTabs;
+	}
+	
+	public IRefresher getRefreshMethod(){
+		return myRefreshMethod;
 	}
 }
