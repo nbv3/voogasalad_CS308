@@ -1,4 +1,4 @@
-package com.syntacticsugar.vooga.authoring.icons;
+package com.syntacticsugar.vooga.authoring.icon;
 
 import java.io.File;
 import java.io.FileFilter;
