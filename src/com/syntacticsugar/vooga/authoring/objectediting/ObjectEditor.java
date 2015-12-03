@@ -70,9 +70,9 @@ public class ObjectEditor {
 		myCreateButton.setAlignment(Pos.CENTER_RIGHT);
 		myCreateButton.setDisable(true);
 		
-		grid.add(att, 0, 0, 1, 1);
+		grid.add(iconGrid, 0, 0, 1, 1);
 		grid.add(coll, 0, 1, 2, 1);
-		grid.add(iconGrid, 1, 0, 1, 1);
+		grid.add(att, 1, 0, 1, 1);
 		grid.add(myCreateButton, 1, 2, 1, 1);
 		GridPane.setHalignment(myCreateButton, HPos.RIGHT);
 		GridPane.setValignment(myCreateButton, VPos.CENTER);
@@ -148,7 +148,7 @@ public class ObjectEditor {
 		GridPane.setConstraints(button, 0, 0, 1, 1);
 		GridPane.setConstraints(myIcon, 0, 1, 1, 1);
 		GridPane.setHalignment(myIcon, HPos.CENTER);
-		GridPane.setHalignment(button, HPos.CENTER);
+		GridPane.setHalignment(button, HPos.LEFT);
 		grid.setAlignment(Pos.CENTER);
 		grid.setHgap(10);
 		grid.setVgap(10);

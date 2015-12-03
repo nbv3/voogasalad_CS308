@@ -10,12 +10,14 @@ import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.gameplayer.universe.map.IGameMap;
 import com.syntacticsugar.vooga.gameplayer.utilities.Path;
 import com.syntacticsugar.vooga.gameplayer.utilities.PathFinder;
+import com.syntacticsugar.vooga.util.pathfinder.PF;
 
 import javafx.geometry.Point2D;
 
 public class AIMovementAttribute extends AbstractMovementAttribute {
 
-	private Path myPath;
+	private PF pf;
+	private List<Point> myPath;
 	private Point myNextTile;
 	
 	private int myFrameCount;
@@ -25,8 +27,6 @@ public class AIMovementAttribute extends AbstractMovementAttribute {
 		super(speed);
 		
 		// update currentTile
-		myPath = new Path();
-		myNextTile = myPath.getNext();
 		
 		myFrameCount = 0;
 		myPathUpdateRate = 20;
@@ -35,19 +35,14 @@ public class AIMovementAttribute extends AbstractMovementAttribute {
 	private void generatePath(IGameUniverse universe) {
 		IGameMap map = universe.getMap();
 		List<Point> ends = map.getDestinationPoints();
-		List<Point> starts = new ArrayList<>();
-		starts.add(myCurrentTile);
 		
-		myPath = new PathFinder(map, map.getSize(), starts, ends).getPath();
+		pf = new PF(map.isWalkable(), myCurrentTile, ends);
+		myPath = pf.getPath();
 	}
 	
 	private Point nextPoint() {
-		int currentIndex = myPath.getList().indexOf(myCurrentTile);
-		if (currentIndex == myPath.getList().size()-1 ) {
-			return myPath.getDestination();
-		} else {
-			return myPath.getList().get(currentIndex+1);
-		}
+		myNextTile = new Point(pf.getNext());
+		return pf.getNext();
 	}
 
 	@Override

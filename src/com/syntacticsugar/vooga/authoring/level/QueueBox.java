@@ -22,7 +22,7 @@ public class QueueBox {
 		myData = data;
 		myEnemy = new VBox();
 		addImage(data.getImagePath());
-		addHealth();
+//		addHealth();
 	}
 
 	private void addImage(String path) {

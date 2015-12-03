@@ -32,6 +32,10 @@ public class ObjectLibrary {
 		//populateOptionIcons(directory);
 	}
 	
+	public ObjectLibrary(GameObjectType objectType, File XMLDirectory){
+		
+	}
+	
 	public Node getContent(){
 		return myView;
 	}
