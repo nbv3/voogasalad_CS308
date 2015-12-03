@@ -4,11 +4,17 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import com.syntacticsugar.vooga.gameplayer.attribute.HealthAttribute;
+import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
 import com.syntacticsugar.vooga.gameplayer.conditions.IGameCondition;
 import com.syntacticsugar.vooga.gameplayer.conditions.PlayerDeathCondition;
+import com.syntacticsugar.vooga.gameplayer.event.ICollisionEvent;
 import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
+import com.syntacticsugar.vooga.gameplayer.event.implementations.HealthChangeEvent;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObject;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
@@ -69,7 +75,46 @@ public class GameUniverse implements IGameUniverse {
 		myConditions = new ArrayList<IGameCondition>();
 		myConditions.add(new PlayerDeathCondition());
 		myCurrentInput = new ArrayList<KeyCode>();
-		// myTowers = new ArrayList<IGameObject>();
+		myTowers = new ArrayList<IGameObject>();
+		testTower();
+	}
+	
+	private void testTower(){
+		String imgPath = "tower_1.png";
+		ObjectData towerData = new ObjectData();
+		towerData.setImagePath(imgPath);
+		Collection<IAttribute> towerAttributes = new ArrayList<IAttribute>();
+		towerAttributes.add(new HealthAttribute(30));
+		// towerAttributes.add(new AIMovementAttribute(3));
+		Map<GameObjectType, Collection<ICollisionEvent>> collisions = new HashMap<GameObjectType, Collection<ICollisionEvent>>();
+		Collection<ICollisionEvent> towerEvents = new ArrayList<ICollisionEvent>();
+		towerEvents.add(new HealthChangeEvent(-10));
+		towerData.setType(GameObjectType.TOWER);
+		towerData.setImagePath(imgPath);
+		towerData.setAttributes(towerAttributes);
+		towerData.setCollisionMap(collisions);
+		towerData.setWidth(100);
+		towerData.setHeight(100);
+		IGameObject tower = new GameObject(towerData);
+		myTowers.add(tower);
+		
+		String imgPath1 = "tower_4.png";
+		ObjectData towerData2 = new ObjectData();
+		towerData.setImagePath(imgPath1);
+		Collection<IAttribute> towerAttributes2 = new ArrayList<IAttribute>();
+		towerAttributes2.add(new HealthAttribute(30));
+		// towerAttributes.add(new AIMovementAttribute(3));
+		Map<GameObjectType, Collection<ICollisionEvent>> collisions2 = new HashMap<GameObjectType, Collection<ICollisionEvent>>();
+		Collection<ICollisionEvent> towerEvents2 = new ArrayList<ICollisionEvent>();
+		towerEvents2.add(new HealthChangeEvent(-10));
+		towerData2.setType(GameObjectType.TOWER);
+		towerData2.setImagePath(imgPath);
+		towerData2.setAttributes(towerAttributes2);
+		towerData2.setCollisionMap(collisions2);
+		towerData2.setWidth(100);
+		towerData2.setHeight(100);
+		IGameObject tower2 = new GameObject(towerData);
+		myTowers.add(tower2);
 	}
 
 	@Override
@@ -194,5 +239,14 @@ public class GameUniverse implements IGameUniverse {
 			data.add(new ObjectData(o));
 		}
 		return new TowerData(data);
+	}
+
+	@Override
+	public Collection<ObjectData> getAvailableTowers() {
+		List<ObjectData> towerData = new ArrayList<ObjectData>();
+		for(IGameObject tower: myTowers){
+			towerData.add(new ObjectData(tower));
+		}
+		return towerData;
 	}
 }
