@@ -24,7 +24,7 @@ import com.syntacticsugar.vooga.gameplayer.universe.spawner.ISpawner;
 import com.syntacticsugar.vooga.gameplayer.universe.spawner.Spawner;
 import com.syntacticsugar.vooga.gameplayer.view.IViewAdder;
 import com.syntacticsugar.vooga.gameplayer.view.IViewRemover;
-import com.syntacticsugar.vooga.xml.MapDataXML;
+import com.syntacticsugar.vooga.xml.XMLHandler;
 import com.syntacticsugar.vooga.xml.data.GlobalSettings;
 import com.syntacticsugar.vooga.xml.data.MapData;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
@@ -34,7 +34,6 @@ import com.syntacticsugar.vooga.xml.data.UniverseData;
 
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
-
 
 public class GameUniverse implements IGameUniverse {
 
@@ -72,9 +71,7 @@ public class GameUniverse implements IGameUniverse {
 		}
 		myGraveYard = new GraveYard(this, manager);
 		mySpawnYard = new SpawnYard(this, manager);
-		MapDataXML xml = new MapDataXML();
-//		MapData data = xml.loadFromFile(new File("/Users/nbv3/Desktop/Untitled"));
-//		MapData data = xml.loadFromFile(new File("C:\\Users\\Jack\\Documents\\School\\CS_308\\voogasalad_SyntacticSugar\\test_map2.xml"));
+		XMLHandler<MapData> xml = new XMLHandler<>();
 		myCurrentInput = new ArrayList<KeyCode>();
 		myConditions = new ArrayList<IGameCondition>();
 		myConditions.add(new PlayerDeathCondition());

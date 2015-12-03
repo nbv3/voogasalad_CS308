@@ -1,4 +1,4 @@
-package com.syntacticsugar.vooga.authoring.icons.implementations;
+package com.syntacticsugar.vooga.authoring.icons;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.scene.image.Image;

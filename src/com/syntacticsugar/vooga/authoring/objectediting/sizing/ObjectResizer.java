@@ -1,12 +1,10 @@
 package com.syntacticsugar.vooga.authoring.objectediting.sizing;
 
-import com.syntacticsugar.vooga.authoring.objectediting.DragResizer;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.geometry.Point2D;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;

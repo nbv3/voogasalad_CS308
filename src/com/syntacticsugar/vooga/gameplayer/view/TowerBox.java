@@ -5,7 +5,7 @@ import java.util.Collection;
 import java.util.Observable;
 import java.util.Observer;
 
-import com.syntacticsugar.vooga.authoring.icons.implementations.Icon;
+import com.syntacticsugar.vooga.authoring.icons.Icon;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObject;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
