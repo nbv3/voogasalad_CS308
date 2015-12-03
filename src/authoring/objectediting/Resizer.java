@@ -24,6 +24,8 @@ public class Resizer {
     	// Set width and height here
     	
     }
+    
+    
     /**
      * The margin around the control that a user can click in to start resizing
      * the region.
