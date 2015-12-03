@@ -17,7 +17,7 @@ import com.syntacticsugar.vooga.gameplayer.event.implementations.HealthChangeEve
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
 
-import authoring.fluidmotion.FadeTransitionsWizard;
+import authoring.fluidmotion.FadeTransitionWizard;
 import javafx.animation.Animation;
 import javafx.animation.FadeTransition;
 import javafx.beans.value.ChangeListener;
@@ -86,7 +86,7 @@ public class EnemyQueuePane {
 	public void removeObjectFromQueue() {
 		if (selectedItem != null) {
 			 durationOfRemoval = 150;
-		     FadeTransitionsWizard.fadeOut(selectedItem,
+		     FadeTransitionWizard.fadeOut(selectedItem,
 		    		 					   durationOfRemoval,
 		    		 					   1,0,1,
 		    		 					   toExecuteOnFinished -> {

@@ -13,6 +13,7 @@ import com.syntacticsugar.vooga.gameplayer.event.implementations.HealthChangeEve
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
 
+import authoring.fluidmotion.FadeTransitionWizard;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Orientation;
@@ -26,6 +27,7 @@ public class TowerList {
 	private ObservableList<Node> myObservable;
 	private HashMap<Node, ObjectData> myMap;
 	private Object selectedItem;
+	private int durationOfRemoval;
 
 	public TowerList() {
 		myTowerView = new ListView<Node>();
@@ -59,7 +61,6 @@ public class TowerList {
 	public void addTower(ObjectData data) {
 		Node newTower = createQueueBoxFromObjData(data);
 		newTower.setOnMouseClicked(e -> selectedItem = newTower);
-
 		myMap.put(newTower, data);
 		Tooltip.install(newTower, new QueueTooltip(myMap.get(newTower)));
 		myObservable.add(newTower);
@@ -78,8 +79,14 @@ public class TowerList {
 
 	public void removeObjectFromList() {
 		if (selectedItem != null) {
-			myObservable.remove(selectedItem);
-			myMap.remove(selectedItem);
+			 durationOfRemoval = 150;
+		     FadeTransitionWizard.fadeOut((Node) selectedItem,
+		    		 					   durationOfRemoval,
+		    		 					   1,0,1,
+		    		 					   toExecuteOnFinished -> {		
+		    		 							myObservable.remove(selectedItem);
+		    		 							myMap.remove(selectedItem);
+		    		 					   });
 		}
 	}
 

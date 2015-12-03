@@ -7,12 +7,13 @@ import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.util.Duration;
 
-public class FadeTransitionsWizard {
+public class FadeTransitionWizard {
 	public static Animation fadeOut(Node node,int timeDuration,  
 			int initVal, int endVal, int cycleNo, EventHandler<ActionEvent> onFinished){
 		FadeTransition ft = initFadeTransitionObject(node, timeDuration, onFinished);
 		 ft.setFromValue(1);
 	     ft.setToValue(0);
+	     ft.play();
 		return ft;
 	}
 	
@@ -21,6 +22,7 @@ public class FadeTransitionsWizard {
 		FadeTransition ft = initFadeTransitionObject(node, timeDuration, onFinished);
 		 ft.setFromValue(0);
 	     ft.setToValue(1);
+	     ft.play();
 		return ft;
 	}
 
@@ -28,7 +30,6 @@ public class FadeTransitionsWizard {
 			EventHandler<ActionEvent> onFinished) {
 		FadeTransition ft = new FadeTransition(Duration.millis(timeDuration),node);
 	     ft.setCycleCount(1);
-	     ft.play();
 	     ft.setOnFinished(onFinished);
 		return ft;
 	}
