@@ -1,5 +1,5 @@
 package authoring.fluidmotion;
 
-public class TabTransitionsWizard {
+public class TabTransitionWizard {
 
 }
