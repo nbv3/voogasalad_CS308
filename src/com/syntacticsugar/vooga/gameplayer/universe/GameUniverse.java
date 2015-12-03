@@ -1,6 +1,5 @@
 package com.syntacticsugar.vooga.gameplayer.universe;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -17,15 +16,13 @@ import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.HealthChangeEvent;
 import com.syntacticsugar.vooga.gameplayer.manager.IEventManager;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObject;
-import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.universe.map.GameMap;
 import com.syntacticsugar.vooga.gameplayer.universe.map.IGameMap;
 import com.syntacticsugar.vooga.gameplayer.view.IViewAdder;
 import com.syntacticsugar.vooga.gameplayer.view.IViewRemover;
-import com.syntacticsugar.vooga.xml.MapDataXML;
-import com.syntacticsugar.vooga.xml.ObjectDataXML;
+import com.syntacticsugar.vooga.xml.XMLHandler;
 import com.syntacticsugar.vooga.xml.data.GlobalSettings;
 import com.syntacticsugar.vooga.xml.data.MapData;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
@@ -37,9 +34,6 @@ import com.syntacticsugar.vooga.gameplayer.universe.spawner.Spawner;
 
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.FileChooser;
-import javafx.stage.FileChooser.ExtensionFilter;
-import javafx.stage.Stage;
 
 public class GameUniverse implements IGameUniverse {
 
@@ -77,9 +71,7 @@ public class GameUniverse implements IGameUniverse {
 		}
 		myGraveYard = new GraveYard(this, manager);
 		mySpawnYard = new SpawnYard(this, manager);
-		MapDataXML xml = new MapDataXML();
-//		MapData data = xml.loadFromFile(new File("/Users/nbv3/Desktop/Untitled"));
-//		MapData data = xml.loadFromFile(new File("C:\\Users\\Jack\\Documents\\School\\CS_308\\voogasalad_SyntacticSugar\\test_map2.xml"));
+		XMLHandler<MapData> xml = new XMLHandler<>();
 		myCurrentInput = new ArrayList<KeyCode>();
 		myConditions = new ArrayList<IGameCondition>();
 		myConditions.add(new PlayerDeathCondition());

@@ -4,8 +4,11 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
+import java.util.Collection;
 
-import com.syntacticsugar.vooga.authoring.icons.panes.ImageIconPane;
+import com.syntacticsugar.vooga.authoring.icons.IconPane;
+import com.syntacticsugar.vooga.authoring.icons.ImageFileFilter;
 import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
@@ -33,11 +36,11 @@ public class MapEditorControls {
 	private Button addNewImage;
 	private Button applyChanges;
 	private TileImplementation mySelectedType;
-	private ImageIconPane myIconPane;
+	private IconPane myIconPane;
 
 	public MapEditorControls(IMapEditor mapEditor) {
 
-		myIconPane = new ImageIconPane();
+		myIconPane = new IconPane();
 		ComboBox<TileImplementation> typeChooser = buildImplementationChooser();
 
 		selectAll = 
@@ -117,7 +120,16 @@ public class MapEditorControls {
 	private void showImageOptions(TileImplementation type) {
 		File imgDirectory = new File(
 				ResourceManager.getString(String.format("%s%s", mySelectedType, "_images")));
-		myIconPane.showIcons(imgDirectory);
+		myIconPane.showIcons(imgDirectory, e -> convertImageFiles(imgDirectory));
+	}
+	
+	private Collection<String> convertImageFiles(File directory) {
+		File[] files = directory.listFiles(new ImageFileFilter());
+		Collection<String> imagePaths = new ArrayList<String>();
+		for (int i=0; i<files.length; i++) {
+			imagePaths.add(files[i].getName());
+		}
+		return imagePaths;
 	}
 
 	private void createNewImage(){
@@ -133,7 +145,7 @@ public class MapEditorControls {
 			try {
 				String path = ResourceManager.getString(String.format("%s%s", mySelectedType, "_images"));
 				Files.copy(selectedFile.toPath(),
-						(new File(path + "/" + selectedFile.getName())).toPath(),
+						(new File(path + "/" + mySelectedType.toString().toLowerCase() + "_" + selectedFile.getName())).toPath(),
 						StandardCopyOption.REPLACE_EXISTING);
 			} catch (IOException e) {
 				AlertBoxFactory.createObject("Image already exists. Please select another.");

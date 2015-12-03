@@ -4,8 +4,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.syntacticsugar.vooga.authoring.icons.implementations.Icon;
-import com.syntacticsugar.vooga.authoring.icons.panes.ObjectIconPane;
+import com.syntacticsugar.vooga.authoring.icons.Icon;
+import com.syntacticsugar.vooga.authoring.icons.IconPane;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
@@ -18,14 +18,14 @@ public class ObjectLibrary {
 
 	private VBox myView;
 	private GameObjectType myType;
-	protected ObjectIconPane myIconPane;
+	protected IconPane myIconPane;
 	protected List<ObjectData> myObjectDataList;
 	protected File myXMLDirectory;
 	
 	public ObjectLibrary(GameObjectType objectType, File XMLDirectory){
 		myType = objectType;
 		myObjectDataList = new ArrayList<ObjectData>();
-		myIconPane = new ObjectIconPane();
+		myIconPane = new IconPane();
 		myView = buildTitledPane(myIconPane, myType);
 
 	}
@@ -38,7 +38,7 @@ public class ObjectLibrary {
 		return myView;
 	}
 	
-	private VBox buildTitledPane(ObjectIconPane pane, GameObjectType type){
+	private VBox buildTitledPane(IconPane pane, GameObjectType type){
 		return GUIFactory.buildTitledPane(pane.getIconPane(),
 				ResourceManager.getString(type.toString()) + " Objects Available");
 	}

@@ -1,13 +1,11 @@
-package com.syntacticsugar.vooga.authoring.icons.panes;
+package com.syntacticsugar.vooga.authoring.icons;
 
 import java.io.File;
-import java.io.FileFilter;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.syntacticsugar.vooga.authoring.icons.implementations.Icon;
+import com.syntacticsugar.vooga.authoring.dragdrop.DragDropManager;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -15,15 +13,11 @@ import javafx.geometry.Insets;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.effect.Glow;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.ClipboardContent;
-import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.input.TransferMode;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.TilePane;
 
-public abstract class AbstractIconPane {
+public class IconPane {
 
 	private ScrollPane myScrollPane;
 	private TilePane myIconPane;
@@ -34,7 +28,7 @@ public abstract class AbstractIconPane {
 	private final double INSET_VALUE = 6;
 	private final int NUM_COLS = 4;
 
-	public AbstractIconPane() {
+	public IconPane() {
 		mySelectedIcon.addListener((o, s1, s2) -> setSelectedEffect(s1, s2));
 		myImagePaths = new HashMap<>();
 		myScrollPane = new ScrollPane();
@@ -54,7 +48,17 @@ public abstract class AbstractIconPane {
 	 * by this subclass of AbstractIconPane.
 	 * @param directory
 	 */
-	public abstract void showIcons(File directory);
+	public void showIcons(File directory, IConverter fileConverter) {
+		clearIconPane();
+		Collection<String> imagePaths = fileConverter.getImages(directory);
+		for (String path : imagePaths) {
+			Icon icon = new Icon(path);
+			icon.setOnDragDetected((MouseEvent e) -> DragDropManager.createDragClipBoards(icon, e));
+			icon.setOnMouseClicked(e -> setSelectedIcon(icon));
+			addIconToPane(icon, path);
+		}
+		setSelectedIcon(null);
+	}
 	
 	/**
 	 * Return the JavaFX Node used to display this IconPane.
@@ -64,22 +68,12 @@ public abstract class AbstractIconPane {
 		return myScrollPane;
 	}
 	
-	protected Collection<String> getImagePaths(File directory, FileFilter filter) {
-		File[] files = directory.listFiles(filter);
-		Collection<String> imagePaths = new ArrayList<String>();
-		for (int i=0; i<files.length; i++) {
-			imagePaths.add(files[i].getName());
-		}
-		return imagePaths;
-	}
-	
 	protected void clearIconPane() {
 		myIconPane.getChildren().clear();
 		myImagePaths.clear();
 	}
 	
 	public void addIconToPane(Icon icon, String imagePath) {
-		double size = ((getIconPane().getWidth() - 2.0*INSET_VALUE - (NUM_COLS-1.0)*2.0*INSET_VALUE)/(NUM_COLS));
 		myIconPane.getChildren().add(icon);
 		myImagePaths.put(icon, imagePath);
 	}

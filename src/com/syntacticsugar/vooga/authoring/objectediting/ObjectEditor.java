@@ -2,11 +2,11 @@ package com.syntacticsugar.vooga.authoring.objectediting;
 
 import java.io.File;
 
-import com.syntacticsugar.vooga.authoring.icons.implementations.Icon;
+import com.syntacticsugar.vooga.authoring.icons.Icon;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
-import com.syntacticsugar.vooga.xml.ObjectDataXML;
+import com.syntacticsugar.vooga.xml.XMLHandler;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
 
 import javafx.event.ActionEvent;
@@ -110,14 +110,12 @@ public class ObjectEditor {
 		fileChooser.setInitialFileName(String.format("%s.%s", currentData.getObjectName(), "xml"));
 		File selectedFile = fileChooser.showSaveDialog(new Stage());
 		if (selectedFile != null) {
-			ObjectDataXML xml = new ObjectDataXML();
-			String xmlString = xml.generateXML(currentData);
-			xml.writeXMLToFile(xmlString, selectedFile);
+			XMLHandler<ObjectData> xml = new XMLHandler<>();
+			xml.write(currentData, selectedFile);
 		}
 	}
 	
 	private void selectImage() {
-		//TODO: OPEN UP A FILE CHOOSER AND SELECT AN IMAGE FROM ONE OF OUR BUILD PATH DIRECTORIES
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.getExtensionFilters().add(new ExtensionFilter("Image Files", "*.jpeg", "*.gif", "*.png"));
 		fileChooser.setTitle("Save Resource File");
