@@ -14,48 +14,47 @@ public class XMLHandler<T> implements IXML<T> {
 
 	private XStream myXStream;
 
-	public XMLHandler () {
+	public XMLHandler() {
 		this.myXStream = new XStream(new StaxDriver());
 	}
-	
+
 	private String generateXML(T obj) {
 		try {
 			String xml = myXStream.toXML(obj);
 			return xml;
 		} catch (Exception e) {
-			System.out.println("Game XML Write Error");
+			System.out.println("XML Write Error");
 			return "";
 		}
 	}
-	
+
 	private String fileToString(File f) {
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(f));
 			String line;
 			StringBuilder sb = new StringBuilder();
 
-			while((line=br.readLine())!= null){
-			    sb.append(line.trim());
+			while ((line = br.readLine()) != null) {
+				sb.append(line.trim());
 			}
 			br.close();
 			return sb.toString();
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("File not found");
+			return "";
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Error reading file");
+			return "";
 		}
-		return "";
 	}
-	
+
 	private void writeXMLToFile(String xml, String path) {
 		try {
 			PrintWriter out = new PrintWriter(path);
 			out.println(xml);
 			out.close();
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			System.out.println("Failed to write XML to file");
 		}
 	}
 
@@ -63,7 +62,7 @@ public class XMLHandler<T> implements IXML<T> {
 	public void write(T object, File f) {
 		writeXMLToFile(generateXML(object), f.getPath());
 	}
-	
+
 	@Override
 	public T read(File f) {
 		String xml = fileToString(f);
@@ -72,9 +71,9 @@ public class XMLHandler<T> implements IXML<T> {
 			System.out.println(object);
 			return object;
 		} catch (Exception e) {
-			e.printStackTrace();
-			throw e;
+			System.out.println("Error reading XML");
+			return null;
 		}
 	}
-	
+
 }

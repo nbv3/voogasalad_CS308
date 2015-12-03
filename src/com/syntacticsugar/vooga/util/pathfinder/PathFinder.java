@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 
-public class PF {
+public class PathFinder {
 	private boolean[][] map;
 	private int rows;
 	private int cols;
@@ -23,7 +23,7 @@ public class PF {
 	
 	private List<List<Point>> paths;
 	
-	public PF(boolean[][] map, Point startPoint, List<Point> destinationPoints) {
+	public PathFinder(boolean[][] map, Point startPoint, List<Point> destinationPoints) {
 		this.map = map;
 		this.startPoint = startPoint;
 		this.destinationPoints = destinationPoints;

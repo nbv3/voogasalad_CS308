@@ -4,7 +4,7 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PFTest {
+public class PathFinderTest {
 	public static void main(String args[]) {
 		boolean[][] map = new boolean[10][10];
 		for (int row = 0; row < map.length; row++) {
@@ -18,7 +18,7 @@ public class PFTest {
 		
 		List<Point> destination = new ArrayList<Point>();
 		destination.add(new Point(5,5));
-		PF pf = new PF(map, new Point(5,5), destination);
+		PathFinder pf = new PathFinder(map, new Point(5,5), destination);
 		Point next = pf.getNext();
 		System.out.println(next);
 		List<Point> path = pf.getPath();
@@ -28,7 +28,7 @@ public class PFTest {
 		List<Point> destinations = new ArrayList<Point>();
 		destinations.add(new Point(6,6));
 		destinations.add(new Point(4,4));
-		PF pf2 = new PF(map, new Point(5,5), destinations);
+		PathFinder pf2 = new PathFinder(map, new Point(5,5), destinations);
 		Point next2 = pf2.getNext();
 		System.out.println(next2);
 		List<Point> path2 = pf2.getPath();
