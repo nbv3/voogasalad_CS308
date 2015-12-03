@@ -69,20 +69,20 @@ public class SceneManager {
 	}
 	
 	public void launchNewEditor() {
-		new AuthoringScreenManager(e -> launchFirstMenu());
 		myStage.hide();
+		new AuthoringScreenManager(e -> launchFirstMenu());
 	}
 	
 	public void launchLoadEditor() {
 		// TODO load from XML here or within GameManager?
-		new AuthoringScreenManager(e -> launchFirstMenu());
 		myStage.hide();
+		new AuthoringScreenManager(e -> launchFirstMenu());
 	}
 	
 	public void launchNewEngine() {
 		GameData data = makeEmptyData();
-		new GameManager(e -> launchFirstMenu(), GAME_SIZE, data, FRAME_LENGTH);
 		myStage.hide();
+		new GameManager(e -> launchFirstMenu(), GAME_SIZE, data, FRAME_LENGTH);
 	}
 	
 	public void launchLoadEngine() {
