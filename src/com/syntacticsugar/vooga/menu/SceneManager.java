@@ -62,12 +62,16 @@ public class SceneManager {
 	public void launchAuthoringMenu() {	
 		AbstractGameMenu screen = new AuthoringGameMenu(this, WIDTH, HEIGHT, TITLE);
 		viewScene(screen);
-		SocialCenter social = new SocialCenter();
 	}
 	
 	public void launchEngineMenu() {
 		AbstractGameMenu screen = new EngineGameMenu(this, WIDTH, HEIGHT, TITLE);
 		viewScene(screen);
+	}
+	
+	public void launchSocialCenter() {
+		myStage.hide();
+		new SocialCenter(e -> launchFirstMenu());
 	}
 	
 	public void launchNewEditor() {

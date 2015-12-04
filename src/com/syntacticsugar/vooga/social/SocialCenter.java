@@ -1,8 +1,10 @@
 package com.syntacticsugar.vooga.social;
 
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 public class SocialCenter {
 
@@ -11,8 +13,9 @@ public class SocialCenter {
 	private Stage myStage;
 	private VBox myView;
 	
-	public SocialCenter(){
+	public SocialCenter(EventHandler<WindowEvent> onClose){
 		myStage = new Stage();
+		myStage.setOnCloseRequest(onClose);
 		myView = new VBox();
 		myObjectDataViewer = new ObjectDataViewer();
 		myXMLViewer = new XMLViewer(id -> myObjectDataViewer.update(id));

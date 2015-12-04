@@ -40,7 +40,7 @@ public abstract class AbstractGameMenu extends BorderPane implements IGameMenu{
 		optionsList.getChildren().add(mybox);
 		optionsList.getChildren().addAll(options);
 		BorderPane.setAlignment(optionsList, Pos.CENTER);
-		optionsList.setMaxWidth(300.0);
+		optionsList.setMaxWidth(500.0);
 		this.setCenter(optionsList);
 	}
 	
