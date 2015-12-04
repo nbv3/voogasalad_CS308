@@ -22,23 +22,28 @@ public class EditingViewer {
 	protected Insets myPadding = new Insets(10,10,10,10);
 	
 	public EditingViewer(String viewerTitle){
-		myView = (VBox) makeMyViewer(viewerTitle);
+		myView = new VBox();
+		myView.setPadding(myPadding);
+		myView.getChildren().add(makeTitleStrip(viewerTitle));
+		makeContentBox();
 	}
 	
-	private Node makeContentBox(){ 
+	private void makeContentBox(){ 
+		// makes the VBox that contains the ListView and the buttons.
 		myListView = new ListView<HBox>();
-		return myListView;
+		myView.getChildren().add(myListView);
 	}
 	
-	private Node makeMyViewer(String viewerTitle){
-		Collection<Node> buttons = new ArrayList<Node>();
-		buttons.add(makeAddButton());
+	private AnchorPane makeTitleStrip(String title){
+		Collection<Node> buttons = new ArrayList<Node>(); 
+		buttons.add(makeAddButton()); 
 		buttons.add(makeRemoveButton());
-		VBox view = GUIFactory.buildTitledPaneWithButtons(makeContentBox(), viewerTitle, buttons);
-		return view;
-
+		AnchorPane titleStrip = (AnchorPane) GUIFactory.buildTitleNodeWithButtons(title, buttons);
+		titleStrip.setPadding(myPadding);
+		return titleStrip;
 	}
-		
+	
+	
 	private Button makeAddButton(){
 		myAddButton = GUIFactory.buildButton(ResourceManager.getString("add_symbol"), null, 30.0, null);
 		return myAddButton;

@@ -5,14 +5,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.syntacticsugar.vooga.authoring.fluidmotion.FadeTransitionWizard;
-import com.syntacticsugar.vooga.authoring.fluidmotion.FluidGlassBall;
-import com.syntacticsugar.vooga.authoring.fluidmotion.ParallelTransitionWizard;
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
 import com.syntacticsugar.vooga.util.gui.factory.MsgInputBoxFactory;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
 
+import authoring.fluidmotion.FadeTransitionWizard;
+import authoring.fluidmotion.FluidGlassBall;
+import authoring.fluidmotion.ParallelTransitionWizard;
 import javafx.animation.Animation;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;

@@ -8,24 +8,30 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import com.syntacticsugar.vooga.authoring.fluidmotion.FadeTransitionWizard;
-import com.syntacticsugar.vooga.authoring.fluidmotion.FluidGlassBall;
-import com.syntacticsugar.vooga.authoring.level.QueueBox;
-import com.syntacticsugar.vooga.authoring.level.QueueTooltip;
 import com.syntacticsugar.vooga.gameplayer.attribute.HealthAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
+import com.syntacticsugar.vooga.gameplayer.attribute.movement.AIMovementAttribute;
+import com.syntacticsugar.vooga.gameplayer.attribute.movement.MovementControlAttribute;
 import com.syntacticsugar.vooga.gameplayer.event.ICollisionEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.HealthChangeEvent;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
 
+import authoring.fluidmotion.FadeTransitionWizard;
+import authoring.fluidmotion.FluidGlassBall;
 import javafx.animation.Animation;
+import javafx.animation.FadeTransition;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Orientation;
 import javafx.scene.Node;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Tooltip;
+import javafx.util.Duration;
 
 public class EnemyQueuePane {
 
@@ -103,6 +109,7 @@ public class EnemyQueuePane {
 	}
 
 	public Node createQueueBoxFromObjData(ObjectData obj) {
+		// later will pass in ObjectData instance to QueueBox constructor
 		QueueBox queueBox = new QueueBox(obj);
 		return queueBox.getContent();
 	}
