@@ -123,7 +123,6 @@ public class AttributeMakerWizard implements Observer{
 				attributeToAdd = (IAttribute) Reflection.createInstance(className);
 			}
 			setParameters(attributeToAdd);
-			myAttributes.add(attributeToAdd);
 	}
 
 	@Override
@@ -157,15 +156,14 @@ public class AttributeMakerWizard implements Observer{
 					{
 						HealthAttribute health = (HealthAttribute) attributeToAdd;
 						health.setHealth(Double.parseDouble(userInput));
-						myAttributes.remove(attributeToAdd);
 						myAttributes.add(health);
 					}
 					else
 					{
 						AIMovementAttribute move = (AIMovementAttribute) attributeToAdd;
 						move.setSpeed(Double.parseDouble(userInput));
-						myAttributes.remove(attributeToAdd);
 						myAttributes.add(move);
+						
 					}
 					s.close();
 			}
