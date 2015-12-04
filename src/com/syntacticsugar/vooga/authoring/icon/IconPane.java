@@ -23,7 +23,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.TilePane;
 
-public class IconPane implements IVisualElement {
+public class IconPane implements IVisualElement, IDirectoryViewer<String> {
 
 	private ScrollPane myScrollPane;
 	private TilePane myIconPane;
@@ -65,16 +65,11 @@ public class IconPane implements IVisualElement {
 		myIconPane.maxWidthProperty().set(myScrollPane.viewportBoundsProperty().get().getWidth());
 	}
 
-	/**
-	 * Show all icons representing the relevant file types as specified by this
-	 * subclass of AbstractIconPane.
-	 * 
-	 * @param directory
-	 */
-	public void showIcons(File directory, IConverter fileConverter) {
+	@Override
+	public void showDirectoryContents(File directory, IConverter<String> fileConverter) {
 		clearIconPane();
 		initializeGridPane();
-		Collection<String> imagePaths = fileConverter.getImages(directory);
+		Collection<String> imagePaths = fileConverter.getContent(directory);
 		for (String path : imagePaths) {
 			ImageView iv = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(path)));
 			iv.fitWidthProperty().bind(myIconPane.maxWidthProperty().divide(NUM_COLS).subtract(INSET_VALUE));

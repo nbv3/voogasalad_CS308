@@ -148,7 +148,7 @@ public class MapEditorControls{
 	private void showImageOptions(TileImplementation type) {
 		File imgDirectory = new File(
 				ResourceManager.getString(String.format("%s%s", mySelectedType, "_images")));
-				myIconPane.showIcons(imgDirectory, e -> convertImageFiles(imgDirectory));
+				myIconPane.showDirectoryContents(imgDirectory, e -> convertImageFiles(imgDirectory));
 	}
 		
 	private Collection<String> convertImageFiles(File directory) {
