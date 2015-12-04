@@ -1,17 +1,11 @@
 package com.syntacticsugar.vooga.gameplayer.universe;
 
-import java.util.Collection;
-import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
+import com.syntacticsugar.vooga.gameplayer.view.IViewController;
 
-public abstract class Yard implements IYard{
-	
+public abstract class Yard implements IYard<IViewController> {
 
-	private Collection<IGameObject> objectsInYard;
-	
-	public Yard(){
-		
+	public Yard() {
+
 	}
-	
-	
 
 }

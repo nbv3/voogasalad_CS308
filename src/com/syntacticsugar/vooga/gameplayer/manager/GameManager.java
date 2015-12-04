@@ -203,7 +203,7 @@ public class GameManager implements IGameManager{
 		try {
 			LevelChangeEvent event = (LevelChangeEvent) e;
 			System.out.println("LOL");
-			if(event.getType().equals(ConditionType.LOSING)){
+			if(event.getLevelConditionType().equals(ConditionType.LOSING)){
 				System.out.println("YOU LOST");
 			}
 			else
