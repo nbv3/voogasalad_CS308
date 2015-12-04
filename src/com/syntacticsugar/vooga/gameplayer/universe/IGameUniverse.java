@@ -13,7 +13,8 @@ import com.syntacticsugar.vooga.xml.data.UniverseData;
 
 public interface IGameUniverse extends IObjectCollection,
 									   IKeyInputProcessor,
-									   IEventPoster{
+									   IEventPoster,
+									   IUniverseView{
 
 	/**
 	 * A SimpleUniverse (anything that implements this interface) must contain a 
@@ -30,10 +31,5 @@ public interface IGameUniverse extends IObjectCollection,
 	
 	public UniverseData saveGame();
 	
-	public Collection<ObjectData> getAvailableTowers();
-	
-	public IScore getScore();
-	
-	public void observeScore(Observer observer);
 	
 }

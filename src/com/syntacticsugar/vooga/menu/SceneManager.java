@@ -14,6 +14,7 @@ import com.syntacticsugar.vooga.gameplayer.event.ICollisionEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.HealthChangeEvent;
 import com.syntacticsugar.vooga.gameplayer.manager.GameManager;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
+import com.syntacticsugar.vooga.social.SocialCenter;
 import com.syntacticsugar.vooga.xml.XMLHandler;
 import com.syntacticsugar.vooga.xml.data.GameData;
 import com.syntacticsugar.vooga.xml.data.GlobalSettings;
@@ -68,6 +69,11 @@ public class SceneManager {
 		viewScene(screen);
 	}
 	
+	public void launchSocialCenter() {
+		myStage.hide();
+		new SocialCenter(e -> launchFirstMenu());
+	}
+	
 	public void launchNewEditor() {
 		myStage.hide();
 		new AuthoringScreenManager(e -> launchFirstMenu());
@@ -108,12 +114,10 @@ public class SceneManager {
 	private GameData makeEmptyData() {
 		
 		Collection<ObjectData> odata = new ArrayList<>();
-		
-		
 		String enemyPath = "enemy_monster_1.png";
 		ObjectData enemyData = new ObjectData();
 		Collection<IAttribute> enemyAttributes = new ArrayList<IAttribute>();
-		enemyAttributes.add(new HealthAttribute(30));
+		enemyAttributes.add(new HealthAttribute(30.0));
 		enemyAttributes.add(new ScoreAttribute(30));
 //		enemyAttributes.add(new AIMovementAttribute(3));
 		Map<GameObjectType, Collection<ICollisionEvent>> collisions = new HashMap<GameObjectType, Collection<ICollisionEvent>>();
@@ -130,7 +134,7 @@ public class SceneManager {
 		
 		ObjectData enemyData2 = new ObjectData();
 		Collection<IAttribute> enemyAttributes2 = new ArrayList<IAttribute>();
-		enemyAttributes2.add(new HealthAttribute(30));
+		enemyAttributes2.add(new HealthAttribute(30.0));
 		enemyAttributes2.add(new ScoreAttribute(40));
 //		enemyAttributes.add(new AIMovementAttribute(3));
 		Map<GameObjectType, Collection<ICollisionEvent>> collisions2 = new HashMap<GameObjectType, Collection<ICollisionEvent>>();
@@ -151,13 +155,53 @@ public class SceneManager {
 		sdata.add(wdata);
 		SpawnerData spawn = new SpawnerData(sdata);
 		
-		MapData map = new MapData(10, "gray.png");
-		TowerData towers = new TowerData(new ArrayList<ObjectData>());
+		
+		
+		MapData map = new MapData(10, "scenery_grass_2.png");
+		
+		ArrayList<ObjectData> towers = new ArrayList<>();
+		String imgPath = "tower_1.png";
+		ObjectData towerData = new ObjectData();
+		towerData.setImagePath(imgPath);
+		Collection<IAttribute> towerAttributes = new ArrayList<IAttribute>();
+		towerAttributes.add(new HealthAttribute(30.0));
+		// towerAttributes.add(new AIMovementAttribute(3));
+		Map<GameObjectType, Collection<ICollisionEvent>> collisionst = new HashMap<GameObjectType, Collection<ICollisionEvent>>();
+		Collection<ICollisionEvent> towerEvents = new ArrayList<ICollisionEvent>();
+		towerEvents.add(new HealthChangeEvent(-10));
+		towerData.setType(GameObjectType.ENEMY);
+		towerData.setImagePath(imgPath);
+		towerData.setAttributes(towerAttributes);
+		towerData.setCollisionMap(collisionst);
+		towerData.setWidth(100);
+		towerData.setHeight(100);
+		towers.add(towerData);
+
+		String imgPath1 = "tower_4.png";
+		ObjectData towerData2 = new ObjectData();
+		towerData2.setImagePath(imgPath1);
+		Collection<IAttribute> towerAttributes2 = new ArrayList<IAttribute>();
+		towerAttributes2.add(new HealthAttribute(30.0));
+		// towerAttributes.add(new AIMovementAttribute(3));
+		Map<GameObjectType, Collection<ICollisionEvent>> collisionst2 = new HashMap<GameObjectType, Collection<ICollisionEvent>>();
+		Collection<ICollisionEvent> towerEvents2 = new ArrayList<ICollisionEvent>();
+		towerEvents2.add(new HealthChangeEvent(-10));
+		towerData2.setType(GameObjectType.TOWER);
+		towerData2.setImagePath(imgPath);
+		towerData2.setAttributes(towerAttributes2);
+		towerData2.setCollisionMap(collisionst2);
+		towerData2.setWidth(100);
+		towerData2.setHeight(100);
+		towers.add(towerData2);
+		
+		TowerData td = new TowerData(towers);
+		
 		LevelSettings lSetting = new LevelSettings(50);
 		Collection<UniverseData> uni = new ArrayList<>();
-		uni.add(new UniverseData(spawn, towers, map, lSetting));
+		uni.add(new UniverseData(spawn, td, map, lSetting));
 		GlobalSettings settings = new GlobalSettings(1, 60);
 		GameData data = new GameData(uni, settings);
+		
 		return data;
 	}
 	

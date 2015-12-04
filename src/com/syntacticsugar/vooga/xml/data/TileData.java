@@ -1,6 +1,5 @@
 package com.syntacticsugar.vooga.xml.data;
 
-import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.DecoratorTile;
 import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.IGameTile;
 
 public class TileData {

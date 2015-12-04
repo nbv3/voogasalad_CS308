@@ -6,20 +6,19 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 public class DataBox extends VBox {
-	
+
 	private final static double CONTENT_SPACING = 20.0;
-	
+
 	private HBox myContent;
-	
-	public DataBox(String name){
-		Label title = new Label(name);
-		title.getStyleClass().add("title");
+
+	public DataBox() {
 		myContent = new HBox(CONTENT_SPACING);
-		this.getChildren().addAll(title, myContent);
+		myContent.getStyleClass().add("data");
+		this.getChildren().addAll(myContent);
 	}
-	
-	public void addContent(Node dataContent){
-		myContent.getChildren().add(dataContent);
+
+	public void addContent(Node... dataContent) {
+		myContent.getChildren().addAll(dataContent);
 	}
 
 }

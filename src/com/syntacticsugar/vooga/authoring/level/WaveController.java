@@ -29,7 +29,7 @@ public class WaveController extends Observable{
 		myEditButton = GUIFactory.buildButton("Edit Selected", e -> editItem(tabs), 150.0, 50.0);
 		myView.getChildren().addAll(myAddButton, myClearButton, myEditButton, myRemoveButton);
 		myView.setAlignment(Pos.CENTER);
-		myView.setSpacing(20);
+		myView.setSpacing(10);
 	}
 	
 	private void editItem(EnemyQueueTabManager tabs)
