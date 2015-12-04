@@ -1,6 +1,11 @@
 package com.syntacticsugar.vooga.authoring.parameters;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Constructor;
+import java.util.Properties;
+
 import com.syntacticsugar.vooga.resources.*;
 
 import com.sun.deploy.uitoolkit.impl.fx.ui.resources.ResourceManager;
@@ -12,13 +17,28 @@ import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
 
 public class ParameterFactory {
+	String fileName = "Parameters.properties";
+	Properties properties = new Properties();
 	
-	public ParameterFactory(){
-		
+	public ParameterFactory() throws IOException{
+		initializeProperties();
 	}
 	
-	public Node loadNode(IAttribute attribute){
-		
+	private void initializeProperties() throws IOException
+	{
+		InputStream  inputStream = getClass().getClassLoader().getResourceAsStream(fileName);
+		if(inputStream != null)
+		{
+			properties.load(inputStream);
+		}
+		else
+		{
+			throw new FileNotFoundException("Property file: " + fileName + "not found in classpath!");
+		}
+	}
+	
+	public Node loadNode(Class<?> c, IAttribute attribute){
+		String s = properties.get(c);
 		Constructor<?>[] constructors = attribute.getClass().getDeclaredConstructors();
 		if(constructors.length>1) throw new IllegalArgumentException("This attribute has more than 1 constructor. Please check.");
 		Class[] paramTypes = constructors[0].getParameterTypes();
