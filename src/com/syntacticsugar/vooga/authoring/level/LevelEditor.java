@@ -16,9 +16,12 @@ public class LevelEditor{
 	private EnemyQueueTabManager myQueue;
 	private WaveController myWaveControl;
 	private TowerManager myTowers;
+	private LevelConditionManager myConditions;
+
 	// private SpawnEditor mySpawnEditor;
 
 	public LevelEditor() throws Exception {
+		myConditions = new LevelConditionManager();
 		myMapEditor = new MapEditor();
 		myTileEditor = new MapEditorControls(myMapEditor);
 		myQueue = new EnemyQueueTabManager();
@@ -61,6 +64,7 @@ public class LevelEditor{
 		myContentGrid.add(myMapEditor.getContent(), 1, 0, 1, 2);
 		myContentGrid.add(myWaveControl.getView(), 0, 2, 1, 1);
 		myContentGrid.add(myQueue.getView(), 1, 2, 2, 1);
+		myContentGrid.add(myConditions.getView(), 2, 1, 1, 1);
 
 		myContentGrid.add(myTowers.getView(), 2, 0, 1, 1);
 		//coordinates for tower list
