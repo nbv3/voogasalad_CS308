@@ -135,10 +135,10 @@ public class ObjectEditor{
 			if (myCreateButton.isDisabled()) {
 				myCreateButton.setDisable(false);
 			}
-			if (data.getType() != null) {
-				myTypeChooser.setValue(data.getType().toString());
-			}
 			currentData = data;
+			if (data.getType() != null) {
+				myTypeChooser.setValue(currentData.getType().toString());
+			}
 			myAttributeViewer.displayData(currentData.getAttributes());
 			myCollisionViewer.displayData(currentData.getCollisionMap());
 			myIcon.setImage(new Image(ResourceManager.getResource(this, currentData.getImagePath())));
