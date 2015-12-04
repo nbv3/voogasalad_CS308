@@ -22,7 +22,7 @@ public class WeaponAttribute extends AbstractAttribute implements IUserControlAt
 	private int fireFrameDelay;
 	private int delayFrameCounter;
 	
-	public WeaponAttribute(String bulletImagePath, double bulletDamage, KeyCode fireKeyCode) {
+	public WeaponAttribute(String bulletImagePath, Double bulletDamage, KeyCode fireKeyCode) {
 		this.myBulletImagePath = bulletImagePath;
 		this.myBulletDamage = -bulletDamage;
 		this.myFireKeyCode = fireKeyCode;
@@ -41,6 +41,11 @@ public class WeaponAttribute extends AbstractAttribute implements IUserControlAt
 			}
 		}
 		delayFrameCounter++;
+	}
+	
+	public String getImagePath()
+	{
+		return myBulletImagePath;
 	}
 
 	@Override

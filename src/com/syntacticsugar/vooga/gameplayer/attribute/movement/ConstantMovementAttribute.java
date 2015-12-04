@@ -10,7 +10,7 @@ public class ConstantMovementAttribute extends AbstractMovementAttribute {
 
 	Direction myDir;
 	
-	public ConstantMovementAttribute(Direction dir, double speed) {
+	public ConstantMovementAttribute(Direction dir, Double speed) {
 		super(speed);
 		myDir = dir;
 	}

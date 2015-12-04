@@ -1,9 +1,12 @@
 package com.syntacticsugar.vooga.authoring.objectediting;
 
 import java.io.File;
+import java.util.Observable;
+import java.util.Observer;
 
 import com.syntacticsugar.vooga.authoring.icon.Icon;
 import com.syntacticsugar.vooga.authoring.library.IRefresher;
+import com.syntacticsugar.vooga.authoring.parameters.ParameterFactory;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
@@ -18,11 +21,14 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
@@ -32,7 +38,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.FileChooser.ExtensionFilter;
 
-public class ObjectEditor {
+public class ObjectEditor{
 
 	private GridPane myView;
 	private AttributeViewer myAttributeViewer;
@@ -41,6 +47,7 @@ public class ObjectEditor {
 	private Button myCreateButton;
 	private ObjectData currentData;
 	private IRefresher myRefresher;
+	private AttributeMakerWizard myAttributeWizard;
 
 	public ObjectEditor(IRefresher refresher){
 		currentData = new ObjectData();
@@ -140,8 +147,9 @@ public class ObjectEditor {
 	}
 	
 	private void buildNewAttribute() {
-		new AttributeMakerWizard(currentData.getType(), myAttributeViewer.getData());
+		myAttributeWizard = new AttributeMakerWizard(currentData.getType(), myAttributeViewer.getData());
 	}
+	
 	
 	private void buildNewCollision() {
 		new CollisionMakerWizard(currentData.getType(), myCollisionViewer.getData());
@@ -221,5 +229,6 @@ public class ObjectEditor {
 		AnchorPane anchor = GUIFactory.buildAnchorPane(new Label(label), buttonGrid);
 		return anchor;
 	}
+
 	
 }

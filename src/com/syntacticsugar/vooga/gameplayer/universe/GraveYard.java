@@ -74,7 +74,7 @@ public class GraveYard implements IYard<IViewRemover>, GameEventListener {
 			addToYard(obj);
 			ScoreAttribute score = (ScoreAttribute) obj.getAttributes().get(ResourceManager.getString(ScoreAttribute.class.getSimpleName()));
 			if (score != null) {
-				int scoreNum = score.getScore();
+				Integer scoreNum = score.getScore();
 				myPoster.postEvent(new ScoreChangeEvent(scoreNum));
 			}
 		}

@@ -1,8 +1,15 @@
 package com.syntacticsugar.vooga.authoring.objectediting;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.ListIterator;
+import java.util.Observable;
+import java.util.Observer;
 
+import com.syntacticsugar.vooga.authoring.parameters.ParameterFactory;
+import com.syntacticsugar.vooga.gameplayer.attribute.HealthAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
+import com.syntacticsugar.vooga.gameplayer.attribute.movement.AIMovementAttribute;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
@@ -11,14 +18,19 @@ import com.syntacticsugar.vooga.util.reflection.Reflection;
 import com.syntacticsugar.vooga.util.reflection.ReflectionException;
 
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class AttributeMakerWizard {
+public class AttributeMakerWizard implements Observer{
 
 	private Stage myStage;
 	private Scene myScene;
@@ -26,12 +38,29 @@ public class AttributeMakerWizard {
 	private IAttribute attributeToAdd;
 	private String selectedAttribute;
 	private final double SCENE_DIMENSION = 300;
+	private ParameterFactory myFactory;
 
 	public AttributeMakerWizard(GameObjectType type, Collection<IAttribute> attributes){
-		System.out.println(type + " in wizard");
 		myAttributes = attributes;
 		myStage = new Stage();
 		setType(type);
+		myFactory = new ParameterFactory();
+		myFactory.addObserver(this);
+	}
+	
+	private void setParameters(IAttribute attribute)
+	{
+		if(myFactory == null)
+		{
+			myFactory = new ParameterFactory();
+			myFactory.addObserver(this);
+		}
+		myFactory.loadNode(attribute);
+	}
+	
+	public ParameterFactory getParameterFactory()
+	{
+		return myFactory;
 	}
 	
 	public void setType(GameObjectType type) {
@@ -85,17 +114,64 @@ public class AttributeMakerWizard {
 	}
 
 	private void addAttributeToList() {
-		MsgInputBoxFactory msgBox = new MsgInputBoxFactory(ResourceManager.getString(String.format("%s%s", "double_", selectedAttribute)));
-		if (msgBox.getValue() != 0) {
+			//MsgInputBoxFactory msgBox = new MsgInputBoxFactory(ResourceManager.getString(String.format("%s%s", "double_", selectedAttribute)));
 			String className = ResourceManager.getString(String.format("%s_%s", selectedAttribute, "name"));
 			try {
-				attributeToAdd = (IAttribute) Reflection.createInstance(className, msgBox.getValue());
+				attributeToAdd = (IAttribute) Reflection.createInstance(className, 0.0);
 			}
 			catch (ReflectionException ex) {
 				attributeToAdd = (IAttribute) Reflection.createInstance(className);
 			}
+			setParameters(attributeToAdd);
 			myAttributes.add(attributeToAdd);
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		Stage tempStage = new Stage();
+		BorderPane tempPane = new BorderPane();
+		Scene tempScene = new Scene(tempPane);
+		tempStage.setScene(tempScene);
+		tempPane.setCenter((Node) arg);
+		tempStage.show();
+		HBox temp = (HBox)arg;
+		ListIterator<Node> myNodes = temp.getChildren().listIterator();
+		while(myNodes.hasNext())
+		{
+			Node n = myNodes.next();
+			if(n.getClass().getName().equals("javafx.scene.control.TextField"))
+			{
+				TextField field = (TextField) n;
+				field.setOnKeyPressed(e->updateHealth(tempStage, e.getCode(), field.getText()));
+			}
 		}
+	}
+	
+	private void updateHealth(Stage s, KeyCode code, String userInput)
+	{
+		if(code.equals(KeyCode.ENTER))
+		{
+			if(userInput != "")
+			{
+					if(attributeToAdd.getClass().getName().equals("com.syntacticsugar.vooga.gameplayer.attribute.HealthAttribute"))
+					{
+						HealthAttribute health = (HealthAttribute) attributeToAdd;
+						health.setHealth(Double.parseDouble(userInput));
+						myAttributes.remove(attributeToAdd);
+						myAttributes.add(health);
+					}
+					else
+					{
+						AIMovementAttribute move = (AIMovementAttribute) attributeToAdd;
+						move.setSpeed(Double.parseDouble(userInput));
+						myAttributes.remove(attributeToAdd);
+						myAttributes.add(move);
+					}
+					s.close();
+			}
+
+		}
+
 	}
 	
 }

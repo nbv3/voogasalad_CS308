@@ -19,7 +19,7 @@ public class AIMovementAttribute extends AbstractMovementAttribute {
 	private int myFrameCount;
 	private int myPathUpdateRate; // TODO: Move into a resource file
 	
-	public AIMovementAttribute(double speed) {
+	public AIMovementAttribute(Double speed) {
 		super(speed);
 		
 		// update currentTile
@@ -89,7 +89,6 @@ public class AIMovementAttribute extends AbstractMovementAttribute {
 		if (xLeft && xRight && yBot && yTop) {
 			result = true;
 		}
-		
 		
 		return result;
 	}

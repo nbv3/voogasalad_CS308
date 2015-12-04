@@ -113,7 +113,7 @@ public class SceneManager {
 		String enemyPath = "enemy_monster_1.png";
 		ObjectData enemyData = new ObjectData();
 		Collection<IAttribute> enemyAttributes = new ArrayList<IAttribute>();
-		enemyAttributes.add(new HealthAttribute(30));
+		enemyAttributes.add(new HealthAttribute(30.0));
 		enemyAttributes.add(new ScoreAttribute(30));
 //		enemyAttributes.add(new AIMovementAttribute(3));
 		Map<GameObjectType, Collection<ICollisionEvent>> collisions = new HashMap<GameObjectType, Collection<ICollisionEvent>>();
@@ -130,7 +130,7 @@ public class SceneManager {
 		
 		ObjectData enemyData2 = new ObjectData();
 		Collection<IAttribute> enemyAttributes2 = new ArrayList<IAttribute>();
-		enemyAttributes2.add(new HealthAttribute(30));
+		enemyAttributes2.add(new HealthAttribute(30.0));
 		enemyAttributes2.add(new ScoreAttribute(40));
 //		enemyAttributes.add(new AIMovementAttribute(3));
 		Map<GameObjectType, Collection<ICollisionEvent>> collisions2 = new HashMap<GameObjectType, Collection<ICollisionEvent>>();
