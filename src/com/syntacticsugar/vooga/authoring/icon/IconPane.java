@@ -74,15 +74,16 @@ public class IconPane {
 			// icon.getWidthProperty().set(myIconPane.getTileWidth());
 			// icon.getHeightProperty().set(myIconPane.getTileHeight());
 			icon.setOnDragDetected((MouseEvent e) -> DragDropManager.createDragClipBoards(icon, e));
-			// icon.setOnMouseClicked(e -> setSelectedIcon(icon));
+//			icon.setOnMouseClicked(e -> setSelectedIcon(icon));
 			icon.setOnMouseClicked(e -> setMine(icon));
 			myIconPane.getChildren().add(icon);
 			myImagePaths.put(icon, path);
 		}
 		setSelectedIcon(null);
 	}
-	
+
 	private void setMine(Icon i) {
+		setSelectedIcon(i);
 		mine = i;
 	}
 
@@ -92,7 +93,7 @@ public class IconPane {
 		initializeGridPane();
 		for (Icon i : map.keySet()) {
 			i.setOnDragDetected((MouseEvent e) -> DragDropManager.createDragClipBoards(i, e));
-//			i.setOnMouseClicked(e -> setSelectedIcon(i));
+			i.setOnMouseClicked(e -> setSelectedIcon(i));
 			i.setOnMouseClicked(e -> setMine(i));
 
 			myIconPane.getChildren().add(i);
@@ -100,7 +101,6 @@ public class IconPane {
 		}
 		setSelectedIcon(null);
 	}
-	
 
 	public ObjectData getCurrentData() {
 		System.out.println("Get Data " + myData.get(mine));
