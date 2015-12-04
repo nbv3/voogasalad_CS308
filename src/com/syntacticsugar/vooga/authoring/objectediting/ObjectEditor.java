@@ -130,7 +130,7 @@ public class ObjectEditor{
 	}
 
 	public void displayData(ObjectData data) {
-		if (currentData != null) {
+		if (data != null) {
 			if (myCreateButton.isDisabled()) {
 				myCreateButton.setDisable(false);
 			}
