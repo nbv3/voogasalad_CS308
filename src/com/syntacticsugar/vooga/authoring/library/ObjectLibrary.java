@@ -36,7 +36,7 @@ public class ObjectLibrary extends Tab {
 	}
 	
 	private void populatePaneFromXMLFiles(File XMLFolder){
-		myIconPane.showIcons(XMLFolder, e -> getImagePathsFromXML(XMLFolder));
+		//myIconPane.showIcons(XMLFolder, e -> getImagePathsFromXML(XMLFolder),false,null);
 	}
 	
 	private Collection<String> getImagePathsFromXML(File directory){

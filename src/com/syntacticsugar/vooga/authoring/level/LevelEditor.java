@@ -58,6 +58,7 @@ public class LevelEditor{
 		addColumnConstraints(myContentGrid);
 		addRowConstraints(myContentGrid);
 		myContentGrid.add(myTileEditor.getContent(), 0, 0, 1, 1);
+		myContentGrid.add(myTileEditor.getPreviewTile(), 0, 1,1, 1);
 		myContentGrid.add(myMapEditor.getContent(), 1, 0, 1, 2);
 		myContentGrid.add(myWaveControl.getView(), 0, 2, 1, 1);
 		myContentGrid.add(myQueue.getView(), 1, 2, 2, 1);

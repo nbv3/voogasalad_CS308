@@ -6,9 +6,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.syntacticsugar.vooga.authoring.dragdrop.DragDropManager;
+import com.syntacticsugar.vooga.xml.data.ObjectData;
+import com.syntacticsugar.vooga.xml.data.TileImplementation;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.ScrollPane;
@@ -22,6 +27,15 @@ public class IconPane {
 	private ScrollPane myScrollPane;
 	private TilePane myIconPane;
 	private Map<Icon, String> myImagePaths;
+	private Icon selectedTile;
+
+	public Icon getSelectedTile() {
+		return selectedTile;
+	}
+
+	public void setSelectedTile(Icon selectedTile) {
+		this.selectedTile = selectedTile;
+	}
 
 	private final ObjectProperty<Icon> mySelectedIcon = new SimpleObjectProperty<>();
 	private final double GLOW_PERCENTAGE = 0.75;
@@ -38,7 +52,9 @@ public class IconPane {
 		initializeGridPane();
 		myScrollPane.setPadding(new Insets(INSET_VALUE));
 	}
-
+	public void addPreviewListener(ChangeListener<Icon> event){
+		mySelectedIcon.addListener(event);
+	}
 	private void initializeGridPane() {
 		myIconPane = new TilePane();
 		myIconPane.setPrefColumns(NUM_COLS);
@@ -68,13 +84,17 @@ public class IconPane {
 			Icon icon = new Icon(path);
 //			icon.getWidthProperty().set(myIconPane.getTileWidth());
 //			icon.getHeightProperty().set(myIconPane.getTileHeight());
-			icon.setOnDragDetected((MouseEvent e) -> DragDropManager.createDragClipBoards(icon, e));
-			icon.setOnMouseClicked(e -> setSelectedIcon(icon));
+	
+			icon.setOnMouseClicked(e ->{
+				setSelectedIcon(icon);
+			});
 			myIconPane.getChildren().add(icon);
 			myImagePaths.put(icon, path);
 		}
 		setSelectedIcon(null);
 	}
+	
+
 	
 	/**
 	 * Return the JavaFX Node used to display this IconPane.
@@ -105,6 +125,7 @@ public class IconPane {
 
 	public void setSelectedIcon(Icon icon) {
 		mySelectedIcon.set(icon);
+		selectedTile = icon;
 	}
 	
 	public String getSelectedImagePath() {
