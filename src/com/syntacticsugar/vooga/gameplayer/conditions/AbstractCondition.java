@@ -1,7 +1,5 @@
 package com.syntacticsugar.vooga.gameplayer.conditions;
 
-import com.syntacticsugar.vooga.gameplayer.event.GameEventListener;
-import com.syntacticsugar.vooga.gameplayer.event.GameEventType;
 import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
 import com.syntacticsugar.vooga.gameplayer.universe.IEventPoster;
 

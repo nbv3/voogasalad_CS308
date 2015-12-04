@@ -10,6 +10,7 @@ import java.util.Observer;
 
 import com.syntacticsugar.vooga.gameplayer.attribute.HealthAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
+import com.syntacticsugar.vooga.gameplayer.conditions.Conditions;
 import com.syntacticsugar.vooga.gameplayer.conditions.EnemyDeathCondition;
 import com.syntacticsugar.vooga.gameplayer.conditions.IGameCondition;
 import com.syntacticsugar.vooga.gameplayer.conditions.PlayerDeathCondition;
@@ -46,7 +47,7 @@ public class GameUniverse implements IGameUniverse {
 	private Collection<IGameObject> myGameObjects;
 	private SpawnYard mySpawnYard;
 	private GraveYard myGraveYard;
-	private List<IGameCondition> myConditions;
+	private Conditions myConditions;
 	private Collection<IGameObject> myTowers;
 	private ISpawner mySpawner;
 	private IGameMap myGameMap;
@@ -60,7 +61,7 @@ public class GameUniverse implements IGameUniverse {
 		
 		myPoster = manager;
 		myScore = new Score(manager, data.getSettings());
-		
+		myConditions = new Conditions(manager);
 		myPlayers = new ArrayList<IGameObject>();
 		myGameObjects = new ArrayList<IGameObject>();
 		myGameMap = new GameMap(data.getMap());
@@ -75,13 +76,8 @@ public class GameUniverse implements IGameUniverse {
 		mySpawnYard = new SpawnYard(this, manager);
 		XMLHandler<MapData> xml = new XMLHandler<>();
 		myCurrentInput = new ArrayList<KeyCode>();
-		myConditions = new ArrayList<IGameCondition>();
-		PlayerDeathCondition deathcond = new PlayerDeathCondition(myPoster);
-		EnemyDeathCondition endeath = new EnemyDeathCondition(3, myPoster);
-		myPoster.registerListener(endeath);
-		myPoster.registerListener(deathcond);
-		myConditions.add(deathcond);
-		myConditions.add(endeath);
+		myConditions.addCondition(new PlayerDeathCondition(myPoster));
+		myConditions.addCondition(new EnemyDeathCondition(3, myPoster));
 		myTowers = new ArrayList<IGameObject>();
 		testTower();
 	}
@@ -124,17 +120,7 @@ public class GameUniverse implements IGameUniverse {
 		myTowers.add(tower2);
 	}
 
-	@Override
-	public void addPlayer(IGameObject player) {
-		if (player.getType().equals(GameObjectType.PLAYER)) {
-			myPlayers.add(player);
-		}
-	}
 
-	@Override
-	public Collection<IGameObject> getPlayers() {
-		return Collections.unmodifiableCollection(myPlayers);
-	}
 
 	@Override
 	public Collection<IGameObject> getGameObjects() {
@@ -200,10 +186,6 @@ public class GameUniverse implements IGameUniverse {
 		return this.myGameMap;
 	}
 
-	@Override
-	public Collection<IGameCondition> getConditions() {
-		return Collections.unmodifiableCollection(myConditions);
-	}
 
 	@Override
 	public void removeGameObject(IGameObject obj) {
