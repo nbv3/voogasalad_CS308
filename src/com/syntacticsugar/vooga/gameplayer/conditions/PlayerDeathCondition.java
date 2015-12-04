@@ -15,7 +15,6 @@ public class PlayerDeathCondition extends AbstractCondition {
 	@Override
 	public void onEvent(IGameEvent e) {
 		try {
-			System.out.println(e);
 			ObjectDespawnEvent event = (ObjectDespawnEvent) e;
 			if (event.getObj().getType().equals(GameObjectType.PLAYER)) {
 				postEvent(new LevelChangeEvent(ConditionType.LOSING));
