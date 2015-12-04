@@ -1,10 +1,14 @@
 package com.syntacticsugar.vooga.authoring.dragdrop;
 
 import com.syntacticsugar.vooga.authoring.icon.Icon;
+import com.syntacticsugar.vooga.authoring.icon.IconPane;
 import com.syntacticsugar.vooga.authoring.level.MapEditor;
+import com.syntacticsugar.vooga.xml.data.ObjectData;
+import com.syntacticsugar.vooga.xml.data.TileImplementation;
 
 import javafx.scene.image.Image;
 import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.DataFormat;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
@@ -21,19 +25,34 @@ import javafx.scene.input.TransferMode;
  */
 
 public class DragDropManager {
+	private static DataFormat clippableTileFormat = new DataFormat("ClippableTile");;
+
 	public DragDropManager() {
 
 	}
 	
-	public static void createDragClipBoards(Icon icon, MouseEvent event) {
+	public static void createTileClipboard(Icon icon, String impl, MouseEvent event) {
 		Dragboard db = icon.startDragAndDrop(TransferMode.ANY);
-		System.out.println("Dragboard and Clipboard created");
+		//System.out.println("Dragboard and Clipboard created");
 		ClipboardContent content = new ClipboardContent();
-		content.putString(icon.getImagePath());
-		db.setContent(content);
+		TileClippableItem clippableTile = new TileClippableItem();
+		clippableTile.setImagePath(icon.getImagePath());
+		clippableTile.setImplementationType(impl);
+		content.put(clippableTileFormat, clippableTile);
+		db.setContent(content); 
 		event.consume();
 	}
-
+	
+	public static void createObjectClipboard(Icon icon){
+		Dragboard db = icon.startDragAndDrop(TransferMode.ANY);
+		//System.out.println("Dragboard and Clipboard created");
+		ClipboardContent content = new ClipboardContent();
+		ObjectClippableItem clippableObject = new ObjectClippableItem();
+		clippableObject.setImagePath(icon.getImagePath());
+		//
+		//clippableObject.setObjectData(objectData);
+	}
+	
 	public static void dragOverHandler(DragEvent event) {
 		/* data is dragged over the target */
 		/*
@@ -41,11 +60,11 @@ public class DragDropManager {
 		 * a string data
 		 */
 		Dragboard db = event.getDragboard();
-		System.out.println(db);
+		//System.out.println(db);
 		/* allow for both copying and moving, whatever user chooses */
-		System.out.println("Tile is ready to accept dragged object");
+		//System.out.println("Tile is ready to accept dragged object");
 		event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
-
+		
 		event.consume();
 	}
 

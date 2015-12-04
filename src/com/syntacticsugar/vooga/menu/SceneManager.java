@@ -15,7 +15,7 @@ import com.syntacticsugar.vooga.gameplayer.event.implementations.HealthChangeEve
 import com.syntacticsugar.vooga.gameplayer.manager.GameManager;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObject;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
-import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
+import com.syntacticsugar.vooga.social.SocialCenter;
 import com.syntacticsugar.vooga.xml.XMLHandler;
 import com.syntacticsugar.vooga.xml.data.GameData;
 import com.syntacticsugar.vooga.xml.data.GlobalSettings;
@@ -68,6 +68,11 @@ public class SceneManager {
 	public void launchEngineMenu() {
 		AbstractGameMenu screen = new EngineGameMenu(this, WIDTH, HEIGHT, TITLE);
 		viewScene(screen);
+	}
+	
+	public void launchSocialCenter() {
+		myStage.hide();
+		new SocialCenter(e -> launchFirstMenu());
 	}
 	
 	public void launchNewEditor() {

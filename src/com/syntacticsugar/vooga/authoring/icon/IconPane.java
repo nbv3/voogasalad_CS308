@@ -5,8 +5,14 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.syntacticsugar.vooga.authoring.dragdrop.DragDropManager;
+import com.syntacticsugar.vooga.xml.data.ObjectData;
+import com.syntacticsugar.vooga.xml.data.TileImplementation;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
@@ -20,6 +26,15 @@ public class IconPane {
 	private ScrollPane myScrollPane;
 	private TilePane myIconPane;
 	private Map<ImageView, String> myImagePaths;
+	private Icon selectedTile;
+
+	public Icon getSelectedTile() {
+		return selectedTile;
+	}
+
+	public void setSelectedTile(Icon selectedTile) {
+		this.selectedTile = selectedTile;
+	}
 
 	private final ObjectProperty<ImageView> mySelectedIcon = new SimpleObjectProperty<>();
 	private final double GLOW_PERCENTAGE = 0.75;
@@ -36,7 +51,9 @@ public class IconPane {
 		initializeGridPane();
 		myScrollPane.setPadding(new Insets(INSET_VALUE));
 	}
-
+	public void addPreviewListener(ChangeListener<ImageView> event){
+		mySelectedIcon.addListener(event);
+	}
 	private void initializeGridPane() {
 		myIconPane = new TilePane();
 		myIconPane.setPrefColumns(NUM_COLS);
@@ -64,7 +81,6 @@ public class IconPane {
 			myIconPane.getChildren().add(iv);
 			myImagePaths.put(iv, path);
 		}
-		setSelectedIcon(null);
 	}
 
 	/**
@@ -76,6 +92,16 @@ public class IconPane {
 		return myScrollPane;
 	}
 
+	/**
+	 * Return the String image path representing the currently selected Tile.
+	 * @return
+	 */
+	public String getSelectedImagePath() {
+		return myImagePaths.get(mySelectedIcon.get());
+	}
+	
+	
+	
 	private void clearIconPane() {
 		myIconPane.getChildren().clear();
 		myImagePaths.clear();
@@ -97,10 +123,6 @@ public class IconPane {
 
 	private void setSelectedIcon(ImageView iv) {
 		mySelectedIcon.set(iv);
-	}
-
-	public String getSelectedImagePath() {
-		return myImagePaths.get(mySelectedIcon.get());
 	}
 
 }
