@@ -12,7 +12,7 @@ public class LevelEditor{
 
 	private GridPane myContentGrid;
 	private MapEditor myMapEditor;
-	private MapEditorControls myTileEditor;
+	private MapEditorControls myMapEditorControls;
 	private EnemyQueueTabManager myQueue;
 	private WaveController myWaveControl;
 	private TowerManager myTowers;
@@ -20,7 +20,7 @@ public class LevelEditor{
 
 	public LevelEditor() throws Exception {
 		myMapEditor = new MapEditor();
-		myTileEditor = new MapEditorControls(myMapEditor);
+		myMapEditorControls = new MapEditorControls(myMapEditor);
 		myQueue = new EnemyQueueTabManager();
 		myWaveControl = new WaveController(myQueue);
 		myTowers = new TowerManager();
@@ -57,7 +57,7 @@ public class LevelEditor{
 		myContentGrid.setPadding(new Insets(10, 10, 10, 10));
 		addColumnConstraints(myContentGrid);
 		addRowConstraints(myContentGrid);
-		myContentGrid.add(myTileEditor.getContent(), 0, 0, 1, 1);
+		myContentGrid.add(myMapEditorControls.getContent(), 0, 0, 1, 2);
 		myContentGrid.add(myMapEditor.getContent(), 1, 0, 1, 2);
 		myContentGrid.add(myWaveControl.getView(), 0, 2, 1, 1);
 		myContentGrid.add(myQueue.getView(), 1, 2, 2, 1);
