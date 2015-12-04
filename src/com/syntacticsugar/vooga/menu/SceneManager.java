@@ -156,6 +156,7 @@ public class SceneManager {
 		LevelSettings lSetting = new LevelSettings(50);
 		Collection<UniverseData> uni = new ArrayList<>();
 		uni.add(new UniverseData(spawn, towers, map, lSetting));
+		uni.add(new UniverseData(spawn, towers, map, lSetting));
 		GlobalSettings settings = new GlobalSettings(1, 60);
 		GameData data = new GameData(uni, settings);
 		return data;

@@ -39,7 +39,7 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 
-public class GameManager implements IGameManager{
+public class GameManager implements IGameManager {
 
 	private Game myGame;
 	private IGameUniverse currentLevel;
@@ -49,17 +49,19 @@ public class GameManager implements IGameManager{
 	private GameEngine myGameEngine;
 
 	private IEventManager myEventManager;
-	
+
 	private ViewController myViewController;
-	
+
 	// engine stage
 	private Stage myStage;
 	private double frameLength;
-	
+	private double myGameSize;
+
 	private List<EventListener> myListeners; // Will go in game players
 
 	public GameManager(EventHandler<WindowEvent> onClose, double gameSize, GameData data, double frameRate) {
 		this.frameLength = frameRate;
+		myGameSize = gameSize;
 		myStage = new Stage();
 		myStage.setOnCloseRequest(onClose);
 
@@ -95,7 +97,7 @@ public class GameManager implements IGameManager{
 		Collection<IAttribute> enemyAttributes = new ArrayList<IAttribute>();
 		enemyAttributes.add(new HealthAttribute(30));
 		enemyAttributes.add(new ScoreAttribute(50));
-//		enemyAttributes.add(new AIMovementAttribute(3));
+		// enemyAttributes.add(new AIMovementAttribute(3));
 		Map<GameObjectType, Collection<ICollisionEvent>> collisions = new HashMap<GameObjectType, Collection<ICollisionEvent>>();
 		Collection<ICollisionEvent> enemyEvents = new ArrayList<ICollisionEvent>();
 		enemyEvents.add(new HealthChangeEvent(-10));
@@ -125,8 +127,10 @@ public class GameManager implements IGameManager{
 		initializeAnimation(frameLength);
 		gameScene.addEventFilter(KeyEvent.KEY_PRESSED, e -> receiveKeyPressed(e.getCode()));
 		gameScene.addEventFilter(KeyEvent.KEY_RELEASED, e -> receiveKeyReleased(e.getCode()));
-//		gameScene.addEventFilter(KeyEvent.KEY_PRESSED, e -> System.out.println(e.getCode()));
-//		gameScene.addEventFilter(KeyEvent.KEY_RELEASED, e -> System.out.println(e.getCode()));
+		// gameScene.addEventFilter(KeyEvent.KEY_PRESSED, e ->
+		// System.out.println(e.getCode()));
+		// gameScene.addEventFilter(KeyEvent.KEY_RELEASED, e ->
+		// System.out.println(e.getCode()));
 		gameScene.setOnKeyPressed(e -> receiveKeyPressed(e.getCode()));
 		gameScene.setOnKeyReleased(e -> receiveKeyReleased(e.getCode()));
 		myStage.setScene(gameScene);
@@ -141,24 +145,36 @@ public class GameManager implements IGameManager{
 	@Override
 	public void updateGame() {
 		myGameEngine.update();
-		
-	}
-	
-	public void pause() {
-		
-	}
-	
 
-	@Override
-	public void switchLevel(ConditionType type) {
+	}
+
+	private void pause() {
+		myGameTimeline.pause();
+	}
+
+	private void switchLevel(ConditionType type) {
 		if (type.equals(ConditionType.WINNING)) {
-			currentLevel = myGame.nextLevel();
+			transitionLevel(myGame.nextLevel());
 		} else if (type.equals(ConditionType.LOSING)) {
 			// go backward?
 			System.out.println("YOU LOSE");
 			pause();
 		}
 
+	}
+
+	private void transitionLevel(IGameUniverse nextLevel) {
+		pause();
+		myEventManager = new EventManager();
+		myEventManager.registerListener(this);
+		currentLevel = myGame.getLevel(1);
+		myViewController = new ViewController(myGameSize);
+
+		myViewController.initializeView(currentLevel);
+		myGameEngine = new GameEngine(currentLevel, myViewController);
+
+		stageInit();
+		
 	}
 
 	public void receiveKeyPressed(KeyCode code) {
@@ -168,11 +184,9 @@ public class GameManager implements IGameManager{
 			} else {
 				myGameTimeline.pause();
 			}
-		} 
-		else if (code.equals(KeyCode.S)) {
+		} else if (code.equals(KeyCode.S)) {
 			saveGame();
-		}
-		else {
+		} else {
 			myGameEngine.receiveKeyPressed(code);
 		}
 	}
@@ -202,19 +216,12 @@ public class GameManager implements IGameManager{
 	public void onEvent(IGameEvent e) {
 		try {
 			LevelChangeEvent event = (LevelChangeEvent) e;
-			System.out.println("LOL");
-			if(event.getLevelConditionType().equals(ConditionType.LOSING)){
-				System.out.println("YOU LOST");
-			}
-			else
-				System.out.println("YOU WIN");
-			//myGame.nextLevel();
-		}
-		catch (ClassCastException ex) {
-			
+			switchLevel(event.getLevelConditionType());
+		} catch (ClassCastException ex) {
+
 		}
 	}
-	
+
 	private void saveGame() {
 		UniverseData data = currentLevel.saveGame();
 		myGame.saveGame(data);

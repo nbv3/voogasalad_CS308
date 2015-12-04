@@ -41,7 +41,8 @@ public class Game implements IGame {
 
 	@Override
 	public IGameUniverse nextLevel() {
-		return myUniverses.get(++myLevel);
+		myLevel++;
+		return myUniverses.get(myLevel);
 	}
 	
 	@Override
