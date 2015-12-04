@@ -18,6 +18,6 @@ public interface IConverter<T> {
 	 * @param directory
 	 * @return
 	 */
-	public Collection<T> getContent(File directory);
+	public Collection<T> getContents(File directory);
 	
 }
