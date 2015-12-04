@@ -84,6 +84,7 @@ public class ObjectEditor{
 		myIcon.setImage(new Image(ResourceManager.getResource(this, emptyData.getImagePath())));
 		emptyData.setObjectName(null);
 		emptyData.setType(null);
+		myUpdateButton.setDisable(true);
 		mySaveButton.setDisable(true);
 		emptyData.setAttributes(FXCollections.observableArrayList());
 		emptyData.setCollisionMap(FXCollections.observableHashMap());
@@ -300,5 +301,13 @@ public class ObjectEditor{
 
 	public void setTypeChooserViability(boolean flag) {
 		myTypeChooser.setDisable(true);
+	}
+	
+	public void setUpdateButtonViability(boolean flag) {
+		myUpdateButton.setDisable(flag);
+	}
+	
+	public void setSaveButtonViability(boolean flag) {
+		mySaveButton.setDisable(flag);
 	}
 }
