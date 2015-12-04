@@ -68,8 +68,6 @@ public class GameManager implements IGameManager{
 
 		myGame = new Game(data, myEventManager);
 		currentLevel = myGame.getLevel(1);
-		// myConditions = new ArrayList<IGameCondition>();
-		// myConditions.add(new PlayerDeathCondition());
 
 		myViewController = new ViewController(gameSize);
 

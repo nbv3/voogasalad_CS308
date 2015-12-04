@@ -1,6 +1,7 @@
 package com.syntacticsugar.vooga.gameplayer.conditions;
 
 import com.syntacticsugar.vooga.gameplayer.event.GameEventListener;
+import com.syntacticsugar.vooga.gameplayer.universe.IEventPoster;
 
 public interface IGameCondition extends GameEventListener{
 	
@@ -14,7 +15,6 @@ public interface IGameCondition extends GameEventListener{
 	 */
 	public ConditionType returnType();
 	
-	
-	public void registerManager(IEventManager manager);
+	public void registerManager(IEventPoster manager);
 
 }

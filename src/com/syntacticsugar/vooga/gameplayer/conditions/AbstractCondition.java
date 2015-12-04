@@ -8,11 +8,15 @@ public abstract class AbstractCondition implements IGameCondition, IEventPoster 
 	private ConditionType myType;
 	private IEventPoster myManager;
 
-	public AbstractCondition(ConditionType type, IEventPoster manager) {
+	public AbstractCondition(ConditionType type) {
 		myType = type;
-		myManager = manager;
 	}
 
+	@Override
+	public void registerManager(IEventPoster manager){
+		myManager = manager;
+	}
+	
 	public ConditionType returnType() {
 		return myType;
 	}

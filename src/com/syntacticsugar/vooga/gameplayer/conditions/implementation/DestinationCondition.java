@@ -9,8 +9,8 @@ import com.syntacticsugar.vooga.gameplayer.universe.IEventPoster;
 
 public class DestinationCondition extends AbstractCondition {
 
-	public DestinationCondition(IEventPoster manager) {
-		super(ConditionType.LOSING, manager);
+	public DestinationCondition() {
+		super(ConditionType.LOSING);
 	}
 
 	@Override

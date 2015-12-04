@@ -1,12 +1,10 @@
 package com.syntacticsugar.vooga.authoring.objectediting;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Collections;
 
 import com.syntacticsugar.vooga.authoring.icon.Icon;
 import com.syntacticsugar.vooga.authoring.library.IRefresher;
-import com.syntacticsugar.vooga.gameplayer.attribute.HealthAttribute;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
@@ -20,17 +18,13 @@ import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.geometry.VPos;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
@@ -49,7 +43,7 @@ public class ObjectEditor{
 	private Icon myIcon;
 	private Button mySaveButton;
 	private Button myUpdateButton;
-	private ComboBox<String> myTypeChooser;
+	private ComboBox<GameObjectType> myTypeChooser;
 	private IRefresher myRefresher;
 
 	public ObjectEditor(IRefresher refresher){
@@ -65,7 +59,7 @@ public class ObjectEditor{
 	private void buildView() {
 		GridPane myMainEditorView = buildEditorView();
 		myTypeChooser = buildTypeChooser();
-		AnchorPane myTopControlPane = GUIFactory.buildAnchorPane(myTypeChooser, GUIFactory.buildButton("New", e -> createEmptyEditor(myTypeChooser), null, null));
+		AnchorPane myTopControlPane = GUIFactory.buildAnchorPane(myTypeChooser, GUIFactory.buildButton("New", e -> createEmptyEditor(), null, null));
 		myUpdateButton = GUIFactory.buildButton("Update", e -> storeEditedObject(), null, null);
 		mySaveButton = GUIFactory.buildButton("Save", e -> saveObject(), null, null);
 		AnchorPane myBottomControlPane = GUIFactory.buildAnchorPane(myUpdateButton, mySaveButton);
@@ -76,14 +70,15 @@ public class ObjectEditor{
 		GridPane.setHalignment(myMainEditorView, HPos.CENTER);
 	}
 	
-	private void createEmptyEditor(ComboBox<String> cBox) {
-		cBox.setDisable(false);
-		cBox.setValue(null);
+	private void createEmptyEditor() {
+		myTypeChooser.setDisable(false);
+		myTypeChooser.setValue(null);
 		ObjectData emptyData = new ObjectData();
 		emptyData.setImagePath("scenery_gray.png");
 		myIcon.setImage(new Image(ResourceManager.getResource(this, emptyData.getImagePath())));
 		emptyData.setObjectName(null);
 		emptyData.setType(null);
+		myUpdateButton.setDisable(true);
 		mySaveButton.setDisable(true);
 		emptyData.setAttributes(FXCollections.observableArrayList());
 		emptyData.setCollisionMap(FXCollections.observableHashMap());
@@ -115,20 +110,18 @@ public class ObjectEditor{
 		return grid;
 	}
 
-	private ComboBox<String> buildTypeChooser() {
-		ComboBox<String> typeChooser = new ComboBox<String>();
+	private ComboBox<GameObjectType> buildTypeChooser() {
+		ComboBox<GameObjectType> typeChooser = new ComboBox<>();
 		typeChooser.setPromptText(ResourceManager.getString("ChooseObjectType"));
 		typeChooser.setPrefWidth(150);
-		for (GameObjectType g: GameObjectType.values()) {
-			typeChooser.getItems().add(g.toString());
-		}
+		typeChooser.getItems().addAll(GameObjectType.values());
 		typeChooser.valueProperty().addListener((o, s1, s2) -> {
 			if (s2 == null) {
 				return;
 			}
 			if (mySaveButton.isDisabled())
 				mySaveButton.setDisable(false);
-			currentData.setType(GameObjectType.valueOf(s2.toUpperCase()));
+			currentData.setType(s2);
 		});
 		return typeChooser;
 	}
@@ -140,7 +133,7 @@ public class ObjectEditor{
 			}
 			currentData = data;
 			if (data.getType() != null) {
-				myTypeChooser.setValue(currentData.getType().toString());
+				myTypeChooser.setValue(currentData.getType());
 			}
 			myAttributeViewer.displayData(currentData.getAttributes());
 			myCollisionViewer.displayData(currentData.getCollisionMap());
@@ -300,5 +293,13 @@ public class ObjectEditor{
 
 	public void setTypeChooserViability(boolean flag) {
 		myTypeChooser.setDisable(true);
+	}
+	
+	public void setUpdateButtonViability(boolean flag) {
+		myUpdateButton.setDisable(flag);
+	}
+	
+	public void setSaveButtonViability(boolean flag) {
+		mySaveButton.setDisable(flag);
 	}
 }
