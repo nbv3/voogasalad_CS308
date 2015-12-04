@@ -15,7 +15,16 @@ import com.syntacticsugar.vooga.gameplayer.event.implementations.HealthChangeEve
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
 
+<<<<<<< HEAD
 import authoring.fluidmotion.FadeTransitionsWizard;
+=======
+import authoring.fluidmotion.FadeTransitionWizard;
+import authoring.fluidmotion.FluidGlassBall;
+import javafx.animation.Animation;
+import javafx.animation.FadeTransition;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+>>>>>>> refs/heads/SexyMotion
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Orientation;
@@ -30,7 +39,6 @@ public class EnemyQueuePane {
 	private ObservableList<Node> myWave;
 	private Node selectedItem;
 	private HashMap<Node, ObjectData> myObjects;
-	private int durationOfRemoval;
 
 	public EnemyQueuePane() {
 		myObjects = new HashMap<Node, ObjectData>();
@@ -76,16 +84,19 @@ public class EnemyQueuePane {
 
 	public void removeObjectFromQueue() {
 		if (selectedItem != null) {
-			 durationOfRemoval = 150;
-		     FadeTransitionsWizard.fadeOut(selectedItem,
-		    		 					   durationOfRemoval,
-		    		 					   1,0,1,
-		    		 					   toExecuteOnFinished -> {
-		    		 						   	myQueue.remove(myObjects.get(selectedItem));
-		    		 						   	myWave.remove(selectedItem);
-		    		 					   }
-		     );
+		     Animation fade = FadeTransitionWizard
+		    		 				.fadeOut(selectedItem,FluidGlassBall.getFadeDuration(),
+									FluidGlassBall.getFadeOpacityStart(),
+									FluidGlassBall.getFadeOpacityEnd(),
+									FluidGlassBall.getFadeCycleCount());
+		     fade.setOnFinished(toExecuteOnFinished -> removeObjectFromQueue_BAREBONE());
+		     fade.play();
 		}
+	}
+
+	private void removeObjectFromQueue_BAREBONE() {
+		myQueue.remove(myObjects.get(selectedItem));
+		myWave.remove(selectedItem);
 	}
 
 	public ObjectData getSelectedItem() {

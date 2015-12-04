@@ -13,6 +13,10 @@ import com.syntacticsugar.vooga.gameplayer.event.implementations.HealthChangeEve
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
 
+import authoring.fluidmotion.FadeTransitionWizard;
+import authoring.fluidmotion.FluidGlassBall;
+import authoring.fluidmotion.ParallelTransitionWizard;
+import javafx.animation.Animation;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Orientation;
@@ -26,6 +30,7 @@ public class TowerList {
 	private ObservableList<Node> myObservable;
 	private HashMap<Node, ObjectData> myMap;
 	private Object selectedItem;
+	private int durationOfRemoval;
 
 	public TowerList() {
 		myTowerView = new ListView<Node>();
@@ -59,7 +64,6 @@ public class TowerList {
 	public void addTower(ObjectData data) {
 		Node newTower = createQueueBoxFromObjData(data);
 		newTower.setOnMouseClicked(e -> selectedItem = newTower);
-
 		myMap.put(newTower, data);
 		Tooltip.install(newTower, new QueueTooltip(myMap.get(newTower)));
 		myObservable.add(newTower);
@@ -78,12 +82,43 @@ public class TowerList {
 
 	public void removeObjectFromList() {
 		if (selectedItem != null) {
-			myObservable.remove(selectedItem);
-			myMap.remove(selectedItem);
+		     Animation fade = FadeTransitionWizard
+						     	.fadeOut((Node) selectedItem, 
+						     			FluidGlassBall.getFadeDuration(),
+										FluidGlassBall.getFadeOpacityStart(),
+										FluidGlassBall.getFadeOpacityEnd(),
+										FluidGlassBall.getFadeCycleCount());
+		    fade.setOnFinished(toExecuteOnFinished -> removeObjectFromList_BAREBONE());
+		    fade.play();
 		}
 	}
 
+	private void removeObjectFromList_BAREBONE() {
+		myObservable.remove(selectedItem);
+		myMap.remove(selectedItem);
+	}
+
 	public void clearAll() {
+		Animation towerClear = ParallelTransitionWizard
+								.parallelize(convertNodeListToAnimList());
+		towerClear.setOnFinished(toExecuteOnFinished->clearAll_BAREBONE());
+		towerClear.play();
+	}
+
+	private List<Animation> convertNodeListToAnimList() {
+		List<Animation> animationList = new ArrayList<Animation>();
+		for(Node node:myObservable){
+			Animation nodeAnim = FadeTransitionWizard.fadeOut(node, 
+									FluidGlassBall.getFadeDuration(),
+									FluidGlassBall.getFadeOpacityStart(),
+									FluidGlassBall.getFadeOpacityEnd(),
+									FluidGlassBall.getFadeCycleCount());
+			animationList.add(nodeAnim);
+		}
+		return animationList;
+	}
+
+	private void clearAll_BAREBONE() {
 		myObservable.clear();
 		myMap.clear();
 	}
