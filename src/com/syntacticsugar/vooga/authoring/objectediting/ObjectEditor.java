@@ -50,7 +50,6 @@ public class ObjectEditor{
 	private Button myCreateButton;
 	private Button mySaveButton;
 	private IRefresher myRefresher;
-	private AttributeMakerWizard myAttributeWizard;
 
 	public ObjectEditor(IRefresher refresher){
 		myView = new GridPane();
@@ -65,7 +64,7 @@ public class ObjectEditor{
 	private void buildView() {
 		GridPane myMainEditorView = buildEditorView();
 		ComboBox<String> myTypeChooser = buildTypeChooser();
-		AnchorPane myTopControlPane = GUIFactory.buildAnchorPane(myTypeChooser, GUIFactory.buildButton("Create", e -> createEmptyEditor(myTypeChooser), null, null));
+		AnchorPane myTopControlPane = GUIFactory.buildAnchorPane(myTypeChooser, GUIFactory.buildButton("New", e -> createEmptyEditor(myTypeChooser), null, null));
 		mySaveButton = GUIFactory.buildButton("Update", e -> storeEditedObject(), null, null);
 		myCreateButton = GUIFactory.buildButton("Save", e -> saveObject(), null, null);
 		AnchorPane myBottomControlPane = GUIFactory.buildAnchorPane(mySaveButton, myCreateButton);
@@ -205,7 +204,7 @@ public class ObjectEditor{
 	}
 	
 	private void buildNewAttribute() {
-		myAttributeWizard = new AttributeMakerWizard(currentData.getType(), myAttributeViewer.getData());
+		new AttributeMakerWizard(currentData.getType(), myAttributeViewer.getData());
 		if (currentData.getType() == null) {
 			AlertBoxFactory.createObject(ResourceManager.getString("select_object_type_error"));
 			return;
