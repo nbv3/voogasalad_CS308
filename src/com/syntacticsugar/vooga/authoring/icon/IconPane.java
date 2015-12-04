@@ -7,28 +7,39 @@ import java.util.Map;
 
 import com.syntacticsugar.vooga.authoring.dragdrop.DragDropManager;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
-
+import com.syntacticsugar.vooga.xml.data.TileImplementation;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.effect.Glow;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.TilePane;
 
 public class IconPane {
 
 	private ScrollPane myScrollPane;
 	private TilePane myIconPane;
-	private Map<Icon, String> myImagePaths;
-	private Map<Icon, ObjectData> myData;
-	private Icon mine;
+	private Map<ImageView, String> myImagePaths;
+	private Icon selectedTile;
 
-	private final ObjectProperty<Icon> mySelectedIcon = new SimpleObjectProperty<>();
+	public Icon getSelectedTile() {
+		return selectedTile;
+	}
+
+	public void setSelectedTile(Icon selectedTile) {
+		this.selectedTile = selectedTile;
+	}
+
+	private final ObjectProperty<ImageView> mySelectedIcon = new SimpleObjectProperty<>();
 	private final double GLOW_PERCENTAGE = 0.75;
 	private final double INSET_VALUE = 6;
-	private final int NUM_COLS = 2;
+	private final int NUM_COLS = 3;
 
 	public IconPane() {
 		mySelectedIcon.addListener((o, s1, s2) -> setSelectedEffect(s1, s2));
@@ -39,24 +50,18 @@ public class IconPane {
 		myScrollPane.setFitToWidth(true);
 		initializeGridPane();
 		myScrollPane.setPadding(new Insets(INSET_VALUE));
-		myData = new HashMap<Icon, ObjectData>();
 	}
-
+	public void addPreviewListener(ChangeListener<ImageView> event){
+		mySelectedIcon.addListener(event);
+	}
 	private void initializeGridPane() {
 		myIconPane = new TilePane();
 		myIconPane.setPrefColumns(NUM_COLS);
 		myIconPane.setHgap(INSET_VALUE);
 		myIconPane.setVgap(INSET_VALUE);
 		myScrollPane.setContent(myIconPane);
+		myIconPane.maxWidthProperty().set(myScrollPane.viewportBoundsProperty().get().getWidth());
 	}
-
-	// private void addColumnConstraints() {
-	// for (int i=0; i<NUM_COLS; i++) {
-	// ColumnConstraints c1 = new ColumnConstraints();
-	// c1.setPercentWidth(100.0 / (1.0*NUM_COLS));
-	// myIconPane.getColumnConstraints().add(c1);
-	// }
-	// }
 
 	/**
 	 * Show all icons representing the relevant file types as specified by this
@@ -65,46 +70,17 @@ public class IconPane {
 	 * @param directory
 	 */
 	public void showIcons(File directory, IConverter fileConverter) {
-
 		clearIconPane();
 		initializeGridPane();
 		Collection<String> imagePaths = fileConverter.getImages(directory);
 		for (String path : imagePaths) {
-			Icon icon = new Icon(path);
-			// icon.getWidthProperty().set(myIconPane.getTileWidth());
-			// icon.getHeightProperty().set(myIconPane.getTileHeight());
-			icon.setOnDragDetected((MouseEvent e) -> DragDropManager.createDragClipBoards(icon, e));
-//			icon.setOnMouseClicked(e -> setSelectedIcon(icon));
-			icon.setOnMouseClicked(e -> setMine(icon));
-			myIconPane.getChildren().add(icon);
-			myImagePaths.put(icon, path);
+			ImageView iv = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(path)));
+			iv.fitWidthProperty().bind(myIconPane.maxWidthProperty().divide(NUM_COLS).subtract(INSET_VALUE));
+			iv.fitHeightProperty().bind(iv.fitWidthProperty());
+			iv.setOnMouseClicked(e -> setSelectedIcon(iv));
+			myIconPane.getChildren().add(iv);
+			myImagePaths.put(iv, path);
 		}
-		setSelectedIcon(null);
-	}
-
-	private void setMine(Icon i) {
-		setSelectedIcon(i);
-		mine = i;
-	}
-
-	public void showIcons(File directory, Map<Icon, ObjectData> map) {
-		myData = map;
-		clearIconPane();
-		initializeGridPane();
-		for (Icon i : map.keySet()) {
-			i.setOnDragDetected((MouseEvent e) -> DragDropManager.createDragClipBoards(i, e));
-			i.setOnMouseClicked(e -> setSelectedIcon(i));
-			i.setOnMouseClicked(e -> setMine(i));
-
-			myIconPane.getChildren().add(i);
-			myImagePaths.put(i, map.get(i).getImagePath());
-		}
-		setSelectedIcon(null);
-	}
-
-	public ObjectData getCurrentData() {
-		System.out.println("Get Data " + myData.get(mine));
-		return myData.get(mine);
 	}
 
 	/**
@@ -116,31 +92,37 @@ public class IconPane {
 		return myScrollPane;
 	}
 
-	protected void clearIconPane() {
+	/**
+	 * Return the String image path representing the currently selected Tile.
+	 * @return
+	 */
+	public String getSelectedImagePath() {
+		return myImagePaths.get(mySelectedIcon.get());
+	}
+	
+	
+	
+	private void clearIconPane() {
 		myIconPane.getChildren().clear();
 		myImagePaths.clear();
 		myScrollPane.setContent(null);
 	}
 
-	protected void setSelectedEffect(Icon oldIcon, Icon newIcon) {
-		if (oldIcon == null) {
-			newIcon.setEffect(new Glow(GLOW_PERCENTAGE));
+	private void setSelectedEffect(ImageView oldIv, ImageView newIv) {
+		if (oldIv == null) {
+			newIv.setEffect(new Glow(GLOW_PERCENTAGE));
 			return;
 		}
-		if (newIcon == null) {
-			oldIcon.setEffect(null);
+		if (newIv == null) {
+			oldIv.setEffect(null);
 			return;
 		}
-		oldIcon.setEffect(null);
-		newIcon.setEffect(new Glow(GLOW_PERCENTAGE));
+		oldIv.setEffect(null);
+		newIv.setEffect(new Glow(GLOW_PERCENTAGE));
 	}
 
-	public void setSelectedIcon(Icon icon) {
-		mySelectedIcon.set(icon);
-	}
-
-	public String getSelectedImagePath() {
-		return myImagePaths.get(mySelectedIcon.get());
+	private void setSelectedIcon(ImageView iv) {
+		mySelectedIcon.set(iv);
 	}
 
 }

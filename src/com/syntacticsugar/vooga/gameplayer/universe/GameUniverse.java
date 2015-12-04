@@ -11,8 +11,8 @@ import java.util.Observer;
 import com.syntacticsugar.vooga.gameplayer.attribute.HealthAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
 import com.syntacticsugar.vooga.gameplayer.conditions.Conditions;
-import com.syntacticsugar.vooga.gameplayer.conditions.EnemyDeathCondition;
-import com.syntacticsugar.vooga.gameplayer.conditions.PlayerDeathCondition;
+import com.syntacticsugar.vooga.gameplayer.conditions.implementation.EnemyDeathCondition;
+import com.syntacticsugar.vooga.gameplayer.conditions.implementation.PlayerDeathCondition;
 import com.syntacticsugar.vooga.gameplayer.event.ICollisionEvent;
 import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.HealthChangeEvent;
@@ -66,7 +66,6 @@ public class GameUniverse implements IGameUniverse {
 		myTowers = new ArrayList<>();
 		Collection<ObjectData> towerdata = data.getTowers().getTowers();
 		for (ObjectData d : towerdata) {
-			System.out.println(d);
 			myTowers.add(new GameObject(d));
 		}
 		myGraveYard = new GraveYard(this, manager);
@@ -84,7 +83,7 @@ public class GameUniverse implements IGameUniverse {
 		ObjectData towerData = new ObjectData();
 		towerData.setImagePath(imgPath);
 		Collection<IAttribute> towerAttributes = new ArrayList<IAttribute>();
-		towerAttributes.add(new HealthAttribute(30));
+		towerAttributes.add(new HealthAttribute(30.0));
 		// towerAttributes.add(new AIMovementAttribute(3));
 		Map<GameObjectType, Collection<ICollisionEvent>> collisions = new HashMap<GameObjectType, Collection<ICollisionEvent>>();
 		Collection<ICollisionEvent> towerEvents = new ArrayList<ICollisionEvent>();
@@ -102,7 +101,7 @@ public class GameUniverse implements IGameUniverse {
 		ObjectData towerData2 = new ObjectData();
 		towerData.setImagePath(imgPath1);
 		Collection<IAttribute> towerAttributes2 = new ArrayList<IAttribute>();
-		towerAttributes2.add(new HealthAttribute(30));
+		towerAttributes2.add(new HealthAttribute(30.0));
 		// towerAttributes.add(new AIMovementAttribute(3));
 		Map<GameObjectType, Collection<ICollisionEvent>> collisions2 = new HashMap<GameObjectType, Collection<ICollisionEvent>>();
 		Collection<ICollisionEvent> towerEvents2 = new ArrayList<ICollisionEvent>();

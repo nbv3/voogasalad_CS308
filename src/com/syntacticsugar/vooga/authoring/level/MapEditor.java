@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.syntacticsugar.vooga.authoring.dragdrop.DragDropManager;
+import com.syntacticsugar.vooga.authoring.dragdrop.ObjectClippableItem;
+import com.syntacticsugar.vooga.authoring.dragdrop.TileClippableItem;
 import com.syntacticsugar.vooga.authoring.icon.Icon;
 import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
@@ -20,6 +22,7 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.effect.Effect;
 import javafx.scene.effect.InnerShadow;
 import javafx.scene.image.Image;
+import javafx.scene.input.DataFormat;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.layout.GridPane;
@@ -28,7 +31,7 @@ import javafx.scene.paint.Color;
 public class MapEditor implements IMapEditor {
 	
 	private static final Effect TILE_EFFECT = createEffect();
-	private static final String DEFAULT_TILE_IMAGE = "gray.png";
+	private static final String DEFAULT_TILE_IMAGE = "scenery_gray.png";
 
 	private ObservableSet<TileData> myTileSelection;
 	private Map<TileData, Icon> myTileIconMap;
@@ -99,15 +102,31 @@ public class MapEditor implements IMapEditor {
 									    public void handle(DragEvent event) {
 									        /* data dropped */
 									        /* if there is a string data on dragboard, read it and use it */
+									    	
+									    	// To Do:
+									    	// Localise the ClippableTile string
+									    	
 									        Dragboard db = event.getDragboard();
 									        boolean success = false;
-									        if (db.hasString()) {
-									        	DragDropManager.undoDragOverState(icon);
-									        	icon.setImage(new Image(getClass().getClassLoader().getResourceAsStream(db.getString())));
-									        	tile.setImagePath(db.getString());
-									        	StringBuilder newPathName = extractImplementationType(db);
-									        	TileImplementation enumTileImp = recreateImplementationObject(newPathName);
-									        	tile.setImplementation(enumTileImp);
+									        if (db.hasContent(DataFormat.lookupMimeType("ClippableTile"))) {
+									        	System.out.println("DB contains the dataformat.");
+									        	DragDropManager.undoDragOverState(icon);				
+									        	if(db.getSystemClipboard().getContent(DataFormat.lookupMimeType("ClippableTile")) instanceof TileClippableItem){
+									        		System.out.println("Tile is being set from Clipboard");
+									        		TileClippableItem tileItem = (TileClippableItem) db.getSystemClipboard().getContent(DataFormat.lookupMimeType("ClippableTile"));
+									        		tile.setImagePath(tileItem.getImagePath());
+									        		tile.setImplementation(TileImplementation.valueOf(tileItem.getImplementationType()));
+									        		System.out.println("Tile item image Path is " + tileItem.getImagePath());
+										        	icon.setImage(new Image(getClass().getClassLoader().getResourceAsStream(tileItem.getImagePath())));
+										        	System.out.println("Tile Implementation is" +tile.getImplementation());
+									        	} else {
+									        		
+									        		// To implement ObjectClippable Item
+									        		ObjectClippableItem objectItem = (ObjectClippableItem) db.getSystemClipboard().getContent(DataFormat.lookupMimeType("ClippableTile"));
+									        		tile.setImagePath(objectItem.getImagePath());
+									        		
+									        		
+									        	}
 									        	success = true;
 									        }
 									        /* let the source know whether the string was successfully 

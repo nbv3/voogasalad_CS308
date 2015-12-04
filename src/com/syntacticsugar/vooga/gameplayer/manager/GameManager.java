@@ -77,13 +77,13 @@ public class GameManager implements IGameManager{
 		// work
 		String playerPath = "player_pacman.png";
 		String enemyPath = "enemy_monster_1.png";
-		String missilePath = "pink.png";
+		String missilePath = "scenery_pink.png";
 
 		ObjectData playerData = new ObjectData();
 		List<IAttribute> attributes = new ArrayList<IAttribute>();
-		attributes.add(new HealthAttribute(100));
-		attributes.add(new MovementControlAttribute(3));
-		attributes.add(new WeaponAttribute(missilePath, 100, KeyCode.SPACE));
+		attributes.add(new HealthAttribute(100.0));
+		attributes.add(new MovementControlAttribute(3.0));
+		attributes.add(new WeaponAttribute(missilePath, 100.0, KeyCode.SPACE));
 		playerData.setType(GameObjectType.PLAYER);
 		playerData.setSpawnPoint(0, 0);
 		playerData.setWidth(50);
@@ -93,7 +93,7 @@ public class GameManager implements IGameManager{
 
 		ObjectData enemyData = new ObjectData();
 		Collection<IAttribute> enemyAttributes = new ArrayList<IAttribute>();
-		enemyAttributes.add(new HealthAttribute(30));
+		enemyAttributes.add(new HealthAttribute(30.0));
 		enemyAttributes.add(new ScoreAttribute(50));
 //		enemyAttributes.add(new AIMovementAttribute(3));
 		Map<GameObjectType, Collection<ICollisionEvent>> collisions = new HashMap<GameObjectType, Collection<ICollisionEvent>>();
@@ -125,8 +125,6 @@ public class GameManager implements IGameManager{
 		initializeAnimation(frameLength);
 		gameScene.addEventFilter(KeyEvent.KEY_PRESSED, e -> receiveKeyPressed(e.getCode()));
 		gameScene.addEventFilter(KeyEvent.KEY_RELEASED, e -> receiveKeyReleased(e.getCode()));
-//		gameScene.addEventFilter(KeyEvent.KEY_PRESSED, e -> System.out.println(e.getCode()));
-//		gameScene.addEventFilter(KeyEvent.KEY_RELEASED, e -> System.out.println(e.getCode()));
 		gameScene.setOnKeyPressed(e -> receiveKeyPressed(e.getCode()));
 		gameScene.setOnKeyReleased(e -> receiveKeyReleased(e.getCode()));
 		myStage.setScene(gameScene);
@@ -135,7 +133,7 @@ public class GameManager implements IGameManager{
 
 	@Override
 	public void restartGame() {
-
+		myGameEngine.resetUniverse(currentLevel);
 	}
 
 	@Override
@@ -145,18 +143,19 @@ public class GameManager implements IGameManager{
 	}
 	
 	public void pause() {
-		
+		myGameTimeline.pause();
 	}
 	
 
 	@Override
 	public void switchLevel(ConditionType type) {
+		pause();
 		if (type.equals(ConditionType.WINNING)) {
-			currentLevel = myGame.nextLevel();
+			System.out.println("WINNER");
 		} else if (type.equals(ConditionType.LOSING)) {
-			// go backward?
 			System.out.println("YOU LOSE");
-			pause();
+			restartGame();
+			startGame();
 		}
 
 	}
@@ -202,13 +201,8 @@ public class GameManager implements IGameManager{
 	public void onEvent(IGameEvent e) {
 		try {
 			LevelChangeEvent event = (LevelChangeEvent) e;
-			System.out.println("LOL");
-			if(event.getType().equals(ConditionType.LOSING)){
-				System.out.println("YOU LOST");
-			}
-			else
-				System.out.println("YOU WIN");
-			//myGame.nextLevel();
+			System.out.println("LEVEL SWITCH");
+			pause();
 		}
 		catch (ClassCastException ex) {
 			

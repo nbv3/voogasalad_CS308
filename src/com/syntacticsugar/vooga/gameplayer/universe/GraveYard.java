@@ -9,7 +9,6 @@ import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.ObjectDespawnEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.ScoreChangeEvent;
 import com.syntacticsugar.vooga.gameplayer.manager.IEventManager;
-import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.view.IViewRemover;
 import com.syntacticsugar.vooga.util.ResourceManager;
@@ -55,7 +54,7 @@ public class GraveYard implements IYard<IViewRemover>, GameEventListener {
 			addToYard(obj);
 			ScoreAttribute score = (ScoreAttribute) obj.getAttributes().get(ResourceManager.getString(ScoreAttribute.class.getSimpleName()));
 			if (score != null) {
-				int scoreNum = score.getScore();
+				Integer scoreNum = score.getScore();
 				myPoster.postEvent(new ScoreChangeEvent(scoreNum));
 			}
 		}

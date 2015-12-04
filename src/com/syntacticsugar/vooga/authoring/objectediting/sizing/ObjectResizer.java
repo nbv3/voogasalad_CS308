@@ -43,7 +43,7 @@ public class ObjectResizer {
 		resize.setOnMousePressed(e -> clickPoint.set(new Point2D(e.getSceneX(), e.getSceneY())));
 		resize.setOnMouseDragged(e -> {
 			System.out.println(e.getX());
-			if (e.getX() < container.getWidth()/2) {
+			if (e.getX() < container.getMaxWidth()/2) {
 				System.out.println("left");
 			}
 			else {

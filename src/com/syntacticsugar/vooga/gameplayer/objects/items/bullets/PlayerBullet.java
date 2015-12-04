@@ -20,7 +20,7 @@ public class PlayerBullet extends GameObject {
 	public PlayerBullet(Direction move, Point2D startPoint, String imagePath, double damage) {
 		super(GameObjectType.ITEM, startPoint, 10, 10, imagePath);
 		HealthChangeEvent bulletDamage = new HealthChangeEvent(damage);
-		addAttribute(new ConstantMovementAttribute(move, 6));
+		addAttribute(new ConstantMovementAttribute(move, 6.0));
 		addCollisionBinding(GameObjectType.ENEMY, bulletDamage);
 		for (IAttribute att: getAttributes().values()) {
 			att.setParent(this);

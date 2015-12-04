@@ -5,14 +5,14 @@ import com.syntacticsugar.vooga.gameplayer.event.GameEventType;
 
 public class ScoreChangeEvent extends GameEvent {
 	
-	private int myScore;
+	private Integer myScore;
 
-	public ScoreChangeEvent(int score) {
+	public ScoreChangeEvent(Integer score) {
 		super(GameEventType.ScoreChange);
 		myScore = score;
 	}
 	
-	public int getScore() {
+	public Integer getScore() {
 		return myScore;
 	}
 
