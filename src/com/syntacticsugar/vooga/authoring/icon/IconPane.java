@@ -24,7 +24,7 @@ public class IconPane {
 	private final ObjectProperty<ImageView> mySelectedIcon = new SimpleObjectProperty<>();
 	private final double GLOW_PERCENTAGE = 0.75;
 	private final double INSET_VALUE = 6;
-	private final int NUM_COLS = 2;
+	private final int NUM_COLS = 3;
 
 	public IconPane() {
 		mySelectedIcon.addListener((o, s1, s2) -> setSelectedEffect(s1, s2));
@@ -43,6 +43,7 @@ public class IconPane {
 		myIconPane.setHgap(INSET_VALUE);
 		myIconPane.setVgap(INSET_VALUE);
 		myScrollPane.setContent(myIconPane);
+		myIconPane.maxWidthProperty().set(myScrollPane.viewportBoundsProperty().get().getWidth());
 	}
 
 	/**
@@ -57,8 +58,8 @@ public class IconPane {
 		Collection<String> imagePaths = fileConverter.getImages(directory);
 		for (String path : imagePaths) {
 			ImageView iv = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(path)));
-			// icon.getWidthProperty().set(myIconPane.getTileWidth());
-			// icon.getHeightProperty().set(myIconPane.getTileHeight());
+			iv.fitWidthProperty().bind(myIconPane.maxWidthProperty().divide(NUM_COLS).subtract(INSET_VALUE));
+			iv.fitHeightProperty().bind(iv.fitWidthProperty());
 			iv.setOnMouseClicked(e -> setSelectedIcon(iv));
 			myIconPane.getChildren().add(iv);
 			myImagePaths.put(iv, path);

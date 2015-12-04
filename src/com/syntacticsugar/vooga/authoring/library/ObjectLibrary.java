@@ -10,13 +10,11 @@ import com.syntacticsugar.vooga.authoring.icon.Icon;
 import com.syntacticsugar.vooga.authoring.icon.IconPane;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.util.ResourceManager;
-import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
 import com.syntacticsugar.vooga.xml.XMLFileFilter;
 import com.syntacticsugar.vooga.xml.XMLHandler;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
 
 import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.VBox;
 
@@ -25,15 +23,12 @@ public class ObjectLibrary extends Tab {
 	private GameObjectType myType;
 	private IconPane myIconPane;
 	private final File myXMLDirectory;
-	private Button removeButton;
 	private Map<Icon, ObjectData> myData;
-	private Map<ObjectData, String> myXMLPaths;
 
 	public ObjectLibrary(GameObjectType objectType) {
 		myType = objectType;
 		this.setText(objectType.toString());
 		myIconPane = new IconPane();
-		myXMLPaths = new HashMap<ObjectData, String>();
 		myData = new HashMap<Icon, ObjectData>();
 		setContent(buildTitledPane(myIconPane, myType));
 		myXMLDirectory = new File(
