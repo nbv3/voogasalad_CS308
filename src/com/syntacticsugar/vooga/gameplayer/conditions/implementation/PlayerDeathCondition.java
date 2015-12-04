@@ -10,8 +10,8 @@ import com.syntacticsugar.vooga.gameplayer.universe.IEventPoster;
 
 public class PlayerDeathCondition extends AbstractCondition {
 
-	public PlayerDeathCondition(IEventPoster manager) {
-		super(ConditionType.LOSING, manager);
+	public PlayerDeathCondition() {
+		super(ConditionType.LOSING);
 	}
 
 	@Override

@@ -8,6 +8,7 @@ import com.syntacticsugar.vooga.authoring.level.LevelTabManager;
 import com.syntacticsugar.vooga.authoring.library.ObjectLibraryManager;
 import com.syntacticsugar.vooga.authoring.objectediting.ObjectEditor;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
+import com.syntacticsugar.vooga.menu.IVoogaApp;
 import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.xml.XMLHandler;
 import com.syntacticsugar.vooga.xml.data.MapData;
@@ -30,7 +31,7 @@ import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
-public class AuthoringScreenManager implements Observer {
+public class AuthoringScreenManager implements Observer, IVoogaApp {
 
 	private BorderPane myWindow;
 	private GridPane myWindowGrid;
@@ -42,11 +43,11 @@ public class AuthoringScreenManager implements Observer {
 	// private ObjectLibrary myObjectLibrary;
 	private ObjectEditor myObjectEditor;
 
-	public AuthoringScreenManager(EventHandler<WindowEvent> onClose) {
+	public AuthoringScreenManager() {
 		myLevelEditor = new LevelTabManager();
 		myObjectLibraryManager = new ObjectLibraryManager();
 		myObjectEditor = new ObjectEditor(() -> myObjectLibraryManager.refresh());
-		initWindow(onClose);
+		initWindow();
 	}
 
 	// private void initObjectLibrary() {
@@ -54,24 +55,23 @@ public class AuthoringScreenManager implements Observer {
 	// myObjectManager = new AuthoringSidePane(null);
 	// }
 
-	private void initWindow(EventHandler<WindowEvent> onClose) {
+	private void initWindow() {
 		myWindow = new BorderPane();
 		buildMenuBar();
 
 		myWindowGrid = new GridPane();
-//		myWindowGrid.setGridLinesVisible(true);
+		// myWindowGrid.setGridLinesVisible(true);
 		addGridConstraints();
 
 		setUpObserver();
 		myWindowGrid.add(myLevelEditor.getTabPane(), 0, 0, 1, 2);
-		myWindowGrid.add(myObjectLibraryManager.getTabPane(), 1, 0, 1 ,1);
+		myWindowGrid.add(myObjectLibraryManager.getTabPane(), 1, 0, 1, 1);
 		myWindowGrid.add(myObjectEditor.getView(), 1, 1, 1, 1);
 		myWindow.setCenter(myWindowGrid);
 
 		myScene = new Scene(myWindow);
 		myScene.setOnKeyPressed(e -> handleKeyPress(e));
 		myStage = new Stage();
-		myStage.setOnCloseRequest(onClose);
 		myStage.setScene(myScene);
 		// myStage.setMaximized(true);
 		myStage.show();
@@ -204,8 +204,14 @@ public class AuthoringScreenManager implements Observer {
 	@Override
 	public void update(Observable o, Object arg) {
 		myObjectEditor.setTypeChooserViability(false);
+		myObjectEditor.setUpdateButtonViability(false);
 		myObjectEditor.displayData((ObjectData) arg);
 
+	}
+
+	@Override
+	public void assignCloseHandler(EventHandler<WindowEvent> onclose) {
+		myStage.setOnCloseRequest(onclose);
 	}
 
 }

@@ -41,8 +41,8 @@ public class ObjectEditor {
 	private AttributeViewer myAttributeViewer;
 	private CollisionViewer myCollisionViewer;
 	private Icon myIcon;
-	private Button myCreateButton;
 	private Button mySaveButton;
+	private Button myUpdateButton;
 	private ComboBox<String> myTypeChooser;
 	private IRefresher myRefresher;
 
@@ -59,11 +59,12 @@ public class ObjectEditor {
 	private void buildView() {
 		GridPane myMainEditorView = buildEditorView();
 		myTypeChooser = buildTypeChooser();
+
 		AnchorPane myTopControlPane = GUIFactory.buildAnchorPane(myTypeChooser,
 				GUIFactory.buildButton("New", e -> createEmptyEditor(myTypeChooser), null, null));
-		mySaveButton = GUIFactory.buildButton("Update", e -> storeEditedObject(), null, null);
-		myCreateButton = GUIFactory.buildButton("Save", e -> saveObject(), null, null);
-		AnchorPane myBottomControlPane = GUIFactory.buildAnchorPane(mySaveButton, myCreateButton);
+		myUpdateButton = GUIFactory.buildButton("Update", e -> storeEditedObject(), null, null);
+		mySaveButton = GUIFactory.buildButton("Save", e -> saveObject(), null, null);
+		AnchorPane myBottomControlPane = GUIFactory.buildAnchorPane(myUpdateButton, mySaveButton);
 		myView.add(myTopControlPane, 0, 0, 1, 1);
 		myView.add(myMainEditorView, 0, 1, 1, 1);
 		myView.add(myBottomControlPane, 0, 2, 1, 1);
@@ -79,6 +80,8 @@ public class ObjectEditor {
 		myIcon.setImage(new Image(ResourceManager.getResource(this, emptyData.getImagePath())));
 		emptyData.setObjectName(null);
 		emptyData.setType(null);
+		myUpdateButton.setDisable(true);
+		mySaveButton.setDisable(true);
 		emptyData.setAttributes(FXCollections.observableArrayList());
 		emptyData.setCollisionMap(FXCollections.observableHashMap());
 		displayData(emptyData);
@@ -116,6 +119,8 @@ public class ObjectEditor {
 			if (s2 == null) {
 				return;
 			}
+			if (mySaveButton.isDisabled())
+				mySaveButton.setDisable(false);
 			currentData.setType(GameObjectType.valueOf(s2.toUpperCase()));
 		});
 		return typeChooser;
@@ -123,11 +128,13 @@ public class ObjectEditor {
 
 	public void displayData(ObjectData data) {
 		if (data != null) {
-			if (myCreateButton.isDisabled()) {
-				myCreateButton.setDisable(false);
+			if (mySaveButton.isDisabled() && data.getType() != null) {
+				mySaveButton.setDisable(false);
 			}
-			myTypeChooser.setValue(data.getType().toString());
 			currentData = data;
+			if (data.getType() != null) {
+				myTypeChooser.setValue(currentData.getType().toString());
+			}
 			myAttributeViewer.displayData(currentData.getAttributes());
 			myCollisionViewer.displayData(currentData.getCollisionMap());
 			myIcon.setImage(new Image(ResourceManager.getResource(this, currentData.getImagePath())));
@@ -274,5 +281,13 @@ public class ObjectEditor {
 
 	public void setTypeChooserViability(boolean flag) {
 		myTypeChooser.setDisable(true);
+	}
+
+	public void setUpdateButtonViability(boolean flag) {
+		myUpdateButton.setDisable(flag);
+	}
+
+	public void setSaveButtonViability(boolean flag) {
+		mySaveButton.setDisable(flag);
 	}
 }

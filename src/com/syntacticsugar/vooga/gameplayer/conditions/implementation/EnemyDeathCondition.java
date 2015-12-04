@@ -13,8 +13,8 @@ public class EnemyDeathCondition extends AbstractCondition {
 	private int enemiesDead;
 	private int enemiesToDie;
 
-	public EnemyDeathCondition(int numbertodie, IEventPoster manager) {
-		super(ConditionType.WINNING, manager);
+	public EnemyDeathCondition(int numbertodie) {
+		super(ConditionType.WINNING);
 		enemiesToDie = numbertodie;
 		enemiesDead = 0;
 	}
