@@ -60,7 +60,7 @@ public class ObjectEditor {
 		AnchorPane collisionAnchor = buildButtons(
 				e -> buildNewCollision(),
 				e -> myCollisionViewer.removeSelectedItem(),
-				"Collisions Defined");
+				ResourceManager.getString("collision_menu_title"));
 		
 		GridPane grid = createMainGrid();
 				

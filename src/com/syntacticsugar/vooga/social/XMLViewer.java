@@ -24,7 +24,6 @@ import javafx.scene.layout.VBox;
 
 public class XMLViewer extends ListViewer {
 
-	
 	private int mySelectedItemID = Integer.MIN_VALUE;
 	private IUpdater myUpdater;
 
@@ -44,30 +43,31 @@ public class XMLViewer extends ListViewer {
 	
 	private void populateListFromDatabase() {
 		JSONObject XMLs = WebConnector.getXMLs();
-		while(XMLs.keys().hasNext()){
 			JSONArray array;
 			try {
-				array = XMLs.getJSONArray((String) XMLs.keys().next());
+				array = XMLs.getJSONArray("xmls");
 				for(int i = 0; i< array.length(); i++){
 					JSONObject current = (JSONObject) array.get(i);
 					addElementToList(makeListElement(current.getString("gamename"),
-							current.getString("author"), Integer.parseInt(current.getString("id"))));
+							current.getString("author"), (int) current.get("id")));
 				}
 			} catch (JSONException e) {
-				e.printStackTrace();
-			}	
+				e.printStackTrace();	
 		}
 	}
 	
 	private void refresh() {
+		clearList();
 		populateListFromDatabase();
 	}
 
 	private Node makeListElement(String itemName, String itemData, int itemID) {
 		HBox listElement = new HBox();
-		listElement.getChildren().add(
-				GUIFactory.buildAnchorPane(GUIFactory.buildTitleNode(itemName),
-						GUIFactory.buildTitleNode(itemData)));
+		HBox game = GUIFactory.buildTitleNode(itemName);
+		HBox author = GUIFactory.buildTitleNode(itemData);
+		game.setPrefWidth(300);
+		listElement.getChildren().addAll(game, author);
+						
 		listElement.setOnMouseClicked(e-> {setCurrentlySelected(itemID); myUpdater.update(itemID);});
 		return listElement;
 	}

@@ -13,8 +13,8 @@ import javafx.scene.layout.VBox;
 
 public abstract class ListViewer {
 
-	protected VBox myView;
-	protected ListView<HBox> myListView;
+	protected Node myView;
+	protected ListView<Node> myListView;
 	protected Insets myPadding = new Insets(10, 10, 10, 10);
 	
 	public ListViewer(){
@@ -22,15 +22,19 @@ public abstract class ListViewer {
 	}
 
 	protected Node makeContentBox() {
-		myListView = new ListView<HBox>();
+		myListView = new ListView<Node>();
 		return myListView;
 	}
 
 	protected void addElementToList(Node item) {
-		myListView.getItems().add((HBox) item);
+		myListView.getItems().add(item);
 	}
 	
-	public VBox getView() {
+	protected void clearList(){
+		myListView.getItems().clear();
+	}
+	
+	public Node getView() {
 		return myView;
 	}
 	

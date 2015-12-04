@@ -54,7 +54,7 @@ public class ObjectLibrary extends Tab {
 	
 	private VBox buildTitledPane(IconPane pane, GameObjectType type){
 		Collection<Node> buttonList = new ArrayList<Node>();
-		buttonList.add(GUIFactory.buildButton("Remove Object", e->{}, 150.0, 30.0)); 
+		buttonList.add(GUIFactory.buildButton("Remove Object", e->{}, 300.0, 30.0)); 
 		return GUIFactory.buildTitledPaneWithButtons(pane.getIconPane(),
 				(type.toString() + " Objects Available"), buttonList);
 	}
