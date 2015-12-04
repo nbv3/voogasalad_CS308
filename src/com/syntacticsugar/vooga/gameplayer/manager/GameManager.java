@@ -64,6 +64,7 @@ public class GameManager implements IGameManager{
 		myStage.setOnCloseRequest(onClose);
 
 		myEventManager = new EventManager();
+		myEventManager.registerListener(this);
 
 		myGame = new Game(data, myEventManager);
 		currentLevel = myGame.getLevel(1);
@@ -202,7 +203,13 @@ public class GameManager implements IGameManager{
 	public void onEvent(IGameEvent e) {
 		try {
 			LevelChangeEvent event = (LevelChangeEvent) e;
-			myGame.nextLevel();
+			System.out.println("LOL");
+			if(event.getType().equals(ConditionType.LOSING)){
+				System.out.println("YOU LOST");
+			}
+			else
+				System.out.println("YOU WIN");
+			//myGame.nextLevel();
 		}
 		catch (ClassCastException ex) {
 			
