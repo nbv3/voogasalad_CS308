@@ -1,17 +1,15 @@
 package com.syntacticsugar.vooga.authoring.level;
 
-import java.util.List;
-import java.util.Map;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import java.util.Queue;
 
 import com.syntacticsugar.vooga.authoring.fluidmotion.FadeTransitionWizard;
 import com.syntacticsugar.vooga.authoring.fluidmotion.FluidGlassBall;
-import com.syntacticsugar.vooga.authoring.level.QueueBox;
-import com.syntacticsugar.vooga.authoring.level.QueueTooltip;
 import com.syntacticsugar.vooga.gameplayer.attribute.HealthAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
 import com.syntacticsugar.vooga.gameplayer.event.ICollisionEvent;
@@ -79,13 +77,12 @@ public class EnemyQueuePane {
 
 	public void removeObjectFromQueue() {
 		if (selectedItem != null) {
-		     Animation fade = FadeTransitionWizard
-		    		 				.fadeOut(selectedItem,FluidGlassBall.getFadeDuration(),
-									FluidGlassBall.getFadeOpacityStart(),
-									FluidGlassBall.getFadeOpacityEnd(),
-									FluidGlassBall.getFadeCycleCount());
-		     fade.setOnFinished(toExecuteOnFinished -> removeObjectFromQueue_BAREBONE());
-		     fade.play();
+
+			Animation fade = FadeTransitionWizard.fadeOut(selectedItem, FluidGlassBall.getFadeDuration(),
+					FluidGlassBall.getFadeOpacityStart(), FluidGlassBall.getFadeOpacityEnd(),
+					FluidGlassBall.getFadeCycleCount());
+			fade.setOnFinished(toExecuteOnFinished -> removeObjectFromQueue_BAREBONE());
+			fade.play();
 		}
 	}
 
@@ -111,4 +108,7 @@ public class EnemyQueuePane {
 		return myQueuePane;
 	}
 
+	public Collection<ObjectData> getObjectDataList() {
+		return myObjects.values();
+	}
 }
