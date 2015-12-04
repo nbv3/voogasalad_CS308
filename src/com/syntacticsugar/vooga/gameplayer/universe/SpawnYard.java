@@ -37,26 +37,6 @@ public class SpawnYard implements IYard<IViewAdder>, GameEventListener{
 	}
 
 	@Override
-	public boolean containsType(GameObjectType type) {
-		boolean ret = false;
-		if (countType(type) > 0) {
-			ret = true;
-		}
-		return ret;
-	}
-
-	@Override
-	public int countType(GameObjectType type) {
-		int ret = 0;
-		for (IGameObject obj : objectsInYard) {
-			if (obj.getType().equals(type)) {
-				ret++;
-			}
-		}
-		return ret;
-	}
-
-	@Override
 	public void onEvent(IGameEvent e) {
 		try {
 			ObjectSpawnEvent event = (ObjectSpawnEvent) e;
