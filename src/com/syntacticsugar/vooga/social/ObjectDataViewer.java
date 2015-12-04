@@ -34,20 +34,25 @@ public class ObjectDataViewer extends ListViewer {
 
 	private Node makeMyViewer(String viewerTitle) {
 		VBox view = GUIFactory.buildTitledPane(makeContentBox(), viewerTitle);
-		HBox viewAndButtons = new HBox();
-		viewAndButtons.getChildren().addAll(view, GUIFactory.buildButton("Download", e -> {
+		view.setPrefWidth(350);
+		VBox buttons = new VBox();
+		buttons.getChildren().addAll(GUIFactory.buildButton("Download", e -> {
 		} , 100.0, null), GUIFactory.buildButton("Upload", e -> {
 		} , 100.0, null));
+		HBox viewAndButtons = new HBox(view,buttons);
 		return viewAndButtons;
 	}
 
 	private void populateList(JSONObject object) {
 		clearList();
 		try {
-			Node listElement = makeListElement(object.getString("gamename"), object.getString("author"));
-			System.out.println(object.getString("gamename"));
-			System.out.println(object.getString("author"));
-			addElementToList(listElement);
+			
+			while(object.keys().hasNext()){
+				String key = (String) object.keys().next();
+				Node listElement = makeListElement(key, object.get(key).toString());
+				object.remove(key);
+				addElementToList(listElement);
+			}
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
