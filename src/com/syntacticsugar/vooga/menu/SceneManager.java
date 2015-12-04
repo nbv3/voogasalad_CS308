@@ -13,7 +13,6 @@ import com.syntacticsugar.vooga.gameplayer.attribute.ScoreAttribute;
 import com.syntacticsugar.vooga.gameplayer.event.ICollisionEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.HealthChangeEvent;
 import com.syntacticsugar.vooga.gameplayer.manager.GameManager;
-import com.syntacticsugar.vooga.gameplayer.objects.GameObject;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.social.SocialCenter;
 import com.syntacticsugar.vooga.xml.XMLHandler;
