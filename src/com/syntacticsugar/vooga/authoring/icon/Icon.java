@@ -14,6 +14,10 @@ public class Icon extends Pane {
 	private final ObjectProperty<Double> myHeightProperty = new SimpleObjectProperty<>();
 
 	private ImageView myImageView;
+	public ImageView getImageView() {
+		return myImageView;
+	}
+
 	private String myImagePath;
 
 	public Icon(String imagePath){

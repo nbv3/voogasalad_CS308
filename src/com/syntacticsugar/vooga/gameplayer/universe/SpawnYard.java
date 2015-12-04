@@ -7,7 +7,6 @@ import com.syntacticsugar.vooga.gameplayer.event.GameEventListener;
 import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.ObjectSpawnEvent;
 import com.syntacticsugar.vooga.gameplayer.manager.IEventManager;
-import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.view.IViewAdder;
 
@@ -34,26 +33,6 @@ public class SpawnYard implements IYard<IViewAdder>, GameEventListener{
 			adder.addViewObject(obj);
 		}
 		objectsInYard.clear();
-	}
-
-	@Override
-	public boolean containsType(GameObjectType type) {
-		boolean ret = false;
-		if (countType(type) > 0) {
-			ret = true;
-		}
-		return ret;
-	}
-
-	@Override
-	public int countType(GameObjectType type) {
-		int ret = 0;
-		for (IGameObject obj : objectsInYard) {
-			if (obj.getType().equals(type)) {
-				ret++;
-			}
-		}
-		return ret;
 	}
 
 	@Override
