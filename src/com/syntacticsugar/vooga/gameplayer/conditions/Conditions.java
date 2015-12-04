@@ -17,6 +17,7 @@ public class Conditions implements IConditions {
 
 	@Override
 	public void addCondition(IGameCondition condition) {
+		condition.registerManager(myManager);
 		myManager.registerListener(condition);
 		myConditions.add(condition);
 
