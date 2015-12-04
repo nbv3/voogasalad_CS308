@@ -72,8 +72,8 @@ public class GameUniverse implements IGameUniverse {
 		mySpawnYard = new SpawnYard(this, manager);
 		XMLHandler<MapData> xml = new XMLHandler<>();
 		myCurrentInput = new ArrayList<KeyCode>();
-		myConditions.addCondition(new PlayerDeathCondition(myPoster));
-		myConditions.addCondition(new EnemyDeathCondition(3, myPoster));
+		myConditions.addCondition(new PlayerDeathCondition());
+		myConditions.addCondition(new EnemyDeathCondition(3));
 		myTowers = new ArrayList<IGameObject>();
 		testTower();
 	}
