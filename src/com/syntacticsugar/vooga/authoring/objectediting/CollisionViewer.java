@@ -23,7 +23,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
-public class CollisionViewer implements IUserInterface, 
+public class CollisionViewer implements IVisualElement, 
                                         IListViewDisplay, 
                                         IDataDisplay<Map<GameObjectType, Collection<ICollisionEvent>>> {
     private VBox myView;
