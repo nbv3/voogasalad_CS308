@@ -5,7 +5,7 @@ import java.util.Map;
 
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.objects.IViewableObject;
-import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
+import com.syntacticsugar.vooga.gameplayer.universe.IUniverseView;
 import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.IGameTile;
 import com.syntacticsugar.vooga.gameplayer.view.implementation.TileView;
 
@@ -38,7 +38,7 @@ public class ViewController implements IViewRemover, IViewAdder{
 		myViewMap.remove(obj);
 	}
 
-	public void initializeView(IGameUniverse universe) {
+	public void initializeView(IUniverseView universe) {
 		myGameView.initializeAvailableTowers(universe.getAvailableTowers(), universe);
 		universe.observeScore(myGameView.getScoreBox());
 		for (IGameTile tile: universe.getMap().getTiles()) {

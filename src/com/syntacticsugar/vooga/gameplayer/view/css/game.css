@@ -1,0 +1,39 @@
+.title {
+    -fx-font-size: 25pt;
+    -fx-font-family: "Arial Black";
+    -fx-fill: #818181;
+  	-fx-effect: innershadow( three-pass-box , rgba(0,0,0,0.7) , 6, 0.0 , 0 , 2 );
+  	-fx-border-color: black;
+}
+
+.title-bright {
+    -fx-font-size: 25pt;
+    -fx-font-family: "Arial Black";
+    -fx-opacity: 1;
+}
+
+.title-header {
+    -fx-font-size: 25pt;
+    -fx-font-family: "Arial Black";
+    -fx-opacity: 1;
+}
+
+.data {
+  	-fx-background-color:   #66c2ff;
+}
+
+.scroll-pane{
+	-fx-border-color: black;
+	-fx-background:    #66c2ff;
+}
+
+.button{
+	-fx-font-size: 10pt;
+    -fx-font-family: "Arial Black";
+    -fx-background-color:
+        linear-gradient(#f0ff35, #a9ff00),
+        radial-gradient(center 50% -40%, radius 200%, #b8ee36 45%, #80c800 50%);
+    -fx-background-radius: 6, 5;
+    -fx-background-insets: 0, 1;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.4) , 5, 0.0 , 0 , 1 );
+}
