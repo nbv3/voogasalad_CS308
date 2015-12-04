@@ -103,14 +103,6 @@ public class ObjectEditor {
 		
 		GridPane iconGrid = createIconGrid();
 		
-//		mySaveButton = GUIFactory.buildButton("Save Object", e -> storeEditedObject(), null, null);
-//		mySaveButton.setAlignment(Pos.CENTER);
-//		mySaveButton.setDisable(true);
-//		
-//		myCreateButton = GUIFactory.buildButton("Create Object", e -> saveObject(), null, null);
-//		myCreateButton.setAlignment(Pos.CENTER);
-//		myCreateButton.setDisable(true);
-		
 		grid.add(iconGrid, 0, 0, 1, 1);
 		grid.add(coll, 0, 1, 2, 1);
 		grid.add(att, 1, 0, 1, 1);
