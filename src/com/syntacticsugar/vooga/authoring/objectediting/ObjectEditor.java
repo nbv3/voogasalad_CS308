@@ -49,6 +49,7 @@ public class ObjectEditor{
 	private Icon myIcon;
 	private Button myCreateButton;
 	private Button mySaveButton;
+	private ComboBox<String> myTypeChooser;
 	private IRefresher myRefresher;
 
 	public ObjectEditor(IRefresher refresher){
@@ -63,7 +64,7 @@ public class ObjectEditor{
 
 	private void buildView() {
 		GridPane myMainEditorView = buildEditorView();
-		ComboBox<String> myTypeChooser = buildTypeChooser();
+		myTypeChooser = buildTypeChooser();
 		AnchorPane myTopControlPane = GUIFactory.buildAnchorPane(myTypeChooser, GUIFactory.buildButton("New", e -> createEmptyEditor(myTypeChooser), null, null));
 		mySaveButton = GUIFactory.buildButton("Update", e -> storeEditedObject(), null, null);
 		myCreateButton = GUIFactory.buildButton("Save", e -> saveObject(), null, null);
@@ -76,6 +77,7 @@ public class ObjectEditor{
 	}
 	
 	private void createEmptyEditor(ComboBox<String> cBox) {
+		cBox.setDisable(false);
 		cBox.setValue(null);
 		ObjectData emptyData = new ObjectData();
 		emptyData.setImagePath("scenery_gray.png");
@@ -133,6 +135,7 @@ public class ObjectEditor{
 			if (myCreateButton.isDisabled()) {
 				myCreateButton.setDisable(false);
 			}
+			myTypeChooser.setValue(data.getType().toString());
 			currentData = data;
 			myAttributeViewer.displayData(currentData.getAttributes());
 			myCollisionViewer.displayData(currentData.getCollisionMap());
@@ -290,5 +293,7 @@ public class ObjectEditor{
 		return anchor;
 	}
 
-	
+	public void setTypeChooserViability(boolean flag) {
+		myTypeChooser.setDisable(true);
+	}
 }
