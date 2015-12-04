@@ -1,6 +1,7 @@
 package com.syntacticsugar.vooga.util.gui.factory;
 
 import java.lang.reflect.Constructor;
+import com.syntacticsugar.vooga.resources.*;
 
 import com.sun.deploy.uitoolkit.impl.fx.ui.resources.ResourceManager;
 import com.syntacticsugar.vooga.gameplayer.attribute.HealthAttribute;
@@ -11,12 +12,13 @@ import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
 
 public class ParameterFactory {
+	
 	public ParameterFactory(){
 		
 	}
 	
 	public Node loadNode(IAttribute attribute){
-	
+		
 		Constructor<?>[] constructors = attribute.getClass().getDeclaredConstructors();
 		if(constructors.length>1) throw new IllegalArgumentException("This attribute has more than 1 constructor. Please check.");
 		Class[] paramTypes = constructors[0].getParameterTypes();
