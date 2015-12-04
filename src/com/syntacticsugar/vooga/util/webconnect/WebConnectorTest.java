@@ -1,5 +1,7 @@
 package com.syntacticsugar.vooga.util.webconnect;
 
+import java.io.File;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -11,7 +13,7 @@ public class WebConnectorTest {
 
 		//getXMLsTest();
 		//getXMLTest(11);
-		// postXMLTest();
+		postXMLTest();
 		// deleteXMLTest(2);
 	}
 
@@ -37,7 +39,9 @@ public class WebConnectorTest {
 		String author = "the one with date";
 		String gamename = "SS";
 		String description = "game djlfakjdlkfjdlkfjdljflkdlfjdlfjk goes here";
-		String xml = "the {\"xml here\"\"}}{{{}}}'xml or blob goes herethe xml or any blob goes herethe xml or any blob goes here";
+		File f = new File("src/com/syntacticsugar/vooga/util/compress/Untitled.xml");
+		//String xml = FileHelper.readFile(f);
+		String xml = "<testxml>soem shittejjiejiefe</testxml>";
 		JSONObject request = JSONHelper.createJSON(author, gamename, description, xml);
 		System.out.println("Sending Request: " + request.toString());
 		String output = WebConnector.postXML(request);
