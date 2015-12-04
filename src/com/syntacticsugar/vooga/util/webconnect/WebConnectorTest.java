@@ -9,9 +9,10 @@ import com.syntacticsugar.vooga.util.webconnect.WebConnector;
 public class WebConnectorTest {
 	public static void main(String args[]) {
 
-		// getXMLsTest();
-		getXMLTest(6);
-		//postXMLTest();
+		//getXMLsTest();
+		//getXMLTest(11);
+		// postXMLTest();
+		// deleteXMLTest(2);
 	}
 
 	public static void getXMLsTest() {
@@ -33,13 +34,18 @@ public class WebConnectorTest {
 	}
 
 	public static void postXMLTest() {
-		String author = "Brody";
+		String author = "the one with date";
 		String gamename = "SS";
 		String description = "game djlfakjdlkfjdlkfjdljflkdlfjdlfjk goes here";
-		String xml = "the xml or any blob goes herethe xml or any blob goes herethe xml or any blob goes herethe xml or any blob goes herethe xml or any blob goes herethe xml or any blob goes herethe xml or any blob goes herethe xml or any blob goes herethe xml or any blob goes herethe xml or any blob goes here";
+		String xml = "the {\"xml here\"\"}}{{{}}}'xml or blob goes herethe xml or any blob goes herethe xml or any blob goes here";
 		JSONObject request = JSONHelper.createJSON(author, gamename, description, xml);
 		System.out.println("Sending Request: " + request.toString());
 		String output = WebConnector.postXML(request);
 		System.out.println("Output: " + output);
+	}
+	
+	public static void deleteXMLTest(int gameindex) {
+		String response = WebConnector.deleteXML(gameindex);
+		System.out.println("Output: " + response);
 	}
 }

@@ -18,6 +18,7 @@ public class WebConnector {
 	private final static String GET_GAMES_URL = "http://easywebapi.com/api/xml";
 	private final static String GET_GAME_URL = "http://easywebapi.com/api/xml/";
 	private final static String POST_GAME_URL = "http://easywebapi.com/api/newxml";
+	private final static String DELETE_GAME_URL = "http://easywebapi.com/api/deletexml/";
 
 	public static String postXML(JSONObject json) {
 		String query = json.toString();
@@ -96,5 +97,23 @@ public class WebConnector {
 		}
 		return null;
 	}
-	
+
+	public static String deleteXML(int gameindex) {
+		try {
+			InputStream response = new URL(DELETE_GAME_URL + gameindex).openStream();
+			BufferedReader streamReader = new BufferedReader(new InputStreamReader(response, CHARSET));
+			StringBuilder responseStrBuilder = new StringBuilder();
+			String inputStr;
+			while ((inputStr = streamReader.readLine()) != null)
+				responseStrBuilder.append(inputStr);
+
+			return responseStrBuilder.toString();
+		} catch (MalformedURLException e) {
+			System.out.println("Invalid URL");
+		} catch (IOException e) {
+			System.out.println("Invalid IO");
+		}
+		return null;
+	}
+
 }
