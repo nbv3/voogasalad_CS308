@@ -1,4 +1,4 @@
-package com.syntacticsugar.vooga.authoring.level;
+package com.syntacticsugar.vooga.authoring.level.map;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,7 +23,11 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ContentDisplay;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -39,8 +43,9 @@ public class MapEditorControls{
 	private VBox myContainer;
 	private Button selectAll;
 	private Button clearAll;
-	private Button makeDest;
-	private Button removeDest;
+	private ComboBox<TileImplementation> typeChooser;
+	private Label destinationWrapper;
+	private CheckBox destinationChooser;
 	private Button addNewImage;
 	private Button applyChanges;
 	private TileImplementation mySelectedType;
@@ -60,7 +65,8 @@ public class MapEditorControls{
 		myIconPane = new IconPane();
 		previewTile.setOnDragDetected(event -> DragDropManager.createTileClipboard(myIconPane.getSelectedTile(), mySelectedType.name(), event));
 		myIconPane.addPreviewListener((o,s1,s2)-> updatePreview());
-		ComboBox<TileImplementation> typeChooser = buildImplementationChooser();
+		
+		typeChooser = buildTileTypeChooser();
 
 		selectAll = 
 				GUIFactory.buildButton("Select All", 
@@ -71,16 +77,12 @@ public class MapEditorControls{
 						e -> mapEditor.clearAllTiles(),
 						null, null);
 
-		makeDest = 
-				GUIFactory.buildButton("Make Destination", 
-						e -> mapEditor.setAsDestination(true),
-						Double.MAX_VALUE, null);
-
-		removeDest = 
-				GUIFactory.buildButton("Remove Destination", 
-						e -> mapEditor.setAsDestination(false),
-						Double.MAX_VALUE, null);
-
+		destinationChooser = new CheckBox();
+		destinationChooser.setAllowIndeterminate(false);
+		destinationWrapper = new Label("AI Destination: ");
+		destinationWrapper.setGraphic(destinationChooser);
+		destinationWrapper.setContentDisplay(ContentDisplay.RIGHT); //You can choose RIGHT,LEFT,TOP,BOTTOM
+		
 		addNewImage = 
 				GUIFactory.buildButton("Add New Image", 
 						e -> createNewImage(),
@@ -91,27 +93,27 @@ public class MapEditorControls{
 						e -> applyChanges(mapEditor), 
 						null, null);
 
-		VBox dest = new VBox();
-		dest.getChildren().addAll(makeDest, removeDest);
-		dest.setSpacing(3);
-		dest.setAlignment(Pos.CENTER);
-
-		AnchorPane top = GUIFactory.buildAnchorPane(selectAll, clearAll);
-		AnchorPane middle = GUIFactory.buildAnchorPane(typeChooser, dest);
-		AnchorPane bottom = GUIFactory.buildAnchorPane(addNewImage, applyChanges);
+		// Build control container view
+		buildView();
 		
+		// Let the IconPane expand to fill the contents of the controls
+		VBox.setVgrow(myIconPane.getIconPane(), Priority.ALWAYS);
+	}
+
+	private void buildView() {
+		AnchorPane top = GUIFactory.buildAnchorPane(selectAll, clearAll);
+		AnchorPane middle = GUIFactory.buildAnchorPane(typeChooser, destinationWrapper);
+		AnchorPane bottom = GUIFactory.buildAnchorPane(addNewImage, applyChanges);
 		myContainer = new VBox();
 		myContainer.setSpacing(10);
 		myContainer.setPadding(new Insets(10));
 		myContainer.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 		myContainer.getChildren()
 		.addAll(top, middle, myIconPane.getIconPane(), bottom);
-		VBox.setVgrow(myIconPane.getIconPane(), Priority.ALWAYS);
 	}
 
 	private void updatePreview() {
 		System.out.println(myIconPane.getSelectedImagePath());
-
 		previewTile.setImage(new Image(getClass().getClassLoader().getResourceAsStream(myIconPane.getSelectedImagePath())));
 	}
 	
@@ -127,9 +129,10 @@ public class MapEditorControls{
 		}
 		editor.setImplementation(mySelectedType);
 		editor.setImagePath(imagePath);
+		editor.setAsDestination(destinationChooser.selectedProperty().get());
 	}
 
-	private ComboBox<TileImplementation> buildImplementationChooser() {
+	private ComboBox<TileImplementation> buildTileTypeChooser() {
 		ComboBox<TileImplementation> box = new ComboBox<TileImplementation>();
 		box.setPromptText("Tile Type");
 		box.getItems().addAll(TileImplementation.values());

@@ -44,6 +44,7 @@ public class ObjectEditor{
 
 	private GridPane myView;
 	private ObjectData currentData;
+	private ComboBox<GameObjectType> myTypeChooser;
 	private AttributeViewer myAttributeViewer;
 	private CollisionViewer myCollisionViewer;
 	private Icon myIcon;
@@ -63,8 +64,9 @@ public class ObjectEditor{
 
 	private void buildView() {
 		GridPane myMainEditorView = buildEditorView();
-		ComboBox<String> myTypeChooser = buildTypeChooser();
-		AnchorPane myTopControlPane = GUIFactory.buildAnchorPane(myTypeChooser, GUIFactory.buildButton("New", e -> createEmptyEditor(myTypeChooser), null, null));
+		myTypeChooser = buildTypeChooser();
+		Button blankItem = GUIFactory.buildButton("New", e -> createEmptyEditor(), null, null);
+		AnchorPane myTopControlPane = GUIFactory.buildAnchorPane(myTypeChooser, blankItem);
 		mySaveButton = GUIFactory.buildButton("Update", e -> storeEditedObject(), null, null);
 		myCreateButton = GUIFactory.buildButton("Save", e -> saveObject(), null, null);
 		AnchorPane myBottomControlPane = GUIFactory.buildAnchorPane(mySaveButton, myCreateButton);
@@ -75,8 +77,7 @@ public class ObjectEditor{
 		GridPane.setHalignment(myMainEditorView, HPos.CENTER);
 	}
 	
-	private void createEmptyEditor(ComboBox<String> cBox) {
-		cBox.setValue(null);
+	private void createEmptyEditor() {
 		ObjectData emptyData = new ObjectData();
 		emptyData.setImagePath("scenery_gray.png");
 		myIcon.setImage(new Image(ResourceManager.getResource(this, emptyData.getImagePath())));
@@ -92,38 +93,32 @@ public class ObjectEditor{
 				e -> buildNewAttribute(),
 				e -> myAttributeViewer.removeSelectedItem(),
 				ResourceManager.getString("attributes_added"));
-		
 		AnchorPane collisionAnchor = buildButtons(
 				e -> buildNewCollision(),
 				e -> myCollisionViewer.removeSelectedItem(),
 				ResourceManager.getString("collision_menu_title"));
-		
 		GridPane grid = createMainEditorGrid();
-				
 		VBox att = createEditorVBox(attributeAnchor, myAttributeViewer.getView());
-		
 		VBox coll = createEditorVBox(collisionAnchor, myCollisionViewer.getView());
-		
 		GridPane iconGrid = createIconGrid();
-		
 		grid.add(iconGrid, 0, 0, 1, 1);
 		grid.add(coll, 0, 1, 2, 1);
 		grid.add(att, 1, 0, 1, 1);
 		return grid;
 	}
 
-	private ComboBox<String> buildTypeChooser() {
-		ComboBox<String> typeChooser = new ComboBox<String>();
+	private ComboBox<GameObjectType> buildTypeChooser() {
+		ComboBox<GameObjectType> typeChooser = new ComboBox<GameObjectType>();
 		typeChooser.setPromptText(ResourceManager.getString("ChooseObjectType"));
 		typeChooser.setPrefWidth(150);
 		for (GameObjectType g: GameObjectType.values()) {
-			typeChooser.getItems().add(g.toString());
+			typeChooser.getItems().add(g);
 		}
 		typeChooser.valueProperty().addListener((o, s1, s2) -> {
 			if (s2 == null) {
 				return;
 			}
-			currentData.setType(GameObjectType.valueOf(s2.toUpperCase()));
+			currentData.setType(s2);
 		});
 		return typeChooser;
 	}
@@ -134,6 +129,7 @@ public class ObjectEditor{
 				myCreateButton.setDisable(false);
 			}
 			currentData = data;
+			myTypeChooser.getSelectionModel().select(currentData.getType());
 			myAttributeViewer.displayData(currentData.getAttributes());
 			myCollisionViewer.displayData(currentData.getCollisionMap());
 			myIcon.setImage(new Image(ResourceManager.getResource(this, currentData.getImagePath())));
@@ -143,7 +139,7 @@ public class ObjectEditor{
 	private void storeEditedObject() {
 		currentData.setAttributes(myAttributeViewer.getData());
 		currentData.setCollisionMap(myCollisionViewer.getData());
-		currentData.setType(currentData.getType());
+		currentData.setType(myTypeChooser.getSelectionModel().getSelectedItem());
 	}
 	
 	private void saveObject() {

@@ -47,7 +47,6 @@ public class QueueTooltip extends CustomTooltip{
 	
 	@Override
 	protected void updateContent() {
-		System.out.println("HERE");
 		currentImageView.setImage(new Image(getClass().getClassLoader().getResourceAsStream(myData.getImagePath())));
 		box.getChildren().clear();
 		for (IAttribute att: myData.getAttributes()) {
