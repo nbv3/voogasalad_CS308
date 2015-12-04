@@ -62,8 +62,8 @@ public class ObjectEditor {
 		GridPane myMainEditorView = buildEditorView();
 		ComboBox<String> myTypeChooser = buildTypeChooser();
 		AnchorPane myTopControlPane = GUIFactory.buildAnchorPane(myTypeChooser, GUIFactory.buildButton("Create", e -> createEmptyEditor(myTypeChooser), null, null));
-		mySaveButton = GUIFactory.buildButton("Save Object", e -> storeEditedObject(), null, null);
-		myCreateButton = GUIFactory.buildButton("Create Object", e -> saveObject(), null, null);
+		mySaveButton = GUIFactory.buildButton("Update", e -> storeEditedObject(), null, null);
+		myCreateButton = GUIFactory.buildButton("Save", e -> saveObject(), null, null);
 		AnchorPane myBottomControlPane = GUIFactory.buildAnchorPane(mySaveButton, myCreateButton);
 		myView.add(myTopControlPane, 0, 0, 1, 1);
 		myView.add(myMainEditorView, 0, 1, 1, 1);
