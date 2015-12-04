@@ -79,7 +79,7 @@ public class ObjectEditor{
 	private void createEmptyEditor(ComboBox<String> cBox) {
 		cBox.setValue(null);
 		ObjectData emptyData = new ObjectData();
-		emptyData.setImagePath("gray.png");
+		emptyData.setImagePath("scenery_gray.png");
 		myIcon.setImage(new Image(ResourceManager.getResource(this, emptyData.getImagePath())));
 		emptyData.setObjectName(null);
 		emptyData.setType(null);
@@ -223,7 +223,7 @@ public class ObjectEditor{
 	private GridPane createIconGrid() {
 		GridPane grid = new GridPane();
 		grid.setAlignment(Pos.CENTER);
-		myIcon = new Icon("gray.png");
+		myIcon = new Icon("scenery_gray.png");
 		Button button = GUIFactory.buildButton("Select Image", e -> selectImage(), null, null);
 		grid.getChildren().addAll(button, myIcon);
 		GridPane.setConstraints(button, 0, 0, 1, 1);

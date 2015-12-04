@@ -66,7 +66,6 @@ public class GameUniverse implements IGameUniverse {
 		myTowers = new ArrayList<>();
 		Collection<ObjectData> towerdata = data.getTowers().getTowers();
 		for (ObjectData d : towerdata) {
-			System.out.println(d);
 			myTowers.add(new GameObject(d));
 		}
 		myGraveYard = new GraveYard(this, manager);
