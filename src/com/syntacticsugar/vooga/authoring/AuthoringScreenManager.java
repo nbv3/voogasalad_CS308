@@ -59,7 +59,7 @@ public class AuthoringScreenManager implements Observer {
 		buildMenuBar();
 
 		myWindowGrid = new GridPane();
-		myWindowGrid.setGridLinesVisible(true);
+//		myWindowGrid.setGridLinesVisible(true);
 		addGridConstraints();
 
 		setUpObserver();
