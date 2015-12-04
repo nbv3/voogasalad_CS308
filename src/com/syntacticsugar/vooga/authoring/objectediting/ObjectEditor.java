@@ -6,6 +6,7 @@ import com.syntacticsugar.vooga.authoring.icon.Icon;
 import com.syntacticsugar.vooga.authoring.library.IRefresher;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.util.ResourceManager;
+import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
 import com.syntacticsugar.vooga.xml.XMLHandler;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
@@ -101,21 +102,29 @@ public class ObjectEditor {
 		
 		TextInputDialog td = new TextInputDialog("Name your creation");
 		td.showAndWait();
-		if (td.getResult() == null)
+		if (td.getResult() == null || td.getResult().isEmpty()) {
+			AlertBoxFactory.createObject("Aborted save.");
 			return;
+		}
 		currentData.setObjectName(td.getResult());
 
 		//TODO : EXTRACT FILE CHOOSING INTO A UTILITY
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.getExtensionFilters().add(new ExtensionFilter("XML Data", "*.xml"));
 		fileChooser.setTitle("Save Resource File");
-		fileChooser.setInitialDirectory(new File(ResourceManager.getString(String.format("%s_%s", currentData.getType().toString().toUpperCase(), "data"))));
+		fileChooser.setInitialDirectory(
+				new File(
+						ResourceManager.getString(
+								String.format("%s_%s", 
+										currentData.getType().toString().toLowerCase(), 
+										"data"))));
 		fileChooser.setInitialFileName(String.format("%s.%s", currentData.getObjectName(), "xml"));
 		File selectedFile = fileChooser.showSaveDialog(new Stage());
 		if (selectedFile != null) {
 			XMLHandler<ObjectData> xml = new XMLHandler<>();
 			xml.write(currentData, selectedFile);
 		}
+		myRefresher.refresh();
 	}
 	
 	private void selectImage() {

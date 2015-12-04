@@ -36,7 +36,9 @@ public class AttributeViewer implements IUserInterface,
 					}
 				}
 				if (change.wasRemoved()) {
-					myAttributeDisplays.remove(change.getFrom());
+					for (int i = 0;i < change.getRemovedSize();i++) {
+						myAttributeDisplays.remove(change.getFrom());
+					}
 				}
 			}
 		});
