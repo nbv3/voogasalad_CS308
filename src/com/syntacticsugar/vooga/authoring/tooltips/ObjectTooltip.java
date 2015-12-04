@@ -1,4 +1,4 @@
-package com.syntacticsugar.vooga.authoring.level;
+package com.syntacticsugar.vooga.authoring.tooltips;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,13 +18,13 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
-public class QueueTooltip extends CustomTooltip{
+public class ObjectTooltip extends CustomTooltip{
 	private ObjectData myData;
 	private List<Label> myLabels;
 	private ImageView currentImageView;
 	private VBox box;
 	
-	public QueueTooltip(ObjectData data) {
+	public ObjectTooltip(ObjectData data) {
 		super();
 		myData = data;
 	}

@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.syntacticsugar.vooga.authoring.dragdrop.DragDropManager;
+import com.syntacticsugar.vooga.authoring.objectediting.IVisualElement;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
 import com.syntacticsugar.vooga.xml.data.TileImplementation;
 import javafx.beans.property.ObjectProperty;
@@ -14,6 +15,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.effect.Glow;
@@ -21,7 +23,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.TilePane;
 
-public class IconPane {
+public class IconPane implements IVisualElement {
 
 	private ScrollPane myScrollPane;
 	private TilePane myIconPane;
@@ -83,12 +85,8 @@ public class IconPane {
 		}
 	}
 
-	/**
-	 * Return the JavaFX Node used to display this IconPane.
-	 * 
-	 * @return
-	 */
-	public ScrollPane getIconPane() {
+	@Override
+	public Node getView() {
 		return myScrollPane;
 	}
 

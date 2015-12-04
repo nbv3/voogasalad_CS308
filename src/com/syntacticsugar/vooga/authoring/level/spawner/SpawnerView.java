@@ -12,8 +12,8 @@ import com.syntacticsugar.vooga.authoring.fluidmotion.FadeTransitionWizard;
 import com.syntacticsugar.vooga.authoring.fluidmotion.FluidGlassBall;
 import com.syntacticsugar.vooga.authoring.level.IDataSelector;
 import com.syntacticsugar.vooga.authoring.level.QueueBox;
-import com.syntacticsugar.vooga.authoring.level.QueueTooltip;
 import com.syntacticsugar.vooga.authoring.objectediting.IVisualElement;
+import com.syntacticsugar.vooga.authoring.tooltips.ObjectTooltip;
 import com.syntacticsugar.vooga.gameplayer.attribute.HealthAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
 import com.syntacticsugar.vooga.gameplayer.event.ICollisionEvent;
@@ -77,7 +77,7 @@ public class SpawnerView implements IDataSelector<ObjectData>, IVisualElement {
 		Node temp = createQueueBoxFromObjData(obj);
 		temp.setOnMouseClicked(e -> selectedItem = temp);
 		myObjects.put(temp, obj);
-		Tooltip.install(temp, new QueueTooltip(myObjects.get(temp)));
+		Tooltip.install(temp, new ObjectTooltip(myObjects.get(temp)));
 		myWave.add(temp);
 	}
 

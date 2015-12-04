@@ -38,7 +38,7 @@ public class ObjectLibrary extends Tab {
 
 	private Node buildTitledPane(IconPane myIconPane2, GameObjectType myType2) {
 		VBox box = new VBox();
-		box.getChildren().add(myIconPane2.getIconPane());
+		box.getChildren().add(myIconPane2.getView());
 		return box;
 	}
 

@@ -7,7 +7,7 @@ import com.syntacticsugar.vooga.authoring.dragdrop.DragDropManager;
 import com.syntacticsugar.vooga.authoring.dragdrop.ObjectClippableItem;
 import com.syntacticsugar.vooga.authoring.dragdrop.TileClippableItem;
 import com.syntacticsugar.vooga.authoring.icon.Icon;
-import com.syntacticsugar.vooga.authoring.level.TileInfoTooltip;
+import com.syntacticsugar.vooga.authoring.tooltips.TileInfoTooltip;
 import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 import com.syntacticsugar.vooga.util.gui.factory.SliderDialogFactory;

@@ -97,7 +97,7 @@ public class MapEditorControls{
 		buildView();
 		
 		// Let the IconPane expand to fill the contents of the controls
-		VBox.setVgrow(myIconPane.getIconPane(), Priority.ALWAYS);
+		VBox.setVgrow(myIconPane.getView(), Priority.ALWAYS);
 	}
 
 	private void buildView() {
@@ -109,7 +109,7 @@ public class MapEditorControls{
 		myContainer.setPadding(new Insets(10));
 		myContainer.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 		myContainer.getChildren()
-		.addAll(top, middle, myIconPane.getIconPane(), bottom);
+		.addAll(top, middle, myIconPane.getView(), bottom);
 	}
 
 	private void updatePreview() {

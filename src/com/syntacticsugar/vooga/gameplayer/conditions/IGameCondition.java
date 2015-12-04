@@ -15,5 +15,6 @@ public interface IGameCondition extends GameEventListener{
 	public ConditionType returnType();
 	
 	
+	public void registerManager(IEventManager manager);
 
 }

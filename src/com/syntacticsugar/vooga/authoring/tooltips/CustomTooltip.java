@@ -1,4 +1,4 @@
-package com.syntacticsugar.vooga.authoring.level;
+package com.syntacticsugar.vooga.authoring.tooltips;
 
 import javafx.scene.Node;
 import javafx.scene.control.Tooltip;

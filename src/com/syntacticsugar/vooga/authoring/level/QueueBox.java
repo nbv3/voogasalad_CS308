@@ -1,10 +1,7 @@
 package com.syntacticsugar.vooga.authoring.level;
 
-import java.util.ArrayList;
-
 import com.syntacticsugar.vooga.authoring.objectediting.IVisualElement;
-import com.syntacticsugar.vooga.gameplayer.attribute.HealthAttribute;
-import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
+import com.syntacticsugar.vooga.authoring.tooltips.ObjectTooltip;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
 
 import javafx.scene.Node;
@@ -25,7 +22,7 @@ public class QueueBox implements IVisualElement {
 		myData = data;
 		myView = new VBox();
 		addImage(data.getImagePath());
-		Tooltip.install(myView, new ObjectIconTooltip(myData));
+		Tooltip.install(myView, new ObjectTooltip(myData));
 	}
 
 	private void addImage(String path) {

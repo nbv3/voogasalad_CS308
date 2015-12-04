@@ -11,8 +11,8 @@ import com.syntacticsugar.vooga.authoring.fluidmotion.FluidGlassBall;
 import com.syntacticsugar.vooga.authoring.fluidmotion.ParallelTransitionWizard;
 import com.syntacticsugar.vooga.authoring.level.IDataSelector;
 import com.syntacticsugar.vooga.authoring.level.QueueBox;
-import com.syntacticsugar.vooga.authoring.level.QueueTooltip;
 import com.syntacticsugar.vooga.authoring.objectediting.IVisualElement;
+import com.syntacticsugar.vooga.authoring.tooltips.ObjectTooltip;
 import com.syntacticsugar.vooga.gameplayer.attribute.HealthAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
 import com.syntacticsugar.vooga.gameplayer.event.ICollisionEvent;
@@ -26,6 +26,9 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Orientation;
 import javafx.scene.Node;
 import javafx.scene.control.ListView;
+import javafx.scene.control.MultipleSelectionModel;
+import javafx.scene.control.SelectionMode;
+import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tooltip;
 
 public class TowerView implements IVisualElement, IDataSelector<ObjectData> {
@@ -40,6 +43,7 @@ public class TowerView implements IVisualElement, IDataSelector<ObjectData> {
 		myObservable = FXCollections.observableArrayList();
 		myTowerView.setItems(myObservable);
 		myTowerView.setOrientation(Orientation.VERTICAL);
+		myTowerView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 		myMap = new HashMap<Node, ObjectData>();
 
 		//TODO: REMOVE (blank initialization)
@@ -70,7 +74,7 @@ public class TowerView implements IVisualElement, IDataSelector<ObjectData> {
 		Node newTower = createQueueBoxFromObjData(data);
 		newTower.setOnMouseClicked(e -> selectedItem = newTower);
 		myMap.put(newTower, data);
-		Tooltip.install(newTower, new QueueTooltip(myMap.get(newTower)));
+		Tooltip.install(newTower, new ObjectTooltip(myMap.get(newTower)));
 		myObservable.add(newTower);
 	}
 	
@@ -82,10 +86,8 @@ public class TowerView implements IVisualElement, IDataSelector<ObjectData> {
 
 	@Override
 	public ObjectData getSelectedData() {
-		if (selectedItem != null) {
-			return myMap.get(selectedItem);
-		}
-		return null;
+		System.out.println(myMap.get(myTowerView.getSelectionModel().getSelectedItem()));
+		return myMap.get(myTowerView.getSelectionModel().getSelectedItem());
 	}
 
 	@Override

@@ -22,6 +22,7 @@ public class TowerControls extends Observable implements IVisualElement {
 
 	public TowerControls(IDataSelector<ObjectData> towers) {
 		myView = new VBox();
+		myTowerView = towers;
 		myClearButton = GUIFactory.buildButton("Clear Towers", e -> myTowerView.clearData(), 100.0, 50.0);
 		myRemoveButton = GUIFactory.buildButton("Remove Selected", e -> myTowerView.removeSelectedData(), 150.0, 50.0);
 		myEditButton = GUIFactory.buildButton("Edit Selected", e -> editSelectedData(), 100.0, 50.0);

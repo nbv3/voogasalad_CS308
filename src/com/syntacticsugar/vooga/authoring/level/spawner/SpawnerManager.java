@@ -49,7 +49,8 @@ public class SpawnerManager implements ITabbedManager<ObjectData> {
 
 		Tab newWaveTab = new Tab();
 		newWaveTab.setContent(newSpawnerView.getView());
-
+		newWaveTab.setOnClosed(e -> updateWaveNumbers());
+		
 		mySpawnerViewMap.put(newWaveTab, newSpawnerView);
 
 		myTabPane.getTabs().add(newWaveTab);
