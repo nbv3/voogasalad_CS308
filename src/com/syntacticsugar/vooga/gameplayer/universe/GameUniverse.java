@@ -79,7 +79,41 @@ public class GameUniverse implements IGameUniverse {
 	}
 
 	private void testTower() {
-		
+		String imgPath = "tower_1.png";
+		ObjectData towerData = new ObjectData();
+		towerData.setImagePath(imgPath);
+		Collection<IAttribute> towerAttributes = new ArrayList<IAttribute>();
+		towerAttributes.add(new HealthAttribute(30.0));
+		// towerAttributes.add(new AIMovementAttribute(3));
+		Map<GameObjectType, Collection<ICollisionEvent>> collisions = new HashMap<GameObjectType, Collection<ICollisionEvent>>();
+		Collection<ICollisionEvent> towerEvents = new ArrayList<ICollisionEvent>();
+		towerEvents.add(new HealthChangeEvent(-10));
+		towerData.setType(GameObjectType.ENEMY);
+		towerData.setImagePath(imgPath);
+		towerData.setAttributes(towerAttributes);
+		towerData.setCollisionMap(collisions);
+		towerData.setWidth(100);
+		towerData.setHeight(100);
+		IGameObject tower = new GameObject(towerData);
+		myTowers.add(tower);
+
+		String imgPath1 = "tower_4.png";
+		ObjectData towerData2 = new ObjectData();
+		towerData.setImagePath(imgPath1);
+		Collection<IAttribute> towerAttributes2 = new ArrayList<IAttribute>();
+		towerAttributes2.add(new HealthAttribute(30.0));
+		// towerAttributes.add(new AIMovementAttribute(3));
+		Map<GameObjectType, Collection<ICollisionEvent>> collisions2 = new HashMap<GameObjectType, Collection<ICollisionEvent>>();
+		Collection<ICollisionEvent> towerEvents2 = new ArrayList<ICollisionEvent>();
+		towerEvents2.add(new HealthChangeEvent(-10));
+		towerData2.setType(GameObjectType.TOWER);
+		towerData2.setImagePath(imgPath);
+		towerData2.setAttributes(towerAttributes2);
+		towerData2.setCollisionMap(collisions2);
+		towerData2.setWidth(100);
+		towerData2.setHeight(100);
+		IGameObject tower2 = new GameObject(towerData);
+		myTowers.add(tower2);
 	}
 
 	@Override

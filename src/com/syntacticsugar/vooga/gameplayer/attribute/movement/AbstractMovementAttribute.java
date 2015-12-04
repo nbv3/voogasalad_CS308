@@ -17,11 +17,11 @@ public abstract class AbstractMovementAttribute extends AbstractAttribute implem
 	
 	private double xVelocity;
 	private double yVelocity;
-	private double mySpeed;
+	private Double mySpeed;
 	
 	protected Point myCurrentTile;
 	
-	public AbstractMovementAttribute(double speed) {
+	public AbstractMovementAttribute(Double speed) {
 		super();
 		resetVelocity();
 		setSpeed(speed);
@@ -43,13 +43,8 @@ public abstract class AbstractMovementAttribute extends AbstractAttribute implem
 	}
 	
 	@Override
-	public double getSpeed() {
+	public Double getSpeed() {
 		return this.mySpeed;
-	}
-
-	@Override
-	public void setSpeed(double speed) {
-		this.mySpeed = speed;
 	}
 
 	@Override
@@ -129,6 +124,12 @@ public abstract class AbstractMovementAttribute extends AbstractAttribute implem
 		}
 		
 		return points;
+	}
+	
+	@Override
+	public void setSpeed(Double value)
+	{
+		mySpeed = value;
 	}
 	
 	@Override
