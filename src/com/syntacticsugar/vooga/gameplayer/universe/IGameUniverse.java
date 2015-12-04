@@ -20,21 +20,13 @@ public interface IGameUniverse extends IObjectCollection,
 	 * Collection of GameObjects, add/remove methods, an implementation of ISimpleGameMap,
 	 * and be able to send key press/release/mouse events directly to it's objects
 	 */
-	public void addPlayer(IGameObject player);
 	
-	/**
-	 * Return a Collection of all the Players within the current Universe.
-	 * @return
-	 */
-	public Collection<IGameObject> getPlayers();
 	
 	/**
 	 * Returns a limited data view of the map in the Universe.
 	 * @return
 	 */
 	public IGameMap getMap();
-	
-	public Collection<IGameCondition> getConditions();
 	
 	public UniverseData saveGame();
 	

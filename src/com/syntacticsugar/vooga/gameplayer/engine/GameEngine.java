@@ -28,14 +28,12 @@ public class GameEngine {
 
 	private IGameUniverse myUniverse;
 	private ViewController myView;
-	private ILevelSwitcher myManager;
-	
 	private IScore myScore;
 
-	public GameEngine(IGameUniverse universe, ViewController view, ILevelSwitcher manager) {
+	public GameEngine(IGameUniverse universe, ViewController view) {
 		myUniverse = universe;
 		myView = view;
-		myManager = manager;
+
 	}
 
 	public void resetUniverse(IGameUniverse universe) {
