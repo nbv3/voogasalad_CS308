@@ -28,14 +28,12 @@ public class GameEngine {
 
 	private IGameUniverse myUniverse;
 	private ViewController myView;
-	private ILevelSwitcher myManager;
-	
 	private IScore myScore;
 
-	public GameEngine(IGameUniverse universe, ViewController view, ILevelSwitcher manager) {
+	public GameEngine(IGameUniverse universe, ViewController view) {
 		myUniverse = universe;
 		myView = view;
-		myManager = manager;
+
 	}
 
 	public void resetUniverse(IGameUniverse universe) {
@@ -49,7 +47,6 @@ public class GameEngine {
 		processGraveyard();
 		processSpawnyard();
 		processScore();
-		checkConditions();
 	}
 
 	private void checkCollisions() {
@@ -92,15 +89,6 @@ public class GameEngine {
 		for (IGameObject object : myUniverse.getGameObjects()) {
 			object.updateSelf(myUniverse);
 		}
-	}
-
-	private void checkConditions() {
-		for (IGameCondition condition : myUniverse.getConditions()) {
-			if (condition.checkCondition(myUniverse)) {
-				myManager.switchLevel(condition.returnType());
-			}
-		}
-
 	}
 	
 	private void processSpawner() {

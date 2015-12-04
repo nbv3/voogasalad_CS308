@@ -56,7 +56,7 @@ public class CollisionViewer implements IUserInterface,
     private HBox makeHBoxDisplay(GameObjectType type, Collection<ICollisionEvent> events) {
         HBox element = new HBox();
         element.setAlignment(Pos.BASELINE_CENTER);
-        Text text = new Text(ResourceManager.getString(type.toString()));
+        Text text = new Text(type.toString());
         ComboBox<String> dropdown = makeEventDropdown(events);
         element.setSpacing(100);
         element.getChildren().add(text);

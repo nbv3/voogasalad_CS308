@@ -14,6 +14,7 @@ import com.syntacticsugar.vooga.gameplayer.event.ICollisionEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.HealthChangeEvent;
 import com.syntacticsugar.vooga.gameplayer.manager.GameManager;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
+import com.syntacticsugar.vooga.social.SocialCenter;
 import com.syntacticsugar.vooga.xml.XMLHandler;
 import com.syntacticsugar.vooga.xml.data.GameData;
 import com.syntacticsugar.vooga.xml.data.GlobalSettings;
@@ -68,21 +69,26 @@ public class SceneManager {
 		viewScene(screen);
 	}
 	
-	public void launchNewEditor() {
-		new AuthoringScreenManager(e -> launchFirstMenu());
+	public void launchSocialCenter() {
 		myStage.hide();
+		new SocialCenter(e -> launchFirstMenu());
+	}
+	
+	public void launchNewEditor() {
+		myStage.hide();
+		new AuthoringScreenManager(e -> launchFirstMenu());
 	}
 	
 	public void launchLoadEditor() {
 		// TODO load from XML here or within GameManager?
-		new AuthoringScreenManager(e -> launchFirstMenu());
 		myStage.hide();
+		new AuthoringScreenManager(e -> launchFirstMenu());
 	}
 	
 	public void launchNewEngine() {
 		GameData data = makeEmptyData();
-		new GameManager(e -> launchFirstMenu(), GAME_SIZE, data, FRAME_LENGTH);
 		myStage.hide();
+		new GameManager(e -> launchFirstMenu(), GAME_SIZE, data, FRAME_LENGTH);
 	}
 	
 	public void launchLoadEngine() {

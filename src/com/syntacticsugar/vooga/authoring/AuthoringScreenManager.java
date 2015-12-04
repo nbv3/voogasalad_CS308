@@ -8,6 +8,7 @@ import com.syntacticsugar.vooga.authoring.level.LevelTabManager;
 import com.syntacticsugar.vooga.authoring.library.ObjectLibraryManager;
 import com.syntacticsugar.vooga.authoring.objectediting.ObjectEditor;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
+import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.xml.XMLHandler;
 import com.syntacticsugar.vooga.xml.data.MapData;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
@@ -43,7 +44,7 @@ public class AuthoringScreenManager implements Observer {
 	public AuthoringScreenManager(EventHandler<WindowEvent> onClose) {
 		myLevelEditor = new LevelTabManager();
 		myObjectLibraryManager = new ObjectLibraryManager();
-		myObjectEditor = new ObjectEditor(myObjectLibraryManager.getRefreshMethod());
+		myObjectEditor = new ObjectEditor(() -> myObjectLibraryManager.refresh());
 		initWindow(onClose);
 	}
 
@@ -146,6 +147,7 @@ public class AuthoringScreenManager implements Observer {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Open Resource File");
 		fileChooser.getExtensionFilters().addAll(new ExtensionFilter("XML Files", "*.xml"));
+		fileChooser.setInitialDirectory(new File(ResourceManager.getString("data")));
 		File selectedFile = fileChooser.showOpenDialog(new Stage());
 		if (selectedFile != null) {
 			XMLHandler<ObjectData> xml = new XMLHandler<>();

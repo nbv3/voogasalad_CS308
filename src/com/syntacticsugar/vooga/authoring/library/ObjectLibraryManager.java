@@ -1,24 +1,22 @@
 package com.syntacticsugar.vooga.authoring.library;
 
-import java.io.File;
-import java.util.List;
+import java.util.ArrayList;
+import java.util.Collection;
 
-import com.sun.deploy.uitoolkit.impl.fx.ui.resources.ResourceManager;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 
-import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TabPane.TabClosingPolicy;
-import javafx.scene.layout.Region;
 
 public class ObjectLibraryManager {
 
 	private TabPane myLibraryTabs;
-	private IRefresher myRefreshMethod;
+	private Collection<ObjectLibrary> myLibraries;
 
 	public ObjectLibraryManager() {		
 		myLibraryTabs = new TabPane();
 		myLibraryTabs.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
+		myLibraries = new ArrayList<>();
 		populateLibraryTabs();
 	}
 
@@ -28,27 +26,19 @@ public class ObjectLibraryManager {
 	
 	private void populateLibraryTabs() {
 		for (GameObjectType type: getObjectTypes()){
-			myLibraryTabs.getTabs().add(makeTab(type));
+			ObjectLibrary lib = new ObjectLibrary(type);
+			myLibraryTabs.getTabs().add(lib);
+			myLibraries.add(lib);
 		}
 	}
 	
-	private ObjectLibrary makeLibrary(GameObjectType objectType){
-		ObjectLibrary library = new ObjectLibrary(objectType);
-		myRefreshMethod = library.getRefreshMethod();
-		return library;
-	}
-	
-	private Tab makeTab(GameObjectType objectType){
-		Tab tab = new Tab(objectType.toString());
-		tab.setContent(makeLibrary(objectType).getContent());
-		return tab;
-	}
-
 	public TabPane getTabPane() {
 		return myLibraryTabs;
 	}
 	
-	public IRefresher getRefreshMethod(){
-		return myRefreshMethod;
+	public void refresh(){
+		for (ObjectLibrary lib : myLibraries) {
+			lib.refresh();
+		}
 	}
 }

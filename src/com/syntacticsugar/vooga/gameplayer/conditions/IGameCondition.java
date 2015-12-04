@@ -1,16 +1,9 @@
 package com.syntacticsugar.vooga.gameplayer.conditions;
 
-import com.syntacticsugar.vooga.gameplayer.universe.IObjectCollection;
+import com.syntacticsugar.vooga.gameplayer.event.GameEventListener;
 
-public interface IGameCondition{
+public interface IGameCondition extends GameEventListener{
 	
-	/**
-	 * Checks to see if this condition has been satisfied by the last 
-	 * frame update of the Universe.
-	 * @param unmodifiableUniverse
-	 * @return
-	 */
-	public boolean checkCondition(IObjectCollection universe);
 	
 	/**
 	 * Return the type of this game condition (ie. WINNING vs. LOSING). If a 

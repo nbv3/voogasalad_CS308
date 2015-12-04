@@ -1,19 +1,12 @@
 package com.syntacticsugar.vooga.authoring.level;
 
-import java.util.Observable;
-import java.util.Observer;
-
 import com.syntacticsugar.vooga.xml.data.MapData;
-import com.syntacticsugar.vooga.xml.data.ObjectData;
 
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 
 public class LevelEditor{
 
@@ -22,7 +15,6 @@ public class LevelEditor{
 	private MapEditorControls myTileEditor;
 	private EnemyQueueTabManager myQueue;
 	private WaveController myWaveControl;
-	private ObjectData itemToEdit;
 	private TowerManager myTowers;
 	// private SpawnEditor mySpawnEditor;
 
@@ -65,7 +57,10 @@ public class LevelEditor{
 		myContentGrid.setPadding(new Insets(10, 10, 10, 10));
 		addColumnConstraints(myContentGrid);
 		addRowConstraints(myContentGrid);
+
 		myContentGrid.add(myTileEditor.getContent(), 0, 0, 1, 1);
+		myContentGrid.add(myTileEditor.getPreviewTile(), 0, 1,1, 1);
+
 		myContentGrid.add(myMapEditor.getContent(), 1, 0, 1, 2);
 		myContentGrid.add(myWaveControl.getView(), 0, 2, 1, 1);
 		myContentGrid.add(myQueue.getView(), 1, 2, 2, 1);
