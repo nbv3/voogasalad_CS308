@@ -5,14 +5,11 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.syntacticsugar.vooga.authoring.dragdrop.DragDropManager;
-import com.syntacticsugar.vooga.xml.data.ObjectData;
-import com.syntacticsugar.vooga.xml.data.TileImplementation;
+import com.syntacticsugar.vooga.util.dirview.IConverter;
+import com.syntacticsugar.vooga.util.dirview.IDirectoryViewer;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
@@ -21,7 +18,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.TilePane;
 
-public class IconPane {
+public class IconPane implements IDirectoryViewer<String> {
 
 	private ScrollPane myScrollPane;
 	private TilePane myIconPane;
@@ -63,16 +60,11 @@ public class IconPane {
 		myIconPane.maxWidthProperty().set(myScrollPane.viewportBoundsProperty().get().getWidth());
 	}
 
-	/**
-	 * Show all icons representing the relevant file types as specified by this
-	 * subclass of AbstractIconPane.
-	 * 
-	 * @param directory
-	 */
-	public void showIcons(File directory, IConverter fileConverter) {
+	@Override
+	public void showDirectoryContents(File directory, IConverter<String> fileConverter) {
 		clearIconPane();
 		initializeGridPane();
-		Collection<String> imagePaths = fileConverter.getImages(directory);
+		Collection<String> imagePaths = fileConverter.getContents(directory);
 		for (String path : imagePaths) {
 			ImageView iv = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(path)));
 			iv.fitWidthProperty().bind(myIconPane.maxWidthProperty().divide(NUM_COLS).subtract(INSET_VALUE));
