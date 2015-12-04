@@ -1,4 +1,4 @@
-package com.syntacticsugar.vooga.util.gui.factory;
+package com.syntacticsugar.vooga.authoring.parameters;
 
 import java.lang.reflect.Constructor;
 
