@@ -31,10 +31,10 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 import javafx.stage.FileChooser.ExtensionFilter;
+import javafx.stage.Stage;
 
-public class ObjectEditor{
+public class ObjectEditor {
 
 	private GridPane myView;
 	private ObjectData currentData;
@@ -46,7 +46,7 @@ public class ObjectEditor{
 	private ComboBox<GameObjectType> myTypeChooser;
 	private IRefresher myRefresher;
 
-	public ObjectEditor(IRefresher refresher){
+	public ObjectEditor(IRefresher refresher) {
 		myView = new GridPane();
 		myView.setAlignment(Pos.CENTER);
 		currentData = new ObjectData();
@@ -86,24 +86,20 @@ public class ObjectEditor{
 	}
 
 	private GridPane buildEditorView() {
-		AnchorPane attributeAnchor = buildButtons(
-				e -> buildNewAttribute(),
-				e -> myAttributeViewer.removeSelectedItem(),
+		AnchorPane attributeAnchor = buildButtons(e -> buildNewAttribute(), e -> myAttributeViewer.removeSelectedItem(),
 				ResourceManager.getString("attributes_added"));
-		
-		AnchorPane collisionAnchor = buildButtons(
-				e -> buildNewCollision(),
-				e -> myCollisionViewer.removeSelectedItem(),
+
+		AnchorPane collisionAnchor = buildButtons(e -> buildNewCollision(), e -> myCollisionViewer.removeSelectedItem(),
 				ResourceManager.getString("collision_menu_title"));
-		
+
 		GridPane grid = createMainEditorGrid();
-				
+
 		VBox att = createEditorVBox(attributeAnchor, myAttributeViewer.getView());
-		
+
 		VBox coll = createEditorVBox(collisionAnchor, myCollisionViewer.getView());
-		
+
 		GridPane iconGrid = createIconGrid();
-		
+
 		grid.add(iconGrid, 0, 0, 1, 1);
 		grid.add(coll, 0, 1, 2, 1);
 		grid.add(att, 1, 0, 1, 1);
@@ -140,13 +136,13 @@ public class ObjectEditor{
 			myIcon.setImage(new Image(ResourceManager.getResource(this, currentData.getImagePath())));
 		}
 	}
-	
+
 	private void storeEditedObject() {
 		currentData.setAttributes(myAttributeViewer.getData());
 		currentData.setCollisionMap(myCollisionViewer.getData());
 		currentData.setType(currentData.getType());
 	}
-	
+
 	private void saveObject() {
 		GameObjectType tempObjType = currentData.getType();
 		String tempImgPath = new String(currentData.getImagePath());
@@ -155,7 +151,7 @@ public class ObjectEditor{
 		currentData.setImagePath(tempImgPath);
 		currentData.setAttributes(Collections.unmodifiableCollection(myAttributeViewer.getData()));
 		currentData.setCollisionMap(Collections.unmodifiableMap(myCollisionViewer.getData()));
-		
+
 		TextInputDialog td = new TextInputDialog("Name your creation");
 		td.showAndWait();
 		if (td.getResult() == null || td.getResult().isEmpty()) {
@@ -164,16 +160,12 @@ public class ObjectEditor{
 		}
 		currentData.setObjectName(td.getResult());
 
-		//TODO : EXTRACT FILE CHOOSING INTO A UTILITY
+		// TODO : EXTRACT FILE CHOOSING INTO A UTILITY
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.getExtensionFilters().add(new ExtensionFilter("XML Data", "*.xml"));
 		fileChooser.setTitle("Save Resource File");
-		fileChooser.setInitialDirectory(
-				new File(
-						ResourceManager.getString(
-								String.format("%s_%s", 
-										currentData.getType().toString().toLowerCase(), 
-										"data"))));
+		fileChooser.setInitialDirectory(new File(ResourceManager
+				.getString(String.format("%s_%s", currentData.getType().toString().toLowerCase(), "data"))));
 		fileChooser.setInitialFileName(String.format("%s.%s", currentData.getObjectName(), "xml"));
 		File selectedFile = fileChooser.showSaveDialog(new Stage());
 		if (selectedFile != null) {
@@ -182,41 +174,37 @@ public class ObjectEditor{
 		}
 		myRefresher.refresh();
 	}
-	
+
 	private void selectImage() {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.getExtensionFilters().add(new ExtensionFilter("Image Files", "*.jpeg", "*.gif", "*.png"));
-		fileChooser.setTitle("Save Resource File");	
+		fileChooser.setTitle("Save Resource File");
 		if (currentData.getType() == null) {
 			AlertBoxFactory.createObject(ResourceManager.getString("select_object_type_error"));
 			return;
 		}
-		fileChooser.setInitialDirectory(
-				new File(
-						ResourceManager.getString(
-								String.format("%s_%s", 
-										currentData.getType().toString().toLowerCase(), 
-										"images"))));
+		fileChooser.setInitialDirectory(new File(ResourceManager
+				.getString(String.format("%s_%s", currentData.getType().toString().toLowerCase(), "images"))));
 		File selectedFile = fileChooser.showOpenDialog(new Stage());
 		if (selectedFile != null) {
 			currentData.setImagePath(selectedFile.getName());
 			myIcon.setImage(new Image(getClass().getClassLoader().getResourceAsStream(selectedFile.getName())));
 		}
 	}
-	
+
 	private void buildNewAttribute() {
 		new AttributeMakerWizard(currentData.getType(), myAttributeViewer.getData());
 		if (currentData.getType() == null) {
 			AlertBoxFactory.createObject(ResourceManager.getString("select_object_type_error"));
 			return;
-		}	}
-	
-	
+		}
+	}
+
 	private void buildNewCollision() {
 		new CollisionMakerWizard(currentData.getType(), myCollisionViewer.getData());
 	}
-	
-	public Node getView(){
+
+	public Node getView() {
 		return myView;
 	}
 
@@ -246,30 +234,26 @@ public class ObjectEditor{
 	private GridPane createMainEditorGrid() {
 		GridPane grid = new GridPane();
 		grid.setAlignment(Pos.CENTER);
-		grid.getColumnConstraints().addAll(
-				columnWithPercentage(50),
-				columnWithPercentage(50));
-		grid.getRowConstraints().addAll(
-				rowWithPercentage(45),
-				rowWithPercentage(45),
-				rowWithPercentage(10));
-		grid.setHgap(10); grid.setVgap(10);
+		grid.getColumnConstraints().addAll(columnWithPercentage(50), columnWithPercentage(50));
+		grid.getRowConstraints().addAll(rowWithPercentage(45), rowWithPercentage(45), rowWithPercentage(10));
+		grid.setHgap(10);
+		grid.setVgap(10);
 		grid.setPadding(new Insets(10));
 		return grid;
 	}
-	
+
 	private ColumnConstraints columnWithPercentage(double percent) {
 		ColumnConstraints c = new ColumnConstraints();
 		c.setPercentWidth(percent);
 		return c;
 	}
-	
+
 	private RowConstraints rowWithPercentage(double percent) {
 		RowConstraints r = new RowConstraints();
 		r.setPercentHeight(percent);
 		return r;
 	}
-	
+
 	private AnchorPane buildButtons(EventHandler<ActionEvent> add, EventHandler<ActionEvent> remove, String label) {
 		Button a = new Button();
 		a.setText("+");
@@ -294,11 +278,11 @@ public class ObjectEditor{
 	public void setTypeChooserViability(boolean flag) {
 		myTypeChooser.setDisable(true);
 	}
-	
+
 	public void setUpdateButtonViability(boolean flag) {
 		myUpdateButton.setDisable(flag);
 	}
-	
+
 	public void setSaveButtonViability(boolean flag) {
 		mySaveButton.setDisable(flag);
 	}

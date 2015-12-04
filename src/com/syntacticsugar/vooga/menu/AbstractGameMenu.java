@@ -46,7 +46,6 @@ public abstract class AbstractGameMenu extends BorderPane implements IGameMenu{
 	
 	protected Button createButton(String name, EventHandler<ActionEvent> onAction) {
 		Button button = new Button(name);
-		//button.setFont(new Font(30));
 		button.setMaxWidth(Double.MAX_VALUE);
 		button.setOnAction(onAction);
 		return button;

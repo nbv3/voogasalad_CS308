@@ -9,11 +9,11 @@ import com.syntacticsugar.vooga.authoring.dragdrop.DragDropManager;
 import com.syntacticsugar.vooga.authoring.objectediting.IVisualElement;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
 import com.syntacticsugar.vooga.xml.data.TileImplementation;
+import com.syntacticsugar.vooga.util.dirview.IConverter;
+import com.syntacticsugar.vooga.util.dirview.IDirectoryViewer;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
@@ -69,7 +69,7 @@ public class IconPane implements IVisualElement, IDirectoryViewer<String> {
 	public void showDirectoryContents(File directory, IConverter<String> fileConverter) {
 		clearIconPane();
 		initializeGridPane();
-		Collection<String> imagePaths = fileConverter.getContent(directory);
+		Collection<String> imagePaths = fileConverter.getContents(directory);
 		for (String path : imagePaths) {
 			ImageView iv = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(path)));
 			iv.fitWidthProperty().bind(myIconPane.maxWidthProperty().divide(NUM_COLS).subtract(INSET_VALUE));
@@ -93,7 +93,8 @@ public class IconPane implements IVisualElement, IDirectoryViewer<String> {
 		return myImagePaths.get(mySelectedIcon.get());
 	}
 	
-	
+
+	// ******************************* //
 	
 	private void clearIconPane() {
 		myIconPane.getChildren().clear();
