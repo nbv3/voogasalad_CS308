@@ -1,13 +1,19 @@
 package com.syntacticsugar.vooga.authoring.level;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import com.syntacticsugar.vooga.authoring.fluidmotion.FadeTransitionWizard;
+import com.syntacticsugar.vooga.authoring.fluidmotion.FluidGlassBall;
+import com.syntacticsugar.vooga.authoring.fluidmotion.ParallelTransitionWizard;
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
 import com.syntacticsugar.vooga.util.gui.factory.MsgInputBoxFactory;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
 
+import javafx.animation.Animation;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.Event;
@@ -56,8 +62,29 @@ public class EnemyQueueTabManager {
 
 	public void clearWave() {
 		ListView<VBox> wave = (ListView<VBox>) myTabPane.getSelectionModel().getSelectedItem().getContent();
+		Animation parallel = ParallelTransitionWizard.parallelize(convertNodeListToAnimList(wave));
+		parallel.setOnFinished(toExecuteOnFinished->clearWave_BAREBONE(wave));
+		parallel.play();
+	}
+
+	private void clearWave_BAREBONE(ListView<VBox> wave) {
+		System.out.println("The wave before clearing is: "+wave);
 		wave.getItems().clear();
 	}
+	
+	private List<Animation> convertNodeListToAnimList(ListView<VBox> wave) {
+		List<Animation> animationList = new ArrayList<Animation>();
+		for(Node node:wave.getItems()){
+			Animation nodeAnim = FadeTransitionWizard.fadeOut(node, 
+									FluidGlassBall.getFadeDuration(),
+									FluidGlassBall.getFadeOpacityStart(),
+									FluidGlassBall.getFadeOpacityEnd(),
+									FluidGlassBall.getFadeCycleCount());
+			animationList.add(nodeAnim);
+		}
+		return animationList;
+	}
+	
 
 	private void updateLevelNumbers() {
 		int i = 1;

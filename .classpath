@@ -9,7 +9,12 @@
 	<classpathentry kind="lib" path="images/enemy"/>
 	<classpathentry kind="lib" path="images/player"/>
 	<classpathentry kind="lib" path="images/tower"/>
-	<classpathentry kind="lib" path="/Users/michaeldaou/Documents/Junior Fall/CS 308/voogasalad_SyntacticSugar/lib/java-json.jar"/>
-	<classpathentry kind="lib" path="/Users/michaeldaou/Documents/Junior Fall/CS 308/voogasalad_SyntacticSugar/lib/snappy-java-1.1.2.jar"/>
+	<classpathentry kind="lib" path="lib/java-json.jar"/>
+	<classpathentry kind="lib" path="lib/snappy-java-1.1.2.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/3"/>
+	<classpathentry kind="lib" path="data/enemy"/>
+	<classpathentry kind="lib" path="data/item"/>
+	<classpathentry kind="lib" path="data/player"/>
+	<classpathentry kind="lib" path="data/tower"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -69,5 +69,13 @@ public class GUIFactory {
 		return titledPane;
 	}
 	
+	public static VBox buildTitledPaneWithButtons(Node pane, String title, Collection<Node> buttons){
+		Node titleAndButtonStrip = buildTitleNodeWithButtons(title, buttons);
+		VBox titledPaneWithButtons = new VBox();
+		titledPaneWithButtons.getChildren().add(titleAndButtonStrip);
+		titledPaneWithButtons.getChildren().add(pane);
+		return titledPaneWithButtons;
+	}
+	
 	
 }
