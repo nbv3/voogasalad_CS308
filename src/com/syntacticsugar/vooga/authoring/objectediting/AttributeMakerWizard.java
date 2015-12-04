@@ -6,10 +6,12 @@ import java.util.ListIterator;
 import java.util.Observable;
 import java.util.Observer;
 
+
 import com.syntacticsugar.vooga.authoring.parameters.ParameterFactory;
 import com.syntacticsugar.vooga.gameplayer.attribute.HealthAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.movement.AIMovementAttribute;
+import com.syntacticsugar.vooga.gameplayer.attribute.movement.MovementControlAttribute;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
@@ -19,13 +21,16 @@ import com.syntacticsugar.vooga.util.reflection.ReflectionException;
 
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -39,6 +44,7 @@ public class AttributeMakerWizard implements Observer{
 	private String selectedAttribute;
 	private final double SCENE_DIMENSION = 300;
 	private ParameterFactory myFactory;
+	private String selectedKeyCombo;
 
 	public AttributeMakerWizard(GameObjectType type, Collection<IAttribute> attributes){
 		myAttributes = attributes;
@@ -133,20 +139,40 @@ public class AttributeMakerWizard implements Observer{
 		tempStage.setScene(tempScene);
 		tempPane.setCenter((Node) arg);
 		tempStage.show();
-		HBox temp = (HBox)arg;
-		ListIterator<Node> myNodes = temp.getChildren().listIterator();
+		ListIterator<Node> myNodes = ((VBox) arg).getChildren().listIterator();
 		while(myNodes.hasNext())
 		{
 			Node n = myNodes.next();
 			if(n.getClass().getName().equals("javafx.scene.control.TextField"))
 			{
-				TextField field = (TextField) n;
-				field.setOnKeyPressed(e->updateHealth(tempStage, e.getCode(), field.getText()));
+				TextField textField = (TextField) n;	
+				textField.setOnKeyPressed(e->updateParameters(tempStage, e.getCode(), textField.getText()));
+			}
+			else if(n.getClass().getName().equals("javafx.scene.layout.HBox"))
+			{
+				HBox box = (HBox) n;
+				ListIterator<Node> children = box.getChildren().listIterator();
+				while(children.hasNext())
+				{
+					Node child = children.next();
+					if(child.getClass().getName().equals("javafx.scene.control.TextField"))
+					{
+						TextField text = (TextField) child;
+						text.setOnKeyPressed(e->updateParameters(tempStage, e.getCode(), text.getText()));
+					}
+					else if(child.getClass().getName().equals("javafx.scene.control.ComboBox"))
+					{
+						ComboBox<String> comboBox = (ComboBox<String>) child;
+					}
+				}
+				
+				
 			}
 		}
+		
 	}
 	
-	private void updateHealth(Stage s, KeyCode code, String userInput)
+	private void updateParameters(Stage s, KeyCode code, String userInput)
 	{
 		if(code.equals(KeyCode.ENTER))
 		{
@@ -158,12 +184,18 @@ public class AttributeMakerWizard implements Observer{
 						health.setHealth(Double.parseDouble(userInput));
 						myAttributes.add(health);
 					}
-					else
+					else if(attributeToAdd.getClass().getName().equals("com.syntacticsugar.vooga.gameplayer.attribute.movement.AIMovementAttribute"))
 					{
 						AIMovementAttribute move = (AIMovementAttribute) attributeToAdd;
 						move.setSpeed(Double.parseDouble(userInput));
 						myAttributes.add(move);
 						
+					}
+					else if(attributeToAdd.getClass().getName().equals("com.syntacticsugar.vooga.gameplayer.attribute.movement.MovementControlAttribute"))
+					{
+						MovementControlAttribute userMove = (MovementControlAttribute) attributeToAdd;
+						userMove.setSpeed(Double.parseDouble(userInput));
+						myAttributes.add(userMove);
 					}
 					s.close();
 			}
@@ -171,5 +203,6 @@ public class AttributeMakerWizard implements Observer{
 		}
 
 	}
+
 	
 }

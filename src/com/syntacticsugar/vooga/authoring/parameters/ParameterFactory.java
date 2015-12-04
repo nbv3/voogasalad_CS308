@@ -30,6 +30,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 
 public class ParameterFactory extends Observable{
@@ -69,7 +71,16 @@ public class ParameterFactory extends Observable{
 		Class<?> guiClass; 
 		Object guiObj;
 		try {
-			guiClass = Class.forName(guiClassName);
+			if(!attribute.getClass().getName().equals("com.syntacticsugar.vooga.gameplayer.attribute.movement.MovementControlAttribute"))
+			{
+				guiClass = Class.forName(guiClassName);
+			}
+			else
+			{
+				guiClass = Class.forName("javafx.scene.control.ComboBox");
+				
+			}
+			
 			try {
 				guiObj = guiClass.newInstance();
 				createNode(guiObj, attribute);
@@ -97,7 +108,7 @@ public class ParameterFactory extends Observable{
 				Node temp = (Node) chooser;*/
 			case "javafx.scene.control.TextField":
 				TextField textField = (TextField) obj;
-				HBox myBox = new HBox();
+				VBox myBox = new VBox();
 				if(attribute.getClass().getName().equals("com.syntacticsugar.vooga.gameplayer.attribute.HealthAttribute"))
 				{
 					Label myLabel = new Label("Health:");
@@ -106,7 +117,7 @@ public class ParameterFactory extends Observable{
 				}
 				else if(attribute.getClass().getName().equals("com.syntacticsugar.vooga.gameplayer.attribute.movement.AIMovementAttribute"))
 				{
-					Label myLabel = new Label("AIMovement: ");
+					Label myLabel = new Label("AI Speed: ");
 					myBox.getChildren().clear();
 					myBox.getChildren().addAll(myLabel, (Node)textField);
 					
@@ -120,14 +131,26 @@ public class ParameterFactory extends Observable{
 				if(attribute.getClass().getName().equals("com.syntacticsugar.vooga.gameplayer.attribute.movement.MovementControlAttribute"))
 				{
 					ObservableList<String> myList = FXCollections.observableArrayList();
+					HBox hBox = new HBox();
 					for(KeyCode key: ((MovementControlAttribute)attribute).getKeyCodes().keySet())
 					{
-						myList.add(key.toString() + " = " + ((MovementControlAttribute)attribute).getKeyCodes().get(key).toString());
+						myList.add(key.toString() + "  =  " + ((MovementControlAttribute)attribute).getKeyCodes().get(key).toString());
 					}
 					ComboBox<String> comboBox = new ComboBox<String>(myList);
-					Node node = (Node) comboBox;
+					Label label = new Label("Key Controls: ");
+					hBox.getChildren().clear();
+					hBox.getChildren().addAll(label, (Node)comboBox);
+					HBox box = new HBox();
+					box.getChildren().clear();
+					Label speedLabel = new Label("Speed: ");
+					box.getChildren().addAll(speedLabel, new TextField());
+					Node node = (Node) hBox;
+					Node secondNode = (Node) box;
+					VBox outerBox = new VBox();
+					outerBox.getChildren().clear();
+					outerBox.getChildren().addAll(node, secondNode);
 					setChanged();
-					notifyObservers(node);
+					notifyObservers((Node) outerBox);
 					break;
 				}
 				
