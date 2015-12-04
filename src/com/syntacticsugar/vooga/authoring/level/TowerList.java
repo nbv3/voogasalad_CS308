@@ -6,6 +6,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.syntacticsugar.vooga.authoring.fluidmotion.FadeTransitionWizard;
+import com.syntacticsugar.vooga.authoring.fluidmotion.FluidGlassBall;
+import com.syntacticsugar.vooga.authoring.fluidmotion.ParallelTransitionWizard;
 import com.syntacticsugar.vooga.gameplayer.attribute.HealthAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
 import com.syntacticsugar.vooga.gameplayer.event.ICollisionEvent;
@@ -13,9 +16,6 @@ import com.syntacticsugar.vooga.gameplayer.event.implementations.HealthChangeEve
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
 
-import authoring.fluidmotion.FadeTransitionWizard;
-import authoring.fluidmotion.FluidGlassBall;
-import authoring.fluidmotion.ParallelTransitionWizard;
 import javafx.animation.Animation;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

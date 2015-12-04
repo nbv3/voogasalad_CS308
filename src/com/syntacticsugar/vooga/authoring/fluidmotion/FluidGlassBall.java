@@ -1,4 +1,4 @@
-package authoring.fluidmotion;
+package com.syntacticsugar.vooga.authoring.fluidmotion;
 
 public class FluidGlassBall {	
 	// All durations are in milliseconds. 

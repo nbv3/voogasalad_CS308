@@ -1,4 +1,4 @@
-package authoring.fluidmotion;
+package com.syntacticsugar.vooga.authoring.fluidmotion;
 
 import java.util.ArrayList;
 import java.util.List;

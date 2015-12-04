@@ -8,6 +8,10 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import com.syntacticsugar.vooga.authoring.fluidmotion.FadeTransitionWizard;
+import com.syntacticsugar.vooga.authoring.fluidmotion.FluidGlassBall;
+import com.syntacticsugar.vooga.authoring.level.QueueBox;
+import com.syntacticsugar.vooga.authoring.level.QueueTooltip;
 import com.syntacticsugar.vooga.gameplayer.attribute.HealthAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
 import com.syntacticsugar.vooga.gameplayer.event.ICollisionEvent;
@@ -15,16 +19,7 @@ import com.syntacticsugar.vooga.gameplayer.event.implementations.HealthChangeEve
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
 
-<<<<<<< HEAD
-import authoring.fluidmotion.FadeTransitionsWizard;
-=======
-import authoring.fluidmotion.FadeTransitionWizard;
-import authoring.fluidmotion.FluidGlassBall;
 import javafx.animation.Animation;
-import javafx.animation.FadeTransition;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
->>>>>>> refs/heads/SexyMotion
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Orientation;

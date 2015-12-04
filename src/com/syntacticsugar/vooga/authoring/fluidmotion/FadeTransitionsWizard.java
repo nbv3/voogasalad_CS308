@@ -1,4 +1,4 @@
-package authoring.fluidmotion;
+package com.syntacticsugar.vooga.authoring.fluidmotion;
 
 import javafx.animation.Animation;
 import javafx.animation.FadeTransition;
