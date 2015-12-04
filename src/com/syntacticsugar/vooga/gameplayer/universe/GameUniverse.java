@@ -12,7 +12,6 @@ import com.syntacticsugar.vooga.gameplayer.attribute.HealthAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
 import com.syntacticsugar.vooga.gameplayer.conditions.Conditions;
 import com.syntacticsugar.vooga.gameplayer.conditions.EnemyDeathCondition;
-import com.syntacticsugar.vooga.gameplayer.conditions.IGameCondition;
 import com.syntacticsugar.vooga.gameplayer.conditions.PlayerDeathCondition;
 import com.syntacticsugar.vooga.gameplayer.event.ICollisionEvent;
 import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
@@ -43,32 +42,30 @@ import javafx.scene.input.MouseEvent;
 
 public class GameUniverse implements IGameUniverse {
 
-	private Collection<IGameObject> myPlayers;
 	private Collection<IGameObject> myGameObjects;
+	private Collection<IGameObject> myTowers;
 	private SpawnYard mySpawnYard;
 	private GraveYard myGraveYard;
 	private Conditions myConditions;
-	private Collection<IGameObject> myTowers;
 	private ISpawner mySpawner;
 	private IGameMap myGameMap;
 	private IScore myScore;
-	
+
 	private Collection<KeyCode> myCurrentInput;
-	
+
 	private IEventManager myPoster;
 
 	public GameUniverse(UniverseData data, GlobalSettings settings, IEventManager manager) {
-		
+
 		myPoster = manager;
 		myScore = new Score(manager, data.getSettings());
 		myConditions = new Conditions(manager);
-		myPlayers = new ArrayList<IGameObject>();
 		myGameObjects = new ArrayList<IGameObject>();
 		myGameMap = new GameMap(data.getMap());
 		mySpawner = new Spawner(data.getSpawns().getWaves(), this, settings.getSpawnRate());
 		myTowers = new ArrayList<>();
 		Collection<ObjectData> towerdata = data.getTowers().getTowers();
-		for (ObjectData d: towerdata) {
+		for (ObjectData d : towerdata) {
 			System.out.println(d);
 			myTowers.add(new GameObject(d));
 		}
@@ -81,8 +78,8 @@ public class GameUniverse implements IGameUniverse {
 		myTowers = new ArrayList<IGameObject>();
 		testTower();
 	}
-	
-	private void testTower(){
+
+	private void testTower() {
 		String imgPath = "tower_1.png";
 		ObjectData towerData = new ObjectData();
 		towerData.setImagePath(imgPath);
@@ -100,7 +97,7 @@ public class GameUniverse implements IGameUniverse {
 		towerData.setHeight(100);
 		IGameObject tower = new GameObject(towerData);
 		myTowers.add(tower);
-		
+
 		String imgPath1 = "tower_4.png";
 		ObjectData towerData2 = new ObjectData();
 		towerData.setImagePath(imgPath1);
@@ -119,8 +116,6 @@ public class GameUniverse implements IGameUniverse {
 		IGameObject tower2 = new GameObject(towerData);
 		myTowers.add(tower2);
 	}
-
-
 
 	@Override
 	public Collection<IGameObject> getGameObjects() {
@@ -186,7 +181,6 @@ public class GameUniverse implements IGameUniverse {
 		return this.myGameMap;
 	}
 
-
 	@Override
 	public void removeGameObject(IGameObject obj) {
 		System.out.println("HERE");
@@ -222,10 +216,10 @@ public class GameUniverse implements IGameUniverse {
 		UniverseData data = new UniverseData(spawn, towers, map, settings);
 		return data;
 	}
-	
+
 	private TowerData saveTowers() {
 		Collection<ObjectData> data = new ArrayList<>();
-		for (IGameObject o: myTowers) {
+		for (IGameObject o : myTowers) {
 			data.add(new ObjectData(o));
 		}
 		return new TowerData(data);
@@ -234,7 +228,7 @@ public class GameUniverse implements IGameUniverse {
 	@Override
 	public Collection<ObjectData> getAvailableTowers() {
 		List<ObjectData> towerData = new ArrayList<ObjectData>();
-		for(IGameObject tower: myTowers){
+		for (IGameObject tower : myTowers) {
 			towerData.add(new ObjectData(tower));
 		}
 		return towerData;
@@ -244,9 +238,9 @@ public class GameUniverse implements IGameUniverse {
 	public IScore getScore() {
 		return myScore;
 	}
-	
+
 	@Override
-	public void observeScore(Observer observer){
+	public void observeScore(Observer observer) {
 		myScore.addObserver(observer);
 	}
 }
