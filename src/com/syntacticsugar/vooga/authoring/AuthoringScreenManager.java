@@ -59,7 +59,7 @@ public class AuthoringScreenManager implements Observer {
 		buildMenuBar();
 
 		myWindowGrid = new GridPane();
-		myWindowGrid.setGridLinesVisible(true);
+//		myWindowGrid.setGridLinesVisible(true);
 		addGridConstraints();
 
 		setUpObserver();
@@ -203,6 +203,7 @@ public class AuthoringScreenManager implements Observer {
 
 	@Override
 	public void update(Observable o, Object arg) {
+		myObjectEditor.setTypeChooserViability(false);
 		myObjectEditor.displayData((ObjectData) arg);
 
 	}

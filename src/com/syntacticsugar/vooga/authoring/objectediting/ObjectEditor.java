@@ -49,8 +49,8 @@ public class ObjectEditor{
 	private Icon myIcon;
 	private Button myCreateButton;
 	private Button mySaveButton;
+	private ComboBox<String> myTypeChooser;
 	private IRefresher myRefresher;
-	private AttributeMakerWizard myAttributeWizard;
 
 	public ObjectEditor(IRefresher refresher){
 		myView = new GridPane();
@@ -64,10 +64,10 @@ public class ObjectEditor{
 
 	private void buildView() {
 		GridPane myMainEditorView = buildEditorView();
-		ComboBox<String> myTypeChooser = buildTypeChooser();
-		AnchorPane myTopControlPane = GUIFactory.buildAnchorPane(myTypeChooser, GUIFactory.buildButton("Create", e -> createEmptyEditor(myTypeChooser), null, null));
-		mySaveButton = GUIFactory.buildButton("Save Object", e -> storeEditedObject(), null, null);
-		myCreateButton = GUIFactory.buildButton("Create Object", e -> saveObject(), null, null);
+		myTypeChooser = buildTypeChooser();
+		AnchorPane myTopControlPane = GUIFactory.buildAnchorPane(myTypeChooser, GUIFactory.buildButton("New", e -> createEmptyEditor(myTypeChooser), null, null));
+		mySaveButton = GUIFactory.buildButton("Update", e -> storeEditedObject(), null, null);
+		myCreateButton = GUIFactory.buildButton("Save", e -> saveObject(), null, null);
 		AnchorPane myBottomControlPane = GUIFactory.buildAnchorPane(mySaveButton, myCreateButton);
 		myView.add(myTopControlPane, 0, 0, 1, 1);
 		myView.add(myMainEditorView, 0, 1, 1, 1);
@@ -77,6 +77,7 @@ public class ObjectEditor{
 	}
 	
 	private void createEmptyEditor(ComboBox<String> cBox) {
+		cBox.setDisable(false);
 		cBox.setValue(null);
 		ObjectData emptyData = new ObjectData();
 		emptyData.setImagePath("scenery_gray.png");
@@ -134,6 +135,7 @@ public class ObjectEditor{
 			if (myCreateButton.isDisabled()) {
 				myCreateButton.setDisable(false);
 			}
+			myTypeChooser.setValue(data.getType().toString());
 			currentData = data;
 			myAttributeViewer.displayData(currentData.getAttributes());
 			myCollisionViewer.displayData(currentData.getCollisionMap());
@@ -205,7 +207,7 @@ public class ObjectEditor{
 	}
 	
 	private void buildNewAttribute() {
-		myAttributeWizard = new AttributeMakerWizard(currentData.getType(), myAttributeViewer.getData());
+		new AttributeMakerWizard(currentData.getType(), myAttributeViewer.getData());
 		if (currentData.getType() == null) {
 			AlertBoxFactory.createObject(ResourceManager.getString("select_object_type_error"));
 			return;
@@ -291,5 +293,7 @@ public class ObjectEditor{
 		return anchor;
 	}
 
-	
+	public void setTypeChooserViability(boolean flag) {
+		myTypeChooser.setDisable(true);
+	}
 }
