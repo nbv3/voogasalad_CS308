@@ -14,13 +14,13 @@ public interface IMover {
 	 * Returns the current speed (scalar) of this ISimpleMover object.
 	 * @return
 	 */
-	public double getSpeed();
+	public Double getSpeed();
 	
 	/**
 	 * Sets the current speed (scalar) of this ISimpleMover object.
 	 * @param speed
 	 */
-	public void setSpeed(double speed);
+	public void setSpeed(Double speed);
 	
 	/**
 	 * Sets the velocity of this ISimpleMover object equal to the current

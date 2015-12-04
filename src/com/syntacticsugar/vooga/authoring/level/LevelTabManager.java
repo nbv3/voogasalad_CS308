@@ -3,12 +3,9 @@ package com.syntacticsugar.vooga.authoring.level;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Observable;
-import java.util.Observer;
 
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 import com.syntacticsugar.vooga.xml.data.MapData;
-import com.syntacticsugar.vooga.xml.data.ObjectData;
 
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -17,12 +14,21 @@ public class LevelTabManager{
 
 	private TabPane myTabPane;
 	private Map<Tab, LevelEditor> myLevelMap;
-	private ObjectData itemToEdit;
+	private int nextLevelNum = 1;
 	
 	public LevelTabManager() {
 		myLevelMap = new HashMap<Tab, LevelEditor>();
 		myTabPane = new TabPane();
-		addNewLevel();
+		createAddTab();
+	}
+	
+	private void createAddTab() {
+		Tab addNew = new Tab();
+		addNew.setContent(null);
+		addNew.setText("Add level");
+		addNew.setClosable(false);
+		addNew.setOnSelectionChanged(e -> addNewLevel());
+		myTabPane.getTabs().add(addNew);
 	}
 	
 	public void addNewLevel() {
@@ -35,12 +41,13 @@ public class LevelTabManager{
 		}
 		Tab newLevelTab = new Tab();
 		newLevelTab.setContent(newLevel.getContent());
+		newLevelTab.setText("Level" + " " + nextLevelNum);
+		nextLevelNum++;
 		myLevelMap.put(newLevelTab, newLevel);
-		newLevelTab.setOnClosed(e -> removeLevel(newLevelTab));
+		newLevelTab.setOnCloseRequest(e -> removeLevel(newLevelTab));
 		
 		myTabPane.getTabs().add(newLevelTab);
 		myTabPane.getSelectionModel().select(newLevelTab);
-		updateLevelNumbers();
 	}
 	
 	public void loadMap(MapData loadedMap) {
@@ -61,15 +68,17 @@ public class LevelTabManager{
 		return levels;
 	}
 	private void removeLevel(Tab levelTab) {
+		int removeInd = myTabPane.getTabs().indexOf(levelTab);
 		myLevelMap.remove(levelTab);
-		updateLevelNumbers();
+		nextLevelNum--;
+		updateLevelNumbers(removeInd-1);
+		myTabPane.getSelectionModel().select(myTabPane.getTabs().size()-1);
 	}
 	
-	private void updateLevelNumbers() {
-		int i=1;
-		for (Tab t : myTabPane.getTabs()) {
+	private void updateLevelNumbers(int start) {
+		for (int i=start; i<myTabPane.getTabs().size(); i++) {
+			Tab t = myTabPane.getTabs().get(i);
 			t.setText(String.format("%s %s", "Level", i));
-			i++;
 		}
 	}
 	

@@ -22,12 +22,15 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
@@ -37,7 +40,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.FileChooser.ExtensionFilter;
 
-public class ObjectEditor {
+public class ObjectEditor{
 
 	private GridPane myView;
 	private ObjectData currentData;
@@ -47,6 +50,7 @@ public class ObjectEditor {
 	private Button myCreateButton;
 	private Button mySaveButton;
 	private IRefresher myRefresher;
+	private AttributeMakerWizard myAttributeWizard;
 
 	public ObjectEditor(IRefresher refresher){
 		myView = new GridPane();
@@ -75,7 +79,7 @@ public class ObjectEditor {
 	private void createEmptyEditor(ComboBox<String> cBox) {
 		cBox.setValue(null);
 		ObjectData emptyData = new ObjectData();
-		emptyData.setImagePath("gray.png");
+		emptyData.setImagePath("scenery_gray.png");
 		myIcon.setImage(new Image(ResourceManager.getResource(this, emptyData.getImagePath())));
 		emptyData.setObjectName(null);
 		emptyData.setType(null);
@@ -126,7 +130,7 @@ public class ObjectEditor {
 	}
 
 	public void displayData(ObjectData data) {
-		if (currentData != null) {
+		if (data != null) {
 			if (myCreateButton.isDisabled()) {
 				myCreateButton.setDisable(false);
 			}
@@ -201,12 +205,12 @@ public class ObjectEditor {
 	}
 	
 	private void buildNewAttribute() {
+		myAttributeWizard = new AttributeMakerWizard(currentData.getType(), myAttributeViewer.getData());
 		if (currentData.getType() == null) {
 			AlertBoxFactory.createObject(ResourceManager.getString("select_object_type_error"));
 			return;
-		}
-		new AttributeMakerWizard(currentData.getType(), myAttributeViewer.getData());
-	}
+		}	}
+	
 	
 	private void buildNewCollision() {
 		new CollisionMakerWizard(currentData.getType(), myCollisionViewer.getData());
@@ -219,7 +223,7 @@ public class ObjectEditor {
 	private GridPane createIconGrid() {
 		GridPane grid = new GridPane();
 		grid.setAlignment(Pos.CENTER);
-		myIcon = new Icon("gray.png");
+		myIcon = new Icon("scenery_gray.png");
 		Button button = GUIFactory.buildButton("Select Image", e -> selectImage(), null, null);
 		grid.getChildren().addAll(button, myIcon);
 		GridPane.setConstraints(button, 0, 0, 1, 1);
@@ -286,5 +290,6 @@ public class ObjectEditor {
 		AnchorPane anchor = GUIFactory.buildAnchorPane(new Label(label), buttonGrid);
 		return anchor;
 	}
+
 	
 }

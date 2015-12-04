@@ -35,14 +35,11 @@ public class IconPane {
 	public void setSelectedTile(Icon selectedTile) {
 		this.selectedTile = selectedTile;
 	}
-	private Map<Icon, ObjectData> myData;
-	private Icon mine;
-
 
 	private final ObjectProperty<ImageView> mySelectedIcon = new SimpleObjectProperty<>();
 	private final double GLOW_PERCENTAGE = 0.75;
 	private final double INSET_VALUE = 6;
-	private final int NUM_COLS = 2;
+	private final int NUM_COLS = 3;
 
 	public IconPane() {
 		mySelectedIcon.addListener((o, s1, s2) -> setSelectedEffect(s1, s2));
@@ -63,6 +60,7 @@ public class IconPane {
 		myIconPane.setHgap(INSET_VALUE);
 		myIconPane.setVgap(INSET_VALUE);
 		myScrollPane.setContent(myIconPane);
+		myIconPane.maxWidthProperty().set(myScrollPane.viewportBoundsProperty().get().getWidth());
 	}
 
 	/**
@@ -76,14 +74,9 @@ public class IconPane {
 		initializeGridPane();
 		Collection<String> imagePaths = fileConverter.getImages(directory);
 		for (String path : imagePaths) {
-			Icon icon = new Icon(path);
-//			icon.getWidthProperty().set(myIconPane.getTileWidth());
-//			icon.getHeightProperty().set(myIconPane.getTileHeight());
-
-	
 			ImageView iv = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(path)));
-			// icon.getWidthProperty().set(myIconPane.getTileWidth());
-			// icon.getHeightProperty().set(myIconPane.getTileHeight());
+			iv.fitWidthProperty().bind(myIconPane.maxWidthProperty().divide(NUM_COLS).subtract(INSET_VALUE));
+			iv.fitHeightProperty().bind(iv.fitWidthProperty());
 			iv.setOnMouseClicked(e -> setSelectedIcon(iv));
 			myIconPane.getChildren().add(iv);
 			myImagePaths.put(iv, path);
@@ -99,6 +92,16 @@ public class IconPane {
 		return myScrollPane;
 	}
 
+	/**
+	 * Return the String image path representing the currently selected Tile.
+	 * @return
+	 */
+	public String getSelectedImagePath() {
+		return myImagePaths.get(mySelectedIcon.get());
+	}
+	
+	
+	
 	private void clearIconPane() {
 		myIconPane.getChildren().clear();
 		myImagePaths.clear();
@@ -120,10 +123,6 @@ public class IconPane {
 
 	private void setSelectedIcon(ImageView iv) {
 		mySelectedIcon.set(iv);
-	}
-
-	public String getSelectedImagePath() {
-		return myImagePaths.get(mySelectedIcon.get());
 	}
 
 }

@@ -4,9 +4,9 @@ import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 
 public class ScoreAttribute extends AbstractAttribute {
 	
-	private int myScore;
+	private Integer myScore;
 	
-	public ScoreAttribute(int score) {
+	public ScoreAttribute(Integer score) {
 		myScore = score;
 	}
 
@@ -16,7 +16,7 @@ public class ScoreAttribute extends AbstractAttribute {
 
 	}
 	
-	public int getScore() {
+	public Integer getScore() {
 		return myScore;
 	}
 

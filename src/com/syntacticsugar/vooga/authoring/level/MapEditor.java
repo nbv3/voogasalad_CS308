@@ -31,7 +31,7 @@ import javafx.scene.paint.Color;
 public class MapEditor implements IMapEditor {
 	
 	private static final Effect TILE_EFFECT = createEffect();
-	private static final String DEFAULT_TILE_IMAGE = "gray.png";
+	private static final String DEFAULT_TILE_IMAGE = "scenery_gray.png";
 
 	private ObservableSet<TileData> myTileSelection;
 	private Map<TileData, Icon> myTileIconMap;

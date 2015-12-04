@@ -16,7 +16,7 @@ public class MovementControlAttribute extends AbstractMovementAttribute implemen
 	private Map<KeyCode, Direction> myKeyBindings;
 	private Direction myCurrentMovement;
 	
-	public MovementControlAttribute(double speed) {
+	public MovementControlAttribute(Double speed) {
 		super(speed);
 		
 		myKeyBindings = new HashMap<>();
@@ -30,6 +30,11 @@ public class MovementControlAttribute extends AbstractMovementAttribute implemen
 		addKeyBinding(KeyCode.LEFT, Direction.LEFT);
 		addKeyBinding(KeyCode.DOWN, Direction.DOWN);
 		addKeyBinding(KeyCode.UP, Direction.UP);
+	}
+	
+	public Map<KeyCode, Direction> getKeyCodes()
+	{
+		return myKeyBindings;
 	}
 	
 
