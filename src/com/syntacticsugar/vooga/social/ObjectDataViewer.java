@@ -14,13 +14,11 @@ import javafx.scene.layout.VBox;
 
 public class ObjectDataViewer extends ListViewer {
 
-	private ISelected mySelectedGetter;
+	private int mySelectedItemID = Integer.MIN_VALUE;
 	
-	public ObjectDataViewer(ISelected selectionInterface){
+	public ObjectDataViewer(){
 		super();
-		mySelectedGetter = selectionInterface;
 		makeMyViewer("Information:");
-		populateList(getJSONObject(selectionInterface.getSelectedID()));
 	}
 	
 	private Node makeMyViewer(String viewerTitle) {
@@ -68,13 +66,16 @@ public class ObjectDataViewer extends ListViewer {
 		return GUIFactory.buildAnchorPane(keyNode, valueNode);
 	}
 	
-	private void downloadSelectedItem(int itemID){
-		int id = mySelectedGetter.getSelectedID(); 
+	private void downloadSelectedItem(){
+		int id = mySelectedItemID;
 		if (id == Integer.MIN_VALUE){
 			return;
 		}
 	}
 	
-	
+	public void update(int id){
+		populateList(getJSONObject(id));
+		mySelectedItemID = id;
+	}
 	
 }

@@ -7,6 +7,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.syntacticsugar.vooga.authoring.library.IRefresher;
 import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
 import com.syntacticsugar.vooga.util.webconnect.WebConnector;
@@ -25,9 +26,11 @@ public class XMLViewer extends ListViewer {
 
 	
 	private int mySelectedItemID = Integer.MIN_VALUE;
+	private IUpdater myUpdater;
 
-	public XMLViewer(){
+	public XMLViewer(IUpdater updater){
 		super();
+		myUpdater = updater;
 		myView = (VBox) makeMyViewer("Downloadable Games");
 		populateListFromDatabase();
 	}	
@@ -65,7 +68,7 @@ public class XMLViewer extends ListViewer {
 		listElement.getChildren().add(
 				GUIFactory.buildAnchorPane(GUIFactory.buildTitleNode(itemName),
 						GUIFactory.buildTitleNode(itemData)));
-		listElement.setOnMouseClicked(e-> setCurrentlySelected(itemID));
+		listElement.setOnMouseClicked(e-> {setCurrentlySelected(itemID); myUpdater.update(itemID);});
 		return listElement;
 	}
 	
