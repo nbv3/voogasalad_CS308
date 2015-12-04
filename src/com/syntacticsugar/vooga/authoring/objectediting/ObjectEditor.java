@@ -135,7 +135,9 @@ public class ObjectEditor{
 			if (myCreateButton.isDisabled()) {
 				myCreateButton.setDisable(false);
 			}
-			myTypeChooser.setValue(data.getType().toString());
+			if (data.getType() != null) {
+				myTypeChooser.setValue(data.getType().toString());
+			}
 			currentData = data;
 			myAttributeViewer.displayData(currentData.getAttributes());
 			myCollisionViewer.displayData(currentData.getCollisionMap());
