@@ -6,15 +6,15 @@ import com.syntacticsugar.vooga.gameplayer.event.GameEventType;
 
 public class LevelChangeEvent extends GameEvent {
 	
-	private ConditionType myType;
+	private ConditionType levelConditionType;
 
 	public LevelChangeEvent(ConditionType type) {
 		super(GameEventType.LevelChange);
-		myType = type;
+		levelConditionType = type;
 	}
 	
-	public ConditionType getType(){
-		return myType;
+	public ConditionType getLevelConditionType(){
+		return levelConditionType;
 	}
 
 }

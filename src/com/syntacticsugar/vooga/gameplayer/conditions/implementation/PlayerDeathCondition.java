@@ -1,5 +1,7 @@
-package com.syntacticsugar.vooga.gameplayer.conditions;
+package com.syntacticsugar.vooga.gameplayer.conditions.implementation;
 
+import com.syntacticsugar.vooga.gameplayer.conditions.AbstractCondition;
+import com.syntacticsugar.vooga.gameplayer.conditions.ConditionType;
 import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.LevelChangeEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.ObjectDespawnEvent;
