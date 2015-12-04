@@ -5,6 +5,7 @@ import java.util.Collection;
 public class GameData {
 	private Collection<UniverseData> universes;
 	private GlobalSettings settings;
+	private String name;
 	
 	public GameData(Collection<UniverseData> data, GlobalSettings s) {
 		universes = data;
@@ -17,5 +18,9 @@ public class GameData {
 	
 	public GlobalSettings getSettings() {
 		return settings;
+	}
+	
+	public String getName(){
+		return name;
 	}
 }
