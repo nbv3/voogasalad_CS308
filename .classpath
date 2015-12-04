@@ -12,5 +12,7 @@
 	<classpathentry kind="lib" path="images/scenery"/>
 	<classpathentry kind="lib" path="images/tower"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="lib/java-json.jar"/>
+	<classpathentry kind="lib" path="lib/snappy-java-1.1.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
