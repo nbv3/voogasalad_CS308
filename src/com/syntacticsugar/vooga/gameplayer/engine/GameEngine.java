@@ -49,7 +49,6 @@ public class GameEngine {
 		processGraveyard();
 		processSpawnyard();
 		processScore();
-		checkConditions();
 	}
 
 	private void checkCollisions() {
@@ -92,15 +91,6 @@ public class GameEngine {
 		for (IGameObject object : myUniverse.getGameObjects()) {
 			object.updateSelf(myUniverse);
 		}
-	}
-
-	private void checkConditions() {
-		for (IGameCondition condition : myUniverse.getConditions()) {
-			if (condition.checkCondition(myUniverse)) {
-				myManager.switchLevel(condition.returnType());
-			}
-		}
-
 	}
 	
 	private void processSpawner() {

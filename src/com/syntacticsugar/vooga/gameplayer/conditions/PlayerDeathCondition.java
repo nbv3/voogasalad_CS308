@@ -2,24 +2,36 @@ package com.syntacticsugar.vooga.gameplayer.conditions;
 
 import java.util.Collection;
 
+import com.syntacticsugar.vooga.gameplayer.event.GameEventListener;
+import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
+import com.syntacticsugar.vooga.gameplayer.event.implementations.LevelChangeEvent;
+import com.syntacticsugar.vooga.gameplayer.event.implementations.ObjectDespawnEvent;
+import com.syntacticsugar.vooga.gameplayer.manager.IEventManager;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.universe.GraveYard;
+import com.syntacticsugar.vooga.gameplayer.universe.IEventPoster;
 import com.syntacticsugar.vooga.gameplayer.universe.IObjectCollection;
 
 public class PlayerDeathCondition extends AbstractCondition {
 
-	public PlayerDeathCondition() {
-		super(ConditionType.LOSING);
+	public PlayerDeathCondition(IEventPoster manager) {
+		super(ConditionType.LOSING, manager);
 	}
 
-	private int playersDead;
-
 	@Override
-	public boolean checkCondition(IObjectCollection universe) {
-		GraveYard theDead = universe.getGraveYard();
+	public void onEvent(IGameEvent e) {
+		try {
+			System.out.println(e);
+			ObjectDespawnEvent event = (ObjectDespawnEvent) e;
+			if (event.getObj().getType().equals(GameObjectType.PLAYER)) {
+				postEvent(new LevelChangeEvent(ConditionType.LOSING));
+			}
 
-		return theDead.containsType(GameObjectType.PLAYER);
+		} catch (ClassCastException ce) {
+
+		}
+
 	}
 
 }

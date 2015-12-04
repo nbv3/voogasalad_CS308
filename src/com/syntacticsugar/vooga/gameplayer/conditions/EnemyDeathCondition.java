@@ -1,30 +1,38 @@
 package com.syntacticsugar.vooga.gameplayer.conditions;
 
-import java.util.Collection;
-
+import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
+import com.syntacticsugar.vooga.gameplayer.event.implementations.LevelChangeEvent;
+import com.syntacticsugar.vooga.gameplayer.event.implementations.ObjectDespawnEvent;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
-import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
-import com.syntacticsugar.vooga.gameplayer.universe.IObjectCollection;
+import com.syntacticsugar.vooga.gameplayer.universe.IEventPoster;
 
 public class EnemyDeathCondition extends AbstractCondition {
 
-	public EnemyDeathCondition() {
-		super(ConditionType.WINNING);
+	private int enemiesDead;
+	private int enemiesToDie;
+
+	public EnemyDeathCondition(int numbertodie, IEventPoster manager) {
+		super(ConditionType.WINNING, manager);
+		enemiesToDie = numbertodie;
+		enemiesDead = 0;
 	}
 
-	private int enemiesAlive;
-
 	@Override
-	public boolean checkCondition(IObjectCollection universe) {
-		
-		Collection<IGameObject> theLiving = universe.getGameObjects();
-		enemiesAlive = 0;
-		for (IGameObject object : theLiving) {
-			if (object.getType().equals(GameObjectType.ENEMY)) {
-				enemiesAlive++;
+	public void onEvent(IGameEvent e) {
+		try {
+			ObjectDespawnEvent event = (ObjectDespawnEvent) e;
+			if (event.getObj().getType().equals(GameObjectType.ENEMY)) {
+				enemiesDead++;
+				if (enemiesDead >= enemiesToDie) {
+					postEvent(new LevelChangeEvent(this.returnType()));
+				}
 			}
+			
+
+		} catch (ClassCastException ce) {
+
 		}
-		return enemiesAlive <= 0;
+
 	}
 
 }

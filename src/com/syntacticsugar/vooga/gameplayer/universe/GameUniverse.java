@@ -10,6 +10,7 @@ import java.util.Observer;
 
 import com.syntacticsugar.vooga.gameplayer.attribute.HealthAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
+import com.syntacticsugar.vooga.gameplayer.conditions.EnemyDeathCondition;
 import com.syntacticsugar.vooga.gameplayer.conditions.IGameCondition;
 import com.syntacticsugar.vooga.gameplayer.conditions.PlayerDeathCondition;
 import com.syntacticsugar.vooga.gameplayer.event.ICollisionEvent;
@@ -75,7 +76,12 @@ public class GameUniverse implements IGameUniverse {
 		XMLHandler<MapData> xml = new XMLHandler<>();
 		myCurrentInput = new ArrayList<KeyCode>();
 		myConditions = new ArrayList<IGameCondition>();
-		myConditions.add(new PlayerDeathCondition());
+		PlayerDeathCondition deathcond = new PlayerDeathCondition(myPoster);
+		EnemyDeathCondition endeath = new EnemyDeathCondition(3, myPoster);
+		myPoster.registerListener(endeath);
+		myPoster.registerListener(deathcond);
+		myConditions.add(deathcond);
+		myConditions.add(endeath);
 		myTowers = new ArrayList<IGameObject>();
 		testTower();
 	}
