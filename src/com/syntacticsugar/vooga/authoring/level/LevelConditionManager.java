@@ -1,7 +1,9 @@
 package com.syntacticsugar.vooga.authoring.level;
 
-import com.syntacticsugar.vooga.gameplayer.conditions.LosingConditionOption;
-import com.syntacticsugar.vooga.gameplayer.conditions.WinningConditionOption;
+import java.lang.reflect.Constructor;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.syntacticsugar.vooga.util.gui.factory.MsgInputBoxFactory;
 
 import javafx.collections.FXCollections;
@@ -16,70 +18,104 @@ import javafx.scene.layout.GridPane;
 public class LevelConditionManager {
 
 	private GridPane myView;
-	private ComboBox<WinningConditionOption> myWin;
-	private ComboBox<LosingConditionOption> myLose;
-	private WinningConditionOption mySelectedWin;
-	private LosingConditionOption mySelectedLose;
-	private double mySelectedWinValue;
-	private double mySelectedLoseValue;
+	private ComboBox<String> myWins;
+	private ComboBox<String> myLose;
+	private String mySelectedWin;
+	private List<Double> myWinParameters;
+	private String mySelectedLose;
+	private List<Double> myLoseParameters;
 
 	public LevelConditionManager() {
-		mySelectedWin = null;
-		mySelectedLose = null;
 		myView = new GridPane();
-		ObservableList<WinningConditionOption> winOptions = FXCollections
-				.observableArrayList(WinningConditionOption.values());
 
-		myWin = new ComboBox<WinningConditionOption>(winOptions);
+		ObservableList<String> winOptions = FXCollections.observableArrayList("Enemy Death");
+		myWins = new ComboBox<String>(winOptions);
+		myWins.setPrefWidth(200);
+		myWinParameters = new ArrayList<Double>();
 
-		ObservableList<LosingConditionOption> loseOptions = FXCollections
-				.observableArrayList(LosingConditionOption.values());
-
-		myWin.setPrefWidth(200);
-		myLose = new ComboBox<LosingConditionOption>(loseOptions);
+		ObservableList<String> loseOptions = FXCollections.observableArrayList("Destination", "Player Death");
+		myLose = new ComboBox<String>(loseOptions);
 		myLose.setPrefWidth(200);
+		myLoseParameters = new ArrayList<Double>();
 
-		myWin.valueProperty().addListener((o, s1, s2) -> updateSelectedWin(s2));
+		myWins.valueProperty().addListener((o, s1, s2) -> updateSelectedWin(s2));
 		myLose.valueProperty().addListener((o, s1, s2) -> updateSelectedLose(s2));
 
-		Label win = new Label("My Winning Condition");
+		Label win = new Label("Winning Condition");
 		win.setAlignment(Pos.CENTER);
-		Label lose = new Label("My Losing Condition");
+		Label lose = new Label("Losing Condition");
 		lose.setAlignment(Pos.CENTER);
 
 		myView.add(win, 0, 0, 1, 1);
 		myView.add(lose, 0, 2, 1, 1);
-		myView.add(myWin, 0, 1, 1, 1);
+		myView.add(myWins, 0, 1, 1, 1);
 		myView.add(myLose, 0, 3, 1, 1);
+
 		myView.setPadding(new Insets(10, 10, 10, 10));
 		myView.setVgap(10);
-		// ColumnConstraints column1 = new ColumnConstraints();
-		//
-		// column1.setPercentWidth(75);
-		// myView.getColumnConstraints().addAll(column1);
 		myView.setAlignment(Pos.CENTER);
 	}
 
-	private void updateSelectedWin(WinningConditionOption w) {
+	private void updateSelectedWin(String w) {
 		mySelectedWin = w;
-		MsgInputBoxFactory msgBox = new MsgInputBoxFactory("Select Winning Requirement:");
-		mySelectedWinValue = msgBox.getValue();
-		System.out.println(mySelectedWin);
+		String className = mySelectedWin.replace(" ", "");
+		String classPath = String.format("%s%s%s", "com.syntacticsugar.vooga.gameplayer.conditions.implementation.",
+				className, "Condition");
+		// correct format
+		// com.syntacticsugar.vooga.gameplayer.conditions.implementation.EnemyDeathCondition
+		try {
+
+			Class<?> c = Class.forName(classPath);
+			Constructor[] constr = c.getDeclaredConstructors();
+			Class[] parameterTypes = constr[0].getParameterTypes();
+			for (int i = 0; i < parameterTypes.length; i++) {
+				MsgInputBoxFactory msgBox = new MsgInputBoxFactory(String.format("Set %s Value", mySelectedWin));
+				myWinParameters.add(msgBox.getInputValue());
+			}
+
+		} catch (SecurityException | ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		System.out.println(myWinParameters);
 	}
 
-	private void updateSelectedLose(LosingConditionOption l) {
+	private void updateSelectedLose(String l) {
 		mySelectedLose = l;
-		MsgInputBoxFactory msgBox = new MsgInputBoxFactory("Select Losing Requirement:");
-		mySelectedLoseValue = msgBox.getValue();
-		System.out.println(mySelectedLose);
+		String className = mySelectedLose.replace(" ", "");
+		String classPath = String.format("%s%s%s", "com.syntacticsugar.vooga.gameplayer.conditions.implementation.",
+				className, "Condition");
+		// correct format
+		// com.syntacticsugar.vooga.gameplayer.conditions.implementation.EnemyDeathCondition
+		try {
+
+			Class<?> c = Class.forName(classPath);
+			Constructor[] constr = c.getDeclaredConstructors();
+			Class[] parameterTypes = constr[0].getParameterTypes();
+			for (int i = 0; i < parameterTypes.length; i++) {
+				MsgInputBoxFactory msgBox = new MsgInputBoxFactory(String.format("Set %s Value", mySelectedLose));
+				myLoseParameters.add(msgBox.getInputValue());
+			}
+
+		} catch (SecurityException | ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		System.out.println(myLoseParameters);
 
 	}
 
-	public LosingConditionOption getLosingCondition() {
+	public String getLosingCondition() {
 		return mySelectedLose;
 	}
 
-	public WinningConditionOption getWinningCondition() {
+	public List<Double> getWinParameters() {
+		return myWinParameters;
+	}
+
+	public List<Double> getLoseParameters() {
+		return myLoseParameters;
+	}
+
+	public String getWinningCondition() {
 		return mySelectedWin;
 	}
 
