@@ -9,7 +9,6 @@ import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.ObjectDespawnEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.ScoreChangeEvent;
 import com.syntacticsugar.vooga.gameplayer.manager.IEventManager;
-import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.view.IViewRemover;
 import com.syntacticsugar.vooga.util.ResourceManager;
