@@ -2,10 +2,8 @@ package com.syntacticsugar.vooga.util.webconnect;
 
 import java.util.HashMap;
 import java.util.Map;
+import org.json.*;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class JSONHelper {
 	public static String extractXML(JSONObject json) {

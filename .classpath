@@ -9,7 +9,7 @@
 	<classpathentry kind="lib" path="images/enemy"/>
 	<classpathentry kind="lib" path="images/player"/>
 	<classpathentry kind="lib" path="images/tower"/>
-	<classpathentry kind="lib" path="D:/CS308/voogasalad_SyntacticSugar/lib/java-json.jar"/>
-	<classpathentry kind="lib" path="D:/CS308/voogasalad_SyntacticSugar/lib/snappy-java-1.1.2.jar"/>
+	<classpathentry kind="lib" path="/Users/michaeldaou/Documents/Junior Fall/CS 308/voogasalad_SyntacticSugar/lib/java-json.jar"/>
+	<classpathentry kind="lib" path="/Users/michaeldaou/Documents/Junior Fall/CS 308/voogasalad_SyntacticSugar/lib/snappy-java-1.1.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
