@@ -72,10 +72,12 @@ public class SceneManager {
 		viewScene(screen);
 	}
 
-	public void launchAuthoringMenu() {
-		AbstractGameMenu screen = new AuthoringGameMenu(this, WIDTH, HEIGHT, TITLE);
-		viewScene(screen);
+	
+	public void launchAuthoringMenu() {	
+	//	AbstractGameMenu screen = new AuthoringGameMenu(this, WIDTH, HEIGHT, TITLE);
+//		viewScene(screen);
 	}
+
 
 	public void launchEngineMenu() {
 		AbstractGameMenu screen = new EngineGameMenu(this, WIDTH, HEIGHT, TITLE);
@@ -84,18 +86,18 @@ public class SceneManager {
 
 	public void launchSocialCenter() {
 		myStage.hide();
-		new SocialCenter(e -> launchFirstMenu());
+		//new SocialCenter(e -> launchFirstMenu());
 	}
 
 	public void launchNewEditor() {
 		myStage.hide();
-		new AuthoringScreenManager(e -> launchFirstMenu());
+		//new AuthoringScreenManager(e -> launchFirstMenu());
 	}
 
 	public void launchLoadEditor() {
 		// TODO load from XML here or within GameManager?
 		myStage.hide();
-		new AuthoringScreenManager(e -> launchFirstMenu());
+		//new AuthoringScreenManager(e -> launchFirstMenu());
 	}
 
 	public void launchNewEngine() {
