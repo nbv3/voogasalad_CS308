@@ -8,14 +8,12 @@ import java.util.Map;
 import com.syntacticsugar.vooga.authoring.dragdrop.DragDropManager;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
 import com.syntacticsugar.vooga.xml.data.TileImplementation;
-
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.effect.Glow;
@@ -36,6 +34,9 @@ public class IconPane {
 	public void setSelectedTile(Icon selectedTile) {
 		this.selectedTile = selectedTile;
 	}
+	private Map<Icon, ObjectData> myData;
+	private Icon mine;
+
 
 	private final ObjectProperty<Icon> mySelectedIcon = new SimpleObjectProperty<>();
 	private final double GLOW_PERCENTAGE = 0.75;
@@ -51,6 +52,7 @@ public class IconPane {
 		myScrollPane.setFitToWidth(true);
 		initializeGridPane();
 		myScrollPane.setPadding(new Insets(INSET_VALUE));
+		myData = new HashMap<Icon, ObjectData>();
 	}
 	public void addPreviewListener(ChangeListener<Icon> event){
 		mySelectedIcon.addListener(event);
@@ -62,21 +64,23 @@ public class IconPane {
 		myIconPane.setVgap(INSET_VALUE);
 		myScrollPane.setContent(myIconPane);
 	}
-	
-//	private void addColumnConstraints() {
-//		for (int i=0; i<NUM_COLS; i++) {
-//			ColumnConstraints c1 = new ColumnConstraints();
-//			c1.setPercentWidth(100.0 / (1.0*NUM_COLS));
-//			myIconPane.getColumnConstraints().add(c1);
-//		}
-//	}
-	
+
+	// private void addColumnConstraints() {
+	// for (int i=0; i<NUM_COLS; i++) {
+	// ColumnConstraints c1 = new ColumnConstraints();
+	// c1.setPercentWidth(100.0 / (1.0*NUM_COLS));
+	// myIconPane.getColumnConstraints().add(c1);
+	// }
+	// }
+
 	/**
-	 * Show all icons representing the relevant file types as specified
-	 * by this subclass of AbstractIconPane.
+	 * Show all icons representing the relevant file types as specified by this
+	 * subclass of AbstractIconPane.
+	 * 
 	 * @param directory
 	 */
 	public void showIcons(File directory, IConverter fileConverter) {
+
 		clearIconPane();
 		initializeGridPane();
 		Collection<String> imagePaths = fileConverter.getImages(directory);
@@ -88,6 +92,7 @@ public class IconPane {
 			icon.setOnMouseClicked(e ->{
 				setSelectedIcon(icon);
 			});
+
 			myIconPane.getChildren().add(icon);
 			myImagePaths.put(icon, path);
 		}
@@ -96,20 +101,22 @@ public class IconPane {
 	
 
 	
+
 	/**
 	 * Return the JavaFX Node used to display this IconPane.
+	 * 
 	 * @return
 	 */
-	public ScrollPane getIconPane(){
+	public ScrollPane getIconPane() {
 		return myScrollPane;
 	}
-	
+
 	protected void clearIconPane() {
 		myIconPane.getChildren().clear();
 		myImagePaths.clear();
 		myScrollPane.setContent(null);
 	}
-	
+
 	protected void setSelectedEffect(Icon oldIcon, Icon newIcon) {
 		if (oldIcon == null) {
 			newIcon.setEffect(new Glow(GLOW_PERCENTAGE));
@@ -127,8 +134,9 @@ public class IconPane {
 		mySelectedIcon.set(icon);
 		selectedTile = icon;
 	}
-	
+
 	public String getSelectedImagePath() {
 		return myImagePaths.get(mySelectedIcon.get());
 	}
+
 }

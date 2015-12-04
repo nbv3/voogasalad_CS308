@@ -1,7 +1,6 @@
 import com.syntacticsugar.vooga.authoring.objectediting.sizing.ObjectResizer;
 
 import com.syntacticsugar.vooga.menu.SceneManager;
-import com.syntacticsugar.vooga.xml.data.ObjectData;
 
 import javafx.application.Application;
 import javafx.stage.Stage;

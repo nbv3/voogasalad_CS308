@@ -134,5 +134,7 @@ public class TowerList {
 	public ListView<Node> getView() {
 		return myTowerView;
 	}
+	
+	
 
 }
