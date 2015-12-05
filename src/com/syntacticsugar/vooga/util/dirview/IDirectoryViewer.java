@@ -19,7 +19,4 @@ public interface IDirectoryViewer<T> {
 	 */
 	public void showDirectoryContents(File directory, IConverter<T> fileConverter);
 	
-	public Map<ImageView, ObjectData> showDirectoryContentsMap(File directory, IConverter<String> fileConverter);
-
-	
 }

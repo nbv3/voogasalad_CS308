@@ -89,6 +89,8 @@ public class Spawner implements ISpawner {
 		for (Wave w: myWaves) {
 			Collection<ObjectData> objs = new ArrayList<>();
 			for (IGameObject o: w.getAllObjs()) {
+				ObjectData obj = new ObjectData(o);
+				obj.setImagePath(obj.getImagePath());
 				objs.add(new ObjectData(o));
 			}
 			waves.add(new WaveData(objs));
@@ -96,6 +98,9 @@ public class Spawner implements ISpawner {
 		return new SpawnerData(waves);
 	}
 	
-	
+	@Override
+	public Integer getSpawnRate() {
+		return mySpawnRate;
+	}
 
 }

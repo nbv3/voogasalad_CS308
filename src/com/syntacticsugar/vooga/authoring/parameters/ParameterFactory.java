@@ -18,9 +18,9 @@ import com.syntacticsugar.vooga.resources.*;
 import com.sun.deploy.uitoolkit.impl.fx.ui.resources.ResourceManager;
 import com.syntacticsugar.vooga.gameplayer.attribute.HealthAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
-import com.syntacticsugar.vooga.gameplayer.attribute.WeaponAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.movement.AIMovementAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.movement.MovementControlAttribute;
+import com.syntacticsugar.vooga.gameplayer.attribute.weapon.BasicWeaponAttribute;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

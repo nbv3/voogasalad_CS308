@@ -15,7 +15,14 @@ public interface IAttributeCollection {
 	
 	/**
 	 * Adds an attribute to this SimpleAttributeContainer.
+	 * @param attribute
 	 */
 	public void addAttribute(IAttribute attribute);
+	
+	/**
+	 * Removes an attribute from this SimpleAttributeContainer
+	 * @param attribute
+	 */
+	public void removeAttribute(IAttribute attribute);
 	
 }

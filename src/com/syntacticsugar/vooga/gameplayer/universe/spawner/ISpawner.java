@@ -14,4 +14,6 @@ public interface ISpawner extends GameEventListener {
 	public Wave getCurrentWave();
 	
 	public SpawnerData saveGame();
+	
+	public Integer getSpawnRate();
 }

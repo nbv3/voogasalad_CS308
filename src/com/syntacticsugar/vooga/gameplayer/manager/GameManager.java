@@ -10,8 +10,8 @@ import java.util.Map;
 import com.syntacticsugar.vooga.gameplayer.attribute.HealthAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.ScoreAttribute;
-import com.syntacticsugar.vooga.gameplayer.attribute.WeaponAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.movement.MovementControlAttribute;
+import com.syntacticsugar.vooga.gameplayer.attribute.weapon.BasicWeaponAttribute;
 import com.syntacticsugar.vooga.gameplayer.conditions.ConditionType;
 import com.syntacticsugar.vooga.gameplayer.engine.GameEngine;
 import com.syntacticsugar.vooga.gameplayer.event.ICollisionEvent;
@@ -81,7 +81,7 @@ public class GameManager implements IGameManager{
 		List<IAttribute> attributes = new ArrayList<IAttribute>();
 		attributes.add(new HealthAttribute(100.0));
 		attributes.add(new MovementControlAttribute(3.0));
-		attributes.add(new WeaponAttribute(missilePath, 100.0, KeyCode.SPACE));
+		attributes.add(new BasicWeaponAttribute(missilePath, 100.0, KeyCode.SPACE));
 		playerData.setType(GameObjectType.PLAYER);
 		playerData.setSpawnPoint(0, 0);
 		playerData.setWidth(50);

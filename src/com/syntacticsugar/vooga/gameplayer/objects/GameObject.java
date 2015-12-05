@@ -80,7 +80,7 @@ public class GameObject extends AbstractViewableObject implements IGameObject {
 
 	@Override
 	public Map<String, IAttribute> getAttributes() {
-		return Collections.unmodifiableMap(myAttributeMap);
+		return myAttributeMap;
 	}
 	
 	@Override
@@ -92,6 +92,12 @@ public class GameObject extends AbstractViewableObject implements IGameObject {
 	public void addAttribute(IAttribute attribute) {
 		String key = ResourceManager.getString(attribute.getClass().getSimpleName());
 		myAttributeMap.put(key, attribute);
+	}
+	
+	@Override
+	public void removeAttribute(IAttribute attribute) {
+		String key = ResourceManager.getString(attribute.getClass().getSimpleName());
+		myAttributeMap.remove(key);
 	}
 
 }
