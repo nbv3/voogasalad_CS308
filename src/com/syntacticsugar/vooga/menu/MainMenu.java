@@ -21,8 +21,12 @@ public class MainMenu {
 	private Stage myStage;
 	private Scene myScene;
 	private PropertiesManager myPropertiesManager;
+	
+
 
 	public MainMenu() {
+		
+		
 		myPropertiesManager = new PropertiesManager("com/syntacticsugar/vooga/resources/View");
 		myStage = new Stage();
 		myStage.setTitle(myPropertiesManager.getProperty("WindowTitle"));
