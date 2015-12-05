@@ -23,11 +23,14 @@ public class ObjectResizer {
 	private GridPane myZoomedTileView;
 	private ObjectData myObjectData;
 	
-	public ObjectResizer(ObjectData data, String tileImagePath) {
+	
+	
+	
+	public ObjectResizer(ObjectData data, String[][] imagePaths) {
 		myStage = new Stage();
-		myObjectData = data;
+		setMyObjectData(data);
 		myImageView = buildResizableImageView(data.getImagePath());
-		myZoomedTileView = buildTileView(tileImagePath);
+		myZoomedTileView = buildTileView(imagePaths);
 		StackPane root = new StackPane();
 		root.getChildren().addAll(myZoomedTileView, myImageView);
 		myScene = new Scene(root, 400, 400);
@@ -43,7 +46,7 @@ public class ObjectResizer {
 		resize.setOnMousePressed(e -> clickPoint.set(new Point2D(e.getSceneX(), e.getSceneY())));
 		resize.setOnMouseDragged(e -> {
 			System.out.println(e.getX());
-			if (e.getX() < container.getWidth()/2) {
+			if (e.getX() < container.getMaxWidth()/2) {
 				System.out.println("left");
 			}
 			else {
@@ -55,12 +58,12 @@ public class ObjectResizer {
 		return resize;
 	}
 	
-	private GridPane buildTileView(String tileImagePath) {
+	private GridPane buildTileView(String[][] imagePaths) {
 		GridPane grid = new GridPane();
 		addConstraints(grid);
 		for (int i=0; i<3; i++) {
 			for (int j=0; j<3; j++) {
-				Pane tile = buildResizableImagePane(tileImagePath);
+				Pane tile = buildResizableImagePane(imagePaths[j][i]);
 				grid.add(tile, i, j, 1, 1);
 			}
 		}
@@ -99,6 +102,14 @@ public class ObjectResizer {
 		imageView.fitHeightProperty().bind(pane.heightProperty());
 		pane.getChildren().add(imageView);
 		return pane;
+	}
+
+	public ObjectData getMyObjectData() {
+		return myObjectData;
+	}
+
+	public void setMyObjectData(ObjectData myObjectData) {
+		this.myObjectData = myObjectData;
 	}
 	
 }

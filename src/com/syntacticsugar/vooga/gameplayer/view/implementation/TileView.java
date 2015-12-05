@@ -2,30 +2,29 @@ package com.syntacticsugar.vooga.gameplayer.view.implementation;
 
 import java.util.Observable;
 
+import com.syntacticsugar.vooga.gameplayer.attribute.control.actions.movement.Direction;
 import com.syntacticsugar.vooga.gameplayer.objects.BoundingBox;
+import com.syntacticsugar.vooga.gameplayer.view.DirectionArrows;
 import com.syntacticsugar.vooga.gameplayer.view.GameView;
 import com.syntacticsugar.vooga.gameplayer.view.ObjectView;
-
-import javafx.geometry.Point2D;
+import com.syntacticsugar.vooga.gameplayer.view.TowerData;
 import javafx.scene.layout.StackPane;
 
 public class TileView extends ObjectView{
 	
 	private boolean walkable;
-	private boolean occupied;
 	private boolean selectMode;
 
 	public TileView(String path, BoundingBox box, GameView myGameView, Boolean isPath) {
 		super(path, box, myGameView);
 		walkable = isPath;
 		selectMode = false; 
-		occupied = false;
-		initializeHoverProperties();
+		initializeHoverProperties(myGameView);
 	}
 
-	private void initializeHoverProperties() {
+	private void initializeHoverProperties(GameView myGameView) {
 		StackPane myPane = getViewPane();
-		myPane.getChildren().get(0).setOnMouseClicked(e -> selected());
+		myPane.getChildren().get(0).setOnMouseClicked(e -> selected(myGameView));
 		myPane.getChildren().get(0).setOnMouseEntered(e -> changeOpacity(myPane, 0.75));
 		myPane.getChildren().get(0).setOnMouseExited(e -> changeOpacity(myPane, 1));
 	}
@@ -36,11 +35,26 @@ public class TileView extends ObjectView{
 		}
 	}
 	
-	private void selected(){
+	private void selected(GameView myGameView){
 		if(!walkable && selectMode){
-			setChanged();
-			notifyObservers(new Point2D(tempCoord1, tempCoord2));
+			chooseDirection(myGameView);
+			//setChanged();
+			//notifyObservers(new Point2D(tempCoord1, tempCoord2));
 		}
+	}
+	
+	private void chooseDirection(GameView myGameView){
+		DirectionArrows myArrows = new DirectionArrows(this, myGameView);
+		myArrows.setLayoutX(myGameView.getScalingFactor()*this.tempCoord1 - this.getViewPane().getWidth());
+		myArrows.setLayoutY(myGameView.getScalingFactor()*this.tempCoord2 - this.getViewPane().getWidth());
+		myGameView.addObjectView(myArrows);
+	}
+	
+	public void informTowerControl(Direction direction, DirectionArrows dirArrows, GameView gameView){
+		setChanged();
+		TowerData towerData = new TowerData(tempCoord1, tempCoord2, direction);
+		gameView.removeObjectView(dirArrows);
+		notifyObservers(towerData);
 	}
 	
 	@Override 

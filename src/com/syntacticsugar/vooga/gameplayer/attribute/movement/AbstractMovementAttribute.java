@@ -3,7 +3,10 @@ package com.syntacticsugar.vooga.gameplayer.attribute.movement;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 
+import com.syntacticsugar.vooga.authoring.parameters.AbstractParameter;
+import com.syntacticsugar.vooga.authoring.parameters.IEditableParameter;
 import com.syntacticsugar.vooga.gameplayer.attribute.AbstractAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.control.actions.movement.Direction;
 import com.syntacticsugar.vooga.gameplayer.attribute.control.actions.movement.IMover;
@@ -15,16 +18,15 @@ import javafx.geometry.Point2D;
 
 public abstract class AbstractMovementAttribute extends AbstractAttribute implements IMover {
 	
-	private double xVelocity;
-	private double yVelocity;
-	private double mySpeed;
+	private Double xVelocity;
+	private Double yVelocity;
+	private Double mySpeed;
 	
 	protected Point myCurrentTile;
 	
-	public AbstractMovementAttribute(double speed) {
-		super();
+	public AbstractMovementAttribute(AbstractParameter<?>[] speed) {
+		super(speed);
 		resetVelocity();
-		setSpeed(speed);
 		myCurrentTile = new Point(0,0);
 	}
 	
@@ -38,33 +40,28 @@ public abstract class AbstractMovementAttribute extends AbstractAttribute implem
 	
 	@Override
 	public void resetVelocity() {
-		this.xVelocity = 0;
-		this.yVelocity = 0;
+		this.xVelocity = 0.0;
+		this.yVelocity = 0.0;
 	}
 	
 	@Override
-	public double getSpeed() {
+	public Double getSpeed() {
 		return this.mySpeed;
-	}
-
-	@Override
-	public void setSpeed(double speed) {
-		this.mySpeed = speed;
 	}
 
 	@Override
 	public void setVelocity(Direction dir) {
 		if (dir.equals(Direction.LEFT) || dir.equals(Direction.RIGHT)) {
 			this.xVelocity = (dir.equals(Direction.RIGHT) ? mySpeed : -1.0*mySpeed);
-			this.yVelocity = 0;
+			this.yVelocity = 0.0;
 		}
 		else if (dir.equals(Direction.DOWN) || dir.equals(Direction.UP)) {
 			this.yVelocity = (dir.equals(Direction.DOWN) ? mySpeed : -1.0*mySpeed);
-			this.xVelocity = 0;
+			this.xVelocity = 0.0;
 		}
 		else if (dir.equals(Direction.STOP)) {
-			this.xVelocity = 0;
-			this.yVelocity = 0;
+			this.xVelocity = 0.0;
+			this.yVelocity = 0.0;
 		}
 	}
 	
@@ -138,6 +135,12 @@ public abstract class AbstractMovementAttribute extends AbstractAttribute implem
 	}
 	
 	@Override
+	public void setSpeed(Double value)
+	{
+		mySpeed = value;
+	}
+	
+	@Override
 	public abstract void updateSelf(IGameUniverse universe);
 	
 	@Override
@@ -147,6 +150,14 @@ public abstract class AbstractMovementAttribute extends AbstractAttribute implem
 		Point2D oldPoint = box.getPoint();
 		Point2D newPoint = new Point2D(oldPoint.getX() + getXVelocity(), oldPoint.getY() + getYVelocity());
 		box.setPoint(newPoint);
+	}
+	
+	@Override
+	public void update(Observable o, Object arg)
+	{
+		setSpeed((Double) arg);
+		setChanged();
+		notifyObservers(this);
 	}
 	
 }

@@ -1,6 +1,5 @@
 package com.syntacticsugar.vooga.authoring.objectediting;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,7 +21,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
-public class CollisionViewer implements IUserInterface, 
+public class CollisionViewer implements IVisualElement, 
                                         IListViewDisplay, 
                                         IDataDisplay<Map<GameObjectType, Collection<ICollisionEvent>>> {
     private VBox myView;
@@ -81,14 +80,14 @@ public class CollisionViewer implements IUserInterface,
     @Override
     public void displayData(Map<GameObjectType, Collection<ICollisionEvent>> data) {
         myCollisions.clear();
-        //myCollisions.putAll(data);
-        for (GameObjectType type: data.keySet()){
-        	Collection<ICollisionEvent> collisions = new ArrayList<ICollisionEvent>();
-        	for (ICollisionEvent collision: data.get(type)){
-        		collisions.add(collision);
-        	}
-        	myCollisions.put(type, collisions);
-        }
+        myCollisions.putAll(data);
+//        for (GameObjectType type: data.keySet()){
+//        	Collection<ICollisionEvent> collisions = new ArrayList<ICollisionEvent>();
+//        	for (ICollisionEvent collision: data.get(type)){
+//        		collisions.add(collision);
+//        	}
+//        	myCollisions.put(type, collisions);
+//        }
     }
 
     @Override
@@ -110,7 +109,8 @@ public class CollisionViewer implements IUserInterface,
                 AlertBoxFactory.createObject(ResourceManager.getString("invalid-selection"));
                 return;
             }
-            myCollisionDisplays.remove(selectedIdx);
+            String toDeleteStr = ((Text) myListView.getSelectionModel().getSelectedItem().getChildren().get(0)).getText().toUpperCase();
+            myCollisions.remove(GameObjectType.valueOf(toDeleteStr));
         }
         else {
             AlertBoxFactory.createObject(ResourceManager.getString("empty-remove"));

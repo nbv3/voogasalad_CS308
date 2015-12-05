@@ -6,9 +6,14 @@ import java.util.Observer;
 
 import com.syntacticsugar.vooga.authoring.level.LevelTabManager;
 import com.syntacticsugar.vooga.authoring.library.ObjectLibraryManager;
+import com.syntacticsugar.vooga.authoring.objectediting.IObjectDataClipboard;
 import com.syntacticsugar.vooga.authoring.objectediting.ObjectEditor;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
+import com.syntacticsugar.vooga.menu.IVoogaApp;
+import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.xml.XMLHandler;
+import com.syntacticsugar.vooga.xml.data.GameData;
+import com.syntacticsugar.vooga.xml.data.GlobalSettings;
 import com.syntacticsugar.vooga.xml.data.MapData;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
 
@@ -28,7 +33,7 @@ import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
-public class AuthoringScreenManager implements Observer {
+public class AuthoringScreenManager implements Observer, IVoogaApp {
 
 	private BorderPane myWindow;
 	private GridPane myWindowGrid;
@@ -40,11 +45,12 @@ public class AuthoringScreenManager implements Observer {
 	// private ObjectLibrary myObjectLibrary;
 	private ObjectEditor myObjectEditor;
 
-	public AuthoringScreenManager(EventHandler<WindowEvent> onClose) {
-		myLevelEditor = new LevelTabManager();
+	public AuthoringScreenManager() {
 		myObjectLibraryManager = new ObjectLibraryManager();
 		myObjectEditor = new ObjectEditor(() -> myObjectLibraryManager.refresh());
-		initWindow(onClose);
+		IObjectDataClipboard iObject = myObjectEditor;
+		myLevelEditor = new LevelTabManager(iObject);
+		initWindow();
 	}
 
 	// private void initObjectLibrary() {
@@ -52,24 +58,23 @@ public class AuthoringScreenManager implements Observer {
 	// myObjectManager = new AuthoringSidePane(null);
 	// }
 
-	private void initWindow(EventHandler<WindowEvent> onClose) {
+	private void initWindow() {
 		myWindow = new BorderPane();
 		buildMenuBar();
 
 		myWindowGrid = new GridPane();
-		myWindowGrid.setGridLinesVisible(true);
+		// myWindowGrid.setGridLinesVisible(true);
 		addGridConstraints();
 
 		setUpObserver();
 		myWindowGrid.add(myLevelEditor.getTabPane(), 0, 0, 1, 2);
-		myWindowGrid.add(myObjectLibraryManager.getTabPane(), 1, 0, 1 ,1);
+		myWindowGrid.add(myObjectLibraryManager.getTabPane(), 1, 0, 1, 1);
 		myWindowGrid.add(myObjectEditor.getView(), 1, 1, 1, 1);
 		myWindow.setCenter(myWindowGrid);
 
 		myScene = new Scene(myWindow);
 		myScene.setOnKeyPressed(e -> handleKeyPress(e));
 		myStage = new Stage();
-		myStage.setOnCloseRequest(onClose);
 		myStage.setScene(myScene);
 		// myStage.setMaximized(true);
 		myStage.show();
@@ -77,8 +82,14 @@ public class AuthoringScreenManager implements Observer {
 
 	private void setUpObserver() {
 		for (int i = 0; i < myLevelEditor.getLevels().size(); i++) {
-			myLevelEditor.getLevels().get(i).getWaveControl().addObserver(this);
-			myLevelEditor.getLevels().get(i).getTowerControl().addObserver(this);
+			myLevelEditor.getLevels().get(i).getTowerControls().addObserver(this);
+			myLevelEditor.getLevels().get(i).getSpawnerControls().addObserver(this);
+
+		}
+
+		for (int i = 0; i < myObjectLibraryManager.getLibraries().size(); i++) {
+			myObjectLibraryManager.getLibraries().get(i).addObserver(this);
+
 		}
 	}
 
@@ -125,7 +136,11 @@ public class AuthoringScreenManager implements Observer {
 		loadData.setText("Load ObjectData");
 		loadData.setOnAction(e -> loadData());
 
-		file.getItems().addAll(newLevel, loadMap, saveMap, loadData);
+		MenuItem saveGame = new MenuItem();
+		saveGame.setText("Save Game");
+		saveGame.setOnAction(e -> saveGame());
+
+		file.getItems().addAll(newLevel, loadMap, saveMap, loadData, saveGame);
 
 		// menu menu
 		// Menu menu = new Menu();
@@ -142,12 +157,28 @@ public class AuthoringScreenManager implements Observer {
 		myWindow.setTop(menuBar);
 	}
 
+	private void saveGame() {
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setTitle("Save Game File");
+		File selectedFile = fileChooser.showSaveDialog(new Stage());
+		if (selectedFile != null) {
+
+			// need to change later with global settings
+			GameData game = new GameData(myLevelEditor.getAllUniverseData(), new GlobalSettings());
+			XMLHandler<GameData> xml = new XMLHandler<>();
+			xml.write(game, selectedFile);
+		}
+
+	}
+
 	private void loadData() {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Open Resource File");
 		fileChooser.getExtensionFilters().addAll(new ExtensionFilter("XML Files", "*.xml"));
+		fileChooser.setInitialDirectory(new File(ResourceManager.getString("data")));
 		File selectedFile = fileChooser.showOpenDialog(new Stage());
 		if (selectedFile != null) {
+			myObjectEditor.setUpdateButtonViability(false);
 			XMLHandler<ObjectData> xml = new XMLHandler<>();
 			ObjectData toload = xml.read(selectedFile);
 			myObjectEditor.displayData(toload);
@@ -172,7 +203,7 @@ public class AuthoringScreenManager implements Observer {
 		File selectedFile = fileChooser.showSaveDialog(new Stage());
 		if (selectedFile != null) {
 			XMLHandler<MapData> xml = new XMLHandler<>();
-			MapData toSave = myLevelEditor.getMapData();
+			MapData toSave = myLevelEditor.getIndividualMapData();
 			xml.write(toSave, selectedFile);
 		}
 	}
@@ -195,13 +226,21 @@ public class AuthoringScreenManager implements Observer {
 		r1.setPercentHeight(50);
 		RowConstraints r2 = new RowConstraints();
 		r2.setPercentHeight(50);
+	
 		myWindowGrid.getRowConstraints().addAll(r1, r2);
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
+		myObjectEditor.setTypeChooserViability(false);
+		myObjectEditor.setUpdateButtonViability(true);
 		myObjectEditor.displayData((ObjectData) arg);
 
+	}
+
+	@Override
+	public void assignCloseHandler(EventHandler<WindowEvent> onclose) {
+		myStage.setOnCloseRequest(onclose);
 	}
 
 }

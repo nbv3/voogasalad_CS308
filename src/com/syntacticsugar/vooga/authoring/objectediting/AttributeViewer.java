@@ -14,7 +14,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 
-public class AttributeViewer implements IUserInterface, 
+public class AttributeViewer implements IVisualElement, 
 										IListViewDisplay, 
 										IDataDisplay<Collection<IAttribute>> {
 
@@ -36,7 +36,9 @@ public class AttributeViewer implements IUserInterface,
 					}
 				}
 				if (change.wasRemoved()) {
-					myAttributeDisplays.remove(change.getFrom());
+					for (int i = 0;i < change.getRemovedSize();i++) {
+						myAttributeDisplays.remove(change.getFrom());
+					}
 				}
 			}
 		});

@@ -9,7 +9,6 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
@@ -22,28 +21,23 @@ public class EditingViewer {
 	protected Insets myPadding = new Insets(10,10,10,10);
 	
 	public EditingViewer(String viewerTitle){
-		myView = new VBox();
-		myView.setPadding(myPadding);
-		myView.getChildren().add(makeTitleStrip(viewerTitle));
-		makeContentBox();
+		myView = (VBox) makeMyViewer(viewerTitle);
 	}
 	
-	private void makeContentBox(){ 
-		// makes the VBox that contains the ListView and the buttons.
+	private Node makeContentBox(){ 
 		myListView = new ListView<HBox>();
-		myView.getChildren().add(myListView);
+		return myListView;
 	}
 	
-	private AnchorPane makeTitleStrip(String title){
-		Collection<Node> buttons = new ArrayList<Node>(); 
-		buttons.add(makeAddButton()); 
+	private Node makeMyViewer(String viewerTitle){
+		Collection<Node> buttons = new ArrayList<Node>();
+		buttons.add(makeAddButton());
 		buttons.add(makeRemoveButton());
-		AnchorPane titleStrip = (AnchorPane) GUIFactory.buildTitleNodeWithButtons(title, buttons);
-		titleStrip.setPadding(myPadding);
-		return titleStrip;
+		VBox view = GUIFactory.buildTitledPaneWithButtons(makeContentBox(), viewerTitle, buttons);
+		return view;
+
 	}
-	
-	
+		
 	private Button makeAddButton(){
 		myAddButton = GUIFactory.buildButton(ResourceManager.getString("add_symbol"), null, 30.0, null);
 		return myAddButton;

@@ -1,77 +1,78 @@
 package com.syntacticsugar.vooga.authoring.level;
 
+import java.util.Observable;
+
+import com.syntacticsugar.vooga.authoring.level.map.MapManager;
+import com.syntacticsugar.vooga.authoring.level.spawner.SpawnerManager;
+import com.syntacticsugar.vooga.authoring.level.towers.TowerManager;
+import com.syntacticsugar.vooga.authoring.objectediting.IObjectDataClipboard;
+import com.syntacticsugar.vooga.xml.data.LevelSettings;
 import com.syntacticsugar.vooga.xml.data.MapData;
+import com.syntacticsugar.vooga.xml.data.SpawnerData;
+import com.syntacticsugar.vooga.xml.data.TowerData;
 
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.VBox;
 
-public class LevelEditor{
+public class LevelEditor {
 
 	private GridPane myContentGrid;
-	private MapEditor myMapEditor;
-	private MapEditorControls myTileEditor;
-	private EnemyQueueTabManager myQueue;
-	private WaveController myWaveControl;
-	private TowerManager myTowers;
-	// private SpawnEditor mySpawnEditor;
 
-	public LevelEditor() throws Exception {
-		myMapEditor = new MapEditor();
-		myTileEditor = new MapEditorControls(myMapEditor);
-		myQueue = new EnemyQueueTabManager();
-		myWaveControl = new WaveController(myQueue);
-		myTowers = new TowerManager();
-		//myWaveControl.addObserver(this);
+	private MapManager myMapManager;
+	private SpawnerManager mySpawnerManager;
+	private TowerManager myTowerManager;
+	private LevelConditionManager myConditions;
+
+	public LevelEditor(IObjectDataClipboard clip) throws Exception {
+		myMapManager = new MapManager(clip);
+		mySpawnerManager = new SpawnerManager();
+		myTowerManager = new TowerManager();
+		myConditions = new LevelConditionManager();
+
 		buildTabContents();
 
-		// When you are ready to add the bottom Node on (for the Spawn Queue),
-		// add it into the myLevelTab and the grid lines will automatically
-		// appear.
-
-	}
-	
-	public WaveController getWaveControl()
-	{
-		return myWaveControl;
-	}
-	
-	public TowerController getTowerControl()
-	{
-		return myTowers.getControl();
-	}
-
-
-	public void loadMap(MapData loadedMap) {
-		myMapEditor.loadMapData(loadedMap);
 	}
 
 	public Node getContent() {
-		return this.myContentGrid;
+		BorderPane myView = new BorderPane();
+		myView.setCenter(myContentGrid);
+		return myView;
 	}
 
 	private void buildTabContents() {
 		myContentGrid = new GridPane();
-		myContentGrid.setPadding(new Insets(10, 10, 10, 10));
+		myContentGrid.setPadding(new Insets(10));
+		myContentGrid.setHgap(10);
+		myContentGrid.setVgap(10);
 		addColumnConstraints(myContentGrid);
 		addRowConstraints(myContentGrid);
-		myContentGrid.add(myTileEditor.getContent(), 0, 0, 1, 1);
-		myContentGrid.add(myMapEditor.getContent(), 1, 0, 1, 2);
-		myContentGrid.add(myWaveControl.getView(), 0, 2, 1, 1);
-		myContentGrid.add(myQueue.getView(), 1, 2, 2, 1);
 
-		myContentGrid.add(myTowers.getView(), 2, 0, 1, 1);
-		//coordinates for tower list
-		myContentGrid.setGridLinesVisible(true);
+		myContentGrid.add(myMapManager.getControlNode(), 0, 0, 1, 3);
+		myContentGrid.add(myMapManager.getViewNode(), 1, 0, 1, 3);
+
+		myContentGrid.add(mySpawnerManager.getControlNode(), 0, 3, 1, 1);
+		myContentGrid.add(mySpawnerManager.getViewNode(), 1, 3, 3, 1);
+
+		VBox towerBox = new VBox();
+		towerBox.setAlignment(Pos.CENTER);
+		towerBox.setSpacing(20);
+		towerBox.getChildren().addAll(myTowerManager.getControlNode(), myTowerManager.getViewNode());
+
+		myContentGrid.add(towerBox, 2, 0, 1, 2);
+		myContentGrid.add(myConditions.getView(), 2, 2, 1, 1);
 	}
 
 	private void addColumnConstraints(GridPane grid) {
 		ColumnConstraints c1 = new ColumnConstraints();
-		c1.setPercentWidth(25);
+		c1.setPercentWidth(20);
 		ColumnConstraints c2 = new ColumnConstraints();
-		c2.setPercentWidth(50);
+		c2.setPercentWidth(55);
 		ColumnConstraints c3 = new ColumnConstraints();
 		c3.setPercentWidth(25);
 		grid.getColumnConstraints().addAll(c1, c2, c3);
@@ -79,17 +80,43 @@ public class LevelEditor{
 
 	private void addRowConstraints(GridPane grid) {
 		RowConstraints r0 = new RowConstraints();
-		r0.setPercentHeight(45);
+		r0.setPercentHeight(25);
 		RowConstraints r1 = new RowConstraints();
-		r1.setPercentHeight(30);
+		r1.setPercentHeight(20);
 		RowConstraints r2 = new RowConstraints();
 		r2.setPercentHeight(25);
-		grid.getRowConstraints().addAll(r0, r1, r2);
-	}
-	
-	public MapData getMapData() {
-		return myMapEditor.getMapData();
+		RowConstraints r3 = new RowConstraints();
+		r3.setPercentHeight(30);
+		grid.getRowConstraints().addAll(r0, r1, r2,r3);
 	}
 
+	public MapData getMapData() {
+		return myMapManager.getMapData();
+	}
+
+	public SpawnerData getSpawnerQueues() {
+		return mySpawnerManager.getSpawnerData();
+	}
+
+	public Observable getTowerControls() {
+		return myTowerManager.getObservableController();
+	}
+
+	public Observable getSpawnerControls() {
+		return mySpawnerManager.getObservableController();
+	}
+
+	public TowerData getTowerList() {
+		return myTowerManager.getTowerData();
+	}
+
+	public LevelSettings getConditions() {
+		return myConditions.getConditions();
+	}
+
+	public void loadMap(MapData loadedMap) {
+		myMapManager.setMapData(loadedMap);
+
+	}
 
 }

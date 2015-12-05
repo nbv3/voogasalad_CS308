@@ -5,28 +5,47 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.syntacticsugar.vooga.authoring.dragdrop.DragDropManager;
+import com.syntacticsugar.vooga.authoring.objectediting.IVisualElement;
+import com.syntacticsugar.vooga.util.dirview.IConverter;
+import com.syntacticsugar.vooga.util.dirview.IDirectoryViewer;
+import com.syntacticsugar.vooga.xml.XMLFileFilter;
+import com.syntacticsugar.vooga.xml.XMLHandler;
+import com.syntacticsugar.vooga.xml.data.ObjectData;
+import com.syntacticsugar.vooga.xml.data.ObjectData;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ChangeListener;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.effect.Glow;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.TilePane;
 
-public class IconPane {
+public class IconPane implements IVisualElement, IDirectoryViewer<String> {
 
 	private ScrollPane myScrollPane;
 	private TilePane myIconPane;
-	private Map<Icon, String> myImagePaths;
+	private Map<ImageView, String> myImagePaths;
+	private Icon selectedTile;
 
-	private final ObjectProperty<Icon> mySelectedIcon = new SimpleObjectProperty<>();
+	public Icon getSelectedTile() {
+		return selectedTile;
+	}
+
+	public void setSelectedTile(Icon selectedTile) {
+		this.selectedTile = selectedTile;
+		System.out.println("here");
+	}
+
+	private final ObjectProperty<ImageView> mySelectedIcon = new SimpleObjectProperty<>();
 	private final double GLOW_PERCENTAGE = 0.75;
-	private final double INSET_VALUE = 6;
-	private final int NUM_COLS = 2;
+	private final double INSET_VALUE = 3;
+	private final int NUM_COLS = 3;
 
 	public IconPane() {
 		mySelectedIcon.addListener((o, s1, s2) -> setSelectedEffect(s1, s2));
@@ -35,79 +54,106 @@ public class IconPane {
 		myScrollPane.setVbarPolicy(ScrollBarPolicy.AS_NEEDED);
 		myScrollPane.setHbarPolicy(ScrollBarPolicy.AS_NEEDED);
 		myScrollPane.setFitToWidth(true);
-		initializeGridPane();
+		myIconPane = new TilePane();
 		myScrollPane.setPadding(new Insets(INSET_VALUE));
+		clearIconPane();
+		initializeGridPane();
+	}
+
+	public void addPreviewListener(ChangeListener<ImageView> event) {
+		mySelectedIcon.addListener(event);
 	}
 
 	private void initializeGridPane() {
-		myIconPane = new TilePane();
 		myIconPane.setPrefColumns(NUM_COLS);
+		myIconPane.setAlignment(Pos.CENTER);
 		myIconPane.setHgap(INSET_VALUE);
 		myIconPane.setVgap(INSET_VALUE);
 		myScrollPane.setContent(myIconPane);
+		myIconPane.maxWidthProperty().set(myScrollPane.viewportBoundsProperty().get().getWidth()-2*INSET_VALUE);
 	}
-	
-//	private void addColumnConstraints() {
-//		for (int i=0; i<NUM_COLS; i++) {
-//			ColumnConstraints c1 = new ColumnConstraints();
-//			c1.setPercentWidth(100.0 / (1.0*NUM_COLS));
-//			myIconPane.getColumnConstraints().add(c1);
-//		}
-//	}
-	
-	/**
-	 * Show all icons representing the relevant file types as specified
-	 * by this subclass of AbstractIconPane.
-	 * @param directory
-	 */
-	public void showIcons(File directory, IConverter fileConverter) {
+
+	@Override
+	public void showDirectoryContents(File directory, IConverter<String> fileConverter) {
 		clearIconPane();
 		initializeGridPane();
-		Collection<String> imagePaths = fileConverter.getImages(directory);
+		Collection<String> imagePaths = fileConverter.getContents(directory);
 		for (String path : imagePaths) {
-			Icon icon = new Icon(path);
-//			icon.getWidthProperty().set(myIconPane.getTileWidth());
-//			icon.getHeightProperty().set(myIconPane.getTileHeight());
-			icon.setOnDragDetected((MouseEvent e) -> DragDropManager.createDragClipBoards(icon, e));
-			icon.setOnMouseClicked(e -> setSelectedIcon(icon));
-			myIconPane.getChildren().add(icon);
-			myImagePaths.put(icon, path);
+			ImageView iv = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(path)));
+			iv.fitWidthProperty().bind(myIconPane.maxWidthProperty().divide(NUM_COLS).subtract(INSET_VALUE));
+			iv.fitHeightProperty().bind(iv.fitWidthProperty());
+			iv.setOnMouseClicked(e -> setSelectedImageView(iv));
+			myIconPane.getChildren().add(iv);
+			myImagePaths.put(iv, path);
 		}
-		setSelectedIcon(null);
 	}
-	
+
+	public Map<ImageView, ObjectData> showDirectoryContentsMap(File directory, IConverter<String> fileConverter) {
+		clearIconPane();
+		initializeGridPane();
+		Map<ImageView, ObjectData> map = new HashMap<ImageView, ObjectData>();
+
+		File[] files = directory.listFiles(new XMLFileFilter());
+		XMLHandler<ObjectData> xml = new XMLHandler<>();
+		for (int i = 0; i < files.length; i++) {
+			ObjectData obj = xml.read(files[i]);
+			ImageView image = new ImageView(
+					new Image(getClass().getClassLoader().getResourceAsStream(obj.getImagePath())));
+			image.fitWidthProperty().bind(myIconPane.maxWidthProperty().divide(NUM_COLS).subtract(INSET_VALUE));
+			image.fitHeightProperty().bind(image.fitWidthProperty());
+			image.setOnMouseClicked(e -> setSelectedImageView(image));
+			myIconPane.getChildren().add(image);
+			myImagePaths.put(image, obj.getImagePath());
+			map.put(image, obj);
+		}
+
+		return map;
+	}
+
 	/**
 	 * Return the JavaFX Node used to display this IconPane.
+	 * 
 	 * @return
 	 */
-	public ScrollPane getIconPane(){
+	public Node getView() {
+		// TODO Auto-generated method stub
 		return myScrollPane;
 	}
-	
-	protected void clearIconPane() {
+
+	/**
+	 * Return the String image path representing the currently selected Tile.
+	 * 
+	 * @return
+	 */
+	public String getSelectedImagePath() {
+		return myImagePaths.get(mySelectedIcon.get());
+	}
+
+	private void clearIconPane() {
 		myIconPane.getChildren().clear();
 		myImagePaths.clear();
 		myScrollPane.setContent(null);
 	}
-	
-	protected void setSelectedEffect(Icon oldIcon, Icon newIcon) {
-		if (oldIcon == null) {
-			newIcon.setEffect(new Glow(GLOW_PERCENTAGE));
+
+	private void setSelectedEffect(ImageView oldIv, ImageView newIv) {
+		if (oldIv == null) {
+			newIv.setEffect(new Glow(GLOW_PERCENTAGE));
 			return;
 		}
-		if (newIcon == null) {
-			oldIcon.setEffect(null);
+		if (newIv == null) {
+			oldIv.setEffect(null);
 			return;
 		}
-		oldIcon.setEffect(null);
-		newIcon.setEffect(new Glow(GLOW_PERCENTAGE));
+		oldIv.setEffect(null);
+		newIv.setEffect(new Glow(GLOW_PERCENTAGE));
 	}
 
-	public void setSelectedIcon(Icon icon) {
-		mySelectedIcon.set(icon);
+	private void setSelectedImageView(ImageView iv) {
+		mySelectedIcon.set(iv);
 	}
-	
-	public String getSelectedImagePath() {
-		return myImagePaths.get(mySelectedIcon.get());
+
+	public ImageView getSelectedIcon() {
+		return mySelectedIcon.get();
 	}
+
 }

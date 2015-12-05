@@ -1,9 +1,10 @@
 package com.syntacticsugar.vooga.gameplayer.view;
 
 import java.util.Collection;
+import java.util.Observable;
 import java.util.Observer;
 
-import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
+import com.syntacticsugar.vooga.gameplayer.universe.IUniverseView;
 import com.syntacticsugar.vooga.gameplayer.view.implementation.InformationBox;
 import com.syntacticsugar.vooga.gameplayer.view.implementation.TileView;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
@@ -11,7 +12,7 @@ import com.syntacticsugar.vooga.xml.data.ObjectData;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 
-public class GameView extends BorderPane {
+public class GameView extends BorderPane{
 	
 	private double mySize;
 	private Pane gameField;
@@ -19,9 +20,18 @@ public class GameView extends BorderPane {
 	private TowerControlSection myTowerBox;
 	
 	public GameView(double size){
-		this.getStylesheets().add("/com/syntacticsugar/vooga/gameplayer/css/game.css");
+		this.getStylesheets().add("/com/syntacticsugar/vooga/gameplayer/view/css/game.css");
 		this.setFocusTraversable(true);
 		mySize = size;
+		initializeComponents();
+	}
+	
+	public void resetComponents(){
+		this.getChildren().clear();
+		initializeComponents();
+	}
+
+	private void initializeComponents() {
 		gameField = new Pane();
 		this.setCenter(gameField);
 		myTowerBox = new TowerControlSection();
@@ -37,6 +47,10 @@ public class GameView extends BorderPane {
 	public void addObjectView(Pane myViewPane) {
 		gameField.getChildren().add(myViewPane);
 	}
+	
+	public void removeObjectView(Pane myViewPane){
+		gameField.getChildren().remove(myViewPane);
+	}
 
 	public Pane getView() {
 		return gameField;
@@ -47,7 +61,7 @@ public class GameView extends BorderPane {
 		tile.addObserver(myTowerBox);
 	}
 
-	public void initializeAvailableTowers(Collection<ObjectData> availableTowers, IGameUniverse universe) {
+	public void initializeAvailableTowers(Collection<ObjectData> availableTowers, IUniverseView universe) {
 		myTowerBox.initialize(availableTowers, universe);
 		
 	}

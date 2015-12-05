@@ -1,8 +1,10 @@
 package com.syntacticsugar.vooga.gameplayer.attribute.movement;
 
 import java.awt.Point;
+import java.io.Serializable;
 import java.util.List;
 
+import com.syntacticsugar.vooga.authoring.parameters.AbstractParameter;
 import com.syntacticsugar.vooga.gameplayer.attribute.control.actions.movement.Direction;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.gameplayer.universe.map.IGameMap;
@@ -10,13 +12,14 @@ import com.syntacticsugar.vooga.util.pathfinder.PathFinder;
 
 import javafx.geometry.Point2D;
 
-public class AIMovementAttribute extends AbstractMovementAttribute {
+public class AIMovementAttribute extends AbstractMovementAttribute implements Serializable{
 
 	private Point myNextTile;
 
-	public AIMovementAttribute(double speed) {
+	public AIMovementAttribute(AbstractParameter<?>[] speed) {
 		super(speed);
 		myNextTile = new Point(-1, -1);
+
 	}
 
 	@Override
@@ -91,5 +94,4 @@ public class AIMovementAttribute extends AbstractMovementAttribute {
 		}
 		return Direction.STOP;
 	}
-
 }

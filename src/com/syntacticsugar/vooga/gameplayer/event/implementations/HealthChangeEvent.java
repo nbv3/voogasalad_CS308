@@ -6,22 +6,24 @@ import com.syntacticsugar.vooga.gameplayer.attribute.HealthAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
 import com.syntacticsugar.vooga.gameplayer.event.CollisionEvent;
 import com.syntacticsugar.vooga.gameplayer.event.CollisionEventType;
+import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.util.ResourceManager;
 
 public class HealthChangeEvent extends CollisionEvent {
 
 	private final String TARGET_ATTRIBUTE = ResourceManager.getString("HealthAttribute");
-	private double myDeltaHealth;
+	private Double myDeltaHealth;
 	
-	public HealthChangeEvent(double deltaHealth) {
+	public HealthChangeEvent(Double deltaHealth) {
 		super(CollisionEventType.HealthChange);
 		this.myDeltaHealth = deltaHealth;
 	}
 	
 	@Override
-	public void executeEvent(Map<String, IAttribute> targetAttributes) {
+	public void executeEvent(IGameObject obj) {
+		Map<String, IAttribute> targetAttributes = obj.getAttributes();
 		HealthAttribute health = (HealthAttribute) targetAttributes.get(TARGET_ATTRIBUTE);
-		health.changeHealth(myDeltaHealth);
+		health.changeHealth(-1 * myDeltaHealth);
 	}
 	
 	public double getDeltaHealth() {

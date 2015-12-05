@@ -1,26 +1,36 @@
 package com.syntacticsugar.vooga.xml.data;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
+import com.syntacticsugar.vooga.gameplayer.attribute.control.actions.movement.Direction;
 import com.syntacticsugar.vooga.gameplayer.event.ICollisionEvent;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.geometry.Point2D;
 
-public class ObjectData {
+public class ObjectData implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private String myName;
 	
 	private GameObjectType myType;
 	private Point2D mySpawnPoint;
 	private double width;
 	private double height;
-	private String myImagePath;
+	private Direction myDirection;
+	private ObjectProperty<String> myImagePath = new SimpleObjectProperty<String>();
 	private Collection<IAttribute> myAttributes;
 	private Map<GameObjectType, Collection<ICollisionEvent>> myCollisionMap;
 	
@@ -36,8 +46,9 @@ public class ObjectData {
 		height = obj.getBoundingBox().getHeight();
 		myAttributes = obj.getAttributes().values();
 		myCollisionMap = obj.getCollisionMap();
-		myImagePath = obj.getPath();
+		myImagePath.setValue(obj.getPath());
 		myType = obj.getType();
+		myDirection = obj.getBoundingBox().getDirection();
 	}
 	
 	public GameObjectType getType() {
@@ -57,7 +68,7 @@ public class ObjectData {
 	}
 	
 	public String getImagePath() {
-		return this.myImagePath;
+		return this.myImagePath.getValue();
 	}
 	
 	public Collection<IAttribute> getAttributes() {
@@ -85,7 +96,7 @@ public class ObjectData {
 	}
 	
 	public void setImagePath(String myImagePath) {
-		this.myImagePath = myImagePath;
+		this.myImagePath.setValue(myImagePath);
 	}
 	
 	public void setObjectName(String name) {
@@ -104,5 +115,17 @@ public class ObjectData {
 	public void setCollisionMap(Map<GameObjectType, Collection<ICollisionEvent>> collisionMap) {
 		this.myCollisionMap.clear();
 		this.myCollisionMap.putAll(collisionMap);
+	}
+	
+	public Direction getDirection(){
+		return myDirection;
+	}
+	
+	public void setDirection(Direction dir){
+		myDirection = dir;
+	}
+	
+	public ObjectProperty<String> getImagePathProperty() {
+		return myImagePath;
 	}
 }

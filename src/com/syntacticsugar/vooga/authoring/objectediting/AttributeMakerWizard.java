@@ -1,24 +1,38 @@
 package com.syntacticsugar.vooga.authoring.objectediting;
 
 import java.util.Collection;
+import java.util.ListIterator;
+import java.util.Observable;
+import java.util.Observer;
 
+import com.syntacticsugar.vooga.authoring.parameters.AbstractParameter;
+import com.syntacticsugar.vooga.authoring.parameters.IEditableParameter;
+
+import com.syntacticsugar.vooga.gameplayer.attribute.AbstractAttribute;
+import com.syntacticsugar.vooga.gameplayer.attribute.HealthAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
+import com.syntacticsugar.vooga.gameplayer.attribute.movement.AIMovementAttribute;
+import com.syntacticsugar.vooga.gameplayer.attribute.movement.MovementControlAttribute;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
-import com.syntacticsugar.vooga.util.gui.factory.MsgInputBoxFactory;
 import com.syntacticsugar.vooga.util.reflection.Reflection;
 import com.syntacticsugar.vooga.util.reflection.ReflectionException;
 
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class AttributeMakerWizard {
+public class AttributeMakerWizard implements Observer{
 
 	private Stage myStage;
 	private Scene myScene;
@@ -28,7 +42,6 @@ public class AttributeMakerWizard {
 	private final double SCENE_DIMENSION = 300;
 
 	public AttributeMakerWizard(GameObjectType type, Collection<IAttribute> attributes){
-		System.out.println(type + " in wizard");
 		myAttributes = attributes;
 		myStage = new Stage();
 		setType(type);
@@ -85,17 +98,42 @@ public class AttributeMakerWizard {
 	}
 
 	private void addAttributeToList() {
-		MsgInputBoxFactory msgBox = new MsgInputBoxFactory(ResourceManager.getString(String.format("%s%s", "double_", selectedAttribute)));
-		if (msgBox.getValue() != 0) {
 			String className = ResourceManager.getString(String.format("%s_%s", selectedAttribute, "name"));
 			try {
-				attributeToAdd = (IAttribute) Reflection.createInstance(className, msgBox.getValue());
-			}
-			catch (ReflectionException ex) {
 				attributeToAdd = (IAttribute) Reflection.createInstance(className);
 			}
-			myAttributes.add(attributeToAdd);
-		}
+			catch (ReflectionException ex) {
+			}
+			((AbstractAttribute)attributeToAdd).addObserver(this);
+			updateGUI(attributeToAdd);
 	}
+	
+	private void updateGUI(IAttribute attribute)
+	{
+		Stage tempStage = new Stage();
+		BorderPane tempPane = new BorderPane();
+		Scene tempScene = new Scene(tempPane);
+		tempStage.setScene(tempScene);
+		Collection<IEditableParameter<?>> myParameters = ((AbstractAttribute)attribute).getParams();
+		for(IEditableParameter<?> parameter: myParameters)
+		{
+			if(parameter.getInputNode() != null)
+			{
+				tempPane.setCenter(parameter.getInputNode());
+			}
+			
+		}
+		tempStage.show();
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		if(!(myAttributes.contains((IAttribute)arg)))
+		{
+			myAttributes.add((IAttribute)arg);
+		}
+
+	}
+
 	
 }

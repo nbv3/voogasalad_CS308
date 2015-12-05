@@ -1,15 +1,32 @@
 package com.syntacticsugar.vooga.gameplayer.conditions;
 
-public abstract class AbstractCondition implements IGameCondition{
-	
+import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
+import com.syntacticsugar.vooga.gameplayer.universe.IEventPoster;
+
+public abstract class AbstractCondition implements IGameCondition, IEventPoster {
+
 	private ConditionType myType;
-	
-	public AbstractCondition(ConditionType type){
+	private IEventPoster myManager;
+
+	public AbstractCondition(ConditionType type) {
 		myType = type;
 	}
 
-	public ConditionType returnType(){
+	@Override
+	public void registerManager(IEventPoster manager){
+		myManager = manager;
+	}
+	
+	public ConditionType returnType() {
 		return myType;
 	}
 	
+	@Override
+	public void postEvent(IGameEvent event){
+		myManager.postEvent(event);
+	}
+	
+	
+
+
 }

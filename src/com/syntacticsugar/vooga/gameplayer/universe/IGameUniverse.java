@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.Observer;
 
 import com.syntacticsugar.vooga.gameplayer.conditions.IGameCondition;
+import com.syntacticsugar.vooga.gameplayer.manager.IEventManager;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.universe.map.IGameMap;
 import com.syntacticsugar.vooga.gameplayer.universe.score.IScore;
@@ -13,20 +14,15 @@ import com.syntacticsugar.vooga.xml.data.UniverseData;
 
 public interface IGameUniverse extends IObjectCollection,
 									   IKeyInputProcessor,
-									   IEventPoster{
+									   IEventPoster,
+									   IUniverseView{
 
 	/**
 	 * A SimpleUniverse (anything that implements this interface) must contain a 
 	 * Collection of GameObjects, add/remove methods, an implementation of ISimpleGameMap,
 	 * and be able to send key press/release/mouse events directly to it's objects
 	 */
-	public void addPlayer(IGameObject player);
 	
-	/**
-	 * Return a Collection of all the Players within the current Universe.
-	 * @return
-	 */
-	public Collection<IGameObject> getPlayers();
 	
 	/**
 	 * Returns a limited data view of the map in the Universe.
@@ -34,14 +30,9 @@ public interface IGameUniverse extends IObjectCollection,
 	 */
 	public IGameMap getMap();
 	
-	public Collection<IGameCondition> getConditions();
-	
 	public UniverseData saveGame();
 	
-	public Collection<ObjectData> getAvailableTowers();
+	public void registerListeners(IEventManager manager);
 	
-	public IScore getScore();
-	
-	public void observeScore(Observer observer);
 	
 }

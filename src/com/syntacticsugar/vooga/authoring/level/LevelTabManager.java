@@ -1,81 +1,110 @@
 package com.syntacticsugar.vooga.authoring.level;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Observable;
-import java.util.Observer;
 
+import com.syntacticsugar.vooga.authoring.objectediting.IObjectDataClipboard;
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
+import com.syntacticsugar.vooga.xml.data.LevelSettings;
 import com.syntacticsugar.vooga.xml.data.MapData;
-import com.syntacticsugar.vooga.xml.data.ObjectData;
+import com.syntacticsugar.vooga.xml.data.SpawnerData;
+import com.syntacticsugar.vooga.xml.data.TowerData;
+import com.syntacticsugar.vooga.xml.data.UniverseData;
 
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 
-public class LevelTabManager{
+public class LevelTabManager {
 
 	private TabPane myTabPane;
 	private Map<Tab, LevelEditor> myLevelMap;
-	private ObjectData itemToEdit;
-	
-	public LevelTabManager() {
+	private IObjectDataClipboard iObject;
+
+	public LevelTabManager(IObjectDataClipboard clip) {
 		myLevelMap = new HashMap<Tab, LevelEditor>();
 		myTabPane = new TabPane();
+		iObject = clip;
 		addNewLevel();
 	}
-	
+
 	public void addNewLevel() {
 		LevelEditor newLevel = null;
 		try {
-			newLevel = new LevelEditor();
+			newLevel = new LevelEditor(iObject);
 		} catch (Exception e) {
 			AlertBoxFactory.createObject(e.getMessage());
+			e.printStackTrace();
 			return;
 		}
-		Tab newLevelTab = new Tab();
+		Tab newLevelTab = new Tab("Level 1");
 		newLevelTab.setContent(newLevel.getContent());
 		myLevelMap.put(newLevelTab, newLevel);
 		newLevelTab.setOnClosed(e -> removeLevel(newLevelTab));
-		
+
 		myTabPane.getTabs().add(newLevelTab);
 		myTabPane.getSelectionModel().select(newLevelTab);
 		updateLevelNumbers();
 	}
-	
+
 	public void loadMap(MapData loadedMap) {
 		myLevelMap.get(myTabPane.getSelectionModel().getSelectedItem()).loadMap(loadedMap);
 	}
-	
+
 	public TabPane getTabPane() {
 		return myTabPane;
 	}
 
-	public ArrayList<LevelEditor> getLevels()
-	{
+	public ArrayList<LevelEditor> getLevels() {
 		ArrayList<LevelEditor> levels = new ArrayList<LevelEditor>();
-		for(LevelEditor level: myLevelMap.values())
-		{
+		for (LevelEditor level : myLevelMap.values()) {
 			levels.add(level);
 		}
 		return levels;
 	}
+
 	private void removeLevel(Tab levelTab) {
 		myLevelMap.remove(levelTab);
 		updateLevelNumbers();
 	}
-	
+
 	private void updateLevelNumbers() {
-		int i=1;
-		for (Tab t : myTabPane.getTabs()) {
-			t.setText(String.format("%s %s", "Level", i));
-			i++;
+		for (int i = 0; i < myTabPane.getTabs().size(); i++) {
+			Tab t = myTabPane.getTabs().get(i);
+			t.setText(String.format("%s %s", "Level", i + 1));
 		}
 	}
-	
-	public MapData getMapData() {
+
+	public Collection<UniverseData> getAllUniverseData() {
+		// Map<Integer, MapData> mapMap = new HashMap<Integer, MapData>();
+		// Map<Integer, SpawnerData> spawnerMap = new HashMap<Integer,
+		// SpawnerData>();
+		// Map<Integer, TowerData> towerMap = new HashMap<Integer, TowerData>();
+		// Map<Integer, LevelSettings> conditionsMap = new HashMap<Integer,
+		// LevelSettings>();
+
+		List<UniverseData> game = new ArrayList<UniverseData>();
+
+		for (Tab t : myTabPane.getTabs()) {
+			int i = t.getText().charAt(t.getText().length() - 1);
+
+			SpawnerData spawner = myLevelMap.get(t).getSpawnerQueues();
+			MapData map = myLevelMap.get(t).getMapData();
+			TowerData tower = myLevelMap.get(t).getTowerList();
+			LevelSettings conditions = myLevelMap.get(t).getConditions();
+			UniverseData universe = new UniverseData(spawner, tower, map, conditions);
+
+			game.add(universe);
+		}
+		return game;
+
+	}
+
+	public MapData getIndividualMapData() {
+
 		return myLevelMap.get(myTabPane.getSelectionModel().getSelectedItem()).getMapData();
 	}
 
-	
 }

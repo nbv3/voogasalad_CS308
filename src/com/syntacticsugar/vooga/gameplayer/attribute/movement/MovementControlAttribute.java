@@ -2,13 +2,14 @@ package com.syntacticsugar.vooga.gameplayer.attribute.movement;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Observable;
 
+import com.syntacticsugar.vooga.authoring.parameters.DoubleParameter;
 import com.syntacticsugar.vooga.gameplayer.attribute.control.IUserControlAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.control.actions.movement.Direction;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.gameplayer.universe.userinput.IKeyInputStorage;
 
-import javafx.geometry.Point2D;
 import javafx.scene.input.KeyCode;
 
 public class MovementControlAttribute extends AbstractMovementAttribute implements IUserControlAttribute {
@@ -16,8 +17,8 @@ public class MovementControlAttribute extends AbstractMovementAttribute implemen
 	private Map<KeyCode, Direction> myKeyBindings;
 	private Direction myCurrentMovement;
 	
-	public MovementControlAttribute(double speed) {
-		super(speed);
+	public MovementControlAttribute() {
+		super(new DoubleParameter("Player Speed: "));
 		
 		myKeyBindings = new HashMap<>();
 		myCurrentMovement = Direction.STOP;
@@ -30,6 +31,11 @@ public class MovementControlAttribute extends AbstractMovementAttribute implemen
 		addKeyBinding(KeyCode.LEFT, Direction.LEFT);
 		addKeyBinding(KeyCode.DOWN, Direction.DOWN);
 		addKeyBinding(KeyCode.UP, Direction.UP);
+	}
+	
+	public Map<KeyCode, Direction> getKeyCodes()
+	{
+		return myKeyBindings;
 	}
 	
 
@@ -66,6 +72,8 @@ public class MovementControlAttribute extends AbstractMovementAttribute implemen
 		move(universe);
 		resetVelocity();
 	}
+
+
 	
 //	private void checkMapBounds(Point2D mapIndex, boolean[][] isWalkable) {
 //		int r = (int) mapIndex.getX();

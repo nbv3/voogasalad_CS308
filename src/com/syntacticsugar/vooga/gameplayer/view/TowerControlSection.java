@@ -7,7 +7,7 @@ import java.util.Observer;
 
 import com.syntacticsugar.vooga.authoring.icon.Icon;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObject;
-import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
+import com.syntacticsugar.vooga.gameplayer.universe.IUniverseView;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
 
 import javafx.geometry.Point2D;
@@ -16,20 +16,15 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-public class TowerControlSection extends Observable implements Observer{
-	
+public class TowerControlSection extends Observable implements Observer {
+
 	private VBox myContent;
 	private ScrollPane towerList;
 	private ObjectData currentSelection;
-	private IGameUniverse myUniverse;
+	private IUniverseView myUniverse;
 	private Collection<Icon> myTowerIcons;
-	
-	/**
-	 * TODO: fixed hardcoded functions here
-	 */
 
 	public TowerControlSection() {
-		//myContent = new VBox();
 		myContent = new VBox();
 		Label title = new Label("Tower Controls");
 		title.getStyleClass().add("title");
@@ -37,24 +32,24 @@ public class TowerControlSection extends Observable implements Observer{
 		towerList = new ScrollPane(myContent);
 	}
 
-
-	public void initialize(Collection<ObjectData> availableTowers,IGameUniverse universe ) {
+	public void initialize(Collection<ObjectData> availableTowers, IUniverseView universe) {
 		testDragAndDrop(availableTowers);
 		myUniverse = universe;
 	}
-	
+
 	private void testDragAndDrop(Collection<ObjectData> availableTowers) {
 		myTowerIcons = new ArrayList<>();
-		for(ObjectData towerObject: availableTowers){
+		for (ObjectData towerObject : availableTowers) {
 			Icon tower = new Icon(towerObject.getImagePath());
-			tower.setPrefHeight(100); tower.setPrefWidth(100);
+			tower.setPrefHeight(100);
+			tower.setPrefWidth(100);
 			tower.setOnMouseClicked(e -> selectedTower(tower, towerObject));
 			addTowerInfo(tower, towerObject);
 			myTowerIcons.add(tower);
 		}
 	}
-	
-	private void addTowerInfo(Icon towerIcon, ObjectData towerData){
+
+	private void addTowerInfo(Icon towerIcon, ObjectData towerData) {
 		HBox towerInfo = new HBox(10);
 		VBox towerValues = new VBox(5);
 		towerValues.getChildren().addAll(new Label("Tower       "));
@@ -63,13 +58,13 @@ public class TowerControlSection extends Observable implements Observer{
 	}
 
 	private void selectedTower(Icon tower, ObjectData towerObject) {
-		if (towerObject.equals(currentSelection)){
+		if (towerObject.equals(currentSelection)) {
 			tower.setStyle("-fx-background-color: transparent");
 			setChanged();
 			notifyObservers(false);
 			currentSelection = null;
 		} else {
-			for(Icon towerIcon: myTowerIcons){
+			for (Icon towerIcon : myTowerIcons) {
 				towerIcon.setStyle("-fx-background-color: transparent");
 			}
 			tower.setStyle("-fx-background-color: red");
@@ -79,15 +74,17 @@ public class TowerControlSection extends Observable implements Observer{
 		}
 
 	}
-	
-	public ScrollPane getContent(){
+
+	public ScrollPane getContent() {
 		return towerList;
 	}
-	
+
 	@Override
 	public void update(Observable arg0, Object arg1) {
-		Point2D coordinates = (Point2D) arg1;
+		TowerData data = (TowerData) arg1;
+		Point2D coordinates = data.getCoordinates();
 		currentSelection.setSpawnPoint(coordinates.getX(), coordinates.getY());
+		currentSelection.setDirection(data.getDirection());
 		myUniverse.addToSpawnYard(new GameObject(currentSelection));
 	}
 }

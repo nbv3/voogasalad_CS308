@@ -36,6 +36,9 @@ public class MapData {
 		for (int i=0; i<numTiles; i++) {
 			for (int j=0; j<numTiles; j++) {
 				myTileData[i][j] = new TileData(tileImage);
+				if(i == 1){
+					myTileData[i][j].setImplementation(TileImplementation.Scenery);
+				}
 			}
 		}
 	}
@@ -44,6 +47,16 @@ public class MapData {
 		if (i<myTileData.length && j<myTileData.length) 
 			return myTileData[i][j];
 		throw new IndexOutOfBoundsException("Specified tile is out of map bounds.");
+	}
+	
+	public void setTileData(TileData tileData,int i, int j) {
+		System.out.println("Tile Data Length is "+myTileData.length);
+		if (i<myTileData.length && j<myTileData.length) {
+			myTileData[i][j] = tileData;
+			return;
+		} else{
+		throw new IndexOutOfBoundsException("Specified tile is out of map bounds.");
+		}
 	}
 	
 	public Collection<TileData> getTiles() {
