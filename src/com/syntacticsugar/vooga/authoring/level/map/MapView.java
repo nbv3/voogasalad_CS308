@@ -7,13 +7,17 @@ import com.syntacticsugar.vooga.authoring.dragdrop.DragDropManager;
 import com.syntacticsugar.vooga.authoring.dragdrop.ObjectClippableItem;
 import com.syntacticsugar.vooga.authoring.dragdrop.TileClippableItem;
 import com.syntacticsugar.vooga.authoring.icon.Icon;
+import com.syntacticsugar.vooga.authoring.objectediting.IObjectDataClipboard;
 import com.syntacticsugar.vooga.authoring.objectediting.IVisualElement;
+import com.syntacticsugar.vooga.authoring.objectediting.sizing.ObjectResizer;
 import com.syntacticsugar.vooga.authoring.tooltips.TileInfoTooltip;
+import com.syntacticsugar.vooga.gameplayer.universe.spawner.Spawner;
 import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
 import com.syntacticsugar.vooga.util.gui.factory.SliderDialogFactory;
 import com.syntacticsugar.vooga.xml.data.MapData;
+import com.syntacticsugar.vooga.xml.data.ObjectData;
 import com.syntacticsugar.vooga.xml.data.TileData;
 import com.syntacticsugar.vooga.xml.data.TileImplementation;
 
@@ -52,17 +56,16 @@ public class MapView implements IMapDisplay, IVisualElement {
 	private int myMapSize;
 	private GridPane myMapGrid;
 	private TitledPane myViewPane;
-	private double iconWidth;
-	private double iconHeight;
+	private IObjectDataClipboard iObject;
 
-	public MapView() throws Exception {
+	public MapView(IObjectDataClipboard clip) throws Exception {
+		iObject = clip;
 		myMapSize = inputMapSize();
 		myTileSelection = buildSelectionSet();
 		myMapData = new MapData(myMapSize, DEFAULT_TILE_IMAGE);
 		myMapGrid = new GridPane();
 		myTileIconMap = new HashMap<>();
 		initializeMapView(myMapData);
-
 		myViewPane = GUIFactory.buildTitledPane("Map Display", myMapGrid);
 	}
 
@@ -155,34 +158,53 @@ public class MapView implements IMapDisplay, IVisualElement {
 				icon.setOnDragEntered((DragEvent event) -> DragDropManager.dragEnteredHandler(icon, event));
 				icon.setOnDragExited((DragEvent event) -> DragDropManager.dragExitedHandler(icon, event));
 				myMapGrid.add(icon, i, j, 1, 1);
-				myMapGrid.setOnDragDropped(e -> {
-					returnDragOverIcon(e, mapData);
-					System.out.println(e.getX() + ", " + e.getY());
-					System.out.println("Map Grid width is " + myMapGrid.getWidth());
-					System.out.println("Map Grid height is " + myMapGrid.getHeight());
-
-				});
 			}
+			myMapGrid.setOnDragDropped(e -> {
+				dragOverHandler(e);
+			});
 		}
 	}
 
-	private void returnDragOverIcon(DragEvent event, MapData mapData) {
+	private void dragOverHandler(DragEvent event) {
 		double x = event.getX();
 		double y = event.getY();
-
 		int colIndex = (int) (myMapSize * x / myMapGrid.getWidth());
 		int rowIndex = (int) (myMapSize * y / myMapGrid.getHeight());
-		System.out.println("Map Size is " + myMapSize);
-		System.out.println(colIndex);
-		System.out.println(rowIndex);
 		Dragboard db = event.getDragboard();
-		TileData tdFromClipBoard = (TileData) db.getContent(DataFormat.lookupMimeType("TileData"));
-		TileData toedit = myMapData.getTileData(colIndex, rowIndex);
+		if (db.hasContent(DataFormat.lookupMimeType("TileData"))) {
+			TileData tdFromClipBoard = (TileData) db.getContent(DataFormat.lookupMimeType("TileData"));
+			TileData toedit = myMapData.getTileData(colIndex, rowIndex);
+			editTileDataFromClipboard(tdFromClipBoard, toedit);
+			myMapData.setTileData(toedit, colIndex, rowIndex);
+		} else if (db.hasContent(DataFormat.lookupMimeType("ObjectData"))) {
+			ObjectData receivedData = iObject.obtainSelectedObjectData();
+			receivedData.setSpawnPoint(x, y);
+			// Add to Spawner
+			// TODO
+			
+			String[][] imagePathArray = populateImagePathArray(colIndex, rowIndex);
+			new ObjectResizer(receivedData, imagePathArray);
+		}
+	}
+
+	private String[][] populateImagePathArray(int colIndex, int rowIndex) {
+		String[][] imagePathArray = new String[3][3];// [row][col]
+		for (int i = 0; i <= 2; i++) {
+			for (int j = 0; j <= 2; j++) {
+				try {
+					imagePathArray[i][j] = myMapData.getTileData(j + colIndex - 1, i + rowIndex - 1).getImagePath();
+				} catch (IndexOutOfBoundsException e) {
+					imagePathArray[i][j] = "scenery_white.png";
+				}
+			}
+		}
+		return imagePathArray;
+	}
+
+	private void editTileDataFromClipboard(TileData tdFromClipBoard, TileData toedit) {
 		setImplementation(toedit, tdFromClipBoard.getImplementation());
 		setImagePath(toedit, tdFromClipBoard.getImagePath());
 		setAsDestination(toedit, tdFromClipBoard.isDestination());
-		myMapData.setTileData(toedit, colIndex, rowIndex);
-		System.out.println(myMapData.getTileData(colIndex, rowIndex).getImagePath());
 	}
 
 	private void mouseOverHandler(TileData tile, boolean isControlDown, boolean isShiftDown) {

@@ -8,6 +8,7 @@ import java.util.Observer;
 
 import com.syntacticsugar.vooga.authoring.level.LevelTabManager;
 import com.syntacticsugar.vooga.authoring.library.ObjectLibraryManager;
+import com.syntacticsugar.vooga.authoring.objectediting.IObjectDataClipboard;
 import com.syntacticsugar.vooga.authoring.objectediting.ObjectEditor;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.menu.IVoogaApp;
@@ -51,9 +52,10 @@ public class AuthoringScreenManager implements Observer, IVoogaApp {
 	private ObjectEditor myObjectEditor;
 
 	public AuthoringScreenManager() {
-		myLevelEditor = new LevelTabManager();
 		myObjectLibraryManager = new ObjectLibraryManager();
 		myObjectEditor = new ObjectEditor(() -> myObjectLibraryManager.refresh());
+		IObjectDataClipboard iObject = myObjectEditor;
+		myLevelEditor = new LevelTabManager(iObject);
 		initWindow();
 	}
 

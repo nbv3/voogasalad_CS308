@@ -5,6 +5,7 @@ import java.util.Observable;
 import com.syntacticsugar.vooga.authoring.level.map.MapManager;
 import com.syntacticsugar.vooga.authoring.level.spawner.SpawnerManager;
 import com.syntacticsugar.vooga.authoring.level.towers.TowerManager;
+import com.syntacticsugar.vooga.authoring.objectediting.IObjectDataClipboard;
 import com.syntacticsugar.vooga.xml.data.LevelSettings;
 import com.syntacticsugar.vooga.xml.data.MapData;
 import com.syntacticsugar.vooga.xml.data.SpawnerData;
@@ -28,9 +29,8 @@ public class LevelEditor {
 	private TowerManager myTowerManager;
 	private LevelConditionManager myConditions;
 
-	public LevelEditor() throws Exception {
-
-		myMapManager = new MapManager();
+	public LevelEditor(IObjectDataClipboard clip) throws Exception {
+		myMapManager = new MapManager(clip);
 		mySpawnerManager = new SpawnerManager();
 		myTowerManager = new TowerManager();
 		myConditions = new LevelConditionManager();

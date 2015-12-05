@@ -3,6 +3,7 @@ package com.syntacticsugar.vooga.authoring.objectediting;
 import java.io.File;
 import java.util.Collections;
 
+import com.syntacticsugar.vooga.authoring.dragdrop.DragDropManager;
 import com.syntacticsugar.vooga.authoring.fluidmotion.FadeTransitionWizard;
 import com.syntacticsugar.vooga.authoring.fluidmotion.FluidGlassBall;
 import com.syntacticsugar.vooga.authoring.icon.Icon;
@@ -37,7 +38,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 
-public class ObjectEditor {
+public class ObjectEditor implements IObjectDataClipboard{
 
 	private GridPane myView;
 	private ObjectData currentData;
@@ -59,6 +60,12 @@ public class ObjectEditor {
 		myCollisionViewer = new CollisionViewer();
 		myRefresher = refresher;
 		buildView();
+		myIcon.setOnDragDetected(e->{
+			DragDropManager.createClipboard(
+					currentData,
+					myIcon.getImageView(),
+					e);
+		});
 	}
 
 	private void buildView() {
@@ -218,7 +225,7 @@ public class ObjectEditor {
 		myIcon = new Icon("scenery_gray.png");
 		SequentialTransition seq = new SequentialTransition(FadeTransitionWizard.fadeIn(myIcon, FluidGlassBall.getPreviewTilePulseDuration(), 0.7,1.0,1),
 				FadeTransitionWizard.fadeOut(myIcon, FluidGlassBall.getPreviewTilePulseDuration(), 1.0,0.7,1));
-		seq.setCycleCount(Integer.MAX_VALUE);
+			seq.setCycleCount(Integer.MAX_VALUE);
 		seq.play();
 		Button button = GUIFactory.buildButton("Select Image", e -> selectImage(), null, null);
 		grid.getChildren().addAll(button, myIcon);
@@ -293,5 +300,10 @@ public class ObjectEditor {
 
 	public void setSaveButtonViability(boolean flag) {
 		mySaveButton.setDisable(!flag);
+	}
+
+	@Override
+	public ObjectData obtainSelectedObjectData() {
+			return currentData;
 	}
 }
