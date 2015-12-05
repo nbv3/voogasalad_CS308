@@ -10,9 +10,9 @@ public class CompressorTest {
 		
 		String inputString = readFile(selectedFile);
 		System.out.printf("%30s: %8d\n", "Input string size", inputString.length());
-		byte[] compressed = Compressor.compress(inputString);
-		System.out.printf("%30s: %8d\n", "Compressed string size", compressed.length);
-		String uncompressed = Compressor.uncompress(compressed);
+		String compressed = Compressor.compress(inputString);
+		System.out.printf("%30s: %8d\n", "Compressed string size", compressed.length());
+		String uncompressed = Compressor.decompress(compressed);
 		System.out.printf("%30s: %8d\n", "Uncompressed string size", uncompressed.length());
 		System.out.printf("%30s: %8b\n", "Equal", inputString.equals(uncompressed));
 	}
