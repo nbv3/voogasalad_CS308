@@ -21,12 +21,16 @@ public class MainMenu {
 	private Stage myStage;
 	private Scene myScene;
 	private PropertiesManager myPropertiesManager;
+	
+
 
 	public MainMenu() {
+		
+		
 		myPropertiesManager = new PropertiesManager("com/syntacticsugar/vooga/resources/View");
 		myStage = new Stage();
 		myStage.setTitle(myPropertiesManager.getProperty("WindowTitle"));
-		
+
 		Parent scenenode = buildView();
 		myScene = new Scene(scenenode);
 
@@ -38,7 +42,7 @@ public class MainMenu {
 		BorderPane pane = initializePane();
 		initializeOptions(pane);
 		return pane;
-		
+
 	}
 
 	private void initializeOptions(BorderPane pane) {
@@ -48,12 +52,13 @@ public class MainMenu {
 		VBox box = new VBox(10);
 		box.getChildren().addAll(launchGame, launchEditor, launchSocial, new HBox());
 		box.setMaxWidth(myPropertiesManager.getDoubleProperty("ButtonWidth"));
-		BorderPane.setAlignment(box, Pos.CENTER);;
+		BorderPane.setAlignment(box, Pos.CENTER);
+		;
 		pane.setCenter(box);
 	}
 
 	private BorderPane initializePane() {
-		BorderPane pane =  new BorderPane();
+		BorderPane pane = new BorderPane();
 		pane.setPrefWidth(myPropertiesManager.getDoubleProperty("DefaultWidth"));
 		pane.getStylesheets().add("/com/syntacticsugar/vooga/gameplayer/css/menu.css");
 		Label title = new Label(myPropertiesManager.getProperty("ProgramTitle"));

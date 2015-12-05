@@ -168,7 +168,7 @@ public class GameManager implements IGameManager{
 		} 
 		else if (code.equals(KeyCode.S)) {
 			saveGame();
-		}
+		} 
 		else {
 			myGameEngine.receiveKeyPressed(code);
 		}

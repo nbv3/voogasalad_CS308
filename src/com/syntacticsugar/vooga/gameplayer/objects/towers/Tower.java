@@ -4,8 +4,8 @@ import com.syntacticsugar.vooga.gameplayer.objects.GameObject;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
 
 public class Tower extends GameObject implements ITower {
-
-	public Tower(ObjectData data) {
+	
+	public Tower(ObjectData data,double cost) {
 		super(data);
 	}
 

@@ -86,18 +86,15 @@ public class SceneManager {
 
 	public void launchSocialCenter() {
 		myStage.hide();
-		//new SocialCenter(e -> launchFirstMenu());
 	}
 
 	public void launchNewEditor() {
 		myStage.hide();
-		//new AuthoringScreenManager(e -> launchFirstMenu());
 	}
 
 	public void launchLoadEditor() {
 		// TODO load from XML here or within GameManager?
 		myStage.hide();
-		//new AuthoringScreenManager(e -> launchFirstMenu());
 	}
 
 	public void launchNewEngine() {
