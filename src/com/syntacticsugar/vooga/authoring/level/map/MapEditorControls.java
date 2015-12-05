@@ -82,7 +82,7 @@ public class MapEditorControls{
 		destinationWrapper = new Label("AI Destination: ");
 		destinationWrapper.setGraphic(destinationChooser);
 		destinationWrapper.setContentDisplay(ContentDisplay.RIGHT); //You can choose RIGHT,LEFT,TOP,BOTTOM
-		
+
 		addNewImage = 
 				GUIFactory.buildButton("Add New Image", 
 						e -> createNewImage(),

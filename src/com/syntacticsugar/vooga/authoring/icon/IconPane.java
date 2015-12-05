@@ -5,10 +5,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.syntacticsugar.vooga.authoring.dragdrop.DragDropManager;
 import com.syntacticsugar.vooga.authoring.objectediting.IVisualElement;
-import com.syntacticsugar.vooga.xml.data.ObjectData;
-import com.syntacticsugar.vooga.xml.data.TileImplementation;
 import com.syntacticsugar.vooga.util.dirview.IConverter;
 import com.syntacticsugar.vooga.util.dirview.IDirectoryViewer;
 import javafx.beans.property.ObjectProperty;
@@ -50,19 +47,21 @@ public class IconPane implements IVisualElement, IDirectoryViewer<String> {
 		myScrollPane.setVbarPolicy(ScrollBarPolicy.AS_NEEDED);
 		myScrollPane.setHbarPolicy(ScrollBarPolicy.AS_NEEDED);
 		myScrollPane.setFitToWidth(true);
-		initializeGridPane();
+		myIconPane = new TilePane();
 		myScrollPane.setPadding(new Insets(INSET_VALUE));
+		clearIconPane();
+		initializeGridPane();
 	}
 	public void addPreviewListener(ChangeListener<ImageView> event){
 		mySelectedIcon.addListener(event);
 	}
 	private void initializeGridPane() {
-		myIconPane = new TilePane();
 		myIconPane.setPrefColumns(NUM_COLS);
 		myIconPane.setHgap(INSET_VALUE);
 		myIconPane.setVgap(INSET_VALUE);
 		myScrollPane.setContent(myIconPane);
 		myIconPane.maxWidthProperty().set(myScrollPane.viewportBoundsProperty().get().getWidth());
+
 	}
 
 	@Override
@@ -74,7 +73,7 @@ public class IconPane implements IVisualElement, IDirectoryViewer<String> {
 			ImageView iv = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(path)));
 			iv.fitWidthProperty().bind(myIconPane.maxWidthProperty().divide(NUM_COLS).subtract(INSET_VALUE));
 			iv.fitHeightProperty().bind(iv.fitWidthProperty());
-			iv.setOnMouseClicked(e -> setSelectedIcon(iv));
+			iv.setOnMouseClicked(e -> setSelectedImageView(iv));
 			myIconPane.getChildren().add(iv);
 			myImagePaths.put(iv, path);
 		}
@@ -115,7 +114,7 @@ public class IconPane implements IVisualElement, IDirectoryViewer<String> {
 		newIv.setEffect(new Glow(GLOW_PERCENTAGE));
 	}
 
-	private void setSelectedIcon(ImageView iv) {
+	private void setSelectedImageView(ImageView iv) {
 		mySelectedIcon.set(iv);
 	}
 
