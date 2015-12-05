@@ -6,6 +6,9 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -25,11 +28,13 @@ import javafx.stage.FileChooser.ExtensionFilter;
 public class ObjectDataViewer extends ListViewer {
 
 	private int mySelectedItemID = Integer.MIN_VALUE;
+	private Map<String, String> myProperties;
 
 	public ObjectDataViewer() {
 		super();
 		myView = makeMyViewer("Information:");
 		myView.prefHeight(250);
+		myProperties = new HashMap<String, String>();
 	}
 
 	private Node makeMyViewer(String viewerTitle) {
@@ -49,9 +54,11 @@ public class ObjectDataViewer extends ListViewer {
 			
 			while(object.keys().hasNext()){
 				String key = (String) object.keys().next();
-				Node listElement = makeListElement(key, object.get(key).toString());
+				String value = object.get(key).toString();
+				Node listElement = makeListElement(key, value);
 				object.remove(key);
 				addElementToList(listElement);
+				myProperties.put(key, value);
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
@@ -59,23 +66,7 @@ public class ObjectDataViewer extends ListViewer {
 	}
 
 	private JSONObject getJSONObject(int id) {
-
-		JSONObject XMLs = WebConnector.getXMLs();
-		JSONArray array;
-		try {
-			array = XMLs.getJSONArray("xmls");
-			System.out.println(array.toString());
-			for (int i = 0; i < array.length(); i++) {
-				JSONObject current = (JSONObject) array.get(i);
-				if ((int) current.get("id") == id) {
-					System.out.println(current.toString());
-					return current;
-				}
-			}
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		return new JSONObject();
+		return WebConnector.getJSONObject(id);	
 	}
 
 	private Node makeListElement(String key, String value) {
