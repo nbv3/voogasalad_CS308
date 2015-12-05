@@ -27,9 +27,9 @@ import javafx.scene.layout.VBox;
 public class XMLViewer extends ListViewer {
 
 	private int mySelectedItemID = Integer.MIN_VALUE;
-	private IUpdater myUpdater;
+	private IDataViewUpdater myUpdater;
 
-	public XMLViewer(IUpdater updater){
+	public XMLViewer(IDataViewUpdater updater){
 		super();
 		myUpdater = updater;
 		myView = (VBox) makeMyViewer("Downloadable Games");
