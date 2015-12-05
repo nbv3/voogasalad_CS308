@@ -167,7 +167,7 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 		Collection<UniverseData> uni = new ArrayList<>();
 		uni.add(generateTestUni());
 		uni.add(generateTestUni());
-		GlobalSettings settings = new GlobalSettings(1, 60);
+		GlobalSettings settings = new GlobalSettings();
 		GameData data = new GameData(uni, settings);
 
 		return data;
