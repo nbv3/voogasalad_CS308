@@ -15,7 +15,6 @@ import com.syntacticsugar.vooga.xml.data.MapData;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
 
 import javafx.event.EventHandler;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -81,6 +80,12 @@ public class AuthoringScreenManager implements Observer, IVoogaApp {
 		for (int i = 0; i < myLevelEditor.getLevels().size(); i++) {
 			myLevelEditor.getLevels().get(i).getTowerControls().addObserver(this);
 			myLevelEditor.getLevels().get(i).getSpawnerControls().addObserver(this);
+
+		}
+
+		for (int i = 0; i < myObjectLibraryManager.getLibraries().size(); i++) {
+			myObjectLibraryManager.getLibraries().get(i).addObserver(this);
+
 		}
 	}
 
