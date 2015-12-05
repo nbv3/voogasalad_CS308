@@ -57,6 +57,8 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 	private ListView<String> myView;
 	private Map<String, GameData> stringToGameData;
 	private Scene myScene;
+	private GameData selectedGameData;
+	private Button startButton;
 
 	public GameChooser() {
 		myPropertiesManager = new PropertiesManager("com/syntacticsugar/vooga/resources/View");
@@ -65,28 +67,31 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 		GAME_SIZE = myPropertiesManager.getDoubleProperty("DefaultGameSize");
 		TITLE = myPropertiesManager.getProperty("WindowTitle");
 		FRAME_LENGTH = 1.0 / myPropertiesManager.getDoubleProperty("FrameLength");
-		
+
 		myStage = new Stage();
 		myGameNames = FXCollections.observableArrayList();
 		showDirectoryContents(myDirectory, e -> getGameDescriptions(myDirectory));
 		myView = new ListView<String>(myGameNames);
-		
-		
-		buildScene();
-		myScene = new Scene(myView);
+		myView.setOnMouseClicked(e -> startButton.setDisable(false));
+		myView.getItems().add("HEY BITCH");
+		myView.getItems().add("LOLCANO");
+
+		myScene = new Scene(buildScene());
 		myStage.setScene(myScene);
 		myStage.show();
-		launchNewEngine();
+
 	}
 
-	private void buildScene() {
+	private VBox buildScene() {
 		VBox box = new VBox();
-//		Button startGame = createButton("Start", e -> retrieveDataOnClick())
-		
+		startButton = createButton("Start", e -> startGame());
+		startButton.setDisable(true);
+		box.getChildren().addAll(myView, startButton);
+		return box;
 	}
-	
-	private GameData retrieveDataOnClick(){
-		return null;
+
+	private void startGame() {
+		System.out.println("YO");
 	}
 
 	private void launchGame(IVoogaApp app) {
@@ -117,12 +122,11 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 			names.add(gamename);
 			stringToGameData.put(gamename, data);
 		}
-		
+
 		return names;
 
 	}
-	
-	
+
 	private Button createButton(String name, EventHandler<ActionEvent> onAction) {
 		Button button = new Button(name);
 		button.setFont(new Font(30));
@@ -130,13 +134,18 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 		button.setOnAction(onAction);
 		return button;
 	}
-	
+
+	/**
+	 * 
+	 * @return
+	 */
+
 	public void launchNewEngine() {
 		GameData data = makeEmptyData();
 		myStage.hide();
 		new GameManager(null, GAME_SIZE, data, FRAME_LENGTH);
 	}
-	
+
 	private GameData makeEmptyData() {
 
 		Collection<ObjectData> odata = new ArrayList<>();
@@ -228,7 +237,5 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 
 		return data;
 	}
-	
-	
 
 }
