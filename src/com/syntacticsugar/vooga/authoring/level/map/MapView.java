@@ -36,17 +36,16 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 
 public class MapView implements IMapDisplay, IVisualElement {
-	
+
 	private static final Effect TILE_EFFECT = createEffect();
 	private static final String DEFAULT_TILE_IMAGE = "scenery_gray.png";
-	
+
 	private static Effect createEffect() {
 		InnerShadow shadow = new InnerShadow();
 		shadow.setColor(Color.RED);
 		return shadow;
 	}
-	
-	
+
 	private ObservableSet<TileData> myTileSelection;
 	private Map<TileData, Icon> myTileIconMap;
 	private MapData myMapData;
@@ -55,7 +54,7 @@ public class MapView implements IMapDisplay, IVisualElement {
 	private TitledPane myViewPane;
 	private double iconWidth;
 	private double iconHeight;
-	
+
 	public MapView() throws Exception {
 		myMapSize = inputMapSize();
 		myTileSelection = buildSelectionSet();
@@ -63,11 +62,10 @@ public class MapView implements IMapDisplay, IVisualElement {
 		myMapGrid = new GridPane();
 		myTileIconMap = new HashMap<>();
 		initializeMapView(myMapData);
-		
+
 		myViewPane = GUIFactory.buildTitledPane("Map Display", myMapGrid);
 	}
 
-	
 	@Override
 	public void displayData(TileData newData) {
 		if (newData == null)
@@ -88,25 +86,25 @@ public class MapView implements IMapDisplay, IVisualElement {
 	}
 
 	/**
-	 * Should not be used 
+	 * Should not be used
 	 */
 	@Deprecated
 	@Override
 	public TileData getData() {
 		return null;
 	}
-	
+
 	@Override
 	public void selectAllTiles() {
 		myTileSelection.clear();
 		myTileSelection.addAll(myMapData.getTiles());
 	}
-	
+
 	@Override
 	public Node getView() {
 		return myViewPane;
 	}
-	
+
 	public void loadMapData(MapData loadedMap) {
 		myTileSelection = buildSelectionSet();
 		myTileIconMap = new HashMap<>();
@@ -115,11 +113,11 @@ public class MapView implements IMapDisplay, IVisualElement {
 		initializeMapView(myMapData);
 		System.out.println("LOADIDNGINGING");
 	}
-	
+
 	public MapData getMapData() {
 		return myMapData;
 	}
-	
+
 	private ObservableSet<TileData> buildSelectionSet() {
 		ObservableSet<TileData> set = FXCollections.observableSet();
 		set.addListener(new SetChangeListener<TileData>() {
@@ -134,7 +132,7 @@ public class MapView implements IMapDisplay, IVisualElement {
 		});
 		return set;
 	}
-	
+
 	private int inputMapSize() throws Exception {
 		double size = SliderDialogFactory.createSliderDialog("Input Map Size", 10, 40, 1);
 		if (size == Double.MIN_VALUE) {
@@ -142,11 +140,11 @@ public class MapView implements IMapDisplay, IVisualElement {
 		}
 		return (int) size;
 	}
-	
+
 	private void initializeMapView(MapData mapData) {
 		myMapGrid.getChildren().clear();
-		for (int i=0; i<myMapSize; i++) {
-			for (int j=0; j<myMapSize; j++) {
+		for (int i = 0; i < myMapSize; i++) {
+			for (int j = 0; j < myMapSize; j++) {
 				TileData tile = mapData.getTileData(i, j);
 				Icon icon = new Icon(tile.getImagePath());
 				myTileIconMap.put(tile, icon);
@@ -154,26 +152,26 @@ public class MapView implements IMapDisplay, IVisualElement {
 				icon.setOnMouseEntered(e -> mouseOverHandler(tile, e.isControlDown(), e.isShiftDown()));
 				icon.setOnMouseClicked(e -> mouseClickHandler(tile));
 				icon.setOnDragOver((DragEvent event) -> DragDropManager.dragOverHandler(event));
-				icon.setOnDragEntered((DragEvent event) -> DragDropManager.dragEnteredHandler(icon, event)); 
+				icon.setOnDragEntered((DragEvent event) -> DragDropManager.dragEnteredHandler(icon, event));
 				icon.setOnDragExited((DragEvent event) -> DragDropManager.dragExitedHandler(icon, event));
 				myMapGrid.add(icon, i, j, 1, 1);
-				myMapGrid.setOnDragDropped(e->{
-					returnDragOverIcon(e,mapData);
-					System.out.println(e.getX() +", " + e.getY());
-					System.out.println("Map Grid width is " +myMapGrid.getWidth());
-					System.out.println("Map Grid height is " +myMapGrid.getHeight());
-					
+				myMapGrid.setOnDragDropped(e -> {
+					returnDragOverIcon(e, mapData);
+					System.out.println(e.getX() + ", " + e.getY());
+					System.out.println("Map Grid width is " + myMapGrid.getWidth());
+					System.out.println("Map Grid height is " + myMapGrid.getHeight());
+
 				});
 			}
 		}
 	}
-	
-	private void returnDragOverIcon(DragEvent event, MapData mapData){
+
+	private void returnDragOverIcon(DragEvent event, MapData mapData) {
 		double x = event.getX();
 		double y = event.getY();
-		
-		int colIndex =  (int) (myMapSize*x/myMapGrid.getWidth());
-		int rowIndex =  (int) (myMapSize*y/myMapGrid.getHeight());
+
+		int colIndex = (int) (myMapSize * x / myMapGrid.getWidth());
+		int rowIndex = (int) (myMapSize * y / myMapGrid.getHeight());
 		System.out.println("Map Size is " + myMapSize);
 		System.out.println(colIndex);
 		System.out.println(rowIndex);
@@ -181,12 +179,12 @@ public class MapView implements IMapDisplay, IVisualElement {
 		TileData tdFromClipBoard = (TileData) db.getContent(DataFormat.lookupMimeType("TileData"));
 		TileData toedit = myMapData.getTileData(colIndex, rowIndex);
 		setImplementation(toedit, tdFromClipBoard.getImplementation());
-		setImagePath(toedit,  tdFromClipBoard.getImagePath());
+		setImagePath(toedit, tdFromClipBoard.getImagePath());
 		setAsDestination(toedit, tdFromClipBoard.isDestination());
 		myMapData.setTileData(toedit, colIndex, rowIndex);
 		System.out.println(myMapData.getTileData(colIndex, rowIndex).getImagePath());
 	}
-	
+
 	private void mouseOverHandler(TileData tile, boolean isControlDown, boolean isShiftDown) {
 		multiSelectTile(tile, isControlDown, isShiftDown);
 	}
@@ -194,19 +192,18 @@ public class MapView implements IMapDisplay, IVisualElement {
 	private void mouseClickHandler(TileData tile) {
 		toggleTileSelection(tile);
 	}
-	
+
 	private void multiSelectTile(TileData tile, boolean isControlDown, boolean isShiftDown) {
 		if (isControlDown) {
 			myTileSelection.add(tile);
-		}
-		else if (isShiftDown) {
+		} else if (isShiftDown) {
 			myTileSelection.remove(tile);
 		}
 	}
-	
+
 	private void toggleTileSelection(TileData tile) {
 		if (myTileSelection.contains(tile))
-				myTileSelection.remove(tile);
+			myTileSelection.remove(tile);
 		else
 			myTileSelection.add(tile);
 	}
@@ -221,9 +218,11 @@ public class MapView implements IMapDisplay, IVisualElement {
 
 	/**
 	 * Check the TileData in question to see if it's Scenery or Path. If Path,
-	 * then we are able to set the destination marker and return false (no need to show
-	 * an alert). If the TileData is of type Scenery, then we return true without changing
-	 * the TileData to allow the calling method to show the appropriate error alert.
+	 * then we are able to set the destination marker and return false (no need
+	 * to show an alert). If the TileData is of type Scenery, then we return
+	 * true without changing the TileData to allow the calling method to show
+	 * the appropriate error alert.
+	 * 
 	 * @param toChange
 	 * @param isDestination
 	 * @return
@@ -231,8 +230,7 @@ public class MapView implements IMapDisplay, IVisualElement {
 	private boolean setAsDestination(TileData toChange, boolean isDestination) {
 		if (toChange.getImplementation().equals(TileImplementation.Scenery) && isDestination) {
 			return true;
-		}
-		else {
+		} else {
 			toChange.setDestination(isDestination);
 			return false;
 		}

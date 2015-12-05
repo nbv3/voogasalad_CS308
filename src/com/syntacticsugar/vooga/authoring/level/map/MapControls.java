@@ -97,7 +97,7 @@ public class MapControls extends Observable implements IVisualElement {
 	}
 
 	private void initPreviewDragHandler(TileData tileData) {
-		previewTile.setOnDragDetected(event -> DragDropManager.createTileClipboard(
+		previewTile.setOnDragDetected(event -> DragDropManager.createClipboard(
 												tileData,
 												previewTile,
 												event));

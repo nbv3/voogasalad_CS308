@@ -33,9 +33,10 @@ public class DragDropManager {
 
 	public DragDropManager() {
 
-	}
-	
-	public static void createTileClipboard(TileData tileData, ImageView previewTile, MouseEvent event) {
+		}
+		
+
+	public static void createClipboard(TileData tileData, ImageView previewTile, MouseEvent event) {
 		Dragboard db = previewTile.startDragAndDrop(TransferMode.ANY);
 		System.out.println("Dragboard and Clipboard created");
 		ClipboardContent content = new ClipboardContent();
@@ -44,13 +45,13 @@ public class DragDropManager {
 		event.consume();
 	}
 	
-	public static void createObjectClipboard(Icon icon){
-//		Dragboard db = icon.startDragAndDrop(TransferMode.ANY);
-		//System.out.println("Dragboard and Clipboard created");
-//		ClipboardContent content = new ClipboardContent();
-//		ObjectClippableItem clippableObject = new ObjectClippableItem();
-//		clippableObject.setImagePath(icon.getImagePath());
-//		clippableObject.setObjectData(objectData);
+	public static void createClipboard(ObjectData objectData, ImageView previewTile, MouseEvent event){
+		Dragboard db = previewTile.startDragAndDrop(TransferMode.ANY);
+		System.out.println("Dragboard and Clipboard created");
+		ClipboardContent content = new ClipboardContent();
+		content.put(objectDataFormat, objectData);
+		db.setContent(content); 
+		event.consume();
 	}
 	
 	public static void dragOverHandler(DragEvent event) {
