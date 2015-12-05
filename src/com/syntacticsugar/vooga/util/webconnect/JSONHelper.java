@@ -44,6 +44,8 @@ public class JSONHelper {
 	public static JSONObject modifyJSON(int id, String key, String newValue) throws JSONException{
 		JSONObject obj = WebConnector.getJSONObject(id);
 		obj.put(key, newValue);
+		WebConnector.deleteXML(id);
+		WebConnector.postXML(obj);
 		return obj;
 	}
 	

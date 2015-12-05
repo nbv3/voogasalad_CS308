@@ -16,7 +16,12 @@ import org.json.JSONObject;
 import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
+import com.syntacticsugar.vooga.util.webconnect.JSONHelper;
 import com.syntacticsugar.vooga.util.webconnect.WebConnector;
+import com.syntacticsugar.vooga.xml.XMLHandler;
+
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
@@ -29,20 +34,40 @@ public class ObjectDataViewer extends ListViewer {
 
 	private int mySelectedItemID = Integer.MIN_VALUE;
 	private Map<String, String> myProperties;
+	//private ICommentsUpdater myCommentUpdater;
+	private CommentViewer myCommentBox;
 
 	public ObjectDataViewer() {
 		super();
 		myView = makeMyViewer("Information:");
 		myView.prefHeight(250);
 		myProperties = new HashMap<String, String>();
+	/*	myCommentBox = new CommentViewer(new IComments(){
+			@Override
+			public String getSerializedComments(String gameName) {
+				return getComments();
+			}
+			@Override
+			public String getGameName() {
+				return getSelectedGameName();
+			}
+			@Override
+			public int getGameID() {
+				return getSelectedID();
+			}
+			@Override
+			public void updateData() {
+				update(mySelectedItemID);
+			}
+		});	*/
 	}
 
 	private Node makeMyViewer(String viewerTitle) {
 		VBox view = GUIFactory.buildTitledPane(makeContentBox(), viewerTitle);
 		view.setPrefWidth(350);
 		VBox buttons = new VBox();
-		buttons.getChildren().addAll(GUIFactory.buildButton("Download", e -> {
-		} , 100.0, null), GUIFactory.buildButton("Upload", e -> {
+		buttons.getChildren().addAll(GUIFactory.buildButton("Upload", e -> {uploadItem();
+		} , 100.0, null), GUIFactory.buildButton("Download", e -> {downloadSelectedItem();
 		} , 100.0, null));
 		HBox viewAndButtons = new HBox(view,buttons);
 		return viewAndButtons;
@@ -57,10 +82,11 @@ public class ObjectDataViewer extends ListViewer {
 				String value = object.get(key).toString();
 				Node listElement = makeListElement(key, value);
 				object.remove(key);
-				addElementToList(listElement);
+				//if (!key.equals("comments")) 
+					addElementToList(listElement);
 				myProperties.put(key, value);
 			}
-		} catch (JSONException e) {
+			} catch (JSONException e) {
 			e.printStackTrace();
 		}
 	}
@@ -75,36 +101,53 @@ public class ObjectDataViewer extends ListViewer {
 		return GUIFactory.buildAnchorPane(keyNode, valueNode);
 	}
 
+	private void uploadItem() {
+		makeUploadFileChooser();
+	}
+
 	private void downloadSelectedItem() {
-		int id = mySelectedItemID;
-		if (id == Integer.MIN_VALUE) {
+		if (mySelectedItemID == Integer.MIN_VALUE)
 			return;
+
+		else {
+			FileChooser chooser = new FileChooser();
+			chooser.setInitialFileName(".xml");
+			File selectedFile = chooser.showSaveDialog(new Stage());
+			if (selectedFile != null) {
+
+				XMLHandler.writeXMLToFile(JSONHelper.extractXML(WebConnector.getXML(mySelectedItemID)),
+						selectedFile.toPath().toString());
+
+			}
 		}
 	}
 
-	private void makePopupFileChooser() {
+	private void makeUploadFileChooser(){//EventHandler<ActionEvent> action) {
 		FileChooser chooser = new FileChooser();
 		chooser.setTitle("Choose an XML file.");
 		chooser.getExtensionFilters().add(new ExtensionFilter("Image Files", "*.xml", "*.XML"));
 		File selectedFile = chooser.showOpenDialog(new Stage());
-		/*if (selectedFile != null) {
-			try {
-				String path = ResourceManager.getString(String.format("%s%s", mySelectedType, "_images"));
-				Files.copy(selectedFile.toPath(),
-						(new File(path + "/" + mySelectedType.toString().toLowerCase() + "_" + selectedFile.getName()))
-								.toPath(),
-						StandardCopyOption.REPLACE_EXISTING);
-			} catch (IOException e) {
-				AlertBoxFactory.createObject("Image already exists. Please select another.");
-			}
-			
-		}*/
+		if (selectedFile != null) {
+			WebConnector.postXML(JSONHelper.createJSON("Michael", "Tetris", "tetris", XMLHandler.fileToString(selectedFile), ""));
+		}
 	}
 	
 
 	public void update(int id) {
 		populateList(getJSONObject(id));
 		mySelectedItemID = id;
+	}
+	
+	private int getSelectedID(){
+		return mySelectedItemID;
+	}
+	
+	private String getSelectedGameName(){
+		return myProperties.get("gamename");
+	}
+	
+	private String getComments(){
+		return myProperties.get("comments");
 	}
 
 }
