@@ -56,27 +56,42 @@ public class GameUniverse implements IGameUniverse {
 
 	private IEventManager myPoster;
 
-	public GameUniverse(UniverseData data, GlobalSettings settings, IEventManager manager) {
+	public GameUniverse(UniverseData data, GlobalSettings settings) {
 
-		myPoster = manager;
-		myScore = new Score(manager, data.getSettings());
-		myConditions = new Conditions(manager);
+		myScore = new Score(data.getSettings());
+		
+		// Needs event manager
+		myConditions = new Conditions();
+		
 		myGameObjects = new ArrayList<IGameObject>();
 		myGameMap = new GameMap(data.getMap());
-		mySpawner = new Spawner(data.getSpawns().getWaves(), this, data.getSettings().getSpawnRate());
+
+		mySpawner = new Spawner(data.getSpawns().getWaves(), data.getSettings().getSpawnRate());
+		
 		myTowers = new ArrayList<>();
 		Collection<ObjectData> towerdata = data.getTowers().getTowers();
 		for (ObjectData d : towerdata) {
 			myTowers.add(new Tower(d));
 		}
-		myGraveYard = new GraveYard(this, manager);
-		mySpawnYard = new SpawnYard(this, manager);
+		// Need event managers
+		myGraveYard = new GraveYard(this);
+		mySpawnYard = new SpawnYard(this);
 		myCurrentInput = new ArrayList<KeyCode>();
 		
 		//DEBUG
 		myConditions.addCondition(new PlayerDeathCondition());
 //		myConditions.addCondition(new EnemyDeathCondition(3));
 		//testTower();
+		
+	}
+
+	public void registerListeners(IEventManager manager) {
+		myConditions.registerEventManager(manager);
+		mySpawner.registerEventManager(manager);
+		myGraveYard.registerEventManager(manager);
+		mySpawnYard.registerEventManager(manager);
+		myPoster = manager;
+		
 	}
 
 	@Override
@@ -172,7 +187,7 @@ public class GameUniverse implements IGameUniverse {
 		SpawnerData spawn = mySpawner.saveGame();
 		TowerData towers = saveTowers();
 		MapData map = new MapData(myGameMap);
-		LevelSettings settings = new LevelSettings(myScore.getScoreThreshold(), mySpawner.getSpawnRate());
+		LevelSettings settings = new LevelSettings(mySpawner.getSpawnRate());
 		UniverseData data = new UniverseData(spawn, towers, map, settings);
 		return data;
 	}

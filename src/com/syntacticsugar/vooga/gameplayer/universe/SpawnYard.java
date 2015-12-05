@@ -8,17 +8,23 @@ import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.ObjectSpawnEvent;
 import com.syntacticsugar.vooga.gameplayer.manager.IEventManager;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
+import com.syntacticsugar.vooga.gameplayer.universe.score.IEventListener;
 import com.syntacticsugar.vooga.gameplayer.view.IViewAdder;
 
-public class SpawnYard implements IYard<IViewAdder>, GameEventListener{
+public class SpawnYard implements IYard<IViewAdder>, GameEventListener, IEventListener {
 
 	private Collection<IGameObject> objectsInYard;
 	private IObjectAdder myUniverse;
 
-	public SpawnYard(IObjectAdder universe, IEventManager manager) {
+	public SpawnYard(IObjectAdder universe) {
 		objectsInYard = new ArrayList<IGameObject>();
 		myUniverse = universe;
-		manager.registerListener(this);
+	}
+
+	@Override
+	public void registerEventManager(IEventManager eventmanager) {
+		eventmanager.registerListener(this);
+
 	}
 
 	@Override
@@ -40,9 +46,8 @@ public class SpawnYard implements IYard<IViewAdder>, GameEventListener{
 		try {
 			ObjectSpawnEvent event = (ObjectSpawnEvent) e;
 			addToYard(event.getObj());
-		}
-		catch (Exception ex){
-			
+		} catch (Exception ex) {
+
 		}
 	}
 

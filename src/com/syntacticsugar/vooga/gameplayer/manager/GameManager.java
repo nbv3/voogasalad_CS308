@@ -66,12 +66,12 @@ public class GameManager implements IGameManager{
 		myEventManager = new EventManager();
 		myEventManager.registerListener(this);
 
-		myGame = new Game(data, myEventManager);
+		myGame = new Game(data);
 		currentLevel = myGame.getLevel(1);
 
 		myViewController = new GameViewController(gameSize);
 		myViewController.displayLevel(currentLevel);
-		
+		currentLevel.registerListeners(myEventManager);
 		myGameEngine = new GameEngine(currentLevel, myViewController);
 
 		stageInit();
@@ -121,9 +121,13 @@ public class GameManager implements IGameManager{
 	private void nextLevel(){
 		currentLevel = myGame.nextLevel();
 		myViewController.displayLevel(currentLevel);
+		myEventManager = new EventManager();
+		myEventManager.registerListener(this);
+		currentLevel.registerListeners(myEventManager);
 		myGameEngine = new GameEngine(currentLevel, myViewController);
 		//myGameTimeline.stop();
 		initializeAnimation(frameLength);
+		System.out.println("HERRRRRR");
 	}
 
 	public void receiveKeyPressed(KeyCode code) {
@@ -169,7 +173,6 @@ public class GameManager implements IGameManager{
 			LevelChangeEvent event = (LevelChangeEvent) e;
 			System.out.println("LEVEL SWITCH");
 			switchLevel(event.getLevelConditionType());
-			pause();
 		}
 		catch (ClassCastException ex) {
 			
