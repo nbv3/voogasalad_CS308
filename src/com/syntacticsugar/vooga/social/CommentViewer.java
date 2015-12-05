@@ -41,25 +41,24 @@ public class CommentViewer extends ListViewer {
 	}
 
 	private static String serializeList(List<Pair<String, String>> commentList) throws Exception {
-		
-			FileOutputStream fileOut = new FileOutputStream("/tmp/comments.ser");
-			ObjectOutputStream out = new ObjectOutputStream(fileOut);
-			out.writeObject(commentList);
-			String string = new String();
-			
-			System.out.println(out.toString());
-			fileOut.close();
-			return string;
-			
+		 String serializedObject;
+		 ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
+	     ObjectOutputStream outputStream = new ObjectOutputStream(byteStream);
+	     outputStream.writeObject(commentList);
+	     outputStream.flush();
+	     serializedObject = byteStream.toString("ISO-8859-1");
+	   
+
+	     
+	     return serializedObject;
 	}
 
-	private static List<Pair<String, String>> deserializeList() throws Exception {
+	private static List<Pair<String, String>> deserializeList(String serialized) throws Exception {
+		  byte b[] = serialized.getBytes("ISO-8859-1");
+		  ByteArrayInputStream byteStream = new ByteArrayInputStream(b);
+		  ObjectInputStream inputStream = new ObjectInputStream(byteStream);
+		  List<Pair<String, String>> deserialized = (List<Pair<String, String>>) inputStream.readObject();
 
-		InputStream file = new FileInputStream("/tmp/comments.ser");
-		InputStream buffer = new BufferedInputStream(file);
-		ObjectInput input = new ObjectInputStream(buffer);
-
-		List<Pair<String, String>> deserialized = (List<Pair<String, String>>) input.readObject();
 		for (Pair<String, String> pair : deserialized) {
 			System.out.println("name: " + pair.getKey() + ", " + "comment: " + pair.getValue());
 		}
@@ -72,8 +71,8 @@ public class CommentViewer extends ListViewer {
 		Pair<String, String> pair = new Pair<String, String>("michael", "hello");
 		list.add(pair);
 
-		serializeList(list);
-		deserializeList();
+		
+		deserializeList(serializeList(list));
 
 	}
 }
