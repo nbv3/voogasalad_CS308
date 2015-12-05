@@ -113,6 +113,7 @@ public class MapView implements IMapDisplay, IVisualElement {
 		myMapData = loadedMap;
 		myMapSize = loadedMap.getMapSize();
 		initializeMapView(myMapData);
+		System.out.println("LOADIDNGINGING");
 	}
 	
 	public MapData getMapData() {
@@ -182,6 +183,8 @@ public class MapView implements IMapDisplay, IVisualElement {
 		setImplementation(toedit, tdFromClipBoard.getImplementation());
 		setImagePath(toedit,  tdFromClipBoard.getImagePath());
 		setAsDestination(toedit, tdFromClipBoard.isDestination());
+		myMapData.setTileData(toedit, colIndex, rowIndex);
+		System.out.println(myMapData.getTileData(colIndex, rowIndex).getImagePath());
 	}
 	
 	private void mouseOverHandler(TileData tile, boolean isControlDown, boolean isShiftDown) {

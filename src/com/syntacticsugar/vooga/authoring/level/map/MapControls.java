@@ -147,16 +147,16 @@ public class MapControls extends Observable implements IVisualElement {
 				FadeTransitionWizard.fadeOut(previewTile, FluidGlassBall.getPreviewTilePulseDuration(), 1.0,0.7,1));
 		seq.setCycleCount(Integer.MAX_VALUE);
 		seq.play();
-//		previewTile.setOnMouseEntered(e->{
-//			// Refactor constants and seqTrans
-//				seq.play();
-//		
-//		});
-//		previewTile.setOnMouseExited(e->{
-//			previewTile.setOpacity(1);
-//			seq.stop();
-//		});
-		//FadeTransitionWizard.fadeIn(previewTile, Duration.millis(150), 1).play();
+		previewTile.setOnMouseEntered(e->{
+			// Refactor constants and seqTrans
+				seq.play();
+		
+		});
+		previewTile.setOnMouseExited(e->{
+			previewTile.setOpacity(1);
+			seq.stop();
+		});
+		FadeTransitionWizard.fadeIn(previewTile, Duration.millis(150), 1).play();
 	}
 
 	private TileData initTileData() {
