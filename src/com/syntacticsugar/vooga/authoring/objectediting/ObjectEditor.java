@@ -3,6 +3,8 @@ package com.syntacticsugar.vooga.authoring.objectediting;
 import java.io.File;
 import java.util.Collections;
 
+import com.syntacticsugar.vooga.authoring.fluidmotion.FadeTransitionWizard;
+import com.syntacticsugar.vooga.authoring.fluidmotion.FluidGlassBall;
 import com.syntacticsugar.vooga.authoring.icon.Icon;
 import com.syntacticsugar.vooga.authoring.library.IRefresher;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
@@ -12,6 +14,7 @@ import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
 import com.syntacticsugar.vooga.xml.XMLHandler;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
 
+import javafx.animation.SequentialTransition;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -189,6 +192,10 @@ public class ObjectEditor {
 			//currentData.setImagePath(selectedFile.getName());
 			selectedImagePath = selectedFile.getName();
 			myIcon.setImage(new Image(getClass().getClassLoader().getResourceAsStream(selectedFile.getName())));
+			SequentialTransition seq = new SequentialTransition(FadeTransitionWizard.fadeIn(myIcon, FluidGlassBall.getPreviewTilePulseDuration(), 0.7,1.0,1),
+					FadeTransitionWizard.fadeOut(myIcon, FluidGlassBall.getPreviewTilePulseDuration(), 1.0,0.7,1));
+			seq.setCycleCount(Integer.MAX_VALUE);
+			seq.play();
 		}
 	}
 
@@ -212,6 +219,10 @@ public class ObjectEditor {
 		GridPane grid = new GridPane();
 		grid.setAlignment(Pos.CENTER);
 		myIcon = new Icon("scenery_gray.png");
+		SequentialTransition seq = new SequentialTransition(FadeTransitionWizard.fadeIn(myIcon, FluidGlassBall.getPreviewTilePulseDuration(), 0.7,1.0,1),
+				FadeTransitionWizard.fadeOut(myIcon, FluidGlassBall.getPreviewTilePulseDuration(), 1.0,0.7,1));
+		seq.setCycleCount(Integer.MAX_VALUE);
+		seq.play();
 		Button button = GUIFactory.buildButton("Select Image", e -> selectImage(), null, null);
 		grid.getChildren().addAll(button, myIcon);
 		GridPane.setConstraints(button, 0, 0, 1, 1);

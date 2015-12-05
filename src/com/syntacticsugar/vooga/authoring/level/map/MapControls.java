@@ -140,24 +140,23 @@ public class MapControls extends Observable implements IVisualElement {
 		TileData td = initTileData();
 		initPreviewDragHandler(td);
 		
-		FadeTransitionWizard.fadeOut(previewTile, Duration.millis(150), 1).play();
+		//FadeTransitionWizard.fadeOut(previewTile, Duration.millis(150), 1).play();
 		previewTile.setImage(new Image(getClass().getClassLoader().getResourceAsStream(myIconPane.getSelectedImagePath())));
 
 		SequentialTransition seq = new SequentialTransition(FadeTransitionWizard.fadeIn(previewTile, FluidGlassBall.getPreviewTilePulseDuration(), 0.7,1.0,1),
 				FadeTransitionWizard.fadeOut(previewTile, FluidGlassBall.getPreviewTilePulseDuration(), 1.0,0.7,1));
 		seq.setCycleCount(Integer.MAX_VALUE);
-		previewTile.setOnMouseEntered(e->{
-			// Refactor constants and seqTrans
-				
-				seq.play();
-		
-		
-		});
-		previewTile.setOnMouseExited(e->{
-			previewTile.setOpacity(1);
-			seq.stop();
-		});
-		FadeTransitionWizard.fadeIn(previewTile, Duration.millis(150), 1).play();
+		seq.play();
+//		previewTile.setOnMouseEntered(e->{
+//			// Refactor constants and seqTrans
+//				seq.play();
+//		
+//		});
+//		previewTile.setOnMouseExited(e->{
+//			previewTile.setOpacity(1);
+//			seq.stop();
+//		});
+		//FadeTransitionWizard.fadeIn(previewTile, Duration.millis(150), 1).play();
 	}
 
 	private TileData initTileData() {
