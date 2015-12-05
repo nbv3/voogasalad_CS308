@@ -7,40 +7,47 @@ import java.util.Queue;
 
 import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.ObjectSpawnEvent;
+import com.syntacticsugar.vooga.gameplayer.manager.IEventManager;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.universe.IEventPoster;
+import com.syntacticsugar.vooga.gameplayer.universe.score.IEventListener;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
 import com.syntacticsugar.vooga.xml.data.SpawnerData;
 import com.syntacticsugar.vooga.xml.data.WaveData;
 
 public class Spawner implements ISpawner {
-	
+
 	private Queue<Wave> myWaves;
 	private Wave myCurrentWave;
-	
+
 	IEventPoster myPoster;
-	
+
 	private int myFrameCount;
 	private int mySpawnRate;
-	
-	public Spawner (Collection<WaveData> data, IEventPoster poster, int spawnRate) {
+
+	public Spawner(Collection<WaveData> data, int spawnRate) {
 		myWaves = new LinkedList<>();
-		for (WaveData d: data) {
+		for (WaveData d : data) {
 			myWaves.add(new Wave(d));
 		}
 		if (myWaves.size() != 0 && myWaves.peek().getWaveNum() == 0) {
 			myCurrentWave = myWaves.poll();
 		}
-		
-		myPoster = poster;
+
 		mySpawnRate = spawnRate;
+	}
+
+	@Override
+	public void registerEventManager(IEventManager eventmanager) {
+		myPoster = eventmanager;
+
 	}
 
 	@Override
 	public void nextWave() {
 		myCurrentWave = myWaves.poll();
 	}
-	
+
 	@Override
 	public int getWaveNum() {
 		return myCurrentWave.getWaveNum();
@@ -51,26 +58,26 @@ public class Spawner implements ISpawner {
 		if (myCurrentWave == null) {
 			return;
 		}
-		
+
 		if (mySpawnRate == 0) {
 			while (myCurrentWave.getWaveSize() != 0) {
 				spawn();
 			}
 			return;
 		}
-		
+
 		if (myFrameCount >= mySpawnRate && myCurrentWave.getWaveSize() != 0) {
 			spawn();
 			myFrameCount = 0;
 		}
 		myFrameCount++;
 	}
-	
+
 	@Override
 	public Wave getCurrentWave() {
 		return myCurrentWave;
 	}
-	
+
 	private void spawn() {
 		IGameObject obj = myCurrentWave.getObj();
 		ObjectSpawnEvent event = new ObjectSpawnEvent(obj);
@@ -80,15 +87,17 @@ public class Spawner implements ISpawner {
 	@Override
 	public void onEvent(IGameEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public SpawnerData saveGame() {
 		Collection<WaveData> waves = new ArrayList<>();
-		for (Wave w: myWaves) {
+		for (Wave w : myWaves) {
 			Collection<ObjectData> objs = new ArrayList<>();
 			for (IGameObject o: w.getAllObjs()) {
+				ObjectData obj = new ObjectData(o);
+				obj.setImagePath(obj.getImagePath());
 				objs.add(new ObjectData(o));
 			}
 			waves.add(new WaveData(objs));
@@ -96,6 +105,9 @@ public class Spawner implements ISpawner {
 		return new SpawnerData(waves);
 	}
 	
-	
+	@Override
+	public Integer getSpawnRate() {
+		return mySpawnRate;
+	}
 
 }

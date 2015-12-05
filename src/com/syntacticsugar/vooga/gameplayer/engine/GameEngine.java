@@ -33,7 +33,7 @@ public class GameEngine {
 	public GameEngine(IGameUniverse universe, GameViewController view) {
 		myUniverse = universe;
 		myView = view;
-
+		
 	}
 
 	public void resetUniverse(IGameUniverse universe) {
@@ -46,7 +46,6 @@ public class GameEngine {
 		processSpawner();
 		processGraveyard();
 		processSpawnyard();
-		processScore();
 	}
 
 	private void checkCollisions() {
@@ -95,11 +94,7 @@ public class GameEngine {
 		ISpawner spawner = myUniverse.getSpawner();
 		spawner.update();
 	}
-	
-	private void processScore() {
-		IScore score = myUniverse.getScore();
-		score.update();
-	}
+
 
 	private void processGraveyard() {
 		myUniverse.removeFromUniverse(myView);

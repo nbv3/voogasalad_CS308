@@ -68,7 +68,7 @@ public class GameObject extends AbstractViewableObject implements IGameObject {
 	public void onCollision(IGameObject obj) {
 		if (getEventsFromCollision(obj.getType()) != null) {
 			for (ICollisionEvent e : getEventsFromCollision(obj.getType())) {
-				e.executeEvent(obj.getAttributes());
+				e.executeEvent(obj);
 			}
 		}
 	}
@@ -80,7 +80,7 @@ public class GameObject extends AbstractViewableObject implements IGameObject {
 
 	@Override
 	public Map<String, IAttribute> getAttributes() {
-		return Collections.unmodifiableMap(myAttributeMap);
+		return myAttributeMap;
 	}
 	
 	@Override
@@ -92,6 +92,12 @@ public class GameObject extends AbstractViewableObject implements IGameObject {
 	public void addAttribute(IAttribute attribute) {
 		String key = ResourceManager.getString(attribute.getClass().getSimpleName());
 		myAttributeMap.put(key, attribute);
+	}
+	
+	@Override
+	public void removeAttribute(IAttribute attribute) {
+		String key = ResourceManager.getString(attribute.getClass().getSimpleName());
+		myAttributeMap.remove(key);
 	}
 
 }

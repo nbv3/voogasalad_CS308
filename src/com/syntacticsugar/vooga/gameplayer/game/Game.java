@@ -27,12 +27,12 @@ public class Game implements IGame {
 	
 	private int myLevel; // STARTS AT 1 BY CONVENTION
 	
-	public Game(GameData data, IEventManager eventManager) {
+	public Game(GameData data) {
 		Collection<UniverseData> udata =  data.getUniverses();
 		myUniverses = new ArrayList<>();
 		myUniverseData = new ArrayList<>();
 		for (UniverseData d: udata) {
-			myUniverses.add(new GameUniverse(d, data.getSettings(), eventManager));
+			myUniverses.add(new GameUniverse(d, data.getSettings()));
 			myUniverseData.add(d);
 		}
 		mySettings = data.getSettings();
@@ -41,6 +41,9 @@ public class Game implements IGame {
 
 	@Override
 	public IGameUniverse nextLevel() {
+		if (myLevel >= myUniverses.size() - 1) {
+			System.out.println("Out of levels. You win");
+		}
 		return myUniverses.get(myLevel++);
 	}
 	
