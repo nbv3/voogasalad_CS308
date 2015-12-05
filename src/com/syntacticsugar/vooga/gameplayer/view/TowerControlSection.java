@@ -82,8 +82,11 @@ public class TowerControlSection extends Observable implements Observer {
 
 	@Override
 	public void update(Observable arg0, Object arg1) {
-		Point2D coordinates = (Point2D) arg1;
+		TowerData data = (TowerData) arg1;
+		Point2D coordinates = data.getCoordinates();
 		currentSelection.setSpawnPoint(coordinates.getX(), coordinates.getY());
+		currentSelection.setDirection(data.getDirection());
+		System.out.println(data.getDirection());
 		myUniverse.addToSpawnYard(new GameObject(currentSelection));
 	}
 }

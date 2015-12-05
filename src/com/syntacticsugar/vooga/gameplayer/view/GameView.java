@@ -3,7 +3,6 @@ package com.syntacticsugar.vooga.gameplayer.view;
 import java.util.Collection;
 import java.util.Observer;
 
-import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.gameplayer.universe.IUniverseView;
 import com.syntacticsugar.vooga.gameplayer.view.implementation.InformationBox;
 import com.syntacticsugar.vooga.gameplayer.view.implementation.TileView;
@@ -41,6 +40,10 @@ public class GameView extends BorderPane {
 
 	public void addObjectView(Pane myViewPane) {
 		gameField.getChildren().add(myViewPane);
+	}
+	
+	public void removeObjectView(Pane myViewPane){
+		gameField.getChildren().remove(myViewPane);
 	}
 
 	public Pane getView() {

@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
+import com.syntacticsugar.vooga.gameplayer.attribute.control.actions.movement.Direction;
 import com.syntacticsugar.vooga.gameplayer.event.ICollisionEvent;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
@@ -20,6 +21,7 @@ public class ObjectData {
 	private Point2D mySpawnPoint;
 	private double width;
 	private double height;
+	private Direction myDirection;
 	private String myImagePath;
 	private Collection<IAttribute> myAttributes;
 	private Map<GameObjectType, Collection<ICollisionEvent>> myCollisionMap;
@@ -38,6 +40,7 @@ public class ObjectData {
 		myCollisionMap = obj.getCollisionMap();
 		myImagePath = obj.getPath();
 		myType = obj.getType();
+		myDirection = obj.getBoundingBox().getDirection();
 	}
 	
 	public GameObjectType getType() {
@@ -104,5 +107,13 @@ public class ObjectData {
 	public void setCollisionMap(Map<GameObjectType, Collection<ICollisionEvent>> collisionMap) {
 		this.myCollisionMap.clear();
 		this.myCollisionMap.putAll(collisionMap);
+	}
+	
+	public Direction getDirection(){
+		return myDirection;
+	}
+	
+	public void setDirection(Direction dir){
+		myDirection = dir;
 	}
 }
