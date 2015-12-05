@@ -5,9 +5,11 @@ import com.syntacticsugar.vooga.authoring.icon.Icon;
 import com.syntacticsugar.vooga.authoring.icon.IconPane;
 import com.syntacticsugar.vooga.authoring.level.map.MapView;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
+import com.syntacticsugar.vooga.xml.data.TileData;
 import com.syntacticsugar.vooga.xml.data.TileImplementation;
 
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DataFormat;
 import javafx.scene.input.DragEvent;
@@ -26,20 +28,18 @@ import javafx.scene.input.TransferMode;
  */
 
 public class DragDropManager {
-	private static DataFormat clippableTileFormat = new DataFormat("ClippableTile");;
+	private static DataFormat tileDataFormat = new DataFormat("TileData");
+	private static DataFormat objectDataFormat = new DataFormat("ObjectData");
 
 	public DragDropManager() {
 
 	}
 	
-	public static void createTileClipboard(Icon icon, String impl, MouseEvent event) {
-		Dragboard db = icon.startDragAndDrop(TransferMode.ANY);
-		//System.out.println("Dragboard and Clipboard created");
+	public static void createTileClipboard(TileData tileData, ImageView previewTile, MouseEvent event) {
+		Dragboard db = previewTile.startDragAndDrop(TransferMode.ANY);
+		System.out.println("Dragboard and Clipboard created");
 		ClipboardContent content = new ClipboardContent();
-		TileClippableItem clippableTile = new TileClippableItem();
-		clippableTile.setImagePath(icon.getImagePath());
-		clippableTile.setImplementationType(impl);
-		content.put(clippableTileFormat, clippableTile);
+		content.put(tileDataFormat, tileData);
 		db.setContent(content); 
 		event.consume();
 	}
@@ -48,8 +48,8 @@ public class DragDropManager {
 //		Dragboard db = icon.startDragAndDrop(TransferMode.ANY);
 		//System.out.println("Dragboard and Clipboard created");
 //		ClipboardContent content = new ClipboardContent();
-		ObjectClippableItem clippableObject = new ObjectClippableItem();
-		clippableObject.setImagePath(icon.getImagePath());
+//		ObjectClippableItem clippableObject = new ObjectClippableItem();
+//		clippableObject.setImagePath(icon.getImagePath());
 //		clippableObject.setObjectData(objectData);
 	}
 	
@@ -59,7 +59,7 @@ public class DragDropManager {
 		 * accept it only if it is not dragged from the same node and if it has
 		 * a string data
 		 */
-//		Dragboard db = event.getDragboard();
+		Dragboard db = event.getDragboard();
 		//System.out.println(db);
 		/* allow for both copying and moving, whatever user chooses */
 		//System.out.println("Tile is ready to accept dragged object");

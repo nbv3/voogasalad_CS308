@@ -151,67 +151,39 @@ public class MapView implements IMapDisplay, IVisualElement {
 				icon.setOnDragOver((DragEvent event) -> DragDropManager.dragOverHandler(event));
 				icon.setOnDragEntered((DragEvent event) -> DragDropManager.dragEnteredHandler(icon, event)); 
 				icon.setOnDragExited((DragEvent event) -> DragDropManager.dragExitedHandler(icon, event));
-				icon.setOnDragDropped(new EventHandler<DragEvent>() {
-					public void handle(DragEvent event) {
-						/* data dropped */
-						/* if there is a string data on dragboard, read it and use it */
-
-						// To Do:
-						// Localise the ClippableTile string
-
-						Dragboard db = event.getDragboard();
-						boolean success = false;
-						if (db.hasContent(DataFormat.lookupMimeType("ClippableTile"))) {
-							System.out.println("DB contains the dataformat.");
-							DragDropManager.undoDragOverState(icon);				
-							if(Clipboard.getSystemClipboard().getContent(DataFormat.lookupMimeType("ClippableTile")) instanceof TileClippableItem){
-								System.out.println("Tile is being set from Clipboard");
-								TileClippableItem tileItem = (TileClippableItem) Clipboard.getSystemClipboard().getContent(DataFormat.lookupMimeType("ClippableTile"));
-								tile.setImagePath(tileItem.getImagePath());
-								tile.setImplementation(TileImplementation.valueOf(tileItem.getImplementationType()));
-								System.out.println("Tile item image Path is " + tileItem.getImagePath());
-								icon.setImage(new Image(getClass().getClassLoader().getResourceAsStream(tileItem.getImagePath())));
-								System.out.println("Tile Implementation is" +tile.getImplementation());
-							} else {
-
-								// To implement ObjectClippable Item
-								ObjectClippableItem objectItem = (ObjectClippableItem) Clipboard.getSystemClipboard().getContent(DataFormat.lookupMimeType("ClippableTile"));
-								tile.setImagePath(objectItem.getImagePath());
-
-
-							}
-							success = true;
-						}
-						/* let the source know whether the string was successfully 
-						 * transferred and used */
-						event.setDropCompleted(success);
-
-						event.consume();
-					}
+//				icon.setOnDragDropped(new EventHandler<DragEvent>() {
+//					public void handle(DragEvent event) {
+//						/* data dropped */
+//						/* if there is a string data on dragboard, read it and use it */
+//
+//						// To Do:
+//						// Localise the TileData string
+//
+//						Dragboard db = event.getDragboard();
+//						boolean success = false;
+//						if (db.hasContent(DataFormat.lookupMimeType("TileData"))) {
+//							System.out.println("DB contains TileData.");	
+//							System.out.println(db.getContent(DataFormat.lookupMimeType("TileData")));
+//							success = true;
+//						} else if(db.hasContent(DataFormat.lookupMimeType("ObjectData"))){
+//							System.out.println("DB contains ObjectData.");	
+//
+//						}
+//						event.setDropCompleted(success);
+//						event.consume();
+//					}
+//
+//				});
+				myMapGrid.add(icon, i, j, 1, 1);
+				myMapGrid.setOnDragDropped(e->{
+					System.out.println(e.getX() +", " + e.getY());
+					System.out.println("Map Grid width is " +myMapGrid.getWidth());
+					System.out.println("Map Grid height is " +myMapGrid.getHeight());
 
 				});
-				myMapGrid.add(icon, i, j, 1, 1);
 			}
 		}
 	}
-
-	
-//	private TileImplementation recreateImplementationObject(StringBuilder newPathName) {
-//		TileImplementation enumTileImp = TileImplementation.valueOf(newPathName.toString());
-//		return enumTileImp;
-//	}
-//
-//	private StringBuilder extractImplementationType(Dragboard db) {
-//		// Must ensure that each image file has path_ or scenery_ in front of it
-//		String pathType = db.getString().split("_")[0];
-//		char firstChar = Character.toUpperCase(pathType.charAt(0));
-//		StringBuilder newPathName = new StringBuilder();
-//		newPathName.append(firstChar);
-//		for(int i=1;i<pathType.length();i++){
-//			newPathName.append(pathType.charAt(i));
-//		}
-//		return newPathName;
-//	}
 	
 	private void mouseOverHandler(TileData tile, boolean isControlDown, boolean isShiftDown) {
 		multiSelectTile(tile, isControlDown, isShiftDown);

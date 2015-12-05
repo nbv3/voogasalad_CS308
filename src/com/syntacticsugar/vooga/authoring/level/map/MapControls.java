@@ -9,6 +9,8 @@ import java.util.Collection;
 import java.util.Observable;
 
 import com.syntacticsugar.vooga.authoring.dragdrop.DragDropManager;
+import com.syntacticsugar.vooga.authoring.fluidmotion.FadeTransitionWizard;
+import com.syntacticsugar.vooga.authoring.fluidmotion.FluidGlassBall;
 import com.syntacticsugar.vooga.authoring.icon.IconPane;
 import com.syntacticsugar.vooga.authoring.icon.ImageFileFilter;
 import com.syntacticsugar.vooga.authoring.objectediting.IVisualElement;
@@ -18,7 +20,9 @@ import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
 import com.syntacticsugar.vooga.xml.data.TileData;
 import com.syntacticsugar.vooga.xml.data.TileImplementation;
 
+import javafx.animation.SequentialTransition;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -34,6 +38,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class MapControls extends Observable implements IVisualElement {
 
@@ -51,8 +56,6 @@ public class MapControls extends Observable implements IVisualElement {
 	private ImageView previewTile = new ImageView(); 
 
 	public ImageView getPreviewTile() {
-		previewTile.setFitWidth(100);
-		previewTile.setFitHeight(100);
 		return previewTile;
 	}
 
@@ -62,7 +65,8 @@ public class MapControls extends Observable implements IVisualElement {
 
 	public MapControls(IMapDisplay mapEditor) {
 		myIconPane = new IconPane();
-		previewTile.setOnDragDetected(event -> DragDropManager.createTileClipboard(myIconPane.getSelectedTile(), mySelectedType.name(), event));
+		previewTile.setFitWidth(100);
+		previewTile.setFitHeight(100);
 		myIconPane.addPreviewListener((o,s1,s2)-> updatePreview());
 		typeChooser = buildTileTypeChooser();
 		selectAll = 
@@ -92,6 +96,13 @@ public class MapControls extends Observable implements IVisualElement {
 		VBox.setVgrow(myIconPane.getView(), Priority.ALWAYS);
 	}
 
+	private void initPreviewDragHandler(TileData tileData) {
+		previewTile.setOnDragDetected(event -> DragDropManager.createTileClipboard(
+												tileData,
+												previewTile,
+												event));
+	}
+
 	@Override
 	public Node getView() {
 		return myViewPane;
@@ -106,9 +117,7 @@ public class MapControls extends Observable implements IVisualElement {
 			AlertBoxFactory.createObject("Please select a tile image.");
 			return null;
 		}
-		TileData td = new TileData(myIconPane.getSelectedImagePath());
-		td.setDestination(destinationChooser.isSelected());
-		td.setImplementation(mySelectedType);
+		TileData td = initTileData();
 		return td;
 	}
 
@@ -121,13 +130,41 @@ public class MapControls extends Observable implements IVisualElement {
 		myVBox.setPadding(new Insets(10));
 		myVBox.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 		myVBox.getChildren()
-		.addAll(top, middle, myIconPane.getView(), bottom);
-
+		.addAll(top, middle, myIconPane.getView(), bottom,previewTile);
+		myVBox.setAlignment(Pos.CENTER);
 		myViewPane = GUIFactory.buildTitledPane("Map Controls", myVBox);
 	}
 
 	private void updatePreview() {
+		
+		TileData td = initTileData();
+		initPreviewDragHandler(td);
+		
+		FadeTransitionWizard.fadeOut(previewTile, Duration.millis(150), 1).play();
 		previewTile.setImage(new Image(getClass().getClassLoader().getResourceAsStream(myIconPane.getSelectedImagePath())));
+
+		SequentialTransition seq = new SequentialTransition(FadeTransitionWizard.fadeIn(previewTile, FluidGlassBall.getPreviewTilePulseDuration(), 0.7,1.0,1),
+				FadeTransitionWizard.fadeOut(previewTile, FluidGlassBall.getPreviewTilePulseDuration(), 1.0,0.7,1));
+		seq.setCycleCount(Integer.MAX_VALUE);
+		previewTile.setOnMouseEntered(e->{
+			// Refactor constants and seqTrans
+				
+				seq.play();
+		
+		
+		});
+		previewTile.setOnMouseExited(e->{
+			previewTile.setOpacity(1);
+			seq.stop();
+		});
+		FadeTransitionWizard.fadeIn(previewTile, Duration.millis(150), 1).play();
+	}
+
+	private TileData initTileData() {
+		TileData td = new TileData(myIconPane.getSelectedImagePath());
+		td.setDestination(destinationChooser.isSelected());
+		td.setImplementation(mySelectedType);
+		return td;
 	}
 
 
