@@ -87,8 +87,8 @@ public class GameMap implements IGameMap {
 	}
 
 	@Override
-	public IGameTile getTile(int i, int j) {
-		return myTiles[i][j];
+	public IGameTile getTile(Point2D p) {		
+		return myTiles[(int) p.getX()][(int) p.getY()];		
 	}
 	
 	@Override

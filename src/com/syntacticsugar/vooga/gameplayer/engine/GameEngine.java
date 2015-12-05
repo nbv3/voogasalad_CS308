@@ -130,7 +130,7 @@ public class GameEngine {
 		obj.setSpawnPoint(spawnPoint.getX(), spawnPoint.getY());
 		IGameObject tower = new Tower(obj);
 		
-		ITowerHolder tile = map.getTile((int) point.getX(), (int) point.getY());
+		ITowerHolder tile = map.getTile(point);
 		tile.setIsPlaceable(false);
 		
 		ObjectSpawnEvent event = new ObjectSpawnEvent(tower);
