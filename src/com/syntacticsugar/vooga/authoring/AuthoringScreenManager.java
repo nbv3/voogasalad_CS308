@@ -131,6 +131,8 @@ public class AuthoringScreenManager implements Observer, IVoogaApp {
 		MenuItem loadData = new MenuItem();
 		loadData.setText("Load ObjectData");
 		loadData.setOnAction(e -> loadData());
+		
+		
 
 		file.getItems().addAll(newLevel, loadMap, saveMap, loadData);
 
