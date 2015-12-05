@@ -73,7 +73,7 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 		showDirectoryContents(myDirectory, e -> getGameDescriptions(myDirectory));
 		myView = new ListView<String>(myGameNames);
 		myView.setOnMouseClicked(e -> startButton.setDisable(false));
-		myView.getItems().add("HEY BITCH");
+		myView.getItems().add("HEY");
 		myView.getItems().add("LOLCANO");
 
 		myScene = new Scene(buildScene());
