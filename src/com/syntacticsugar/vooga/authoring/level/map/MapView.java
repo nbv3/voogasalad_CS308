@@ -183,7 +183,6 @@ public class MapView implements IMapDisplay, IVisualElement {
 		setImagePath(toedit, tdFromClipBoard.getImagePath());
 		setAsDestination(toedit, tdFromClipBoard.isDestination());
 		myMapData.setTileData(toedit, colIndex, rowIndex);
-		System.out.println(myMapData.getTileData(colIndex, rowIndex).getImagePath());
 	}
 
 	private void mouseOverHandler(TileData tile, boolean isControlDown, boolean isShiftDown) {
