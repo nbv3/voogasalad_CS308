@@ -16,7 +16,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 
-public class AttributeViewer implements IUserInterface, 
+public class AttributeViewer implements IVisualElement, 
 										IListViewDisplay, 
 										IDataDisplay<Collection<IAttribute>> {
 

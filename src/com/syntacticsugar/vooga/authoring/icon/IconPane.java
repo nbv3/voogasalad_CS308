@@ -5,12 +5,17 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.syntacticsugar.vooga.authoring.dragdrop.DragDropManager;
+import com.syntacticsugar.vooga.authoring.objectediting.IVisualElement;
+import com.syntacticsugar.vooga.xml.data.ObjectData;
+import com.syntacticsugar.vooga.xml.data.TileImplementation;
 import com.syntacticsugar.vooga.util.dirview.IConverter;
 import com.syntacticsugar.vooga.util.dirview.IDirectoryViewer;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.effect.Glow;
@@ -18,7 +23,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.TilePane;
 
-public class IconPane implements IDirectoryViewer<String> {
+public class IconPane implements IVisualElement, IDirectoryViewer<String> {
 
 	private ScrollPane myScrollPane;
 	private TilePane myIconPane;
@@ -75,12 +80,8 @@ public class IconPane implements IDirectoryViewer<String> {
 		}
 	}
 
-	/**
-	 * Return the JavaFX Node used to display this IconPane.
-	 * 
-	 * @return
-	 */
-	public ScrollPane getIconPane() {
+	@Override
+	public Node getView() {
 		return myScrollPane;
 	}
 
@@ -92,7 +93,8 @@ public class IconPane implements IDirectoryViewer<String> {
 		return myImagePaths.get(mySelectedIcon.get());
 	}
 	
-	
+
+	// ******************************* //
 	
 	private void clearIconPane() {
 		myIconPane.getChildren().clear();

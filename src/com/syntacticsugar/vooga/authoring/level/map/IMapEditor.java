@@ -1,4 +1,4 @@
-package com.syntacticsugar.vooga.authoring.level;
+package com.syntacticsugar.vooga.authoring.level.map;
 
 import com.syntacticsugar.vooga.xml.data.TileImplementation;
 

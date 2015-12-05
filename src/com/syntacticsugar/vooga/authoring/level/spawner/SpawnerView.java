@@ -1,4 +1,4 @@
-package com.syntacticsugar.vooga.authoring.level;
+package com.syntacticsugar.vooga.authoring.level.spawner;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -10,6 +10,10 @@ import java.util.Queue;
 
 import com.syntacticsugar.vooga.authoring.fluidmotion.FadeTransitionWizard;
 import com.syntacticsugar.vooga.authoring.fluidmotion.FluidGlassBall;
+import com.syntacticsugar.vooga.authoring.level.IDataSelector;
+import com.syntacticsugar.vooga.authoring.level.QueueBox;
+import com.syntacticsugar.vooga.authoring.objectediting.IVisualElement;
+import com.syntacticsugar.vooga.authoring.tooltips.ObjectTooltip;
 import com.syntacticsugar.vooga.gameplayer.attribute.HealthAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
 import com.syntacticsugar.vooga.gameplayer.event.ICollisionEvent;
@@ -25,7 +29,7 @@ import javafx.scene.Node;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Tooltip;
 
-public class EnemyQueuePane {
+public class SpawnerView implements IDataSelector<ObjectData>, IVisualElement {
 
 	private ListView<Node> myQueuePane;
 	private Queue<ObjectData> myQueue;
@@ -33,7 +37,7 @@ public class EnemyQueuePane {
 	private Node selectedItem;
 	private HashMap<Node, ObjectData> myObjects;
 
-	public EnemyQueuePane() {
+	public SpawnerView() {
 		myObjects = new HashMap<Node, ObjectData>();
 		myQueuePane = new ListView<Node>();
 		myQueue = new LinkedList<ObjectData>();
@@ -42,6 +46,7 @@ public class EnemyQueuePane {
 		myQueuePane.setOrientation(Orientation.HORIZONTAL);
 
 		// test code
+		//TODO: REMOVE
 		testCreatedObjectDataList();
 	}
 
@@ -60,38 +65,41 @@ public class EnemyQueuePane {
 			eventList.add(eventToAdd);
 			eventMap.put(GameObjectType.ENEMY, eventList);
 			objToAdd.setCollisionMap(eventMap);
-			addObjectToQueue(objToAdd);
+			addData(objToAdd);
 		}
 	}
 	// end test
 
 	// called when drag-drop happens
-	public void addObjectToQueue(ObjectData obj) {
+	@Override
+	public void addData(ObjectData obj) {
 		myQueue.add(obj);
 		Node temp = createQueueBoxFromObjData(obj);
 		temp.setOnMouseClicked(e -> selectedItem = temp);
 		myObjects.put(temp, obj);
-		Tooltip.install(temp, new QueueTooltip(myObjects.get(temp)));
+		Tooltip.install(temp, new ObjectTooltip(myObjects.get(temp)));
 		myWave.add(temp);
 	}
 
-	public void removeObjectFromQueue() {
+	@Override
+	public void removeSelectedData() {
 		if (selectedItem != null) {
-
 			Animation fade = FadeTransitionWizard.fadeOut(selectedItem, FluidGlassBall.getFadeDuration(),
 					FluidGlassBall.getFadeOpacityStart(), FluidGlassBall.getFadeOpacityEnd(),
 					FluidGlassBall.getFadeCycleCount());
-			fade.setOnFinished(toExecuteOnFinished -> removeObjectFromQueue_BAREBONE());
+			fade.setOnFinished(toExecuteOnFinished -> removeSelectedData_BAREBONE());
 			fade.play();
 		}
 	}
 
-	private void removeObjectFromQueue_BAREBONE() {
+	private void removeSelectedData_BAREBONE() {
 		myQueue.remove(myObjects.get(selectedItem));
+		myObjects.remove(selectedItem);
 		myWave.remove(selectedItem);
 	}
 
-	public ObjectData getSelectedItem() {
+	@Override
+	public ObjectData getSelectedData() {
 		if (selectedItem != null) {
 			return myObjects.get(selectedItem);
 		}
@@ -99,16 +107,23 @@ public class EnemyQueuePane {
 
 	}
 
-	public Node createQueueBoxFromObjData(ObjectData obj) {
+	private Node createQueueBoxFromObjData(ObjectData obj) {
 		QueueBox queueBox = new QueueBox(obj);
-		return queueBox.getContent();
+		return queueBox.getView();
 	}
 
-	public ListView<Node> getContent() {
+	@Override
+	public Node getView() {
 		return myQueuePane;
 	}
 
-	public Collection<ObjectData> getObjectDataList() {
+	@Override
+	public void clearData() {
+		
+	}
+	
+	@Override
+	public Collection<ObjectData> getData() {
 		return myObjects.values();
 	}
 }

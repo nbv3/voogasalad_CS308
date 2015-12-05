@@ -1,4 +1,4 @@
-package com.syntacticsugar.vooga.authoring.level;
+package com.syntacticsugar.vooga.authoring.level.towers;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -9,6 +9,10 @@ import java.util.Map;
 import com.syntacticsugar.vooga.authoring.fluidmotion.FadeTransitionWizard;
 import com.syntacticsugar.vooga.authoring.fluidmotion.FluidGlassBall;
 import com.syntacticsugar.vooga.authoring.fluidmotion.ParallelTransitionWizard;
+import com.syntacticsugar.vooga.authoring.level.IDataSelector;
+import com.syntacticsugar.vooga.authoring.level.QueueBox;
+import com.syntacticsugar.vooga.authoring.objectediting.IVisualElement;
+import com.syntacticsugar.vooga.authoring.tooltips.ObjectTooltip;
 import com.syntacticsugar.vooga.gameplayer.attribute.HealthAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
 import com.syntacticsugar.vooga.gameplayer.event.ICollisionEvent;
@@ -22,23 +26,27 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Orientation;
 import javafx.scene.Node;
 import javafx.scene.control.ListView;
+import javafx.scene.control.MultipleSelectionModel;
+import javafx.scene.control.SelectionMode;
+import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tooltip;
-import javafx.scene.layout.VBox;
 
-public class TowerList {
+public class TowerView implements IVisualElement, IDataSelector<ObjectData> {
+	
 	private ListView<Node> myTowerView;
 	private ObservableList<Node> myObservable;
 	private HashMap<Node, ObjectData> myMap;
 	private Object selectedItem;
-	private int durationOfRemoval;
 
-	public TowerList() {
+	public TowerView() {
 		myTowerView = new ListView<Node>();
 		myObservable = FXCollections.observableArrayList();
 		myTowerView.setItems(myObservable);
 		myTowerView.setOrientation(Orientation.VERTICAL);
+		myTowerView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 		myMap = new HashMap<Node, ObjectData>();
 
+		//TODO: REMOVE (blank initialization)
 		testCreatedObjectDataList();
 	}
 
@@ -57,30 +65,33 @@ public class TowerList {
 			eventList.add(eventToAdd);
 			eventMap.put(GameObjectType.ENEMY, eventList);
 			objToAdd.setCollisionMap(eventMap);
-			addTower(objToAdd);
+			addData(objToAdd);
 		}
 	}
 
-	public void addTower(ObjectData data) {
+	@Override
+	public void addData(ObjectData data) {
 		Node newTower = createQueueBoxFromObjData(data);
 		newTower.setOnMouseClicked(e -> selectedItem = newTower);
 		myMap.put(newTower, data);
-		Tooltip.install(newTower, new QueueTooltip(myMap.get(newTower)));
+		Tooltip.install(newTower, new ObjectTooltip(myMap.get(newTower)));
 		myObservable.add(newTower);
 	}
 	
-	//method to use when back end needs to retrieve list of tower object data associated
-	//with a level
-	public Collection<ObjectData> getObjectDataList() {
+	// Used when we initiate a save game in the authoring environment
+	@Override
+	public Collection<ObjectData> getData() {
 		return myMap.values();
 	}
 
-	public Node createQueueBoxFromObjData(ObjectData obj) {
-		QueueBox queueBox = new QueueBox(obj);
-		return queueBox.getContent();
+	@Override
+	public ObjectData getSelectedData() {
+		System.out.println(myMap.get(myTowerView.getSelectionModel().getSelectedItem()));
+		return myMap.get(myTowerView.getSelectionModel().getSelectedItem());
 	}
 
-	public void removeObjectFromList() {
+	@Override
+	public void removeSelectedData() {
 		if (selectedItem != null) {
 		     Animation fade = FadeTransitionWizard
 						     	.fadeOut((Node) selectedItem, 
@@ -92,17 +103,31 @@ public class TowerList {
 		    fade.play();
 		}
 	}
-
-	private void removeObjectFromList_BAREBONE() {
-		myObservable.remove(selectedItem);
-		myMap.remove(selectedItem);
-	}
-
-	public void clearAll() {
+	
+	@Override
+	public void clearData() {
 		Animation towerClear = ParallelTransitionWizard
 								.parallelize(convertNodeListToAnimList());
 		towerClear.setOnFinished(toExecuteOnFinished->clearAll_BAREBONE());
 		towerClear.play();
+	}
+	
+	@Override
+	public Node getView() {
+		return myTowerView;
+	}
+	
+	
+	// *********************************************//
+	
+	public Node createQueueBoxFromObjData(ObjectData obj) {
+		QueueBox queueBox = new QueueBox(obj);
+		return queueBox.getView();
+	}
+
+	private void removeObjectFromList_BAREBONE() {
+		myObservable.remove(selectedItem);
+		myMap.remove(selectedItem);
 	}
 
 	private List<Animation> convertNodeListToAnimList() {
@@ -122,19 +147,5 @@ public class TowerList {
 		myObservable.clear();
 		myMap.clear();
 	}
-
-	public ObjectData getSelectedItem() {
-		if (selectedItem != null) {
-			return myMap.get(selectedItem);
-		}
-		return null;
-
-	}
-
-	public ListView<Node> getView() {
-		return myTowerView;
-	}
-	
-	
 
 }
