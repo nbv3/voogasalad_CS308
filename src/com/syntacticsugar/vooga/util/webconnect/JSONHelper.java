@@ -29,7 +29,7 @@ public class JSONHelper {
 		}
 	}
 	
-	public static JSONObject createJSON(String author, String gamename, String description, String xml, String comments) {
+	public static JSONObject createxmlJSON(String author, String gamename, String description, String xml, String comments) {
 		Map<String, String> map = new HashMap<String, String>();
 
 		map.put("xml", xml);
@@ -37,6 +37,16 @@ public class JSONHelper {
 		map.put("gamename", gamename);
 		map.put("description", description);
 		map.put("comments", comments);
+
+		return new JSONObject(map);
+	}
+	
+	public static JSONObject createCommentJSON(int id, String author, String comment) {
+		Map<String, String> map = new HashMap<String, String>();
+
+		map.put("id", Integer.toString(id));
+		map.put("author", author);
+		map.put("comment", comment);
 
 		return new JSONObject(map);
 	}

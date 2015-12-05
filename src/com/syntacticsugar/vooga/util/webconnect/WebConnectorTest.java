@@ -13,8 +13,19 @@ public class WebConnectorTest {
 
 		//getXMLsTest();
 		//getXMLTest(11);
-		postXMLTest();
+		// postXMLTest();
 		// deleteXMLTest(2);
+		postCommentTest();
+	}
+	
+	public static void postCommentTest() {
+		int id = 1422;
+		String author = "Strange person";
+		String comment = "Michael is a little b";
+		JSONObject request = JSONHelper.createCommentJSON(id, author, comment);
+		System.out.println("Sending Request: " + request.toString());
+		String output = WebConnector.postComment(request);
+		System.out.println("Output: " + output);
 	}
 
 	public static void getXMLsTest() {
@@ -42,7 +53,7 @@ public class WebConnectorTest {
 		File f = new File("src/com/syntacticsugar/vooga/util/compress/Untitled.xml");
 		//String xml = FileHelper.readFile(f);
 		String xml = "<testxml>soem shittejjiejiefe</testxml>";
-		JSONObject request = JSONHelper.createJSON(author, gamename, description, xml, "michael");
+		JSONObject request = JSONHelper.createxmlJSON(author, gamename, description, xml, "michael");
 		System.out.println("Sending Request: " + request.toString());
 		String output = WebConnector.postXML(request);
 		System.out.println("Output: " + output);
