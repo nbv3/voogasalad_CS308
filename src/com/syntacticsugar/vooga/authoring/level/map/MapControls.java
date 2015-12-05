@@ -7,30 +7,27 @@ import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Observable;
-import java.util.Observer;
 
 import com.syntacticsugar.vooga.authoring.dragdrop.DragDropManager;
-import com.syntacticsugar.vooga.authoring.icon.Icon;
 import com.syntacticsugar.vooga.authoring.icon.IconPane;
 import com.syntacticsugar.vooga.authoring.icon.ImageFileFilter;
+import com.syntacticsugar.vooga.authoring.objectediting.IVisualElement;
 import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
+import com.syntacticsugar.vooga.xml.data.TileData;
 import com.syntacticsugar.vooga.xml.data.TileImplementation;
 
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
+import javafx.scene.control.TitledPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
@@ -38,9 +35,10 @@ import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 
-public class MapEditorControls{
+public class MapControls extends Observable implements IVisualElement {
 
-	private VBox myContainer;
+	private VBox myVBox;
+	private TitledPane myViewPane;
 	private Button selectAll;
 	private Button clearAll;
 	private ComboBox<TileImplementation> typeChooser;
@@ -60,77 +58,76 @@ public class MapEditorControls{
 		this.previewTile = previewTile;
 	}
 
-	public MapEditorControls(IMapEditor mapEditor) {
-
+	public MapControls(IMapDisplay mapEditor) {
 		myIconPane = new IconPane();
 		previewTile.setOnDragDetected(event -> DragDropManager.createTileClipboard(myIconPane.getSelectedTile(), mySelectedType.name(), event));
 		myIconPane.addPreviewListener((o,s1,s2)-> updatePreview());
-		
 		typeChooser = buildTileTypeChooser();
-
 		selectAll = 
 				GUIFactory.buildButton("Select All", 
 						e -> mapEditor.selectAllTiles(),
 						null, null);
 		clearAll = 
 				GUIFactory.buildButton("Clear All", 
-						e -> mapEditor.clearAllTiles(),
+						e -> mapEditor.clearDisplay(),
 						null, null);
-
 		destinationChooser = new CheckBox();
 		destinationChooser.setAllowIndeterminate(false);
 		destinationWrapper = new Label("AI Destination: ");
 		destinationWrapper.setGraphic(destinationChooser);
 		destinationWrapper.setContentDisplay(ContentDisplay.RIGHT); //You can choose RIGHT,LEFT,TOP,BOTTOM
-
 		addNewImage = 
 				GUIFactory.buildButton("Add New Image", 
 						e -> createNewImage(),
 						null, null);
-
 		applyChanges = 
 				GUIFactory.buildButton("Apply", 
-						e -> applyChanges(mapEditor), 
+						e -> mapEditor.displayData(buildTileFromSelections()), 
 						null, null);
-
 		// Build control container view
 		buildView();
-		
 		// Let the IconPane expand to fill the contents of the controls
 		VBox.setVgrow(myIconPane.getView(), Priority.ALWAYS);
+	}
+
+	@Override
+	public Node getView() {
+		return myViewPane;
+	}
+
+	private TileData buildTileFromSelections() {
+		if (mySelectedType == null) {
+			AlertBoxFactory.createObject("Please select a tile type.");
+			return null;
+		}
+		if (myIconPane.getSelectedImagePath() == null) {
+			AlertBoxFactory.createObject("Please select a tile image.");
+			return null;
+		}
+		TileData td = new TileData(myIconPane.getSelectedImagePath());
+		td.setDestination(destinationChooser.isSelected());
+		td.setImplementation(mySelectedType);
+		return td;
 	}
 
 	private void buildView() {
 		AnchorPane top = GUIFactory.buildAnchorPane(selectAll, clearAll);
 		AnchorPane middle = GUIFactory.buildAnchorPane(typeChooser, destinationWrapper);
 		AnchorPane bottom = GUIFactory.buildAnchorPane(addNewImage, applyChanges);
-		myContainer = new VBox();
-		myContainer.setSpacing(10);
-		myContainer.setPadding(new Insets(10));
-		myContainer.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-		myContainer.getChildren()
+		myVBox = new VBox();
+		myVBox.setSpacing(10);
+		myVBox.setPadding(new Insets(10));
+		myVBox.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+		myVBox.getChildren()
 		.addAll(top, middle, myIconPane.getView(), bottom);
+
+		myViewPane = GUIFactory.buildTitledPane("Map Controls", myVBox);
 	}
 
 	private void updatePreview() {
-		System.out.println(myIconPane.getSelectedImagePath());
 		previewTile.setImage(new Image(getClass().getClassLoader().getResourceAsStream(myIconPane.getSelectedImagePath())));
 	}
-	
-	private void applyChanges(IMapEditor editor) {
-		if (mySelectedType == null) {
-			AlertBoxFactory.createObject("Please select a tile type.");
-			return;
-		}
-		String imagePath = myIconPane.getSelectedImagePath();
-		if (imagePath == null) {
-			AlertBoxFactory.createObject("Please select an image.");
-			return;
-		}
-		editor.setImplementation(mySelectedType);
-		editor.setImagePath(imagePath);
-		editor.setAsDestination(destinationChooser.selectedProperty().get());
-	}
+
 
 	private ComboBox<TileImplementation> buildTileTypeChooser() {
 		ComboBox<TileImplementation> box = new ComboBox<TileImplementation>();
@@ -148,9 +145,9 @@ public class MapEditorControls{
 	private void showImageOptions(TileImplementation type) {
 		File imgDirectory = new File(
 				ResourceManager.getString(String.format("%s%s", mySelectedType, "_images")));
-				myIconPane.showDirectoryContents(imgDirectory, e -> convertImageFiles(imgDirectory));
+		myIconPane.showDirectoryContents(imgDirectory, e -> convertImageFiles(imgDirectory));
 	}
-		
+
 	private Collection<String> convertImageFiles(File directory) {
 		File[] files = directory.listFiles(new ImageFileFilter());
 		Collection<String> imagePaths = new ArrayList<String>();
@@ -182,7 +179,4 @@ public class MapEditorControls{
 		showImageOptions(mySelectedType);
 	}
 
-	public Node getContent() {
-		return myContainer;
-	}
 }

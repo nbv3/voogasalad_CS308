@@ -16,6 +16,8 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 
 public class LevelConditionManager {
+	
+	private static final String CONDITION_PATH = "com.syntacticsugar.vooga.gameplayer.conditions.implementation.";
 
 	private GridPane myView;
 	private ComboBox<String> myWins;
@@ -59,12 +61,10 @@ public class LevelConditionManager {
 	private void updateSelectedWin(String w) {
 		mySelectedWin = w;
 		String className = mySelectedWin.replace(" ", "");
-		String classPath = String.format("%s%s%s", "com.syntacticsugar.vooga.gameplayer.conditions.implementation.",
-				className, "Condition");
+		String classPath = String.format("%s%s%s", CONDITION_PATH, className, "Condition");
 		// correct format
 		// com.syntacticsugar.vooga.gameplayer.conditions.implementation.EnemyDeathCondition
 		try {
-
 			Class<?> c = Class.forName(classPath);
 			Constructor[] constr = c.getDeclaredConstructors();
 			Class[] parameterTypes = constr[0].getParameterTypes();

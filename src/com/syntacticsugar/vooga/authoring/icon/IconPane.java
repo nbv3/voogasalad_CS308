@@ -12,6 +12,7 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
@@ -37,7 +38,7 @@ public class IconPane implements IVisualElement, IDirectoryViewer<String> {
 
 	private final ObjectProperty<ImageView> mySelectedIcon = new SimpleObjectProperty<>();
 	private final double GLOW_PERCENTAGE = 0.75;
-	private final double INSET_VALUE = 6;
+	private final double INSET_VALUE = 3;
 	private final int NUM_COLS = 3;
 
 	public IconPane() {
@@ -57,11 +58,11 @@ public class IconPane implements IVisualElement, IDirectoryViewer<String> {
 	}
 	private void initializeGridPane() {
 		myIconPane.setPrefColumns(NUM_COLS);
+		myIconPane.setAlignment(Pos.CENTER);
 		myIconPane.setHgap(INSET_VALUE);
 		myIconPane.setVgap(INSET_VALUE);
 		myScrollPane.setContent(myIconPane);
-		myIconPane.maxWidthProperty().set(myScrollPane.viewportBoundsProperty().get().getWidth());
-
+		myIconPane.maxWidthProperty().set(myScrollPane.viewportBoundsProperty().get().getWidth()-2*INSET_VALUE);
 	}
 
 	@Override
