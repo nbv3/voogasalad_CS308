@@ -45,9 +45,6 @@ public class GameViewController implements IViewRemover, IViewAdder{
 		for (IGameTile tile: universe.getMap().getTiles()) {
 			addTileObject(tile);
 		}
-		for (IGameObject object : universe.getGameObjects()) {
-			addViewObject(object);
-		}
 	}
 
 	private void addTileObject(IGameTile obj) {

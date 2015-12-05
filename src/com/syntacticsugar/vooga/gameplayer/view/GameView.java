@@ -27,6 +27,7 @@ public class GameView extends BorderPane{
 	}
 	
 	public void resetComponents(){
+		this.getChildren().clear();
 		initializeComponents();
 	}
 

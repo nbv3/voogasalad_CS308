@@ -70,8 +70,8 @@ public class GameManager implements IGameManager{
 		currentLevel = myGame.getLevel(1);
 
 		myViewController = new GameViewController(gameSize);
-
 		myViewController.displayLevel(currentLevel);
+		
 		myGameEngine = new GameEngine(currentLevel, myViewController);
 
 		stageInit();
@@ -109,12 +109,21 @@ public class GameManager implements IGameManager{
 		pause();
 		if (type.equals(ConditionType.WINNING)) {
 			System.out.println("WINNER");
+			nextLevel();
 		} else if (type.equals(ConditionType.LOSING)) {
 			System.out.println("YOU LOSE");
 			restartGame();
 			startGame();
 		}
 
+	}
+	
+	private void nextLevel(){
+		currentLevel = myGame.nextLevel();
+		myViewController.displayLevel(currentLevel);
+		myGameEngine = new GameEngine(currentLevel, myViewController);
+		//myGameTimeline.stop();
+		initializeAnimation(frameLength);
 	}
 
 	public void receiveKeyPressed(KeyCode code) {
@@ -159,6 +168,7 @@ public class GameManager implements IGameManager{
 		try {
 			LevelChangeEvent event = (LevelChangeEvent) e;
 			System.out.println("LEVEL SWITCH");
+			switchLevel(event.getLevelConditionType());
 			pause();
 		}
 		catch (ClassCastException ex) {

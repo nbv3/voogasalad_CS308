@@ -74,53 +74,8 @@ public class GameUniverse implements IGameUniverse {
 		myCurrentInput = new ArrayList<KeyCode>();
 		myConditions.addCondition(new PlayerDeathCondition());
 		myConditions.addCondition(new EnemyDeathCondition(3));
-		myTowers = new ArrayList<IGameObject>();
-		testTower();
+		//testTower();
 	}
-
-	private void testTower() {
-		String imgPath = "tower_1.png";
-		ObjectData towerData = new ObjectData();
-		towerData.setImagePath(imgPath);
-		Collection<IAttribute> towerAttributes = new ArrayList<IAttribute>();
-		HealthAttribute health = new HealthAttribute();
-		health.setHealth(30.0);
-		towerAttributes.add(health);
-		// towerAttributes.add(new AIMovementAttribute(3));
-		Map<GameObjectType, Collection<ICollisionEvent>> collisions = new HashMap<GameObjectType, Collection<ICollisionEvent>>();
-		Collection<ICollisionEvent> towerEvents = new ArrayList<ICollisionEvent>();
-		towerEvents.add(new HealthChangeEvent(10.0));
-		towerData.setType(GameObjectType.ENEMY);
-		towerData.setImagePath(imgPath);
-		towerData.setAttributes(towerAttributes);
-		towerData.setCollisionMap(collisions);
-		towerData.setWidth(100);
-		towerData.setHeight(100);
-		IGameObject tower = new GameObject(towerData);
-		myTowers.add(tower);
-
-		String imgPath1 = "tower_4.png";
-		ObjectData towerData2 = new ObjectData();
-		towerData.setImagePath(imgPath1);
-		Collection<IAttribute> towerAttributes2 = new ArrayList<IAttribute>();
-		HealthAttribute towerHealth = new HealthAttribute();
-		towerHealth.setHealth(30.0);
-		towerAttributes2.add(towerHealth);
-		// towerAttributes.add(new AIMovementAttribute(3));
-		Map<GameObjectType, Collection<ICollisionEvent>> collisions2 = new HashMap<GameObjectType, Collection<ICollisionEvent>>();
-		Collection<ICollisionEvent> towerEvents2 = new ArrayList<ICollisionEvent>();
-		towerEvents2.add(new HealthChangeEvent(10.0));
-		towerData2.setType(GameObjectType.TOWER);
-		towerData2.setImagePath(imgPath);
-		towerData2.setAttributes(towerAttributes2);
-		towerData2.setCollisionMap(collisions2);
-		towerData2.setWidth(100);
-		towerData2.setHeight(100);
-		IGameObject tower2 = new GameObject(towerData);
-		myTowers.add(tower2);
-
-	}
-
 
 	@Override
 	public Collection<IGameObject> getGameObjects() {
