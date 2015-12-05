@@ -87,7 +87,7 @@ public class LevelEditor {
 		r2.setPercentHeight(25);
 		RowConstraints r3 = new RowConstraints();
 		r3.setPercentHeight(30);
-		grid.getRowConstraints().addAll(r0, r1, r2);
+		grid.getRowConstraints().addAll(r0, r1, r2,r3);
 	}
 
 	public MapData getMapData() {

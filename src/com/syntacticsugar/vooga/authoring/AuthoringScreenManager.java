@@ -226,6 +226,7 @@ public class AuthoringScreenManager implements Observer, IVoogaApp {
 		r1.setPercentHeight(50);
 		RowConstraints r2 = new RowConstraints();
 		r2.setPercentHeight(50);
+	
 		myWindowGrid.getRowConstraints().addAll(r1, r2);
 	}
 
