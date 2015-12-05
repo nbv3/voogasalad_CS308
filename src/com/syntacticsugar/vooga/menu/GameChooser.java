@@ -221,8 +221,13 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 		// towerAttributes.add(new AIMovementAttribute(3));
 		Map<GameObjectType, Collection<ICollisionEvent>> collisionst = new HashMap<GameObjectType, Collection<ICollisionEvent>>();
 		Collection<ICollisionEvent> towerEvents = new ArrayList<ICollisionEvent>();
+<<<<<<< HEAD
 		towerEvents.add(new HealthChangeEvent(10.0));
 		towerData.setType(GameObjectType.ENEMY);
+=======
+		towerEvents.add(new HealthChangeEvent(-10));
+		towerData.setType(GameObjectType.TOWER);
+>>>>>>> 78f09dd76b5ba0c1e5ca4e051ff7273eb6ecb0fa
 		towerData.setImagePath(imgPath);
 		towerData.setAttributes(towerAttributes);
 		towerData.setCollisionMap(collisionst);

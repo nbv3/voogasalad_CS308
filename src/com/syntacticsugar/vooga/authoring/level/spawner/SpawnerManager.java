@@ -11,23 +11,14 @@ import com.syntacticsugar.vooga.authoring.fluidmotion.FluidGlassBall;
 import com.syntacticsugar.vooga.authoring.fluidmotion.ParallelTransitionWizard;
 import com.syntacticsugar.vooga.authoring.level.IDataSelector;
 import com.syntacticsugar.vooga.authoring.level.ITabbedManager;
-import com.syntacticsugar.vooga.authoring.objectediting.IVisualElement;
-import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
-import com.syntacticsugar.vooga.util.gui.factory.MsgInputBoxFactory;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
 
 import javafx.animation.Animation;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.control.TabPane.TabClosingPolicy;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 public class SpawnerManager implements ITabbedManager<ObjectData> {
@@ -49,8 +40,8 @@ public class SpawnerManager implements ITabbedManager<ObjectData> {
 
 		Tab newWaveTab = new Tab();
 		newWaveTab.setContent(newSpawnerView.getView());
+		newWaveTab.setOnCloseRequest(e -> remove());
 		newWaveTab.setOnClosed(e -> updateWaveNumbers());
-		
 		mySpawnerViewMap.put(newWaveTab, newSpawnerView);
 
 		myTabPane.getTabs().add(newWaveTab);
@@ -84,11 +75,9 @@ public class SpawnerManager implements ITabbedManager<ObjectData> {
 
 	@Override
 	public Node getViewNode() {
-		return myTabPane;
+		return GUIFactory.buildTitledPane("Spawner Display", myTabPane);
 	}
 
-
-	
 
 	private void clearWave_BAREBONE(ListView<VBox> wave) {
 		wave.getItems().clear();
@@ -110,7 +99,7 @@ public class SpawnerManager implements ITabbedManager<ObjectData> {
 	private void updateWaveNumbers() {
 		for (int i=0; i<myTabPane.getTabs().size(); i++) {
 			Tab t = myTabPane.getTabs().get(i);
-			t.setText(String.format("%s %s", "Wave", i));
+			t.setText(String.format("%s %s", "Wave", i+1));
 		}
 	}
 

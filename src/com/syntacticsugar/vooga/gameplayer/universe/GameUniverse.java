@@ -20,6 +20,7 @@ import com.syntacticsugar.vooga.gameplayer.manager.IEventManager;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObject;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
+import com.syntacticsugar.vooga.gameplayer.objects.towers.Tower;
 import com.syntacticsugar.vooga.gameplayer.universe.map.GameMap;
 import com.syntacticsugar.vooga.gameplayer.universe.map.IGameMap;
 import com.syntacticsugar.vooga.gameplayer.universe.score.IScore;
@@ -66,11 +67,10 @@ public class GameUniverse implements IGameUniverse {
 		myTowers = new ArrayList<>();
 		Collection<ObjectData> towerdata = data.getTowers().getTowers();
 		for (ObjectData d : towerdata) {
-			myTowers.add(new GameObject(d));
+			myTowers.add(new Tower(d));
 		}
 		myGraveYard = new GraveYard(this, manager);
 		mySpawnYard = new SpawnYard(this, manager);
-		XMLHandler<MapData> xml = new XMLHandler<>();
 		myCurrentInput = new ArrayList<KeyCode>();
 		myConditions.addCondition(new PlayerDeathCondition());
 		myConditions.addCondition(new EnemyDeathCondition(3));
@@ -118,7 +118,9 @@ public class GameUniverse implements IGameUniverse {
 		towerData2.setHeight(100);
 		IGameObject tower2 = new GameObject(towerData);
 		myTowers.add(tower2);
+
 	}
+
 
 	@Override
 	public Collection<IGameObject> getGameObjects() {
@@ -135,16 +137,13 @@ public class GameUniverse implements IGameUniverse {
 	public void receiveKeyPress(KeyCode code) {
 		if (!myCurrentInput.contains(code)) {
 			myCurrentInput.add(code);
-
 		}
 	}
 
 	@Override
 	public void receiveKeyRelease(KeyCode code) {
-
 		if (myCurrentInput.contains(code)) {
 			myCurrentInput.remove(code);
-
 		}
 	}
 
@@ -210,6 +209,7 @@ public class GameUniverse implements IGameUniverse {
 		myPoster.postEvent(event);
 	}
 
+//	TODO : THIS WON'T WORK
 	@Override
 	public UniverseData saveGame() {
 		SpawnerData spawn = mySpawner.saveGame();
