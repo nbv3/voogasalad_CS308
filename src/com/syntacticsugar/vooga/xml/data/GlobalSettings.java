@@ -3,7 +3,7 @@ package com.syntacticsugar.vooga.xml.data;
 public class GlobalSettings {
 
 	private int level;
-	private int mySpawnRate;
+	private int mySpawnRate = 30;
 
 	public GlobalSettings() {
 		level = 1;
