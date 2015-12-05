@@ -22,6 +22,7 @@ public class ViewController implements IViewRemover, IViewAdder{
 	@Override
 	public void addViewObject(IViewableObject obj) {
 		ObjectView newView = new ObjectView(obj.getPath(), obj.getBoundingBox(), myGameView.getScalingFactor());
+		myGameView.addObjectView(newView);
 		myViewMap.put(obj, newView);
 	}
 
@@ -32,7 +33,7 @@ public class ViewController implements IViewRemover, IViewAdder{
 	@Override
 	public void removeViewObject(IViewableObject obj) {
 		ObjectView object = myViewMap.get(obj);
-		myGameView.getView().getChildren().remove(object.getViewPane());
+		myGameView.removeObjectView(object);
 		myViewMap.remove(obj);
 	}
 
@@ -48,8 +49,8 @@ public class ViewController implements IViewRemover, IViewAdder{
 	}
 
 	private void addTileObject(IGameTile obj) {
-		TileView newView = new TileView(obj.getPath(), obj.getBoundingBox(), myGameView, obj.isWalkable());
-		myGameView.initializeTowerTileObserver(newView);
+		TileView newView = new TileView(obj.getPath(), obj.getBoundingBox(), myGameView);
+//		myGameView.initializeTowerTileObserver(newView);
 		myViewMap.put(obj, newView);
 	}
 

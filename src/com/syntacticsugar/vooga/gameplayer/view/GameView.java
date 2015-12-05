@@ -46,14 +46,11 @@ public class GameView extends BorderPane  {
 		gameField.getChildren().remove(myViewPane);
 	}
 
-	public Pane getView() {
-		return gameField;
-	}
-	
-	public void initializeTowerTileObserver(TileView tile){
-		myTowerBox.addObserver(tile);
-		tile.addObserver(myTowerBox);
-	}
+//	
+//	public void initializeTowerTileObserver(TileView tile){
+//		myTowerBox.addObserver(tile);
+//		tile.addObserver(myTowerBox);
+//	}
 
 	public void initializeAvailableTowers(Collection<ObjectData> availableTowers, IUniverseView universe) {
 		myTowerBox.initialize(availableTowers, universe);

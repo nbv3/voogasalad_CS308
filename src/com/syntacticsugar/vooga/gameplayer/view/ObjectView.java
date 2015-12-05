@@ -9,15 +9,13 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 
-public class ObjectView extends Observable implements Observer {
-	
-	private StackPane myViewPane;
+public class ObjectView extends StackPane implements Observer {
+
 	private double scalingFactor;
 	protected double tempCoord1;
 	protected double tempCoord2;
 	
 	public ObjectView(String path, BoundingBox box , double scale) {
-		myViewPane = new StackPane();
 		ImageView iv = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(path)));
 		iv.setFocusTraversable(true);
 		scalingFactor = scale;
@@ -26,9 +24,8 @@ public class ObjectView extends Observable implements Observer {
 		tempCoord2 = box.getPoint().getY();
 		iv.setFitHeight(scalingFactor*box.getWidth());
 		iv.setFitWidth(scalingFactor*box.getHeight());
-		myViewPane.getChildren().add(iv);
+		this.getChildren().add(iv);
 		//myGameView.getChildren().add(myViewPane);
-		gameView.addObjectView(myViewPane);
 		box.addObserver(this);
 	}
 
@@ -41,13 +38,10 @@ public class ObjectView extends Observable implements Observer {
 	private void applyTransform(BoundingBox box) {
 		double xCoordinate = box.getPoint().getX()*scalingFactor;
 		double yCoordinate = box.getPoint().getY()*scalingFactor;
-		myViewPane.relocate(xCoordinate, yCoordinate);
-		myViewPane.setRotate(box.getRotate());
+		this.relocate(xCoordinate, yCoordinate);
+		this.setRotate(box.getRotate());
 	}
-	
-	public StackPane getViewPane(){
-		return myViewPane;
-	}
+
 
 
 }
