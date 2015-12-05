@@ -29,7 +29,7 @@ public class JSONHelper {
 		}
 	}
 	
-	public static JSONObject createJSON(String author, String gamename, String description, String xml) {
+	public static JSONObject createJSON(String author, String gamename, String description, String xml, String comments) {
 		Map<String, String> map = new HashMap<String, String>();
 
 		map.put("xml", xml);
