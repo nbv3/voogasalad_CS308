@@ -7,33 +7,62 @@ import com.syntacticsugar.vooga.util.reflection.Reflection;
 
 public class LevelSettings {
 
-	private IGameCondition gameWin;
-	private IGameCondition gameLose;
+	private IGameCondition winCond;
+	private IGameCondition lossCond;
 
-	public LevelSettings(String winClass, List<Double> winParam, String loseClass, List<Double> loseParam) {
+	private int spawnRate;
+	
+	private int scoreThreshold;
+	
+	public LevelSettings (int score) {
+		setScoreThreshold(score);
+		spawnRate = 0;
+	}
+	
+	public LevelSettings (int score, int spawnRate) {
+		setScoreThreshold(score);
+		spawnRate = spawnRate;
+	}
+
+	public LevelSettings(String winClass, List<Double> winParam, String loseClass, List<Double> loseParam, int spawn) {
+		spawnRate = spawn;
 		{
 			String winName = winClass.replace(" ", "");
-			// String winPath = String.format("%s%s%s",
-			// "com.syntacticsugar.vooga.gameplayer.conditions.implementation.",
-			// winName, "Condition");
 
 			String classPath = String.format("%s%s%s", "com.syntacticsugar.vooga.gameplayer.conditions.implementation.",
 					winName, "Condition");
 
 			try {
-				gameWin = (IGameCondition) Reflection.createInstance(classPath, winParam.get(0).intValue());
+				winCond = (IGameCondition) Reflection.createInstance(classPath, winParam.get(0).intValue());
 			} catch (Exception e) {
-				gameWin = (IGameCondition) Reflection.createInstance(classPath);
+				winCond = (IGameCondition) Reflection.createInstance(classPath);
 			}
 			String loseName = loseClass.replace(" ", "");
 			String losePath = String.format("%s%s%s", "com.syntacticsugar.vooga.gameplayer.conditions.implementation.",
 					loseName, "Condition");
 			try {
-				gameLose = (IGameCondition) Reflection.createInstance(losePath,loseParam.get(0).intValue());
+				lossCond = (IGameCondition) Reflection.createInstance(losePath,loseParam.get(0).intValue());
 
 			} catch (Exception e) {
-				gameLose = (IGameCondition) Reflection.createInstance(losePath);
+				lossCond = (IGameCondition) Reflection.createInstance(losePath);
 			}
 		}
 	}
+	
+	public int getSpawnRate() {
+		return spawnRate;
+	}
+
+	public void setSpawnRate(int rate) {
+		spawnRate = rate;
+	}
+
+	public int getScoreThreshold() {
+		return scoreThreshold;
+	}
+
+	public void setScoreThreshold(int scoreThreshold) {
+		this.scoreThreshold = scoreThreshold;
+	}
+	
 }

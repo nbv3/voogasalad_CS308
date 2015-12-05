@@ -1,5 +1,6 @@
 package com.syntacticsugar.vooga.xml.data;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -15,8 +16,13 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.geometry.Point2D;
 
-public class ObjectData {
+public class ObjectData implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private String myName;
 	
 	private GameObjectType myType;

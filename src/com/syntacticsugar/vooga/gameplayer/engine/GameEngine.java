@@ -5,7 +5,7 @@ import com.syntacticsugar.vooga.gameplayer.universe.map.IGameMap;
 import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.ITowerHolder;
 import com.syntacticsugar.vooga.gameplayer.universe.score.IScore;
 import com.syntacticsugar.vooga.gameplayer.universe.spawner.ISpawner;
-import com.syntacticsugar.vooga.gameplayer.view.ViewController;
+import com.syntacticsugar.vooga.gameplayer.view.GameViewController;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
 
 import javafx.geometry.Point2D;
@@ -27,13 +27,13 @@ import com.syntacticsugar.vooga.gameplayer.objects.towers.Tower;
 public class GameEngine {
 
 	private IGameUniverse myUniverse;
-	private ViewController myView;
+	private GameViewController myView;
 	private IScore myScore;
 
-	public GameEngine(IGameUniverse universe, ViewController view) {
+	public GameEngine(IGameUniverse universe, GameViewController view) {
 		myUniverse = universe;
 		myView = view;
-
+		
 	}
 
 	public void resetUniverse(IGameUniverse universe) {
@@ -46,7 +46,6 @@ public class GameEngine {
 		processSpawner();
 		processGraveyard();
 		processSpawnyard();
-		processScore();
 	}
 
 	private void checkCollisions() {
@@ -95,11 +94,7 @@ public class GameEngine {
 		ISpawner spawner = myUniverse.getSpawner();
 		spawner.update();
 	}
-	
-	private void processScore() {
-		IScore score = myUniverse.getScore();
-		score.update();
-	}
+
 
 	private void processGraveyard() {
 		myUniverse.removeFromUniverse(myView);

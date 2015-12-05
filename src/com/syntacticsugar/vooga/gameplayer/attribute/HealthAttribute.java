@@ -87,7 +87,7 @@ public class HealthAttribute extends AbstractAttribute {
 	
 	public void setHealth(Double health)
 	{
-		myHealth = health;
+		myMaxHealth = health;
 	}
 	
 	// test code here

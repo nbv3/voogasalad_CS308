@@ -1,6 +1,7 @@
 package com.syntacticsugar.vooga.gameplayer.attribute.movement;
 
 import java.awt.Point;
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 import java.util.Observable;
@@ -14,7 +15,7 @@ import com.syntacticsugar.vooga.util.pathfinder.PathFinder;
 
 import javafx.geometry.Point2D;
 
-public class AIMovementAttribute extends AbstractMovementAttribute {
+public class AIMovementAttribute extends AbstractMovementAttribute implements Serializable{
 
 	private PathFinder pathFinder;
 	private List<Point> myPath;

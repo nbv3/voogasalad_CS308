@@ -4,6 +4,7 @@ import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 import com.syntacticsugar.vooga.util.gui.factory.MsgInputBoxFactory;
 import com.syntacticsugar.vooga.xml.data.LevelSettings;
 
@@ -14,10 +15,12 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 
 public class LevelConditionManager {
-	
+
 	private static final String CONDITION_PATH = "com.syntacticsugar.vooga.gameplayer.conditions.implementation.";
 
 	private GridPane myView;
@@ -27,9 +30,18 @@ public class LevelConditionManager {
 	private List<Double> myWinParameters;
 	private String mySelectedLose;
 	private List<Double> myLoseParameters;
+	private int mySavedSpawnRate;
+	private VBox mySpawnSet;
+	private TextField myInput;
 
 	public LevelConditionManager() {
 		myView = new GridPane();
+
+		mySpawnSet = new VBox(10);
+		myInput = new TextField();
+		myInput.setPromptText("Enemy Spawn Rate");
+		Label spawnLabel = new Label("Enter Enemy Spawn Rate");
+		mySpawnSet.getChildren().addAll(spawnLabel, myInput);
 
 		ObservableList<String> winOptions = FXCollections.observableArrayList("Enemy Death");
 		myWins = new ComboBox<String>(winOptions);
@@ -53,6 +65,7 @@ public class LevelConditionManager {
 		myView.add(lose, 0, 2, 1, 1);
 		myView.add(myWins, 0, 1, 1, 1);
 		myView.add(myLose, 0, 3, 1, 1);
+		myView.add(mySpawnSet, 0, 4, 1, 1);
 
 		myView.setPadding(new Insets(10, 10, 10, 10));
 		myView.setVgap(10);
@@ -62,8 +75,9 @@ public class LevelConditionManager {
 	private void updateSelectedWin(String w) {
 		mySelectedWin = w;
 		String className = mySelectedWin.replace(" ", "");
-//		String classPath = String.format("%s%s%s", "com.syntacticsugar.vooga.gameplayer.conditions.implementation.",
-//				className, "Condition");
+		// String classPath = String.format("%s%s%s",
+		// "com.syntacticsugar.vooga.gameplayer.conditions.implementation.",
+		// className, "Condition");
 		String classPath = String.format("%s%s%s", CONDITION_PATH, className, "Condition");
 
 		try {
@@ -119,12 +133,22 @@ public class LevelConditionManager {
 		return mySelectedWin;
 	}
 
+	public void saveSpawnRate() {
+		try {
+			mySavedSpawnRate = Integer.parseInt(myInput.getText());
+		} catch (Exception e) {
+			AlertBoxFactory.createObject("Please enter an integer.");
+		}
+	}
+
 	public Node getView() {
 		return myView;
 	}
 
 	public LevelSettings getConditions() {
-		LevelSettings settings = new LevelSettings(mySelectedWin,myWinParameters,mySelectedLose, myLoseParameters);
+		saveSpawnRate();
+		LevelSettings settings = new LevelSettings(mySelectedWin, myWinParameters, mySelectedLose, myLoseParameters,
+				mySavedSpawnRate);
 		return settings;
 	}
 }

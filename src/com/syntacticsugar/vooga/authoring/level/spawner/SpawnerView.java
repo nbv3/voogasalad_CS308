@@ -50,6 +50,7 @@ public class SpawnerView implements IDataSelector<ObjectData>, IVisualElement, I
 		// test code
 		// TODO: REMOVE
 		testCreatedObjectDataList();
+
 	}
 
 	// test code
@@ -75,7 +76,7 @@ public class SpawnerView implements IDataSelector<ObjectData>, IVisualElement, I
 	// called when drag-drop happens
 	@Override
 	public void addData(ObjectData obj) {
-		obj.getImagePathProperty().addListener((e,ov,nv) -> {
+		obj.getImagePathProperty().addListener((e, ov, nv) -> {
 			refresh();
 		});
 		myQueue.add(obj);
@@ -135,6 +136,7 @@ public class SpawnerView implements IDataSelector<ObjectData>, IVisualElement, I
 	public WaveData getWaveData() {
 		return new WaveData(myQueue);
 	}
+
 	@Override
 	public void refresh() {
 		myWave.clear();
@@ -146,5 +148,5 @@ public class SpawnerView implements IDataSelector<ObjectData>, IVisualElement, I
 		});
 		myQueuePane.refresh();
 	}
-	
+
 }

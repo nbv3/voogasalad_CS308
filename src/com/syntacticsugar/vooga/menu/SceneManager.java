@@ -45,8 +45,6 @@ public class SceneManager {
 
 	public SceneManager(Stage stage) {
 		this();
-		// Windows 10 - Bug Fix for JavaFX
-		System.setProperty("glass.accessible.force", "false");
 		myStage = stage;
 		myStage.setTitle(TITLE);
 		//launchFirstMenu();
@@ -218,10 +216,10 @@ public class SceneManager {
 
 		TowerData td = new TowerData(towers);
 
-		LevelSettings lSetting = new LevelSettings(50);
+		LevelSettings lSetting = new LevelSettings(50, 60);
 		Collection<UniverseData> uni = new ArrayList<>();
 		uni.add(new UniverseData(spawn, td, map, lSetting));
-		GlobalSettings settings = new GlobalSettings(1, 60);
+		GlobalSettings settings = new GlobalSettings(1);
 		GameData data = new GameData(uni, settings);
 
 		return data;

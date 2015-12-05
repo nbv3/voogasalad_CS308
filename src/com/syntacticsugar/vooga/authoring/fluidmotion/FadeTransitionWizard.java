@@ -18,7 +18,7 @@ public class FadeTransitionWizard {
 		return ft;
 	}
 
-	public static Animation fadeOut(Node node, Duration timeDuration, int initVal, int endVal, int cycleNo) {
+	public static Animation fadeOut(Node node, Duration timeDuration, double initVal, double endVal, int cycleNo) {
 		FadeTransition ft = fade(node, timeDuration, initVal, endVal);
 		return ft;
 	}
@@ -30,12 +30,12 @@ public class FadeTransitionWizard {
 		return ft;
 	}
 	
-	public static Animation fadeIn(Node node, Duration timeDuration, int initVal, int endVal, int cycleNo) {
+	public static Animation fadeIn(Node node, Duration timeDuration, double initVal, double endVal, int cycleNo) {
 		FadeTransition ft = fade(node, timeDuration, initVal, endVal);
 		return ft;
 	}
 
-	private static FadeTransition fade(Node node, Duration timeDuration, int initVal, int endVal) {
+	private static FadeTransition fade(Node node, Duration timeDuration, double initVal, double endVal) {
 		FadeTransition ft = initFadeTransitionObject(node, timeDuration);
 		ft.setFromValue(initVal);
 		ft.setToValue(endVal);

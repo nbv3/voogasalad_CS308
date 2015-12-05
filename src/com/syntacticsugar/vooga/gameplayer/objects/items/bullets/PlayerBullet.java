@@ -13,41 +13,13 @@ import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 
 import javafx.geometry.Point2D;
 
-public class PlayerBullet extends GameObject {
+public class PlayerBullet extends AbstractBullet {
 
 	private boolean despawnFlag;
 	
-	public PlayerBullet(Direction move, Point2D startPoint, String imagePath, double damage) {
-		super(GameObjectType.ITEM, startPoint, 10, 10, imagePath);
-		HealthChangeEvent bulletDamage = new HealthChangeEvent(damage);
-		addAttribute(new ConstantMovementAttribute(move, 6.0));
-		addCollisionBinding(GameObjectType.ENEMY, bulletDamage);
-		for (IAttribute att: getAttributes().values()) {
-			att.setParent(this);
-		}
-		despawnFlag = false;
-	}
-	
-	@Override
-	public void updateSelf(IGameUniverse universe) {
-		super.updateSelf(universe);
-		if (despawnFlag) {
-			ObjectDespawnEvent event = new ObjectDespawnEvent(this);
-			universe.postEvent(event);
-		}
-	};
-	
-	@Override
-	public void onCollision(IGameObject obj) {
-		super.onCollision(obj);
-		System.out.println(obj.getType());
-		if (obj.getType().equals(GameObjectType.ENEMY) || obj.getType().equals(GameObjectType.TOWER)) {
-			setDespawnFlag(true);
-		}
-	}
-	
-	private void setDespawnFlag(boolean flag) {
-		this.despawnFlag = flag;
+	public PlayerBullet(BulletParams params) {
+		super(params);
+		
 	}
 	
 }

@@ -18,8 +18,25 @@ public class WebConnectorTest {
 
 		//getXMLsTest();
 		//getXMLTest(11);
-		postXMLTest();
-		// deleteXMLTest(2);
+		//postXMLTest();
+		//deleteXMLTest(10);
+		//postCommentTest();
+		//getCommentsTest(1422);
+	}
+	
+	public static void postCommentTest() {
+		int id = 1422;
+		String author = "Strange person";
+		String comment = "Michael is a little b";
+		JSONObject request = JSONHelper.createCommentJSON(id, author, comment);
+		System.out.println("Sending Request: " + request.toString());
+		String output = WebConnector.postComment(request);
+		System.out.println("Output: " + output);
+	}
+	
+	public static void getCommentsTest(int gameid) {
+		JSONObject jsonOutput = WebConnector.getComments(gameid);
+		System.out.println(jsonOutput.toString());
 	}
 
 	public static void getXMLsTest() {
@@ -40,21 +57,14 @@ public class WebConnectorTest {
 		System.out.println("XML: " + JSONHelper.extractXML(jsonOutput));
 	}
 
-	public static void postXMLTest() throws Exception {
+	public static void postXMLTest() {
 		String author = "the one with date";
 		String gamename = "SS";
 		String description = "game djlfakjdlkfjdlkfjdljflkdlfjdlfjk goes here";
 		File f = new File("src/com/syntacticsugar/vooga/util/compress/Untitled.xml");
 		//String xml = FileHelper.readFile(f);
-		
-		List<Pair<String, String>> list = new ArrayList<Pair<String, String>>();
-		Pair<String, String> pair = new Pair<String, String>("michael", "hello");
-		list.add(pair);
-		String comment = CommentViewer.serializeList(list);
-		
-		
 		String xml = "<testxml>soem shittejjiejiefe</testxml>";
-		JSONObject request = JSONHelper.createJSON(author, gamename, description, xml, comment);
+		JSONObject request = JSONHelper.createxmlJSON(author, gamename, description, xml, "michael");
 		System.out.println("Sending Request: " + request.toString());
 		String output = WebConnector.postXML(request);
 		System.out.println("Output: " + output);
