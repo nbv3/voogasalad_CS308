@@ -8,10 +8,16 @@ import java.util.Map;
 import com.syntacticsugar.vooga.authoring.objectediting.IVisualElement;
 import com.syntacticsugar.vooga.util.dirview.IConverter;
 import com.syntacticsugar.vooga.util.dirview.IDirectoryViewer;
+import com.syntacticsugar.vooga.xml.XMLFileFilter;
+import com.syntacticsugar.vooga.xml.XMLHandler;
+import com.syntacticsugar.vooga.xml.data.ObjectData;
+import com.syntacticsugar.vooga.xml.data.ObjectData;
+
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
@@ -33,11 +39,12 @@ public class IconPane implements IVisualElement, IDirectoryViewer<String> {
 
 	public void setSelectedTile(Icon selectedTile) {
 		this.selectedTile = selectedTile;
+		System.out.println("here");
 	}
 
 	private final ObjectProperty<ImageView> mySelectedIcon = new SimpleObjectProperty<>();
 	private final double GLOW_PERCENTAGE = 0.75;
-	private final double INSET_VALUE = 6;
+	private final double INSET_VALUE = 3;
 	private final int NUM_COLS = 3;
 
 	public IconPane() {
@@ -47,19 +54,23 @@ public class IconPane implements IVisualElement, IDirectoryViewer<String> {
 		myScrollPane.setVbarPolicy(ScrollBarPolicy.AS_NEEDED);
 		myScrollPane.setHbarPolicy(ScrollBarPolicy.AS_NEEDED);
 		myScrollPane.setFitToWidth(true);
-		initializeGridPane();
+		myIconPane = new TilePane();
 		myScrollPane.setPadding(new Insets(INSET_VALUE));
+		clearIconPane();
+		initializeGridPane();
 	}
-	public void addPreviewListener(ChangeListener<ImageView> event){
+
+	public void addPreviewListener(ChangeListener<ImageView> event) {
 		mySelectedIcon.addListener(event);
 	}
+
 	private void initializeGridPane() {
-		myIconPane = new TilePane();
 		myIconPane.setPrefColumns(NUM_COLS);
+		myIconPane.setAlignment(Pos.CENTER);
 		myIconPane.setHgap(INSET_VALUE);
 		myIconPane.setVgap(INSET_VALUE);
 		myScrollPane.setContent(myIconPane);
-		myIconPane.maxWidthProperty().set(myScrollPane.viewportBoundsProperty().get().getWidth());
+		myIconPane.maxWidthProperty().set(myScrollPane.viewportBoundsProperty().get().getWidth()-2*INSET_VALUE);
 	}
 
 	@Override
@@ -71,28 +82,53 @@ public class IconPane implements IVisualElement, IDirectoryViewer<String> {
 			ImageView iv = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(path)));
 			iv.fitWidthProperty().bind(myIconPane.maxWidthProperty().divide(NUM_COLS).subtract(INSET_VALUE));
 			iv.fitHeightProperty().bind(iv.fitWidthProperty());
-			iv.setOnMouseClicked(e -> setSelectedIcon(iv));
+			iv.setOnMouseClicked(e -> setSelectedImageView(iv));
 			myIconPane.getChildren().add(iv);
 			myImagePaths.put(iv, path);
 		}
 	}
 
-	@Override
+	public Map<ImageView, ObjectData> showDirectoryContentsMap(File directory, IConverter<String> fileConverter) {
+		clearIconPane();
+		initializeGridPane();
+		Map<ImageView, ObjectData> map = new HashMap<ImageView, ObjectData>();
+
+		File[] files = directory.listFiles(new XMLFileFilter());
+		XMLHandler<ObjectData> xml = new XMLHandler<>();
+		for (int i = 0; i < files.length; i++) {
+			ObjectData obj = xml.read(files[i]);
+			ImageView image = new ImageView(
+					new Image(getClass().getClassLoader().getResourceAsStream(obj.getImagePath())));
+			image.fitWidthProperty().bind(myIconPane.maxWidthProperty().divide(NUM_COLS).subtract(INSET_VALUE));
+			image.fitHeightProperty().bind(image.fitWidthProperty());
+			image.setOnMouseClicked(e -> setSelectedImageView(image));
+			myIconPane.getChildren().add(image);
+			myImagePaths.put(image, obj.getImagePath());
+			map.put(image, obj);
+		}
+
+		return map;
+	}
+
+	/**
+	 * Return the JavaFX Node used to display this IconPane.
+	 * 
+	 * @return
+	 */
 	public Node getView() {
+		// TODO Auto-generated method stub
 		return myScrollPane;
 	}
 
 	/**
 	 * Return the String image path representing the currently selected Tile.
+	 * 
 	 * @return
 	 */
 	public String getSelectedImagePath() {
 		return myImagePaths.get(mySelectedIcon.get());
 	}
-	
 
-	// ******************************* //
-	
 	private void clearIconPane() {
 		myIconPane.getChildren().clear();
 		myImagePaths.clear();
@@ -112,8 +148,12 @@ public class IconPane implements IVisualElement, IDirectoryViewer<String> {
 		newIv.setEffect(new Glow(GLOW_PERCENTAGE));
 	}
 
-	private void setSelectedIcon(ImageView iv) {
+	private void setSelectedImageView(ImageView iv) {
 		mySelectedIcon.set(iv);
+	}
+
+	public ImageView getSelectedIcon() {
+		return mySelectedIcon.get();
 	}
 
 }

@@ -19,6 +19,7 @@ import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
 import com.syntacticsugar.vooga.gameplayer.event.ICollisionEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.HealthChangeEvent;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
+import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
 
 import javafx.animation.Animation;
@@ -28,6 +29,7 @@ import javafx.geometry.Orientation;
 import javafx.scene.Node;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
+import javafx.scene.control.TitledPane;
 import javafx.scene.control.Tooltip;
 
 public class TowerView implements IVisualElement, IDataSelector<ObjectData>, IRefresher {
@@ -37,6 +39,7 @@ public class TowerView implements IVisualElement, IDataSelector<ObjectData>, IRe
 	private ObservableList<Node> myObservable;
 	private HashMap<Node, ObjectData> myMap;
 	private Object selectedItem;
+	private TitledPane myViewPane;
 
 	public TowerView() {
 		myTowerView = new ListView<Node>();
@@ -49,6 +52,8 @@ public class TowerView implements IVisualElement, IDataSelector<ObjectData>, IRe
 
 		//TODO: REMOVE (blank initialization)
 		testCreatedObjectDataList();
+		
+		myViewPane = GUIFactory.buildTitledPane("Available Towers", myTowerView);
 	}
 
 	// test method
@@ -119,7 +124,7 @@ public class TowerView implements IVisualElement, IDataSelector<ObjectData>, IRe
 	
 	@Override
 	public Node getView() {
-		return myTowerView;
+		return myViewPane;
 	}
 	
 	

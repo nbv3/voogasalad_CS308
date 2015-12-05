@@ -69,13 +69,14 @@ public class ObjectEditor {
 		myView.add(myBottomControlPane, 0, 2, 1, 1);
 		GridPane.setHalignment(myTopControlPane, HPos.CENTER);
 		GridPane.setHalignment(myMainEditorView, HPos.CENTER);
+		createEmptyEditor();
 	}
 	
 	private void createEmptyEditor() {
 		setTypeChooserViability(true);
 		myTypeChooser.setValue(null);
 		ObjectData emptyData = new ObjectData();
-		emptyData.setImagePath("scenery_gray.png");
+		emptyData.setImagePath("scenery_blue.png");
 		myIcon.setImage(new Image(ResourceManager.getResource(this, emptyData.getImagePath())));
 		emptyData.setObjectName(null);
 		emptyData.setType(null);
@@ -89,18 +90,12 @@ public class ObjectEditor {
 	private GridPane buildEditorView() {
 		AnchorPane attributeAnchor = buildButtons(e -> buildNewAttribute(), e -> myAttributeViewer.removeSelectedItem(),
 				ResourceManager.getString("attributes_added"));
-
 		AnchorPane collisionAnchor = buildButtons(e -> buildNewCollision(), e -> myCollisionViewer.removeSelectedItem(),
 				ResourceManager.getString("collision_menu_title"));
-
 		GridPane grid = createMainEditorGrid();
-
 		VBox att = createEditorVBox(attributeAnchor, myAttributeViewer.getView());
-
 		VBox coll = createEditorVBox(collisionAnchor, myCollisionViewer.getView());
-
 		GridPane iconGrid = createIconGrid();
-
 		grid.add(iconGrid, 0, 0, 1, 1);
 		grid.add(coll, 0, 1, 2, 1);
 		grid.add(att, 1, 0, 1, 1);
@@ -114,11 +109,13 @@ public class ObjectEditor {
 		typeChooser.getItems().addAll(GameObjectType.values());
 		typeChooser.valueProperty().addListener((o, s1, s2) -> {
 			if (s2 == null) {
+				mySaveButton.setDisable(true);
 				return;
 			}
 			if (mySaveButton.isDisabled()) {
 				setSaveButtonViability(true);
 			}
+
 			currentData.setType(s2);
 		});
 		return typeChooser;

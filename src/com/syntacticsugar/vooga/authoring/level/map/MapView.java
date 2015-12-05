@@ -7,9 +7,11 @@ import com.syntacticsugar.vooga.authoring.dragdrop.DragDropManager;
 import com.syntacticsugar.vooga.authoring.dragdrop.ObjectClippableItem;
 import com.syntacticsugar.vooga.authoring.dragdrop.TileClippableItem;
 import com.syntacticsugar.vooga.authoring.icon.Icon;
+import com.syntacticsugar.vooga.authoring.objectediting.IVisualElement;
 import com.syntacticsugar.vooga.authoring.tooltips.TileInfoTooltip;
 import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
+import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
 import com.syntacticsugar.vooga.util.gui.factory.SliderDialogFactory;
 import com.syntacticsugar.vooga.xml.data.MapData;
 import com.syntacticsugar.vooga.xml.data.TileData;
@@ -19,6 +21,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableSet;
 import javafx.collections.SetChangeListener;
 import javafx.event.EventHandler;
+import javafx.scene.Node;
+import javafx.scene.control.TitledPane;
 import javafx.scene.control.Tooltip;
 import javafx.scene.effect.Effect;
 import javafx.scene.effect.InnerShadow;
@@ -30,37 +34,85 @@ import javafx.scene.input.Dragboard;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 
-public class MapEditor implements IMapEditor {
+public class MapView implements IMapDisplay, IVisualElement {
 	
 	private static final Effect TILE_EFFECT = createEffect();
 	private static final String DEFAULT_TILE_IMAGE = "scenery_gray.png";
-
-	private ObservableSet<TileData> myTileSelection;
-	private Map<TileData, Icon> myTileIconMap;
-
-	private MapData myMapData;
-	private int myMapSize;
-	private GridPane myMapGrid;
 	
-	public MapEditor() throws Exception {
-		myMapSize = inputMapSize();
-		myTileSelection = buildSelectionSet();
-		myMapData = new MapData(myMapSize, DEFAULT_TILE_IMAGE);
-		myMapGrid = new GridPane();
-		initializeMapView(myMapData);
-	}
-
 	private static Effect createEffect() {
 		InnerShadow shadow = new InnerShadow();
 		shadow.setColor(Color.RED);
 		return shadow;
 	}
 	
+	
+	private ObservableSet<TileData> myTileSelection;
+	private Map<TileData, Icon> myTileIconMap;
+	private MapData myMapData;
+	private int myMapSize;
+	private GridPane myMapGrid;
+	private TitledPane myViewPane;
+	
+	public MapView() throws Exception {
+		myMapSize = inputMapSize();
+		myTileSelection = buildSelectionSet();
+		myMapData = new MapData(myMapSize, DEFAULT_TILE_IMAGE);
+		myMapGrid = new GridPane();
+		myTileIconMap = new HashMap<>();
+		initializeMapView(myMapData);
+		
+		myViewPane = GUIFactory.buildTitledPane("Map Display", myMapGrid);
+	}
+
+	@Override
+	public void displayData(TileData newData) {
+		if (newData == null)
+			return;
+		boolean showAlert = false;
+		for (TileData toChange : myTileSelection) {
+			setImplementation(toChange, newData.getImplementation());
+			setImagePath(toChange, newData.getImagePath());
+			showAlert = setAsDestination(toChange, newData.isDestination());
+		}
+		if (showAlert)
+			AlertBoxFactory.createObject("Can only set Path tiles as destinations.");
+	}
+
+	@Override
+	public void clearDisplay() {
+		myTileSelection.clear();
+	}
+
+	/**
+	 * Should not be used 
+	 */
+	@Deprecated
+	@Override
+	public TileData getData() {
+		return null;
+	}
+	
+	@Override
+	public void selectAllTiles() {
+		myTileSelection.clear();
+		myTileSelection.addAll(myMapData.getTiles());
+	}
+	
+	@Override
+	public Node getView() {
+		return myViewPane;
+	}
+	
 	public void loadMapData(MapData loadedMap) {
 		myTileSelection = buildSelectionSet();
+		myTileIconMap = new HashMap<>();
 		myMapData = loadedMap;
 		myMapSize = loadedMap.getMapSize();
 		initializeMapView(myMapData);
+	}
+	
+	public MapData getMapData() {
+		return myMapData;
 	}
 	
 	private ObservableSet<TileData> buildSelectionSet() {
@@ -88,7 +140,6 @@ public class MapEditor implements IMapEditor {
 	
 	private void initializeMapView(MapData mapData) {
 		myMapGrid.getChildren().clear();
-		myTileIconMap = new HashMap<>();
 		for (int i=0; i<myMapSize; i++) {
 			for (int j=0; j<myMapSize; j++) {
 				TileData tile = mapData.getTileData(i, j);
@@ -194,51 +245,32 @@ public class MapEditor implements IMapEditor {
 		icon.setEffect(TILE_EFFECT);
 	}
 
-	@Override
-	public void selectAllTiles() {
-		myTileSelection.clear();
-		myTileSelection.addAll(myMapData.getTiles());
-	}
-
-	@Override
-	public void clearAllTiles() {
-		myTileSelection.clear();
-	}
-
-	@Override
-	public void setAsDestination(boolean isDestination) {
-		boolean alertFlag = false;
-		for (TileData tile : myTileSelection) {
-			if (tile.getImplementation().equals(TileImplementation.Scenery) && isDestination)
-				alertFlag = true;
-			else 
-				tile.setDestination(isDestination);
+	/**
+	 * Check the TileData in question to see if it's Scenery or Path. If Path,
+	 * then we are able to set the destination marker and return false (no need to show
+	 * an alert). If the TileData is of type Scenery, then we return true without changing
+	 * the TileData to allow the calling method to show the appropriate error alert.
+	 * @param toChange
+	 * @param isDestination
+	 * @return
+	 */
+	private boolean setAsDestination(TileData toChange, boolean isDestination) {
+		if (toChange.getImplementation().equals(TileImplementation.Scenery) && isDestination) {
+			return true;
 		}
-		if (alertFlag)
-			AlertBoxFactory.createObject("Can only set Path tiles as destinations.");
-	}
-
-	@Override
-	public void setImplementation(TileImplementation impl) {
-		for (TileData tile : myTileSelection) {
-			tile.setImplementation(impl);
+		else {
+			toChange.setDestination(isDestination);
+			return false;
 		}
 	}
 
-	@Override
-	public void setImagePath(String imagePath) {
-		for (TileData tile : myTileSelection) {
-			tile.setImagePath(imagePath);
-			myTileIconMap.get(tile).setImage(new Image(ResourceManager.getResource(this, imagePath)));
-		}
+	private void setImplementation(TileData toChange, TileImplementation impl) {
+		toChange.setImplementation(impl);
 	}
 
-	public GridPane getContent() {
-		return myMapGrid;
-	}
-	
-	public MapData getMapData() {
-		return myMapData;
+	private void setImagePath(TileData toChange, String imagePath) {
+		toChange.setImagePath(imagePath);
+		myTileIconMap.get(toChange).setImage(new Image(ResourceManager.getResource(this, imagePath)));
 	}
 
 }
