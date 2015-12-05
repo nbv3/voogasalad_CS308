@@ -1,14 +1,7 @@
 package com.syntacticsugar.vooga.authoring.tooltips;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.syntacticsugar.vooga.gameplayer.attribute.HealthAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
-import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
-import com.syntacticsugar.vooga.xml.data.TileData;
-
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -20,7 +13,7 @@ import javafx.scene.layout.VBox;
 
 public class ObjectTooltip extends CustomTooltip{
 	private ObjectData myData;
-	private List<Label> myLabels;
+//	private List<Label> myLabels;
 	private ImageView currentImageView;
 	private VBox box;
 	

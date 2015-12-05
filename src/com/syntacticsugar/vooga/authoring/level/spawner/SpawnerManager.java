@@ -51,6 +51,7 @@ public class SpawnerManager implements ITabbedManager<ObjectData> {
 
 	@Override
 	public void remove() {
+		@SuppressWarnings("unchecked")
 		ListView<VBox> wave = (ListView<VBox>) myTabPane.getSelectionModel().getSelectedItem().getContent();
 		Animation parallel = ParallelTransitionWizard.parallelize(convertNodeListToAnimList(wave));
 		parallel.setOnFinished(toExecuteOnFinished->clearWave_BAREBONE(wave));

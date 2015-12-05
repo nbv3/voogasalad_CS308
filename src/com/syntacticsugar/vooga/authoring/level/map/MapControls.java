@@ -51,6 +51,8 @@ public class MapControls extends Observable implements IVisualElement {
 	private ImageView previewTile = new ImageView(); 
 
 	public ImageView getPreviewTile() {
+		previewTile.setFitWidth(100);
+		previewTile.setFitHeight(100);
 		return previewTile;
 	}
 

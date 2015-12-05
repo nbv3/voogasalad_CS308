@@ -7,7 +7,6 @@ import com.syntacticsugar.vooga.authoring.level.map.MapControls;
 import com.syntacticsugar.vooga.authoring.level.map.MapManager;
 import com.syntacticsugar.vooga.authoring.level.spawner.SpawnerControls;
 import com.syntacticsugar.vooga.authoring.level.spawner.SpawnerManager;
-import com.syntacticsugar.vooga.authoring.level.towers.TowerControls;
 import com.syntacticsugar.vooga.authoring.level.towers.TowerManager;
 import com.syntacticsugar.vooga.xml.data.MapData;
 

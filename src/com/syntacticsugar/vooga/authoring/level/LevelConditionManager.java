@@ -66,8 +66,8 @@ public class LevelConditionManager {
 		// com.syntacticsugar.vooga.gameplayer.conditions.implementation.EnemyDeathCondition
 		try {
 			Class<?> c = Class.forName(classPath);
-			Constructor[] constr = c.getDeclaredConstructors();
-			Class[] parameterTypes = constr[0].getParameterTypes();
+			Constructor<?>[] constr = c.getDeclaredConstructors();
+			Class<?>[] parameterTypes = constr[0].getParameterTypes();
 			for (int i = 0; i < parameterTypes.length; i++) {
 				MsgInputBoxFactory msgBox = new MsgInputBoxFactory(String.format("Set %s Value", mySelectedWin));
 				myWinParameters.add(msgBox.getInputValue());
@@ -89,8 +89,8 @@ public class LevelConditionManager {
 		try {
 
 			Class<?> c = Class.forName(classPath);
-			Constructor[] constr = c.getDeclaredConstructors();
-			Class[] parameterTypes = constr[0].getParameterTypes();
+			Constructor<?>[] constr = c.getDeclaredConstructors();
+			Class<?>[] parameterTypes = constr[0].getParameterTypes();
 			for (int i = 0; i < parameterTypes.length; i++) {
 				MsgInputBoxFactory msgBox = new MsgInputBoxFactory(String.format("Set %s Value", mySelectedLose));
 				myLoseParameters.add(msgBox.getInputValue());
