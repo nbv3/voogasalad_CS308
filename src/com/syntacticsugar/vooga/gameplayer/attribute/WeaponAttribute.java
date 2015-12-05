@@ -31,7 +31,7 @@ public class WeaponAttribute extends AbstractAttribute implements IUserControlAt
 	
 	public WeaponAttribute() {
 		super(new StringParameter("Image Path:  "), new DoubleParameter("Bullet Damage: "), new KeyCodeParameter("Fire KeyCode: "));
-		setParameters("", 5.0, KeyCode.SPACE);
+		setParameters("", 10.0, KeyCode.SPACE);
 	}
 	
 	private void setParameters(String path, Double damage, KeyCode code)

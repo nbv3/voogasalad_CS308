@@ -85,10 +85,10 @@ public class DragDropManager {
 	}
 
 	public static void undoDragOverState(Icon icon) {
-		icon.setOpacity(1);
+		icon.getImageView().setOpacity(1);
 	}
 
 	public static void setDragOverState(Icon icon) {
-		icon.setOpacity(0);
+		icon.getImageView().setOpacity(0);
 	}
 }

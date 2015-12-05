@@ -71,61 +71,6 @@ public class GameManager implements IGameManager{
 
 		myViewController = new ViewController(gameSize);
 
-		// i changed ISimpleObject to SimpleObject, else addViewObject does not
-		// work
-		String playerPath = "player_pacman.png";
-		String enemyPath = "enemy_monster_1.png";
-		String missilePath = "scenery_pink.png";
-
-		ObjectData playerData = new ObjectData();
-		List<IAttribute> attributes = new ArrayList<IAttribute>();
-		HealthAttribute playerHealth = new HealthAttribute();
-		playerHealth.setHealth(100.0);
-		WeaponAttribute playerWeapon = new WeaponAttribute();
-		playerWeapon.setBulletDamage(10.0);
-		playerWeapon.setBulletImagePath(missilePath);
-		playerWeapon.setFireKeyCode(KeyCode.SPACE);
-		MovementControlAttribute playerMove = new MovementControlAttribute();
-		playerMove.setSpeed(3.0);
-		attributes.add(playerHealth);
-		attributes.add(playerMove);
-		attributes.add(playerWeapon);
-		playerData.setType(GameObjectType.PLAYER);
-		playerData.setSpawnPoint(0, 0);
-		playerData.setWidth(50);
-		playerData.setHeight(50);
-		playerData.setImagePath(playerPath);
-		playerData.setAttributes(attributes);
-
-		ObjectData enemyData = new ObjectData();
-		Collection<IAttribute> enemyAttributes = new ArrayList<IAttribute>();
-		HealthAttribute enemyHealth = new HealthAttribute();
-		enemyHealth.setHealth(40.0);
-		ScoreAttribute enemyScore = new ScoreAttribute();
-		enemyScore.setScore(10);
-		enemyAttributes.add(enemyHealth);
-		enemyAttributes.add(enemyScore);
-//		enemyAttributes.add(new AIMovementAttribute(3));
-		Map<GameObjectType, Collection<ICollisionEvent>> collisions = new HashMap<GameObjectType, Collection<ICollisionEvent>>();
-		Collection<ICollisionEvent> enemyEvents = new ArrayList<ICollisionEvent>();
-		enemyEvents.add(new HealthChangeEvent(10.0));
-		collisions.put(GameObjectType.PLAYER, enemyEvents);
-		enemyData.setType(GameObjectType.ENEMY);
-		enemyData.setSpawnPoint(150, 150);
-		enemyData.setWidth(100);
-		enemyData.setHeight(100);
-		enemyData.setImagePath(enemyPath);
-		enemyData.setAttributes(enemyAttributes);
-		enemyData.setCollisionMap(collisions);
-
-		IGameObject player = new GameObject(playerData);
-		IGameObject enemy = new GameObject(enemyData);
-
-		currentLevel.addGameObject(player);
-		currentLevel.addGameObject(enemy);
-		currentLevel.addToSpawnYard(player);
-		currentLevel.addToSpawnYard(enemy);
-		
 		myViewController.initializeView(currentLevel);
 		myGameEngine = new GameEngine(currentLevel, myViewController);
 

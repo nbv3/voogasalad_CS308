@@ -27,7 +27,6 @@ public abstract class AbstractMovementAttribute extends AbstractAttribute implem
 	public AbstractMovementAttribute(AbstractParameter<?>... params) {
 		super(params);
 		resetVelocity();
-		setSpeed(10.0);
 		myCurrentTile = new Point(0,0);
 	}
 	

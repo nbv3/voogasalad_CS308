@@ -155,29 +155,6 @@ public class MapView implements IMapDisplay, IVisualElement {
 				icon.setOnDragOver((DragEvent event) -> DragDropManager.dragOverHandler(event));
 				icon.setOnDragEntered((DragEvent event) -> DragDropManager.dragEnteredHandler(icon, event)); 
 				icon.setOnDragExited((DragEvent event) -> DragDropManager.dragExitedHandler(icon, event));
-//				icon.setOnDragDropped(new EventHandler<DragEvent>() {
-//					public void handle(DragEvent event) {
-//						/* data dropped */
-//						/* if there is a string data on dragboard, read it and use it */
-//
-//						// To Do:
-//						// Localise the TileData string
-//
-//						Dragboard db = event.getDragboard();
-//						boolean success = false;
-//						if (db.hasContent(DataFormat.lookupMimeType("TileData"))) {
-//							System.out.println("DB contains TileData.");	
-//							System.out.println(db.getContent(DataFormat.lookupMimeType("TileData")));
-//							success = true;
-//						} else if(db.hasContent(DataFormat.lookupMimeType("ObjectData"))){
-//							System.out.println("DB contains ObjectData.");	
-//
-//						}
-//						event.setDropCompleted(success);
-//						event.consume();
-//					}
-//
-//				});
 				myMapGrid.add(icon, i, j, 1, 1);
 				myMapGrid.setOnDragDropped(e->{
 					returnDragOverIcon(e,mapData);
@@ -200,17 +177,12 @@ public class MapView implements IMapDisplay, IVisualElement {
 		System.out.println(colIndex);
 		System.out.println(rowIndex);
 		Dragboard db = event.getDragboard();
-		TileData tdFromClipBoard = (TileData)db.getContent(DataFormat.lookupMimeType("TileData"));
-		Icon icon = myTileIconMap.get(mapData.getTileData(colIndex, rowIndex));
-		myTileIconMap.remove(mapData.getTileData(colIndex, rowIndex));
-			
-		
-		mapData.setTileData(tdFromClipBoard, colIndex, rowIndex);
-		myTileIconMap.put(tdFromClipBoard, icon);
-		setImplementation(tdFromClipBoard, tdFromClipBoard.getImplementation());
-		setImagePath(tdFromClipBoard,  tdFromClipBoard.getImagePath());
-		setAsDestination(tdFromClipBoard, tdFromClipBoard.isDestination());
-}
+		TileData tdFromClipBoard = (TileData) db.getContent(DataFormat.lookupMimeType("TileData"));
+		TileData toedit = myMapData.getTileData(colIndex, rowIndex);
+		setImplementation(toedit, tdFromClipBoard.getImplementation());
+		setImagePath(toedit,  tdFromClipBoard.getImagePath());
+		setAsDestination(toedit, tdFromClipBoard.isDestination());
+	}
 	
 	private void mouseOverHandler(TileData tile, boolean isControlDown, boolean isShiftDown) {
 		multiSelectTile(tile, isControlDown, isShiftDown);

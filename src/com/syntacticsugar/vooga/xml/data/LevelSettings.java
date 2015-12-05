@@ -9,6 +9,7 @@ public class LevelSettings {
 
 	private IGameCondition gameWin;
 	private IGameCondition gameLose;
+	private int scoreThreshold;
 
 	public LevelSettings(String winClass, List<Double> winParam, String loseClass, List<Double> loseParam) {
 		{
@@ -36,4 +37,11 @@ public class LevelSettings {
 			}
 		}
 	}
+	public LevelSettings(int scoreThreshold2) {
+		scoreThreshold = scoreThreshold2;
+	}
+	public int getScoreThreshold() {
+		return this.scoreThreshold;
+	}
+	
 }

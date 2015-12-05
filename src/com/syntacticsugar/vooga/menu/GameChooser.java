@@ -10,6 +10,11 @@ import java.util.Map;
 import com.syntacticsugar.vooga.gameplayer.attribute.HealthAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.ScoreAttribute;
+import com.syntacticsugar.vooga.gameplayer.attribute.WeaponAttribute;
+import com.syntacticsugar.vooga.gameplayer.attribute.control.actions.movement.Direction;
+import com.syntacticsugar.vooga.gameplayer.attribute.movement.AIMovementAttribute;
+import com.syntacticsugar.vooga.gameplayer.attribute.movement.ConstantMovementAttribute;
+import com.syntacticsugar.vooga.gameplayer.attribute.movement.MovementControlAttribute;
 import com.syntacticsugar.vooga.gameplayer.event.ICollisionEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.HealthChangeEvent;
 import com.syntacticsugar.vooga.gameplayer.manager.GameManager;
@@ -38,6 +43,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -159,7 +165,8 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 	private GameData makeEmptyData() {
 
 		Collection<ObjectData> odata = new ArrayList<>();
-		String enemyPath = "enemy_monster_1.png";
+
+		String enemyPath = "enemy_ghost_1.png";
 		ObjectData enemyData = new ObjectData();
 		Collection<IAttribute> enemyAttributes = new ArrayList<IAttribute>();
 		HealthAttribute health = new HealthAttribute();
@@ -201,8 +208,60 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 		enemyData2.setAttributes(enemyAttributes2);
 		enemyData2.setCollisionMap(collisions2);
 
+
+		// i changed ISimpleObject to SimpleObject, else addViewObject does not
+		// work
+		String playerPath = "player_pacman.png";
+		String missilePath = "scenery_pink.png";
+
+		ObjectData playerData = new ObjectData();
+		Collection<IAttribute> attributes = new ArrayList<IAttribute>();
+		HealthAttribute playerHealth = new HealthAttribute();
+		playerHealth.setHealth(100.0);
+		WeaponAttribute playerWeapon = new WeaponAttribute();
+		playerWeapon.setBulletDamage(50.0);
+		playerWeapon.setBulletImagePath(missilePath);
+		playerWeapon.setFireKeyCode(KeyCode.SPACE);
+		MovementControlAttribute playerMove = new MovementControlAttribute();
+		playerMove.setSpeed(3.0);
+		attributes.add(playerHealth);
+		attributes.add(playerMove);
+		attributes.add(playerWeapon);
+		playerData.setType(GameObjectType.PLAYER);
+		playerData.setSpawnPoint(0, 0);
+		playerData.setWidth(50);
+		playerData.setHeight(50);
+		playerData.setImagePath(playerPath);
+		playerData.setAttributes(attributes);
+
+		ObjectData enemyData3 = new ObjectData();
+		Collection<IAttribute> enemyAttributes3 = new ArrayList<IAttribute>();
+		HealthAttribute enemyHealth3 = new HealthAttribute();
+		enemyHealth3.setHealth(40.0);
+		ScoreAttribute enemyScore3 = new ScoreAttribute();
+		enemyScore3.setScore(10);
+		enemyAttributes3.add(enemyHealth3);
+		enemyAttributes3.add(enemyScore3);
+//		AIMovementAttribute AI3 = new AIMovementAttribute();
+//		AI3.setSpeed(5.0);
+		ConstantMovementAttribute cm = new ConstantMovementAttribute(Direction.DOWN, 1.0);
+		enemyAttributes3.add(cm);
+		Map<GameObjectType, Collection<ICollisionEvent>> collisions3 = new HashMap<GameObjectType, Collection<ICollisionEvent>>();
+		Collection<ICollisionEvent> enemyEvents3 = new ArrayList<ICollisionEvent>();
+		enemyEvents3.add(new HealthChangeEvent(10.0));
+		collisions3.put(GameObjectType.PLAYER, enemyEvents3);
+		enemyData3.setType(GameObjectType.ENEMY);
+		enemyData3.setSpawnPoint(150, 150);
+		enemyData3.setWidth(100);
+		enemyData3.setHeight(100);
+		enemyData3.setImagePath(enemyPath);
+		enemyData3.setAttributes(enemyAttributes3);
+		enemyData3.setCollisionMap(collisions3);
+
+		odata.add(playerData);
 		odata.add(enemyData);
 		odata.add(enemyData2);
+		odata.add(enemyData3);
 		WaveData wdata = new WaveData(odata);
 		Collection<WaveData> sdata = new ArrayList<>();
 		sdata.add(wdata);
