@@ -11,9 +11,9 @@ import com.syntacticsugar.vooga.util.ResourceManager;
 public class HealthChangeEvent extends CollisionEvent {
 
 	private final String TARGET_ATTRIBUTE = ResourceManager.getString("HealthAttribute");
-	private double myDeltaHealth;
+	private Double myDeltaHealth;
 	
-	public HealthChangeEvent(double deltaHealth) {
+	public HealthChangeEvent(Double deltaHealth) {
 		super(CollisionEventType.HealthChange);
 		this.myDeltaHealth = deltaHealth;
 	}
@@ -21,7 +21,7 @@ public class HealthChangeEvent extends CollisionEvent {
 	@Override
 	public void executeEvent(Map<String, IAttribute> targetAttributes) {
 		HealthAttribute health = (HealthAttribute) targetAttributes.get(TARGET_ATTRIBUTE);
-		health.changeHealth(myDeltaHealth);
+		health.changeHealth(-1 * myDeltaHealth);
 	}
 	
 	public double getDeltaHealth() {

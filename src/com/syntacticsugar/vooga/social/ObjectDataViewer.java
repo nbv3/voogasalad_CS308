@@ -14,8 +14,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.syntacticsugar.vooga.util.ResourceManager;
-import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
+import com.syntacticsugar.vooga.util.gui.factory.MsgInputBoxFactory;
 import com.syntacticsugar.vooga.util.webconnect.JSONHelper;
 import com.syntacticsugar.vooga.util.webconnect.WebConnector;
 import com.syntacticsugar.vooga.xml.XMLHandler;
@@ -23,10 +23,10 @@ import com.syntacticsugar.vooga.xml.XMLHandler;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.FileChooser.ExtensionFilter;
 
@@ -34,7 +34,6 @@ public class ObjectDataViewer extends ListViewer {
 
 	private int mySelectedItemID = Integer.MIN_VALUE;
 	private Map<String, String> myProperties;
-	//private ICommentsUpdater myCommentUpdater;
 	private CommentViewer myCommentBox;
 
 	public ObjectDataViewer() {
@@ -63,7 +62,7 @@ public class ObjectDataViewer extends ListViewer {
 	}
 
 	private Node makeMyViewer(String viewerTitle) {
-		VBox view = GUIFactory.buildTitledPane(makeContentBox(), viewerTitle);
+		VBox view = GUIFactory.buildTitledVBox(makeContentBox(), viewerTitle);
 		view.setPrefWidth(350);
 		VBox buttons = new VBox();
 		buttons.getChildren().addAll(GUIFactory.buildButton("Upload", e -> {uploadItem();
@@ -76,13 +75,12 @@ public class ObjectDataViewer extends ListViewer {
 	private void populateList(JSONObject object) {
 		clearList();
 		try {
-			
 			while(object.keys().hasNext()){
 				String key = (String) object.keys().next();
 				String value = object.get(key).toString();
 				Node listElement = makeListElement(key, value);
 				object.remove(key);
-				//if (!key.equals("comments")) 
+				if (!key.equals("comments")) 
 					addElementToList(listElement);
 				myProperties.put(key, value);
 			}
@@ -96,7 +94,7 @@ public class ObjectDataViewer extends ListViewer {
 	}
 
 	private Node makeListElement(String key, String value) {
-		Node keyNode = GUIFactory.buildTitleNode(key);
+		Node keyNode = GUIFactory.buildTitleNode(ResourceManager.getString(key));
 		Node valueNode = GUIFactory.buildTitleNode(value);
 		return GUIFactory.buildAnchorPane(keyNode, valueNode);
 	}
@@ -128,10 +126,15 @@ public class ObjectDataViewer extends ListViewer {
 		chooser.getExtensionFilters().add(new ExtensionFilter("Image Files", "*.xml", "*.XML"));
 		File selectedFile = chooser.showOpenDialog(new Stage());
 		if (selectedFile != null) {
+			launchPropertiesBox();
 			WebConnector.postXML(JSONHelper.createJSON("Michael", "Tetris", "tetris", XMLHandler.fileToString(selectedFile), ""));
 		}
 	}
 	
+	private void launchPropertiesBox(){
+		MsgInputBoxFactory inputFactory = new MsgInputBoxFactory("Fill in author name, game name, and description");
+		
+	}
 
 	public void update(int id) {
 		populateList(getJSONObject(id));

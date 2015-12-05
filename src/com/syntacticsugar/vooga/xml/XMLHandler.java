@@ -21,6 +21,7 @@ public class XMLHandler<T> implements IXML<T> {
 	private String generateXML(T obj) {
 		try {
 			String xml = myXStream.toXML(obj);
+			System.out.println("XML size " + xml.length());
 			return xml;
 		} catch (Exception e) {
 			System.out.println("XML Write Error");

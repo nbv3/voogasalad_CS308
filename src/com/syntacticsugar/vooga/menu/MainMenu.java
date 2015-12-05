@@ -1,9 +1,16 @@
 package com.syntacticsugar.vooga.menu;
 
 import com.syntacticsugar.vooga.authoring.AuthoringScreenManager;
+import com.syntacticsugar.vooga.authoring.fluidmotion.ParallelTransitionWizard;
+import com.syntacticsugar.vooga.authoring.fluidmotion.mixandmatchmotion.DirectionalFadeWizard;
 import com.syntacticsugar.vooga.social.SocialCenter;
 import com.syntacticsugar.vooga.util.properties.PropertiesManager;
 
+import javafx.animation.FadeTransition;
+import javafx.animation.Interpolator;
+import javafx.animation.PauseTransition;
+import javafx.animation.SequentialTransition;
+import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -15,18 +22,16 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class MainMenu {
 
 	private Stage myStage;
 	private Scene myScene;
 	private PropertiesManager myPropertiesManager;
-	
-
 
 	public MainMenu() {
-		
-		
+
 		myPropertiesManager = new PropertiesManager("com/syntacticsugar/vooga/resources/View");
 		myStage = new Stage();
 		myStage.setTitle(myPropertiesManager.getProperty("WindowTitle"));
@@ -35,7 +40,7 @@ public class MainMenu {
 		myScene = new Scene(scenenode);
 
 		myStage.setScene(myScene);
-		myStage.show();
+		animatedShowStage();
 	}
 
 	private Parent buildView() {
@@ -53,7 +58,6 @@ public class MainMenu {
 		box.getChildren().addAll(launchGame, launchEditor, launchSocial, new HBox());
 		box.setMaxWidth(myPropertiesManager.getDoubleProperty("ButtonWidth"));
 		BorderPane.setAlignment(box, Pos.CENTER);
-		;
 		pane.setCenter(box);
 	}
 
@@ -68,8 +72,15 @@ public class MainMenu {
 	}
 
 	private void launch(IVoogaApp app) {
-		app.assignCloseHandler(e -> myStage.show());
+		app.assignCloseHandler(e -> animatedShowStage());
 		myStage.hide();
+	}
+
+	private void animatedShowStage() {
+		DirectionalFadeWizard
+			.applyEffect(myStage.getScene().getRoot())
+			.play();
+		myStage.show();
 	}
 
 	private Button createButton(String name, EventHandler<ActionEvent> onAction) {

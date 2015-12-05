@@ -1,6 +1,5 @@
 import com.syntacticsugar.vooga.authoring.objectediting.sizing.ObjectResizer;
 import com.syntacticsugar.vooga.menu.MainMenu;
-import com.syntacticsugar.vooga.menu.SceneManager;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
 
 import javafx.application.Application;
@@ -19,10 +18,9 @@ public class Main extends Application {
 		//new ObjectEditor();
 		new MainMenu();
 		//new SceneManager(stage);
-		//ObjectData data = new ObjectData();
-		//data.setImagePath("scenery_gray.png");
-		//String tileImagePath = "scenery_grass_2.png";
-		//new ObjectResizer(data, tileImagePath);
+		/*ObjectData data = new ObjectData();
+		data.setImagePath("scenery_gray.png");
+		String tileImagePath = "scenery_grass_2.png";*/
 	}
 }
 	
