@@ -7,6 +7,10 @@ import java.util.Map;
 
 import com.syntacticsugar.vooga.util.dirview.IConverter;
 import com.syntacticsugar.vooga.util.dirview.IDirectoryViewer;
+import com.syntacticsugar.vooga.xml.XMLFileFilter;
+import com.syntacticsugar.vooga.xml.XMLHandler;
+import com.syntacticsugar.vooga.xml.data.ObjectData;
+
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
@@ -31,6 +35,7 @@ public class IconPane implements IDirectoryViewer<String> {
 
 	public void setSelectedTile(Icon selectedTile) {
 		this.selectedTile = selectedTile;
+		System.out.println("here");
 	}
 
 	private final ObjectProperty<ImageView> mySelectedIcon = new SimpleObjectProperty<>();
@@ -48,9 +53,11 @@ public class IconPane implements IDirectoryViewer<String> {
 		initializeGridPane();
 		myScrollPane.setPadding(new Insets(INSET_VALUE));
 	}
-	public void addPreviewListener(ChangeListener<ImageView> event){
+
+	public void addPreviewListener(ChangeListener<ImageView> event) {
 		mySelectedIcon.addListener(event);
 	}
+
 	private void initializeGridPane() {
 		myIconPane = new TilePane();
 		myIconPane.setPrefColumns(NUM_COLS);
@@ -75,6 +82,28 @@ public class IconPane implements IDirectoryViewer<String> {
 		}
 	}
 
+	public Map<ImageView, ObjectData> showDirectoryContentsMap(File directory, IConverter<String> fileConverter) {
+		clearIconPane();
+		initializeGridPane();
+		Map<ImageView, ObjectData> map = new HashMap<ImageView, ObjectData>();
+
+		File[] files = directory.listFiles(new XMLFileFilter());
+		XMLHandler<ObjectData> xml = new XMLHandler<>();
+		for (int i = 0; i < files.length; i++) {
+			ObjectData obj = xml.read(files[i]);
+			ImageView image = new ImageView(
+					new Image(getClass().getClassLoader().getResourceAsStream(obj.getImagePath())));
+			image.fitWidthProperty().bind(myIconPane.maxWidthProperty().divide(NUM_COLS).subtract(INSET_VALUE));
+			image.fitHeightProperty().bind(image.fitWidthProperty());
+			image.setOnMouseClicked(e -> setSelectedIcon(image));
+			myIconPane.getChildren().add(image);
+			myImagePaths.put(image, obj.getImagePath());
+			map.put(image, obj);
+		}
+
+		return map;
+	}
+
 	/**
 	 * Return the JavaFX Node used to display this IconPane.
 	 * 
@@ -86,14 +115,13 @@ public class IconPane implements IDirectoryViewer<String> {
 
 	/**
 	 * Return the String image path representing the currently selected Tile.
+	 * 
 	 * @return
 	 */
 	public String getSelectedImagePath() {
 		return myImagePaths.get(mySelectedIcon.get());
 	}
-	
-	
-	
+
 	private void clearIconPane() {
 		myIconPane.getChildren().clear();
 		myImagePaths.clear();
@@ -115,6 +143,10 @@ public class IconPane implements IDirectoryViewer<String> {
 
 	private void setSelectedIcon(ImageView iv) {
 		mySelectedIcon.set(iv);
+	}
+
+	public ImageView getSelectedIcon() {
+		return mySelectedIcon.get();
 	}
 
 }
