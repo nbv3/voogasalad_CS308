@@ -10,11 +10,10 @@ public class DoubleParameter extends AbstractParameter<Double> {
 	
 	private Double myValue;
 	
-	public DoubleParameter(Double value, String label)
+	public DoubleParameter( String label)
 	{
 		//System.out.println("NEW DOUBLE PARAM CREATED");
-		super(value, label);
-		myValue = value;
+		super(label);
 		setInputNode();
 	}
 	
@@ -26,6 +25,12 @@ public class DoubleParameter extends AbstractParameter<Double> {
 		Label nodeLabel = getLabel();
 		containerBox.getChildren().addAll(nodeLabel, myTextField);
 		setNode(containerBox);
+	}
+	
+	@Override
+	public void setValue(Double value)
+	{
+		myValue = value;
 	}
 	
 	private void updateParameters(KeyCode code, String userInput)

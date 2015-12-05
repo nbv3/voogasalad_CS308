@@ -79,17 +79,17 @@ public class GameManager implements IGameManager{
 
 		ObjectData playerData = new ObjectData();
 		List<IAttribute> attributes = new ArrayList<IAttribute>();
-		HealthAttribute health = new HealthAttribute();
-		health.setHealth(100.0);
-		attributes.add(health);
-		MovementControlAttribute movementControl = new MovementControlAttribute();
-		movementControl.setSpeed(3.0);
-		attributes.add(movementControl);
-		WeaponAttribute weapon = new WeaponAttribute();
-		weapon.setBulletDamage(100.0);
-		weapon.setBulletImagePath(missilePath);
-		weapon.setFireKeyCode(KeyCode.SPACE);
-		attributes.add(weapon);
+		HealthAttribute playerHealth = new HealthAttribute();
+		playerHealth.setHealth(100.0);
+		WeaponAttribute playerWeapon = new WeaponAttribute();
+		playerWeapon.setBulletDamage(10.0);
+		playerWeapon.setBulletImagePath(missilePath);
+		playerWeapon.setFireKeyCode(KeyCode.SPACE);
+		MovementControlAttribute playerMove = new MovementControlAttribute();
+		playerMove.setSpeed(3.0);
+		attributes.add(playerHealth);
+		attributes.add(playerMove);
+		attributes.add(playerWeapon);
 		playerData.setType(GameObjectType.PLAYER);
 		playerData.setSpawnPoint(0, 0);
 		playerData.setWidth(50);
@@ -100,15 +100,15 @@ public class GameManager implements IGameManager{
 		ObjectData enemyData = new ObjectData();
 		Collection<IAttribute> enemyAttributes = new ArrayList<IAttribute>();
 		HealthAttribute enemyHealth = new HealthAttribute();
-		health.setHealth(30.0);
+		enemyHealth.setHealth(40.0);
+		ScoreAttribute enemyScore = new ScoreAttribute();
+		enemyScore.setScore(10);
 		enemyAttributes.add(enemyHealth);
-		ScoreAttribute score = new ScoreAttribute();
-		score.setScore(50);
-		enemyAttributes.add(score);
+		enemyAttributes.add(enemyScore);
 //		enemyAttributes.add(new AIMovementAttribute(3));
 		Map<GameObjectType, Collection<ICollisionEvent>> collisions = new HashMap<GameObjectType, Collection<ICollisionEvent>>();
 		Collection<ICollisionEvent> enemyEvents = new ArrayList<ICollisionEvent>();
-		enemyEvents.add(new HealthChangeEvent(-10));
+		enemyEvents.add(new HealthChangeEvent(10.0));
 		collisions.put(GameObjectType.PLAYER, enemyEvents);
 		enemyData.setType(GameObjectType.ENEMY);
 		enemyData.setSpawnPoint(150, 150);
@@ -123,7 +123,9 @@ public class GameManager implements IGameManager{
 
 		currentLevel.addGameObject(player);
 		currentLevel.addGameObject(enemy);
-
+		currentLevel.addToSpawnYard(player);
+		currentLevel.addToSpawnYard(enemy);
+		
 		myViewController.initializeView(currentLevel);
 		myGameEngine = new GameEngine(currentLevel, myViewController);
 

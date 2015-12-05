@@ -10,9 +10,8 @@ public abstract class AbstractParameter<T> extends Observable implements IEditab
 	private Node myNode;
 	private T myValue;
 	
-	public AbstractParameter(T value, String label)
+	public AbstractParameter(String label)
 	{
-		setValue(value);
 		setLabel(label);
 	}
 	

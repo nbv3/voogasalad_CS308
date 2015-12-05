@@ -24,7 +24,7 @@ public class AIMovementAttribute extends AbstractMovementAttribute {
 	private int myPathUpdateRate; // TODO: Move into a resource file
 	
 	public AIMovementAttribute() {
-		super(new DoubleParameter(0.0, "AISpeed: "));
+		super(new DoubleParameter("AISpeed: "));
 		
 		// update currentTile
 		myFrameCount = 0;

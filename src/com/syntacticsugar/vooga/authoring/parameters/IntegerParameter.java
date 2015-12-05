@@ -9,9 +9,8 @@ public class IntegerParameter extends AbstractParameter<Integer>{
 
 	private Integer myValue;
 	
-	public IntegerParameter(Integer value, String label) {
-		super(value, label);
-		myValue = value;
+	public IntegerParameter(String label) {
+		super(label);
 		setInputNode();
 		
 	}
@@ -24,6 +23,12 @@ public class IntegerParameter extends AbstractParameter<Integer>{
 		Label nodeLabel = getLabel();
 		containerBox.getChildren().addAll(nodeLabel, myTextField);
 		setNode(containerBox);
+	}
+	
+	@Override
+	public void setValue(Integer value)
+	{
+		myValue = value;
 	}
 	
 	private void updateParameters(KeyCode code, String userInput)

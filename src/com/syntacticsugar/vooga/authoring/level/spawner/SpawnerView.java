@@ -61,7 +61,7 @@ public class SpawnerView implements IDataSelector<ObjectData>, IVisualElement {
 			objToAdd.setAttributes(attributeList);
 			Map<GameObjectType, Collection<ICollisionEvent>> eventMap = new HashMap<GameObjectType, Collection<ICollisionEvent>>();
 			List<ICollisionEvent> eventList = new ArrayList<ICollisionEvent>();
-			ICollisionEvent eventToAdd = new HealthChangeEvent(-i * 10);
+			ICollisionEvent eventToAdd = new HealthChangeEvent(i * 10.0);
 			eventList.add(eventToAdd);
 			eventMap.put(GameObjectType.ENEMY, eventList);
 			objToAdd.setCollisionMap(eventMap);
@@ -84,8 +84,10 @@ public class SpawnerView implements IDataSelector<ObjectData>, IVisualElement {
 	@Override
 	public void removeSelectedData() {
 		if (selectedItem != null) {
-			Animation fade = FadeTransitionWizard.fadeOut(selectedItem, FluidGlassBall.getFadeDuration(),
-					FluidGlassBall.getFadeOpacityStart(), FluidGlassBall.getFadeOpacityEnd(),
+			Animation fade = FadeTransitionWizard.fadeOut(selectedItem,
+	     			FluidGlassBall.getFadeDuration(),
+					FluidGlassBall.getFadeOutOpacityStart(),
+					FluidGlassBall.getFadeOutOpacityEnd(),
 					FluidGlassBall.getFadeCycleCount());
 			fade.setOnFinished(toExecuteOnFinished -> removeSelectedData_BAREBONE());
 			fade.play();

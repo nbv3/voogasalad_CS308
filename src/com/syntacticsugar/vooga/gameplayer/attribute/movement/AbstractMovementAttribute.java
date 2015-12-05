@@ -18,8 +18,8 @@ import javafx.geometry.Point2D;
 
 public abstract class AbstractMovementAttribute extends AbstractAttribute implements IMover {
 	
-	private double xVelocity;
-	private double yVelocity;
+	private Double xVelocity;
+	private Double yVelocity;
 	private Double mySpeed;
 	
 	protected Point myCurrentTile;
@@ -27,7 +27,7 @@ public abstract class AbstractMovementAttribute extends AbstractAttribute implem
 	public AbstractMovementAttribute(AbstractParameter<?>... params) {
 		super(params);
 		resetVelocity();
-		setSpeed(0.0);
+		setSpeed(10.0);
 		myCurrentTile = new Point(0,0);
 	}
 	
@@ -41,8 +41,8 @@ public abstract class AbstractMovementAttribute extends AbstractAttribute implem
 	
 	@Override
 	public void resetVelocity() {
-		this.xVelocity = 0;
-		this.yVelocity = 0;
+		this.xVelocity = 0.0;
+		this.yVelocity = 0.0;
 	}
 	
 	@Override

@@ -3,16 +3,21 @@ package com.syntacticsugar.vooga.authoring.parameters;
 public class StringParameter extends AbstractParameter<String>{
 
 	private String myValue;
-	public StringParameter(String value, String label)
+	public StringParameter(String label)
 	{
-		super(value, label);
-		myValue = value;
+		super(label);
 	}
 
 	@Override
 	public void setInputNode() {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	@Override
+	public void setValue(String value)
+	{
+		myValue = value;
 	}
 
 	@Override

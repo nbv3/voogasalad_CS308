@@ -138,7 +138,7 @@ public class SceneManager {
 		// enemyAttributes.add(new AIMovementAttribute(3));
 		Map<GameObjectType, Collection<ICollisionEvent>> collisions = new HashMap<GameObjectType, Collection<ICollisionEvent>>();
 		Collection<ICollisionEvent> enemyEvents = new ArrayList<ICollisionEvent>();
-		enemyEvents.add(new HealthChangeEvent(-10));
+		enemyEvents.add(new HealthChangeEvent(-10.0));
 		collisions.put(GameObjectType.PLAYER, enemyEvents);
 		enemyData.setType(GameObjectType.ENEMY);
 		enemyData.setSpawnPoint(250, 150);
@@ -159,7 +159,7 @@ public class SceneManager {
 		// enemyAttributes.add(new AIMovementAttribute(3));
 		Map<GameObjectType, Collection<ICollisionEvent>> collisions2 = new HashMap<GameObjectType, Collection<ICollisionEvent>>();
 		Collection<ICollisionEvent> enemyEvents2 = new ArrayList<ICollisionEvent>();
-		enemyEvents2.add(new HealthChangeEvent(-10));
+		enemyEvents2.add(new HealthChangeEvent(-10.0));
 		enemyData2.setType(GameObjectType.ENEMY);
 		enemyData2.setSpawnPoint(350, 150);
 		enemyData2.setWidth(100);
@@ -188,7 +188,7 @@ public class SceneManager {
 		// towerAttributes.add(new AIMovementAttribute(3));
 		Map<GameObjectType, Collection<ICollisionEvent>> collisionst = new HashMap<GameObjectType, Collection<ICollisionEvent>>();
 		Collection<ICollisionEvent> towerEvents = new ArrayList<ICollisionEvent>();
-		towerEvents.add(new HealthChangeEvent(-10));
+		towerEvents.add(new HealthChangeEvent(-10.0));
 		towerData.setType(GameObjectType.ENEMY);
 		towerData.setImagePath(imgPath);
 		towerData.setAttributes(towerAttributes);
@@ -207,7 +207,7 @@ public class SceneManager {
 		// towerAttributes.add(new AIMovementAttribute(3));
 		Map<GameObjectType, Collection<ICollisionEvent>> collisionst2 = new HashMap<GameObjectType, Collection<ICollisionEvent>>();
 		Collection<ICollisionEvent> towerEvents2 = new ArrayList<ICollisionEvent>();
-		towerEvents2.add(new HealthChangeEvent(-10));
+		towerEvents2.add(new HealthChangeEvent(-10.0));
 		towerData2.setType(GameObjectType.TOWER);
 		towerData2.setImagePath(imgPath);
 		towerData2.setAttributes(towerAttributes2);

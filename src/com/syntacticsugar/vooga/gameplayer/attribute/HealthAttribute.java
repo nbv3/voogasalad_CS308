@@ -16,8 +16,8 @@ import javafx.scene.layout.HBox;
 
 public class HealthAttribute extends AbstractAttribute {
 
-	private double myHealth;
-	private double myMaxHealth;
+	private Double myHealth;
+	private Double myMaxHealth;
 	private int myInvincibleFrames;
 	
 	/**
@@ -26,9 +26,9 @@ public class HealthAttribute extends AbstractAttribute {
 	 * @param startingHealth
 	 */
 	public HealthAttribute() {
-		super(new DoubleParameter(0.0, "Health: "));
-		this.myHealth = 0.0;
-		this.myMaxHealth = 0.0;
+		super(new DoubleParameter("Health: "));
+		this.myHealth = 10.0;
+		this.myMaxHealth = 100.0;
 		this.myInvincibleFrames = 0;
 	}
 
@@ -44,7 +44,8 @@ public class HealthAttribute extends AbstractAttribute {
 	 * Change the value of this attribute's internal health.
 	 * @param healthChange
 	 */
-	public void changeHealth(double healthChange) {
+	public void changeHealth(Double healthChange) {
+		System.out.println("HealthChange = " + healthChange);
 		if (healthChange >= 0) {
 			restoreHealth(healthChange);
 		}
@@ -53,7 +54,7 @@ public class HealthAttribute extends AbstractAttribute {
 		}
 	}
 
-	private void takeDamage(double damage) {
+	private void takeDamage(Double damage) {
 		if (myInvincibleFrames > 0) {
 			return;
 		}
@@ -63,7 +64,7 @@ public class HealthAttribute extends AbstractAttribute {
 		setInvincibile(25);
 	}
 
-	private void restoreHealth(double healthInc) {
+	private void restoreHealth(Double healthInc) {
 		if (myHealth + healthInc >= myMaxHealth) {
 			myHealth = myMaxHealth;
 			return;
@@ -88,12 +89,12 @@ public class HealthAttribute extends AbstractAttribute {
 	
 	public void setHealth(Double health)
 	{
-		myMaxHealth = health;
+		myHealth = health;
 	}
 	
 	// test code here
 	public Double getHealth() {
-		return myMaxHealth;
+		return myHealth;
 	}
 
 	@Override

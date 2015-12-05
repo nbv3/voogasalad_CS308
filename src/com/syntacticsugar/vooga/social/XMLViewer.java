@@ -2,6 +2,8 @@ package com.syntacticsugar.vooga.social;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONException;

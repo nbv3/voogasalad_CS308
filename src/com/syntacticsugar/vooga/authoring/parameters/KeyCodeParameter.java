@@ -6,14 +6,19 @@ import javafx.scene.input.KeyCode;
 public class KeyCodeParameter extends AbstractParameter<KeyCode>{
 
 	private KeyCode myCode;
-	public KeyCodeParameter(KeyCode value, String label) {
-		super(value, label);
-		myCode = value;
+	public KeyCodeParameter(String label) {
+		super(label);
 	}
 
 	@Override
 	public void setInputNode() {
 		
+	}
+	
+	@Override
+	public void setValue(KeyCode code)
+	{
+		myCode = code;
 	}
 
 	@Override

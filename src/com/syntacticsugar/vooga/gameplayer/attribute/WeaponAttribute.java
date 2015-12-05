@@ -21,7 +21,7 @@ import javafx.scene.input.KeyCode;
 
 public class WeaponAttribute extends AbstractAttribute implements IUserControlAttribute {
 
-	private double myBulletDamage;
+	private Double myBulletDamage;
 	private String myBulletImagePath;
 	private KeyCode myFireKeyCode;
 	private boolean isFireKeyPressed;
@@ -30,8 +30,8 @@ public class WeaponAttribute extends AbstractAttribute implements IUserControlAt
 	private int delayFrameCounter;
 	
 	public WeaponAttribute() {
-		super(new StringParameter("", "ImagePath: "), new DoubleParameter(0.0, "BulletDamage: "), new KeyCodeParameter(KeyCode.SPACE, "FireKeyCode: "));
-		setParameters("", 0.0, KeyCode.SPACE);
+		super(new StringParameter("Image Path:  "), new DoubleParameter("Bullet Damage: "), new KeyCodeParameter("Fire KeyCode: "));
+		setParameters("", 5.0, KeyCode.SPACE);
 	}
 	
 	private void setParameters(String path, Double damage, KeyCode code)

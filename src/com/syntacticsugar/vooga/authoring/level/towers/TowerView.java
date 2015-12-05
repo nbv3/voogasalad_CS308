@@ -61,7 +61,7 @@ public class TowerView implements IVisualElement, IDataSelector<ObjectData> {
 			objToAdd.setAttributes(attributeList);
 			Map<GameObjectType, Collection<ICollisionEvent>> eventMap = new HashMap<GameObjectType, Collection<ICollisionEvent>>();
 			List<ICollisionEvent> eventList = new ArrayList<ICollisionEvent>();
-			ICollisionEvent eventToAdd = new HealthChangeEvent(-i * 10);
+			ICollisionEvent eventToAdd = new HealthChangeEvent(i * 10.0);
 			eventList.add(eventToAdd);
 			eventMap.put(GameObjectType.ENEMY, eventList);
 			objToAdd.setCollisionMap(eventMap);
@@ -96,8 +96,8 @@ public class TowerView implements IVisualElement, IDataSelector<ObjectData> {
 		     Animation fade = FadeTransitionWizard
 						     	.fadeOut((Node) selectedItem, 
 						     			FluidGlassBall.getFadeDuration(),
-										FluidGlassBall.getFadeOpacityStart(),
-										FluidGlassBall.getFadeOpacityEnd(),
+										FluidGlassBall.getFadeOutOpacityStart(),
+										FluidGlassBall.getFadeOutOpacityEnd(),
 										FluidGlassBall.getFadeCycleCount());
 		    fade.setOnFinished(toExecuteOnFinished -> removeObjectFromList_BAREBONE());
 		    fade.play();
@@ -134,9 +134,9 @@ public class TowerView implements IVisualElement, IDataSelector<ObjectData> {
 		List<Animation> animationList = new ArrayList<Animation>();
 		for(Node node:myObservable){
 			Animation nodeAnim = FadeTransitionWizard.fadeOut(node, 
-									FluidGlassBall.getFadeDuration(),
-									FluidGlassBall.getFadeOpacityStart(),
-									FluidGlassBall.getFadeOpacityEnd(),
+					     			FluidGlassBall.getFadeDuration(),
+									FluidGlassBall.getFadeOutOpacityStart(),
+									FluidGlassBall.getFadeOutOpacityEnd(),
 									FluidGlassBall.getFadeCycleCount());
 			animationList.add(nodeAnim);
 		}

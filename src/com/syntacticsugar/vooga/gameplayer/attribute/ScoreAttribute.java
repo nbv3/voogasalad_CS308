@@ -12,7 +12,7 @@ public class ScoreAttribute extends AbstractAttribute {
 	private Integer myScore;
 	
 	public ScoreAttribute() {
-		super(new IntegerParameter(0, "Score: "));
+		super(new IntegerParameter("Score: "));
 		myScore = 0;
 	}
 

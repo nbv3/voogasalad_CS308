@@ -9,6 +9,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -96,6 +97,26 @@ public class WebConnector {
 			System.out.println("Invalid IO");
 		}
 		return null;
+	}
+	
+	public static JSONObject getJSONObject(int id){
+		JSONObject XMLs = getXMLs();
+		JSONArray array;
+		try {
+			array = XMLs.getJSONArray("xmls");
+			System.out.println(array.toString());
+			for (int i = 0; i < array.length(); i++) {
+				JSONObject current = (JSONObject) array.get(i);
+				if ((int) current.get("id") == id) {
+					System.out.println(current.toString());
+					
+					return current;
+				}
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return new JSONObject();
 	}
 
 	public static String deleteXML(int gameindex) {

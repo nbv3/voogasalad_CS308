@@ -37,6 +37,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -57,6 +58,8 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 	private ListView<String> myView;
 	private Map<String, GameData> stringToGameData;
 	private Scene myScene;
+	private GameData selectedGameData;
+	private Button startButton;
 
 	public GameChooser() {
 		myPropertiesManager = new PropertiesManager("com/syntacticsugar/vooga/resources/View");
@@ -65,28 +68,40 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 		GAME_SIZE = myPropertiesManager.getDoubleProperty("DefaultGameSize");
 		TITLE = myPropertiesManager.getProperty("WindowTitle");
 		FRAME_LENGTH = 1.0 / myPropertiesManager.getDoubleProperty("FrameLength");
-		
+
 		myStage = new Stage();
 		myGameNames = FXCollections.observableArrayList();
 		showDirectoryContents(myDirectory, e -> getGameDescriptions(myDirectory));
 		myView = new ListView<String>(myGameNames);
-		
-		
-		buildScene();
-		myScene = new Scene(myView);
+		myView.setOnMouseClicked(e -> {
+			if (myView.getSelectionModel().getSelectedItem() != null) {
+				startButton.setDisable(false);
+			}
+		});
+
+		myView.getItems().add("HEY");
+		myView.getItems().add("LOLCANO");
+
+		myScene = new Scene(buildScene());
 		myStage.setScene(myScene);
 		myStage.show();
-		launchNewEngine();
+
 	}
 
-	private void buildScene() {
+	private VBox buildScene() {
 		VBox box = new VBox();
-//		Button startGame = createButton("Start", e -> retrieveDataOnClick())
-		
+		startButton = createButton("Start", e -> startGame());
+		startButton.setDisable(true);
+		box.getChildren().addAll(myView, startButton);
+		return box;
 	}
-	
-	private GameData retrieveDataOnClick(){
-		return null;
+
+	private void startGame() {
+		// selectedGameData =
+		// stringToGameData.get(myView.getSelectionModel().getSelectedItem());
+		// System.out.println(myView.getSelectionModel().getSelectedItem());
+		// System.out.print(selectedGameData);
+		launchNewEngine();
 	}
 
 	private void launchGame(IVoogaApp app) {
@@ -106,7 +121,7 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 	}
 
 	private Collection<String> getGameDescriptions(File directory) {
-		System.out.println(directory);
+		//System.out.println(directory);
 		File[] files = directory.listFiles(new XMLFileFilter());
 		XMLHandler<GameData> xml = new XMLHandler<>();
 		Collection<String> names = new ArrayList<String>();
@@ -117,12 +132,11 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 			names.add(gamename);
 			stringToGameData.put(gamename, data);
 		}
-		
+
 		return names;
 
 	}
-	
-	
+
 	private Button createButton(String name, EventHandler<ActionEvent> onAction) {
 		Button button = new Button(name);
 		button.setFont(new Font(30));
@@ -130,13 +144,18 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 		button.setOnAction(onAction);
 		return button;
 	}
-	
+
+	/**
+	 * 
+	 * @return
+	 */
+
 	public void launchNewEngine() {
 		GameData data = makeEmptyData();
 		myStage.hide();
 		new GameManager(null, GAME_SIZE, data, FRAME_LENGTH);
 	}
-	
+
 	private GameData makeEmptyData() {
 
 		Collection<ObjectData> odata = new ArrayList<>();
@@ -152,7 +171,7 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 		// enemyAttributes.add(new AIMovementAttribute(3));
 		Map<GameObjectType, Collection<ICollisionEvent>> collisions = new HashMap<GameObjectType, Collection<ICollisionEvent>>();
 		Collection<ICollisionEvent> enemyEvents = new ArrayList<ICollisionEvent>();
-		enemyEvents.add(new HealthChangeEvent(-10));
+		enemyEvents.add(new HealthChangeEvent(10.0));
 		collisions.put(GameObjectType.PLAYER, enemyEvents);
 		enemyData.setType(GameObjectType.ENEMY);
 		enemyData.setSpawnPoint(250, 150);
@@ -165,15 +184,15 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 		ObjectData enemyData2 = new ObjectData();
 		Collection<IAttribute> enemyAttributes2 = new ArrayList<IAttribute>();
 		HealthAttribute enemyHealth = new HealthAttribute();
-		health.setHealth(30.0);
+		enemyHealth.setHealth(30.0);
 		ScoreAttribute enemyScore = new ScoreAttribute();
-		score.setScore(40);
+		enemyScore.setScore(40);
 		enemyAttributes2.add(enemyHealth);
 		enemyAttributes2.add(enemyScore);
 		// enemyAttributes.add(new AIMovementAttribute(3));
 		Map<GameObjectType, Collection<ICollisionEvent>> collisions2 = new HashMap<GameObjectType, Collection<ICollisionEvent>>();
 		Collection<ICollisionEvent> enemyEvents2 = new ArrayList<ICollisionEvent>();
-		enemyEvents2.add(new HealthChangeEvent(-10));
+		enemyEvents2.add(new HealthChangeEvent(10.0));
 		enemyData2.setType(GameObjectType.ENEMY);
 		enemyData2.setSpawnPoint(350, 150);
 		enemyData2.setWidth(100);
@@ -197,12 +216,12 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 		towerData.setImagePath(imgPath);
 		Collection<IAttribute> towerAttributes = new ArrayList<IAttribute>();
 		HealthAttribute newHealth = new HealthAttribute();
-		health.setHealth(30.0);
+		newHealth.setHealth(30.0);
 		towerAttributes.add(newHealth);
 		// towerAttributes.add(new AIMovementAttribute(3));
 		Map<GameObjectType, Collection<ICollisionEvent>> collisionst = new HashMap<GameObjectType, Collection<ICollisionEvent>>();
 		Collection<ICollisionEvent> towerEvents = new ArrayList<ICollisionEvent>();
-		towerEvents.add(new HealthChangeEvent(-10));
+		towerEvents.add(new HealthChangeEvent(10.0));
 		towerData.setType(GameObjectType.ENEMY);
 		towerData.setImagePath(imgPath);
 		towerData.setAttributes(towerAttributes);
@@ -221,7 +240,7 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 		// towerAttributes.add(new AIMovementAttribute(3));
 		Map<GameObjectType, Collection<ICollisionEvent>> collisionst2 = new HashMap<GameObjectType, Collection<ICollisionEvent>>();
 		Collection<ICollisionEvent> towerEvents2 = new ArrayList<ICollisionEvent>();
-		towerEvents2.add(new HealthChangeEvent(-10));
+		towerEvents2.add(new HealthChangeEvent(10.0));
 		towerData2.setType(GameObjectType.TOWER);
 		towerData2.setImagePath(imgPath);
 		towerData2.setAttributes(towerAttributes2);
@@ -240,7 +259,6 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 
 		return data;
 	}
-	
-	
+
 
 }

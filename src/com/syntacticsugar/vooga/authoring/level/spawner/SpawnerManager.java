@@ -88,7 +88,6 @@ public class SpawnerManager implements ITabbedManager<ObjectData> {
 	}
 
 
-	// ********************************* //
 	
 
 	private void clearWave_BAREBONE(ListView<VBox> wave) {
@@ -99,10 +98,10 @@ public class SpawnerManager implements ITabbedManager<ObjectData> {
 		List<Animation> animationList = new ArrayList<Animation>();
 		for(Node node:wave.getItems()){
 			Animation nodeAnim = FadeTransitionWizard.fadeOut(node, 
-									FluidGlassBall.getFadeDuration(),
-									FluidGlassBall.getFadeOpacityStart(),
-									FluidGlassBall.getFadeOpacityEnd(),
-									FluidGlassBall.getFadeCycleCount());
+	     			FluidGlassBall.getFadeDuration(),
+					FluidGlassBall.getFadeOutOpacityStart(),
+					FluidGlassBall.getFadeOutOpacityEnd(),
+					FluidGlassBall.getFadeCycleCount());
 			animationList.add(nodeAnim);
 		}
 		return animationList;
