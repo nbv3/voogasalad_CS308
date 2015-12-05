@@ -1,12 +1,6 @@
 package com.syntacticsugar.vooga.authoring.dragdrop;
 
 import com.syntacticsugar.vooga.authoring.icon.Icon;
-import com.syntacticsugar.vooga.authoring.icon.IconPane;
-import com.syntacticsugar.vooga.authoring.level.map.MapEditor;
-import com.syntacticsugar.vooga.xml.data.ObjectData;
-import com.syntacticsugar.vooga.xml.data.TileImplementation;
-
-import javafx.scene.image.Image;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DataFormat;
 import javafx.scene.input.DragEvent;
@@ -44,13 +38,12 @@ public class DragDropManager {
 	}
 	
 	public static void createObjectClipboard(Icon icon){
-		Dragboard db = icon.startDragAndDrop(TransferMode.ANY);
+//		Dragboard db = icon.startDragAndDrop(TransferMode.ANY);
 		//System.out.println("Dragboard and Clipboard created");
-		ClipboardContent content = new ClipboardContent();
+//		ClipboardContent content = new ClipboardContent();
 		ObjectClippableItem clippableObject = new ObjectClippableItem();
 		clippableObject.setImagePath(icon.getImagePath());
-		//
-		//clippableObject.setObjectData(objectData);
+//		clippableObject.setObjectData(objectData);
 	}
 	
 	public static void dragOverHandler(DragEvent event) {
@@ -59,7 +52,7 @@ public class DragDropManager {
 		 * accept it only if it is not dragged from the same node and if it has
 		 * a string data
 		 */
-		Dragboard db = event.getDragboard();
+//		Dragboard db = event.getDragboard();
 		//System.out.println(db);
 		/* allow for both copying and moving, whatever user chooses */
 		//System.out.println("Tile is ready to accept dragged object");

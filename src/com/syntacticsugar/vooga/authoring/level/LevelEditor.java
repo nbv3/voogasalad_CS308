@@ -4,9 +4,7 @@ import java.util.Observable;
 
 import com.syntacticsugar.vooga.authoring.level.map.MapEditor;
 import com.syntacticsugar.vooga.authoring.level.map.MapEditorControls;
-import com.syntacticsugar.vooga.authoring.level.spawner.SpawnerControls;
 import com.syntacticsugar.vooga.authoring.level.spawner.SpawnerManager;
-import com.syntacticsugar.vooga.authoring.level.towers.TowerControls;
 import com.syntacticsugar.vooga.authoring.level.towers.TowerManager;
 import com.syntacticsugar.vooga.xml.data.MapData;
 

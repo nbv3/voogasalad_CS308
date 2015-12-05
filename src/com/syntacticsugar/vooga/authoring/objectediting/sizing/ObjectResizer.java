@@ -25,7 +25,7 @@ public class ObjectResizer {
 	
 	public ObjectResizer(ObjectData data, String tileImagePath) {
 		myStage = new Stage();
-		myObjectData = data;
+		setMyObjectData(data);
 		myImageView = buildResizableImageView(data.getImagePath());
 		myZoomedTileView = buildTileView(tileImagePath);
 		StackPane root = new StackPane();
@@ -99,6 +99,14 @@ public class ObjectResizer {
 		imageView.fitHeightProperty().bind(pane.heightProperty());
 		pane.getChildren().add(imageView);
 		return pane;
+	}
+
+	public ObjectData getMyObjectData() {
+		return myObjectData;
+	}
+
+	public void setMyObjectData(ObjectData myObjectData) {
+		this.myObjectData = myObjectData;
 	}
 	
 }

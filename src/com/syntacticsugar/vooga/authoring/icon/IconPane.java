@@ -5,10 +5,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.syntacticsugar.vooga.authoring.dragdrop.DragDropManager;
 import com.syntacticsugar.vooga.authoring.objectediting.IVisualElement;
-import com.syntacticsugar.vooga.xml.data.ObjectData;
-import com.syntacticsugar.vooga.xml.data.TileImplementation;
 import com.syntacticsugar.vooga.util.dirview.IConverter;
 import com.syntacticsugar.vooga.util.dirview.IDirectoryViewer;
 import javafx.beans.property.ObjectProperty;

@@ -45,6 +45,7 @@ public class ObjectEditor {
 	private Button myUpdateButton;
 	private ComboBox<GameObjectType> myTypeChooser;
 	private IRefresher myRefresher;
+	private String selectedImagePath;
 
 	public ObjectEditor(IRefresher refresher) {
 		myView = new GridPane();
@@ -71,15 +72,15 @@ public class ObjectEditor {
 	}
 	
 	private void createEmptyEditor() {
-		myTypeChooser.setDisable(false);
+		setTypeChooserViability(true);
 		myTypeChooser.setValue(null);
 		ObjectData emptyData = new ObjectData();
 		emptyData.setImagePath("scenery_gray.png");
 		myIcon.setImage(new Image(ResourceManager.getResource(this, emptyData.getImagePath())));
 		emptyData.setObjectName(null);
 		emptyData.setType(null);
-		myUpdateButton.setDisable(true);
-		mySaveButton.setDisable(true);
+		setUpdateButtonViability(false);
+		setSaveButtonViability(false);
 		emptyData.setAttributes(FXCollections.observableArrayList());
 		emptyData.setCollisionMap(FXCollections.observableHashMap());
 		displayData(emptyData);
@@ -115,8 +116,9 @@ public class ObjectEditor {
 			if (s2 == null) {
 				return;
 			}
-			if (mySaveButton.isDisabled())
-				mySaveButton.setDisable(false);
+			if (mySaveButton.isDisabled()) {
+				setSaveButtonViability(true);
+			}
 			currentData.setType(s2);
 		});
 		return typeChooser;
@@ -125,7 +127,7 @@ public class ObjectEditor {
 	public void displayData(ObjectData data) {
 		if (data != null) {
 			if (mySaveButton.isDisabled() && data.getType() != null) {
-				mySaveButton.setDisable(false);
+				setSaveButtonViability(true);
 			}
 			currentData = data;
 			if (data.getType() != null) {
@@ -138,17 +140,17 @@ public class ObjectEditor {
 	}
 
 	private void storeEditedObject() {
+		currentData.setImagePath(selectedImagePath);
+		currentData.setType(currentData.getType());
 		currentData.setAttributes(myAttributeViewer.getData());
 		currentData.setCollisionMap(myCollisionViewer.getData());
-		currentData.setType(currentData.getType());
 	}
 
 	private void saveObject() {
 		GameObjectType tempObjType = currentData.getType();
-		String tempImgPath = new String(currentData.getImagePath());
 		currentData = new ObjectData();
 		currentData.setType(tempObjType);
-		currentData.setImagePath(tempImgPath);
+		currentData.setImagePath(selectedImagePath);
 		currentData.setAttributes(Collections.unmodifiableCollection(myAttributeViewer.getData()));
 		currentData.setCollisionMap(Collections.unmodifiableMap(myCollisionViewer.getData()));
 
@@ -187,7 +189,8 @@ public class ObjectEditor {
 				.getString(String.format("%s_%s", currentData.getType().toString().toLowerCase(), "images"))));
 		File selectedFile = fileChooser.showOpenDialog(new Stage());
 		if (selectedFile != null) {
-			currentData.setImagePath(selectedFile.getName());
+			//currentData.setImagePath(selectedFile.getName());
+			selectedImagePath = selectedFile.getName();
 			myIcon.setImage(new Image(getClass().getClassLoader().getResourceAsStream(selectedFile.getName())));
 		}
 	}
@@ -276,14 +279,14 @@ public class ObjectEditor {
 	}
 
 	public void setTypeChooserViability(boolean flag) {
-		myTypeChooser.setDisable(true);
+		myTypeChooser.setDisable(!flag);
 	}
 
 	public void setUpdateButtonViability(boolean flag) {
-		myUpdateButton.setDisable(flag);
+		myUpdateButton.setDisable(!flag);
 	}
 
 	public void setSaveButtonViability(boolean flag) {
-		mySaveButton.setDisable(flag);
+		mySaveButton.setDisable(!flag);
 	}
 }

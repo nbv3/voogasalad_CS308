@@ -1,11 +1,9 @@
 package com.syntacticsugar.vooga.authoring.objectediting;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.ListIterator;
 import java.util.Observable;
 import java.util.Observer;
-
 
 import com.syntacticsugar.vooga.authoring.parameters.ParameterFactory;
 import com.syntacticsugar.vooga.gameplayer.attribute.HealthAttribute;
@@ -15,22 +13,18 @@ import com.syntacticsugar.vooga.gameplayer.attribute.movement.MovementControlAtt
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
-import com.syntacticsugar.vooga.util.gui.factory.MsgInputBoxFactory;
 import com.syntacticsugar.vooga.util.reflection.Reflection;
 import com.syntacticsugar.vooga.util.reflection.ReflectionException;
 
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -44,7 +38,7 @@ public class AttributeMakerWizard implements Observer{
 	private String selectedAttribute;
 	private final double SCENE_DIMENSION = 300;
 	private ParameterFactory myFactory;
-	private String selectedKeyCombo;
+//	private String selectedKeyCombo;
 
 	public AttributeMakerWizard(GameObjectType type, Collection<IAttribute> attributes){
 		myAttributes = attributes;
@@ -162,7 +156,7 @@ public class AttributeMakerWizard implements Observer{
 					}
 					else if(child.getClass().getName().equals("javafx.scene.control.ComboBox"))
 					{
-						ComboBox<String> comboBox = (ComboBox<String>) child;
+//						ComboBox<String> comboBox = (ComboBox<String>) child;
 					}
 				}
 				

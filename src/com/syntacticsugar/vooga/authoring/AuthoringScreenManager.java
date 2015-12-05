@@ -15,7 +15,6 @@ import com.syntacticsugar.vooga.xml.data.MapData;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
 
 import javafx.event.EventHandler;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -151,6 +150,7 @@ public class AuthoringScreenManager implements Observer, IVoogaApp {
 		fileChooser.setInitialDirectory(new File(ResourceManager.getString("data")));
 		File selectedFile = fileChooser.showOpenDialog(new Stage());
 		if (selectedFile != null) {
+			myObjectEditor.setUpdateButtonViability(false);
 			XMLHandler<ObjectData> xml = new XMLHandler<>();
 			ObjectData toload = xml.read(selectedFile);
 			myObjectEditor.displayData(toload);
@@ -204,7 +204,7 @@ public class AuthoringScreenManager implements Observer, IVoogaApp {
 	@Override
 	public void update(Observable o, Object arg) {
 		myObjectEditor.setTypeChooserViability(false);
-		myObjectEditor.setUpdateButtonViability(false);
+		myObjectEditor.setUpdateButtonViability(true);
 		myObjectEditor.displayData((ObjectData) arg);
 
 	}

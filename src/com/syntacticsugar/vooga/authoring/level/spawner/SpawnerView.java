@@ -12,6 +12,7 @@ import com.syntacticsugar.vooga.authoring.fluidmotion.FadeTransitionWizard;
 import com.syntacticsugar.vooga.authoring.fluidmotion.FluidGlassBall;
 import com.syntacticsugar.vooga.authoring.level.IDataSelector;
 import com.syntacticsugar.vooga.authoring.level.QueueBox;
+import com.syntacticsugar.vooga.authoring.library.IRefresher;
 import com.syntacticsugar.vooga.authoring.objectediting.IVisualElement;
 import com.syntacticsugar.vooga.authoring.tooltips.ObjectTooltip;
 import com.syntacticsugar.vooga.gameplayer.attribute.HealthAttribute;
@@ -29,7 +30,7 @@ import javafx.scene.Node;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Tooltip;
 
-public class SpawnerView implements IDataSelector<ObjectData>, IVisualElement {
+public class SpawnerView implements IDataSelector<ObjectData>, IVisualElement, IRefresher {
 
 	private ListView<Node> myQueuePane;
 	private Queue<ObjectData> myQueue;
@@ -73,6 +74,9 @@ public class SpawnerView implements IDataSelector<ObjectData>, IVisualElement {
 	// called when drag-drop happens
 	@Override
 	public void addData(ObjectData obj) {
+		obj.getImagePathProperty().addListener((e,ov,nv) -> {
+			refresh();
+		});
 		myQueue.add(obj);
 		Node temp = createQueueBoxFromObjData(obj);
 		temp.setOnMouseClicked(e -> selectedItem = temp);
@@ -128,4 +132,17 @@ public class SpawnerView implements IDataSelector<ObjectData>, IVisualElement {
 	public Collection<ObjectData> getData() {
 		return myObjects.values();
 	}
+
+	@Override
+	public void refresh() {
+		myWave.clear();
+		myQueue.forEach(e -> {
+			Node temp = createQueueBoxFromObjData(e);
+			temp.setOnMouseClicked(a -> selectedItem = temp);
+			myObjects.put(temp, e);
+			myWave.add(temp);
+		});
+		myQueuePane.refresh();
+	}
+	
 }

@@ -1,25 +1,13 @@
 package com.syntacticsugar.vooga.authoring.parameters;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
 import java.lang.reflect.Constructor;
-import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Observable;
-import java.util.Properties;
 import java.util.ResourceBundle;
 
-import com.syntacticsugar.vooga.resources.*;
-
-import com.sun.deploy.uitoolkit.impl.fx.ui.resources.ResourceManager;
-import com.syntacticsugar.vooga.gameplayer.attribute.HealthAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
-import com.syntacticsugar.vooga.gameplayer.attribute.WeaponAttribute;
-import com.syntacticsugar.vooga.gameplayer.attribute.movement.AIMovementAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.movement.MovementControlAttribute;
 
 import javafx.collections.FXCollections;
@@ -30,9 +18,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.stage.FileChooser;
 
 public class ParameterFactory extends Observable{
 	private static final ResourceBundle paramResource = ResourceBundle.getBundle("com/syntacticsugar/vooga/resources/Parameters");

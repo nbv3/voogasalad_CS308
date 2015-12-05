@@ -1,11 +1,7 @@
 package com.syntacticsugar.vooga.authoring.fluidmotion;
 
-import java.util.List;
-
 import javafx.animation.Animation;
 import javafx.animation.FadeTransition;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.util.Duration;
 
