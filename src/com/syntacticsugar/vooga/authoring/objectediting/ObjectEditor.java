@@ -49,6 +49,7 @@ public class ObjectEditor {
 	private ComboBox<GameObjectType> myTypeChooser;
 	private IRefresher myRefresher;
 	private String selectedImagePath;
+	private SequentialTransition seqTrans;
 
 	public ObjectEditor(IRefresher refresher) {
 		myView = new GridPane();
@@ -79,7 +80,7 @@ public class ObjectEditor {
 		setTypeChooserViability(true);
 		myTypeChooser.setValue(null);
 		ObjectData emptyData = new ObjectData();
-		emptyData.setImagePath("scenery_blue.png");
+		emptyData.setImagePath("scenery_white.png");
 		myIcon.setImage(new Image(ResourceManager.getResource(this, emptyData.getImagePath())));
 		emptyData.setObjectName(null);
 		emptyData.setType(null);
@@ -192,10 +193,6 @@ public class ObjectEditor {
 			//currentData.setImagePath(selectedFile.getName());
 			selectedImagePath = selectedFile.getName();
 			myIcon.setImage(new Image(getClass().getClassLoader().getResourceAsStream(selectedFile.getName())));
-			SequentialTransition seq = new SequentialTransition(FadeTransitionWizard.fadeIn(myIcon, FluidGlassBall.getPreviewTilePulseDuration(), 0.7,1.0,1),
-					FadeTransitionWizard.fadeOut(myIcon, FluidGlassBall.getPreviewTilePulseDuration(), 1.0,0.7,1));
-			seq.setCycleCount(Integer.MAX_VALUE);
-			seq.play();
 		}
 	}
 

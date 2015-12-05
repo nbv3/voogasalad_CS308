@@ -20,7 +20,7 @@ public class FluidGlassBall {
 	private static final int DIRECTIONAL_FADE_CYCLE_COUNT = 1;
 	
 	// PreviewTile SequentialTransition
-	private static final Duration PREVIEW_TILE_PULSE_DURATION = Duration.millis(450);
+	private static final Duration PREVIEW_TILE_PULSE_DURATION = Duration.millis(300);
 	
 	public static Duration getPreviewTilePulseDuration() {
 		return PREVIEW_TILE_PULSE_DURATION;
