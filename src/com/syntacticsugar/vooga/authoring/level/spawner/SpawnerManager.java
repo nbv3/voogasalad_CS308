@@ -84,8 +84,7 @@ public class SpawnerManager implements ITabbedManager<ObjectData> {
 
 	public SpawnerData getSpawnerData() {
 		Collection<WaveData> map = new ArrayList<WaveData>();
-		for (Tab t : mySpawnerViewMap.keySet()) {
-			int i = t.getText().charAt(t.getText().length() - 1);
+		for (Tab t : myTabPane.getTabs()) {
 			WaveData queue = mySpawnerViewMap.get(t).getWaveData();
 			map.add(queue);
 		}
@@ -110,7 +109,7 @@ public class SpawnerManager implements ITabbedManager<ObjectData> {
 	private void updateWaveNumbers() {
 		for (int i = 0; i < myTabPane.getTabs().size(); i++) {
 			Tab t = myTabPane.getTabs().get(i);
-			t.setText(String.format("%s %s", "Wave", i+1));
+			t.setText(String.format("%s %s", "Wave", i + 1));
 		}
 	}
 

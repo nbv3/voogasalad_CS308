@@ -71,7 +71,8 @@ public class ObjectEditor implements IObjectDataClipboard{
 	private void buildView() {
 		GridPane myMainEditorView = buildEditorView();
 		myTypeChooser = buildTypeChooser();
-		AnchorPane myTopControlPane = GUIFactory.buildAnchorPane(myTypeChooser, GUIFactory.buildButton("New", e -> createEmptyEditor(), null, null));
+		AnchorPane myTopControlPane = GUIFactory.buildAnchorPane(myTypeChooser,
+				GUIFactory.buildButton("New", e -> createEmptyEditor(), null, null));
 		myUpdateButton = GUIFactory.buildButton("Update", e -> storeEditedObject(), null, null);
 		mySaveButton = GUIFactory.buildButton("Save", e -> saveObject(), null, null);
 		AnchorPane myBottomControlPane = GUIFactory.buildAnchorPane(myUpdateButton, mySaveButton);
@@ -82,7 +83,7 @@ public class ObjectEditor implements IObjectDataClipboard{
 		GridPane.setHalignment(myMainEditorView, HPos.CENTER);
 		createEmptyEditor();
 	}
-	
+
 	private void createEmptyEditor() {
 		setTypeChooserViability(true);
 		myTypeChooser.setValue(null);
@@ -161,7 +162,9 @@ public class ObjectEditor implements IObjectDataClipboard{
 		currentData.setImagePath(new String(selectedImagePath));
 		currentData.setAttributes(Collections.unmodifiableCollection(myAttributeViewer.getData()));
 		currentData.setCollisionMap(Collections.unmodifiableMap(myCollisionViewer.getData()));
-
+		// System.out.println("here");
+		// System.out.println(tempObjType);
+		// System.out.println(new String(selectedImagePath));
 		TextInputDialog td = new TextInputDialog("Name your creation");
 		td.showAndWait();
 		if (td.getResult() == null || td.getResult().isEmpty()) {
@@ -197,7 +200,7 @@ public class ObjectEditor implements IObjectDataClipboard{
 				.getString(String.format("%s_%s", currentData.getType().toString().toLowerCase(), "images"))));
 		File selectedFile = fileChooser.showOpenDialog(new Stage());
 		if (selectedFile != null) {
-			//currentData.setImagePath(selectedFile.getName());
+			// currentData.setImagePath(selectedFile.getName());
 			selectedImagePath = selectedFile.getName();
 			myIcon.setImage(new Image(getClass().getClassLoader().getResourceAsStream(selectedFile.getName())));
 		}
@@ -226,6 +229,7 @@ public class ObjectEditor implements IObjectDataClipboard{
 		SequentialTransition seq = new SequentialTransition(FadeTransitionWizard.fadeIn(myIcon, FluidGlassBall.getPreviewTilePulseDuration(), 0.7,1.0,1),
 				FadeTransitionWizard.fadeOut(myIcon, FluidGlassBall.getPreviewTilePulseDuration(), 1.0,0.7,1));
 			seq.setCycleCount(Integer.MAX_VALUE);
+
 		seq.play();
 		Button button = GUIFactory.buildButton("Select Image", e -> selectImage(), null, null);
 		grid.getChildren().addAll(button, myIcon);

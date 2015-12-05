@@ -25,6 +25,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableSet;
 import javafx.collections.SetChangeListener;
 import javafx.event.EventHandler;
+import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.Tooltip;
@@ -265,6 +266,13 @@ public class MapView implements IMapDisplay, IVisualElement {
 	private void setImagePath(TileData toChange, String imagePath) {
 		toChange.setImagePath(imagePath);
 		myTileIconMap.get(toChange).setImage(new Image(ResourceManager.getResource(this, imagePath)));
+	}
+
+
+	@Override
+	public Point2D getDropPoint(DragEvent e) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -1,7 +1,9 @@
 package com.syntacticsugar.vooga.authoring.level;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.syntacticsugar.vooga.authoring.objectediting.IObjectDataClipboard;
@@ -10,6 +12,7 @@ import com.syntacticsugar.vooga.xml.data.LevelSettings;
 import com.syntacticsugar.vooga.xml.data.MapData;
 import com.syntacticsugar.vooga.xml.data.SpawnerData;
 import com.syntacticsugar.vooga.xml.data.TowerData;
+import com.syntacticsugar.vooga.xml.data.UniverseData;
 
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -36,7 +39,7 @@ public class LevelTabManager {
 			e.printStackTrace();
 			return;
 		}
-		Tab newLevelTab = new Tab();
+		Tab newLevelTab = new Tab("Level 1");
 		newLevelTab.setContent(newLevel.getContent());
 		myLevelMap.put(newLevelTab, newLevel);
 		newLevelTab.setOnClosed(e -> removeLevel(newLevelTab));
@@ -74,51 +77,34 @@ public class LevelTabManager {
 		}
 	}
 
-	public Map<Integer, MapData> getMapData() {
-		Map<Integer, MapData> map = new HashMap<Integer, MapData>();
-		for (Tab t : myLevelMap.keySet()) {
+	public Collection<UniverseData> getAllUniverseData() {
+		// Map<Integer, MapData> mapMap = new HashMap<Integer, MapData>();
+		// Map<Integer, SpawnerData> spawnerMap = new HashMap<Integer,
+		// SpawnerData>();
+		// Map<Integer, TowerData> towerMap = new HashMap<Integer, TowerData>();
+		// Map<Integer, LevelSettings> conditionsMap = new HashMap<Integer,
+		// LevelSettings>();
+
+		List<UniverseData> game = new ArrayList<UniverseData>();
+
+		for (Tab t : myTabPane.getTabs()) {
 			int i = t.getText().charAt(t.getText().length() - 1);
-			MapData level = myLevelMap.get(t).getMapData();
-			map.put(i, level);
+
+			SpawnerData spawner = myLevelMap.get(t).getSpawnerQueues();
+			MapData map = myLevelMap.get(t).getMapData();
+			TowerData tower = myLevelMap.get(t).getTowerList();
+			LevelSettings conditions = myLevelMap.get(t).getConditions();
+			UniverseData universe = new UniverseData(spawner, tower, map, conditions);
+
+			game.add(universe);
 		}
-		return map;
+		return game;
+
 	}
 
 	public MapData getIndividualMapData() {
 
 		return myLevelMap.get(myTabPane.getSelectionModel().getSelectedItem()).getMapData();
-	}
-
-	public Map<Integer, SpawnerData> getSpawnerQueues() {
-		Map<Integer, SpawnerData> map = new HashMap<Integer, SpawnerData>();
-		for (Tab t : myLevelMap.keySet()) {
-			int i = t.getText().charAt(t.getText().length() - 1);
-			SpawnerData level = myLevelMap.get(t).getSpawnerQueues();
-			map.put(i, level);
-		}
-		return map;
-	}
-
-	public Map<Integer, TowerData> getTowerLists() {
-		Map<Integer, TowerData> map = new HashMap<Integer, TowerData>();
-		for (Tab t : myLevelMap.keySet()) {
-			int i = t.getText().charAt(t.getText().length() - 1);
-			TowerData list = myLevelMap.get(t).getTowerList();
-			map.put(i, list);
-		}
-
-		return map;
-	}
-
-	public Map<Integer, LevelSettings> getConditionsList() {
-		Map<Integer, LevelSettings> map = new HashMap<Integer, LevelSettings>();
-		for (Tab t : myLevelMap.keySet()) {
-			int i = t.getText().charAt(t.getText().length() - 1);
-			LevelSettings list = myLevelMap.get(t).getConditions();
-			map.put(i, list);
-		}
-
-		return map;
 	}
 
 }

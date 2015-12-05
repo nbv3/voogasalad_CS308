@@ -39,10 +39,6 @@ public class LevelEditor {
 
 	}
 
-	public void loadMap(MapData loadedMap) {
-		// myMapManager.
-	}
-
 	public Node getContent() {
 		BorderPane myView = new BorderPane();
 		myView.setCenter(myContentGrid);
@@ -57,10 +53,9 @@ public class LevelEditor {
 		addColumnConstraints(myContentGrid);
 		addRowConstraints(myContentGrid);
 
-
 		myContentGrid.add(myMapManager.getControlNode(), 0, 0, 1, 3);
 		myContentGrid.add(myMapManager.getViewNode(), 1, 0, 1, 3);
-		
+
 		myContentGrid.add(mySpawnerManager.getControlNode(), 0, 3, 1, 1);
 		myContentGrid.add(mySpawnerManager.getViewNode(), 1, 3, 3, 1);
 
@@ -68,8 +63,6 @@ public class LevelEditor {
 		towerBox.setAlignment(Pos.CENTER);
 		towerBox.setSpacing(20);
 		towerBox.getChildren().addAll(myTowerManager.getControlNode(), myTowerManager.getViewNode());
-		
-
 
 		myContentGrid.add(towerBox, 2, 0, 1, 2);
 		myContentGrid.add(myConditions.getView(), 2, 2, 1, 1);
@@ -98,8 +91,7 @@ public class LevelEditor {
 	}
 
 	public MapData getMapData() {
-//		 return myMapManager.getMapData();
-		return null;
+		return myMapManager.getMapData();
 	}
 
 	public SpawnerData getSpawnerQueues() {
@@ -120,6 +112,11 @@ public class LevelEditor {
 
 	public LevelSettings getConditions() {
 		return myConditions.getConditions();
+	}
+
+	public void loadMap(MapData loadedMap) {
+		myMapManager.setMapData(loadedMap);
+
 	}
 
 }
