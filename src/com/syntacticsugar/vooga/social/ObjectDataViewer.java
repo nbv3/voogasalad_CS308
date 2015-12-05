@@ -13,12 +13,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.syntacticsugar.vooga.util.ResourceManager;
-import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
 import com.syntacticsugar.vooga.util.webconnect.WebConnector;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
@@ -38,7 +35,7 @@ public class ObjectDataViewer extends ListViewer {
 	}
 
 	private Node makeMyViewer(String viewerTitle) {
-		VBox view = GUIFactory.buildTitledPane(makeContentBox(), viewerTitle);
+		VBox view = GUIFactory.buildTitledVBox(makeContentBox(), viewerTitle);
 		view.setPrefWidth(350);
 		VBox buttons = new VBox();
 		buttons.getChildren().addAll(GUIFactory.buildButton("Download", e -> {
@@ -51,7 +48,6 @@ public class ObjectDataViewer extends ListViewer {
 	private void populateList(JSONObject object) {
 		clearList();
 		try {
-			
 			while(object.keys().hasNext()){
 				String key = (String) object.keys().next();
 				String value = object.get(key).toString();

@@ -1,5 +1,7 @@
 package com.syntacticsugar.vooga.gameplayer.attribute.weapon;
 
+import java.util.Observable;
+
 import com.syntacticsugar.vooga.gameplayer.attribute.AbstractAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.control.IUserControlAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.control.actions.movement.Direction;
@@ -30,7 +32,7 @@ public abstract class AbstractWeaponAttribute extends AbstractAttribute implemen
 	public AbstractWeaponAttribute(String bulletImagePath, Double bulletDamage, KeyCode fireKeyCode, 
 			Double bulletSpeed, Double bulletWidth, Double bulletHeight) {
 		this.myBulletImagePath = bulletImagePath;
-		this.myBulletDamage = -bulletDamage;
+		this.myBulletDamage = bulletDamage;
 		this.myFireKeyCode = fireKeyCode;
 		this.isFireKeyPressed = false;
 		this.fireFrameDelay = 30;
@@ -96,4 +98,8 @@ public abstract class AbstractWeaponAttribute extends AbstractAttribute implemen
 		
 		return params;
 	}
+	
+	@Override
+	abstract public void update(Observable o, Object arg);
+	
 }

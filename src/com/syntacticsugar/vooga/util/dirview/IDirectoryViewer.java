@@ -1,11 +1,6 @@
 package com.syntacticsugar.vooga.util.dirview;
 
 import java.io.File;
-import java.util.Map;
-
-import com.syntacticsugar.vooga.xml.data.ObjectData;
-
-import javafx.scene.image.ImageView;
 
 public interface IDirectoryViewer<T> {
 

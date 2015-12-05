@@ -1,5 +1,7 @@
 package com.syntacticsugar.vooga.gameplayer.attribute.status;
 
+import java.util.Observable;
+
 import com.syntacticsugar.vooga.gameplayer.attribute.movement.AbstractMovementAttribute;
 import com.syntacticsugar.vooga.util.ResourceManager;
 
@@ -7,7 +9,7 @@ public class SlowAttribute extends StatusEffectAttribute {
 
 	private Double mySlow;
 	
-	AbstractMovementAttribute move;
+	private AbstractMovementAttribute move;
 	
 	public SlowAttribute(Integer time, Double slow) {
 		super(time);
@@ -29,6 +31,14 @@ public class SlowAttribute extends StatusEffectAttribute {
 		if (move != null) {
 			move.setSpeed(move.getSpeed() / mySlow);
 		}
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		mySlow = (Double) arg;
+		timeLeft = (Integer) arg;
+		setChanged();
+		notifyObservers(this);
 	}
 	
 }

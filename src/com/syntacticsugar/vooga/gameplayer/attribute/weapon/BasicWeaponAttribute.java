@@ -1,6 +1,8 @@
 package com.syntacticsugar.vooga.gameplayer.attribute.weapon;
 
 
+import java.util.Observable;
+
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.objects.items.bullets.BulletParams;
@@ -27,6 +29,12 @@ public class BasicWeaponAttribute extends AbstractWeaponAttribute {
 		}
 		
 		return bullet;
+	}
+	
+	@Override
+	public void update(Observable o, Object arg) {
+		setChanged();
+		notifyObservers(this);
 	}
 	
 }
