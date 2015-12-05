@@ -39,40 +39,32 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 
-public class GameManager implements IGameManager{
+public class GameManager implements IGameManager {
 
 	private Game myGame;
 	private IGameUniverse currentLevel;
-	// private List<IGameCondition> myConditions;
-	// private GameInformation myInformation;
 	private Timeline myGameTimeline;
 	private GameEngine myGameEngine;
-
 	private IEventManager myEventManager;
-	
 	private ViewController myViewController;
-	
-	// engine stage
+
 	private Stage myStage;
 	private double frameLength;
-	
+	private double gameSize;
+
 	private List<EventListener> myListeners; // Will go in game players
 
-	public GameManager(EventHandler<WindowEvent> onClose, double gameSize, GameData data, double frameRate) {
+	public GameManager(EventHandler<WindowEvent> onClose, double gamesize, GameData data, double frameRate) {
 		this.frameLength = frameRate;
 		myStage = new Stage();
 		myStage.setOnCloseRequest(onClose);
-
 		myEventManager = new EventManager();
 		myEventManager.registerListener(this);
-
 		myGame = new Game(data, myEventManager);
 		currentLevel = myGame.getLevel(1);
+		myViewController = new ViewController(gamesize);
 
-		myViewController = new ViewController(gameSize);
-
-		// i changed ISimpleObject to SimpleObject, else addViewObject does not
-		// work
+		// Begin hardcoded test data
 		String playerPath = "player_pacman.png";
 		String enemyPath = "enemy_monster_1.png";
 		String missilePath = "scenery_pink.png";
@@ -93,7 +85,7 @@ public class GameManager implements IGameManager{
 		Collection<IAttribute> enemyAttributes = new ArrayList<IAttribute>();
 		enemyAttributes.add(new HealthAttribute(30.0));
 		enemyAttributes.add(new ScoreAttribute(50));
-//		enemyAttributes.add(new AIMovementAttribute(3));
+		// enemyAttributes.add(new AIMovementAttribute(3));
 		Map<GameObjectType, Collection<ICollisionEvent>> collisions = new HashMap<GameObjectType, Collection<ICollisionEvent>>();
 		Collection<ICollisionEvent> enemyEvents = new ArrayList<ICollisionEvent>();
 		enemyEvents.add(new HealthChangeEvent(-10));
@@ -119,7 +111,7 @@ public class GameManager implements IGameManager{
 	}
 
 	private void stageInit() {
-		Scene gameScene = new Scene(getGameView());
+		Scene gameScene = new Scene(myViewController.getGameView());
 		initializeAnimation(frameLength);
 		gameScene.addEventFilter(KeyEvent.KEY_PRESSED, e -> receiveKeyPressed(e.getCode()));
 		gameScene.addEventFilter(KeyEvent.KEY_RELEASED, e -> receiveKeyReleased(e.getCode()));
@@ -130,30 +122,42 @@ public class GameManager implements IGameManager{
 	}
 
 	@Override
-	public void restartGame() {
-		myGameEngine.resetUniverse(currentLevel);
+	public void restartGame(IGameUniverse universe) {
+//		myGameTimeline.pause();
+//		myViewController = new ViewController(gameSize);
+//		currentLevel = universe;
+//		myViewController.initializeView(currentLevel);
+//		myGameEngine = new GameEngine(currentLevel, myViewController);
+//		Scene gameScene = new Scene(getGameView());
+//		initializeAnimation(frameLength);
+//		gameScene.addEventFilter(KeyEvent.KEY_PRESSED, e -> receiveKeyPressed(e.getCode()));
+//		gameScene.addEventFilter(KeyEvent.KEY_RELEASED, e -> receiveKeyReleased(e.getCode()));
+//		gameScene.setOnKeyPressed(e -> receiveKeyPressed(e.getCode()));
+//		gameScene.setOnKeyReleased(e -> receiveKeyReleased(e.getCode()));
+//		myStage.setScene(gameScene);
+
 	}
 
 	@Override
 	public void updateGame() {
 		myGameEngine.update();
-		
+
 	}
-	
+
 	public void pause() {
 		myGameTimeline.pause();
 	}
-	
 
 	@Override
 	public void switchLevel(ConditionType type) {
-		pause();
 		if (type.equals(ConditionType.WINNING)) {
 			System.out.println("WINNER");
+			//restartGame(myGame.nextLevel());
+			pause();
+
 		} else if (type.equals(ConditionType.LOSING)) {
 			System.out.println("YOU LOSE");
-			restartGame();
-			startGame();
+
 		}
 
 	}
@@ -165,21 +169,15 @@ public class GameManager implements IGameManager{
 			} else {
 				myGameTimeline.pause();
 			}
-		} 
-		else if (code.equals(KeyCode.S)) {
+		} else if (code.equals(KeyCode.S)) {
 			saveGame();
-		} 
-		else {
+		} else {
 			myGameEngine.receiveKeyPressed(code);
 		}
 	}
 
 	public void receiveKeyReleased(KeyCode code) {
 		myGameEngine.receiveKeyReleased(code);
-	}
-
-	public Pane getGameView() {
-		return myGameEngine.getGameView();
 	}
 
 	@Override
@@ -193,20 +191,20 @@ public class GameManager implements IGameManager{
 		myGameTimeline.setCycleCount(Timeline.INDEFINITE);
 		myGameTimeline.getKeyFrames().add(frame);
 		startGame();
+		System.out.println("START");
 	}
 
 	@Override
 	public void onEvent(IGameEvent e) {
 		try {
 			LevelChangeEvent event = (LevelChangeEvent) e;
-			System.out.println("LEVEL SWITCH");
 			pause();
-		}
-		catch (ClassCastException ex) {
-			
+			switchLevel(event.getLevelConditionType());
+		} catch (ClassCastException ex) {
+
 		}
 	}
-	
+
 	private void saveGame() {
 		UniverseData data = currentLevel.saveGame();
 		myGame.saveGame(data);

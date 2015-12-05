@@ -28,7 +28,6 @@ public class GameEngine {
 
 	private IGameUniverse myUniverse;
 	private ViewController myView;
-	private IScore myScore;
 
 	public GameEngine(IGameUniverse universe, ViewController view) {
 		myUniverse = universe;
@@ -90,12 +89,12 @@ public class GameEngine {
 			object.updateSelf(myUniverse);
 		}
 	}
-	
+
 	private void processSpawner() {
 		ISpawner spawner = myUniverse.getSpawner();
 		spawner.update();
 	}
-	
+
 	private void processScore() {
 		IScore score = myUniverse.getScore();
 		score.update();
@@ -117,10 +116,6 @@ public class GameEngine {
 		myUniverse.receiveKeyRelease(code);
 	}
 
-	public Pane getGameView() {
-		return myView.getGameView();
-	}
-	
 	private void placeTower(ObjectData obj, Point2D point) {
 		IGameMap map = myUniverse.getMap();
 		double size = map.getTileSize();
@@ -134,10 +129,10 @@ public class GameEngine {
 		obj.setHeight(size);
 		obj.setSpawnPoint(spawnPoint.getX(), spawnPoint.getY());
 		IGameObject tower = new Tower(obj);
-		
+
 		ITowerHolder tile = map.getTile(point);
 		tile.setIsPlaceable(false);
-		
+
 		ObjectSpawnEvent event = new ObjectSpawnEvent(tower);
 		myUniverse.postEvent(event);
 	}

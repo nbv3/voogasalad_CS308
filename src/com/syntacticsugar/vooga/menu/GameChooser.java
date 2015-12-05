@@ -1,6 +1,5 @@
 package com.syntacticsugar.vooga.menu;
 
-import java.awt.List;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -91,7 +90,9 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 	}
 
 	private void startGame() {
-//		selectedGameData = stringToGameData.get(myView.getSelectionModel().getSelectedItem());
+		
+		
+	//	selectedGameData = stringToGameData.get(myView.getSelectionModel().getSelectedItem());
 //		System.out.println(myView.getSelectionModel().getSelectedItem());
 //		System.out.print(selectedGameData);
 		launchNewEngine();
@@ -234,6 +235,7 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 
 		LevelSettings lSetting = new LevelSettings(50);
 		Collection<UniverseData> uni = new ArrayList<>();
+		uni.add(new UniverseData(spawn, td, map, lSetting));
 		uni.add(new UniverseData(spawn, td, map, lSetting));
 		GlobalSettings settings = new GlobalSettings(1, 60);
 		GameData data = new GameData(uni, settings);

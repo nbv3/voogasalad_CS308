@@ -11,7 +11,7 @@ import com.syntacticsugar.vooga.xml.data.ObjectData;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 
-public class GameView extends BorderPane {
+public class GameView extends BorderPane  {
 	
 	private double mySize;
 	private Pane gameField;
