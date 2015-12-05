@@ -72,7 +72,12 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 		myGameNames = FXCollections.observableArrayList();
 		showDirectoryContents(myDirectory, e -> getGameDescriptions(myDirectory));
 		myView = new ListView<String>(myGameNames);
-		myView.setOnMouseClicked(e -> startButton.setDisable(false));
+		myView.setOnMouseClicked(e -> {
+			if (myView.getSelectionModel().getSelectedItem() != null) {
+				startButton.setDisable(false);
+			}
+		});
+
 		myView.getItems().add("HEY");
 		myView.getItems().add("LOLCANO");
 
@@ -91,9 +96,10 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 	}
 
 	private void startGame() {
-//		selectedGameData = stringToGameData.get(myView.getSelectionModel().getSelectedItem());
-//		System.out.println(myView.getSelectionModel().getSelectedItem());
-//		System.out.print(selectedGameData);
+		// selectedGameData =
+		// stringToGameData.get(myView.getSelectionModel().getSelectedItem());
+		// System.out.println(myView.getSelectionModel().getSelectedItem());
+		// System.out.print(selectedGameData);
 		launchNewEngine();
 	}
 
