@@ -10,6 +10,7 @@ public interface IDirectoryViewer<T> {
 	 * implemented alongside UI elements (JavaFX Nodes).
 	 * @param directory
 	 * @param fileConverter
+	 * @return 
 	 */
 	public void showDirectoryContents(File directory, IConverter<T> fileConverter);
 	

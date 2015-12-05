@@ -86,8 +86,10 @@ public class SpawnerView implements IDataSelector<ObjectData>, IVisualElement {
 	@Override
 	public void removeSelectedData() {
 		if (selectedItem != null) {
-			Animation fade = FadeTransitionWizard.fadeOut(selectedItem, FluidGlassBall.getFadeDuration(),
-					FluidGlassBall.getFadeOpacityStart(), FluidGlassBall.getFadeOpacityEnd(),
+			Animation fade = FadeTransitionWizard.fadeOut(selectedItem,
+	     			FluidGlassBall.getFadeDuration(),
+					FluidGlassBall.getFadeOutOpacityStart(),
+					FluidGlassBall.getFadeOutOpacityEnd(),
 					FluidGlassBall.getFadeCycleCount());
 			fade.setOnFinished(toExecuteOnFinished -> removeSelectedData_BAREBONE());
 			fade.play();
