@@ -3,6 +3,7 @@ package com.syntacticsugar.vooga.authoring.level.map;
 import java.util.Observable;
 
 import com.syntacticsugar.vooga.authoring.level.IManager;
+import com.syntacticsugar.vooga.xml.data.MapData;
 
 import javafx.scene.Node;
 
@@ -10,13 +11,12 @@ public class MapManager implements IManager {
 
 	private MapView myMapDisplay;
 	private MapControls myMapControls;
-	
+
 	public MapManager() throws Exception {
 		myMapDisplay = new MapView();
 		myMapControls = new MapControls(myMapDisplay);
 	}
-	
-	
+
 	@Override
 	public Observable getObservableController() {
 		return myMapControls;
@@ -30,6 +30,14 @@ public class MapManager implements IManager {
 	@Override
 	public Node getViewNode() {
 		return myMapDisplay.getView();
+	}
+
+	public MapData getMapData() {
+		return myMapDisplay.getMapData();
+	}
+	
+	public void setMapData(MapData loaded) {
+		myMapDisplay.loadMapData(loaded);
 	}
 
 }
