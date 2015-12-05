@@ -7,6 +7,7 @@ public class GlobalSettings {
 
 	public GlobalSettings() {
 		level = 1;
+		mySpawnRate = 60;
 	}
 
 	public GlobalSettings(int l) {
