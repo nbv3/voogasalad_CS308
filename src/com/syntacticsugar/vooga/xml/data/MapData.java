@@ -49,6 +49,16 @@ public class MapData {
 		throw new IndexOutOfBoundsException("Specified tile is out of map bounds.");
 	}
 	
+	public void setTileData(TileData tileData,int i, int j) {
+		System.out.println("Tile Data Length is "+myTileData.length);
+		if (i<myTileData.length && j<myTileData.length) {
+			myTileData[i][j] = tileData;
+			return;
+		} else{
+		throw new IndexOutOfBoundsException("Specified tile is out of map bounds.");
+		}
+	}
+	
 	public Collection<TileData> getTiles() {
 		Collection<TileData> tiles = new ArrayList<>();
 		for (int i=0; i<myTileData.length; i++) {

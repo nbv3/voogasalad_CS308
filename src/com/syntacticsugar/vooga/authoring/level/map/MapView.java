@@ -31,6 +31,7 @@ import javafx.scene.input.Clipboard;
 import javafx.scene.input.DataFormat;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 
@@ -52,6 +53,8 @@ public class MapView implements IMapDisplay, IVisualElement {
 	private int myMapSize;
 	private GridPane myMapGrid;
 	private TitledPane myViewPane;
+	private double iconWidth;
+	private double iconHeight;
 	
 	public MapView() throws Exception {
 		myMapSize = inputMapSize();
@@ -64,6 +67,7 @@ public class MapView implements IMapDisplay, IVisualElement {
 		myViewPane = GUIFactory.buildTitledPane("Map Display", myMapGrid);
 	}
 
+	
 	@Override
 	public void displayData(TileData newData) {
 		if (newData == null)
@@ -176,14 +180,37 @@ public class MapView implements IMapDisplay, IVisualElement {
 //				});
 				myMapGrid.add(icon, i, j, 1, 1);
 				myMapGrid.setOnDragDropped(e->{
+					returnDragOverIcon(e,mapData);
 					System.out.println(e.getX() +", " + e.getY());
 					System.out.println("Map Grid width is " +myMapGrid.getWidth());
 					System.out.println("Map Grid height is " +myMapGrid.getHeight());
-
+					
 				});
 			}
 		}
 	}
+	
+	private void returnDragOverIcon(DragEvent event, MapData mapData){
+		double x = event.getX();
+		double y = event.getY();
+		
+		int colIndex =  (int) (myMapSize*x/myMapGrid.getWidth());
+		int rowIndex =  (int) (myMapSize*y/myMapGrid.getHeight());
+		System.out.println("Map Size is " + myMapSize);
+		System.out.println(colIndex);
+		System.out.println(rowIndex);
+		Dragboard db = event.getDragboard();
+		TileData tdFromClipBoard = (TileData)db.getContent(DataFormat.lookupMimeType("TileData"));
+		Icon icon = myTileIconMap.get(mapData.getTileData(colIndex, rowIndex));
+		myTileIconMap.remove(mapData.getTileData(colIndex, rowIndex));
+			
+		
+		mapData.setTileData(tdFromClipBoard, colIndex, rowIndex);
+		myTileIconMap.put(tdFromClipBoard, icon);
+		setImplementation(tdFromClipBoard, tdFromClipBoard.getImplementation());
+		setImagePath(tdFromClipBoard,  tdFromClipBoard.getImagePath());
+		setAsDestination(tdFromClipBoard, tdFromClipBoard.isDestination());
+}
 	
 	private void mouseOverHandler(TileData tile, boolean isControlDown, boolean isShiftDown) {
 		multiSelectTile(tile, isControlDown, isShiftDown);
