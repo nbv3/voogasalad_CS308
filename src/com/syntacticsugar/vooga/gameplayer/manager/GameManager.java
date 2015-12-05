@@ -79,9 +79,17 @@ public class GameManager implements IGameManager{
 
 		ObjectData playerData = new ObjectData();
 		List<IAttribute> attributes = new ArrayList<IAttribute>();
-		attributes.add(new HealthAttribute(100.0));
-		attributes.add(new MovementControlAttribute(3.0));
-		attributes.add(new WeaponAttribute(missilePath, 100.0, KeyCode.SPACE));
+		HealthAttribute health = new HealthAttribute();
+		health.setHealth(100.0);
+		attributes.add(health);
+		MovementControlAttribute movementControl = new MovementControlAttribute();
+		movementControl.setSpeed(3.0);
+		attributes.add(movementControl);
+		WeaponAttribute weapon = new WeaponAttribute();
+		weapon.setBulletDamage(100.0);
+		weapon.setBulletImagePath(missilePath);
+		weapon.setFireKeyCode(KeyCode.SPACE);
+		attributes.add(weapon);
 		playerData.setType(GameObjectType.PLAYER);
 		playerData.setSpawnPoint(0, 0);
 		playerData.setWidth(50);
@@ -91,8 +99,12 @@ public class GameManager implements IGameManager{
 
 		ObjectData enemyData = new ObjectData();
 		Collection<IAttribute> enemyAttributes = new ArrayList<IAttribute>();
-		enemyAttributes.add(new HealthAttribute(30.0));
-		enemyAttributes.add(new ScoreAttribute(50));
+		HealthAttribute enemyHealth = new HealthAttribute();
+		health.setHealth(30.0);
+		enemyAttributes.add(enemyHealth);
+		ScoreAttribute score = new ScoreAttribute();
+		score.setScore(50);
+		enemyAttributes.add(score);
 //		enemyAttributes.add(new AIMovementAttribute(3));
 		Map<GameObjectType, Collection<ICollisionEvent>> collisions = new HashMap<GameObjectType, Collection<ICollisionEvent>>();
 		Collection<ICollisionEvent> enemyEvents = new ArrayList<ICollisionEvent>();

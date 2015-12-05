@@ -25,10 +25,10 @@ public class HealthAttribute extends AbstractAttribute {
 	 * and a null parent object
 	 * @param startingHealth
 	 */
-	public HealthAttribute(Double maxHealth) {
-		super(new DoubleParameter(maxHealth, "Health: "));
-		this.myHealth = maxHealth;
-		this.myMaxHealth = maxHealth;
+	public HealthAttribute() {
+		super(new DoubleParameter(0.0, "Health: "));
+		this.myHealth = 0.0;
+		this.myMaxHealth = 0.0;
 		this.myInvincibleFrames = 0;
 	}
 
@@ -86,7 +86,7 @@ public class HealthAttribute extends AbstractAttribute {
 		return this.myHealth <= 0;
 	}
 	
-	private void setHealth(Double health)
+	public void setHealth(Double health)
 	{
 		myMaxHealth = health;
 	}

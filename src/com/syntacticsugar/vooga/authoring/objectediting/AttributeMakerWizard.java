@@ -6,6 +6,7 @@ import java.util.ListIterator;
 import java.util.Observable;
 import java.util.Observer;
 
+import com.syntacticsugar.vooga.authoring.parameters.AbstractParameter;
 import com.syntacticsugar.vooga.authoring.parameters.IEditableParameter;
 import com.syntacticsugar.vooga.authoring.parameters.ParameterFactory;
 import com.syntacticsugar.vooga.gameplayer.attribute.AbstractAttribute;
@@ -102,13 +103,11 @@ public class AttributeMakerWizard implements Observer{
 	}
 
 	private void addAttributeToList() {
-			//MsgInputBoxFactory msgBox = new MsgInputBoxFactory(ResourceManager.getString(String.format("%s%s", "double_", selectedAttribute)));
 			String className = ResourceManager.getString(String.format("%s_%s", selectedAttribute, "name"));
 			try {
-				attributeToAdd = (IAttribute) Reflection.createInstance(className, 0.0);
+				attributeToAdd = (IAttribute) Reflection.createInstance(className);
 			}
 			catch (ReflectionException ex) {
-				attributeToAdd = (IAttribute) Reflection.createInstance(className);
 			}
 			((AbstractAttribute)attributeToAdd).addObserver(this);
 			updateGUI(attributeToAdd);
@@ -135,10 +134,7 @@ public class AttributeMakerWizard implements Observer{
 	@Override
 	public void update(Observable o, Object arg) {
 		myAttributes.add((IAttribute)arg);
-		System.out.println(((AbstractAttribute)arg));
 	}
-
-	
 
 	
 }

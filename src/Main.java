@@ -19,10 +19,10 @@ public class Main extends Application {
 		//new ObjectEditor();
 		new MainMenu();
 		//new SceneManager(stage);
-		ObjectData data = new ObjectData();
+		/*ObjectData data = new ObjectData();
 		data.setImagePath("scenery_gray.png");
 		String tileImagePath = "scenery_grass_2.png";
-		new ObjectResizer(data, tileImagePath);
+		new ObjectResizer(data, tileImagePath);*/
 	}
 }
 	

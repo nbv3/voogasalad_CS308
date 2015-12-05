@@ -23,11 +23,10 @@ public class AIMovementAttribute extends AbstractMovementAttribute {
 	private int myFrameCount;
 	private int myPathUpdateRate; // TODO: Move into a resource file
 	
-	public AIMovementAttribute(Double speed) {
-		super(speed, new DoubleParameter(speed, "AISpeed: "));
+	public AIMovementAttribute() {
+		super(new DoubleParameter(0.0, "AISpeed: "));
 		
 		// update currentTile
-		
 		myFrameCount = 0;
 		myPathUpdateRate = 20;
 	}
@@ -113,11 +112,6 @@ public class AIMovementAttribute extends AbstractMovementAttribute {
 		return Direction.STOP;
 	}
 
-	@Override
-	public void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
 
 
 }

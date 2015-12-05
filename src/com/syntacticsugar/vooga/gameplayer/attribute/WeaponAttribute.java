@@ -29,9 +29,9 @@ public class WeaponAttribute extends AbstractAttribute implements IUserControlAt
 	private int fireFrameDelay;
 	private int delayFrameCounter;
 	
-	public WeaponAttribute(String bulletImagePath, Double bulletDamage, KeyCode fireKeyCode) {
-		super(new StringParameter(bulletImagePath, "ImagePath: "), new DoubleParameter(bulletDamage, "BulletDamage: "), new KeyCodeParameter(fireKeyCode, "FireKeyCode: "));
-		setParameters(bulletImagePath, bulletDamage, fireKeyCode);
+	public WeaponAttribute() {
+		super(new StringParameter("", "ImagePath: "), new DoubleParameter(0.0, "BulletDamage: "), new KeyCodeParameter(KeyCode.SPACE, "FireKeyCode: "));
+		setParameters("", 0.0, KeyCode.SPACE);
 	}
 	
 	private void setParameters(String path, Double damage, KeyCode code)
@@ -56,17 +56,17 @@ public class WeaponAttribute extends AbstractAttribute implements IUserControlAt
 		delayFrameCounter++;
 	}
 	
-	private void setBulletDamage(Double value)
+	public void setBulletDamage(Double value)
 	{
 		myBulletDamage = value;
 	}
 	
-	private void setBulletImagePath(String path)
+	public void setBulletImagePath(String path)
 	{
 		myBulletImagePath = path;
 	}
 	
-	private void setFireKeyCode(KeyCode code)
+	public void setFireKeyCode(KeyCode code)
 	{
 		myFireKeyCode = code;
 	}

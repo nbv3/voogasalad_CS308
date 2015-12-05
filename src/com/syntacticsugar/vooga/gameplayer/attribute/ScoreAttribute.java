@@ -11,9 +11,9 @@ public class ScoreAttribute extends AbstractAttribute {
 	
 	private Integer myScore;
 	
-	public ScoreAttribute(Integer score) {
-		super(new IntegerParameter(score, "Score: "));
-		myScore = score;
+	public ScoreAttribute() {
+		super(new IntegerParameter(0, "Score: "));
+		myScore = 0;
 	}
 
 	@Override
@@ -22,7 +22,7 @@ public class ScoreAttribute extends AbstractAttribute {
 
 	}
 	
-	private void setScore(Integer score)
+	public void setScore(Integer score)
 	{
 		myScore = score;
 	}

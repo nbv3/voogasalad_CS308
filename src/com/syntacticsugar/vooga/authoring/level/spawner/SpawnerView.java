@@ -57,7 +57,7 @@ public class SpawnerView implements IDataSelector<ObjectData>, IVisualElement {
 			objToAdd.setImagePath(String.format("enemy_monster_%d.png", i));
 			objToAdd.setType(GameObjectType.ENEMY);
 			List<IAttribute> attributeList = new ArrayList<IAttribute>();
-			attributeList.add(new HealthAttribute(i * 100.0));
+			attributeList.add(new HealthAttribute());
 			objToAdd.setAttributes(attributeList);
 			Map<GameObjectType, Collection<ICollisionEvent>> eventMap = new HashMap<GameObjectType, Collection<ICollisionEvent>>();
 			List<ICollisionEvent> eventList = new ArrayList<ICollisionEvent>();

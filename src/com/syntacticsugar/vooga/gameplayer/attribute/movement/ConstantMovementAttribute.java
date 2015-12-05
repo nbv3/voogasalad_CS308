@@ -16,7 +16,7 @@ public class ConstantMovementAttribute extends AbstractMovementAttribute {
 	Direction myDir;
 	
 	public ConstantMovementAttribute(Direction dir, Double speed) {
-		super(speed, new DoubleParameter(speed, "Speed: "));
+		super(new DoubleParameter(speed, "Speed: "));
 		myDir = dir;
 	}
 
@@ -34,11 +34,6 @@ public class ConstantMovementAttribute extends AbstractMovementAttribute {
 		box.setPoint(new Point2D(oldPoint.getX() + getXVelocity(), oldPoint.getY() + getYVelocity()));
 	}
 
-	@Override
-	public void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	
 	

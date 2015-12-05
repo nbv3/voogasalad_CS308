@@ -24,10 +24,10 @@ public abstract class AbstractMovementAttribute extends AbstractAttribute implem
 	
 	protected Point myCurrentTile;
 	
-	public AbstractMovementAttribute(Double speed, AbstractParameter<?>... params) {
+	public AbstractMovementAttribute(AbstractParameter<?>... params) {
 		super(params);
 		resetVelocity();
-		setSpeed(speed);
+		setSpeed(0.0);
 		myCurrentTile = new Point(0,0);
 	}
 	

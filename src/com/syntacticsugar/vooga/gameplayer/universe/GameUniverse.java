@@ -83,7 +83,9 @@ public class GameUniverse implements IGameUniverse {
 		ObjectData towerData = new ObjectData();
 		towerData.setImagePath(imgPath);
 		Collection<IAttribute> towerAttributes = new ArrayList<IAttribute>();
-		towerAttributes.add(new HealthAttribute(30.0));
+		HealthAttribute health = new HealthAttribute();
+		health.setHealth(30.0);
+		towerAttributes.add(health);
 		// towerAttributes.add(new AIMovementAttribute(3));
 		Map<GameObjectType, Collection<ICollisionEvent>> collisions = new HashMap<GameObjectType, Collection<ICollisionEvent>>();
 		Collection<ICollisionEvent> towerEvents = new ArrayList<ICollisionEvent>();
@@ -101,7 +103,9 @@ public class GameUniverse implements IGameUniverse {
 		ObjectData towerData2 = new ObjectData();
 		towerData.setImagePath(imgPath1);
 		Collection<IAttribute> towerAttributes2 = new ArrayList<IAttribute>();
-		towerAttributes2.add(new HealthAttribute(30.0));
+		HealthAttribute towerHealth = new HealthAttribute();
+		health.setHealth(30.0);
+		towerAttributes2.add(towerHealth);
 		// towerAttributes.add(new AIMovementAttribute(3));
 		Map<GameObjectType, Collection<ICollisionEvent>> collisions2 = new HashMap<GameObjectType, Collection<ICollisionEvent>>();
 		Collection<ICollisionEvent> towerEvents2 = new ArrayList<ICollisionEvent>();

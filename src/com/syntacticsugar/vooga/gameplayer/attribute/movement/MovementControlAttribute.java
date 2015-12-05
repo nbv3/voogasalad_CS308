@@ -17,8 +17,8 @@ public class MovementControlAttribute extends AbstractMovementAttribute implemen
 	private Map<KeyCode, Direction> myKeyBindings;
 	private Direction myCurrentMovement;
 	
-	public MovementControlAttribute(Double speed) {
-		super(speed, new DoubleParameter(speed, "Player Speed: "));
+	public MovementControlAttribute() {
+		super(new DoubleParameter(0.0, "Player Speed: "));
 		
 		myKeyBindings = new HashMap<>();
 		myCurrentMovement = Direction.STOP;

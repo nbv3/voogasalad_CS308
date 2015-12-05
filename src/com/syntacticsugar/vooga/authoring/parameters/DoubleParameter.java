@@ -36,7 +36,7 @@ public class DoubleParameter extends AbstractParameter<Double> {
 			{
 				if(!userInput.equals(""))
 				{
-					//setValue(Double.parseDouble(userInput));
+					setValue(Double.parseDouble(userInput));
 					setChanged();
 					notifyObservers(Double.parseDouble(userInput));
 				}

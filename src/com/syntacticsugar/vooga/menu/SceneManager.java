@@ -129,8 +129,12 @@ public class SceneManager {
 		String enemyPath = "enemy_monster_1.png";
 		ObjectData enemyData = new ObjectData();
 		Collection<IAttribute> enemyAttributes = new ArrayList<IAttribute>();
-		enemyAttributes.add(new HealthAttribute(30.0));
-		enemyAttributes.add(new ScoreAttribute(30));
+		HealthAttribute health = new HealthAttribute();
+		health.setHealth(30.0);
+		ScoreAttribute score = new ScoreAttribute();
+		score.setScore(30);
+		enemyAttributes.add(health);
+		enemyAttributes.add(score);
 		// enemyAttributes.add(new AIMovementAttribute(3));
 		Map<GameObjectType, Collection<ICollisionEvent>> collisions = new HashMap<GameObjectType, Collection<ICollisionEvent>>();
 		Collection<ICollisionEvent> enemyEvents = new ArrayList<ICollisionEvent>();
@@ -146,8 +150,12 @@ public class SceneManager {
 
 		ObjectData enemyData2 = new ObjectData();
 		Collection<IAttribute> enemyAttributes2 = new ArrayList<IAttribute>();
-		enemyAttributes2.add(new HealthAttribute(30.0));
-		enemyAttributes2.add(new ScoreAttribute(40));
+		HealthAttribute healthAtt = new HealthAttribute();
+		health.setHealth(30.0);
+		ScoreAttribute scoreAtt = new ScoreAttribute();
+		score.setScore(40);
+		enemyAttributes2.add(healthAtt);
+		enemyAttributes2.add(scoreAtt);
 		// enemyAttributes.add(new AIMovementAttribute(3));
 		Map<GameObjectType, Collection<ICollisionEvent>> collisions2 = new HashMap<GameObjectType, Collection<ICollisionEvent>>();
 		Collection<ICollisionEvent> enemyEvents2 = new ArrayList<ICollisionEvent>();
@@ -174,7 +182,9 @@ public class SceneManager {
 		ObjectData towerData = new ObjectData();
 		towerData.setImagePath(imgPath);
 		Collection<IAttribute> towerAttributes = new ArrayList<IAttribute>();
-		towerAttributes.add(new HealthAttribute(30.0));
+		HealthAttribute towerHealth = new HealthAttribute();
+		towerHealth.setHealth(30.0);
+		towerAttributes.add(towerHealth);
 		// towerAttributes.add(new AIMovementAttribute(3));
 		Map<GameObjectType, Collection<ICollisionEvent>> collisionst = new HashMap<GameObjectType, Collection<ICollisionEvent>>();
 		Collection<ICollisionEvent> towerEvents = new ArrayList<ICollisionEvent>();
@@ -191,7 +201,9 @@ public class SceneManager {
 		ObjectData towerData2 = new ObjectData();
 		towerData2.setImagePath(imgPath1);
 		Collection<IAttribute> towerAttributes2 = new ArrayList<IAttribute>();
-		towerAttributes2.add(new HealthAttribute(30.0));
+		HealthAttribute healthTower = new HealthAttribute();
+		towerHealth.setHealth(30.0);
+		towerAttributes2.add(healthTower);
 		// towerAttributes.add(new AIMovementAttribute(3));
 		Map<GameObjectType, Collection<ICollisionEvent>> collisionst2 = new HashMap<GameObjectType, Collection<ICollisionEvent>>();
 		Collection<ICollisionEvent> towerEvents2 = new ArrayList<ICollisionEvent>();
