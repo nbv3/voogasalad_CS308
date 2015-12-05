@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 import org.json.*;
 
-
 public class JSONHelper {
 	public static String extractXML(JSONObject json) {
 		try {
@@ -16,7 +15,7 @@ public class JSONHelper {
 			return "";
 		}
 	}
-	
+
 	public static void printArray(JSONArray arr) {
 		for (int i = 0; i < arr.length(); i++) {
 			try {
@@ -28,8 +27,9 @@ public class JSONHelper {
 			}
 		}
 	}
-	
-	public static JSONObject createJSON(String author, String gamename, String description, String xml, String comments) {
+
+	public static JSONObject createxmlJSON(String author, String gamename, String description, String xml,
+			String comments) {
 		Map<String, String> map = new HashMap<String, String>();
 
 		map.put("xml", xml);
@@ -40,11 +40,15 @@ public class JSONHelper {
 
 		return new JSONObject(map);
 	}
-	
-	public static JSONObject modifyJSON(int id, String key, String newValue) throws JSONException{
-		JSONObject obj = WebConnector.getJSONObject(id);
-		obj.put(key, newValue);
-		return obj;
+
+	public static JSONObject createCommentJSON(int id, String author, String comment) {
+		Map<String, String> map = new HashMap<String, String>();
+
+		map.put("id", Integer.toString(id));
+		map.put("author", author);
+		map.put("comment", comment);
+
+		return new JSONObject(map);
 	}
-	
+
 }
