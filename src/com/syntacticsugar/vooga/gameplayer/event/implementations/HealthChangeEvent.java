@@ -15,14 +15,12 @@ public class HealthChangeEvent extends CollisionEvent {
 	
 	public HealthChangeEvent(Double deltaHealth) {
 		super(CollisionEventType.HealthChange);
-		System.out.println("Delta Health = " + deltaHealth);
 		this.myDeltaHealth = deltaHealth;
 	}
 	
 	@Override
 	public void executeEvent(Map<String, IAttribute> targetAttributes) {
 		HealthAttribute health = (HealthAttribute) targetAttributes.get(TARGET_ATTRIBUTE);
-		System.out.println("ABOUT TO EXECUTE HEALTH CHANGE: " + myDeltaHealth);
 		health.changeHealth(-1 * myDeltaHealth);
 	}
 	

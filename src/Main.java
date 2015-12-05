@@ -20,7 +20,7 @@ public class Main extends Application {
 		//new SceneManager(stage);
 		/*ObjectData data = new ObjectData();
 		data.setImagePath("scenery_gray.png");
-		String tileImagePath = "scenery_grass_2.png";
+		String tileImagePath = "scenery_grass_2.png";*/
 	}
 }
 	

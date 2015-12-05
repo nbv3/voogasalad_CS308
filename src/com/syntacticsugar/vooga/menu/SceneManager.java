@@ -49,7 +49,7 @@ public class SceneManager {
 		System.setProperty("glass.accessible.force", "false");
 		myStage = stage;
 		myStage.setTitle(TITLE);
-		launchFirstMenu();
+		//launchFirstMenu();
 	}
 
 	private SceneManager() {
@@ -61,7 +61,7 @@ public class SceneManager {
 		FRAME_LENGTH = 1.0 / myPropertiesManager.getDoubleProperty("FrameLength");
 	}
 
-	private void viewScene(AbstractGameMenu screen) {
+	/*private void viewScene(AbstractGameMenu screen) {
 		Scene scene = new Scene(screen, WIDTH, HEIGHT);
 		myStage.setScene(scene);
 		myStage.show();
@@ -225,6 +225,6 @@ public class SceneManager {
 		GameData data = new GameData(uni, settings);
 
 		return data;
-	}
+	}*/
 
 }

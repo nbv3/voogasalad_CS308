@@ -28,7 +28,7 @@ public class HealthAttribute extends AbstractAttribute {
 	public HealthAttribute() {
 		super(new DoubleParameter("Health: "));
 		this.myHealth = 10.0;
-		this.myMaxHealth = 100.0;
+		this.myMaxHealth = 50.0;
 		this.myInvincibleFrames = 0;
 	}
 
@@ -58,9 +58,7 @@ public class HealthAttribute extends AbstractAttribute {
 		if (myInvincibleFrames > 0) {
 			return;
 		}
-		System.out.println("OLD HEALTH: " + myHealth);
 		this.myHealth += damage;
-		System.out.println("NEW HEALTH: " + myHealth);
 		setInvincibile(25);
 	}
 

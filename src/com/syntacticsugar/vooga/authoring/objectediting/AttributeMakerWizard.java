@@ -133,7 +133,11 @@ public class AttributeMakerWizard implements Observer{
 
 	@Override
 	public void update(Observable o, Object arg) {
-		myAttributes.add((IAttribute)arg);
+		if(!(myAttributes.contains((IAttribute)arg)))
+		{
+			myAttributes.add((IAttribute)arg);
+		}
+
 	}
 
 	
