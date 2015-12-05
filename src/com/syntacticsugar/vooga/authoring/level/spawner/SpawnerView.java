@@ -20,8 +20,8 @@ import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
 import com.syntacticsugar.vooga.gameplayer.event.ICollisionEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.HealthChangeEvent;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
-import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
+import com.syntacticsugar.vooga.xml.data.WaveData;
 
 import javafx.animation.Animation;
 import javafx.collections.FXCollections;
@@ -29,7 +29,6 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Orientation;
 import javafx.scene.Node;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TitledPane;
 import javafx.scene.control.Tooltip;
 
 public class SpawnerView implements IDataSelector<ObjectData>, IVisualElement, IRefresher {
@@ -49,7 +48,7 @@ public class SpawnerView implements IDataSelector<ObjectData>, IVisualElement, I
 		myQueuePane.setOrientation(Orientation.HORIZONTAL);
 
 		// test code
-		//TODO: REMOVE
+		// TODO: REMOVE
 		testCreatedObjectDataList();
 	}
 
@@ -90,10 +89,8 @@ public class SpawnerView implements IDataSelector<ObjectData>, IVisualElement, I
 	@Override
 	public void removeSelectedData() {
 		if (selectedItem != null) {
-			Animation fade = FadeTransitionWizard.fadeOut(selectedItem,
-	     			FluidGlassBall.getFadeDuration(),
-					FluidGlassBall.getFadeOutOpacityStart(),
-					FluidGlassBall.getFadeOutOpacityEnd(),
+			Animation fade = FadeTransitionWizard.fadeOut(selectedItem, FluidGlassBall.getFadeDuration(),
+					FluidGlassBall.getFadeOutOpacityStart(), FluidGlassBall.getFadeOutOpacityEnd(),
 					FluidGlassBall.getFadeCycleCount());
 			fade.setOnFinished(toExecuteOnFinished -> removeSelectedData_BAREBONE());
 			fade.play();
@@ -127,14 +124,17 @@ public class SpawnerView implements IDataSelector<ObjectData>, IVisualElement, I
 
 	@Override
 	public void clearData() {
-		
+
 	}
-	
+
 	@Override
 	public Collection<ObjectData> getData() {
 		return myObjects.values();
 	}
 
+	public WaveData getWaveData() {
+		return new WaveData(myQueue);
+	}
 	@Override
 	public void refresh() {
 		myWave.clear();

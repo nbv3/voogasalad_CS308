@@ -2,13 +2,13 @@ package com.syntacticsugar.vooga.authoring.level;
 
 import java.util.Observable;
 
-import com.syntacticsugar.vooga.authoring.level.map.MapView;
-import com.syntacticsugar.vooga.authoring.level.map.MapControls;
 import com.syntacticsugar.vooga.authoring.level.map.MapManager;
-import com.syntacticsugar.vooga.authoring.level.spawner.SpawnerControls;
 import com.syntacticsugar.vooga.authoring.level.spawner.SpawnerManager;
 import com.syntacticsugar.vooga.authoring.level.towers.TowerManager;
+import com.syntacticsugar.vooga.xml.data.LevelSettings;
 import com.syntacticsugar.vooga.xml.data.MapData;
+import com.syntacticsugar.vooga.xml.data.SpawnerData;
+import com.syntacticsugar.vooga.xml.data.TowerData;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -16,7 +16,6 @@ import javafx.scene.Node;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 
@@ -39,9 +38,9 @@ public class LevelEditor {
 		buildTabContents();
 
 	}
-	
+
 	public void loadMap(MapData loadedMap) {
-//		myMapManager.
+		// myMapManager.
 	}
 
 	public Node getContent() {
@@ -58,6 +57,7 @@ public class LevelEditor {
 		addColumnConstraints(myContentGrid);
 		addRowConstraints(myContentGrid);
 
+
 		myContentGrid.add(myMapManager.getControlNode(), 0, 0, 1, 3);
 		myContentGrid.add(myMapManager.getViewNode(), 1, 0, 1, 3);
 		
@@ -69,6 +69,8 @@ public class LevelEditor {
 		towerBox.setSpacing(20);
 		towerBox.getChildren().addAll(myTowerManager.getControlNode(), myTowerManager.getViewNode());
 		
+
+
 		myContentGrid.add(towerBox, 2, 0, 1, 2);
 		myContentGrid.add(myConditions.getView(), 2, 2, 1, 1);
 	}
@@ -94,19 +96,30 @@ public class LevelEditor {
 		r3.setPercentHeight(30);
 		grid.getRowConstraints().addAll(r0, r1, r2);
 	}
-	
+
 	public MapData getMapData() {
-//		return myMapManager.getMapData();
+//		 return myMapManager.getMapData();
 		return null;
+	}
+
+	public SpawnerData getSpawnerQueues() {
+		return mySpawnerManager.getSpawnerData();
 	}
 
 	public Observable getTowerControls() {
 		return myTowerManager.getObservableController();
 	}
-	
+
 	public Observable getSpawnerControls() {
 		return mySpawnerManager.getObservableController();
 	}
 
+	public TowerData getTowerList() {
+		return myTowerManager.getTowerData();
+	}
+
+	public LevelSettings getConditions() {
+		return myConditions.getConditions();
+	}
 
 }

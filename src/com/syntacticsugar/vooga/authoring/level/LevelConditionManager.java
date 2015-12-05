@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.syntacticsugar.vooga.util.gui.factory.MsgInputBoxFactory;
+import com.syntacticsugar.vooga.xml.data.LevelSettings;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -61,9 +62,10 @@ public class LevelConditionManager {
 	private void updateSelectedWin(String w) {
 		mySelectedWin = w;
 		String className = mySelectedWin.replace(" ", "");
+//		String classPath = String.format("%s%s%s", "com.syntacticsugar.vooga.gameplayer.conditions.implementation.",
+//				className, "Condition");
 		String classPath = String.format("%s%s%s", CONDITION_PATH, className, "Condition");
-		// correct format
-		// com.syntacticsugar.vooga.gameplayer.conditions.implementation.EnemyDeathCondition
+
 		try {
 			Class<?> c = Class.forName(classPath);
 			Constructor<?>[] constr = c.getDeclaredConstructors();
@@ -84,8 +86,6 @@ public class LevelConditionManager {
 		String className = mySelectedLose.replace(" ", "");
 		String classPath = String.format("%s%s%s", "com.syntacticsugar.vooga.gameplayer.conditions.implementation.",
 				className, "Condition");
-		// correct format
-		// com.syntacticsugar.vooga.gameplayer.conditions.implementation.EnemyDeathCondition
 		try {
 
 			Class<?> c = Class.forName(classPath);
@@ -121,5 +121,10 @@ public class LevelConditionManager {
 
 	public Node getView() {
 		return myView;
+	}
+
+	public LevelSettings getConditions() {
+		LevelSettings settings = new LevelSettings(mySelectedWin,myWinParameters,mySelectedLose, myLoseParameters);
+		return settings;
 	}
 }

@@ -91,7 +91,12 @@ public class TowerView implements IVisualElement, IDataSelector<ObjectData>, IRe
 	// Used when we initiate a save game in the authoring environment
 	@Override
 	public Collection<ObjectData> getData() {
-		return myMap.values();
+//		return myMap.values();
+		ArrayList<ObjectData> list = new ArrayList<ObjectData>();
+		for (Node n :myObservable) {
+			list.add(myMap.get(n));
+		}
+		return list;
 	}
 
 	@Override
