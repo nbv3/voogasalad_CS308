@@ -3,14 +3,14 @@ package com.syntacticsugar.vooga.gameplayer.universe;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import com.syntacticsugar.vooga.gameplayer.event.GameEventListener;
+import com.syntacticsugar.vooga.gameplayer.event.IGameEventListener;
 import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.ObjectSpawnEvent;
 import com.syntacticsugar.vooga.gameplayer.manager.IEventManager;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.view.IViewAdder;
 
-public class SpawnYard implements IYard<IViewAdder>, GameEventListener{
+public class SpawnYard implements IYard<IViewAdder>, IGameEventListener{
 
 	private Collection<IGameObject> objectsInYard;
 	private IObjectAdder myUniverse;

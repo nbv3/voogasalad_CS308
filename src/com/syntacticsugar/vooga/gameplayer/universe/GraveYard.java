@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import com.syntacticsugar.vooga.gameplayer.attribute.ScoreAttribute;
-import com.syntacticsugar.vooga.gameplayer.event.GameEventListener;
+import com.syntacticsugar.vooga.gameplayer.event.IGameEventListener;
 import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.ObjectDespawnEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.ScoreChangeEvent;
@@ -13,7 +13,7 @@ import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.view.IViewRemover;
 import com.syntacticsugar.vooga.util.ResourceManager;
 
-public class GraveYard implements IYard<IViewRemover>, GameEventListener {
+public class GraveYard implements IYard<IViewRemover>, IGameEventListener {
 
 	private Collection<IGameObject> objectsInYard;
 	private IObjectRemover myUniverse;

@@ -25,7 +25,7 @@ public class Game implements IGame {
 	private List<UniverseData> myUniverseData; // For saving
 	private GlobalSettings mySettings;
 	
-	private int myLevel; // STARTS AT 1 BY CONVENTION
+	private int myLevel; // STARTS AT 1
 	
 	public Game(GameData data, IEventManager eventManager) {
 		Collection<UniverseData> udata =  data.getUniverses();
@@ -41,7 +41,7 @@ public class Game implements IGame {
 
 	@Override
 	public IGameUniverse nextLevel() {
-		return myUniverses.get(++myLevel);
+		return myUniverses.get(myLevel++);
 	}
 	
 	@Override

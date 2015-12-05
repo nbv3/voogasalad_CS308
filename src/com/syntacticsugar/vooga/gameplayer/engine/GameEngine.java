@@ -33,7 +33,6 @@ public class GameEngine {
 	public GameEngine(IGameUniverse universe, ViewController view) {
 		myUniverse = universe;
 		myView = view;
-
 	}
 
 	public void resetUniverse(IGameUniverse universe) {

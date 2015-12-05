@@ -47,28 +47,21 @@ public class GameManager implements IGameManager{
 	// private GameInformation myInformation;
 	private Timeline myGameTimeline;
 	private GameEngine myGameEngine;
-
 	private IEventManager myEventManager;
-	
 	private ViewController myViewController;
-	
 	// engine stage
 	private Stage myStage;
 	private double frameLength;
-	
 	private List<EventListener> myListeners; // Will go in game players
 
 	public GameManager(EventHandler<WindowEvent> onClose, double gameSize, GameData data, double frameRate) {
 		this.frameLength = frameRate;
 		myStage = new Stage();
 		myStage.setOnCloseRequest(onClose);
-
 		myEventManager = new EventManager();
 		myEventManager.registerListener(this);
-
 		myGame = new Game(data, myEventManager);
 		currentLevel = myGame.getLevel(1);
-
 		myViewController = new ViewController(gameSize);
 
 		// i changed ISimpleObject to SimpleObject, else addViewObject does not

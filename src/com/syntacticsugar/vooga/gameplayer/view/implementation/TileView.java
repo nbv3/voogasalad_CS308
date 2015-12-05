@@ -48,13 +48,13 @@ public class TileView extends ObjectView{
 		DirectionArrows myArrows = new DirectionArrows(this.getViewPane().getWidth(), this);
 		myArrows.setLayoutX(getGameView().getScalingFactor()*this.tempCoord1 - this.getViewPane().getWidth());
 		myArrows.setLayoutY(getGameView().getScalingFactor()*this.tempCoord2 - this.getViewPane().getWidth());
-		getGameView().addObjectView(myArrows);
+		getGameView().addViewElement(myArrows);
 	}
 	
 	public void informTowerControl(Direction direction, DirectionArrows dirArrows){
 		setChanged();
 		TowerData towerData = new TowerData(tempCoord1, tempCoord2, direction);
-		getGameView().removeObjectView(dirArrows);
+		getGameView().removeViewElement(dirArrows);
 		notifyObservers(towerData);
 	}
 	

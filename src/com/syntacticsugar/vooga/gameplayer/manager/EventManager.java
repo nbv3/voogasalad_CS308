@@ -3,12 +3,12 @@ package com.syntacticsugar.vooga.gameplayer.manager;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.syntacticsugar.vooga.gameplayer.event.GameEventListener;
+import com.syntacticsugar.vooga.gameplayer.event.IGameEventListener;
 import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
 
 public class EventManager implements IEventManager {
 	
-	private List<GameEventListener> myListeners;
+	private List<IGameEventListener> myListeners;
 	
 	public EventManager() {
 		myListeners = new ArrayList<>();
@@ -16,18 +16,18 @@ public class EventManager implements IEventManager {
 
 	@Override
 	public void postEvent(IGameEvent event) {
-		for (GameEventListener l: myListeners) {
+		for (IGameEventListener l: myListeners) {
 			l.onEvent(event);
 		}
 	}
 
 	@Override
-	public void registerListener(GameEventListener obj) {
+	public void registerListener(IGameEventListener obj) {
 		myListeners.add(obj);
 	}
 	
 	@Override
-	public void removeListener(GameEventListener obj) {
+	public void removeListener(IGameEventListener obj) {
 		myListeners.remove(obj);
 	}
 

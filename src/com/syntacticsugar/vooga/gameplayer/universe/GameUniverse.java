@@ -84,7 +84,6 @@ public class GameUniverse implements IGameUniverse {
 
 	@Override
 	public void addGameObject(IGameObject toAdd) {
-		System.out.println("ADD");
 		myGameObjects.add(toAdd);
 	}
 

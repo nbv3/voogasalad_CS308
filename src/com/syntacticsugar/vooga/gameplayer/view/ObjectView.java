@@ -12,33 +12,23 @@ import javafx.scene.layout.StackPane;
 public class ObjectView extends Observable implements Observer {
 	
 	private StackPane myViewPane;
-	private GameView myGameView;
 	private double scalingFactor;
-	protected double tempCoord1;
-	protected double tempCoord2;
 	
-	public ObjectView(String path, BoundingBox box , GameView gameView) {
+	public ObjectView(String path, BoundingBox box, double scalefactor) {
 		myViewPane = new StackPane();
 		ImageView iv = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(path)));
 		iv.setFocusTraversable(true);
-		scalingFactor = gameView.getScalingFactor();
-		applyTransform(box);
-		tempCoord1 = box.getPoint().getX();
-		tempCoord2 = box.getPoint().getY();
+		scalingFactor = scalefactor;
 		iv.setFitHeight(scalingFactor*box.getWidth());
 		iv.setFitWidth(scalingFactor*box.getHeight());
 		myViewPane.getChildren().add(iv);
-		//myGameView.getChildren().add(myViewPane);
-		gameView.addObjectView(myViewPane);
-		myGameView = gameView;
+		applyTransform(box);
 		box.addObserver(this);
 	}
 
 	@Override
 	public void update(Observable obs, Object arg1) {
 		BoundingBox box = (BoundingBox) obs;
-		// TODO Use the myTransform to scale the properties of 
-		// the bounding box passed as box
 		applyTransform(box);
 	}
 	
@@ -52,9 +42,6 @@ public class ObjectView extends Observable implements Observer {
 	public StackPane getViewPane(){
 		return myViewPane;
 	}
-	
-	public GameView getGameView(){
-		return myGameView;
-	}
+
 
 }
