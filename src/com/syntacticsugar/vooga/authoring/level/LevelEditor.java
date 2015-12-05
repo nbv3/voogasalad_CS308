@@ -4,11 +4,12 @@ import java.util.Observable;
 
 import com.syntacticsugar.vooga.authoring.level.map.MapEditor;
 import com.syntacticsugar.vooga.authoring.level.map.MapEditorControls;
-import com.syntacticsugar.vooga.authoring.level.spawner.SpawnerControls;
 import com.syntacticsugar.vooga.authoring.level.spawner.SpawnerManager;
-import com.syntacticsugar.vooga.authoring.level.towers.TowerControls;
 import com.syntacticsugar.vooga.authoring.level.towers.TowerManager;
+import com.syntacticsugar.vooga.xml.data.LevelSettings;
 import com.syntacticsugar.vooga.xml.data.MapData;
+import com.syntacticsugar.vooga.xml.data.SpawnerData;
+import com.syntacticsugar.vooga.xml.data.TowerData;
 
 import javafx.geometry.Insets;
 import javafx.scene.Node;
@@ -32,7 +33,7 @@ public class LevelEditor {
 		myTileEditor = new MapEditorControls(myMapEditor);
 		mySpawnerManager = new SpawnerManager();
 		myTowerManager = new TowerManager();
-		//myWaveControl.addObserver(this);
+		// myWaveControl.addObserver(this);
 		buildTabContents();
 
 		// When you are ready to add the bottom Node on (for the Spawn Queue),
@@ -40,7 +41,7 @@ public class LevelEditor {
 		// appear.
 
 	}
-	
+
 	public void loadMap(MapData loadedMap) {
 		myMapEditor.loadMapData(loadedMap);
 	}
@@ -56,18 +57,19 @@ public class LevelEditor {
 		addRowConstraints(myContentGrid);
 
 		myContentGrid.add(myTileEditor.getContent(), 0, 0, 1, 1);
-		myContentGrid.add(myTileEditor.getPreviewTile(), 0, 1,1, 1);
+		myContentGrid.add(myTileEditor.getPreviewTile(), 0, 1, 1, 1);
 
 		myContentGrid.add(myMapEditor.getContent(), 1, 0, 1, 2);
-		
+
 		myContentGrid.add(mySpawnerManager.getControlNode(), 0, 2, 1, 1);
 		myContentGrid.add(mySpawnerManager.getViewNode(), 1, 2, 1, 1);
-		
-		myContentGrid.add(myConditions.getView(), 2, 1, 1, 1);
+
+		myContentGrid.add(myConditions.getView(), 2, 2, 1, 1);
 
 		myContentGrid.add(myTowerManager.getControlNode(), 2, 0, 1, 1);
 		myContentGrid.add(myTowerManager.getViewNode(), 2, 1, 1, 1);
 		
+
 		myContentGrid.setGridLinesVisible(true);
 	}
 
@@ -90,18 +92,29 @@ public class LevelEditor {
 		r2.setPercentHeight(25);
 		grid.getRowConstraints().addAll(r0, r1, r2);
 	}
-	
+
 	public MapData getMapData() {
 		return myMapEditor.getMapData();
+	}
+
+	public SpawnerData getSpawnerQueues() {
+		return mySpawnerManager.getSpawnerData();
 	}
 
 	public Observable getTowerControls() {
 		return myTowerManager.getObservableController();
 	}
-	
+
 	public Observable getSpawnerControls() {
 		return mySpawnerManager.getObservableController();
 	}
 
+	public TowerData getTowerList() {
+		return myTowerManager.getTowerData();
+	}
+
+	public LevelSettings getConditions() {
+		return myConditions.getConditions();
+	}
 
 }

@@ -26,9 +26,7 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Orientation;
 import javafx.scene.Node;
 import javafx.scene.control.ListView;
-import javafx.scene.control.MultipleSelectionModel;
 import javafx.scene.control.SelectionMode;
-import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tooltip;
 
 public class TowerView implements IVisualElement, IDataSelector<ObjectData> {
@@ -81,7 +79,12 @@ public class TowerView implements IVisualElement, IDataSelector<ObjectData> {
 	// Used when we initiate a save game in the authoring environment
 	@Override
 	public Collection<ObjectData> getData() {
-		return myMap.values();
+//		return myMap.values();
+		ArrayList<ObjectData> list = new ArrayList<ObjectData>();
+		for (Node n :myObservable) {
+			list.add(myMap.get(n));
+		}
+		return list;
 	}
 
 	@Override

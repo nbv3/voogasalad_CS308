@@ -1,23 +1,39 @@
 package com.syntacticsugar.vooga.xml.data;
 
+import java.util.List;
+
 import com.syntacticsugar.vooga.gameplayer.conditions.IGameCondition;
+import com.syntacticsugar.vooga.util.reflection.Reflection;
 
 public class LevelSettings {
 
-	private IGameCondition winCond;
-	private IGameCondition lossCond;
-	
-	private int scoreThreshold;
-	
-	public LevelSettings (int score) {
-		setScoreThreshold(score);
-	}
+	private IGameCondition gameWin;
+	private IGameCondition gameLose;
 
-	public int getScoreThreshold() {
-		return scoreThreshold;
-	}
+	public LevelSettings(String winClass, List<Double> winParam, String loseClass, List<Double> loseParam) {
+		{
+			String winName = winClass.replace(" ", "");
+			// String winPath = String.format("%s%s%s",
+			// "com.syntacticsugar.vooga.gameplayer.conditions.implementation.",
+			// winName, "Condition");
 
-	public void setScoreThreshold(int scoreThreshold) {
-		this.scoreThreshold = scoreThreshold;
+			String classPath = String.format("%s%s%s", "com.syntacticsugar.vooga.gameplayer.conditions.implementation.",
+					winName, "Condition");
+
+			try {
+				gameWin = (IGameCondition) Reflection.createInstance(classPath, winParam.get(0).intValue());
+			} catch (Exception e) {
+				gameWin = (IGameCondition) Reflection.createInstance(classPath);
+			}
+			String loseName = loseClass.replace(" ", "");
+			String losePath = String.format("%s%s%s", "com.syntacticsugar.vooga.gameplayer.conditions.implementation.",
+					loseName, "Condition");
+			try {
+				gameLose = (IGameCondition) Reflection.createInstance(losePath,loseParam.get(0).intValue());
+
+			} catch (Exception e) {
+				gameLose = (IGameCondition) Reflection.createInstance(losePath);
+			}
+		}
 	}
 }
