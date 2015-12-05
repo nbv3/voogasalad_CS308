@@ -34,4 +34,5 @@ public class WebConnector {
 	public static JSONObject getComments(int gameindex) {
 		return WebConnectorHelper.get(GET_COMMENTS_URL+gameindex);
 	}
+
 }
