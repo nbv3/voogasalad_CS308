@@ -23,45 +23,28 @@ public class AIMovementAttribute extends AbstractMovementAttribute {
 	public void updateSelf(IGameUniverse universe) {
 		IGameMap map = universe.getMap();
 		List<Point> ends = map.getDestinationPoints();
-		
+
 		if (myNextTile.equals(new Point(-1, -1))) {
-			System.out.println("First time calculating path");
 			// path has never been calculated
 			// calculate path
 			try {
 				myCurrentTile = map.getMapIndexFromCoordinate(getParent().getBoundingBox().getPoint());
-				System.out.println(myCurrentTile);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				System.out.println("failed to fetch currentTile from map");
 			}
 			PathFinder pathFinder = new PathFinder(map.isWalkable(), myCurrentTile, ends);
 			myNextTile = pathFinder.getNext();
-			System.out.println("First time next tile: " + myNextTile.toString());
 			return;
 		}
 
-		if (ends.contains(myCurrentTile)) {
-			//System.out.println("Reached destination");
-			// reached destination
-			setDirection(Direction.STOP);
-			setVelocity(Direction.STOP);
-			return;
-		}
-
-		if (myNextTile.equals(myCurrentTile)) {
-			System.out.println("No path available");
-			// no path available
-			setDirection(Direction.STOP);
-			setVelocity(Direction.STOP);
+		if (ends.contains(myCurrentTile) || myNextTile.equals(myCurrentTile)) {
+			// reached destination or no path available
+			stopDirection();
 			return;
 		}
 
 		// not at destination yet but close
 		if (closeToNextTile(map)) {
-			System.out.println("close recalculate");
-			System.out.println("currentPoint: "+myCurrentTile.toString() + "\tnextTile: "+myNextTile.toString());
-
 			// move straight to nextmap
 			getParent().setPoint(universe.getMap().getCoordinateFromMapIndex(myNextTile));
 			myCurrentTile = new Point(myNextTile);
@@ -69,25 +52,31 @@ public class AIMovementAttribute extends AbstractMovementAttribute {
 			PathFinder pathFinder = new PathFinder(map.isWalkable(), myCurrentTile, ends);
 			myNextTile = pathFinder.getNext();
 
-			Direction moveDirection = getNewDirection();
-			setDirection(moveDirection);
-			setVelocity(getDirection());
-			System.out.println("recalculated currentPoint: "+myCurrentTile.toString() + "\tnextTile: "+myNextTile.toString());
+			moveDirection();
 			return;
 		}
 
 		// move along direction
-		Direction moveDirection = getNewDirection();
-		setDirection(moveDirection);
-		setVelocity(getDirection());
+		moveDirection();
 		move(universe);
+
 	}
 
 	private boolean closeToNextTile(IGameMap map) {
 		Point2D currentPoint = getParent().getPoint();
 		Point2D nextPoint = map.getCoordinateFromMapIndex(myNextTile);
-		return currentPoint.distance(nextPoint) <= 1.5 * getSpeed(); // <= or bigger
-																// ratio
+		return currentPoint.distance(nextPoint) <= 1.2 * getSpeed();
+	}
+	
+	private void moveDirection() {
+		Direction moveDirection = getNewDirection();
+		setDirection(moveDirection);
+		setVelocity(getDirection());
+	}
+	
+	private void stopDirection() {
+		setDirection(Direction.STOP);
+		setVelocity(Direction.STOP);
 	}
 
 	private Direction getNewDirection() {

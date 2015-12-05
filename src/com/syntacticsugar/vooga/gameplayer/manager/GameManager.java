@@ -95,7 +95,7 @@ public class GameManager implements IGameManager{
 		Collection<IAttribute> enemyAttributes = new ArrayList<IAttribute>();
 		enemyAttributes.add(new HealthAttribute(30));
 		enemyAttributes.add(new ScoreAttribute(50));
-		enemyAttributes.add(new AIMovementAttribute(3));
+		enemyAttributes.add(new AIMovementAttribute(5));
 		Map<GameObjectType, Collection<ICollisionEvent>> collisions = new HashMap<GameObjectType, Collection<ICollisionEvent>>();
 		Collection<ICollisionEvent> enemyEvents = new ArrayList<ICollisionEvent>();
 		enemyEvents.add(new HealthChangeEvent(-10));
@@ -114,8 +114,8 @@ public class GameManager implements IGameManager{
 		currentLevel.addPlayer(player);
 		currentLevel.addGameObject(player);
 		currentLevel.addGameObject(enemy);
-		currentLevel.getMap().getTile(8, 8).setDestination(true);
-		currentLevel.getMap().getTile(0, 0).setDestination(true);
+		currentLevel.getMap().getTile(1, 1).setDestination(true);
+		currentLevel.getMap().getTile(7, 7).setDestination(true);
 		myViewController.initializeView(currentLevel);
 		myGameEngine = new GameEngine(currentLevel, myViewController, this);
 
@@ -127,8 +127,6 @@ public class GameManager implements IGameManager{
 		initializeAnimation(frameLength);
 		gameScene.addEventFilter(KeyEvent.KEY_PRESSED, e -> receiveKeyPressed(e.getCode()));
 		gameScene.addEventFilter(KeyEvent.KEY_RELEASED, e -> receiveKeyReleased(e.getCode()));
-//		gameScene.addEventFilter(KeyEvent.KEY_PRESSED, e -> System.out.println(e.getCode()));
-//		gameScene.addEventFilter(KeyEvent.KEY_RELEASED, e -> System.out.println(e.getCode()));
 		gameScene.setOnKeyPressed(e -> receiveKeyPressed(e.getCode()));
 		gameScene.setOnKeyReleased(e -> receiveKeyReleased(e.getCode()));
 		myStage.setScene(gameScene);
