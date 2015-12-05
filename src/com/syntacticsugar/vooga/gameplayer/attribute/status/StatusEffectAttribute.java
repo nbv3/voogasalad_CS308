@@ -12,12 +12,11 @@ public abstract class StatusEffectAttribute extends AbstractAttribute {
 	
 	protected Integer timeLeft;
 	
-	AbstractMovementAttribute move;
-	
 	Boolean isStarted;
 	
 	public StatusEffectAttribute(Integer time) {
 		timeLeft = time;
+		isStarted = false;
 	}
 
 	@Override
@@ -27,8 +26,7 @@ public abstract class StatusEffectAttribute extends AbstractAttribute {
 			isStarted = true;
 		}
 		if (timeLeft <= 0) {
-			endStatus();
-			getParent().removeAttribute(this);
+			kill();
 		}
 		
 		timeLeft--;
@@ -39,5 +37,10 @@ public abstract class StatusEffectAttribute extends AbstractAttribute {
 	protected abstract void endStatus();
 	
 	public abstract void update(Observable o, Object arg);
+	
+	public void kill() {
+		endStatus();
+		getParent().removeAttribute(this);
+	}
 
 }

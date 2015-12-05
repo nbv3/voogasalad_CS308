@@ -10,26 +10,24 @@ public class LevelSettings {
 	private IGameCondition winCond;
 	private IGameCondition lossCond;
 
-	private int mySpawnRate;
+	private int spawnRate;
 	
 	private int scoreThreshold;
 	
 	public LevelSettings (int score) {
 		setScoreThreshold(score);
-		mySpawnRate = 0;
+		spawnRate = 0;
 	}
 	
 	public LevelSettings (int score, int spawnRate) {
 		setScoreThreshold(score);
-		mySpawnRate = spawnRate;
+		spawnRate = spawnRate;
 	}
 
-	public LevelSettings(String winClass, List<Double> winParam, String loseClass, List<Double> loseParam) {
+	public LevelSettings(String winClass, List<Double> winParam, String loseClass, List<Double> loseParam, int spawn) {
+		spawnRate = spawn;
 		{
 			String winName = winClass.replace(" ", "");
-			// String winPath = String.format("%s%s%s",
-			// "com.syntacticsugar.vooga.gameplayer.conditions.implementation.",
-			// winName, "Condition");
 
 			String classPath = String.format("%s%s%s", "com.syntacticsugar.vooga.gameplayer.conditions.implementation.",
 					winName, "Condition");
@@ -52,11 +50,11 @@ public class LevelSettings {
 	}
 	
 	public int getSpawnRate() {
-		return mySpawnRate;
+		return spawnRate;
 	}
 
 	public void setSpawnRate(int rate) {
-		mySpawnRate = rate;
+		spawnRate = rate;
 	}
 
 	public int getScoreThreshold() {

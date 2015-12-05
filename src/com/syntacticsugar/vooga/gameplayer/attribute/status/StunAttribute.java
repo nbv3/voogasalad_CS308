@@ -9,16 +9,22 @@ public class StunAttribute extends StatusEffectAttribute {
 	
 	AbstractMovementAttribute move;
 	
+	private boolean didStun;
+	
 	public StunAttribute(Integer time) {
 		super(time);
 		move = null;
+		didStun = false;
 	}
 
 	@Override
 	protected void startStatus() {
 		try {
 			move = (AbstractMovementAttribute) getParent().getAttributes().get(ResourceManager.getString(AbstractMovementAttribute.class.getSimpleName()));
-			move.setSpeed(move.getSpeed() * .000001);
+			if (move.getSpeed() > .000001) {
+				move.setSpeed(move.getSpeed() * .000001);
+				didStun = true;
+			}
 		}
 		catch (Exception ex) {
 			
@@ -27,7 +33,7 @@ public class StunAttribute extends StatusEffectAttribute {
 
 	@Override
 	protected void endStatus() {
-		if (move != null) {
+		if (move != null && didStun) {
 			move.setSpeed(move.getSpeed() / .000001);
 		}
 	}

@@ -5,6 +5,7 @@ import java.util.Observable;
 import com.syntacticsugar.vooga.authoring.level.map.MapManager;
 import com.syntacticsugar.vooga.authoring.level.spawner.SpawnerManager;
 import com.syntacticsugar.vooga.authoring.level.towers.TowerManager;
+import com.syntacticsugar.vooga.authoring.objectediting.IObjectDataClipboard;
 import com.syntacticsugar.vooga.xml.data.LevelSettings;
 import com.syntacticsugar.vooga.xml.data.MapData;
 import com.syntacticsugar.vooga.xml.data.SpawnerData;
@@ -28,19 +29,14 @@ public class LevelEditor {
 	private TowerManager myTowerManager;
 	private LevelConditionManager myConditions;
 
-	public LevelEditor() throws Exception {
-
-		myMapManager = new MapManager();
+	public LevelEditor(IObjectDataClipboard clip) throws Exception {
+		myMapManager = new MapManager(clip);
 		mySpawnerManager = new SpawnerManager();
 		myTowerManager = new TowerManager();
 		myConditions = new LevelConditionManager();
 
 		buildTabContents();
 
-	}
-
-	public void loadMap(MapData loadedMap) {
-		// myMapManager.
 	}
 
 	public Node getContent() {
@@ -57,10 +53,9 @@ public class LevelEditor {
 		addColumnConstraints(myContentGrid);
 		addRowConstraints(myContentGrid);
 
-
 		myContentGrid.add(myMapManager.getControlNode(), 0, 0, 1, 3);
 		myContentGrid.add(myMapManager.getViewNode(), 1, 0, 1, 3);
-		
+
 		myContentGrid.add(mySpawnerManager.getControlNode(), 0, 3, 1, 1);
 		myContentGrid.add(mySpawnerManager.getViewNode(), 1, 3, 3, 1);
 
@@ -68,8 +63,6 @@ public class LevelEditor {
 		towerBox.setAlignment(Pos.CENTER);
 		towerBox.setSpacing(20);
 		towerBox.getChildren().addAll(myTowerManager.getControlNode(), myTowerManager.getViewNode());
-		
-
 
 		myContentGrid.add(towerBox, 2, 0, 1, 2);
 		myContentGrid.add(myConditions.getView(), 2, 2, 1, 1);
@@ -94,12 +87,11 @@ public class LevelEditor {
 		r2.setPercentHeight(25);
 		RowConstraints r3 = new RowConstraints();
 		r3.setPercentHeight(30);
-		grid.getRowConstraints().addAll(r0, r1, r2);
+		grid.getRowConstraints().addAll(r0, r1, r2,r3);
 	}
 
 	public MapData getMapData() {
-//		 return myMapManager.getMapData();
-		return null;
+		return myMapManager.getMapData();
 	}
 
 	public SpawnerData getSpawnerQueues() {
@@ -120,6 +112,11 @@ public class LevelEditor {
 
 	public LevelSettings getConditions() {
 		return myConditions.getConditions();
+	}
+
+	public void loadMap(MapData loadedMap) {
+		myMapManager.setMapData(loadedMap);
+
 	}
 
 }

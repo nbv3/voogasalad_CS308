@@ -1,13 +1,12 @@
 package com.syntacticsugar.vooga.authoring;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
 import com.syntacticsugar.vooga.authoring.level.LevelTabManager;
 import com.syntacticsugar.vooga.authoring.library.ObjectLibraryManager;
+import com.syntacticsugar.vooga.authoring.objectediting.IObjectDataClipboard;
 import com.syntacticsugar.vooga.authoring.objectediting.ObjectEditor;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.menu.IVoogaApp;
@@ -15,12 +14,8 @@ import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.xml.XMLHandler;
 import com.syntacticsugar.vooga.xml.data.GameData;
 import com.syntacticsugar.vooga.xml.data.GlobalSettings;
-import com.syntacticsugar.vooga.xml.data.LevelSettings;
 import com.syntacticsugar.vooga.xml.data.MapData;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
-import com.syntacticsugar.vooga.xml.data.SpawnerData;
-import com.syntacticsugar.vooga.xml.data.TowerData;
-import com.syntacticsugar.vooga.xml.data.UniverseData;
 
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -51,9 +46,10 @@ public class AuthoringScreenManager implements Observer, IVoogaApp {
 	private ObjectEditor myObjectEditor;
 
 	public AuthoringScreenManager() {
-		myLevelEditor = new LevelTabManager();
 		myObjectLibraryManager = new ObjectLibraryManager();
 		myObjectEditor = new ObjectEditor(() -> myObjectLibraryManager.refresh());
+		IObjectDataClipboard iObject = myObjectEditor;
+		myLevelEditor = new LevelTabManager(iObject);
 		initWindow();
 	}
 
@@ -166,29 +162,11 @@ public class AuthoringScreenManager implements Observer, IVoogaApp {
 		fileChooser.setTitle("Save Game File");
 		File selectedFile = fileChooser.showSaveDialog(new Stage());
 		if (selectedFile != null) {
-			Map<Integer, SpawnerData> spawnerSave = myLevelEditor.getSpawnerQueues();
-			Map<Integer, TowerData> towerSave = myLevelEditor.getTowerLists();
-			Map<Integer, MapData> mapSave = myLevelEditor.getMapData();
-			Map<Integer, LevelSettings> conditionsSave = myLevelEditor.getConditionsList();
 
-			ArrayList<UniverseData> levelData = new ArrayList<UniverseData>();
-			if ((spawnerSave.size() == towerSave.size()) && (mapSave.size() == conditionsSave.size())) {
-				for (int i : towerSave.keySet()) {
-					UniverseData universe = new UniverseData(spawnerSave.get(i), towerSave.get(i), mapSave.get(i),
-							conditionsSave.get(i));
-//					UniverseData universe = new UniverseData(null, towerSave.get(i), null,
-//							null);
-					levelData.add(universe);
-				}
-			}
 			// need to change later with global settings
-			GameData game = new GameData(levelData, new GlobalSettings());
+			GameData game = new GameData(myLevelEditor.getAllUniverseData(), new GlobalSettings());
 			XMLHandler<GameData> xml = new XMLHandler<>();
-//			XMLHandler<TowerData> xml = new XMLHandler<>();
-//			System.out.println(towerSave.get(49));
-//			xml.write(towerSave.get(49), selectedFile);
 			xml.write(game, selectedFile);
-//			long i = selectedFile.length();
 		}
 
 	}
@@ -248,6 +226,7 @@ public class AuthoringScreenManager implements Observer, IVoogaApp {
 		r1.setPercentHeight(50);
 		RowConstraints r2 = new RowConstraints();
 		r2.setPercentHeight(50);
+	
 		myWindowGrid.getRowConstraints().addAll(r1, r2);
 	}
 

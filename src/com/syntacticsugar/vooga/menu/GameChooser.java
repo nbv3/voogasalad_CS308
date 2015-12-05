@@ -10,10 +10,18 @@ import java.util.Map;
 import com.syntacticsugar.vooga.gameplayer.attribute.HealthAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.ScoreAttribute;
+import com.syntacticsugar.vooga.gameplayer.attribute.control.actions.movement.Direction;
+import com.syntacticsugar.vooga.gameplayer.attribute.movement.AIMovementAttribute;
+import com.syntacticsugar.vooga.gameplayer.attribute.movement.ConstantMovementAttribute;
+import com.syntacticsugar.vooga.gameplayer.attribute.movement.MovementControlAttribute;
+import com.syntacticsugar.vooga.gameplayer.attribute.weapon.BasicWeaponAttribute;
+import com.syntacticsugar.vooga.gameplayer.attribute.weapon.StunWeaponAttribute;
 import com.syntacticsugar.vooga.gameplayer.event.ICollisionEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.HealthChangeEvent;
 import com.syntacticsugar.vooga.gameplayer.manager.GameManager;
+import com.syntacticsugar.vooga.gameplayer.objects.GameObject;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
+import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.dirview.IConverter;
 import com.syntacticsugar.vooga.util.dirview.IDirectoryViewer;
@@ -38,6 +46,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -158,16 +167,29 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 
 	private GameData makeEmptyData() {
 
+		Collection<UniverseData> uni = new ArrayList<>();
+		uni.add(generateTestUni());
+		uni.add(generateTestUni());
+		GlobalSettings settings = new GlobalSettings();
+		GameData data = new GameData(uni, settings);
+
+		return data;
+	}
+
+	private UniverseData generateTestUni() {
 		Collection<ObjectData> odata = new ArrayList<>();
-		String enemyPath = "enemy_monster_1.png";
+
+		String enemyPath = "enemy_ghost_1.png";
 		ObjectData enemyData = new ObjectData();
 		Collection<IAttribute> enemyAttributes = new ArrayList<IAttribute>();
 		HealthAttribute health = new HealthAttribute();
 		health.setHealth(30.0);
 		ScoreAttribute score = new ScoreAttribute();
 		score.setScore(30);
+		ConstantMovementAttribute move = new ConstantMovementAttribute(Direction.DOWN, 0.5);
 		enemyAttributes.add(health);
 		enemyAttributes.add(score);
+		enemyAttributes.add(move);
 		// enemyAttributes.add(new AIMovementAttribute(3));
 		Map<GameObjectType, Collection<ICollisionEvent>> collisions = new HashMap<GameObjectType, Collection<ICollisionEvent>>();
 		Collection<ICollisionEvent> enemyEvents = new ArrayList<ICollisionEvent>();
@@ -201,6 +223,32 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 		enemyData2.setAttributes(enemyAttributes2);
 		enemyData2.setCollisionMap(collisions2);
 
+
+		String playerPath = "player_pacman.png";
+		String missilePath = "scenery_pink.png";
+
+		ObjectData playerData = new ObjectData();
+		Collection<IAttribute> attributes = new ArrayList<>();
+		attributes.add(new HealthAttribute());
+		attributes.add(new MovementControlAttribute());
+		attributes.add(new StunWeaponAttribute(missilePath, 1.0, KeyCode.SPACE, 8.0, 5.0, 10.0, 60));
+		HealthAttribute playerHealth = new HealthAttribute();
+		playerHealth.setHealth(100.0);
+		MovementControlAttribute playerMove = new MovementControlAttribute();
+		playerMove.setSpeed(3.0);
+		attributes.add(playerHealth);
+		attributes.add(playerMove);
+		playerData.setType(GameObjectType.PLAYER);
+		playerData.setSpawnPoint(0, 0);
+		playerData.setWidth(50);
+		playerData.setHeight(50);
+		playerData.setImagePath(playerPath);
+		playerData.setAttributes(attributes);
+
+		IGameObject player = new GameObject(playerData);
+		IGameObject enemy = new GameObject(enemyData);
+
+		odata.add(playerData);
 		odata.add(enemyData);
 		odata.add(enemyData2);
 		WaveData wdata = new WaveData(odata);
@@ -252,13 +300,9 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 
 		TowerData td = new TowerData(towers);
 
-		LevelSettings lSetting = new LevelSettings(50, 60);
-		Collection<UniverseData> uni = new ArrayList<>();
-		uni.add(new UniverseData(spawn, td, map, lSetting));
-		GlobalSettings settings = new GlobalSettings(1);
-		GameData data = new GameData(uni, settings);
+		LevelSettings lSetting = new LevelSettings(1000, 60);
 
-		return data;
+		return new UniverseData(spawn, td, map, lSetting);
 	}
 
 

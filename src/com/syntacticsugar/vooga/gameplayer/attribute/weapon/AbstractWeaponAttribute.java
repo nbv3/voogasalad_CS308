@@ -35,7 +35,7 @@ public abstract class AbstractWeaponAttribute extends AbstractAttribute implemen
 		this.myBulletDamage = bulletDamage;
 		this.myFireKeyCode = fireKeyCode;
 		this.isFireKeyPressed = false;
-		this.fireFrameDelay = 30;
+		this.fireFrameDelay = 10;
 		this.delayFrameCounter = 0;
 		myBulletSpeed = bulletSpeed;
 		myBulletWidth = bulletWidth;

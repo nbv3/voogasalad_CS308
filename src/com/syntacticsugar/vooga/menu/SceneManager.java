@@ -45,8 +45,6 @@ public class SceneManager {
 
 	public SceneManager(Stage stage) {
 		this();
-		// Windows 10 - Bug Fix for JavaFX
-		System.setProperty("glass.accessible.force", "false");
 		myStage = stage;
 		myStage.setTitle(TITLE);
 		//launchFirstMenu();

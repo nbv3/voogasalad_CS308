@@ -17,6 +17,7 @@ public class ConstantMovementAttribute extends AbstractMovementAttribute {
 	
 	public ConstantMovementAttribute(Direction dir, Double speed) {
 		super(new DoubleParameter("Speed: "));
+		setSpeed(speed);
 		myDir = dir;
 	}
 

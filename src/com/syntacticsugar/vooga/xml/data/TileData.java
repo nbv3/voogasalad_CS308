@@ -1,9 +1,15 @@
 package com.syntacticsugar.vooga.xml.data;
 
+import java.io.Serializable;
+
 import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.IGameTile;
 
-public class TileData {
+public class TileData  implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String myImagePath;
 	private TileImplementation myImplementation;
 	private boolean isDestination;

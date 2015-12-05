@@ -41,7 +41,10 @@ public class Game implements IGame {
 
 	@Override
 	public IGameUniverse nextLevel() {
-		return myUniverses.get(++myLevel);
+		if (myLevel >= myUniverses.size() - 1) {
+			System.out.println("Out of levels. You win");
+		}
+		return myUniverses.get(myLevel++);
 	}
 	
 	@Override

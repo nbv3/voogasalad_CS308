@@ -7,13 +7,17 @@ import com.syntacticsugar.vooga.authoring.dragdrop.DragDropManager;
 import com.syntacticsugar.vooga.authoring.dragdrop.ObjectClippableItem;
 import com.syntacticsugar.vooga.authoring.dragdrop.TileClippableItem;
 import com.syntacticsugar.vooga.authoring.icon.Icon;
+import com.syntacticsugar.vooga.authoring.objectediting.IObjectDataClipboard;
 import com.syntacticsugar.vooga.authoring.objectediting.IVisualElement;
+import com.syntacticsugar.vooga.authoring.objectediting.sizing.ObjectResizer;
 import com.syntacticsugar.vooga.authoring.tooltips.TileInfoTooltip;
+import com.syntacticsugar.vooga.gameplayer.universe.spawner.Spawner;
 import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
 import com.syntacticsugar.vooga.util.gui.factory.SliderDialogFactory;
 import com.syntacticsugar.vooga.xml.data.MapData;
+import com.syntacticsugar.vooga.xml.data.ObjectData;
 import com.syntacticsugar.vooga.xml.data.TileData;
 import com.syntacticsugar.vooga.xml.data.TileImplementation;
 
@@ -21,6 +25,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableSet;
 import javafx.collections.SetChangeListener;
 import javafx.event.EventHandler;
+import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.Tooltip;
@@ -31,36 +36,37 @@ import javafx.scene.input.Clipboard;
 import javafx.scene.input.DataFormat;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 
 public class MapView implements IMapDisplay, IVisualElement {
-	
+
 	private static final Effect TILE_EFFECT = createEffect();
 	private static final String DEFAULT_TILE_IMAGE = "scenery_gray.png";
-	
+
 	private static Effect createEffect() {
 		InnerShadow shadow = new InnerShadow();
 		shadow.setColor(Color.RED);
 		return shadow;
 	}
-	
-	
+
 	private ObservableSet<TileData> myTileSelection;
 	private Map<TileData, Icon> myTileIconMap;
 	private MapData myMapData;
 	private int myMapSize;
 	private GridPane myMapGrid;
 	private TitledPane myViewPane;
-	
-	public MapView() throws Exception {
+	private IObjectDataClipboard iObject;
+
+	public MapView(IObjectDataClipboard clip) throws Exception {
+		iObject = clip;
 		myMapSize = inputMapSize();
 		myTileSelection = buildSelectionSet();
 		myMapData = new MapData(myMapSize, DEFAULT_TILE_IMAGE);
 		myMapGrid = new GridPane();
 		myTileIconMap = new HashMap<>();
 		initializeMapView(myMapData);
-		
 		myViewPane = GUIFactory.buildTitledPane("Map Display", myMapGrid);
 	}
 
@@ -84,37 +90,38 @@ public class MapView implements IMapDisplay, IVisualElement {
 	}
 
 	/**
-	 * Should not be used 
+	 * Should not be used
 	 */
 	@Deprecated
 	@Override
 	public TileData getData() {
 		return null;
 	}
-	
+
 	@Override
 	public void selectAllTiles() {
 		myTileSelection.clear();
 		myTileSelection.addAll(myMapData.getTiles());
 	}
-	
+
 	@Override
 	public Node getView() {
 		return myViewPane;
 	}
-	
+
 	public void loadMapData(MapData loadedMap) {
 		myTileSelection = buildSelectionSet();
 		myTileIconMap = new HashMap<>();
 		myMapData = loadedMap;
 		myMapSize = loadedMap.getMapSize();
 		initializeMapView(myMapData);
+		System.out.println("LOADIDNGINGING");
 	}
-	
+
 	public MapData getMapData() {
 		return myMapData;
 	}
-	
+
 	private ObservableSet<TileData> buildSelectionSet() {
 		ObservableSet<TileData> set = FXCollections.observableSet();
 		set.addListener(new SetChangeListener<TileData>() {
@@ -129,7 +136,7 @@ public class MapView implements IMapDisplay, IVisualElement {
 		});
 		return set;
 	}
-	
+
 	private int inputMapSize() throws Exception {
 		double size = SliderDialogFactory.createSliderDialog("Input Map Size", 10, 40, 1);
 		if (size == Double.MIN_VALUE) {
@@ -137,11 +144,11 @@ public class MapView implements IMapDisplay, IVisualElement {
 		}
 		return (int) size;
 	}
-	
+
 	private void initializeMapView(MapData mapData) {
 		myMapGrid.getChildren().clear();
-		for (int i=0; i<myMapSize; i++) {
-			for (int j=0; j<myMapSize; j++) {
+		for (int i = 0; i < myMapSize; i++) {
+			for (int j = 0; j < myMapSize; j++) {
 				TileData tile = mapData.getTileData(i, j);
 				Icon icon = new Icon(tile.getImagePath());
 				myTileIconMap.put(tile, icon);
@@ -149,70 +156,58 @@ public class MapView implements IMapDisplay, IVisualElement {
 				icon.setOnMouseEntered(e -> mouseOverHandler(tile, e.isControlDown(), e.isShiftDown()));
 				icon.setOnMouseClicked(e -> mouseClickHandler(tile));
 				icon.setOnDragOver((DragEvent event) -> DragDropManager.dragOverHandler(event));
-				icon.setOnDragEntered((DragEvent event) -> DragDropManager.dragEnteredHandler(icon, event)); 
+				icon.setOnDragEntered((DragEvent event) -> DragDropManager.dragEnteredHandler(icon, event));
 				icon.setOnDragExited((DragEvent event) -> DragDropManager.dragExitedHandler(icon, event));
-				icon.setOnDragDropped(new EventHandler<DragEvent>() {
-					public void handle(DragEvent event) {
-						/* data dropped */
-						/* if there is a string data on dragboard, read it and use it */
-
-						// To Do:
-						// Localise the ClippableTile string
-
-						Dragboard db = event.getDragboard();
-						boolean success = false;
-						if (db.hasContent(DataFormat.lookupMimeType("ClippableTile"))) {
-							System.out.println("DB contains the dataformat.");
-							DragDropManager.undoDragOverState(icon);				
-							if(Clipboard.getSystemClipboard().getContent(DataFormat.lookupMimeType("ClippableTile")) instanceof TileClippableItem){
-								System.out.println("Tile is being set from Clipboard");
-								TileClippableItem tileItem = (TileClippableItem) Clipboard.getSystemClipboard().getContent(DataFormat.lookupMimeType("ClippableTile"));
-								tile.setImagePath(tileItem.getImagePath());
-								tile.setImplementation(TileImplementation.valueOf(tileItem.getImplementationType()));
-								System.out.println("Tile item image Path is " + tileItem.getImagePath());
-								icon.setImage(new Image(getClass().getClassLoader().getResourceAsStream(tileItem.getImagePath())));
-								System.out.println("Tile Implementation is" +tile.getImplementation());
-							} else {
-
-								// To implement ObjectClippable Item
-								ObjectClippableItem objectItem = (ObjectClippableItem) Clipboard.getSystemClipboard().getContent(DataFormat.lookupMimeType("ClippableTile"));
-								tile.setImagePath(objectItem.getImagePath());
-
-
-							}
-							success = true;
-						}
-						/* let the source know whether the string was successfully 
-						 * transferred and used */
-						event.setDropCompleted(success);
-
-						event.consume();
-					}
-
-				});
 				myMapGrid.add(icon, i, j, 1, 1);
 			}
+			myMapGrid.setOnDragDropped(e -> {
+				dragOverHandler(e);
+			});
 		}
 	}
 
-	
-//	private TileImplementation recreateImplementationObject(StringBuilder newPathName) {
-//		TileImplementation enumTileImp = TileImplementation.valueOf(newPathName.toString());
-//		return enumTileImp;
-//	}
-//
-//	private StringBuilder extractImplementationType(Dragboard db) {
-//		// Must ensure that each image file has path_ or scenery_ in front of it
-//		String pathType = db.getString().split("_")[0];
-//		char firstChar = Character.toUpperCase(pathType.charAt(0));
-//		StringBuilder newPathName = new StringBuilder();
-//		newPathName.append(firstChar);
-//		for(int i=1;i<pathType.length();i++){
-//			newPathName.append(pathType.charAt(i));
-//		}
-//		return newPathName;
-//	}
-	
+	private void dragOverHandler(DragEvent event) {
+		double x = event.getX();
+		double y = event.getY();
+		int colIndex = (int) (myMapSize * x / myMapGrid.getWidth());
+		int rowIndex = (int) (myMapSize * y / myMapGrid.getHeight());
+		Dragboard db = event.getDragboard();
+		if (db.hasContent(DataFormat.lookupMimeType("TileData"))) {
+			TileData tdFromClipBoard = (TileData) db.getContent(DataFormat.lookupMimeType("TileData"));
+			TileData toedit = myMapData.getTileData(colIndex, rowIndex);
+			editTileDataFromClipboard(tdFromClipBoard, toedit);
+			myMapData.setTileData(toedit, colIndex, rowIndex);
+		} else if (db.hasContent(DataFormat.lookupMimeType("ObjectData"))) {
+			ObjectData receivedData = iObject.obtainSelectedObjectData();
+			receivedData.setSpawnPoint(x, y);
+			// Add to Spawner
+			// TODO
+			
+			String[][] imagePathArray = populateImagePathArray(colIndex, rowIndex);
+			new ObjectResizer(receivedData, imagePathArray);
+		}
+	}
+
+	private String[][] populateImagePathArray(int colIndex, int rowIndex) {
+		String[][] imagePathArray = new String[3][3];// [row][col]
+		for (int i = 0; i <= 2; i++) {
+			for (int j = 0; j <= 2; j++) {
+				try {
+					imagePathArray[i][j] = myMapData.getTileData(j + colIndex - 1, i + rowIndex - 1).getImagePath();
+				} catch (IndexOutOfBoundsException e) {
+					imagePathArray[i][j] = "scenery_white.png";
+				}
+			}
+		}
+		return imagePathArray;
+	}
+
+	private void editTileDataFromClipboard(TileData tdFromClipBoard, TileData toedit) {
+		setImplementation(toedit, tdFromClipBoard.getImplementation());
+		setImagePath(toedit, tdFromClipBoard.getImagePath());
+		setAsDestination(toedit, tdFromClipBoard.isDestination());
+	}
+
 	private void mouseOverHandler(TileData tile, boolean isControlDown, boolean isShiftDown) {
 		multiSelectTile(tile, isControlDown, isShiftDown);
 	}
@@ -220,19 +215,18 @@ public class MapView implements IMapDisplay, IVisualElement {
 	private void mouseClickHandler(TileData tile) {
 		toggleTileSelection(tile);
 	}
-	
+
 	private void multiSelectTile(TileData tile, boolean isControlDown, boolean isShiftDown) {
 		if (isControlDown) {
 			myTileSelection.add(tile);
-		}
-		else if (isShiftDown) {
+		} else if (isShiftDown) {
 			myTileSelection.remove(tile);
 		}
 	}
-	
+
 	private void toggleTileSelection(TileData tile) {
 		if (myTileSelection.contains(tile))
-				myTileSelection.remove(tile);
+			myTileSelection.remove(tile);
 		else
 			myTileSelection.add(tile);
 	}
@@ -247,9 +241,11 @@ public class MapView implements IMapDisplay, IVisualElement {
 
 	/**
 	 * Check the TileData in question to see if it's Scenery or Path. If Path,
-	 * then we are able to set the destination marker and return false (no need to show
-	 * an alert). If the TileData is of type Scenery, then we return true without changing
-	 * the TileData to allow the calling method to show the appropriate error alert.
+	 * then we are able to set the destination marker and return false (no need
+	 * to show an alert). If the TileData is of type Scenery, then we return
+	 * true without changing the TileData to allow the calling method to show
+	 * the appropriate error alert.
+	 * 
 	 * @param toChange
 	 * @param isDestination
 	 * @return
@@ -257,8 +253,7 @@ public class MapView implements IMapDisplay, IVisualElement {
 	private boolean setAsDestination(TileData toChange, boolean isDestination) {
 		if (toChange.getImplementation().equals(TileImplementation.Scenery) && isDestination) {
 			return true;
-		}
-		else {
+		} else {
 			toChange.setDestination(isDestination);
 			return false;
 		}
@@ -271,6 +266,13 @@ public class MapView implements IMapDisplay, IVisualElement {
 	private void setImagePath(TileData toChange, String imagePath) {
 		toChange.setImagePath(imagePath);
 		myTileIconMap.get(toChange).setImage(new Image(ResourceManager.getResource(this, imagePath)));
+	}
+
+
+	@Override
+	public Point2D getDropPoint(DragEvent e) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -11,11 +11,11 @@ public class GlobalSettings {
 	public GlobalSettings(int l) {
 		level = l;
 	}
-	
+
 	public int getLevel() {
 		return level;
 	}
-	
+
 	public void setLevel(int l) {
 		level = l;
 	}

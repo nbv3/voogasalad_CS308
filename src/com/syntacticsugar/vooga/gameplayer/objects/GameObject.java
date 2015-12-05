@@ -68,7 +68,7 @@ public class GameObject extends AbstractViewableObject implements IGameObject {
 	public void onCollision(IGameObject obj) {
 		if (getEventsFromCollision(obj.getType()) != null) {
 			for (ICollisionEvent e : getEventsFromCollision(obj.getType())) {
-				e.executeEvent(obj.getAttributes());
+				e.executeEvent(obj);
 			}
 		}
 	}

@@ -23,7 +23,7 @@ import com.syntacticsugar.vooga.gameplayer.objects.GameObject;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
-import com.syntacticsugar.vooga.gameplayer.view.ViewController;
+import com.syntacticsugar.vooga.gameplayer.view.GameViewController;
 import com.syntacticsugar.vooga.xml.data.GameData;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
 import com.syntacticsugar.vooga.xml.data.UniverseData;
@@ -50,7 +50,7 @@ public class GameManager implements IGameManager{
 
 	private IEventManager myEventManager;
 	
-	private ViewController myViewController;
+	private GameViewController myViewController;
 	
 	// engine stage
 	private Stage myStage;
@@ -69,62 +69,9 @@ public class GameManager implements IGameManager{
 		myGame = new Game(data, myEventManager);
 		currentLevel = myGame.getLevel(1);
 
-		myViewController = new ViewController(gameSize);
-
-		// i changed ISimpleObject to SimpleObject, else addViewObject does not
-		// work
-		String playerPath = "player_pacman.png";
-		String enemyPath = "enemy_monster_1.png";
-		String missilePath = "scenery_pink.png";
-
-		ObjectData playerData = new ObjectData();
-		List<IAttribute> attributes = new ArrayList<IAttribute>();
-		attributes.add(new HealthAttribute());
-		attributes.add(new MovementControlAttribute());
-		attributes.add(new BasicWeaponAttribute(missilePath, 100.0, KeyCode.SPACE, 8.0, 5.0, 10.0));
-		HealthAttribute playerHealth = new HealthAttribute();
-		playerHealth.setHealth(100.0);
-		MovementControlAttribute playerMove = new MovementControlAttribute();
-		playerMove.setSpeed(3.0);
-		attributes.add(playerHealth);
-		attributes.add(playerMove);
-		playerData.setType(GameObjectType.PLAYER);
-		playerData.setSpawnPoint(0, 0);
-		playerData.setWidth(50);
-		playerData.setHeight(50);
-		playerData.setImagePath(playerPath);
-		playerData.setAttributes(attributes);
-
-		ObjectData enemyData = new ObjectData();
-		Collection<IAttribute> enemyAttributes = new ArrayList<IAttribute>();
-		HealthAttribute enemyHealth = new HealthAttribute();
-		enemyHealth.setHealth(40.0);
-		ScoreAttribute enemyScore = new ScoreAttribute();
-		enemyScore.setScore(10);
-		enemyAttributes.add(enemyHealth);
-		enemyAttributes.add(enemyScore);
-//		enemyAttributes.add(new AIMovementAttribute(3));
-		Map<GameObjectType, Collection<ICollisionEvent>> collisions = new HashMap<GameObjectType, Collection<ICollisionEvent>>();
-		Collection<ICollisionEvent> enemyEvents = new ArrayList<ICollisionEvent>();
-		enemyEvents.add(new HealthChangeEvent(10.0));
-		collisions.put(GameObjectType.PLAYER, enemyEvents);
-		enemyData.setType(GameObjectType.ENEMY);
-		enemyData.setSpawnPoint(150, 150);
-		enemyData.setWidth(100);
-		enemyData.setHeight(100);
-		enemyData.setImagePath(enemyPath);
-		enemyData.setAttributes(enemyAttributes);
-		enemyData.setCollisionMap(collisions);
-
-		IGameObject player = new GameObject(playerData);
-		IGameObject enemy = new GameObject(enemyData);
-
-		currentLevel.addGameObject(player);
-		currentLevel.addGameObject(enemy);
-		currentLevel.addToSpawnYard(player);
-		currentLevel.addToSpawnYard(enemy);
+		myViewController = new GameViewController(gameSize);
+		myViewController.displayLevel(currentLevel);
 		
-		myViewController.initializeView(currentLevel);
 		myGameEngine = new GameEngine(currentLevel, myViewController);
 
 		stageInit();
@@ -162,12 +109,21 @@ public class GameManager implements IGameManager{
 		pause();
 		if (type.equals(ConditionType.WINNING)) {
 			System.out.println("WINNER");
+			nextLevel();
 		} else if (type.equals(ConditionType.LOSING)) {
 			System.out.println("YOU LOSE");
 			restartGame();
 			startGame();
 		}
 
+	}
+	
+	private void nextLevel(){
+		currentLevel = myGame.nextLevel();
+		myViewController.displayLevel(currentLevel);
+		myGameEngine = new GameEngine(currentLevel, myViewController);
+		//myGameTimeline.stop();
+		initializeAnimation(frameLength);
 	}
 
 	public void receiveKeyPressed(KeyCode code) {
@@ -212,6 +168,7 @@ public class GameManager implements IGameManager{
 		try {
 			LevelChangeEvent event = (LevelChangeEvent) e;
 			System.out.println("LEVEL SWITCH");
+			switchLevel(event.getLevelConditionType());
 			pause();
 		}
 		catch (ClassCastException ex) {

@@ -31,7 +31,8 @@ public class MainMenu {
 	private PropertiesManager myPropertiesManager;
 
 	public MainMenu() {
-
+		// Windows 10 - Bug Fix for JavaFX
+		System.setProperty("glass.accessible.force", "false");
 		myPropertiesManager = new PropertiesManager("com/syntacticsugar/vooga/resources/View");
 		myStage = new Stage();
 		myStage.setTitle(myPropertiesManager.getProperty("WindowTitle"));
