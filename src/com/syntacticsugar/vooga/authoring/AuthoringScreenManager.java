@@ -160,24 +160,6 @@ public class AuthoringScreenManager implements Observer, IVoogaApp {
 		fileChooser.setTitle("Save Game File");
 		File selectedFile = fileChooser.showSaveDialog(new Stage());
 		if (selectedFile != null) {
-			// Map<Integer, SpawnerData> spawnerSave =
-			// myLevelEditor.getSpawnerQueues();
-			// Map<Integer, TowerData> towerSave =
-			// myLevelEditor.getTowerLists();
-			// Map<Integer, MapData> mapSave = myLevelEditor.getMapData();
-			// Map<Integer, LevelSettings> conditionsSave =
-			// myLevelEditor.getConditionsList();
-
-			// if ((spawnerSave.size() == towerSave.size()) && (mapSave.size()
-			// == conditionsSave.size())) {
-			// for (int i : towerSave.keySet()) {
-			// UniverseData universe = new UniverseData(spawnerSave.get(i),
-			// towerSave.get(i), mapSave.get(i),
-			// conditionsSave.get(i));
-			//
-			// levelData.add(universe);
-			// }
-			// }
 
 			// need to change later with global settings
 			GameData game = new GameData(myLevelEditor.getAllUniverseData(), new GlobalSettings());
