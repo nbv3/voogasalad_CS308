@@ -79,9 +79,17 @@ public class GameManager implements IGameManager{
 
 		ObjectData playerData = new ObjectData();
 		List<IAttribute> attributes = new ArrayList<IAttribute>();
-		attributes.add(new HealthAttribute(100.0));
-		attributes.add(new MovementControlAttribute(3.0));
-		attributes.add(new WeaponAttribute(missilePath, 100.0, KeyCode.SPACE));
+		HealthAttribute playerHealth = new HealthAttribute();
+		playerHealth.setHealth(100.0);
+		WeaponAttribute playerWeapon = new WeaponAttribute();
+		playerWeapon.setBulletDamage(10.0);
+		playerWeapon.setBulletImagePath(missilePath);
+		playerWeapon.setFireKeyCode(KeyCode.SPACE);
+		MovementControlAttribute playerMove = new MovementControlAttribute();
+		playerMove.setSpeed(3.0);
+		attributes.add(playerHealth);
+		attributes.add(playerMove);
+		attributes.add(playerWeapon);
 		playerData.setType(GameObjectType.PLAYER);
 		playerData.setSpawnPoint(0, 0);
 		playerData.setWidth(50);
@@ -91,12 +99,16 @@ public class GameManager implements IGameManager{
 
 		ObjectData enemyData = new ObjectData();
 		Collection<IAttribute> enemyAttributes = new ArrayList<IAttribute>();
-		enemyAttributes.add(new HealthAttribute(30.0));
-		enemyAttributes.add(new ScoreAttribute(50));
+		HealthAttribute enemyHealth = new HealthAttribute();
+		enemyHealth.setHealth(40.0);
+		ScoreAttribute enemyScore = new ScoreAttribute();
+		enemyScore.setScore(10);
+		enemyAttributes.add(enemyHealth);
+		enemyAttributes.add(enemyScore);
 //		enemyAttributes.add(new AIMovementAttribute(3));
 		Map<GameObjectType, Collection<ICollisionEvent>> collisions = new HashMap<GameObjectType, Collection<ICollisionEvent>>();
 		Collection<ICollisionEvent> enemyEvents = new ArrayList<ICollisionEvent>();
-		enemyEvents.add(new HealthChangeEvent(-10));
+		enemyEvents.add(new HealthChangeEvent(10.0));
 		collisions.put(GameObjectType.PLAYER, enemyEvents);
 		enemyData.setType(GameObjectType.ENEMY);
 		enemyData.setSpawnPoint(150, 150);
@@ -111,7 +123,9 @@ public class GameManager implements IGameManager{
 
 		currentLevel.addGameObject(player);
 		currentLevel.addGameObject(enemy);
-
+		currentLevel.addToSpawnYard(player);
+		currentLevel.addToSpawnYard(enemy);
+		
 		myViewController.initializeView(currentLevel);
 		myGameEngine = new GameEngine(currentLevel, myViewController);
 

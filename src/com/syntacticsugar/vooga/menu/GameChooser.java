@@ -37,6 +37,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -120,7 +121,7 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 	}
 
 	private Collection<String> getGameDescriptions(File directory) {
-		System.out.println(directory);
+		//System.out.println(directory);
 		File[] files = directory.listFiles(new XMLFileFilter());
 		XMLHandler<GameData> xml = new XMLHandler<>();
 		Collection<String> names = new ArrayList<String>();
@@ -161,12 +162,16 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 		String enemyPath = "enemy_monster_1.png";
 		ObjectData enemyData = new ObjectData();
 		Collection<IAttribute> enemyAttributes = new ArrayList<IAttribute>();
-		enemyAttributes.add(new HealthAttribute(30.0));
-		enemyAttributes.add(new ScoreAttribute(30));
+		HealthAttribute health = new HealthAttribute();
+		health.setHealth(30.0);
+		ScoreAttribute score = new ScoreAttribute();
+		score.setScore(30);
+		enemyAttributes.add(health);
+		enemyAttributes.add(score);
 		// enemyAttributes.add(new AIMovementAttribute(3));
 		Map<GameObjectType, Collection<ICollisionEvent>> collisions = new HashMap<GameObjectType, Collection<ICollisionEvent>>();
 		Collection<ICollisionEvent> enemyEvents = new ArrayList<ICollisionEvent>();
-		enemyEvents.add(new HealthChangeEvent(-10));
+		enemyEvents.add(new HealthChangeEvent(10.0));
 		collisions.put(GameObjectType.PLAYER, enemyEvents);
 		enemyData.setType(GameObjectType.ENEMY);
 		enemyData.setSpawnPoint(250, 150);
@@ -178,12 +183,16 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 
 		ObjectData enemyData2 = new ObjectData();
 		Collection<IAttribute> enemyAttributes2 = new ArrayList<IAttribute>();
-		enemyAttributes2.add(new HealthAttribute(30.0));
-		enemyAttributes2.add(new ScoreAttribute(40));
+		HealthAttribute enemyHealth = new HealthAttribute();
+		enemyHealth.setHealth(30.0);
+		ScoreAttribute enemyScore = new ScoreAttribute();
+		enemyScore.setScore(40);
+		enemyAttributes2.add(enemyHealth);
+		enemyAttributes2.add(enemyScore);
 		// enemyAttributes.add(new AIMovementAttribute(3));
 		Map<GameObjectType, Collection<ICollisionEvent>> collisions2 = new HashMap<GameObjectType, Collection<ICollisionEvent>>();
 		Collection<ICollisionEvent> enemyEvents2 = new ArrayList<ICollisionEvent>();
-		enemyEvents2.add(new HealthChangeEvent(-10));
+		enemyEvents2.add(new HealthChangeEvent(10.0));
 		enemyData2.setType(GameObjectType.ENEMY);
 		enemyData2.setSpawnPoint(350, 150);
 		enemyData2.setWidth(100);
@@ -206,12 +215,15 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 		ObjectData towerData = new ObjectData();
 		towerData.setImagePath(imgPath);
 		Collection<IAttribute> towerAttributes = new ArrayList<IAttribute>();
-		towerAttributes.add(new HealthAttribute(30.0));
+		HealthAttribute newHealth = new HealthAttribute();
+		newHealth.setHealth(30.0);
+		towerAttributes.add(newHealth);
 		// towerAttributes.add(new AIMovementAttribute(3));
 		Map<GameObjectType, Collection<ICollisionEvent>> collisionst = new HashMap<GameObjectType, Collection<ICollisionEvent>>();
 		Collection<ICollisionEvent> towerEvents = new ArrayList<ICollisionEvent>();
-		towerEvents.add(new HealthChangeEvent(-10));
+		towerEvents.add(new HealthChangeEvent(10.0));
 		towerData.setType(GameObjectType.ENEMY);
+
 		towerData.setImagePath(imgPath);
 		towerData.setAttributes(towerAttributes);
 		towerData.setCollisionMap(collisionst);
@@ -223,11 +235,13 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 		ObjectData towerData2 = new ObjectData();
 		towerData2.setImagePath(imgPath1);
 		Collection<IAttribute> towerAttributes2 = new ArrayList<IAttribute>();
-		towerAttributes2.add(new HealthAttribute(30.0));
+		HealthAttribute healthAtt = new HealthAttribute();
+		healthAtt.setHealth(30.0);
+		towerAttributes2.add(healthAtt);
 		// towerAttributes.add(new AIMovementAttribute(3));
 		Map<GameObjectType, Collection<ICollisionEvent>> collisionst2 = new HashMap<GameObjectType, Collection<ICollisionEvent>>();
 		Collection<ICollisionEvent> towerEvents2 = new ArrayList<ICollisionEvent>();
-		towerEvents2.add(new HealthChangeEvent(-10));
+		towerEvents2.add(new HealthChangeEvent(10.0));
 		towerData2.setType(GameObjectType.TOWER);
 		towerData2.setImagePath(imgPath);
 		towerData2.setAttributes(towerAttributes2);
@@ -246,5 +260,6 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 
 		return data;
 	}
+
 
 }

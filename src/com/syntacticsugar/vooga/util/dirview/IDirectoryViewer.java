@@ -1,11 +1,6 @@
 package com.syntacticsugar.vooga.util.dirview;
 
 import java.io.File;
-import java.util.Map;
-
-import com.syntacticsugar.vooga.xml.data.ObjectData;
-
-import javafx.scene.image.ImageView;
 
 public interface IDirectoryViewer<T> {
 
@@ -18,8 +13,5 @@ public interface IDirectoryViewer<T> {
 	 * @return 
 	 */
 	public void showDirectoryContents(File directory, IConverter<T> fileConverter);
-	
-	public Map<ImageView, ObjectData> showDirectoryContentsMap(File directory, IConverter<String> fileConverter);
-
 	
 }

@@ -17,6 +17,7 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
@@ -43,7 +44,7 @@ public class IconPane implements IVisualElement, IDirectoryViewer<String> {
 
 	private final ObjectProperty<ImageView> mySelectedIcon = new SimpleObjectProperty<>();
 	private final double GLOW_PERCENTAGE = 0.75;
-	private final double INSET_VALUE = 6;
+	private final double INSET_VALUE = 3;
 	private final int NUM_COLS = 3;
 
 	public IconPane() {
@@ -53,8 +54,10 @@ public class IconPane implements IVisualElement, IDirectoryViewer<String> {
 		myScrollPane.setVbarPolicy(ScrollBarPolicy.AS_NEEDED);
 		myScrollPane.setHbarPolicy(ScrollBarPolicy.AS_NEEDED);
 		myScrollPane.setFitToWidth(true);
-		initializeGridPane();
+		myIconPane = new TilePane();
 		myScrollPane.setPadding(new Insets(INSET_VALUE));
+		clearIconPane();
+		initializeGridPane();
 	}
 
 	public void addPreviewListener(ChangeListener<ImageView> event) {
@@ -62,12 +65,12 @@ public class IconPane implements IVisualElement, IDirectoryViewer<String> {
 	}
 
 	private void initializeGridPane() {
-		myIconPane = new TilePane();
 		myIconPane.setPrefColumns(NUM_COLS);
+		myIconPane.setAlignment(Pos.CENTER);
 		myIconPane.setHgap(INSET_VALUE);
 		myIconPane.setVgap(INSET_VALUE);
 		myScrollPane.setContent(myIconPane);
-		myIconPane.maxWidthProperty().set(myScrollPane.viewportBoundsProperty().get().getWidth());
+		myIconPane.maxWidthProperty().set(myScrollPane.viewportBoundsProperty().get().getWidth()-2*INSET_VALUE);
 	}
 
 	@Override
@@ -79,7 +82,7 @@ public class IconPane implements IVisualElement, IDirectoryViewer<String> {
 			ImageView iv = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(path)));
 			iv.fitWidthProperty().bind(myIconPane.maxWidthProperty().divide(NUM_COLS).subtract(INSET_VALUE));
 			iv.fitHeightProperty().bind(iv.fitWidthProperty());
-			iv.setOnMouseClicked(e -> setSelectedIcon(iv));
+			iv.setOnMouseClicked(e -> setSelectedImageView(iv));
 			myIconPane.getChildren().add(iv);
 			myImagePaths.put(iv, path);
 		}
@@ -98,7 +101,7 @@ public class IconPane implements IVisualElement, IDirectoryViewer<String> {
 					new Image(getClass().getClassLoader().getResourceAsStream(obj.getImagePath())));
 			image.fitWidthProperty().bind(myIconPane.maxWidthProperty().divide(NUM_COLS).subtract(INSET_VALUE));
 			image.fitHeightProperty().bind(image.fitWidthProperty());
-			image.setOnMouseClicked(e -> setSelectedIcon(image));
+			image.setOnMouseClicked(e -> setSelectedImageView(image));
 			myIconPane.getChildren().add(image);
 			myImagePaths.put(image, obj.getImagePath());
 			map.put(image, obj);
@@ -145,7 +148,7 @@ public class IconPane implements IVisualElement, IDirectoryViewer<String> {
 		newIv.setEffect(new Glow(GLOW_PERCENTAGE));
 	}
 
-	private void setSelectedIcon(ImageView iv) {
+	private void setSelectedImageView(ImageView iv) {
 		mySelectedIcon.set(iv);
 	}
 
