@@ -15,7 +15,8 @@ public class WebConnectorTest {
 		//getXMLTest(11);
 		// postXMLTest();
 		// deleteXMLTest(2);
-		postCommentTest();
+		//postCommentTest();
+		getCommentsTest();
 	}
 	
 	public static void postCommentTest() {
@@ -26,6 +27,12 @@ public class WebConnectorTest {
 		System.out.println("Sending Request: " + request.toString());
 		String output = WebConnector.postComment(request);
 		System.out.println("Output: " + output);
+	}
+	
+	public static void getCommentsTest() {
+		int id = 1422;
+		JSONObject jsonOutput = WebConnector.getComments(id);
+		System.out.println(jsonOutput.toString());
 	}
 
 	public static void getXMLsTest() {

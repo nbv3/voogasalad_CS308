@@ -21,6 +21,7 @@ public class WebConnector {
 	private final static String POST_GAME_URL = "http://easywebapi.com/api/newxml";
 	private final static String DELETE_GAME_URL = "http://easywebapi.com/api/deletexml/";
 	private final static String POST_COMMENT_URL = "http://easywebapi.com/api/newcomment";
+	private final static String GET_COMMENTS_URL = "http://easywebapi.com/api/comment/";
 
 	public static String postXML(JSONObject json) {
 		String query = json.toString();
@@ -168,5 +169,28 @@ public class WebConnector {
 			System.out.println("Invalid IO");
 		}
 		return "";
+	}
+	
+	public static JSONObject getComments(int gameindex) {
+		try {
+			InputStream response = new URL(GET_COMMENTS_URL+gameindex).openStream();
+			BufferedReader streamReader = new BufferedReader(new InputStreamReader(response, CHARSET));
+			StringBuilder responseStrBuilder = new StringBuilder();
+
+			String inputStr;
+			while ((inputStr = streamReader.readLine()) != null)
+				responseStrBuilder.append(inputStr);
+			try {
+				JSONObject json = new JSONObject(responseStrBuilder.toString());
+				return json;
+			} catch (JSONException e) {
+				System.out.println("Failed reading JSON");
+			}
+		} catch (MalformedURLException e) {
+			System.out.println("Invalid URL");
+		} catch (IOException e) {
+			System.out.println("Invalid IO");
+		}
+		return null;
 	}
 }
