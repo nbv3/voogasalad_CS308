@@ -136,27 +136,19 @@ public class MapControls extends Observable implements IVisualElement {
 	}
 
 	private void updatePreview() {
-		
 		TileData td = initTileData();
 		initPreviewDragHandler(td);
-		
-		//FadeTransitionWizard.fadeOut(previewTile, Duration.millis(150), 1).play();
 		previewTile.setImage(new Image(getClass().getClassLoader().getResourceAsStream(myIconPane.getSelectedImagePath())));
-
+		// Refactor
 		SequentialTransition seq = new SequentialTransition(FadeTransitionWizard.fadeIn(previewTile, FluidGlassBall.getPreviewTilePulseDuration(), 0.7,1.0,1),
 				FadeTransitionWizard.fadeOut(previewTile, FluidGlassBall.getPreviewTilePulseDuration(), 1.0,0.7,1));
 		seq.setCycleCount(Integer.MAX_VALUE);
 		seq.play();
-		previewTile.setOnMouseEntered(e->{
-			// Refactor constants and seqTrans
-				seq.play();
-		
-		});
+		previewTile.setOnMouseEntered(e->seq.play());
 		previewTile.setOnMouseExited(e->{
 			previewTile.setOpacity(1);
 			seq.stop();
 		});
-		FadeTransitionWizard.fadeIn(previewTile, Duration.millis(150), 1).play();
 	}
 
 	private TileData initTileData() {
@@ -165,7 +157,6 @@ public class MapControls extends Observable implements IVisualElement {
 		td.setImplementation(mySelectedType);
 		return td;
 	}
-
 
 	private ComboBox<TileImplementation> buildTileTypeChooser() {
 		ComboBox<TileImplementation> box = new ComboBox<TileImplementation>();

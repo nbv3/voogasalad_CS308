@@ -3,6 +3,7 @@ package com.syntacticsugar.vooga.authoring.objectediting;
 import java.io.File;
 import java.util.Collections;
 
+import com.syntacticsugar.vooga.authoring.dragdrop.DragDropManager;
 import com.syntacticsugar.vooga.authoring.fluidmotion.FadeTransitionWizard;
 import com.syntacticsugar.vooga.authoring.fluidmotion.FluidGlassBall;
 import com.syntacticsugar.vooga.authoring.icon.Icon;
@@ -37,7 +38,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 
-public class ObjectEditor {
+public class ObjectEditor implements IObjectDataClipboard{
 
 	private GridPane myView;
 	private ObjectData currentData;
@@ -59,12 +60,19 @@ public class ObjectEditor {
 		myCollisionViewer = new CollisionViewer();
 		myRefresher = refresher;
 		buildView();
+		myIcon.setOnDragDetected(e->{
+			DragDropManager.createClipboard(
+					currentData,
+					myIcon.getImageView(),
+					e);
+		});
 	}
 
 	private void buildView() {
 		GridPane myMainEditorView = buildEditorView();
 		myTypeChooser = buildTypeChooser();
-		AnchorPane myTopControlPane = GUIFactory.buildAnchorPane(myTypeChooser, GUIFactory.buildButton("New", e -> createEmptyEditor(), null, null));
+		AnchorPane myTopControlPane = GUIFactory.buildAnchorPane(myTypeChooser,
+				GUIFactory.buildButton("New", e -> createEmptyEditor(), null, null));
 		myUpdateButton = GUIFactory.buildButton("Update", e -> storeEditedObject(), null, null);
 		mySaveButton = GUIFactory.buildButton("Save", e -> saveObject(), null, null);
 		AnchorPane myBottomControlPane = GUIFactory.buildAnchorPane(myUpdateButton, mySaveButton);
@@ -75,7 +83,7 @@ public class ObjectEditor {
 		GridPane.setHalignment(myMainEditorView, HPos.CENTER);
 		createEmptyEditor();
 	}
-	
+
 	private void createEmptyEditor() {
 		setTypeChooserViability(true);
 		myTypeChooser.setValue(null);
@@ -154,7 +162,9 @@ public class ObjectEditor {
 		currentData.setImagePath(new String(selectedImagePath));
 		currentData.setAttributes(Collections.unmodifiableCollection(myAttributeViewer.getData()));
 		currentData.setCollisionMap(Collections.unmodifiableMap(myCollisionViewer.getData()));
-
+		// System.out.println("here");
+		// System.out.println(tempObjType);
+		// System.out.println(new String(selectedImagePath));
 		TextInputDialog td = new TextInputDialog("Name your creation");
 		td.showAndWait();
 		if (td.getResult() == null || td.getResult().isEmpty()) {
@@ -190,7 +200,7 @@ public class ObjectEditor {
 				.getString(String.format("%s_%s", currentData.getType().toString().toLowerCase(), "images"))));
 		File selectedFile = fileChooser.showOpenDialog(new Stage());
 		if (selectedFile != null) {
-			//currentData.setImagePath(selectedFile.getName());
+			// currentData.setImagePath(selectedFile.getName());
 			selectedImagePath = selectedFile.getName();
 			myIcon.setImage(new Image(getClass().getClassLoader().getResourceAsStream(selectedFile.getName())));
 		}
@@ -218,7 +228,8 @@ public class ObjectEditor {
 		myIcon = new Icon("scenery_gray.png");
 		SequentialTransition seq = new SequentialTransition(FadeTransitionWizard.fadeIn(myIcon, FluidGlassBall.getPreviewTilePulseDuration(), 0.7,1.0,1),
 				FadeTransitionWizard.fadeOut(myIcon, FluidGlassBall.getPreviewTilePulseDuration(), 1.0,0.7,1));
-		seq.setCycleCount(Integer.MAX_VALUE);
+			seq.setCycleCount(Integer.MAX_VALUE);
+
 		seq.play();
 		Button button = GUIFactory.buildButton("Select Image", e -> selectImage(), null, null);
 		grid.getChildren().addAll(button, myIcon);
@@ -293,5 +304,10 @@ public class ObjectEditor {
 
 	public void setSaveButtonViability(boolean flag) {
 		mySaveButton.setDisable(!flag);
+	}
+
+	@Override
+	public ObjectData obtainSelectedObjectData() {
+			return currentData;
 	}
 }
