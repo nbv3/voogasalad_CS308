@@ -91,7 +91,10 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 	}
 
 	private void startGame() {
-		System.out.println("YO");
+//		selectedGameData = stringToGameData.get(myView.getSelectionModel().getSelectedItem());
+//		System.out.println(myView.getSelectionModel().getSelectedItem());
+//		System.out.print(selectedGameData);
+		launchNewEngine();
 	}
 
 	private void launchGame(IVoogaApp app) {
