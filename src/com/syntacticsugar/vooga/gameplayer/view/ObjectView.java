@@ -12,7 +12,6 @@ import javafx.scene.layout.StackPane;
 public class ObjectView extends Observable implements Observer {
 	
 	private StackPane myViewPane;
-	private GameView myGameView;
 	private double scalingFactor;
 	protected double tempCoord1;
 	protected double tempCoord2;
@@ -30,7 +29,6 @@ public class ObjectView extends Observable implements Observer {
 		myViewPane.getChildren().add(iv);
 		//myGameView.getChildren().add(myViewPane);
 		gameView.addObjectView(myViewPane);
-		myGameView = gameView;
 		box.addObserver(this);
 	}
 
@@ -51,10 +49,6 @@ public class ObjectView extends Observable implements Observer {
 	
 	public StackPane getViewPane(){
 		return myViewPane;
-	}
-	
-	public GameView getGameView(){
-		return myGameView;
 	}
 
 }

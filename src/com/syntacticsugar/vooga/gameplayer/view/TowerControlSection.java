@@ -7,7 +7,6 @@ import java.util.Observer;
 
 import com.syntacticsugar.vooga.authoring.icon.Icon;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObject;
-import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.gameplayer.universe.IUniverseView;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
 
@@ -86,7 +85,6 @@ public class TowerControlSection extends Observable implements Observer {
 		Point2D coordinates = data.getCoordinates();
 		currentSelection.setSpawnPoint(coordinates.getX(), coordinates.getY());
 		currentSelection.setDirection(data.getDirection());
-		System.out.println(data.getDirection());
 		myUniverse.addToSpawnYard(new GameObject(currentSelection));
 	}
 }

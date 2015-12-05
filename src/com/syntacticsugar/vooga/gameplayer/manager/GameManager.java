@@ -23,7 +23,7 @@ import com.syntacticsugar.vooga.gameplayer.objects.GameObject;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
-import com.syntacticsugar.vooga.gameplayer.view.ViewController;
+import com.syntacticsugar.vooga.gameplayer.view.GameViewController;
 import com.syntacticsugar.vooga.xml.data.GameData;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
 import com.syntacticsugar.vooga.xml.data.UniverseData;
@@ -50,7 +50,7 @@ public class GameManager implements IGameManager{
 
 	private IEventManager myEventManager;
 	
-	private ViewController myViewController;
+	private GameViewController myViewController;
 	
 	// engine stage
 	private Stage myStage;
@@ -69,9 +69,9 @@ public class GameManager implements IGameManager{
 		myGame = new Game(data, myEventManager);
 		currentLevel = myGame.getLevel(1);
 
-		myViewController = new ViewController(gameSize);
+		myViewController = new GameViewController(gameSize);
 
-		myViewController.initializeView(currentLevel);
+		myViewController.displayLevel(currentLevel);
 		myGameEngine = new GameEngine(currentLevel, myViewController);
 
 		stageInit();
