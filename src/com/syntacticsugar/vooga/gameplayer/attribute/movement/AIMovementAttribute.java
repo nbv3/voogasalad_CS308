@@ -1,8 +1,12 @@
 package com.syntacticsugar.vooga.gameplayer.attribute.movement;
 
 import java.awt.Point;
+import java.util.Collection;
 import java.util.List;
+import java.util.Observable;
 
+import com.syntacticsugar.vooga.authoring.parameters.DoubleParameter;
+import com.syntacticsugar.vooga.authoring.parameters.IEditableParameter;
 import com.syntacticsugar.vooga.gameplayer.attribute.control.actions.movement.Direction;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.gameplayer.universe.map.IGameMap;
@@ -20,7 +24,7 @@ public class AIMovementAttribute extends AbstractMovementAttribute {
 	private int myPathUpdateRate; // TODO: Move into a resource file
 	
 	public AIMovementAttribute(Double speed) {
-		super(speed);
+		super(speed, new DoubleParameter(speed, "AISpeed: "));
 		
 		// update currentTile
 		
@@ -107,6 +111,12 @@ public class AIMovementAttribute extends AbstractMovementAttribute {
 			return Direction.DOWN;
 		}
 		return Direction.STOP;
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		// TODO Auto-generated method stub
+		
 	}
 
 

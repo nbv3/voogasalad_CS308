@@ -23,4 +23,5 @@ public interface IAttribute {
 	 */
 	public void setParent(IGameObject parent);
 	
+	
 }

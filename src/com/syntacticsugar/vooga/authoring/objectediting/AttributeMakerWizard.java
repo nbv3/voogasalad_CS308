@@ -6,8 +6,9 @@ import java.util.ListIterator;
 import java.util.Observable;
 import java.util.Observer;
 
-
+import com.syntacticsugar.vooga.authoring.parameters.IEditableParameter;
 import com.syntacticsugar.vooga.authoring.parameters.ParameterFactory;
+import com.syntacticsugar.vooga.gameplayer.attribute.AbstractAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.HealthAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.movement.AIMovementAttribute;
@@ -43,30 +44,11 @@ public class AttributeMakerWizard implements Observer{
 	private IAttribute attributeToAdd;
 	private String selectedAttribute;
 	private final double SCENE_DIMENSION = 300;
-	private ParameterFactory myFactory;
-	private String selectedKeyCombo;
 
 	public AttributeMakerWizard(GameObjectType type, Collection<IAttribute> attributes){
 		myAttributes = attributes;
 		myStage = new Stage();
 		setType(type);
-		myFactory = new ParameterFactory();
-		myFactory.addObserver(this);
-	}
-	
-	private void setParameters(IAttribute attribute)
-	{
-		if(myFactory == null)
-		{
-			myFactory = new ParameterFactory();
-			myFactory.addObserver(this);
-		}
-		myFactory.loadNode(attribute);
-	}
-	
-	public ParameterFactory getParameterFactory()
-	{
-		return myFactory;
 	}
 	
 	public void setType(GameObjectType type) {
@@ -128,81 +110,35 @@ public class AttributeMakerWizard implements Observer{
 			catch (ReflectionException ex) {
 				attributeToAdd = (IAttribute) Reflection.createInstance(className);
 			}
-			setParameters(attributeToAdd);
+			((AbstractAttribute)attributeToAdd).addObserver(this);
+			updateGUI(attributeToAdd);
 	}
-
-	@Override
-	public void update(Observable o, Object arg) {
+	
+	private void updateGUI(IAttribute attribute)
+	{
 		Stage tempStage = new Stage();
 		BorderPane tempPane = new BorderPane();
 		Scene tempScene = new Scene(tempPane);
 		tempStage.setScene(tempScene);
-		tempPane.setCenter((Node) arg);
+		Collection<IEditableParameter<?>> myParameters = ((AbstractAttribute)attribute).getParams();
+		for(IEditableParameter<?> parameter: myParameters)
+		{
+			if(parameter.getInputNode() != null)
+			{
+				tempPane.setCenter(parameter.getInputNode());
+			}
+			
+		}
 		tempStage.show();
-		ListIterator<Node> myNodes = ((VBox) arg).getChildren().listIterator();
-		while(myNodes.hasNext())
-		{
-			Node n = myNodes.next();
-			if(n.getClass().getName().equals("javafx.scene.control.TextField"))
-			{
-				TextField textField = (TextField) n;	
-				textField.setOnKeyPressed(e->updateParameters(tempStage, e.getCode(), textField.getText()));
-			}
-			else if(n.getClass().getName().equals("javafx.scene.layout.HBox"))
-			{
-				HBox box = (HBox) n;
-				ListIterator<Node> children = box.getChildren().listIterator();
-				while(children.hasNext())
-				{
-					Node child = children.next();
-					if(child.getClass().getName().equals("javafx.scene.control.TextField"))
-					{
-						TextField text = (TextField) child;
-						text.setOnKeyPressed(e->updateParameters(tempStage, e.getCode(), text.getText()));
-					}
-					else if(child.getClass().getName().equals("javafx.scene.control.ComboBox"))
-					{
-						ComboBox<String> comboBox = (ComboBox<String>) child;
-					}
-				}
-				
-				
-			}
-		}
-		
 	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		myAttributes.add((IAttribute)arg);
+		System.out.println(((AbstractAttribute)arg));
+	}
+
 	
-	private void updateParameters(Stage s, KeyCode code, String userInput)
-	{
-		if(code.equals(KeyCode.ENTER))
-		{
-			if(userInput != "")
-			{
-					if(attributeToAdd.getClass().getName().equals("com.syntacticsugar.vooga.gameplayer.attribute.HealthAttribute"))
-					{
-						HealthAttribute health = (HealthAttribute) attributeToAdd;
-						health.setHealth(Double.parseDouble(userInput));
-						myAttributes.add(health);
-					}
-					else if(attributeToAdd.getClass().getName().equals("com.syntacticsugar.vooga.gameplayer.attribute.movement.AIMovementAttribute"))
-					{
-						AIMovementAttribute move = (AIMovementAttribute) attributeToAdd;
-						move.setSpeed(Double.parseDouble(userInput));
-						myAttributes.add(move);
-						
-					}
-					else if(attributeToAdd.getClass().getName().equals("com.syntacticsugar.vooga.gameplayer.attribute.movement.MovementControlAttribute"))
-					{
-						MovementControlAttribute userMove = (MovementControlAttribute) attributeToAdd;
-						userMove.setSpeed(Double.parseDouble(userInput));
-						myAttributes.add(userMove);
-					}
-					s.close();
-			}
-
-		}
-
-	}
 
 	
 }

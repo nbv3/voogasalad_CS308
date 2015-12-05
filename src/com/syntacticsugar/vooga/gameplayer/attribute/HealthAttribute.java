@@ -1,9 +1,18 @@
 package com.syntacticsugar.vooga.gameplayer.attribute;
 
+import java.util.Collection;
+import java.util.ListIterator;
+import java.util.Observable;
+
+import com.syntacticsugar.vooga.authoring.parameters.DoubleParameter;
+import com.syntacticsugar.vooga.authoring.parameters.IEditableParameter;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.ObjectDespawnEvent;
 import com.syntacticsugar.vooga.gameplayer.universe.IEventPoster;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.gameplayer.universe.IObjectDespawner;
+
+import javafx.scene.Node;
+import javafx.scene.layout.HBox;
 
 public class HealthAttribute extends AbstractAttribute {
 
@@ -17,7 +26,7 @@ public class HealthAttribute extends AbstractAttribute {
 	 * @param startingHealth
 	 */
 	public HealthAttribute(Double maxHealth) {
-		super();
+		super(new DoubleParameter(maxHealth, "Health: "));
 		this.myHealth = maxHealth;
 		this.myMaxHealth = maxHealth;
 		this.myInvincibleFrames = 0;
@@ -77,14 +86,22 @@ public class HealthAttribute extends AbstractAttribute {
 		return this.myHealth <= 0;
 	}
 	
-	public void setHealth(Double value)
+	private void setHealth(Double health)
 	{
-		myMaxHealth = value;
+		myMaxHealth = health;
 	}
 	
 	// test code here
 	public Double getHealth() {
 		return myMaxHealth;
 	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		setHealth((Double) arg);
+		setChanged();
+		notifyObservers(this);
+	}
+
 
 }

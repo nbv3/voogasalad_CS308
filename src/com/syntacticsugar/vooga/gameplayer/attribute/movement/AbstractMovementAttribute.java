@@ -3,7 +3,10 @@ package com.syntacticsugar.vooga.gameplayer.attribute.movement;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 
+import com.syntacticsugar.vooga.authoring.parameters.AbstractParameter;
+import com.syntacticsugar.vooga.authoring.parameters.IEditableParameter;
 import com.syntacticsugar.vooga.gameplayer.attribute.AbstractAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.control.actions.movement.Direction;
 import com.syntacticsugar.vooga.gameplayer.attribute.control.actions.movement.IMover;
@@ -21,8 +24,8 @@ public abstract class AbstractMovementAttribute extends AbstractAttribute implem
 	
 	protected Point myCurrentTile;
 	
-	public AbstractMovementAttribute(Double speed) {
-		super();
+	public AbstractMovementAttribute(Double speed, AbstractParameter<?>... params) {
+		super(params);
 		resetVelocity();
 		setSpeed(speed);
 		myCurrentTile = new Point(0,0);
@@ -147,6 +150,14 @@ public abstract class AbstractMovementAttribute extends AbstractAttribute implem
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	@Override
+	public void update(Observable o, Object arg)
+	{
+		setSpeed((Double) arg);
+		setChanged();
+		notifyObservers(this);
 	}
 	
 }
