@@ -13,10 +13,10 @@ public class WebConnectorTest {
 
 		//getXMLsTest();
 		//getXMLTest(11);
-		// postXMLTest();
-		// deleteXMLTest(2);
+		//postXMLTest();
+		//deleteXMLTest(10);
 		//postCommentTest();
-		getCommentsTest();
+		//getCommentsTest(1422);
 	}
 	
 	public static void postCommentTest() {
@@ -29,9 +29,8 @@ public class WebConnectorTest {
 		System.out.println("Output: " + output);
 	}
 	
-	public static void getCommentsTest() {
-		int id = 1422;
-		JSONObject jsonOutput = WebConnector.getComments(id);
+	public static void getCommentsTest(int gameid) {
+		JSONObject jsonOutput = WebConnector.getComments(gameid);
 		System.out.println(jsonOutput.toString());
 	}
 

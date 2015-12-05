@@ -51,10 +51,4 @@ public class JSONHelper {
 		return new JSONObject(map);
 	}
 
-	public static JSONObject modifyJSON(int id, String key, String newValue) throws JSONException {
-		JSONObject obj = WebConnector.getJSONObject(id);
-		obj.put(key, newValue);
-		return obj;
-	}
-
 }
