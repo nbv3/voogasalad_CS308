@@ -22,7 +22,8 @@ public class Main extends Application {
 		ObjectData data = new ObjectData();
 		data.setImagePath("scenery_gray.png");
 		String tileImagePath = "scenery_grass_2.png";
-		new ObjectResizer(data, tileImagePath);
+		// For testing purposes of the main menu
+		//new ObjectResizer(data, tileImagePath);
 	}
 }
 	

@@ -89,8 +89,7 @@ public class SpawnerManager implements ITabbedManager<ObjectData> {
 
 
 	// ********************************* //
-	
-
+		
 	private void clearWave_BAREBONE(ListView<VBox> wave) {
 		wave.getItems().clear();
 	}
