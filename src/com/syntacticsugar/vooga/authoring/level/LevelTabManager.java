@@ -14,22 +14,13 @@ public class LevelTabManager{
 
 	private TabPane myTabPane;
 	private Map<Tab, LevelEditor> myLevelMap;
-	private int nextLevelNum = 1;
 	
 	public LevelTabManager() {
 		myLevelMap = new HashMap<Tab, LevelEditor>();
 		myTabPane = new TabPane();
-		createAddTab();
+		addNewLevel();
 	}
 	
-	private void createAddTab() {
-		Tab addNew = new Tab();
-		addNew.setContent(null);
-		addNew.setText("Add level");
-		addNew.setClosable(false);
-		addNew.setOnSelectionChanged(e -> addNewLevel());
-		myTabPane.getTabs().add(addNew);
-	}
 	
 	public void addNewLevel() {
 		LevelEditor newLevel = null;
@@ -37,17 +28,17 @@ public class LevelTabManager{
 			newLevel = new LevelEditor();
 		} catch (Exception e) {
 			AlertBoxFactory.createObject(e.getMessage());
+			e.printStackTrace();
 			return;
 		}
 		Tab newLevelTab = new Tab();
 		newLevelTab.setContent(newLevel.getContent());
-		newLevelTab.setText("Level" + " " + nextLevelNum);
-		nextLevelNum++;
 		myLevelMap.put(newLevelTab, newLevel);
-		newLevelTab.setOnCloseRequest(e -> removeLevel(newLevelTab));
+		newLevelTab.setOnClosed(e -> removeLevel(newLevelTab));
 		
 		myTabPane.getTabs().add(newLevelTab);
 		myTabPane.getSelectionModel().select(newLevelTab);
+		updateLevelNumbers();
 	}
 	
 	public void loadMap(MapData loadedMap) {
@@ -68,17 +59,14 @@ public class LevelTabManager{
 		return levels;
 	}
 	private void removeLevel(Tab levelTab) {
-		int removeInd = myTabPane.getTabs().indexOf(levelTab);
 		myLevelMap.remove(levelTab);
-		nextLevelNum--;
-		updateLevelNumbers(removeInd-1);
-		myTabPane.getSelectionModel().select(myTabPane.getTabs().size()-1);
+		updateLevelNumbers();
 	}
 	
-	private void updateLevelNumbers(int start) {
-		for (int i=start; i<myTabPane.getTabs().size(); i++) {
+	private void updateLevelNumbers() {
+		for (int i=0; i<myTabPane.getTabs().size(); i++) {
 			Tab t = myTabPane.getTabs().get(i);
-			t.setText(String.format("%s %s", "Level", i));
+			t.setText(String.format("%s %s", "Level", i+1));
 		}
 	}
 	

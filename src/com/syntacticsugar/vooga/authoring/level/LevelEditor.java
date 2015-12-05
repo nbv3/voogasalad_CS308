@@ -1,5 +1,13 @@
 package com.syntacticsugar.vooga.authoring.level;
 
+import java.util.Observable;
+
+import com.syntacticsugar.vooga.authoring.level.map.MapEditor;
+import com.syntacticsugar.vooga.authoring.level.map.MapEditorControls;
+import com.syntacticsugar.vooga.authoring.level.spawner.SpawnerControls;
+import com.syntacticsugar.vooga.authoring.level.spawner.SpawnerManager;
+import com.syntacticsugar.vooga.authoring.level.towers.TowerControls;
+import com.syntacticsugar.vooga.authoring.level.towers.TowerManager;
 import com.syntacticsugar.vooga.xml.data.MapData;
 
 import javafx.geometry.Insets;
@@ -8,25 +16,22 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 
-public class LevelEditor{
+public class LevelEditor {
 
 	private GridPane myContentGrid;
+
 	private MapEditor myMapEditor;
 	private MapEditorControls myTileEditor;
-	private EnemyQueueTabManager myQueue;
-	private WaveController myWaveControl;
-	private TowerManager myTowers;
+	private SpawnerManager mySpawnerManager;
+	private TowerManager myTowerManager;
 	private LevelConditionManager myConditions;
-
-	// private SpawnEditor mySpawnEditor;
 
 	public LevelEditor() throws Exception {
 		myConditions = new LevelConditionManager();
 		myMapEditor = new MapEditor();
 		myTileEditor = new MapEditorControls(myMapEditor);
-		myQueue = new EnemyQueueTabManager();
-		myWaveControl = new WaveController(myQueue);
-		myTowers = new TowerManager();
+		mySpawnerManager = new SpawnerManager();
+		myTowerManager = new TowerManager();
 		//myWaveControl.addObserver(this);
 		buildTabContents();
 
@@ -36,17 +41,6 @@ public class LevelEditor{
 
 	}
 	
-	public WaveController getWaveControl()
-	{
-		return myWaveControl;
-	}
-	
-	public TowerController getTowerControl()
-	{
-		return myTowers.getControl();
-	}
-
-
 	public void loadMap(MapData loadedMap) {
 		myMapEditor.loadMapData(loadedMap);
 	}
@@ -65,12 +59,15 @@ public class LevelEditor{
 		myContentGrid.add(myTileEditor.getPreviewTile(), 0, 1,1, 1);
 
 		myContentGrid.add(myMapEditor.getContent(), 1, 0, 1, 2);
-		myContentGrid.add(myWaveControl.getView(), 0, 2, 1, 1);
-		myContentGrid.add(myQueue.getView(), 1, 2, 2, 1);
+		
+		myContentGrid.add(mySpawnerManager.getControlNode(), 0, 2, 1, 1);
+		myContentGrid.add(mySpawnerManager.getViewNode(), 1, 2, 1, 1);
+		
 		myContentGrid.add(myConditions.getView(), 2, 1, 1, 1);
 
-		myContentGrid.add(myTowers.getView(), 2, 0, 1, 1);
-		//coordinates for tower list
+		myContentGrid.add(myTowerManager.getControlNode(), 2, 0, 1, 1);
+		myContentGrid.add(myTowerManager.getViewNode(), 2, 1, 1, 1);
+		
 		myContentGrid.setGridLinesVisible(true);
 	}
 
@@ -96,6 +93,14 @@ public class LevelEditor{
 	
 	public MapData getMapData() {
 		return myMapEditor.getMapData();
+	}
+
+	public Observable getTowerControls() {
+		return myTowerManager.getObservableController();
+	}
+	
+	public Observable getSpawnerControls() {
+		return mySpawnerManager.getObservableController();
 	}
 
 

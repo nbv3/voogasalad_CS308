@@ -78,13 +78,14 @@ public class AuthoringScreenManager implements Observer, IVoogaApp {
 
 	private void setUpObserver() {
 		for (int i = 0; i < myLevelEditor.getLevels().size(); i++) {
-			myLevelEditor.getLevels().get(i).getWaveControl().addObserver(this);
-			myLevelEditor.getLevels().get(i).getTowerControl().addObserver(this);
+			myLevelEditor.getLevels().get(i).getTowerControls().addObserver(this);
+			myLevelEditor.getLevels().get(i).getSpawnerControls().addObserver(this);
 
 		}
 
 		for (int i = 0; i < myObjectLibraryManager.getLibraries().size(); i++) {
 			myObjectLibraryManager.getLibraries().get(i).addObserver(this);
+
 		}
 	}
 

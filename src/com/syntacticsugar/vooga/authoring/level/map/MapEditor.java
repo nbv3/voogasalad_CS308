@@ -1,4 +1,4 @@
-package com.syntacticsugar.vooga.authoring.level;
+package com.syntacticsugar.vooga.authoring.level.map;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -7,6 +7,7 @@ import com.syntacticsugar.vooga.authoring.dragdrop.DragDropManager;
 import com.syntacticsugar.vooga.authoring.dragdrop.ObjectClippableItem;
 import com.syntacticsugar.vooga.authoring.dragdrop.TileClippableItem;
 import com.syntacticsugar.vooga.authoring.icon.Icon;
+import com.syntacticsugar.vooga.authoring.tooltips.TileInfoTooltip;
 import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 import com.syntacticsugar.vooga.util.gui.factory.SliderDialogFactory;
@@ -207,7 +208,7 @@ public class MapEditor implements IMapEditor {
 	public void setAsDestination(boolean isDestination) {
 		boolean alertFlag = false;
 		for (TileData tile : myTileSelection) {
-			if (tile.getImplementation().equals(TileImplementation.Scenery))
+			if (tile.getImplementation().equals(TileImplementation.Scenery) && isDestination)
 				alertFlag = true;
 			else 
 				tile.setDestination(isDestination);

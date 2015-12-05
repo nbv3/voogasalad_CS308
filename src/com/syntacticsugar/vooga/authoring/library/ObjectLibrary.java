@@ -14,7 +14,9 @@ import com.syntacticsugar.vooga.xml.XMLFileFilter;
 import com.syntacticsugar.vooga.xml.XMLHandler;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
 
+import javafx.scene.Node;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
 
 public class ObjectLibrary extends Observable {
 
@@ -44,12 +46,18 @@ public class ObjectLibrary extends Observable {
 	// return box;
 	// }
 
+	private Node buildTitledPane(IconPane myIconPane2, GameObjectType myType2) {
+		VBox box = new VBox();
+		box.getChildren().add(myIconPane2.getView());
+		return box;
+	}
+
 	public void refresh() {
 		populatePaneFromXMLFiles(myXMLDirectory);
 	}
 
 	private void populatePaneFromXMLFiles(File XMLFolder) {
-		
+
 		myData = myIconPane.showDirectoryContentsMap(XMLFolder, e -> getImagePathsFromXML(XMLFolder));
 	}
 

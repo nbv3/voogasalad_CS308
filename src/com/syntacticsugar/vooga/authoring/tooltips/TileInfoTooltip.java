@@ -1,4 +1,4 @@
-package com.syntacticsugar.vooga.authoring.level;
+package com.syntacticsugar.vooga.authoring.tooltips;
 
 import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.xml.data.TileData;

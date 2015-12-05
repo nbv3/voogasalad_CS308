@@ -2,7 +2,7 @@ package com.syntacticsugar.vooga.authoring.dragdrop;
 
 import com.syntacticsugar.vooga.authoring.icon.Icon;
 import com.syntacticsugar.vooga.authoring.icon.IconPane;
-import com.syntacticsugar.vooga.authoring.level.MapEditor;
+import com.syntacticsugar.vooga.authoring.level.map.MapEditor;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
 import com.syntacticsugar.vooga.xml.data.TileImplementation;
 

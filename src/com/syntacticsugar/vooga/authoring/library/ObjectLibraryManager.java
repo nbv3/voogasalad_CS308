@@ -28,7 +28,7 @@ public class ObjectLibraryManager {
 		for (GameObjectType type : getObjectTypes()) {
 			ObjectLibrary lib = new ObjectLibrary(type);
 			Tab tab = new Tab(type.toString());
-			tab.setContent(lib.getContent().getIconPane());
+			tab.setContent(lib.getContent().getView());
 			myLibraryTabs.getTabs().add(tab);
 			myLibraries.add(lib);
 		}

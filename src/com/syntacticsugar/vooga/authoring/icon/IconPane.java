@@ -5,16 +5,19 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.syntacticsugar.vooga.authoring.objectediting.IVisualElement;
 import com.syntacticsugar.vooga.util.dirview.IConverter;
 import com.syntacticsugar.vooga.util.dirview.IDirectoryViewer;
 import com.syntacticsugar.vooga.xml.XMLFileFilter;
 import com.syntacticsugar.vooga.xml.XMLHandler;
+import com.syntacticsugar.vooga.xml.data.ObjectData;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.effect.Glow;
@@ -22,7 +25,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.TilePane;
 
-public class IconPane implements IDirectoryViewer<String> {
+public class IconPane implements IVisualElement, IDirectoryViewer<String> {
 
 	private ScrollPane myScrollPane;
 	private TilePane myIconPane;
@@ -109,7 +112,8 @@ public class IconPane implements IDirectoryViewer<String> {
 	 * 
 	 * @return
 	 */
-	public ScrollPane getIconPane() {
+	public Node getView() {
+		// TODO Auto-generated method stub
 		return myScrollPane;
 	}
 
