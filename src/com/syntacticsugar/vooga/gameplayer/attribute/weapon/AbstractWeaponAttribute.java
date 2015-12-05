@@ -30,7 +30,7 @@ public abstract class AbstractWeaponAttribute extends AbstractAttribute implemen
 	public AbstractWeaponAttribute(String bulletImagePath, Double bulletDamage, KeyCode fireKeyCode, 
 			Double bulletSpeed, Double bulletWidth, Double bulletHeight) {
 		this.myBulletImagePath = bulletImagePath;
-		this.myBulletDamage = bulletDamage;
+		this.myBulletDamage = -bulletDamage;
 		this.myFireKeyCode = fireKeyCode;
 		this.isFireKeyPressed = false;
 		this.fireFrameDelay = 30;

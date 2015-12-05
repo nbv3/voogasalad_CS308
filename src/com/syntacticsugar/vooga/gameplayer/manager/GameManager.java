@@ -81,7 +81,7 @@ public class GameManager implements IGameManager{
 		List<IAttribute> attributes = new ArrayList<IAttribute>();
 		attributes.add(new HealthAttribute(100.0));
 		attributes.add(new MovementControlAttribute(3.0));
-		attributes.add(new BasicWeaponAttribute(missilePath, 100.0, KeyCode.SPACE));
+		attributes.add(new BasicWeaponAttribute(missilePath, 100.0, KeyCode.SPACE, 8.0, 5.0, 10.0));
 		playerData.setType(GameObjectType.PLAYER);
 		playerData.setSpawnPoint(0, 0);
 		playerData.setWidth(50);
