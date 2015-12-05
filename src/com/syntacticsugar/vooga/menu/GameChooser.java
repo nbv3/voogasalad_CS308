@@ -21,6 +21,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -49,7 +50,12 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 
 	private void buildScene() {
 		VBox box = new VBox();
+//		Button startGame = createButton("Start", e -> retrieveDataOnClick())
 		
+	}
+	
+	private GameData retrieveDataOnClick(){
+		return null;
 	}
 
 	private void launchGame(IVoogaApp app) {
@@ -88,7 +94,7 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 	
 	private Button createButton(String name, EventHandler<ActionEvent> onAction) {
 		Button button = new Button(name);
-		//button.setFont(new Font(30));
+		button.setFont(new Font(30));
 		button.setMaxWidth(Double.MAX_VALUE);
 		button.setOnAction(onAction);
 		return button;
