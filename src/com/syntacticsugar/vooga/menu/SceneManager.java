@@ -1,12 +1,12 @@
 package com.syntacticsugar.vooga.menu;
 
-import java.awt.List;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.syntacticsugar.vooga.authoring.AuthoringScreenManager;
 import com.syntacticsugar.vooga.gameplayer.attribute.HealthAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.ScoreAttribute;
@@ -14,11 +14,8 @@ import com.syntacticsugar.vooga.gameplayer.event.ICollisionEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.HealthChangeEvent;
 import com.syntacticsugar.vooga.gameplayer.manager.GameManager;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
-import com.syntacticsugar.vooga.util.ResourceManager;
-import com.syntacticsugar.vooga.util.dirview.IConverter;
-import com.syntacticsugar.vooga.util.dirview.IDirectoryViewer;
+import com.syntacticsugar.vooga.social.SocialCenter;
 import com.syntacticsugar.vooga.util.properties.PropertiesManager;
-import com.syntacticsugar.vooga.xml.XMLFileFilter;
 import com.syntacticsugar.vooga.xml.XMLHandler;
 import com.syntacticsugar.vooga.xml.data.GameData;
 import com.syntacticsugar.vooga.xml.data.GlobalSettings;
@@ -30,130 +27,100 @@ import com.syntacticsugar.vooga.xml.data.TowerData;
 import com.syntacticsugar.vooga.xml.data.UniverseData;
 import com.syntacticsugar.vooga.xml.data.WaveData;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 
-public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
+public class SceneManager {
 
-	private static final File myDirectory = new File(ResourceManager.getString("game_data"));
 	private double WIDTH;
 	private double HEIGHT;
 	private double GAME_SIZE;
-	private String TITLE;
+	private String TITLE; // = "Vooga Salad";
 	private double FRAME_LENGTH;
+
 	private PropertiesManager myPropertiesManager;
-
 	private Stage myStage;
-	private ObservableList<String> myGameNames;
-	private ListView<String> myView;
-	private Map<String, GameData> stringToGameData;
-	private Scene myScene;
-	private GameData selectedGameData;
-	private Button startButton;
 
-	public GameChooser() {
+	public SceneManager(Stage stage) {
+		this();
+		// Windows 10 - Bug Fix for JavaFX
+		System.setProperty("glass.accessible.force", "false");
+		myStage = stage;
+		myStage.setTitle(TITLE);
+		//launchFirstMenu();
+	}
+
+	private SceneManager() {
 		myPropertiesManager = new PropertiesManager("com/syntacticsugar/vooga/resources/View");
 		WIDTH = myPropertiesManager.getDoubleProperty("DefaultWidth");
 		HEIGHT = myPropertiesManager.getDoubleProperty("DefaultHeight");
 		GAME_SIZE = myPropertiesManager.getDoubleProperty("DefaultGameSize");
 		TITLE = myPropertiesManager.getProperty("WindowTitle");
 		FRAME_LENGTH = 1.0 / myPropertiesManager.getDoubleProperty("FrameLength");
+	}
 
-		myStage = new Stage();
-		myGameNames = FXCollections.observableArrayList();
-		showDirectoryContents(myDirectory, e -> getGameDescriptions(myDirectory));
-		myView = new ListView<String>(myGameNames);
-		myView.setOnMouseClicked(e -> {
-			if (myView.getSelectionModel().getSelectedItem() != null) {
-				startButton.setDisable(false);
-			}
-		});
-
-		myView.getItems().add("HEY");
-		myView.getItems().add("LOLCANO");
-
-		myScene = new Scene(buildScene());
-		myStage.setScene(myScene);
+	/*private void viewScene(AbstractGameMenu screen) {
+		Scene scene = new Scene(screen, WIDTH, HEIGHT);
+		myStage.setScene(scene);
 		myStage.show();
-
 	}
 
-	private VBox buildScene() {
-		VBox box = new VBox();
-		startButton = createButton("Start", e -> startGame());
-		startButton.setDisable(true);
-		box.getChildren().addAll(myView, startButton);
-		return box;
+	public void launchFirstMenu() {
+		AbstractGameMenu screen = new FirstGameMenu(this, WIDTH, HEIGHT, TITLE);
+		viewScene(screen);
 	}
 
-	private void startGame() {
-		// selectedGameData =
-		// stringToGameData.get(myView.getSelectionModel().getSelectedItem());
-		// System.out.println(myView.getSelectionModel().getSelectedItem());
-		// System.out.print(selectedGameData);
-		launchNewEngine();
+	
+	public void launchAuthoringMenu() {	
+	//	AbstractGameMenu screen = new AuthoringGameMenu(this, WIDTH, HEIGHT, TITLE);
+//		viewScene(screen);
 	}
 
-	private void launchGame(IVoogaApp app) {
-		// Create a gameManager and pass the xml file chosen
+
+	public void launchEngineMenu() {
+		AbstractGameMenu screen = new EngineGameMenu(this, WIDTH, HEIGHT, TITLE);
+		viewScene(screen);
 	}
 
-	@Override
-	public void assignCloseHandler(EventHandler<WindowEvent> onclose) {
-		myStage.setOnCloseRequest(onclose);
-
+	public void launchSocialCenter() {
+		myStage.hide();
 	}
 
-	@Override
-	public void showDirectoryContents(File directory, IConverter<String> fileConverter) {
-		myGameNames.clear();
-		myGameNames.addAll(fileConverter.getContents(directory));
+	public void launchNewEditor() {
+		myStage.hide();
 	}
 
-	private Collection<String> getGameDescriptions(File directory) {
-		//System.out.println(directory);
-		File[] files = directory.listFiles(new XMLFileFilter());
-		XMLHandler<GameData> xml = new XMLHandler<>();
-		Collection<String> names = new ArrayList<String>();
-		for (int i = 0; i < files.length; i++) {
-			File f = files[i];
-			GameData data = xml.read(f);
-			String gamename = data.getName();
-			names.add(gamename);
-			stringToGameData.put(gamename, data);
-		}
-
-		return names;
-
+	public void launchLoadEditor() {
+		// TODO load from XML here or within GameManager?
+		myStage.hide();
 	}
-
-	private Button createButton(String name, EventHandler<ActionEvent> onAction) {
-		Button button = new Button(name);
-		button.setFont(new Font(30));
-		button.setMaxWidth(Double.MAX_VALUE);
-		button.setOnAction(onAction);
-		return button;
-	}
-
-	/**
-	 * 
-	 * @return
-	 */
 
 	public void launchNewEngine() {
 		GameData data = makeEmptyData();
 		myStage.hide();
-		new GameManager(null, GAME_SIZE, data, FRAME_LENGTH);
+		new GameManager(e -> launchFirstMenu(), GAME_SIZE, data, FRAME_LENGTH);
+	}
+
+	public void launchLoadEngine() {
+		// TODO modify to do direct load instead of launch
+		GameData data = loadData();
+		new GameManager(e -> launchFirstMenu(), GAME_SIZE, data, FRAME_LENGTH);
+		myStage.hide();
+	}
+
+	private GameData loadData() {
+		GameData data = null;
+		XMLHandler<GameData> xml = new XMLHandler<>();
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.getExtensionFilters().add(new ExtensionFilter("XML Files", "*.xml"));
+		fileChooser.setTitle("Choose Map XML");
+		File selectedFile = fileChooser.showOpenDialog(new Stage());
+		if (selectedFile != null) {
+			data = xml.read(selectedFile);
+		}
+		return data;
 	}
 
 	private GameData makeEmptyData() {
@@ -171,7 +138,7 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 		// enemyAttributes.add(new AIMovementAttribute(3));
 		Map<GameObjectType, Collection<ICollisionEvent>> collisions = new HashMap<GameObjectType, Collection<ICollisionEvent>>();
 		Collection<ICollisionEvent> enemyEvents = new ArrayList<ICollisionEvent>();
-		enemyEvents.add(new HealthChangeEvent(10.0));
+		enemyEvents.add(new HealthChangeEvent(-10.0));
 		collisions.put(GameObjectType.PLAYER, enemyEvents);
 		enemyData.setType(GameObjectType.ENEMY);
 		enemyData.setSpawnPoint(250, 150);
@@ -183,16 +150,16 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 
 		ObjectData enemyData2 = new ObjectData();
 		Collection<IAttribute> enemyAttributes2 = new ArrayList<IAttribute>();
-		HealthAttribute enemyHealth = new HealthAttribute();
-		enemyHealth.setHealth(30.0);
-		ScoreAttribute enemyScore = new ScoreAttribute();
-		enemyScore.setScore(40);
-		enemyAttributes2.add(enemyHealth);
-		enemyAttributes2.add(enemyScore);
+		HealthAttribute healthAtt = new HealthAttribute();
+		health.setHealth(30.0);
+		ScoreAttribute scoreAtt = new ScoreAttribute();
+		score.setScore(40);
+		enemyAttributes2.add(healthAtt);
+		enemyAttributes2.add(scoreAtt);
 		// enemyAttributes.add(new AIMovementAttribute(3));
 		Map<GameObjectType, Collection<ICollisionEvent>> collisions2 = new HashMap<GameObjectType, Collection<ICollisionEvent>>();
 		Collection<ICollisionEvent> enemyEvents2 = new ArrayList<ICollisionEvent>();
-		enemyEvents2.add(new HealthChangeEvent(10.0));
+		enemyEvents2.add(new HealthChangeEvent(-10.0));
 		enemyData2.setType(GameObjectType.ENEMY);
 		enemyData2.setSpawnPoint(350, 150);
 		enemyData2.setWidth(100);
@@ -215,15 +182,14 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 		ObjectData towerData = new ObjectData();
 		towerData.setImagePath(imgPath);
 		Collection<IAttribute> towerAttributes = new ArrayList<IAttribute>();
-		HealthAttribute newHealth = new HealthAttribute();
-		newHealth.setHealth(30.0);
-		towerAttributes.add(newHealth);
+		HealthAttribute towerHealth = new HealthAttribute();
+		towerHealth.setHealth(30.0);
+		towerAttributes.add(towerHealth);
 		// towerAttributes.add(new AIMovementAttribute(3));
 		Map<GameObjectType, Collection<ICollisionEvent>> collisionst = new HashMap<GameObjectType, Collection<ICollisionEvent>>();
 		Collection<ICollisionEvent> towerEvents = new ArrayList<ICollisionEvent>();
-		towerEvents.add(new HealthChangeEvent(10.0));
+		towerEvents.add(new HealthChangeEvent(-10.0));
 		towerData.setType(GameObjectType.ENEMY);
-
 		towerData.setImagePath(imgPath);
 		towerData.setAttributes(towerAttributes);
 		towerData.setCollisionMap(collisionst);
@@ -235,13 +201,13 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 		ObjectData towerData2 = new ObjectData();
 		towerData2.setImagePath(imgPath1);
 		Collection<IAttribute> towerAttributes2 = new ArrayList<IAttribute>();
-		HealthAttribute healthAtt = new HealthAttribute();
-		healthAtt.setHealth(30.0);
-		towerAttributes2.add(healthAtt);
+		HealthAttribute healthTower = new HealthAttribute();
+		towerHealth.setHealth(30.0);
+		towerAttributes2.add(healthTower);
 		// towerAttributes.add(new AIMovementAttribute(3));
 		Map<GameObjectType, Collection<ICollisionEvent>> collisionst2 = new HashMap<GameObjectType, Collection<ICollisionEvent>>();
 		Collection<ICollisionEvent> towerEvents2 = new ArrayList<ICollisionEvent>();
-		towerEvents2.add(new HealthChangeEvent(10.0));
+		towerEvents2.add(new HealthChangeEvent(-10.0));
 		towerData2.setType(GameObjectType.TOWER);
 		towerData2.setImagePath(imgPath);
 		towerData2.setAttributes(towerAttributes2);
@@ -259,7 +225,6 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 		GameData data = new GameData(uni, settings);
 
 		return data;
-	}
-
+	}*/
 
 }

@@ -1,6 +1,13 @@
 package com.syntacticsugar.vooga.gameplayer.attribute;
 
 
+import java.util.Collection;
+import java.util.Observable;
+
+import com.syntacticsugar.vooga.authoring.parameters.DoubleParameter;
+import com.syntacticsugar.vooga.authoring.parameters.IEditableParameter;
+import com.syntacticsugar.vooga.authoring.parameters.KeyCodeParameter;
+import com.syntacticsugar.vooga.authoring.parameters.StringParameter;
 import com.syntacticsugar.vooga.gameplayer.attribute.control.IUserControlAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.control.actions.movement.Direction;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
@@ -14,7 +21,7 @@ import javafx.scene.input.KeyCode;
 
 public class WeaponAttribute extends AbstractAttribute implements IUserControlAttribute {
 
-	private double myBulletDamage;
+	private Double myBulletDamage;
 	private String myBulletImagePath;
 	private KeyCode myFireKeyCode;
 	private boolean isFireKeyPressed;
@@ -22,10 +29,16 @@ public class WeaponAttribute extends AbstractAttribute implements IUserControlAt
 	private int fireFrameDelay;
 	private int delayFrameCounter;
 	
-	public WeaponAttribute(String bulletImagePath, Double bulletDamage, KeyCode fireKeyCode) {
-		this.myBulletImagePath = bulletImagePath;
-		this.myBulletDamage = -bulletDamage;
-		this.myFireKeyCode = fireKeyCode;
+	public WeaponAttribute() {
+		super(new StringParameter("Image Path:  "), new DoubleParameter("Bullet Damage: "), new KeyCodeParameter("Fire KeyCode: "));
+		setParameters("", 5.0, KeyCode.SPACE);
+	}
+	
+	private void setParameters(String path, Double damage, KeyCode code)
+	{
+		this.myBulletImagePath = path;
+		this.myBulletDamage = -damage;
+		this.myFireKeyCode = code;
 		this.isFireKeyPressed = false;
 		this.fireFrameDelay = 30;
 		this.delayFrameCounter = 0;
@@ -41,6 +54,21 @@ public class WeaponAttribute extends AbstractAttribute implements IUserControlAt
 			}
 		}
 		delayFrameCounter++;
+	}
+	
+	public void setBulletDamage(Double value)
+	{
+		myBulletDamage = value;
+	}
+	
+	public void setBulletImagePath(String path)
+	{
+		myBulletImagePath = path;
+	}
+	
+	public void setFireKeyCode(KeyCode code)
+	{
+		myFireKeyCode = code;
 	}
 	
 	public String getImagePath()
@@ -79,5 +107,38 @@ public class WeaponAttribute extends AbstractAttribute implements IUserControlAt
 		Direction dir = getParent().getBoundingBox().getDirection();
 		return dir;
 	}
-	
+
+	@Override
+	public void update(Observable o, Object arg) {
+		try
+		{
+			KeyCode code = (KeyCode) arg;
+			setFireKeyCode(code);
+			
+		}
+		catch (ClassCastException e)
+		{
+			try
+			{
+				Double d = (Double) arg;
+				setBulletDamage(d);
+			}
+			catch (ClassCastException e1)
+			{
+				try
+				{
+					String path = (String) arg;
+					setBulletImagePath(path);
+				}
+				catch (ClassCastException e2)
+				{
+				
+				}
+				
+			}
+		}
+		setChanged();
+		notifyObservers(this);
+	}
+
 }

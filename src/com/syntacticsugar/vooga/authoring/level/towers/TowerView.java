@@ -63,11 +63,11 @@ public class TowerView implements IVisualElement, IDataSelector<ObjectData>, IRe
 			objToAdd.setImagePath(String.format(String.format("tower_%d.png", i)));
 			objToAdd.setType(GameObjectType.TOWER);
 			List<IAttribute> attributeList = new ArrayList<IAttribute>();
-			attributeList.add(new HealthAttribute(i * 100.0));
+			attributeList.add(new HealthAttribute());
 			objToAdd.setAttributes(attributeList);
 			Map<GameObjectType, Collection<ICollisionEvent>> eventMap = new HashMap<GameObjectType, Collection<ICollisionEvent>>();
 			List<ICollisionEvent> eventList = new ArrayList<ICollisionEvent>();
-			ICollisionEvent eventToAdd = new HealthChangeEvent(-i * 10);
+			ICollisionEvent eventToAdd = new HealthChangeEvent(i * 10.0);
 			eventList.add(eventToAdd);
 			eventMap.put(GameObjectType.ENEMY, eventList);
 			objToAdd.setCollisionMap(eventMap);
