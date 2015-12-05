@@ -147,11 +147,6 @@ public abstract class AbstractMovementAttribute extends AbstractAttribute implem
 		Point2D oldPoint = box.getPoint();
 		Point2D newPoint = new Point2D(oldPoint.getX() + getXVelocity(), oldPoint.getY() + getYVelocity());
 		box.setPoint(newPoint);
-		try {
-			myCurrentTile = universe.getMap().getMapIndexFromCoordinate(newPoint);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 	
 }

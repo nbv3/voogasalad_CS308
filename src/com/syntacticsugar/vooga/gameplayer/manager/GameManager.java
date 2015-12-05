@@ -101,7 +101,7 @@ public class GameManager implements IGameManager{
 		enemyEvents.add(new HealthChangeEvent(-10));
 		collisions.put(GameObjectType.PLAYER, enemyEvents);
 		enemyData.setType(GameObjectType.ENEMY);
-		enemyData.setSpawnPoint(0, 0);
+		enemyData.setSpawnPoint(500, 300);
 		enemyData.setWidth(100);
 		enemyData.setHeight(100);
 		enemyData.setImagePath(enemyPath);
@@ -114,8 +114,8 @@ public class GameManager implements IGameManager{
 		currentLevel.addPlayer(player);
 		currentLevel.addGameObject(player);
 		currentLevel.addGameObject(enemy);
-//		currentLevel.getMap().getTile(0, 2).setDestination(true);
-		currentLevel.getMap().getTile(3, 3).setDestination(true);
+		currentLevel.getMap().getTile(8, 8).setDestination(true);
+		currentLevel.getMap().getTile(0, 0).setDestination(true);
 		myViewController.initializeView(currentLevel);
 		myGameEngine = new GameEngine(currentLevel, myViewController, this);
 
