@@ -90,7 +90,8 @@ public class ObjectDataViewer extends ListViewer {
 	}
 
 	private JSONObject getJSONObject(int id) {
-		return WebConnector.getJSONObject(id);	
+		return null;
+		//return WebConnector.getJSONObject(id);	
 	}
 
 	private Node makeListElement(String key, String value) {
@@ -127,7 +128,7 @@ public class ObjectDataViewer extends ListViewer {
 		File selectedFile = chooser.showOpenDialog(new Stage());
 		if (selectedFile != null) {
 			launchPropertiesBox();
-			WebConnector.postXML(JSONHelper.createJSON("Michael", "Tetris", "tetris", XMLHandler.fileToString(selectedFile), ""));
+			WebConnector.postXML(JSONHelper.createXMLJSON("Michael", "Tetris", "tetris", XMLHandler.fileToString(selectedFile),""));
 		}
 	}
 	

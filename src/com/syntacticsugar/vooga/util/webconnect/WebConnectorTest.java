@@ -64,7 +64,7 @@ public class WebConnectorTest {
 		File f = new File("src/com/syntacticsugar/vooga/util/compress/Untitled.xml");
 		//String xml = FileHelper.readFile(f);
 		String xml = "<testxml>soem shittejjiejiefe</testxml>";
-		JSONObject request = JSONHelper.createxmlJSON(author, gamename, description, xml, "michael");
+		JSONObject request = JSONHelper.createXMLJSON(author, gamename, description, xml, "michael");
 		System.out.println("Sending Request: " + request.toString());
 		String output = WebConnector.postXML(request);
 		System.out.println("Output: " + output);

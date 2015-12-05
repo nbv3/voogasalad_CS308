@@ -85,7 +85,7 @@ public class CommentViewer {
 		commentList.add(new Pair<String,String>(author, content));
 		String serialized = serializeList(commentList);
 		//myCommentInterface.postComment(author, serialized);
-		JSONHelper.modifyJSON(mySelectedItemID, "comment", serialized);
+		//JSONHelper.modifyJSON(mySelectedItemID, "comment", serialized);
 		
 	}
 	
