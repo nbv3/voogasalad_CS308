@@ -137,7 +137,7 @@ public class ObjectEditor {
 	}
 
 	private void storeEditedObject() {
-		currentData.setImagePath(selectedImagePath);
+		currentData.setImagePath(new String(selectedImagePath));
 		currentData.setType(currentData.getType());
 		currentData.setAttributes(myAttributeViewer.getData());
 		currentData.setCollisionMap(myCollisionViewer.getData());
@@ -147,7 +147,7 @@ public class ObjectEditor {
 		GameObjectType tempObjType = currentData.getType();
 		currentData = new ObjectData();
 		currentData.setType(tempObjType);
-		currentData.setImagePath(selectedImagePath);
+		currentData.setImagePath(new String(selectedImagePath));
 		currentData.setAttributes(Collections.unmodifiableCollection(myAttributeViewer.getData()));
 		currentData.setCollisionMap(Collections.unmodifiableMap(myCollisionViewer.getData()));
 
