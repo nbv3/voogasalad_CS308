@@ -169,7 +169,7 @@ public class AuthoringScreenManager implements Observer, IVoogaApp {
 	}
 
 	private void loadData() {
-		GameData gm = SimpleFileChooser.loadGame(myStage);
+		/*GameData gm = SimpleFileChooser.loadGame(myStage);*/
 		// TODO loadData();
 		/*FileChooserUtil.loadFile("Open Resource File", new ExtensionFilter("XML Files", "*.xml"),
 				new File(ResourceManager.getString("data")), selectedFile -> {
@@ -179,23 +179,21 @@ public class AuthoringScreenManager implements Observer, IVoogaApp {
 					myObjectEditor.displayData(toload);
 				});*/
 	}
+	
+	private void saveMap() {
+		MapData toSave = myLevelEditor.getIndividualMapData();
+		File f = SimpleFileChooser.saveMap(toSave, myStage);
+	}
 
 	private void loadMap() {
+		MapData loaded = SimpleFileChooser.loadMap(myStage);
+		myLevelEditor.loadMap(loaded);
 		/*FileChooserUtil.loadFile("Open Resource File", new ExtensionFilter("XML Files", "*.xml"), null,
 				selectedFile -> {
 					XMLHandler<MapData> xml = new XMLHandler<>();
 					MapData toLoad = xml.read(selectedFile);
 					myLevelEditor.loadMap(toLoad);
 				});*/
-	}
-
-	private void saveMap() {
-		//SimpleFileChooser.saveMap(myStage);
-		/*FileChooserUtil.saveFile("Save Resource File", ".xml", null, selectedFile -> {
-			XMLHandler<MapData> xml = new XMLHandler<>();
-			MapData toSave = myLevelEditor.getIndividualMapData();
-			xml.write(toSave, selectedFile);
-		});*/
 	}
 
 	private void addGridConstraints() {
