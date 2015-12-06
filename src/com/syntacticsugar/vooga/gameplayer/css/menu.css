@@ -1,6 +1,6 @@
 .label {
     -fx-font-size: 80pt;
-    -fx-font-family: "Bauhaus 93";
+    -fx-font-family: "Century Gothic";
     -fx-opacity: 1.0;
     -fx-fill: #ffffff;
   	-fx-effect: innershadow( three-pass-box , rgba(0,0,0,0.7) , 6, 0.0 , 0 , 2 );
@@ -8,13 +8,13 @@
 
 .label-bright {
     -fx-font-size: 40pt;
-    -fx-font-family: "Bauhaus 93";
+    -fx-font-family: "Century Gothic";
     -fx-opacity: 1;
 }
 
 .label-header {
     -fx-font-size: 32pt;
-    -fx-font-family: "Bauhaus 93";
+    -fx-font-family: "Century Gothic";
     -fx-opacity: 1;
 }
 
@@ -23,8 +23,8 @@
     -fx-border-width: 0;
     -fx-background-radius: 8;
     -fx-background-color: linear-gradient(#CCCCCC, #999999);
-    -fx-font-family: "Bauhaus 93", Arial, sans-serif;
-    -fx-font-size: 30pt;
+    -fx-font-family: "Century Gothic", Arial, sans-serif;
+    -fx-font-size: 24pt;
     -fx-text-fill: #333333;
 }
 
