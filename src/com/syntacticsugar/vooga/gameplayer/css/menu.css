@@ -1,20 +1,20 @@
 .label {
-    -fx-font-size: 40pt;
-    -fx-font-family: "Arial Black";
-    -fx-opacity: 0.6;
-    -fx-fill: #00FF00;
+    -fx-font-size: 80pt;
+    -fx-font-family: "Bauhaus 93";
+    -fx-opacity: 1.0;
+    -fx-fill: #ffffff;
   	-fx-effect: innershadow( three-pass-box , rgba(0,0,0,0.7) , 6, 0.0 , 0 , 2 );
 }
 
 .label-bright {
     -fx-font-size: 40pt;
-    -fx-font-family: "Arial";
+    -fx-font-family: "Bauhaus 93";
     -fx-opacity: 1;
 }
 
 .label-header {
     -fx-font-size: 32pt;
-    -fx-font-family: "Arial";
+    -fx-font-family: "Bauhaus 93";
     -fx-opacity: 1;
 }
 
@@ -22,10 +22,10 @@
     -fx-border-color: #e2e2e2;
     -fx-border-width: 0;
     -fx-background-radius: 8;
-    -fx-background-color: #1d1d1d;
-    -fx-font-family: "Arial Black", Arial, sans-serif;
-    -fx-font-size: 15pt;
-    -fx-text-fill: #d8d8d8;
+    -fx-background-color: linear-gradient(#CCCCCC, #999999);
+    -fx-font-family: "Bauhaus 93", Arial, sans-serif;
+    -fx-font-size: 30pt;
+    -fx-text-fill: #333333;
 }
 
 #options_box{
@@ -34,11 +34,12 @@
 
 #menuTitle{
 	-fx-padding:30 70 0 0;
+	-fx-text-fill:#ffffff;
 }
 
 .button:hover {
-	-fx-background-color: linear-gradient(#CCCCCC, #999999);
-	-fx-text-fill: #333333;
+	-fx-background-color: #1d1d1d;
+	-fx-text-fill: #d8d8d8;
 }
 
 .button:pressed, .button:default:hover:pressed {
