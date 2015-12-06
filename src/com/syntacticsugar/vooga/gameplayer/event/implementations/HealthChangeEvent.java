@@ -38,7 +38,9 @@ public class HealthChangeEvent extends CollisionEvent {
 	public void executeEvent(IGameObject obj) {
 		Map<String, IAttribute> targetAttributes = obj.getAttributes();
 		HealthAttribute health = (HealthAttribute) targetAttributes.get(TARGET_ATTRIBUTE);
-		health.changeHealth(-1 * myDeltaHealth);
+		if (health != null) {
+			health.changeHealth(-1 * myDeltaHealth);
+		}
 	}
 	
 	public double getDeltaHealth() {

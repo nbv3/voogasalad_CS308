@@ -10,7 +10,6 @@ import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.LevelChangeEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.ObjectDespawnEvent;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
-import com.syntacticsugar.vooga.gameplayer.universe.IEventPoster;
 
 @EditableClass (
 		className = "Enemies Dead Necessary"
@@ -20,9 +19,19 @@ public class EnemyDeathCondition extends AbstractCondition {
 	private int enemiesDead;
 	private int enemiesToDie;
 
+	public EnemyDeathCondition() {
+		super(ConditionType.WINNING);
+	}
+	
 	public EnemyDeathCondition(int numbertodie) {
 		super(ConditionType.WINNING);
 		enemiesToDie = numbertodie;
+		enemiesDead = 0;
+	}
+	
+	@Override
+	protected void setDefaults() {
+		enemiesToDie = 10;
 		enemiesDead = 0;
 	}
 

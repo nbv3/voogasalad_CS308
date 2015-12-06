@@ -3,6 +3,7 @@ package com.syntacticsugar.vooga.authoring.level;
 import com.syntacticsugar.vooga.authoring.objectediting.IVisualElement;
 import com.syntacticsugar.vooga.authoring.parameters.ParameterInputFactory;
 import com.syntacticsugar.vooga.gameplayer.conditions.IGameCondition;
+import com.syntacticsugar.vooga.gameplayer.conditions.implementation.EnemyDeathCondition;
 import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 import com.syntacticsugar.vooga.util.reflection.Reflection;
@@ -77,7 +78,11 @@ public class LevelConditionManager implements IVisualElement {
 				winName.replace(" ", ""), "Condition");
 		try {
 			mySelectedWin = (IGameCondition) Reflection.createInstance(classPath);
-			ParameterInputFactory.createInputFields(mySelectedLose);
+			if (mySelectedWin == null) {
+				AlertBoxFactory.createObject("");
+				return;
+			}	
+			ParameterInputFactory.createInputFields(mySelectedWin);
 		} catch (ReflectionException e) {	
 			AlertBoxFactory.createObject(e.getMessage());
 		}
@@ -88,6 +93,10 @@ public class LevelConditionManager implements IVisualElement {
 				lossName.replace(" ", ""), "Condition");
 		try {
 			mySelectedLose = (IGameCondition) Reflection.createInstance(classPath);
+			if (mySelectedLose == null) {
+				AlertBoxFactory.createObject("");
+				return;
+			}	
 			ParameterInputFactory.createInputFields(mySelectedLose);
 		} catch (ReflectionException e) {	
 			AlertBoxFactory.createObject(e.getMessage());

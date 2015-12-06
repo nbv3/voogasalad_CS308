@@ -7,7 +7,6 @@ import com.syntacticsugar.vooga.authoring.parameters.InputTypeException;
 import com.syntacticsugar.vooga.gameplayer.conditions.AbstractCondition;
 import com.syntacticsugar.vooga.gameplayer.conditions.ConditionType;
 import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
-import com.syntacticsugar.vooga.gameplayer.event.implementations.DestinationReachedEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.LevelChangeEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.ScoreUpdateEvent;
 
@@ -22,6 +21,11 @@ public class ScoreCondition extends AbstractCondition {
 		super(ConditionType.WINNING);
 		myScoreThreshold = threshold;
 	}
+	
+	@Override
+	protected void setDefaults() {
+		this.myScoreThreshold = 100;
+	}
 
 	@Override
 	public void onEvent(IGameEvent e) {
@@ -30,7 +34,6 @@ public class ScoreCondition extends AbstractCondition {
 			if (event.getScore() >= myScoreThreshold) {
 				postEvent(new LevelChangeEvent(this.returnType()));
 			}
-
 		} catch (ClassCastException ce) {
 
 		}
