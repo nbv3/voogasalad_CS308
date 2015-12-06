@@ -51,13 +51,6 @@ import javafx.stage.WindowEvent;
 public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 
 	private static final File myDirectory = new File(ResourceManager.getString("game_data"));
-	private double WIDTH;
-	private double HEIGHT;
-	private double GAME_SIZE;
-	private String TITLE;
-	private double FRAME_LENGTH;
-	private PropertiesManager myPropertiesManager;
-
 	private Stage myStage;
 	private ObservableList<String> myGameNames;
 	private ListView<String> myView;
@@ -67,13 +60,6 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 	private Button startButton;
 
 	public GameChooser() {
-		myPropertiesManager = new PropertiesManager("com/syntacticsugar/vooga/resources/View");
-		WIDTH = myPropertiesManager.getDoubleProperty("DefaultWidth");
-		HEIGHT = myPropertiesManager.getDoubleProperty("DefaultHeight");
-		GAME_SIZE = myPropertiesManager.getDoubleProperty("DefaultGameSize");
-		TITLE = myPropertiesManager.getProperty("WindowTitle");
-		FRAME_LENGTH = 1.0 / myPropertiesManager.getDoubleProperty("FrameLength");
-
 		myStage = new Stage();
 		myGameNames = FXCollections.observableArrayList();
 		showDirectoryContents(myDirectory, e -> getGameDescriptions(myDirectory));
@@ -114,7 +100,6 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 	}
 
 	private void launchGame(IVoogaApp app) {
-		// Create a gameManager and pass the xml file chosen
 		app.assignCloseHandler(e -> animatedShowStage());
 		myStage.hide();
 	}
@@ -161,16 +146,6 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 		return button;
 	}
 
-	/**
-	 * 
-	 * @return
-	 */
-
-	// public void launchNewEngine() {
-	// GameData data = makeEmptyData();
-	// myStage.hide();
-	// new GameManager(null, GAME_SIZE, data, FRAME_LENGTH);
-	// }
 
 	private GameData makeEmptyData() {
 
