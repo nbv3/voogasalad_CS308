@@ -7,6 +7,7 @@ import java.util.List;
 import com.syntacticsugar.vooga.authoring.parameters.DoubleParameter;
 import com.syntacticsugar.vooga.gameplayer.attribute.control.actions.movement.Direction;
 import com.syntacticsugar.vooga.gameplayer.objects.IBoundingBox;
+import com.syntacticsugar.vooga.gameplayer.universe.GameUniverse;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.gameplayer.universe.map.IGameMap;
 import com.syntacticsugar.vooga.util.pathfinder.PathFinder;
@@ -40,7 +41,7 @@ public class AIMovementAttribute extends AbstractMovementAttribute implements Se
 	}*/
 
 	@Override
-	public void updateSelf(IGameUniverse universe) {
+	public void updateSelf(GameUniverse universe) {
 		IGameMap map = universe.getMap();
 		List<Point> ends = map.getDestinationPoints();
 

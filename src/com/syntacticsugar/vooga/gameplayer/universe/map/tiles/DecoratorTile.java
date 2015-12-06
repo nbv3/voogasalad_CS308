@@ -3,6 +3,7 @@ package com.syntacticsugar.vooga.gameplayer.universe.map.tiles;
 import javafx.geometry.Point2D;
 
 import com.syntacticsugar.vooga.gameplayer.objects.AbstractViewableObject;
+import com.syntacticsugar.vooga.gameplayer.universe.GameUniverse;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.effects.ITileEffect;
 import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.implementations.AbstractTile;
@@ -89,7 +90,7 @@ public class DecoratorTile extends AbstractViewableObject implements IGameTile {
 	}
 
 	@Override
-	public void updateSelf(IGameUniverse universe) {
+	public void updateSelf(GameUniverse universe) {
 		if (myEffect != null) {
 			myEffect.update(universe);
 		}

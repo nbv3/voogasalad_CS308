@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
 import com.syntacticsugar.vooga.gameplayer.event.ICollisionEvent;
+import com.syntacticsugar.vooga.gameplayer.universe.GameUniverse;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 
 public interface IGameObject extends IAttributeCollection, ICollidable, IViewableObject {
@@ -13,7 +14,7 @@ public interface IGameObject extends IAttributeCollection, ICollidable, IViewabl
 	 * Update this object within the context of the whole universe.
 	 * @param universe
 	 */
-	public void updateSelf(IGameUniverse universe);
+	public void updateSelf(GameUniverse universe);
 	
 	/**
 	 * Returns the Type of this object as specified by the SimpleObjectType enum.

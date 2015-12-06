@@ -1,6 +1,7 @@
 package com.syntacticsugar.vooga.gameplayer.attribute;
 
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
+import com.syntacticsugar.vooga.gameplayer.universe.GameUniverse;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 
 public interface IAttribute {
@@ -9,7 +10,7 @@ public interface IAttribute {
 	 * Updates the state of this Attribute within it's Universe.
 	 * @param universe
 	 */
-	public void updateSelf(IGameUniverse universe);
+	public void updateSelf(GameUniverse universe);
 	
 	/**
 	 * Returns the game object that contains this Attribute (ie. it's parent object)

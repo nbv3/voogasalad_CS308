@@ -10,6 +10,7 @@ import com.syntacticsugar.vooga.gameplayer.attribute.AbstractAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.control.actions.movement.Direction;
 import com.syntacticsugar.vooga.gameplayer.attribute.control.actions.movement.IMover;
 import com.syntacticsugar.vooga.gameplayer.objects.IBoundingBox;
+import com.syntacticsugar.vooga.gameplayer.universe.GameUniverse;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.gameplayer.universe.map.IGameMap;
 
@@ -144,7 +145,7 @@ public abstract class AbstractMovementAttribute extends AbstractAttribute implem
 	}
 	
 	@Override
-	public abstract void updateSelf(IGameUniverse universe);
+	public abstract void updateSelf(GameUniverse universe);
 	
 	@Override
 	public void move(IGameUniverse universe) {

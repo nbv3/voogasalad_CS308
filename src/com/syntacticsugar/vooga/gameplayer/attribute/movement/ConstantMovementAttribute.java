@@ -7,6 +7,7 @@ import com.syntacticsugar.vooga.authoring.parameters.DoubleParameter;
 import com.syntacticsugar.vooga.authoring.parameters.IEditableParameter;
 import com.syntacticsugar.vooga.gameplayer.attribute.control.actions.movement.Direction;
 import com.syntacticsugar.vooga.gameplayer.objects.IBoundingBox;
+import com.syntacticsugar.vooga.gameplayer.universe.GameUniverse;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 
 import javafx.geometry.Point2D;
@@ -22,7 +23,7 @@ public class ConstantMovementAttribute extends AbstractMovementAttribute {
 	}
 
 	@Override
-	public void updateSelf(IGameUniverse universe) {
+	public void updateSelf(GameUniverse universe) {
 		setDirection(myDir);
 		setVelocity(myDir);
 		move(universe);

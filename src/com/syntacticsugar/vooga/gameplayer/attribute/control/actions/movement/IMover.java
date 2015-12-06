@@ -1,5 +1,6 @@
 package com.syntacticsugar.vooga.gameplayer.attribute.control.actions.movement;
 
+import com.syntacticsugar.vooga.gameplayer.universe.GameUniverse;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 
 public interface IMover {
@@ -50,5 +51,5 @@ public interface IMover {
 	/*
 	 * Updates the object's position.
 	 */
-	public void updateSelf(IGameUniverse universe);
+	public void updateSelf(GameUniverse universe);
 }

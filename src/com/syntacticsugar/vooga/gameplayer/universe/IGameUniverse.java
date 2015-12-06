@@ -12,10 +12,7 @@ import com.syntacticsugar.vooga.gameplayer.universe.userinput.IKeyInputProcessor
 import com.syntacticsugar.vooga.xml.data.ObjectData;
 import com.syntacticsugar.vooga.xml.data.UniverseData;
 
-public interface IGameUniverse extends IObjectCollection,
-									   IKeyInputProcessor,
-									   IEventPoster,
-									   IUniverseView{
+public interface IGameUniverse {
 
 	/**
 	 * A SimpleUniverse (anything that implements this interface) must contain a 

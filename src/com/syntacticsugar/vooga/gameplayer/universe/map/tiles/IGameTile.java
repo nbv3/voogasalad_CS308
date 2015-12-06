@@ -1,6 +1,7 @@
 package com.syntacticsugar.vooga.gameplayer.universe.map.tiles;
 
 import com.syntacticsugar.vooga.gameplayer.objects.IViewableObject;
+import com.syntacticsugar.vooga.gameplayer.universe.GameUniverse;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.effects.ITileEffect;
 
@@ -36,7 +37,7 @@ public interface IGameTile extends IViewableObject, ITowerHolder{
 	
 	public ITileEffect getTileEffect();
 	
-	public void updateSelf(IGameUniverse universe);
+	public void updateSelf(GameUniverse universe);
 	/**
 	 * Set this point as a destination.
 	 */

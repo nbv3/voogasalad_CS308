@@ -20,7 +20,7 @@ import javafx.stage.Stage;
 
 public class Game implements IGame {
 	
-	private List<IGameUniverse> myUniverses;
+	private List<GameUniverse> myUniverses;
 	
 	private List<UniverseData> myUniverseData; // For saving
 	private GlobalSettings mySettings;
@@ -40,7 +40,7 @@ public class Game implements IGame {
 	}
 
 	@Override
-	public IGameUniverse nextLevel() {
+	public GameUniverse nextLevel() {
 		if (myLevel >= myUniverses.size() - 1) {
 			System.out.println("Out of levels. You win");
 		}
@@ -48,7 +48,7 @@ public class Game implements IGame {
 	}
 	
 	@Override
-	public IGameUniverse getLevel(int i) {
+	public GameUniverse getLevel(int i) {
 		return myUniverses.get(i - 1);
 	}
 	

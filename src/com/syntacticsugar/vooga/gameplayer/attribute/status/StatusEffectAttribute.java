@@ -5,6 +5,7 @@ import java.util.Observable;
 import com.syntacticsugar.vooga.authoring.parameters.AbstractParameter;
 import com.syntacticsugar.vooga.gameplayer.attribute.AbstractAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.movement.AbstractMovementAttribute;
+import com.syntacticsugar.vooga.gameplayer.universe.GameUniverse;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.util.ResourceManager;
 
@@ -20,7 +21,7 @@ public abstract class StatusEffectAttribute extends AbstractAttribute {
 	}
 
 	@Override
-	public void updateSelf(IGameUniverse universe) {
+	public void updateSelf(GameUniverse universe) {
 		if (!isStarted) {
 			startStatus();
 			isStarted = true;

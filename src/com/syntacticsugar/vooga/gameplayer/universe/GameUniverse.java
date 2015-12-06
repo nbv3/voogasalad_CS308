@@ -22,6 +22,7 @@ import com.syntacticsugar.vooga.gameplayer.universe.score.IScore;
 import com.syntacticsugar.vooga.gameplayer.universe.score.Score;
 import com.syntacticsugar.vooga.gameplayer.universe.spawner.ISpawner;
 import com.syntacticsugar.vooga.gameplayer.universe.spawner.Spawner;
+import com.syntacticsugar.vooga.gameplayer.universe.userinput.IKeyInputProcessor;
 import com.syntacticsugar.vooga.gameplayer.view.IViewAdder;
 import com.syntacticsugar.vooga.gameplayer.view.IViewRemover;
 import com.syntacticsugar.vooga.xml.data.GlobalSettings;
@@ -36,7 +37,7 @@ import com.syntacticsugar.vooga.xml.data.UniverseData;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 
-public class GameUniverse implements IGameUniverse {
+public class GameUniverse implements IGameUniverse, IObjectCollection, IKeyInputProcessor, IEventPoster, IUniverseView {
 
 	private Collection<IGameObject> myGameObjects;
 	private Collection<ITower> myTowers;
@@ -69,7 +70,7 @@ public class GameUniverse implements IGameUniverse {
 		myGraveYard = new GraveYard(this);
 		mySpawnYard = new SpawnYard(this);
 		myCurrentInput = new ArrayList<KeyCode>();
-		//TODO: DEBUG
+		// TODO: DEBUG
 		myConditions.addCondition(new PlayerDeathCondition());
 		myConditions.addCondition(new EnemyDeathCondition(2));
 	}
@@ -170,7 +171,7 @@ public class GameUniverse implements IGameUniverse {
 		myPoster.postEvent(event);
 	}
 
-//	TODO : THIS WON'T WORK
+	// TODO : THIS WON'T WORK
 	@Override
 	public UniverseData saveGame() {
 		SpawnerData spawn = mySpawner.saveGame();
@@ -202,7 +203,7 @@ public class GameUniverse implements IGameUniverse {
 	public IScore getScore() {
 		return myScore;
 	}
-	
+
 	@Override
 	public IMoney getMoney() {
 		return myMoney;
@@ -212,10 +213,10 @@ public class GameUniverse implements IGameUniverse {
 	public void observeScore(Observer observer) {
 		myScore.addObserver(observer);
 	}
-	
+
 	@Override
-	public void observeMoney(Observer observer){
+	public void observeMoney(Observer observer) {
 		myMoney.addObserver(observer);
 	}
-	
+
 }

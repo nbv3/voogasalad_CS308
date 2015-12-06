@@ -1,5 +1,6 @@
 package com.syntacticsugar.vooga.gameplayer.universe.map.tiles.effects;
 
+import com.syntacticsugar.vooga.gameplayer.universe.GameUniverse;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.IGameTile;
 import com.syntacticsugar.vooga.util.ResourceManager;
@@ -19,7 +20,7 @@ public abstract class AbstractTileEffect implements ITileEffect {
 	}
 
 	@Override
-	public void update(IGameUniverse universe) {
+	public void update(GameUniverse universe) {
 		if (myFrameCount >= myUpdateFrequency) {
 			doEffect(universe);
 			myFrameCount = 0;
@@ -33,5 +34,5 @@ public abstract class AbstractTileEffect implements ITileEffect {
 		myTile = tile;
 	}
 
-	abstract protected void doEffect(IGameUniverse universe);
+	abstract protected void doEffect(GameUniverse universe);
 }

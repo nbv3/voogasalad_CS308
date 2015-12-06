@@ -1,5 +1,6 @@
 package com.syntacticsugar.vooga.gameplayer.engine;
 
+import com.syntacticsugar.vooga.gameplayer.universe.GameUniverse;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.gameplayer.universe.map.IGameMap;
 import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.IGameTile;
@@ -45,7 +46,7 @@ public class GameEngine {
 		myViewRemover = remover;
 	}
 
-	public void update(IGameUniverse uni) {
+	public void update(GameUniverse uni) {
 		checkCollisions(uni);
 		updateState(uni);
 		processSpawner(uni);
@@ -53,7 +54,7 @@ public class GameEngine {
 		processSpawnyard(uni);
 	}
 
-	private void checkCollisions(IGameUniverse uni) {
+	private void checkCollisions(GameUniverse uni) {
 		Collection<IGameObject> objectsToCheck = new ArrayList<IGameObject>();
 		objectsToCheck.addAll(uni.getGameObjects());
 		for (IGameObject a : objectsToCheck) {
@@ -89,7 +90,7 @@ public class GameEngine {
 		return ((aInsideBX && aInsideBY) || (bInsideAX && bInsideAY));
 	}
 
-	private void updateState(IGameUniverse uni) {
+	private void updateState(GameUniverse uni) {
 		for (IGameObject object : uni.getGameObjects()) {
 			object.updateSelf(uni);
 		}
@@ -99,17 +100,17 @@ public class GameEngine {
 		}
 	}
 	
-	private void processSpawner(IGameUniverse uni) {
+	private void processSpawner(GameUniverse uni) {
 		ISpawner spawner = uni.getSpawner();
 		spawner.update();
 	}
 
 
-	private void processGraveyard(IGameUniverse uni) {
+	private void processGraveyard(GameUniverse uni) {
 		uni.removeFromUniverse(myViewRemover);
 	}
 
-	private void processSpawnyard(IGameUniverse uni) {
+	private void processSpawnyard(GameUniverse uni) {
 		uni.addToUniverse(myViewAdder);
 	}
 

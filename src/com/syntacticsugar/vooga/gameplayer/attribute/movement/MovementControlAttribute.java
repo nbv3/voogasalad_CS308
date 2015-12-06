@@ -7,6 +7,7 @@ import java.util.Observable;
 import com.syntacticsugar.vooga.authoring.parameters.DoubleParameter;
 import com.syntacticsugar.vooga.gameplayer.attribute.control.IUserControlAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.control.actions.movement.Direction;
+import com.syntacticsugar.vooga.gameplayer.universe.GameUniverse;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.gameplayer.universe.userinput.IKeyInputStorage;
 
@@ -65,7 +66,7 @@ public class MovementControlAttribute extends AbstractMovementAttribute implemen
 	}
 
 	@Override
-	public void updateSelf(IGameUniverse universe) {
+	public void updateSelf(GameUniverse universe) {
 		updateKeyInput(universe);
 		setVelocity(myCurrentMovement);
 		processKeyInput();

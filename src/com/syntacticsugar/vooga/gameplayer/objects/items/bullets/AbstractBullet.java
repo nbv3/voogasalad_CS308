@@ -8,6 +8,7 @@ import com.syntacticsugar.vooga.gameplayer.event.implementations.ObjectDespawnEv
 import com.syntacticsugar.vooga.gameplayer.objects.GameObject;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
+import com.syntacticsugar.vooga.gameplayer.universe.GameUniverse;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 
 import javafx.geometry.Point2D;
@@ -29,7 +30,7 @@ public abstract class AbstractBullet extends GameObject {
 	}
 	
 	@Override
-	public void updateSelf(IGameUniverse universe) {
+	public void updateSelf(GameUniverse universe) {
 		super.updateSelf(universe);
 		if (despawnFlag) {
 			ObjectDespawnEvent event = new ObjectDespawnEvent(this);

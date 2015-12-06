@@ -8,6 +8,7 @@ import com.syntacticsugar.vooga.gameplayer.attribute.control.actions.movement.Di
 import com.syntacticsugar.vooga.gameplayer.event.implementations.ObjectSpawnEvent;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.objects.items.bullets.BulletParams;
+import com.syntacticsugar.vooga.gameplayer.universe.GameUniverse;
 import com.syntacticsugar.vooga.gameplayer.universe.IEventPoster;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.gameplayer.universe.userinput.IKeyInputStorage;
@@ -43,7 +44,7 @@ public abstract class AbstractWeaponAttribute extends AbstractAttribute implemen
 	}
 	
 	@Override
-	public void updateSelf(IGameUniverse universe) {
+	public void updateSelf(GameUniverse universe) {
 		updateKeyInput(universe);
 		if (isFireKeyPressed) {
 			if (fireConditionsMet()) {

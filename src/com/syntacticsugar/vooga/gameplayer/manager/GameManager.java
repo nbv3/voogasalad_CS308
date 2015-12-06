@@ -5,6 +5,7 @@ import com.syntacticsugar.vooga.gameplayer.engine.GameEngine;
 import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.LevelChangeEvent;
 import com.syntacticsugar.vooga.gameplayer.game.Game;
+import com.syntacticsugar.vooga.gameplayer.universe.GameUniverse;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.gameplayer.view.GameViewController;
 import com.syntacticsugar.vooga.xml.data.GameData;
@@ -24,7 +25,7 @@ import javafx.util.Duration;
 public class GameManager implements IGameManager {
 
 	private Game myGame;
-	private IGameUniverse currentLevel;
+	private GameUniverse currentLevel;
 	private Timeline myGameTimeline;
 	private GameEngine myGameEngine;
 

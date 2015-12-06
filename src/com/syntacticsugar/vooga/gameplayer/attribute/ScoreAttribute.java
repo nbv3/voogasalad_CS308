@@ -5,6 +5,7 @@ import java.util.Observable;
 
 import com.syntacticsugar.vooga.authoring.parameters.IEditableParameter;
 import com.syntacticsugar.vooga.authoring.parameters.IntegerParameter;
+import com.syntacticsugar.vooga.gameplayer.universe.GameUniverse;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 
 public class ScoreAttribute extends AbstractAttribute {
@@ -17,7 +18,7 @@ public class ScoreAttribute extends AbstractAttribute {
 	}
 
 	@Override
-	public void updateSelf(IGameUniverse universe) {
+	public void updateSelf(GameUniverse universe) {
 		// TODO Auto-generated method stub
 
 	}

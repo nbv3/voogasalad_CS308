@@ -9,6 +9,7 @@ import com.syntacticsugar.vooga.authoring.parameters.AbstractParameter;
 import com.syntacticsugar.vooga.authoring.parameters.IEditableParameter;
 import com.syntacticsugar.vooga.authoring.parameters.IParameterContainer;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
+import com.syntacticsugar.vooga.gameplayer.universe.GameUniverse;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 
 public abstract class AbstractAttribute extends Observable implements IAttribute, IParameterContainer, Observer {
@@ -35,7 +36,7 @@ public abstract class AbstractAttribute extends Observable implements IAttribute
 	}
 	
 	@Override
-	public abstract void updateSelf(IGameUniverse universe);
+	public abstract void updateSelf(GameUniverse universe);
 
 	@Override
 	public IGameObject getParent() {
