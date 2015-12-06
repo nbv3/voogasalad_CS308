@@ -69,7 +69,7 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 		initListView();
 
 		myScene = new Scene(buildScene());
-		myScene.getStylesheets().add("/com/syntacticsugar/vooga/authoring/css/default.css");
+		myScene.getStylesheets().add("/com/syntacticsugar/vooga/gameplayer/css/menu.css");
 		myStage.setScene(myScene);
 		myStage.show();
 
@@ -77,7 +77,7 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 
 	private void initListView() {
 		myView = new ListView<String>(myGameNames);
-		myView.getStyleClass().add("label");
+		myView.getStyleClass().add("listview-label");
 		myView.setOnMouseClicked(e -> {
 			if (myView.getSelectionModel().getSelectedItem() != null) {
 				startButton.setDisable(false);
@@ -94,8 +94,10 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 		box.setId("game-chooser");
 		Label title = new Label("Choose your game!");
 		title.setAlignment(Pos.CENTER);
+		title.setId("game-chooser-title");
 		startButton = createButton("Start", e -> startGame());
 		startButton.setDisable(true);
+		//startButton.setId("game-chooser-button");
 		PulsingFadeWizard.attachPulsingHandlers(startButton);
 		box.getChildren().addAll(title,myView, startButton);
 //		DirectionalFadeWizard

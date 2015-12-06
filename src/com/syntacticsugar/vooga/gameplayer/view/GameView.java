@@ -22,7 +22,7 @@ public class GameView extends BorderPane implements ISimpleGameView{
 	private TowerShop myTowerShop;
 	
 	public GameView(double size){
-		this.getStylesheets().add("/com/syntacticsugar/vooga/authoring/css/default.css");
+		this.getStylesheets().add("/com/syntacticsugar/vooga/gameplayer/css/menu.css");
 		this.setFocusTraversable(true);
 		mySize = size;
 		initializeComponents();

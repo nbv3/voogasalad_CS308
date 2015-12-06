@@ -12,6 +12,21 @@
     -fx-opacity: 1;
 }
 
+#game-chooser{
+	-fx-padding:30;
+}
+#game-chooser-title{
+	    -fx-font-family: "Century Gothic";
+	      -fx-font-size: 24pt;
+}
+
+.listview-label{
+-fx-font-family: "Century Gothic";
+	      -fx-font-size: 18pt;
+}
+
+
+
 .label-header {
     -fx-font-size: 32pt;
     -fx-font-family: "Century Gothic";
