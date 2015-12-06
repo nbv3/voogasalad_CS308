@@ -35,5 +35,9 @@ public class TowerManager implements IManager {
 	public TowerListData getTowerData() {
 		return new TowerListData(myTowerView.getData());
 	}
+	
+	public TowerView getTowerView() {
+		return myTowerView;
+	}
 
 }

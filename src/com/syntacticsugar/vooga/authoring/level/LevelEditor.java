@@ -116,7 +116,13 @@ public class LevelEditor {
 
 	public void loadMap(MapData loadedMap) {
 		myMapManager.setMapData(loadedMap);
-
 	}
 
+	public SpawnerManager getSpawnerManager() {
+		return mySpawnerManager;
+	}
+	
+	public TowerManager getTowerManager() {
+		return myTowerManager;
+	}
 }

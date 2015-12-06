@@ -22,6 +22,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.Tab;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
@@ -66,7 +67,8 @@ public class AuthoringScreenManager implements Observer, IVoogaApp {
 		// myWindowGrid.setGridLinesVisible(true);
 		addGridConstraints();
 
-		setUpObserver();
+		setUpMyObserver();
+		linkObserverAndObservableObjects();
 		myWindowGrid.add(myLevelEditor.getTabPane(), 0, 0, 1, 2);
 		myWindowGrid.add(myObjectLibraryManager.getTabPane(), 1, 0, 1, 1);
 		myWindowGrid.add(myObjectEditor.getView(), 1, 1, 1, 1);
@@ -80,7 +82,7 @@ public class AuthoringScreenManager implements Observer, IVoogaApp {
 		myStage.show();
 	}
 
-	private void setUpObserver() {
+	private void setUpMyObserver() {
 		for (int i = 0; i < myLevelEditor.getLevels().size(); i++) {
 			myLevelEditor.getLevels().get(i).getTowerControls().addObserver(this);
 			myLevelEditor.getLevels().get(i).getSpawnerControls().addObserver(this);
@@ -91,6 +93,12 @@ public class AuthoringScreenManager implements Observer, IVoogaApp {
 			myObjectLibraryManager.getLibraries().get(i).addObserver(this);
 
 		}
+	}
+	
+	private void linkObserverAndObservableObjects() {
+		Tab pickedLevelTab = myLevelEditor.getTabPane().getSelectionModel().getSelectedItem();
+		myObjectEditor.addObserver(myLevelEditor.getCurrentLevelEditor().get(pickedLevelTab).getTowerManager().getTowerView());
+		myObjectEditor.addObserver(myLevelEditor.getCurrentLevelEditor().get(pickedLevelTab).getSpawnerManager().getCurrentView());
 	}
 
 	private void handleKeyPress(KeyEvent e) {
@@ -111,7 +119,7 @@ public class AuthoringScreenManager implements Observer, IVoogaApp {
 
 	private void addLevelRefresh() {
 		myLevelEditor.addNewLevel();
-		setUpObserver();
+		setUpMyObserver();
 	}
 
 	private void buildMenuBar() {

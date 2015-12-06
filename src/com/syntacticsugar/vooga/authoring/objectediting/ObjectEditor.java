@@ -2,6 +2,7 @@ package com.syntacticsugar.vooga.authoring.objectediting;
 
 import java.io.File;
 import java.util.Collections;
+import java.util.Observable;
 
 import com.syntacticsugar.vooga.authoring.dragdrop.DragDropManager;
 import com.syntacticsugar.vooga.authoring.fluidmotion.FadeTransitionWizard;
@@ -38,7 +39,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 
-public class ObjectEditor implements IObjectDataClipboard{
+public class ObjectEditor extends Observable implements IObjectDataClipboard{
 
 	private GridPane myView;
 	private ObjectData currentData;
@@ -154,6 +155,12 @@ public class ObjectEditor implements IObjectDataClipboard{
 		currentData.setType(currentData.getType());
 		currentData.setAttributes(myAttributeViewer.getData());
 		currentData.setCollisionMap(myCollisionViewer.getData());
+		registerChangeAndNotifyObserver();
+	}
+
+	private void registerChangeAndNotifyObserver() {
+		setChanged();
+		notifyObservers();
 	}
 
 	private void saveObject() {

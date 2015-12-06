@@ -63,7 +63,7 @@ public class SpawnerManager implements ITabbedManager<ObjectData> {
 	}
 
 	@Override
-	public IDataSelector<ObjectData> getCurrentView() {
+	public SpawnerView getCurrentView() {
 		return mySpawnerViewMap.get(myTabPane.getSelectionModel().getSelectedItem());
 	}
 
