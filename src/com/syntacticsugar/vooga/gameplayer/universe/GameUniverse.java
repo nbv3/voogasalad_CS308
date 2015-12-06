@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Observer;
 
 import com.syntacticsugar.vooga.gameplayer.conditions.Conditions;
+import com.syntacticsugar.vooga.gameplayer.conditions.implementation.EnemyDeathCondition;
 import com.syntacticsugar.vooga.gameplayer.conditions.implementation.PlayerDeathCondition;
 import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
 import com.syntacticsugar.vooga.gameplayer.manager.IEventManager;
@@ -70,7 +71,7 @@ public class GameUniverse implements IGameUniverse {
 		myCurrentInput = new ArrayList<KeyCode>();
 		//TODO: DEBUG
 		myConditions.addCondition(new PlayerDeathCondition());
-//		myConditions.addCondition(new EnemyDeathCondition(3));
+		myConditions.addCondition(new EnemyDeathCondition(2));
 	}
 
 	public void registerListeners(IEventManager manager) {
@@ -146,7 +147,6 @@ public class GameUniverse implements IGameUniverse {
 
 	@Override
 	public void removeGameObject(IGameObject obj) {
-		System.out.println("HERE");
 		myGameObjects.remove(obj);
 	}
 
