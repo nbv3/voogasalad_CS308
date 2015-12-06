@@ -32,6 +32,7 @@ public class GameObject extends AbstractViewableObject implements IGameObject {
 		Collection<IAttribute> attributes = data.getAttributes();
 		Map<GameObjectType, Collection<ICollisionEvent>> collisions = data.getCollisionMap();
 		myType = data.getType();
+		getBoundingBox().setDirection(data.getDirection());
 		myAttributeMap = new HashMap<String, IAttribute>();
 		myCollisionEventMap = new HashMap<GameObjectType, Collection<ICollisionEvent>>();
 		for (IAttribute att: attributes) {

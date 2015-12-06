@@ -12,25 +12,16 @@ public class LevelSettings {
 	private IGameCondition winCond;
 	private IGameCondition lossCond;
 
-	private int scoreThreshold;
 	private int startingMoney;
 	
 	private Point2D playerSpawn;
 
-	public LevelSettings(int score) {
-		setScoreThreshold(score);
-		startingMoney = 0;
-		playerSpawn = new Point2D(0.0, 0.0);
-	}
-
-	public LevelSettings(int score, int money) {
-		setScoreThreshold(score);
+	public LevelSettings(int money) {
 		startingMoney = money;
 		playerSpawn = new Point2D(0.0, 0.0);
 	}
 	
-	public LevelSettings(int score, int money, Point2D spawn) {
-		setScoreThreshold(score);
+	public LevelSettings(int money, Point2D spawn) {
 		startingMoney = money;
 		setPlayerSpawn(spawn);
 	}
@@ -59,14 +50,6 @@ public class LevelSettings {
 				lossCond = (IGameCondition) Reflection.createInstance(losePath);
 			}
 		}
-	}
-
-	public int getScoreThreshold() {
-		return scoreThreshold;
-	}
-
-	public void setScoreThreshold(int scoreThreshold) {
-		this.scoreThreshold = scoreThreshold;
 	}
 
 	public int getStartingMoney() {

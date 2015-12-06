@@ -48,6 +48,8 @@ public interface IGameMap extends PathFindingMap{
 	 * @return destinations
 	 */
 	public List<Point> getDestinationPoints();
+	
+	public IGameTile getTile(Point2D point);
 
-	public IGameTile getTile(Point2D p);
+	public IGameTile getTileFromIJ(Point point);
 }
