@@ -271,8 +271,8 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 		odata.add(playerData);
 		odata.add(enemyData);
 		odata.add(enemyData2);
-		int spawnRate = 10;
-		WaveData wdata = new WaveData(odata, spawnRate);
+
+		WaveData wdata = new WaveData(odata, 60);
 		Collection<WaveData> sdata = new ArrayList<>();
 		sdata.add(wdata);
 		SpawnerData spawn = new SpawnerData(sdata);
