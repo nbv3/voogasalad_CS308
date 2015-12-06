@@ -1,5 +1,6 @@
 package com.syntacticsugar.vooga.menu;
 
+import com.syntacticsugar.vooga.authoring.fluidmotion.mixandmatchmotion.PulsingFadeWizard;
 import com.syntacticsugar.vooga.gameplayer.manager.GameManager;
 import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.xml.data.GameData;
@@ -27,6 +28,7 @@ public class GameMenu extends AbstractMenu {
 	@Override
 	protected void initializeOptions(BorderPane pane) {
 		Button launchGame = createButton(ResourceManager.getString("play_game"), e -> launchNewEngine());
+		PulsingFadeWizard.applyEffect(launchGame).play();
 		generateOptions(pane, launchGame);
 	}
 
