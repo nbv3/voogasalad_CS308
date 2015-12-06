@@ -30,13 +30,16 @@ public class UploaderInfoBox {
 		initializeVariables();
 		Button button = GUIFactory.buildButton("OK", e-> postDataObject(), 
 				Double.MAX_VALUE, Double.MAX_VALUE);
+		myView.setSpacing(10);
+		myView.setId("uploader-info-box");
 		myView.getChildren().addAll(
 		GUIFactory.buildTitledPane("Author Name", myAuthor),
 		GUIFactory.buildTitledPane("Game Name", myGameName),
 		GUIFactory.buildTitledPane("Game Description", myDescription),
 		button);
 		VBox.setVgrow(button, Priority.ALWAYS);
-		Scene scene = new Scene(myView,250,250);
+		Scene scene = new Scene(myView);
+		scene.getStylesheets().add("com/syntacticsugar/vooga/authoring/css/default.css");
 		myStage = new Stage();
 		myStage.setScene(scene);
 		myStage.initModality(Modality.WINDOW_MODAL);
