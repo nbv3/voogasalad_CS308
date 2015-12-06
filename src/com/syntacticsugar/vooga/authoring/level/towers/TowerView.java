@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -16,13 +15,7 @@ import com.syntacticsugar.vooga.authoring.level.QueueBox;
 import com.syntacticsugar.vooga.authoring.library.IRefresher;
 import com.syntacticsugar.vooga.authoring.objectediting.IVisualElement;
 import com.syntacticsugar.vooga.authoring.tooltips.ObjectTooltip;
-import com.syntacticsugar.vooga.gameplayer.attribute.HealthAttribute;
-import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
-import com.syntacticsugar.vooga.gameplayer.event.ICollisionEvent;
-import com.syntacticsugar.vooga.gameplayer.event.implementations.HealthChangeEvent;
-import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
-import com.syntacticsugar.vooga.xml.data.ObjectData;
 import com.syntacticsugar.vooga.xml.data.TowerData;
 
 import javafx.animation.Animation;
@@ -36,7 +29,7 @@ import javafx.scene.control.TitledPane;
 import javafx.scene.control.Tooltip;
 
 public class TowerView implements IVisualElement, IDataSelector<TowerData>, IRefresher, Observer {
-	
+
 	private ListView<Node> myTowerView;
 	private List<TowerData> myTowers;
 	private ObservableList<Node> myObservable;
@@ -53,29 +46,7 @@ public class TowerView implements IVisualElement, IDataSelector<TowerData>, IRef
 		myTowerView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 		myMap = new HashMap<Node, TowerData>();
 
-		//TODO: REMOVE (blank initialization)
-		testCreatedTowerDataList();
-		
 		myViewPane = GUIFactory.buildTitledPane("Available Towers", myTowerView);
-	}
-
-	// test method
-	private void testCreatedTowerDataList() {
-		for (int i = 1; i < 3; i++) {
-			TowerData objToAdd = new TowerData();
-			objToAdd.setImagePath(String.format(String.format("tower_%d.png", i)));
-			objToAdd.setType(GameObjectType.TOWER);
-			List<IAttribute> attributeList = new ArrayList<IAttribute>();
-			attributeList.add(new HealthAttribute());
-			objToAdd.setAttributes(attributeList);
-			Map<GameObjectType, Collection<ICollisionEvent>> eventMap = new HashMap<GameObjectType, Collection<ICollisionEvent>>();
-			List<ICollisionEvent> eventList = new ArrayList<ICollisionEvent>();
-			ICollisionEvent eventToAdd = new HealthChangeEvent(i * 10.0);
-			eventList.add(eventToAdd);
-			eventMap.put(GameObjectType.ENEMY, eventList);
-			objToAdd.setCollisionMap(eventMap);
-			addData(objToAdd);
-		}
 	}
 
 	@Override
@@ -88,12 +59,12 @@ public class TowerView implements IVisualElement, IDataSelector<TowerData>, IRef
 		Tooltip.install(newTower, new ObjectTooltip(myMap.get(newTower)));
 		myObservable.add(newTower);
 	}
-	
+
 	// Used when we initiate a save game in the authoring environment
 	@Override
 	public Collection<TowerData> getData() {
 		ArrayList<TowerData> list = new ArrayList<TowerData>();
-		for (Node n :myObservable) {
+		for (Node n : myObservable) {
 			list.add(myMap.get(n));
 		}
 		return list;
@@ -108,33 +79,28 @@ public class TowerView implements IVisualElement, IDataSelector<TowerData>, IRef
 	@Override
 	public void removeSelectedData() {
 		if (selectedItem != null) {
-		     Animation fade = FadeTransitionWizard
-						     	.fadeOut((Node) selectedItem, 
-						     			FluidGlassBall.getFadeDuration(),
-										FluidGlassBall.getFadeOutOpacityStart(),
-										FluidGlassBall.getFadeOutOpacityEnd(),
-										FluidGlassBall.getFadeCycleCount());
-		    fade.setOnFinished(toExecuteOnFinished -> removeObjectFromList_BAREBONE());
-		    fade.play();
+			Animation fade = FadeTransitionWizard.fadeOut((Node) selectedItem, FluidGlassBall.getFadeDuration(),
+					FluidGlassBall.getFadeOutOpacityStart(), FluidGlassBall.getFadeOutOpacityEnd(),
+					FluidGlassBall.getFadeCycleCount());
+			fade.setOnFinished(toExecuteOnFinished -> removeObjectFromList_BAREBONE());
+			fade.play();
 		}
 	}
-	
+
 	@Override
 	public void clearData() {
-		Animation towerClear = ParallelTransitionWizard
-								.parallelize(convertNodeListToAnimList());
-		towerClear.setOnFinished(toExecuteOnFinished->clearAll_BAREBONE());
+		Animation towerClear = ParallelTransitionWizard.parallelize(convertNodeListToAnimList());
+		towerClear.setOnFinished(toExecuteOnFinished -> clearAll_BAREBONE());
 		towerClear.play();
 	}
-	
+
 	@Override
 	public Node getView() {
 		return myViewPane;
 	}
-	
-	
+
 	// *********************************************//
-	
+
 	public Node createQueueBoxFromObjData(TowerData obj) {
 		QueueBox queueBox = new QueueBox(obj);
 		return queueBox.getView();
@@ -148,12 +114,10 @@ public class TowerView implements IVisualElement, IDataSelector<TowerData>, IRef
 
 	private List<Animation> convertNodeListToAnimList() {
 		List<Animation> animationList = new ArrayList<Animation>();
-		for(Node node:myObservable){
-			Animation nodeAnim = FadeTransitionWizard.fadeOut(node, 
-					     			FluidGlassBall.getFadeDuration(),
-									FluidGlassBall.getFadeOutOpacityStart(),
-									FluidGlassBall.getFadeOutOpacityEnd(),
-									FluidGlassBall.getFadeCycleCount());
+		for (Node node : myObservable) {
+			Animation nodeAnim = FadeTransitionWizard.fadeOut(node, FluidGlassBall.getFadeDuration(),
+					FluidGlassBall.getFadeOutOpacityStart(), FluidGlassBall.getFadeOutOpacityEnd(),
+					FluidGlassBall.getFadeCycleCount());
 			animationList.add(nodeAnim);
 		}
 		return animationList;

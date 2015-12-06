@@ -9,6 +9,8 @@ import com.syntacticsugar.vooga.gameplayer.view.implementation.InformationBox;
 import com.syntacticsugar.vooga.gameplayer.view.implementation.TileView;
 import com.syntacticsugar.vooga.xml.data.TowerData;
 
+import javafx.event.EventHandler;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 
@@ -72,5 +74,9 @@ public class GameView extends BorderPane implements ISimpleGameView{
 
 	public Observer getTowerShop() {
 		return myTowerShop;
+	}
+	
+	public void setWaveButton(EventHandler<MouseEvent> onMouseClicked){
+		myInfoBox.setWaveButton(onMouseClicked);
 	}
 }

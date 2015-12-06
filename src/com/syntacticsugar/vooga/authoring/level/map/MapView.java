@@ -5,12 +5,13 @@ import java.util.Map;
 
 import com.syntacticsugar.vooga.authoring.dragdrop.DragDropManager;
 import com.syntacticsugar.vooga.authoring.icon.Icon;
+import com.syntacticsugar.vooga.authoring.objectediting.IDataClipboard;
 import com.syntacticsugar.vooga.authoring.level.IAddToSpawner;
-import com.syntacticsugar.vooga.authoring.objectediting.IObjectDataClipboard;
 import com.syntacticsugar.vooga.authoring.objectediting.IVisualElement;
 import com.syntacticsugar.vooga.authoring.objectediting.sizing.ObjectResizer;
 import com.syntacticsugar.vooga.authoring.tooltips.TileInfoTooltip;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
+import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.effects.ITileEffect;
 import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
@@ -53,10 +54,11 @@ public class MapView implements IMapDisplay, IVisualElement {
 	private int myMapSize;
 	private GridPane myMapGrid;
 	private TitledPane myViewPane;
-	private IObjectDataClipboard iObject;
+	private IDataClipboard iObject;
+
 	private IAddToSpawner iSpawn;
 
-	public MapView(IObjectDataClipboard clip, IAddToSpawner isp) throws Exception {
+	public MapView(IDataClipboard clip, IAddToSpawner isp) throws Exception {
 		iObject = clip;
 		iSpawn = isp;
 		myMapSize = inputMapSize();
@@ -76,6 +78,9 @@ public class MapView implements IMapDisplay, IVisualElement {
 		for (TileData toChange : myTileSelection) {
 			setImplementation(toChange, newData.getImplementation());
 			setImagePath(toChange, newData.getImagePath());
+			if (newData.getEffect() != null)
+				setEffect(toChange, newData.getEffect());
+			System.out.println("here");
 			showAlert = setAsDestination(toChange, newData.isDestination());
 		}
 		if (showAlert)
@@ -177,13 +182,13 @@ public class MapView implements IMapDisplay, IVisualElement {
 			myMapData.setTileData(toedit, colIndex, rowIndex);
 		} else if (db.hasContent(DataFormat.lookupMimeType("ObjectData"))) {
 			System.out.println(iObject);
-			System.out.println(iObject.obtainSelectedObjectData());
-			ObjectData receivedData = iObject.obtainSelectedObjectData();
+			System.out.println(iObject.obtainSelectedIData());
+			ObjectData receivedData = (ObjectData) iObject.obtainSelectedIData();
 			receivedData.setSpawnPoint(x, y);
 			// Add to Spawner
 			iSpawn.addToSpawner(receivedData);
 			// TODO
-			
+
 			String[][] imagePathArray = populateImagePathArray(colIndex, rowIndex);
 			if(!receivedData.getType().equals(GameObjectType.TOWER)){
 				new ObjectResizer(receivedData, imagePathArray);
@@ -271,6 +276,9 @@ public class MapView implements IMapDisplay, IVisualElement {
 		myTileIconMap.get(toChange).setImage(new Image(ResourceManager.getResource(this, imagePath)));
 	}
 
+	private void setEffect(TileData toChange, ITileEffect effect) {
+		toChange.setEffect(effect);
+	}
 
 	@Override
 	public Point2D getDropPoint(DragEvent e) {

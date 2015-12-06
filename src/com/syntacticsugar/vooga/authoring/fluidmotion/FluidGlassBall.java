@@ -14,7 +14,7 @@ public class FluidGlassBall {
 	private static final int FADE_CYCLE_COUNT = 1;
 	
 	// DirectionalFade
-	private static final Duration DIRECTIONAL_FADE_DURATION = Duration.millis(600);
+	private static final Duration DIRECTIONAL_FADE_DURATION = Duration.millis(300);
 	private static final Interpolator DIRECTIONAL_FADE_INTERPOLATOR = Interpolator.EASE_IN;
 	private static final double DIRECTIONAL_FADE_OFFSET_WIDTH = 25;
 	private static final int DIRECTIONAL_FADE_CYCLE_COUNT = 1;
@@ -22,7 +22,7 @@ public class FluidGlassBall {
 	private static final Duration PREVIEW_TILE_PULSE_DURATION = Duration.millis(300);
 	
 	// PulsingFade Transition
-	private static final double PULSING_FADE_OPACITY_MIN = 0.7;
+	private static final double PULSING_FADE_OPACITY_MIN = 0.6;
 	private static final double PULSING_FADE_OPACITY_MAX = 1;
 	
 	public static double getPulsingFadeOpacityMax() {

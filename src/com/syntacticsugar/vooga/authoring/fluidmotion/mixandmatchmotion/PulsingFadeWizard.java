@@ -26,4 +26,19 @@ public class PulsingFadeWizard {
 		seq.setCycleCount(Integer.MAX_VALUE);
 		return seq;
 	}
+	
+	public static void attachPulsingHandlers(Node... nodes) {
+		for (Node n : nodes) {
+			Animation anim = PulsingFadeWizard.applyEffect(n);
+			applyPulsingMouseHandlers(n, anim);
+		}
+	}
+
+	public static void applyPulsingMouseHandlers(Node node, Animation anim) {
+		node.setOnMouseEntered(e -> anim.play());
+		node.setOnMouseExited(e -> {
+			node.setOpacity(1);
+			anim.stop();
+		});
+	}
 }

@@ -8,6 +8,7 @@ import com.syntacticsugar.vooga.gameplayer.event.implementations.LevelChangeEven
 import com.syntacticsugar.vooga.gameplayer.game.Game;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.gameplayer.view.GameViewController;
+import com.syntacticsugar.vooga.menu.IVoogaApp;
 import com.syntacticsugar.vooga.xml.data.GameData;
 import com.syntacticsugar.vooga.xml.data.UniverseData;
 
@@ -21,7 +22,7 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 
-public class GameManager implements IGameManager {
+public class GameManager implements IGameManager,IVoogaApp {
 
 	private Game myGame;
 	private IGameUniverse currentLevel;
@@ -73,7 +74,12 @@ public class GameManager implements IGameManager {
 	
 
 	private void nextLevel() {
+		try{
 		currentLevel = myGame.nextLevel();
+		}
+		catch(IndexOutOfBoundsException e){
+			myStage.close();
+		}
 		myViewController.displayLevel(currentLevel, myEventManager);
 		myEventManager = new EventManager();
 		myEventManager.registerListener(this);
@@ -155,6 +161,11 @@ public class GameManager implements IGameManager {
 	private void saveGame() {
 		UniverseData data = currentLevel.saveGame();
 		myGame.saveGame(data);
+	}
+
+	@Override
+	public void assignCloseHandler(EventHandler<WindowEvent> onclose) {
+		myStage.setOnCloseRequest(onclose);
 	}
 
 }

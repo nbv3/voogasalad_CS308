@@ -64,7 +64,7 @@ public class HealthAttribute extends AbstractAttribute {
 			return;
 		}
 		this.myHealth += damage;
-		setInvincibile(myHealthChangeFreq);
+		setInvincible(myHealthChangeFreq);
 	}
 
 	private void restoreHealth(Double healthInc) {
@@ -82,7 +82,7 @@ public class HealthAttribute extends AbstractAttribute {
 		}
 	}
 
-	private void setInvincibile(int numFrames) {
+	private void setInvincible(int numFrames) {
 		this.myInvincibleFrames = numFrames;
 	}
 

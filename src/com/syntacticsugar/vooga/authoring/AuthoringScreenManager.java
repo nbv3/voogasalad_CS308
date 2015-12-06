@@ -6,13 +6,14 @@ import java.util.Observer;
 
 import com.syntacticsugar.vooga.authoring.level.LevelTabManager;
 import com.syntacticsugar.vooga.authoring.library.ObjectLibraryManager;
-import com.syntacticsugar.vooga.authoring.objectediting.IObjectDataClipboard;
+import com.syntacticsugar.vooga.authoring.objectediting.IDataClipboard;
 import com.syntacticsugar.vooga.authoring.objectediting.ObjectEditor;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.menu.IVoogaApp;
 import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.filechooser.FileChooserUtil;
 import com.syntacticsugar.vooga.util.filechooser.IOnFileChooserAction;
+import com.syntacticsugar.vooga.util.simplefilechooser.SimpleFileChooser;
 import com.syntacticsugar.vooga.xml.XMLHandler;
 import com.syntacticsugar.vooga.xml.data.GameData;
 import com.syntacticsugar.vooga.xml.data.GlobalSettings;
@@ -31,6 +32,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
+import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -47,10 +49,10 @@ public class AuthoringScreenManager implements Observer, IVoogaApp {
 	private ObjectEditor myObjectEditor;
 
 	public AuthoringScreenManager() {
-		myObjectLibraryManager = new ObjectLibraryManager(myLevelEditor);
 		myObjectEditor = new ObjectEditor(() -> myObjectLibraryManager.refresh());
-		IObjectDataClipboard iObject = myObjectEditor;
+		IDataClipboard iObject = myObjectEditor;
 		myLevelEditor = new LevelTabManager(iObject);
+		myObjectLibraryManager = new ObjectLibraryManager(myLevelEditor);
 
 		initWindow();
 	}
@@ -162,40 +164,36 @@ public class AuthoringScreenManager implements Observer, IVoogaApp {
 	}
 
 	private void saveGame() {
-		FileChooserUtil.saveFile("Save Game File", ".xml", null, selectedFile -> {
-			// need to change later with global settings
-			GameData game = new GameData(myLevelEditor.getAllUniverseData(), new GlobalSettings());
-			XMLHandler<GameData> xml = new XMLHandler<>();
-			xml.write(game, selectedFile);
-
-		});
+		GameData game = new GameData(myLevelEditor.getAllUniverseData(), new GlobalSettings());
+		File f = SimpleFileChooser.saveGame(game, myStage);	
 	}
 
 	private void loadData() {
-		FileChooserUtil.loadFile("Open Resource File", new ExtensionFilter("XML Files", "*.xml"),
+		/*GameData gm = SimpleFileChooser.loadGame(myStage);*/
+		// TODO loadData();
+		/*FileChooserUtil.loadFile("Open Resource File", new ExtensionFilter("XML Files", "*.xml"),
 				new File(ResourceManager.getString("data")), selectedFile -> {
 					myObjectEditor.setUpdateButtonVisibility(false);
 					XMLHandler<ObjectData> xml = new XMLHandler<>();
 					ObjectData toload = xml.read(selectedFile);
 					myObjectEditor.displayData(toload);
-				});
+				});*/
+	}
+	
+	private void saveMap() {
+		MapData toSave = myLevelEditor.getIndividualMapData();
+		File f = SimpleFileChooser.saveMap(toSave, myStage);
 	}
 
 	private void loadMap() {
-		FileChooserUtil.loadFile("Open Resource File", new ExtensionFilter("XML Files", "*.xml"), null,
+		MapData loaded = SimpleFileChooser.loadMap(myStage);
+		myLevelEditor.loadMap(loaded);
+		/*FileChooserUtil.loadFile("Open Resource File", new ExtensionFilter("XML Files", "*.xml"), null,
 				selectedFile -> {
 					XMLHandler<MapData> xml = new XMLHandler<>();
 					MapData toLoad = xml.read(selectedFile);
 					myLevelEditor.loadMap(toLoad);
-				});
-	}
-
-	private void saveMap() {
-		FileChooserUtil.saveFile("Save Resource File", ".xml", null, selectedFile -> {
-			XMLHandler<MapData> xml = new XMLHandler<>();
-			MapData toSave = myLevelEditor.getIndividualMapData();
-			xml.write(toSave, selectedFile);
-		});
+				});*/
 	}
 
 	private void addGridConstraints() {

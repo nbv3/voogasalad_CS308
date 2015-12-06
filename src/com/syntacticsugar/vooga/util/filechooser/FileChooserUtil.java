@@ -21,7 +21,7 @@ public class FileChooserUtil {
 		}
 		Stage stage = new Stage();
 		stage.initModality(Modality.APPLICATION_MODAL);
-		File selectedFile = fileChooser.showSaveDialog(stage);
+		File selectedFile = fileChooser.showSaveDialog(new Stage());
 		if (selectedFile != null) {
 			success = true;
 			onSave.action(selectedFile);
