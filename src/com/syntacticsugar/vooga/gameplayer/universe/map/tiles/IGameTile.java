@@ -1,6 +1,8 @@
 package com.syntacticsugar.vooga.gameplayer.universe.map.tiles;
 
 import com.syntacticsugar.vooga.gameplayer.objects.IViewableObject;
+import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
+import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.effects.ITileEffect;
 
 import javafx.geometry.Point2D;
 
@@ -29,5 +31,11 @@ public interface IGameTile extends IViewableObject, ITowerHolder{
 	 * @return
 	 */
 	public Point2D getPoint();
+	
+	public void setTileEffect(ITileEffect effect);
+	
+	public ITileEffect getTileEffect();
+	
+	public void updateSelf(IGameUniverse universe);
 	
 }
