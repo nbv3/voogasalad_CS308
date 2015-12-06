@@ -1,7 +1,8 @@
 package com.syntacticsugar.vooga.gameplayer.attribute;
 
-import java.util.Observable;
-
+import com.syntacticsugar.vooga.authoring.parameters.EditableField;
+import com.syntacticsugar.vooga.authoring.parameters.InputParser;
+import com.syntacticsugar.vooga.authoring.parameters.InputTypeException;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.ObjectDespawnEvent;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 
@@ -14,17 +15,13 @@ public class TimedDespawnAttribute extends AbstractAttribute {
 		myFrameCount = 0;
 	}
 	
-	public void setTimeHere (int time) {
-		timeHere = time;
+	@Override
+	protected void setDefaults() {
+		this.myFrameCount = 180;
 	}
 	
-	private void editTimeHere(int timeHere) {
-		setTimeHere(timeHere);
-	}
-
-	@Override
-	public void update(Observable o, Object arg) {
-
+	public void setTimeHere (int time) {
+		timeHere = time;
 	}
 
 	@Override
@@ -33,8 +30,20 @@ public class TimedDespawnAttribute extends AbstractAttribute {
 			ObjectDespawnEvent event = new ObjectDespawnEvent(getParent());
 			universe.postEvent(event);
 		}
-
 		myFrameCount++;
 	}
-
+	
+	
+	/**		  	      EDIT TAGS	     		    **/
+	/** *************************************** **/
+	
+	@EditableField (	
+		inputLabel = "Duration (Frames)",
+		defaultVal = "180"
+		)
+	private void editFrameCount(String arg) {
+		try {
+			this.myFrameCount = InputParser.parseAsInt(arg);
+		} catch (InputTypeException e) { 	}
+	}
 }

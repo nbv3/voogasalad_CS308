@@ -1,21 +1,25 @@
 package com.syntacticsugar.vooga.gameplayer.attribute.weapon;
 
-
-import java.util.Observable;
-
+import com.syntacticsugar.vooga.authoring.parameters.EditableClass;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.objects.items.bullets.BulletParams;
 import com.syntacticsugar.vooga.gameplayer.objects.items.bullets.PlayerBullet;
 
 import javafx.geometry.Point2D;
-import javafx.scene.input.KeyCode;
 
+@EditableClass (
+		className = "Basic Weapon"
+		)
 public class BasicWeaponAttribute extends AbstractWeaponAttribute {
 
-	public BasicWeaponAttribute(String bulletImagePath, Double bulletDamage, KeyCode fireKeyCode,
-			Double bulletSpeed, Double bulletWidth, Double bulletHeight) {
-		super(bulletImagePath, bulletDamage, fireKeyCode, bulletSpeed, bulletWidth, bulletHeight);
+	public BasicWeaponAttribute() {
+		super();
+	}
+	
+	@Override
+	protected void setDefaults() {
+		super.setDefaults();
 	}
 	
 	protected IGameObject makeBullet() {
@@ -27,14 +31,7 @@ public class BasicWeaponAttribute extends AbstractWeaponAttribute {
 			bullet = new PlayerBullet(params);
 			
 		}
-		
 		return bullet;
-	}
-	
-	@Override
-	public void update(Observable o, Object arg) {
-		setChanged();
-		notifyObservers(this);
 	}
 	
 }
