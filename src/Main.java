@@ -4,8 +4,8 @@ import com.syntacticsugar.vooga.gameplayer.attribute.*;
 import com.syntacticsugar.vooga.gameplayer.attribute.movement.*;
 import com.syntacticsugar.vooga.gameplayer.attribute.status.SlowAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.status.StunAttribute;
-import com.syntacticsugar.vooga.gameplayer.attribute.weapon.BasicWeaponAttribute;
-import com.syntacticsugar.vooga.gameplayer.attribute.weapon.SlowWeaponAttribute;
+import com.syntacticsugar.vooga.gameplayer.attribute.weapons.BasicWeaponAttribute;
+import com.syntacticsugar.vooga.gameplayer.attribute.weapons.SlowWeaponAttribute;
 import com.syntacticsugar.vooga.menu.MainMenu;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
 
