@@ -1,6 +1,7 @@
 package com.syntacticsugar.vooga.menu;
 
 import com.syntacticsugar.vooga.help.HelpManager;
+import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.properties.PropertiesManager;
 
 import javafx.scene.Scene;
@@ -13,15 +14,15 @@ public class HelpMenu extends AbstractMenu {
 	private PropertiesManager myPropertiesManager;
 
 	public HelpMenu() {
-		super("Help");
+		super(ResourceManager.getString("help_label"));
 		myPropertiesManager = new PropertiesManager("com/syntacticsugar/vooga/resources/Help");
 	}
 
 	@Override
 	protected void initializeOptions(BorderPane pane) {
-		Button engineHelp = createButton("Engine Help", e -> launchEngineHelp());
-		Button authoringHelp = createButton("Authoring Help", e -> launchAuthoringHelp());
-		Button socialHelp = createButton("Social Center Help", e -> launchSocialHelp());
+		Button engineHelp = createButton(ResourceManager.getString("engine_help"), e -> launchEngineHelp());
+		Button authoringHelp = createButton(ResourceManager.getString("authoring_help"), e -> launchAuthoringHelp());
+		Button socialHelp = createButton(ResourceManager.getString("social_help"), e -> launchSocialHelp());
 		generateOptions(pane, engineHelp, authoringHelp, socialHelp);
 	}
 
@@ -39,7 +40,7 @@ public class HelpMenu extends AbstractMenu {
 	
 	private void launch(String url) {
 		Stage stage = new Stage();
-		stage.setTitle("Web View");
+		stage.setTitle(ResourceManager.getString("web_view"));
         Scene scene = new Scene(new HelpManager(url),750,500);
         stage.setScene(scene);
         stage.show();

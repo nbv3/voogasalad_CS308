@@ -4,6 +4,7 @@ import com.syntacticsugar.vooga.authoring.AuthoringScreenManager;
 import com.syntacticsugar.vooga.authoring.fluidmotion.mixandmatchmotion.PulsingFadeWizard;
 import com.syntacticsugar.vooga.help.HelpManager;
 import com.syntacticsugar.vooga.social.SocialCenter;
+import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.properties.PropertiesManager;
 
 import javafx.scene.Scene;
@@ -21,10 +22,10 @@ public class MainMenu extends AbstractMenu {
 
 	@Override
 	protected void initializeOptions(BorderPane pane) {
-		Button launchGame = createButton("Play Game", e -> launch(new GameChooser()));
-		Button launchEditor = createButton("Launch Editor", e -> launch(new AuthoringScreenManager()));
-		Button launchSocial = createButton("Be Social", e -> launch(new SocialCenter()));
-		Button launchHelp = createButton("Help", e -> launchHelpView(helpPropManager.getProperty("help")));
+		Button launchGame = createButton(ResourceManager.getString("play_game"), e -> launch(new GameChooser()));
+		Button launchEditor = createButton(ResourceManager.getString("edit_game"), e -> launch(new AuthoringScreenManager()));
+		Button launchSocial = createButton(ResourceManager.getString("be_social"), e -> launch(new SocialCenter()));
+		Button launchHelp = createButton(ResourceManager.getString("help_label"), e -> launchHelpView(helpPropManager.getProperty("help")));
 		PulsingFadeWizard.attachPulsingHandlers(launchGame,launchEditor, launchSocial, launchHelp);
 		generateOptions(pane, launchGame, launchEditor, launchSocial, launchHelp);
 	}
@@ -35,7 +36,7 @@ public class MainMenu extends AbstractMenu {
 	}
 	private void launchHelpView(String url) {
 		Stage stage = new Stage();
-		stage.setTitle("Help");
+		stage.setTitle(ResourceManager.getString("help_label"));
         Scene scene = new Scene(new HelpManager(url),750,500);
         stage.setScene(scene);
         stage.show();

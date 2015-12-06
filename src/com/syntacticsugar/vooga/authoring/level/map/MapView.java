@@ -67,7 +67,7 @@ public class MapView implements IMapDisplay, IVisualElement {
 		myMapGrid = new GridPane();
 		myTileIconMap = new HashMap<>();
 		initializeMapView(myMapData);
-		myViewPane = GUIFactory.buildTitledPane("Map Display", myMapGrid);
+		myViewPane = GUIFactory.buildTitledPane(ResourceManager.getString("map_display"), myMapGrid);
 	}
 
 	@Override
@@ -84,7 +84,7 @@ public class MapView implements IMapDisplay, IVisualElement {
 			showAlert = setAsDestination(toChange, newData.isDestination());
 		}
 		if (showAlert)
-			AlertBoxFactory.createObject("Can only set Path tiles as destinations.");
+			AlertBoxFactory.createObject(ResourceManager.getString("tile_setting_error"));
 	}
 
 	@Override
@@ -140,9 +140,10 @@ public class MapView implements IMapDisplay, IVisualElement {
 	}
 
 	private int inputMapSize() throws Exception {
-		double size = SliderDialogFactory.createSliderDialog("Input Map Size", 10, 40, 1);
+		double size = SliderDialogFactory.createSliderDialog(
+				ResourceManager.getString("input_mapsize"), 10, 40, 1);
 		if (size == Double.MIN_VALUE) {
-			throw new Exception("Must select a map size before editing");
+			throw new Exception(ResourceManager.getString("select_mapsize_error"));
 		}
 		return (int) size;
 	}

@@ -102,8 +102,10 @@ public class MapControls extends Observable implements IVisualElement {
 		chooser = new ComboBox<>();
 		chooser.setPromptText("Select Tile Effect");
 		chooser.setPrefWidth(150);
-		ObservableList<String> effects = FXCollections.observableArrayList("None", "Damage Persistent",
-				"Damage Temporary", "Slow");
+		ObservableList<String> effects = FXCollections.observableArrayList(ResourceManager.getString("no_effects"),
+				ResourceManager.getString("pers_damage"),
+				ResourceManager.getString("temp_damage"), 
+				ResourceManager.getString("slow"));
 		chooser.getItems().addAll(effects);
 
 		chooser.valueProperty().addListener((o, s1, s2) -> {
@@ -126,7 +128,7 @@ public class MapControls extends Observable implements IVisualElement {
 				} catch (SecurityException | ClassNotFoundException e) {
 					e.printStackTrace();
 				} catch (NumberFormatException e) {
-					AlertBoxFactory.createObject("Enter a value.");
+					AlertBoxFactory.createObject(ResourceManager.getString("enter_value"));
 
 				}
 			}
@@ -147,11 +149,11 @@ public class MapControls extends Observable implements IVisualElement {
 
 	private TileData buildTileFromSelections() {
 		if (mySelectedType == null) {
-			AlertBoxFactory.createObject("Please select a tile type.");
+			AlertBoxFactory.createObject(ResourceManager.getString("select_tile_type"));
 			return null;
 		}
 		if (myIconPane.getSelectedImagePath() == null) {
-			AlertBoxFactory.createObject("Please select a tile image.");
+			AlertBoxFactory.createObject(ResourceManager.getString("select_tile_image"));
 			return null;
 		}
 		TileData td = initTileData();
@@ -168,7 +170,7 @@ public class MapControls extends Observable implements IVisualElement {
 		myVBox.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 		myVBox.getChildren().addAll(top, typeChooser, destinationWrapper, myTileEffect, myIconPane.getView(), bottom, previewTile);
 		myVBox.setAlignment(Pos.CENTER);
-		myViewPane = GUIFactory.buildTitledPane("Map Controls", myVBox);
+		myViewPane = GUIFactory.buildTitledPane(ResourceManager.getString("map_controls"), myVBox);
 	}
 
 	private void updatePreview() {
@@ -199,7 +201,7 @@ public class MapControls extends Observable implements IVisualElement {
 
 	private ComboBox<TileImplementation> buildTileTypeChooser() {
 		ComboBox<TileImplementation> box = new ComboBox<TileImplementation>();
-		box.setPromptText("Tile Type");
+		box.setPromptText(ResourceManager.getString("tile_type"));
 		box.getItems().addAll(TileImplementation.values());
 		box.valueProperty().addListener((o, s1, s2) -> updateSelectedType(s2));
 		return box;
@@ -226,7 +228,7 @@ public class MapControls extends Observable implements IVisualElement {
 
 	private void createNewImage() {
 		if (mySelectedType == null) {
-			AlertBoxFactory.createObject("Select a tile type.");
+			AlertBoxFactory.createObject(ResourceManager.getString("select_tile_type"));
 			return;
 		}
 
@@ -239,7 +241,7 @@ public class MapControls extends Observable implements IVisualElement {
 										.toPath(),
 								StandardCopyOption.REPLACE_EXISTING);
 					} catch (IOException e) {
-						AlertBoxFactory.createObject("Image already exists. Please select another.");
+						AlertBoxFactory.createObject(ResourceManager.getString("image_already_exists"));
 					}
 				});
 		showImageOptions(mySelectedType);

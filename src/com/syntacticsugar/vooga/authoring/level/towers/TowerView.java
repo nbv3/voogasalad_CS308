@@ -15,6 +15,7 @@ import com.syntacticsugar.vooga.authoring.level.QueueBox;
 import com.syntacticsugar.vooga.authoring.library.IRefresher;
 import com.syntacticsugar.vooga.authoring.objectediting.IVisualElement;
 import com.syntacticsugar.vooga.authoring.tooltips.ObjectTooltip;
+import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
 import com.syntacticsugar.vooga.xml.data.TowerData;
 
@@ -46,7 +47,7 @@ public class TowerView implements IVisualElement, IDataSelector<TowerData>, IRef
 		myTowerView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 		myMap = new HashMap<Node, TowerData>();
 
-		myViewPane = GUIFactory.buildTitledPane("Available Towers", myTowerView);
+		myViewPane = GUIFactory.buildTitledPane(ResourceManager.getString("available_towers"), myTowerView);
 	}
 
 	@Override

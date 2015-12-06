@@ -46,7 +46,7 @@ public class TileInfoTooltip extends CustomTooltip {
 		currentImageView.setImage(new Image(ResourceManager.getResource(this, myTileData.getImagePath())));
 		myType.setText(myTileData.getImplementation().toString());
 		myDestinationMarker
-				.setText(String.format("%s %s", "Destination?", myTileData.isDestination().toString().toUpperCase()));
-		myEffect.setText("Effect? " + myTileData.getEffectName());
+				.setText(String.format("%s %s", ResourceManager.getString("is_destination"), myTileData.isDestination().toString().toUpperCase()));
+		myEffect.setText(ResourceManager.getString("which_effect") + " "+  myTileData.getEffectName());
 	}
 }
