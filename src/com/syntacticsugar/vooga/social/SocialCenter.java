@@ -5,6 +5,7 @@ import org.json.JSONException;
 import com.syntacticsugar.vooga.menu.IVoogaApp;
 
 import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -42,8 +43,11 @@ public class SocialCenter implements IVoogaApp{
 		
 		myLeft.getChildren().add(myXMLViewer.getView());
 		myLeft.getChildren().add(myObjectDataViewer.getView());
+		myLeft.setPrefWidth(500);
 		myView.getChildren().add(myLeft);
-		myView.getChildren().add(myObjectDataViewer.getCommentBox());
+		VBox myRight = (VBox) myObjectDataViewer.getCommentBox();
+		myRight.setMaxWidth(200);
+		myView.getChildren().add(myRight);
 		Scene scene = new Scene(myView, 700, 500);
 		myStage.setScene(scene);
 		myStage.show();
