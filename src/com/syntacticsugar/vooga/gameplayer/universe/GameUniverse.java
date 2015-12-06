@@ -142,7 +142,6 @@ public class GameUniverse implements IGameUniverse {
 	@Override
 	public void removeFromUniverse(IViewRemover remover) {
 		myGraveYard.alterUniverse(remover);
-
 	}
 
 	@Override

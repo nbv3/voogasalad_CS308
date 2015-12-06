@@ -1,11 +1,7 @@
 package com.syntacticsugar.vooga.authoring.objectediting;
 
 import java.util.Collection;
-import java.util.Observable;
-import java.util.Observer;
-
-import com.syntacticsugar.vooga.authoring.parameters.IEditableParameter;
-import com.syntacticsugar.vooga.gameplayer.attribute.AbstractAttribute;
+import com.syntacticsugar.vooga.authoring.parameters.ParameterInputFactory;
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.util.ResourceManager;
@@ -17,20 +13,18 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class AttributeMakerWizard implements Observer {
-
-	private final double SCENE_DIMENSION = 300;
+public class AttributeMakerWizard {
 
 	private Stage myStage;
 	private Scene myScene;
 	private Collection<IAttribute> myAttributes;
 	private IAttribute attributeToAdd;
 	private String selectedAttribute;
+	private final double SCENE_DIMENSION = 300;
 
 	public AttributeMakerWizard(GameObjectType type, Collection<IAttribute> attributes) {
 		myAttributes = attributes;
@@ -90,36 +84,14 @@ public class AttributeMakerWizard implements Observer {
 	}
 
 	private void addAttributeToList() {
-		String className = ResourceManager.getString(String.format("%s_%s", selectedAttribute, "name"));
-		try {
-			attributeToAdd = (IAttribute) Reflection.createInstance(className);
-		} catch (ReflectionException ex) {
-		}
-		((AbstractAttribute) attributeToAdd).addObserver(this);
-		updateGUI(attributeToAdd);
-	}
-
-	private void updateGUI(IAttribute attribute) {
-		Stage tempStage = new Stage();
-		BorderPane tempPane = new BorderPane();
-		Scene tempScene = new Scene(tempPane);
-		tempStage.setScene(tempScene);
-		Collection<IEditableParameter<?>> myParameters = ((AbstractAttribute) attribute).getParams();
-		for (IEditableParameter<?> parameter : myParameters) {
-			if (parameter.getInputNode() != null) {
-				tempPane.setCenter(parameter.getInputNode());
+			String className = ResourceManager.getString(String.format("%s_%s", selectedAttribute, "name"));
+			try {
+				attributeToAdd = (IAttribute) Reflection.createInstance(className);
+				ParameterInputFactory.createInputFields(attributeToAdd);
+				myAttributes.add(attributeToAdd);
 			}
-
-		}
-		tempStage.show();
+			catch (ReflectionException ex) {
+			}
 	}
-
-	@Override
-	public void update(Observable o, Object arg) {
-		if (!(myAttributes.contains((IAttribute) arg))) {
-			myAttributes.add((IAttribute) arg);
-		}
-
-	}
-
+	
 }

@@ -1,22 +1,35 @@
 package com.syntacticsugar.vooga.gameplayer.attribute.status;
 
-import java.util.Observable;
-
-import com.syntacticsugar.vooga.authoring.parameters.AbstractParameter;
+import com.syntacticsugar.vooga.authoring.parameters.EditableClass;
+import com.syntacticsugar.vooga.authoring.parameters.EditableField;
+import com.syntacticsugar.vooga.authoring.parameters.InputParser;
+import com.syntacticsugar.vooga.authoring.parameters.InputTypeException;
 import com.syntacticsugar.vooga.gameplayer.attribute.AbstractAttribute;
-import com.syntacticsugar.vooga.gameplayer.attribute.movement.AbstractMovementAttribute;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
-import com.syntacticsugar.vooga.util.ResourceManager;
 
+@EditableClass (
+		className = "Timed Status Effect"
+		)
 public abstract class StatusEffectAttribute extends AbstractAttribute {
 	
-	protected Integer timeLeft;
+	private int timeLeft;
 	
-	Boolean isStarted;
+	private boolean isStarted;
 	
-	public StatusEffectAttribute(Integer time) {
+	public StatusEffectAttribute(int time) {
+		super();
 		timeLeft = time;
 		isStarted = false;
+	}
+	
+	public StatusEffectAttribute() {
+		super();
+	}
+	
+	@Override
+	protected void setDefaults() {
+		this.timeLeft = 60;
+		this.isStarted = false;
 	}
 
 	@Override
@@ -28,7 +41,6 @@ public abstract class StatusEffectAttribute extends AbstractAttribute {
 		if (timeLeft <= 0) {
 			kill();
 		}
-		
 		timeLeft--;
 	}
 	
@@ -36,11 +48,23 @@ public abstract class StatusEffectAttribute extends AbstractAttribute {
 	
 	protected abstract void endStatus();
 	
-	public abstract void update(Observable o, Object arg);
-	
 	public void kill() {
 		endStatus();
 		getParent().removeAttribute(this);
 	}
-
+	
+	
+	/**		  	      EDIT TAGS	     		    **/
+	/** *************************************** **/
+	
+	@EditableField(
+			inputLabel = "Frame Duration",
+			defaultVal = "60"
+			)
+	private void editDuration(String arg) {
+		try {
+			this.timeLeft = InputParser.parseAsInt(arg);
+		} catch (InputTypeException e) {	}
+	}
+	
 }

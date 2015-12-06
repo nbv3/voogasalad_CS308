@@ -2,8 +2,6 @@ package com.syntacticsugar.vooga.util.gui.factory;
 
 import java.util.Collection;
 
-import com.syntacticsugar.vooga.util.ResourceManager;
-
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;

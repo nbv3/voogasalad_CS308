@@ -1,28 +1,23 @@
 package com.syntacticsugar.vooga.gameplayer.attribute;
 
-import java.util.Collection;
-import java.util.ListIterator;
-import java.util.Observable;
-
-import com.syntacticsugar.vooga.authoring.parameters.DoubleParameter;
-import com.syntacticsugar.vooga.authoring.parameters.IEditableParameter;
+import com.syntacticsugar.vooga.authoring.parameters.EditableClass;
+import com.syntacticsugar.vooga.authoring.parameters.EditableField;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.ObjectDespawnEvent;
 import com.syntacticsugar.vooga.gameplayer.universe.IEventPoster;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
-import com.syntacticsugar.vooga.gameplayer.universe.IObjectDespawner;
 import com.syntacticsugar.vooga.util.ResourceManager;
 
-import javafx.scene.Node;
-import javafx.scene.layout.HBox;
-
+@EditableClass (
+	className = "Health Settings"
+)
 public class HealthAttribute extends AbstractAttribute {
 	
 	private static final String HEALTH_CHANGE_FREQ = "health_change_freq";
 
-	private Double myHealth;
-	private Double myMaxHealth;
-	private int myInvincibleFrames;
+	private double myMaxHealth;
 	
+	private double myHealth;
+	private int myInvincibleFrames;
 	private int myHealthChangeFreq;
 	
 	/**
@@ -31,12 +26,20 @@ public class HealthAttribute extends AbstractAttribute {
 	 * @param startingHealth
 	 */
 	public HealthAttribute() {
-		super(new DoubleParameter("Health: "));
-		this.myHealth = 10.0;
-		this.myMaxHealth = 50.0;
-		this.myInvincibleFrames = 0;
+		super();
+	}
+	
+	@Override
+	public void setDefaults() {
+		this.myInvincibleFrames = Integer.parseInt(ResourceManager.getString(HEALTH_CHANGE_FREQ));
+		this.myMaxHealth = 100;
 	}
 
+	/**
+	 * Checks on every frame to see if the health has gone to zero. Despawns
+	 * parent object if health is gone.
+	 * @param universe
+	 */
 	@Override
 	public void updateSelf(IGameUniverse universe) {
 		checkForDeath(universe);
@@ -50,7 +53,6 @@ public class HealthAttribute extends AbstractAttribute {
 	 * @param healthChange
 	 */
 	public void changeHealth(Double healthChange) {
-		System.out.println("HealthChange = " + healthChange);
 		if (healthChange >= 0) {
 			restoreHealth(healthChange);
 		}
@@ -90,22 +92,20 @@ public class HealthAttribute extends AbstractAttribute {
 		return this.myHealth <= 0;
 	}
 	
-	public void setHealth(Double health)
-	{
-		myMaxHealth = health;
-	}
 	
-	// test code here
-	public Double getHealth() {
-		return myHealth;
-	}
+	/**		  	      EDIT TAGS	     		    **/
+	/** *************************************** **/
 
-	@Override
-	public void update(Observable o, Object arg) {
-		setHealth((Double) arg);
-		setChanged();
-		notifyObservers(this);
+	@EditableField(
+		inputLabel = "Max Health",
+		defaultVal = "100"
+	)
+	private void editMaxHealth(String arg) {
+		try {
+			double val = Double.parseDouble(arg);
+			this.myHealth = val;
+			this.myMaxHealth = val;
+		} catch (NumberFormatException e) {	}
 	}
-
 
 }

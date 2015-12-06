@@ -3,18 +3,23 @@ package com.syntacticsugar.vooga.xml.data;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
-import com.syntacticsugar.vooga.gameplayer.attribute.control.actions.movement.Direction;
+import com.syntacticsugar.vooga.gameplayer.attribute.movement.Direction;
 import com.syntacticsugar.vooga.gameplayer.event.ICollisionEvent;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
+import com.syntacticsugar.vooga.util.ResourceManager;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.collections.FXCollections;
 import javafx.geometry.Point2D;
+import javafx.scene.image.Image;
 
 public class ObjectData implements Serializable, IData {
 	
@@ -38,6 +43,15 @@ public class ObjectData implements Serializable, IData {
 		mySpawnPoint = new Point2D(0.0, 0.0);
 		myAttributes = new ArrayList<>();
 		myCollisionMap = new HashMap<GameObjectType, Collection<ICollisionEvent>>();
+	}
+	
+	public ObjectData(IData objData) {
+		this();
+		setImagePath(new String(objData.getImagePath()));
+		setObjectName(null);
+		setType(objData.getType());
+		myAttributes.addAll(objData.getAttributes());
+		myCollisionMap.putAll(objData.getCollisionMap());
 	}
 	
 	public ObjectData(IGameObject obj) {

@@ -9,6 +9,7 @@ import com.syntacticsugar.vooga.authoring.level.towers.TowerManager;
 import com.syntacticsugar.vooga.authoring.objectediting.IDataClipboard;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
+import com.syntacticsugar.vooga.xml.data.IData;
 import com.syntacticsugar.vooga.xml.data.LevelSettings;
 import com.syntacticsugar.vooga.xml.data.MapData;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
@@ -86,13 +87,13 @@ public class LevelEditor implements IAddToSpawner {
 
 	private void addRowConstraints(GridPane grid) {
 		RowConstraints r0 = new RowConstraints();
-		r0.setPercentHeight(25);
+		r0.setPercentHeight(10);
 		RowConstraints r1 = new RowConstraints();
 		r1.setPercentHeight(20);
 		RowConstraints r2 = new RowConstraints();
-		r2.setPercentHeight(25);
+		r2.setPercentHeight(30);
 		RowConstraints r3 = new RowConstraints();
-		r3.setPercentHeight(30);
+		r3.setPercentHeight(40);
 		grid.getRowConstraints().addAll(r0, r1, r2, r3);
 	}
 
@@ -133,8 +134,9 @@ public class LevelEditor implements IAddToSpawner {
 	}
 
 	public void addToSpawner(ObjectData data) {
-		if (data.getType().equals(GameObjectType.ENEMY))
-			mySpawnerManager.getCurrentView().addData(data);
+		ObjectData copyData = new ObjectData(data);
+		if (copyData.getType().equals(GameObjectType.ENEMY))
+			mySpawnerManager.getCurrentView().addData(copyData);
 		else
 			AlertBoxFactory.createObject(ResourceManager.getString("select_enemy"));
 

@@ -1,7 +1,6 @@
 package com.syntacticsugar.vooga.gameplayer.objects.items.bullets;
 
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
-import com.syntacticsugar.vooga.gameplayer.attribute.control.actions.movement.Direction;
 import com.syntacticsugar.vooga.gameplayer.attribute.movement.ConstantMovementAttribute;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.HealthChangeEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.ObjectDespawnEvent;
@@ -10,10 +9,7 @@ import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 
-import javafx.geometry.Point2D;
-
 public abstract class AbstractBullet extends GameObject {
-	
 	
 	private boolean despawnFlag;
 	
