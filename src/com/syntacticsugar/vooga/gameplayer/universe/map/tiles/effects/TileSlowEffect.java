@@ -31,7 +31,7 @@ public class TileSlowEffect extends AbstractTileEffect {
 
 	@Override
 	public String getEffectName() {
-		return this.getClass().getSimpleName();
+		return this.getClass().getSimpleName().substring(4, this.getClass().getSimpleName().length() - 6);
 	}
 
 }
