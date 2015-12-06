@@ -19,7 +19,8 @@ public class MainMenu extends AbstractMenu{
 		Button launchGame = createButton("Play Game", e -> launch(new GameChooser()));
 		Button launchEditor = createButton("Launch Editor", e -> launch(new AuthoringScreenManager()));
 		Button launchSocial = createButton("Be Social", e -> launch(new SocialCenter()));
-		generateOptions(pane, launchGame, launchEditor, launchSocial);
+		Button launchHelp = createButton("Help", e -> launch(new HelpMenu()));
+		generateOptions(pane, launchGame, launchEditor, launchSocial, launchHelp);
 	}
 	
 	private void launch(IVoogaApp app) {
