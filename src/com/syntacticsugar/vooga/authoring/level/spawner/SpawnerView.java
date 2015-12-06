@@ -14,6 +14,8 @@ import com.syntacticsugar.vooga.authoring.fluidmotion.FadeTransitionWizard;
 import com.syntacticsugar.vooga.authoring.fluidmotion.FluidGlassBall;
 import com.syntacticsugar.vooga.authoring.level.IDataSelector;
 import com.syntacticsugar.vooga.authoring.level.QueueBox;
+import com.syntacticsugar.vooga.authoring.level.map.MapManager;
+import com.syntacticsugar.vooga.authoring.level.map.MapView;
 import com.syntacticsugar.vooga.authoring.library.IRefresher;
 import com.syntacticsugar.vooga.authoring.objectediting.IVisualElement;
 import com.syntacticsugar.vooga.authoring.tooltips.ObjectTooltip;
@@ -23,6 +25,7 @@ import com.syntacticsugar.vooga.gameplayer.event.ICollisionEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.HealthChangeEvent;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
+import com.syntacticsugar.vooga.xml.data.TileData;
 import com.syntacticsugar.vooga.xml.data.WaveData;
 
 import javafx.animation.Animation;
@@ -31,7 +34,9 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Orientation;
 import javafx.scene.Node;
 import javafx.scene.control.ListView;
+import javafx.scene.control.Tab;
 import javafx.scene.control.Tooltip;
+import javafx.scene.effect.Glow;
 
 public class SpawnerView implements IDataSelector<ObjectData>, IVisualElement, IRefresher, Observer {
 
@@ -40,8 +45,10 @@ public class SpawnerView implements IDataSelector<ObjectData>, IVisualElement, I
 	private ObservableList<Node> myWave;
 	private Node selectedItem;
 	private HashMap<Node, ObjectData> myObjects;
+	private MapManager myMapManager;
 
-	public SpawnerView() {
+	public SpawnerView(MapManager mapManager) {
+		myMapManager = mapManager;
 		myObjects = new HashMap<Node, ObjectData>();
 		myQueuePane = new ListView<Node>();
 		myQueue = new LinkedList<ObjectData>();
@@ -78,15 +85,35 @@ public class SpawnerView implements IDataSelector<ObjectData>, IVisualElement, I
 	// called when drag-drop happens
 	@Override
 	public void addData(ObjectData obj) {
-//		obj.getImagePathProperty().addListener((e, ov, nv) -> {
-//			refresh();
-//		});
 		myQueue.add(obj);
 		Node temp = createQueueBoxFromObjData(obj);
-		temp.setOnMouseClicked(e -> selectedItem = temp);
+		myWave.add(temp);
+		temp.setOnMousePressed(e -> highlightSpawnTile(obj));
+		temp.setOnMouseReleased(e -> deHighlightSpawnTile(obj));
+		temp.setOnMouseClicked(e -> setSelectItem(temp));
 		myObjects.put(temp, obj);
 		Tooltip.install(temp, new ObjectTooltip(myObjects.get(temp)));
-		myWave.add(temp);
+	}
+
+	private void highlightSpawnTile(ObjectData obj) {
+		double x = obj.getSpawnPoint().getX();
+		double y = obj.getSpawnPoint().getY();
+		int colIndex = (int) (myMapManager.getMapSize() * x / myMapManager.getMapGridWidth());
+		int rowIndex = (int) (myMapManager.getMapSize() * y / myMapManager.getMapGridHeight());
+		myMapManager.getTileIconMap().get(myMapManager.getMapData().getTileData(colIndex, rowIndex)).setEffect(MapView.TILE_EFFECT);
+	}
+	
+	private void deHighlightSpawnTile(ObjectData obj) {
+		double x = obj.getSpawnPoint().getX();
+		double y = obj.getSpawnPoint().getY();
+		int colIndex = (int) (myMapManager.getMapSize() * x / myMapManager.getMapGridWidth());
+		int rowIndex = (int) (myMapManager.getMapSize() * y / myMapManager.getMapGridHeight());
+		myMapManager.getTileIconMap().get(myMapManager.getMapData().getTileData(colIndex, rowIndex)).setEffect(null);
+	}
+
+	private void setSelectItem(Node temp) {
+		selectedItem = temp;
+	
 	}
 
 	@Override
