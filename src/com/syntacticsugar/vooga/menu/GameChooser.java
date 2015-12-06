@@ -13,14 +13,10 @@ import com.syntacticsugar.vooga.gameplayer.attribute.ScoreAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.control.actions.movement.Direction;
 import com.syntacticsugar.vooga.gameplayer.attribute.movement.ConstantMovementAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.movement.MovementControlAttribute;
-import com.syntacticsugar.vooga.gameplayer.attribute.weapon.BasicWeaponAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.weapon.StunWeaponAttribute;
 import com.syntacticsugar.vooga.gameplayer.event.ICollisionEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.HealthChangeEvent;
-import com.syntacticsugar.vooga.gameplayer.manager.GameManager;
-import com.syntacticsugar.vooga.gameplayer.objects.GameObject;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
-import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.dirview.IConverter;
 import com.syntacticsugar.vooga.util.dirview.IDirectoryViewer;
@@ -309,7 +305,8 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 		towerData.setCollisionMap(collisionst);
 		towerData.setWidth(100);
 		towerData.setHeight(100);
-		towerData.setCost(60);
+		towerData.setCost(-60);
+		towerData.setName("Rock tower");
 		towers.add(towerData);
 
 		String imgPath1 = "tower_4.png";
@@ -329,7 +326,8 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 		towerData2.setCollisionMap(collisionst2);
 		towerData2.setWidth(100);
 		towerData2.setHeight(100);
-		towerData2.setCost(30);
+		towerData2.setCost(-100);
+		towerData2.setName("Another Rock tower");
 		towers.add(towerData2);
 
 		TowerListData td = new TowerListData(towers);

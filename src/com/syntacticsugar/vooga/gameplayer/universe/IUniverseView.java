@@ -24,6 +24,8 @@ public interface IUniverseView extends IObjectCollection {
 	
 	public void observeScore(Observer observer);
 	
+	public void observeMoney(Observer observer);
+	
 	public IGameMap getMap();
 
 }
