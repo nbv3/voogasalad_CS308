@@ -1,13 +1,10 @@
-package com.syntacticsugar.vooga.menu;
+package com.syntacticsugar.vooga.tests;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.syntacticsugar.vooga.authoring.fluidmotion.mixandmatchmotion.DirectionalFadeWizard;
-import com.syntacticsugar.vooga.authoring.fluidmotion.mixandmatchmotion.PulsingFadeWizard;
 import com.syntacticsugar.vooga.gameplayer.attribute.HealthAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.ScoreAttribute;
@@ -19,11 +16,7 @@ import com.syntacticsugar.vooga.gameplayer.attribute.weapon.StunWeaponAttribute;
 import com.syntacticsugar.vooga.gameplayer.event.ICollisionEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.HealthChangeEvent;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
-import com.syntacticsugar.vooga.util.ResourceManager;
-import com.syntacticsugar.vooga.util.dirview.IConverter;
-import com.syntacticsugar.vooga.util.dirview.IDirectoryViewer;
-import com.syntacticsugar.vooga.xml.XMLFileFilter;
-import com.syntacticsugar.vooga.xml.XMLHandler;
+import com.syntacticsugar.vooga.util.simplefilechooser.SimpleFileChooser;
 import com.syntacticsugar.vooga.xml.data.GameData;
 import com.syntacticsugar.vooga.xml.data.GlobalSettings;
 import com.syntacticsugar.vooga.xml.data.LevelSettings;
@@ -35,133 +28,16 @@ import com.syntacticsugar.vooga.xml.data.TowerListData;
 import com.syntacticsugar.vooga.xml.data.UniverseData;
 import com.syntacticsugar.vooga.xml.data.WaveData;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 
-public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
-
-	private static final File myDirectory = new File(ResourceManager.getString("game_data"));
-	private Stage myStage;
-	private ObservableList<String> myGameNames;
-	private ListView<String> myView;
-	private Map<String, GameData> stringToGameData;
-	private Scene myScene;
-	private GameData selectedGameData;
-	private Button startButton;
-
-	public GameChooser() {
-		myStage = new Stage();
-		stringToGameData = new HashMap<String, GameData>();
-		myGameNames = FXCollections.observableArrayList();
-		showDirectoryContents(myDirectory, e -> getGameDescriptions(myDirectory));
-		initListView();
-
-		myScene = new Scene(buildScene());
-		myScene.getStylesheets().add("/com/syntacticsugar/vooga/authoring/css/default.css");
-		myStage.setScene(myScene);
-		myStage.show();
-
+public class MakeGameDataTest {
+	
+	public static void main(String args[]) {
+		SimpleFileChooser.saveGame(makeEmptyData(), new Stage());
 	}
-
-	private void initListView() {
-		myView = new ListView<String>(myGameNames);
-		myView.getStyleClass().add("label");
-		myView.setOnMouseClicked(e -> {
-			if (myView.getSelectionModel().getSelectedItem() != null) {
-				startButton.setDisable(false);
-			}
-			selectedGameData = stringToGameData.get(myView.getSelectionModel().getSelectedItem());
-		});
-
-		myView.getItems().add("HEY");
-		myView.getItems().add("LOLCANO");
-	}
-
-	private VBox buildScene() {
-		VBox box = new VBox(10);
-		box.setId("game-chooser");
-		Label title = new Label("Choose your game!");
-		title.setAlignment(Pos.CENTER);
-		startButton = createButton("Start", e -> startGame());
-		startButton.setDisable(true);
-		PulsingFadeWizard.attachPulsingHandlers(startButton);
-		box.getChildren().addAll(title,myView, startButton);
-//		DirectionalFadeWizard
-//			.applyEffect(box)
-//			.play();
-		return box;
-	}
-
-	private void startGame() {
-		//SimpleFileChooser.saveGame(makeEmptyData(), new Stage());
-		myStage.hide();
-//		GameData data = selectedGameData;
-//		System.out.println(data);
-//		System.out.println(data.getName());
-		GameData data  = makeEmptyData();
-		launchGame(new GameMenu(data));
-	}
-
-	private void launchGame(IVoogaApp app) {
-		app.assignCloseHandler(e -> animatedShowStage());
-		myStage.hide();
-	}
-
-	protected void animatedShowStage() {
-		DirectionalFadeWizard.applyEffect(myStage.getScene().getRoot()).play();
-		myStage.show();
-	}
-
-	@Override
-	public void assignCloseHandler(EventHandler<WindowEvent> onclose) {
-		myStage.setOnCloseRequest(onclose);
-
-	}
-
-	@Override
-	public void showDirectoryContents(File directory, IConverter<String> fileConverter) {
-		myGameNames.clear();
-		myGameNames.addAll(fileConverter.getContents(directory));
-	}
-
-	private Collection<String> getGameDescriptions(File directory) {
-		// System.out.println(directory);
-		File[] files = directory.listFiles(new XMLFileFilter());
-		XMLHandler<GameData> xml = new XMLHandler<>();
-		Collection<String> names = new ArrayList<String>();
-		for (int i = 0; i < files.length; i++) {
-			File f = files[i];
-			GameData data = xml.read(f);
-			String gamename = data.getName();
-			stringToGameData.put(gamename, data);
-		}
-
-		return names;
-
-	}
-
-	protected Button createButton(String name, EventHandler<ActionEvent> onAction) {
-		Button button = new Button(name);
-		button.setFont(new Font(30));
-		button.setMaxWidth(Double.MAX_VALUE);
-		button.setOnAction(onAction);
-		return button;
-	}
-
-
-	private GameData makeEmptyData() {
+	
+	private static GameData makeEmptyData() {
 
 		Collection<UniverseData> uni = new ArrayList<>();
 		uni.add(generateTestUni());
@@ -173,7 +49,7 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 		return data;
 	}
 
-	private UniverseData generateTestUni() {
+	private static UniverseData generateTestUni() {
 		Collection<ObjectData> odata = new ArrayList<>();
 
 		String enemyPath = "enemy_ghost_1.png";
@@ -328,9 +204,7 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 		TowerListData td = new TowerListData(towers);
 
 		LevelSettings lSetting = new LevelSettings(1000, 60);
-		lSetting.setStartingMoney(200);
 
 		return new UniverseData(spawn, td, map, lSetting,new ArrayList<>());
 	}
-
 }
