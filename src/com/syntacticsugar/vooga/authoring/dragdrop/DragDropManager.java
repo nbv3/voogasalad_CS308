@@ -4,6 +4,7 @@ import com.syntacticsugar.vooga.authoring.icon.Icon;
 
 import com.syntacticsugar.vooga.authoring.icon.IconPane;
 import com.syntacticsugar.vooga.authoring.level.map.MapView;
+import com.syntacticsugar.vooga.xml.data.IData;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
 import com.syntacticsugar.vooga.xml.data.TileData;
 import com.syntacticsugar.vooga.xml.data.TileImplementation;
@@ -43,7 +44,7 @@ public class DragDropManager {
 		event.consume();
 	}
 	
-	public static void createClipboard(ObjectData objectData, ImageView previewTile, MouseEvent event){
+	public static void createClipboard(IData objectData, ImageView previewTile, MouseEvent event){
 		Dragboard db = previewTile.startDragAndDrop(TransferMode.ANY);
 		System.out.println("Object Dragboard and Clipboard created");
 		ClipboardContent content = new ClipboardContent();

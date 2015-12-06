@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.syntacticsugar.vooga.authoring.objectediting.IObjectDataClipboard;
+import com.syntacticsugar.vooga.authoring.objectediting.IDataClipboard;
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 import com.syntacticsugar.vooga.xml.data.LevelSettings;
 import com.syntacticsugar.vooga.xml.data.MapData;
@@ -23,9 +23,9 @@ public class LevelTabManager {
 
 	private TabPane myTabPane;
 	private Map<Tab, LevelEditor> myLevelMap;
-	private IObjectDataClipboard iObject;
+	private IDataClipboard iObject;
 
-	public LevelTabManager(IObjectDataClipboard clip) {
+	public LevelTabManager(IDataClipboard clip) {
 		myLevelMap = new HashMap<Tab, LevelEditor>();
 		myTabPane = new TabPane();
 		iObject = clip;

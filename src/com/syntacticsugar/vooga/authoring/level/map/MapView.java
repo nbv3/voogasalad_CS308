@@ -5,7 +5,7 @@ import java.util.Map;
 
 import com.syntacticsugar.vooga.authoring.dragdrop.DragDropManager;
 import com.syntacticsugar.vooga.authoring.icon.Icon;
-import com.syntacticsugar.vooga.authoring.objectediting.IObjectDataClipboard;
+import com.syntacticsugar.vooga.authoring.objectediting.IDataClipboard;
 import com.syntacticsugar.vooga.authoring.objectediting.IVisualElement;
 import com.syntacticsugar.vooga.authoring.objectediting.sizing.ObjectResizer;
 import com.syntacticsugar.vooga.authoring.tooltips.TileInfoTooltip;
@@ -51,9 +51,9 @@ public class MapView implements IMapDisplay, IVisualElement {
 	private int myMapSize;
 	private GridPane myMapGrid;
 	private TitledPane myViewPane;
-	private IObjectDataClipboard iObject;
+	private IDataClipboard iObject;
 
-	public MapView(IObjectDataClipboard clip) throws Exception {
+	public MapView(IDataClipboard clip) throws Exception {
 		iObject = clip;
 		myMapSize = inputMapSize();
 		myTileSelection = buildSelectionSet();
@@ -173,8 +173,8 @@ public class MapView implements IMapDisplay, IVisualElement {
 			myMapData.setTileData(toedit, colIndex, rowIndex);
 		} else if (db.hasContent(DataFormat.lookupMimeType("ObjectData"))) {
 			System.out.println(iObject);
-			System.out.println(iObject.obtainSelectedObjectData());
-			ObjectData receivedData = iObject.obtainSelectedObjectData();
+			System.out.println(iObject.obtainSelectedIData());
+			ObjectData receivedData = (ObjectData) iObject.obtainSelectedIData();
 			receivedData.setSpawnPoint(x, y);
 			// Add to Spawner
 			// TODO
