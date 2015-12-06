@@ -53,9 +53,15 @@ public abstract class AbstractMovementAttribute extends AbstractAttribute implem
 	public void setVelocity(Direction dir) {
 		if (dir.equals(Direction.LEFT) || dir.equals(Direction.RIGHT)) {
 			this.xVelocity = (dir.equals(Direction.RIGHT) ? mySpeed : -1.0*mySpeed);
+			this.yVelocity = 0.0;
 		}
 		else if (dir.equals(Direction.DOWN) || dir.equals(Direction.UP)) {
 			this.yVelocity = (dir.equals(Direction.DOWN) ? mySpeed : -1.0*mySpeed);
+			this.xVelocity = 0.0;
+		}
+		else if (dir.equals(Direction.STOP)) {
+			this.xVelocity = 0.0;
+			this.yVelocity = 0.0;
 		}
 	}
 	
@@ -144,11 +150,6 @@ public abstract class AbstractMovementAttribute extends AbstractAttribute implem
 		Point2D oldPoint = box.getPoint();
 		Point2D newPoint = new Point2D(oldPoint.getX() + getXVelocity(), oldPoint.getY() + getYVelocity());
 		box.setPoint(newPoint);
-		try {
-			myCurrentTile = universe.getMap().getMapIndexFromCoordinate(newPoint);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 	
 	@Override

@@ -2,12 +2,9 @@ package com.syntacticsugar.vooga.gameplayer.attribute.movement;
 
 import java.awt.Point;
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.List;
-import java.util.Observable;
 
-import com.syntacticsugar.vooga.authoring.parameters.DoubleParameter;
-import com.syntacticsugar.vooga.authoring.parameters.IEditableParameter;
+import com.syntacticsugar.vooga.authoring.parameters.AbstractParameter;
 import com.syntacticsugar.vooga.gameplayer.attribute.control.actions.movement.Direction;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.gameplayer.universe.map.IGameMap;
@@ -17,102 +14,84 @@ import javafx.geometry.Point2D;
 
 public class AIMovementAttribute extends AbstractMovementAttribute implements Serializable{
 
-	private PathFinder pathFinder;
-	private List<Point> myPath;
 	private Point myNextTile;
-	
-	private int myFrameCount;
-	private int myPathUpdateRate; // TODO: Move into a resource file
-	
-	public AIMovementAttribute() {
-		super(new DoubleParameter("AISpeed: "));
-		
-		// update currentTile
-		myFrameCount = 0;
-		myPathUpdateRate = 20;
-	}
-	
-	private void generatePath(IGameUniverse universe) {
-		IGameMap map = universe.getMap();
-		List<Point> ends = map.getDestinationPoints();
-		
-		pathFinder = new PathFinder(map.isWalkable(), myCurrentTile, ends);
-		myPath = pathFinder.getPath();
-	}
-	
-	private Point nextPoint() {
-		myNextTile = new Point(pathFinder.getNext());
-		return pathFinder.getNext();
+
+	public AIMovementAttribute(AbstractParameter<?>[] speed) {
+		super(speed);
+		myNextTile = new Point(-1, -1);
+
 	}
 
 	@Override
 	public void updateSelf(IGameUniverse universe) {
-		// every n frames, run generatePath(universe);
-		if (myFrameCount % myPathUpdateRate == 0) {
-			generatePath(universe);
-		}
-			
-		setNextDestination(universe.getMap());
-		move(universe);
-		myFrameCount++;
-	}
-	
-	private void setNextDestination(IGameMap map) {
-		
-		if (isInsideTile(map)) {
-			myNextTile = nextPoint();
-		}
-		if (myNextTile == null) {
+		IGameMap map = universe.getMap();
+		List<Point> ends = map.getDestinationPoints();
+
+		if (myNextTile.equals(new Point(-1, -1))) {
+			// path has never been calculated
+			// calculate path
+			try {
+				myCurrentTile = map.getMapIndexFromCoordinate(getParent().getBoundingBox().getPoint());
+			} catch (Exception e) {
+				System.out.println("failed to fetch currentTile from map");
+			}
+			PathFinder pathFinder = new PathFinder(map.isWalkable(), myCurrentTile, ends);
+			myNextTile = pathFinder.getNext();
 			return;
 		}
-		
-		Direction dir = getNewDirection();
-		setDirection(dir);
-		
-		// ISimpleBoundingBox box = getParent().getBoundingBox();
-		// Point2D oldPoint = box.getPoint();
-		// convert nextPoint to Point2D
-		// if (distance from nextPoint is greater than xVelocity + yVelocity) {
-		// 		box.setPoint(new Point2D(oldPoint.getX() + xVelocity, oldPoint.getY() + yVelocity));
-		// } else {
-		//		box.setPoint(nextPointX, nextPointY);
-		// }
-		// box.setPoint(new Point2D(oldPoint.getX() + xVelocity, oldPoint.getY() + yVelocity));
-		System.out.println(String.format("X Velocity: %d   Y Velocity: %d", getXVelocity(), getYVelocity()));
-	}
-	
-	private Boolean isInsideTile(IGameMap map) {
-		Boolean result = false;
 
-		Point2D point = getParent().getBoundingBox().getPoint();
-		Point2D tile = map.getCoordinateFromMapIndex(myNextTile);
-		Boolean xLeft = point.getX() > tile.getX();
-		Boolean xRight = point.getX() + getParent().getBoundingBox().getWidth() < tile.getX() + map.getTileSize();
-		Boolean yBot = point.getY() > tile.getY();
-		Boolean yTop = point.getY() + getParent().getBoundingBox().getHeight() < tile.getY() + map.getTileSize();
-		if (xLeft && xRight && yBot && yTop) {
-			result = true;
+		if (ends.contains(myCurrentTile) || myNextTile.equals(myCurrentTile)) {
+			// reached destination or no path available
+			stopDirection();
+			return;
 		}
-		
-		return result;
+
+		// not at destination yet but close
+		if (closeToNextTile(map)) {
+			// move straight to nextmap
+			getParent().setPoint(universe.getMap().getCoordinateFromMapIndex(myNextTile));
+			myCurrentTile = new Point(myNextTile);
+			// recalculate next tile
+			PathFinder pathFinder = new PathFinder(map.isWalkable(), myCurrentTile, ends);
+			myNextTile = pathFinder.getNext();
+
+			moveDirection();
+			return;
+		}
+
+		// move along direction
+		moveDirection();
+		move(universe);
+
+	}
+
+	private boolean closeToNextTile(IGameMap map) {
+		Point2D currentPoint = getParent().getPoint();
+		Point2D nextPoint = map.getCoordinateFromMapIndex(myNextTile);
+		return currentPoint.distance(nextPoint) <= 1.2 * getSpeed();
 	}
 	
+	private void moveDirection() {
+		Direction moveDirection = getNewDirection();
+		setDirection(moveDirection);
+		setVelocity(getDirection());
+	}
+	
+	private void stopDirection() {
+		setDirection(Direction.STOP);
+		setVelocity(Direction.STOP);
+	}
+
 	private Direction getNewDirection() {
 		if (myCurrentTile.x < myNextTile.x) {
 			return Direction.RIGHT;
-		}
-		else if (myCurrentTile.x > myNextTile.x) {
+		} else if (myCurrentTile.x > myNextTile.x) {
 			return Direction.LEFT;
-		}
-		else if (myCurrentTile.y < myNextTile.y) {
-			return Direction.UP;
-		}
-		else if (myCurrentTile.y > myNextTile.y) {
+		} else if (myCurrentTile.y < myNextTile.y) {
 			return Direction.DOWN;
+		} else if (myCurrentTile.y > myNextTile.y) {
+			return Direction.UP;
 		}
 		return Direction.STOP;
 	}
-
-
-
 }

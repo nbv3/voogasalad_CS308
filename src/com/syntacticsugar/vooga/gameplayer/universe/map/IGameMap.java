@@ -23,8 +23,6 @@ public interface IGameMap extends PathFindingMap{
 	public boolean[][] isWalkable();
 
 	public boolean[][] isPlaceable();
-
-	public IGameTile getTile(Point2D p);
 	
 	public Point getMapIndexFromCoordinate(Point2D coordinate) throws Exception;
 	
@@ -50,4 +48,6 @@ public interface IGameMap extends PathFindingMap{
 	 * @return destinations
 	 */
 	public List<Point> getDestinationPoints();
+
+	public IGameTile getTile(Point2D p);
 }

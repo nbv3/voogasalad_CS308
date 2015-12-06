@@ -1,6 +1,6 @@
 package com.syntacticsugar.vooga.social;
 
-public interface IUpdater {
+public interface IDataViewUpdater {
 
 	public void update(int selected);
 	

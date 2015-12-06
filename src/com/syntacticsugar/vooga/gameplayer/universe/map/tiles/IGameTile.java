@@ -37,5 +37,9 @@ public interface IGameTile extends IViewableObject, ITowerHolder{
 	public ITileEffect getTileEffect();
 	
 	public void updateSelf(IGameUniverse universe);
+	/**
+	 * Set this point as a destination.
+	 */
+	public void setDestination(boolean dest);
 	
 }

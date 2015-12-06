@@ -3,22 +3,13 @@ package com.syntacticsugar.vooga.gameplayer.universe;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Observer;
 
-import com.syntacticsugar.vooga.gameplayer.attribute.HealthAttribute;
-import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
 import com.syntacticsugar.vooga.gameplayer.conditions.Conditions;
-import com.syntacticsugar.vooga.gameplayer.conditions.implementation.EnemyDeathCondition;
 import com.syntacticsugar.vooga.gameplayer.conditions.implementation.PlayerDeathCondition;
-import com.syntacticsugar.vooga.gameplayer.event.ICollisionEvent;
 import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
-import com.syntacticsugar.vooga.gameplayer.event.implementations.HealthChangeEvent;
 import com.syntacticsugar.vooga.gameplayer.manager.IEventManager;
-import com.syntacticsugar.vooga.gameplayer.objects.GameObject;
-import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.objects.towers.Tower;
 import com.syntacticsugar.vooga.gameplayer.universe.map.GameMap;
@@ -29,7 +20,6 @@ import com.syntacticsugar.vooga.gameplayer.universe.spawner.ISpawner;
 import com.syntacticsugar.vooga.gameplayer.universe.spawner.Spawner;
 import com.syntacticsugar.vooga.gameplayer.view.IViewAdder;
 import com.syntacticsugar.vooga.gameplayer.view.IViewRemover;
-import com.syntacticsugar.vooga.xml.XMLHandler;
 import com.syntacticsugar.vooga.xml.data.GlobalSettings;
 import com.syntacticsugar.vooga.xml.data.LevelSettings;
 import com.syntacticsugar.vooga.xml.data.MapData;
@@ -57,17 +47,12 @@ public class GameUniverse implements IGameUniverse {
 	private IEventManager myPoster;
 
 	public GameUniverse(UniverseData data, GlobalSettings settings) {
-
 		myScore = new Score(data.getSettings());
-		
 		// Needs event manager
 		myConditions = new Conditions();
-		
 		myGameObjects = new ArrayList<IGameObject>();
 		myGameMap = new GameMap(data.getMap());
-
 		mySpawner = new Spawner(data.getSpawns().getWaves(), data.getSettings().getSpawnRate());
-		
 		myTowers = new ArrayList<>();
 		Collection<ObjectData> towerdata = data.getTowers().getTowers();
 		for (ObjectData d : towerdata) {
@@ -77,12 +62,9 @@ public class GameUniverse implements IGameUniverse {
 		myGraveYard = new GraveYard(this);
 		mySpawnYard = new SpawnYard(this);
 		myCurrentInput = new ArrayList<KeyCode>();
-		
-		//DEBUG
+		//TODO: DEBUG
 		myConditions.addCondition(new PlayerDeathCondition());
 //		myConditions.addCondition(new EnemyDeathCondition(3));
-		//testTower();
-		
 	}
 
 	public void registerListeners(IEventManager manager) {
@@ -91,7 +73,7 @@ public class GameUniverse implements IGameUniverse {
 		myGraveYard.registerEventManager(manager);
 		mySpawnYard.registerEventManager(manager);
 		myPoster = manager;
-		
+		manager.registerListener(myScore);
 	}
 
 	@Override
