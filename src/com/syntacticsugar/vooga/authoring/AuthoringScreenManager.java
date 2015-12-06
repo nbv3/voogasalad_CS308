@@ -42,33 +42,28 @@ public class AuthoringScreenManager implements Observer, IVoogaApp {
 	private ObjectLibraryManager myObjectLibraryManager;
 	private Stage myStage;
 	private Scene myScene;
-	// private ObjectLibrary myObjectLibrary;
 	private ObjectEditor myObjectEditor;
 
 	public AuthoringScreenManager() {
-		myObjectLibraryManager = new ObjectLibraryManager();
-		myObjectEditor = new ObjectEditor(() -> myObjectLibraryManager.refresh());
 		IObjectDataClipboard iObject = myObjectEditor;
 		myLevelEditor = new LevelTabManager(iObject);
+		myObjectEditor = new ObjectEditor(() -> myObjectLibraryManager.refresh());
+
+		myObjectLibraryManager = new ObjectLibraryManager(myLevelEditor);
+
 		initWindow();
 	}
-
-	// private void initObjectLibrary() {
-	// myObjectLibrary = new ObjectLibrary(null);
-	// myObjectManager = new AuthoringSidePane(null);
-	// }
 
 	private void initWindow() {
 		myWindow = new BorderPane();
 		buildMenuBar();
 
 		myWindowGrid = new GridPane();
-		// myWindowGrid.setGridLinesVisible(true);
 		addGridConstraints();
 
 		setUpObserver();
 		myWindowGrid.add(myLevelEditor.getTabPane(), 0, 0, 1, 2);
-		myWindowGrid.add(myObjectLibraryManager.getTabPane(), 1, 0, 1, 1);
+		myWindowGrid.add(myObjectLibraryManager.getView(), 1, 0, 1, 1);
 		myWindowGrid.add(myObjectEditor.getView(), 1, 1, 1, 1);
 		myWindow.setCenter(myWindowGrid);
 
@@ -227,7 +222,7 @@ public class AuthoringScreenManager implements Observer, IVoogaApp {
 		r1.setPercentHeight(50);
 		RowConstraints r2 = new RowConstraints();
 		r2.setPercentHeight(50);
-	
+
 		myWindowGrid.getRowConstraints().addAll(r1, r2);
 	}
 
