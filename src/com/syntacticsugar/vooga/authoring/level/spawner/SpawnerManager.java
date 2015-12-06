@@ -23,11 +23,12 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.VBox;
+import javafx.util.Pair;
 
 public class SpawnerManager implements ITabbedManager<ObjectData> {
 
 	private TabPane myTabPane;
-	private Map<Tab, SpawnerView> mySpawnerViewMap;
+	private Map<Tab, SpawnerPair> mySpawnerViewMap;
 	private SpawnerControls mySpawnerController;
 
 	public SpawnerManager() {
@@ -45,8 +46,8 @@ public class SpawnerManager implements ITabbedManager<ObjectData> {
 		newWaveTab.setContent(newSpawnerView.getView());
 		newWaveTab.setOnCloseRequest(e -> remove());
 		newWaveTab.setOnClosed(e -> updateWaveNumbers());
-
-		mySpawnerViewMap.put(newWaveTab, newSpawnerView);
+		SpawnerPair spawnerWaveAndRatePair = new SpawnerPair(0, newSpawnerView);
+		mySpawnerViewMap.put(newWaveTab, spawnerWaveAndRatePair);
 
 		myTabPane.getTabs().add(newWaveTab);
 		myTabPane.getSelectionModel().select(newWaveTab);
@@ -64,11 +65,11 @@ public class SpawnerManager implements ITabbedManager<ObjectData> {
 
 	@Override
 	public SpawnerView getCurrentView() {
-		return mySpawnerViewMap.get(myTabPane.getSelectionModel().getSelectedItem());
+		return mySpawnerViewMap.get(myTabPane.getSelectionModel().getSelectedItem()).getSpawnerView();
 	}
 
 	public void addDataToCurrentView(ObjectData data) {
-		mySpawnerViewMap.get(myTabPane.getSelectionModel().getSelectedItem()).addData(data);
+		mySpawnerViewMap.get(myTabPane.getSelectionModel().getSelectedItem()).getSpawnerView().addData(data);
 	}
 
 	@Override
@@ -85,12 +86,17 @@ public class SpawnerManager implements ITabbedManager<ObjectData> {
 	public Node getViewNode() {
 		return GUIFactory.buildTitledPane("Spawner Display", myTabPane);
 	}
+	
+	public void setCurrentWaveSpawnRate(int rate) {
+		mySpawnerViewMap.get(myTabPane.getSelectionModel().getSelectedItem()).setSpawnRate(rate);
+	}
 
 	public SpawnerData getSpawnerData() {
 		Collection<WaveData> map = new ArrayList<WaveData>();
 		for (Tab t : myTabPane.getTabs()) {
-			WaveData queue = mySpawnerViewMap.get(t).getWaveData();
-			map.add(queue);
+			WaveData wave = mySpawnerViewMap.get(t).getSpawnerView().getWaveData();
+			wave.setSpawnRate(mySpawnerViewMap.get(t).getRate());
+			map.add(wave);
 		}
 		return new SpawnerData(map);
 	}
