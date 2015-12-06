@@ -1,7 +1,7 @@
 package com.syntacticsugar.vooga.xml.data;
 
-import java.io.Serializable;
 
+import java.io.Serializable;
 import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.IGameTile;
 
 public class TileData  implements Serializable {

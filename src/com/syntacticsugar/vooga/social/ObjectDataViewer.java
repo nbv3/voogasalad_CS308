@@ -80,8 +80,7 @@ public class ObjectDataViewer extends ListViewer {
 				String value = object.get(key).toString();
 				Node listElement = makeListElement(key, value);
 				object.remove(key);
-				if (!key.equals("comments")) 
-					addElementToList(listElement);
+				addElementToList(listElement);
 				myProperties.put(key, value);
 			}
 			} catch (JSONException e) {
@@ -90,8 +89,7 @@ public class ObjectDataViewer extends ListViewer {
 	}
 
 	private JSONObject getJSONObject(int id) {
-		return null;
-		//return WebConnector.getJSONObject(id);	
+		return WebConnector.getXMLData(id);	
 	}
 
 	private Node makeListElement(String key, String value) {
@@ -128,7 +126,7 @@ public class ObjectDataViewer extends ListViewer {
 		File selectedFile = chooser.showOpenDialog(new Stage());
 		if (selectedFile != null) {
 			launchPropertiesBox();
-			WebConnector.postXML(JSONHelper.createXMLJSON("Michael", "Tetris", "tetris", XMLHandler.fileToString(selectedFile),""));
+			WebConnector.postXML(JSONHelper.createXMLJSON("Michael", "Tetris", "tetris", XMLHandler.fileToString(selectedFile)));
 		}
 	}
 	

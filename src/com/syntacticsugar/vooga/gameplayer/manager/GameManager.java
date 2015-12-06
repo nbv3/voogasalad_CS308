@@ -1,6 +1,5 @@
 package com.syntacticsugar.vooga.gameplayer.manager;
 
-
 import com.syntacticsugar.vooga.gameplayer.conditions.ConditionType;
 import com.syntacticsugar.vooga.gameplayer.engine.GameEngine;
 import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
