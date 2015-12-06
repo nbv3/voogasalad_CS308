@@ -1,11 +1,13 @@
 package com.syntacticsugar.vooga.gameplayer.universe.map.tiles.effects;
 
+import java.io.Serializable;
+
 import com.syntacticsugar.vooga.gameplayer.event.implementations.SlowEvent;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.gameplayer.universe.map.IGameMap;
 
-public class TileSlowEffect extends AbstractTileEffect {
+public class TileSlowEffect extends AbstractTileEffect implements Serializable {
 
 	private Double mySlow;
 	private int myLength;
