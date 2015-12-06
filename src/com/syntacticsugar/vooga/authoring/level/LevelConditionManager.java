@@ -4,6 +4,8 @@ import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.syntacticsugar.vooga.authoring.objectediting.IVisualElement;
+import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 import com.syntacticsugar.vooga.util.gui.factory.MsgInputBoxFactory;
 import com.syntacticsugar.vooga.xml.data.LevelSettings;
@@ -17,38 +19,39 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
 
-public class LevelConditionManager {
-
-	private static final String CONDITION_PATH = "com.syntacticsugar.vooga.gameplayer.conditions.implementation.";
+public class LevelConditionManager implements IVisualElement {
 
 	private GridPane myView;
 	private ComboBox<String> myWins;
 	private ComboBox<String> myLose;
-	private String mySelectedWin;
+	private TextField mySpawnInput;
+	private TextField myCash;
+
 	private List<Double> myWinParameters;
-	private String mySelectedLose;
 	private List<Double> myLoseParameters;
+
+	private String mySelectedWin;
+	private String mySelectedLose;
 	private int mySavedSpawnRate;
-	private VBox mySpawnSet;
-	private TextField myInput;
+	private int mySetCash;
 
 	public LevelConditionManager() {
 		myView = new GridPane();
 
-		mySpawnSet = new VBox(10);
-		myInput = new TextField();
-		myInput.setPromptText("Enemy Spawn Rate");
-		Label spawnLabel = new Label("Enter Enemy Spawn Rate");
-		mySpawnSet.getChildren().addAll(spawnLabel, myInput);
+		mySpawnInput = new TextField();
+		mySpawnInput.setPromptText(ResourceManager.getString("int_SpawnRate"));
 
-		ObservableList<String> winOptions = FXCollections.observableArrayList("Enemy Death");
+		myCash = new TextField();
+		myCash.setPromptText(ResourceManager.getString("int_InitialCash"));
+
+		ObservableList<String> winOptions = FXCollections.observableArrayList(ResourceManager.getString("enemy_death"));
 		myWins = new ComboBox<String>(winOptions);
 		myWins.setPrefWidth(200);
 		myWinParameters = new ArrayList<Double>();
 
-		ObservableList<String> loseOptions = FXCollections.observableArrayList("Destination", "Player Death");
+		ObservableList<String> loseOptions = FXCollections.observableArrayList(ResourceManager.getString("destination"),
+				ResourceManager.getString("player_death"));
 		myLose = new ComboBox<String>(loseOptions);
 		myLose.setPrefWidth(200);
 		myLoseParameters = new ArrayList<Double>();
@@ -56,16 +59,17 @@ public class LevelConditionManager {
 		myWins.valueProperty().addListener((o, s1, s2) -> updateSelectedWin(s2));
 		myLose.valueProperty().addListener((o, s1, s2) -> updateSelectedLose(s2));
 
-		Label win = new Label("Winning Condition");
+		Label win = new Label(ResourceManager.getString("win_condition"));
 		win.setAlignment(Pos.CENTER);
-		Label lose = new Label("Losing Condition");
+		Label lose = new Label(ResourceManager.getString("lose_condition"));
 		lose.setAlignment(Pos.CENTER);
 
 		myView.add(win, 0, 0, 1, 1);
 		myView.add(lose, 0, 2, 1, 1);
 		myView.add(myWins, 0, 1, 1, 1);
 		myView.add(myLose, 0, 3, 1, 1);
-		myView.add(mySpawnSet, 0, 4, 1, 1);
+		myView.add(mySpawnInput, 0, 4, 1, 1);
+		myView.add(myCash, 0, 5, 1, 1);
 
 		myView.setPadding(new Insets(10, 10, 10, 10));
 		myView.setVgap(10);
@@ -74,13 +78,14 @@ public class LevelConditionManager {
 
 	private void updateSelectedWin(String w) {
 		mySelectedWin = w;
-		String className = mySelectedWin.replace(" ", "");
-		String classPath = String.format("%s%s%s", CONDITION_PATH, className, "Condition");
+		String classPath = String.format("%s%s%s", ResourceManager.getString("conditions"),
+				mySelectedWin.replace(" ", ""), "Condition");
 
 		try {
 			Class<?> c = Class.forName(classPath);
 			Constructor<?>[] constr = c.getDeclaredConstructors();
 			Class<?>[] parameterTypes = constr[0].getParameterTypes();
+
 			for (int i = 0; i < parameterTypes.length; i++) {
 				MsgInputBoxFactory msgBox = new MsgInputBoxFactory(String.format("Set %s Value", mySelectedWin));
 				myWinParameters.add(msgBox.getInputValue());
@@ -93,24 +98,20 @@ public class LevelConditionManager {
 
 	private void updateSelectedLose(String l) {
 		mySelectedLose = l;
-		String className = mySelectedLose.replace(" ", "");
-		String classPath = String.format("%s%s%s", "com.syntacticsugar.vooga.gameplayer.conditions.implementation.",
-				className, "Condition");
+		String classPath = String.format("%s%s%s", ResourceManager.getString("conditions"),
+				mySelectedLose.replace(" ", ""), "Condition");
 		try {
-
 			Class<?> c = Class.forName(classPath);
 			Constructor<?>[] constr = c.getDeclaredConstructors();
 			Class<?>[] parameterTypes = constr[0].getParameterTypes();
+
 			for (int i = 0; i < parameterTypes.length; i++) {
 				MsgInputBoxFactory msgBox = new MsgInputBoxFactory(String.format("Set %s Value", mySelectedLose));
 				myLoseParameters.add(msgBox.getInputValue());
 			}
-
 		} catch (SecurityException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		System.out.println(myLoseParameters);
-
 	}
 
 	public String getLosingCondition() {
@@ -131,9 +132,18 @@ public class LevelConditionManager {
 
 	public void saveSpawnRate() {
 		try {
-			mySavedSpawnRate = Integer.parseInt(myInput.getText());
+			mySavedSpawnRate = Integer.parseInt(mySpawnInput.getText());
 		} catch (Exception e) {
-			AlertBoxFactory.createObject("Please enter an integer.");
+			AlertBoxFactory.createObject(ResourceManager.getString("not_integer"));
+		}
+	}
+
+	public void saveCash() {
+		try {
+			mySetCash = Integer.parseInt(myCash.getText());
+
+		} catch (Exception e) {
+			AlertBoxFactory.createObject(ResourceManager.getString("not_integer"));
 		}
 	}
 
@@ -143,8 +153,9 @@ public class LevelConditionManager {
 
 	public LevelSettings getConditions() {
 		saveSpawnRate();
+		saveCash();
 		LevelSettings settings = new LevelSettings(mySelectedWin, myWinParameters, mySelectedLose, myLoseParameters,
-				mySavedSpawnRate);
+				mySavedSpawnRate, mySetCash);
 		return settings;
 	}
 }

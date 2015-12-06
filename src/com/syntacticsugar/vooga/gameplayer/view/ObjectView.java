@@ -5,6 +5,7 @@ import java.util.Observer;
 
 import com.syntacticsugar.vooga.gameplayer.objects.BoundingBox;
 
+import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
@@ -13,8 +14,7 @@ public class ObjectView extends Observable implements Observer {
 	
 	private StackPane myViewPane;
 	private double scalingFactor;
-	protected double tempCoord1;
-	protected double tempCoord2;
+	private Point2D originalCoordinates;
 	
 	public ObjectView(String path, BoundingBox box , GameView gameView) {
 		myViewPane = new StackPane();
@@ -22,12 +22,10 @@ public class ObjectView extends Observable implements Observer {
 		iv.setFocusTraversable(true);
 		scalingFactor = gameView.getScalingFactor();
 		applyTransform(box);
-		tempCoord1 = box.getPoint().getX();
-		tempCoord2 = box.getPoint().getY();
+		originalCoordinates = new Point2D(box.getPoint().getX(), box.getPoint().getY());
 		iv.setFitHeight(scalingFactor*box.getWidth());
 		iv.setFitWidth(scalingFactor*box.getHeight());
 		myViewPane.getChildren().add(iv);
-		//myGameView.getChildren().add(myViewPane);
 		gameView.addObjectView(myViewPane);
 		box.addObserver(this);
 	}
@@ -35,8 +33,6 @@ public class ObjectView extends Observable implements Observer {
 	@Override
 	public void update(Observable obs, Object arg1) {
 		BoundingBox box = (BoundingBox) obs;
-		// TODO Use the myTransform to scale the properties of 
-		// the bounding box passed as box
 		applyTransform(box);
 	}
 	
@@ -49,6 +45,10 @@ public class ObjectView extends Observable implements Observer {
 	
 	public StackPane getViewPane(){
 		return myViewPane;
+	}
+	
+	public Point2D getOriginalCoordinates(){
+		return originalCoordinates;
 	}
 
 }

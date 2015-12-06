@@ -7,21 +7,21 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.syntacticsugar.vooga.authoring.fluidmotion.mixandmatchmotion.DirectionalFadeWizard;
+import com.syntacticsugar.vooga.authoring.fluidmotion.mixandmatchmotion.PulsingFadeWizard;
 import com.syntacticsugar.vooga.gameplayer.attribute.HealthAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.ScoreAttribute;
-import com.syntacticsugar.vooga.gameplayer.attribute.control.actions.movement.Direction;
 import com.syntacticsugar.vooga.gameplayer.attribute.movement.AIMovementAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.movement.ConstantMovementAttribute;
+import com.syntacticsugar.vooga.gameplayer.attribute.movement.Direction;
 import com.syntacticsugar.vooga.gameplayer.attribute.movement.MovementControlAttribute;
-import com.syntacticsugar.vooga.gameplayer.attribute.weapon.StunWeaponAttribute;
+import com.syntacticsugar.vooga.gameplayer.attribute.weapons.StunWeaponAttribute;
 import com.syntacticsugar.vooga.gameplayer.event.ICollisionEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.HealthChangeEvent;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.dirview.IConverter;
 import com.syntacticsugar.vooga.util.dirview.IDirectoryViewer;
-import com.syntacticsugar.vooga.util.properties.PropertiesManager;
 import com.syntacticsugar.vooga.xml.XMLFileFilter;
 import com.syntacticsugar.vooga.xml.XMLHandler;
 import com.syntacticsugar.vooga.xml.data.GameData;
@@ -39,11 +39,14 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -60,43 +63,49 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 	private Button startButton;
 
 	public GameChooser() {
-		stringToGameData = new HashMap<String, GameData>();
 		myStage = new Stage();
+		stringToGameData = new HashMap<String, GameData>();
 		myGameNames = FXCollections.observableArrayList();
 		showDirectoryContents(myDirectory, e -> getGameDescriptions(myDirectory));
 		myView = new ListView<String>(myGameNames);
+		myView.setId("game-chooser-listview");
 		myView.setOnMouseClicked(e -> {
 			if (myView.getSelectionModel().getSelectedItem() != null) {
 				startButton.setDisable(false);
 			}
+			selectedGameData = stringToGameData.get(myView.getSelectionModel().getSelectedItem());
 		});
 
-		myView.getItems().add("HEY");
-		myView.getItems().add("LOLCANO");
-
+		//myView.getItems().add("HEY");
+		//myView.getItems().add("LOLCANO");
 		myScene = new Scene(buildScene());
+		myScene.getStylesheets().add("/com/syntacticsugar/vooga/gameplayer/css/menu.css");
+
 		myStage.setScene(myScene);
 		myStage.show();
 
 	}
 
 	private VBox buildScene() {
-		VBox box = new VBox();
+		VBox box = new VBox(10);
+		box.setId("game-chooser-vbox");
+		Label title = new Label("Choose a game:");
+		title.setAlignment(Pos.CENTER);
+		title.setId("game-chooser-title");
 		startButton = createButton("Start", e -> startGame());
 		startButton.setDisable(true);
-		box.getChildren().addAll(myView, startButton);
+		PulsingFadeWizard.attachPulsingHandlers(startButton);
+		box.getChildren().addAll(title,myView, startButton);
 		return box;
 	}
 
 	private void startGame() {
-		// selectedGameData =
-		// stringToGameData.get(myView.getSelectionModel().getSelectedItem());
-		// System.out.println(myView.getSelectionModel().getSelectedItem());
-		// System.out.print(selectedGameData);
-		// launchNewEngine();
+		//SimpleFileChooser.saveGame(makeEmptyData(), new Stage());
 		myStage.hide();
+//		GameData data = selectedGameData;
 		GameData data = makeEmptyData();
-		data.setName("Go Bolts");
+		System.out.println(data);
+		System.out.println(data.getName());
 		launchGame(new GameMenu(data));
 	}
 
@@ -105,7 +114,7 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 		myStage.hide();
 	}
 
-	private void animatedShowStage() {
+	protected void animatedShowStage() {
 		DirectionalFadeWizard.applyEffect(myStage.getScene().getRoot()).play();
 		myStage.show();
 	}
@@ -134,33 +143,34 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 			names.add(gamename);
 			System.out.println(stringToGameData);
 			stringToGameData.put(gamename, data);
+//			names.add("TEST");
 		}
 
 		return names;
 
 	}
 
-	private Button createButton(String name, EventHandler<ActionEvent> onAction) {
+	protected Button createButton(String name, EventHandler<ActionEvent> onAction) {
 		Button button = new Button(name);
 		button.setFont(new Font(30));
 		button.setMaxWidth(Double.MAX_VALUE);
 		button.setOnAction(onAction);
 		return button;
 	}
-
-
-	private GameData makeEmptyData() {
+	
+	private static GameData makeEmptyData() {
 
 		Collection<UniverseData> uni = new ArrayList<>();
 		uni.add(generateTestUni());
 		uni.add(generateTestUni());
 		GlobalSettings settings = new GlobalSettings();
 		GameData data = new GameData(uni, settings);
+		data.setName("Go Bolts");
 
 		return data;
 	}
 
-	private UniverseData generateTestUni() {
+	private static UniverseData generateTestUni() {
 		Collection<ObjectData> odata = new ArrayList<>();
 
 		String enemyPath = "enemy_ghost_1.png";
@@ -216,23 +226,23 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 		String playerPath = "player_pacman.png";
 		String missilePath = "scenery_pink.png";
 
-		ObjectData playerData = new ObjectData();
-		Collection<IAttribute> attributes = new ArrayList<>();
-		attributes.add(new HealthAttribute());
-		attributes.add(new MovementControlAttribute());
-		attributes.add(new StunWeaponAttribute(missilePath, 1.0, KeyCode.SPACE, 8.0, 5.0, 10.0, 60));
-		HealthAttribute playerHealth = new HealthAttribute();
-		playerHealth.setHealth(100.0);
-		MovementControlAttribute playerMove = new MovementControlAttribute();
-		playerMove.setSpeed(3.0);
-		attributes.add(playerHealth);
-		attributes.add(playerMove);
-		playerData.setType(GameObjectType.PLAYER);
-		playerData.setSpawnPoint(0, 0);
-		playerData.setWidth(50);
-		playerData.setHeight(50);
-		playerData.setImagePath(playerPath);
-		playerData.setAttributes(attributes);
+//		ObjectData playerData = new ObjectData();
+//		Collection<IAttribute> attributes = new ArrayList<>();
+//		attributes.add(new HealthAttribute());
+//		attributes.add(new MovementControlAttribute());
+//		attributes.add(new StunWeaponAttribute(missilePath, 1.0, KeyCode.SPACE, 8.0, 5.0, 10.0, 60));
+//		HealthAttribute playerHealth = new HealthAttribute();
+//		playerHealth.setHealth(100.0);
+//		MovementControlAttribute playerMove = new MovementControlAttribute();
+//		playerMove.setSpeed(3.0);
+//		attributes.add(playerHealth);
+//		attributes.add(playerMove);
+//		playerData.setType(GameObjectType.PLAYER);
+//		playerData.setSpawnPoint(0, 0);
+//		playerData.setWidth(50);
+//		playerData.setHeight(50);
+//		playerData.setImagePath(playerPath);
+//		playerData.setAttributes(attributes);
 
 		ObjectData enemyData3 = new ObjectData();
 		Collection<IAttribute> enemyAttributes3 = new ArrayList<IAttribute>();
@@ -258,7 +268,7 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 		enemyData3.setAttributes(enemyAttributes3);
 		enemyData3.setCollisionMap(collisions3);
 
-		odata.add(playerData);
+//		odata.add(playerData);
 		odata.add(enemyData);
 		odata.add(enemyData2);
 		WaveData wdata = new WaveData(odata);
@@ -316,7 +326,7 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 
 		LevelSettings lSetting = new LevelSettings(1000, 60);
 
-		return new UniverseData(spawn, td, map, lSetting);
+		return new UniverseData(spawn, td, map, lSetting,new ArrayList<>());
 	}
 
 }

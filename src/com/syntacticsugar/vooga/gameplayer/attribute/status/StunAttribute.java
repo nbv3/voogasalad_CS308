@@ -1,15 +1,21 @@
 package com.syntacticsugar.vooga.gameplayer.attribute.status;
 
-import java.util.Observable;
-
+import com.syntacticsugar.vooga.authoring.parameters.EditableClass;
 import com.syntacticsugar.vooga.gameplayer.attribute.movement.AbstractMovementAttribute;
 import com.syntacticsugar.vooga.util.ResourceManager;
 
+@EditableClass (
+		className = "Stun Effect"
+		)
 public class StunAttribute extends StatusEffectAttribute {
 	
 	AbstractMovementAttribute move;
 	
 	private boolean didStun;
+	
+	public StunAttribute() {
+		super();
+	}
 	
 	public StunAttribute(Integer time) {
 		super(time);
@@ -38,11 +44,4 @@ public class StunAttribute extends StatusEffectAttribute {
 		}
 	}
 	
-	@Override
-	public void update(Observable o, Object arg) {
-		timeLeft = (Integer) arg;
-		setChanged();
-		notifyObservers(this);
-	}
-
 }

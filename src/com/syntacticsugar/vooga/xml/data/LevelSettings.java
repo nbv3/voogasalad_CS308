@@ -10,22 +10,20 @@ public class LevelSettings {
 	private IGameCondition winCond;
 	private IGameCondition lossCond;
 
-	private int spawnRate;
-	
 	private int scoreThreshold;
-	
-	public LevelSettings (int score) {
+	private int startingMoney;
+
+	public LevelSettings(int score) {
 		setScoreThreshold(score);
-		spawnRate = 0;
-	}
-	
-	public LevelSettings (int score, int spawnrate) {
-		setScoreThreshold(score);
-		spawnRate = spawnrate;
 	}
 
-	public LevelSettings(String winClass, List<Double> winParam, String loseClass, List<Double> loseParam, int spawn) {
-		spawnRate = spawn;
+	public LevelSettings(int score, int spawnrate) {
+		setScoreThreshold(score);
+	}
+
+	public LevelSettings(String winClass, List<Double> winParam, String loseClass, List<Double> loseParam, int spawn,
+			int money) {
+		startingMoney = money;
 		{
 			String winName = winClass.replace(" ", "");
 
@@ -41,20 +39,12 @@ public class LevelSettings {
 			String losePath = String.format("%s%s%s", "com.syntacticsugar.vooga.gameplayer.conditions.implementation.",
 					loseName, "Condition");
 			try {
-				lossCond = (IGameCondition) Reflection.createInstance(losePath,loseParam.get(0).intValue());
+				lossCond = (IGameCondition) Reflection.createInstance(losePath, loseParam.get(0).intValue());
 
 			} catch (Exception e) {
 				lossCond = (IGameCondition) Reflection.createInstance(losePath);
 			}
 		}
-	}
-	
-	public int getSpawnRate() {
-		return spawnRate;
-	}
-
-	public void setSpawnRate(int rate) {
-		spawnRate = rate;
 	}
 
 	public int getScoreThreshold() {
@@ -64,5 +54,13 @@ public class LevelSettings {
 	public void setScoreThreshold(int scoreThreshold) {
 		this.scoreThreshold = scoreThreshold;
 	}
-	
+
+	public int getStartingMoney() {
+		return startingMoney;
+	}
+
+	public void setStartingMoney(int startingMoney) {
+		this.startingMoney = startingMoney;
+	}
+
 }

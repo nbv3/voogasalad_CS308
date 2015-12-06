@@ -4,8 +4,7 @@ import java.awt.Point;
 import java.io.Serializable;
 import java.util.List;
 
-import com.syntacticsugar.vooga.authoring.parameters.DoubleParameter;
-import com.syntacticsugar.vooga.gameplayer.attribute.control.actions.movement.Direction;
+import com.syntacticsugar.vooga.authoring.parameters.EditableClass;
 import com.syntacticsugar.vooga.gameplayer.objects.IBoundingBox;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.gameplayer.universe.map.IGameMap;
@@ -13,32 +12,29 @@ import com.syntacticsugar.vooga.util.pathfinder.PathFinder;
 
 import javafx.geometry.Point2D;
 
-public class AIMovementAttribute extends AbstractMovementAttribute implements Serializable {
+@EditableClass(
+		className = "AI Motion Attribute"
+		)
+public class AIMovementAttribute extends AbstractMovementAttribute implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 
 	private Point myNextTile;
 
 	public AIMovementAttribute() {
-		super(new DoubleParameter("AI motion"));
-		setSpeed(4.0);
+		super();
+	}
+	
+	@Override
+	protected void setDefaults() {
+		super.setDefaults();
 		myNextTile = new Point(-1, -1);
-
 	}
 
-	/*private void printMap(boolean[][] map, List<Point> destinations) {
-		for (int y = 0; y < map.length; y++) {
-			for (int x = 0; x < map[0].length; x++) {
-				if (destinations.contains(new Point(x, y))) {
-					System.out.print("D");
-				} else if (map[x][y]) {
-					System.out.print('.');
-				} else {
-					System.out.print('X');
-				}
-			}
-			System.out.println();
-		}
-	}*/
-
+	/**
+	 * Moves towards the nearest location on the game map that has been
+	 * flagged as a destination point.
+	 */
 	@Override
 	public void updateSelf(IGameUniverse universe) {
 		IGameMap map = universe.getMap();

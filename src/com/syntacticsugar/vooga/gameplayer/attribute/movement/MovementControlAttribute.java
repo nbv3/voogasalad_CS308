@@ -1,61 +1,48 @@
 package com.syntacticsugar.vooga.gameplayer.attribute.movement;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Observable;
-
-import com.syntacticsugar.vooga.authoring.parameters.DoubleParameter;
+import com.syntacticsugar.vooga.authoring.parameters.EditableClass;
+import com.syntacticsugar.vooga.authoring.parameters.EditableField;
+import com.syntacticsugar.vooga.authoring.parameters.InputParser;
+import com.syntacticsugar.vooga.authoring.parameters.InputTypeException;
 import com.syntacticsugar.vooga.gameplayer.attribute.control.IUserControlAttribute;
-import com.syntacticsugar.vooga.gameplayer.attribute.control.actions.movement.Direction;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.gameplayer.universe.userinput.IKeyInputStorage;
 
 import javafx.scene.input.KeyCode;
 
+@EditableClass (
+		className = "Player Movement Control"
+		)
 public class MovementControlAttribute extends AbstractMovementAttribute implements IUserControlAttribute {
 
-	private Map<KeyCode, Direction> myKeyBindings;
+	private KeyCode upCode;
+	private KeyCode downCode;
+	private KeyCode leftCode;
+	private KeyCode rightCode;
+
 	private Direction myCurrentMovement;
-	
+
 	public MovementControlAttribute() {
-		super(new DoubleParameter("Player Speed: "));
-		
-		myKeyBindings = new HashMap<>();
-		myCurrentMovement = Direction.STOP;
-
-		setDefaultKeyBindings();
+		super();
 	}
 
-	public void setDefaultKeyBindings() {
-		addKeyBinding(KeyCode.RIGHT, Direction.RIGHT);
-		addKeyBinding(KeyCode.LEFT, Direction.LEFT);
-		addKeyBinding(KeyCode.DOWN, Direction.DOWN);
-		addKeyBinding(KeyCode.UP, Direction.UP);
-	}
-	
-	public Map<KeyCode, Direction> getKeyCodes()
-	{
-		return myKeyBindings;
-	}
-	
-
-	public void addKeyBinding(KeyCode code, Direction dir) {
-		myKeyBindings.put(code, dir);
+	@Override
+	protected void setDefaults() {
+		super.setDefaults();
+		this.upCode = KeyCode.UP;
+		this.downCode = KeyCode.DOWN;
+		this.leftCode = KeyCode.LEFT;
+		this.rightCode = KeyCode.RIGHT;
+		this.myCurrentMovement = Direction.STOP;
 	}
 
-	public void removeKeyBinding(KeyCode code) {
-		myKeyBindings.remove(code);
-	}
-	
 	@Override
 	public void updateKeyInput(IKeyInputStorage universeKeyInput) {
 		for (KeyCode code : universeKeyInput.getCurrentKeyInput()) {
-			if (myKeyBindings.containsKey(code)) {
-				myCurrentMovement = myKeyBindings.get(code);
-			}
+			this.myCurrentMovement = getDirectionFromInput(code);
 		}
 	}
-	
+
 	@Override
 	public void processKeyInput() {
 		if (!myCurrentMovement.equals(Direction.STOP)) {
@@ -73,15 +60,60 @@ public class MovementControlAttribute extends AbstractMovementAttribute implemen
 		resetVelocity();
 	}
 
+	private Direction getDirectionFromInput(KeyCode code) {
+		if (code.equals(upCode))
+			return Direction.UP;
+		else if (code.equals(downCode))
+			return Direction.DOWN;
+		else if (code.equals(leftCode))
+			return Direction.LEFT;
+		else if (code.equals(rightCode))
+			return Direction.RIGHT;
+		return myCurrentMovement;
+	}
 
-	
-//	private void checkMapBounds(Point2D mapIndex, boolean[][] isWalkable) {
-//		int r = (int) mapIndex.getX();
-//		int c = (int) mapIndex.getY();
-//		System.out.println(mapIndex);
-//		if (!isWalkable[r][c]) {
-//			resetVelocity();
-//		}
-//	}
-	
+
+	/**		  	      EDIT TAGS	     		    **/
+	/** *************************************** **/
+
+	@EditableField(
+			inputLabel = "KeyCode: Move Up",
+			defaultVal = "UP"
+			)
+	private void editUpCode(String arg) {
+		try {
+			this.upCode = InputParser.parseAsKeyCode(arg.trim());
+		} catch (InputTypeException e) { }
+	}
+
+	@EditableField(
+			inputLabel = "KeyCode: Move Down",
+			defaultVal = "DOWN"
+			)
+	private void editDownCode(String arg) {
+		try {
+			this.downCode = InputParser.parseAsKeyCode(arg.trim());
+		} catch (InputTypeException e) { }
+	}
+
+	@EditableField(
+			inputLabel = "KeyCode: Move Left",
+			defaultVal = "LEFT"
+			)
+	private void editLeftCode(String arg) {
+		try {
+			this.leftCode = InputParser.parseAsKeyCode(arg.trim());
+		} catch (InputTypeException e) { }
+	}
+
+	@EditableField(
+			inputLabel = "KeyCode: Move Right",
+			defaultVal = "RIGHT"
+			)
+	private void editRightCode(String arg) {
+		try {
+			this.rightCode = InputParser.parseAsKeyCode(arg.trim());
+		} catch (InputTypeException e) { }
+	}
+
 }

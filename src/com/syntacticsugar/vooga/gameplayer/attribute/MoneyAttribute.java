@@ -1,19 +1,24 @@
 package com.syntacticsugar.vooga.gameplayer.attribute;
 
-import java.util.Observable;
-
+import com.syntacticsugar.vooga.authoring.parameters.EditableClass;
+import com.syntacticsugar.vooga.authoring.parameters.EditableField;
+import com.syntacticsugar.vooga.authoring.parameters.InputParser;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 
+@EditableClass (
+		className = "Monetary Value"
+		)
 public class MoneyAttribute extends AbstractAttribute {
-	
+
 	private int myMoney;
-	
+
 	public MoneyAttribute() {
-		myMoney = 0;
+		super();
 	}
-	
-	public void setMoney(int money) {
-		myMoney = money;
+
+	@Override
+	public void setDefaults() {
+		this.myMoney = 100;
 	}
 	
 	public int getMoney() {
@@ -21,14 +26,22 @@ public class MoneyAttribute extends AbstractAttribute {
 	}
 
 	@Override
-	public void update(Observable o, Object arg) {
-		setMoney((Integer) arg);
-		
-	}
-
-	@Override
 	public void updateSelf(IGameUniverse universe) {
 
+	}
+	
+	
+	/**		  	      EDIT TAGS	     		    **/
+	/** *************************************** **/
+	
+	@EditableField(
+			inputLabel = "Money",
+			defaultVal = "100"
+			)
+	private void editMoney(String arg) {
+		try {
+			this.myMoney = InputParser.parseAsInt(arg);
+		} catch (NumberFormatException e) {	}
 	}
 
 }

@@ -41,13 +41,16 @@ public class LevelTabManager {
 			e.printStackTrace();
 			return;
 		}
-		Tab newLevelTab = new Tab("Level 1");
+		
+		Tab newLevelTab = new Tab("");
 		newLevelTab.setContent(newLevel.getContent());
-		myLevelMap.put(newLevelTab, newLevel);
 		newLevelTab.setOnClosed(e -> removeLevel(newLevelTab));
+
+		myLevelMap.put(newLevelTab, newLevel);
 
 		myTabPane.getTabs().add(newLevelTab);
 		myTabPane.getSelectionModel().select(newLevelTab);
+		
 		updateLevelNumbers();
 	}
 
@@ -89,7 +92,8 @@ public class LevelTabManager {
 			MapData map = myLevelMap.get(t).getMapData();
 			TowerListData tower = myLevelMap.get(t).getTowerList();
 			LevelSettings conditions = myLevelMap.get(t).getConditions();
-			UniverseData universe = new UniverseData(spawner, tower, map, conditions);
+			List<ObjectData> onScreen = new ArrayList<>();
+			UniverseData universe = new UniverseData(spawner, tower, map, conditions, onScreen);
 
 			game.add(universe);
 		}
@@ -101,7 +105,7 @@ public class LevelTabManager {
 
 		return myLevelMap.get(myTabPane.getSelectionModel().getSelectedItem()).getMapData();
 	}
-	
+
 	public Map<Tab, LevelEditor> getCurrentLevelEditor() {
 		return myLevelMap;
 	}

@@ -11,8 +11,8 @@ import com.syntacticsugar.vooga.authoring.objectediting.ObjectEditor;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.menu.IVoogaApp;
 import com.syntacticsugar.vooga.util.ResourceManager;
-import com.syntacticsugar.vooga.util.filechooser.FileChooserUtil;
-import com.syntacticsugar.vooga.util.filechooser.IOnFileChooserAction;
+import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
+import com.syntacticsugar.vooga.util.gui.factory.StringInputBoxFactory;
 import com.syntacticsugar.vooga.util.simplefilechooser.SimpleFileChooser;
 import com.syntacticsugar.vooga.xml.XMLHandler;
 import com.syntacticsugar.vooga.xml.data.GameData;
@@ -32,8 +32,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
-import javafx.stage.FileChooser;
-import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -49,10 +47,10 @@ public class AuthoringScreenManager implements Observer, IVoogaApp {
 	private ObjectEditor myObjectEditor;
 
 	public AuthoringScreenManager() {
-		myObjectLibraryManager = new ObjectLibraryManager(myLevelEditor);
 		myObjectEditor = new ObjectEditor(() -> myObjectLibraryManager.refresh());
 		IDataClipboard iObject = myObjectEditor;
 		myLevelEditor = new LevelTabManager(iObject);
+		myObjectLibraryManager = new ObjectLibraryManager(myLevelEditor);
 
 		initWindow();
 	}
@@ -72,7 +70,7 @@ public class AuthoringScreenManager implements Observer, IVoogaApp {
 		myWindow.setCenter(myWindowGrid);
 
 		myScene = new Scene(myWindow);
-		myScene.getStylesheets().add("/com/syntacticsugar/vooga/authoring/css/default.css");
+		// myScene.getStylesheets().add("/com/syntacticsugar/vooga/authoring/css/default.css");
 		myScene.setOnKeyPressed(e -> handleKeyPress(e));
 		myStage = new Stage();
 		myStage.setScene(myScene);
@@ -92,11 +90,13 @@ public class AuthoringScreenManager implements Observer, IVoogaApp {
 
 		}
 	}
-	
+
 	private void linkObserverAndObservableObjects() {
 		Tab pickedLevelTab = myLevelEditor.getTabPane().getSelectionModel().getSelectedItem();
-		myObjectEditor.addObserver(myLevelEditor.getCurrentLevelEditor().get(pickedLevelTab).getTowerManager().getTowerView());
-		myObjectEditor.addObserver(myLevelEditor.getCurrentLevelEditor().get(pickedLevelTab).getSpawnerManager().getCurrentView());
+		myObjectEditor.addObserver(
+				myLevelEditor.getCurrentLevelEditor().get(pickedLevelTab).getTowerManager().getTowerView());
+		myObjectEditor.addObserver(
+				myLevelEditor.getCurrentLevelEditor().get(pickedLevelTab).getSpawnerManager().getCurrentView());
 	}
 
 	private void handleKeyPress(KeyEvent e) {
@@ -148,52 +148,54 @@ public class AuthoringScreenManager implements Observer, IVoogaApp {
 
 		file.getItems().addAll(newLevel, loadMap, saveMap, loadData, saveGame);
 
-		// menu menu
-		// Menu menu = new Menu();
-		// menu.setText("Menu");
-		// return to main menu
-		// return to authoring menu
-		// MenuItem authoringMenu = new MenuItem();
-		// authoringMenu.setText("Authoring Menu");
-		// authoringMenu.setOnAction(e ->
-		// sceneManager.launchAuthoringMenuFromAuthoring());
-		// menu.getItems().addAll(mainMenu, authoringMenu);
-
 		menuBar.getMenus().addAll(file);
 		myWindow.setTop(menuBar);
 	}
 
 	private void saveGame() {
 		GameData game = new GameData(myLevelEditor.getAllUniverseData(), new GlobalSettings());
-		File f = SimpleFileChooser.saveGame(game, myStage);	
+		// File f = SimpleFileChooser.saveGame(game, myStage);
+		StringInputBoxFactory msg = new StringInputBoxFactory("Enter File Name: ");
+		String fileName = msg.getValue();
+		System.out.println("Filename: " + fileName);
+		String directory = ResourceManager.getString("game_data");
+		System.out.println(directory);
+		String path = directory + File.separator + fileName;
+		// Use relative path for Unix systems
+		File f = new File(path);
+		// Works for both Windows and Linux
+		game.setName(f.getName());
+		XMLHandler<GameData> xml = new XMLHandler<>();
+		xml.write(game, f);
+
+		// File f = new File
+		// SimpleFileChooser.saveGameSimple(game, f);
 	}
 
 	private void loadData() {
-		/*GameData gm = SimpleFileChooser.loadGame(myStage);*/
+		/* GameData gm = SimpleFileChooser.loadGame(myStage); */
 		// TODO loadData();
-		/*FileChooserUtil.loadFile("Open Resource File", new ExtensionFilter("XML Files", "*.xml"),
-				new File(ResourceManager.getString("data")), selectedFile -> {
-					myObjectEditor.setUpdateButtonVisibility(false);
-					XMLHandler<ObjectData> xml = new XMLHandler<>();
-					ObjectData toload = xml.read(selectedFile);
-					myObjectEditor.displayData(toload);
-				});*/
+		/*
+		 * FileChooserUtil.loadFile("Open Resource File", new ExtensionFilter(
+		 * "XML Files", "*.xml"), new File(ResourceManager.getString("data")),
+		 * selectedFile -> { myObjectEditor.setUpdateButtonVisibility(false);
+		 * XMLHandler<ObjectData> xml = new XMLHandler<>(); ObjectData toload =
+		 * xml.read(selectedFile); myObjectEditor.displayData(toload); });
+		 */
 	}
-	
+
 	private void saveMap() {
 		MapData toSave = myLevelEditor.getIndividualMapData();
 		File f = SimpleFileChooser.saveMap(toSave, myStage);
 	}
 
 	private void loadMap() {
-		MapData loaded = SimpleFileChooser.loadMap(myStage);
-		myLevelEditor.loadMap(loaded);
-		/*FileChooserUtil.loadFile("Open Resource File", new ExtensionFilter("XML Files", "*.xml"), null,
-				selectedFile -> {
-					XMLHandler<MapData> xml = new XMLHandler<>();
-					MapData toLoad = xml.read(selectedFile);
-					myLevelEditor.loadMap(toLoad);
-				});*/
+		try {
+			MapData loaded = SimpleFileChooser.loadMap(myStage);
+			myLevelEditor.loadMap(loaded);
+		} catch (NullPointerException e) {
+			AlertBoxFactory.createObject("Load valid map.");
+		}
 	}
 
 	private void addGridConstraints() {

@@ -18,7 +18,6 @@ public class Money extends Observable implements IMoney{
 	@Override
 	public void onEvent(IGameEvent e) {
 		try {
-			System.out.println("make money get turnt");
 			MoneyChangeEvent event = (MoneyChangeEvent) e;
 			changeMoney(event.getMoney());
 			setChanged();
