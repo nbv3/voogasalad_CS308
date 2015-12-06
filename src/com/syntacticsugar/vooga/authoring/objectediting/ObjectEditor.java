@@ -202,6 +202,7 @@ public class ObjectEditor implements IObjectDataClipboard {
 			// currentData.setImagePath(selectedFile.getName());
 			selectedImagePath = selectedFile.getName();
 			myIcon.setImage(new Image(getClass().getClassLoader().getResourceAsStream(selectedFile.getName())));
+			currentData.setImagePath( selectedImagePath);
 		}
 	}
 
@@ -308,6 +309,7 @@ public class ObjectEditor implements IObjectDataClipboard {
 
 	@Override
 	public ObjectData obtainSelectedObjectData() {
+		System.out.println("The string path of the objectData being transferred is "+ currentData.getImagePath());
 		return currentData;
 	}
 }

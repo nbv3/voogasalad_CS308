@@ -19,9 +19,9 @@ public class LevelSettings {
 		spawnRate = 0;
 	}
 	
-	public LevelSettings (int score, int spawnRate) {
+	public LevelSettings (int score, int spawnrate) {
 		setScoreThreshold(score);
-		spawnRate = spawnRate;
+		spawnRate = spawnrate;
 	}
 
 	public LevelSettings(String winClass, List<Double> winParam, String loseClass, List<Double> loseParam, int spawn) {
