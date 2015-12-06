@@ -45,10 +45,9 @@ public class AuthoringScreenManager implements Observer, IVoogaApp {
 	private ObjectEditor myObjectEditor;
 
 	public AuthoringScreenManager() {
+		myObjectEditor = new ObjectEditor(() -> myObjectLibraryManager.refresh());
 		IObjectDataClipboard iObject = myObjectEditor;
 		myLevelEditor = new LevelTabManager(iObject);
-		myObjectEditor = new ObjectEditor(() -> myObjectLibraryManager.refresh());
-
 		myObjectLibraryManager = new ObjectLibraryManager(myLevelEditor);
 
 		initWindow();
