@@ -1,10 +1,12 @@
 package com.syntacticsugar.vooga.util.gui.factory;
 
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
@@ -18,9 +20,7 @@ public class StringInputBoxFactory {
 	public StringInputBoxFactory(String str) {
 		Stage dialogStage = new Stage();
 		BorderPane brd_pan = new BorderPane();
-		// brd_pan.getStyleClass().add("pane");
 		Scene scene = new Scene(brd_pan, 300, 150);
-		// scene.getStylesheets().add("/com/syntacticsugar/vooga/authoring/css/default.css");
 		dialogStage.setScene(scene);
 		dialogStage.setTitle("Message Box");
 		dialogStage.initModality(Modality.APPLICATION_MODAL);
@@ -30,6 +30,18 @@ public class StringInputBoxFactory {
 		Label textFieldLable = new Label(str);
 		textFieldLable.setPrefWidth(150);
 		textField = new TextField();
+		textField.setOnKeyPressed(new EventHandler<KeyEvent>() {
+	        @Override
+	        public void handle(KeyEvent keyEvent) {
+	        	if (keyEvent.getCode().toString() == "ENTER") {
+	        		value = getInputValue();
+	    			dialogStage.close();
+	        	} else if (keyEvent.getCode().toString() == "ESC") {
+	        		dialogStage.close();
+	        	}
+ 	        }
+	    });
+		
 		textField.setMaxWidth(100);
 		textFieldBox.getChildren().addAll(textFieldLable, textField);
 		brd_pan.setCenter(textFieldBox);
