@@ -14,12 +14,15 @@ public class SocialCenter implements IVoogaApp{
 	private ObjectDataViewer myObjectDataViewer;
 	private Stage myStage;
 	private VBox myView;
+	private CommentViewer myCommentViewer;
 	
 	public SocialCenter(){
 		myStage = new Stage();
 		myView = new VBox();
 		myObjectDataViewer = new ObjectDataViewer();
 		myXMLViewer = new XMLViewer(id -> myObjectDataViewer.update(id));
+		
+		
 		myView.getChildren().add(myXMLViewer.getView());
 		myView.getChildren().add(myObjectDataViewer.getView());
 		Scene scene = new Scene(myView, 500, 500);

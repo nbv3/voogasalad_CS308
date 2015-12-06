@@ -87,8 +87,8 @@ public class GameMap implements IGameMap {
 	}
 
 	@Override
-	public IGameTile getTile(Point2D p) {
-		return myTiles[(int) p.getX()][(int) p.getY()];
+	public IGameTile getTile(Point2D p) {		
+		return myTiles[(int) p.getX()][(int) p.getY()];		
 	}
 	
 	@Override
@@ -132,7 +132,7 @@ public class GameMap implements IGameMap {
 		for (int i = 0; i < numRows; i++) {
 			for (int j = 0; j < numCols; j++) {
 				if (myTiles[i][j].isDestination()) {
-					destinations.add(new Point (i,j));
+					destinations.add(new Point(i,j));
 				}
 			}
 		}

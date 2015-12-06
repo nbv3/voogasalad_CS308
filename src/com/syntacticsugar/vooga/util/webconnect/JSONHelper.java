@@ -28,15 +28,13 @@ public class JSONHelper {
 		}
 	}
 
-	public static JSONObject createxmlJSON(String author, String gamename, String description, String xml,
-			String comments) {
+	public static JSONObject createXMLJSON(String author, String gamename, String description, String xml) {
 		Map<String, String> map = new HashMap<String, String>();
 
 		map.put("xml", xml);
 		map.put("author", author);
 		map.put("gamename", gamename);
 		map.put("description", description);
-		map.put("comments", comments);
 
 		return new JSONObject(map);
 	}

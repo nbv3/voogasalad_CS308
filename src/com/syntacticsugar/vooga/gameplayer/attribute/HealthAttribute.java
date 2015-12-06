@@ -10,15 +10,20 @@ import com.syntacticsugar.vooga.gameplayer.event.implementations.ObjectDespawnEv
 import com.syntacticsugar.vooga.gameplayer.universe.IEventPoster;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.gameplayer.universe.IObjectDespawner;
+import com.syntacticsugar.vooga.util.ResourceManager;
 
 import javafx.scene.Node;
 import javafx.scene.layout.HBox;
 
 public class HealthAttribute extends AbstractAttribute {
+	
+	private static final String HEALTH_CHANGE_FREQ = "health_change_freq";
 
 	private Double myHealth;
 	private Double myMaxHealth;
 	private int myInvincibleFrames;
+	
+	private int myHealthChangeFreq;
 	
 	/**
 	 * Construct a health attribute with the specified starting health 
@@ -30,6 +35,8 @@ public class HealthAttribute extends AbstractAttribute {
 		this.myHealth = 10.0;
 		this.myMaxHealth = 50.0;
 		this.myInvincibleFrames = 0;
+		
+		myHealthChangeFreq = Integer.parseInt(ResourceManager.getString(HEALTH_CHANGE_FREQ));
 	}
 
 	@Override
@@ -59,7 +66,7 @@ public class HealthAttribute extends AbstractAttribute {
 			return;
 		}
 		this.myHealth += damage;
-		setInvincibile(25);
+		setInvincibile(myHealthChangeFreq);
 	}
 
 	private void restoreHealth(Double healthInc) {
@@ -87,7 +94,7 @@ public class HealthAttribute extends AbstractAttribute {
 	
 	public void setHealth(Double health)
 	{
-		myHealth = health;
+		myMaxHealth = health;
 	}
 	
 	// test code here

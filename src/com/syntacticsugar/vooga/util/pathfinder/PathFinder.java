@@ -11,8 +11,8 @@ import java.util.Queue;
 
 public class PathFinder {
 	private boolean[][] map;
-	private int rows;
-	private int cols;
+	private int height;
+	private int width;
 	
 	private Point startPoint;
 	private List<Point> destinationPoints;
@@ -27,8 +27,8 @@ public class PathFinder {
 		this.map = map;
 		this.startPoint = startPoint;
 		this.destinationPoints = destinationPoints;
-		rows = map.length;
-		cols = map[0].length;
+		width = map.length;
+		height = map[0].length;
 		
 		memo = new HashMap<Point, List<Point>>();
 		distanceMap = new HashMap<Point, Integer>();
@@ -43,7 +43,7 @@ public class PathFinder {
 		List<Point> shortestPath = shortestPath();
 		if (shortestPath.size()<=1) {
 			return startPoint;
-		}
+		} 
 		return shortestPath.get(1);
 	}
 	
@@ -126,27 +126,27 @@ public class PathFinder {
 		int y = p.y;
 		if (x - 1 >= 0) {
 			Point n = new Point(x - 1, y);
-			if (map[y][x]) {
+			if (map[x][y]) {
 				validPoints.add(n);
 			}
 		}
-		if (x + 1 < cols) {
+		if (x + 1 < width) {
 			Point n = new Point(x + 1, y);
-			if (map[y][x]) {
+			if (map[x][y]) {
 				validPoints.add(n);
 			}
 		}
 
 		if (y - 1 >= 0) {
 			Point n = new Point(x, y - 1);
-			if (map[y][x]) {
+			if (map[x][y]) {
 				validPoints.add(n);
 			}
 
 		}
-		if (y + 1 < rows) {
+		if (y + 1 < height) {
 			Point n = new Point(x, y + 1);
-			if (map[y][x]) {
+			if (map[x][y]) {
 				validPoints.add(n);
 			}
 

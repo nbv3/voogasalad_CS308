@@ -1,7 +1,6 @@
 package com.syntacticsugar.vooga.gameplayer.view;
 
 import java.util.Collection;
-import java.util.Observable;
 import java.util.Observer;
 
 import com.syntacticsugar.vooga.gameplayer.universe.IUniverseView;

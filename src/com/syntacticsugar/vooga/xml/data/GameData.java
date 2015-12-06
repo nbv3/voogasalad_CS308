@@ -23,4 +23,8 @@ public class GameData {
 	public String getName(){
 		return name;
 	}
+	
+	public void setName(String newName){
+		name = newName;
+	}
 }

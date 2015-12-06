@@ -1,5 +1,7 @@
 package com.syntacticsugar.vooga.gameplayer.objects;
 
+import javafx.geometry.Point2D;
+
 public interface IViewableObject {
 	
 	/**
@@ -13,6 +15,18 @@ public interface IViewableObject {
 	 * @return
 	 */
 	public String getPath();
+	
+	/**
+	 * Return the raw coordinate of this ViewableObject.
+	 * @return
+	 */
+	public Point2D getPoint();
+
+	/**
+	 * Explicitly move this ViewableObject to the desired point.
+	 * @param point
+	 */
+	void setPoint(Point2D point);
 
 	
 
