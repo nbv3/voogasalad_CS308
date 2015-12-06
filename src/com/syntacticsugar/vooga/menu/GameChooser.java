@@ -137,13 +137,13 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 		XMLHandler<GameData> xml = new XMLHandler<>();
 		Collection<String> names = new ArrayList<String>();
 		for (int i = 0; i < files.length; i++) {
-			File f = files[i];
-			GameData data = xml.read(f);
-			String gamename = data.getName();
-			names.add(gamename);
-			System.out.println(stringToGameData);
-			stringToGameData.put(gamename, data);
-//			names.add("TEST");
+//			File f = files[i];
+//			GameData data = xml.read(f);
+//			String gamename = data.getName();
+//			names.add(gamename);
+//			System.out.println(stringToGameData);
+//			stringToGameData.put(gamename, data);
+			names.add("TEST");
 		}
 
 		return names;
@@ -226,23 +226,23 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 		String playerPath = "player_pacman.png";
 		String missilePath = "scenery_pink.png";
 
-//		ObjectData playerData = new ObjectData();
-//		Collection<IAttribute> attributes = new ArrayList<>();
-//		attributes.add(new HealthAttribute());
-//		attributes.add(new MovementControlAttribute());
-//		attributes.add(new StunWeaponAttribute(missilePath, 1.0, KeyCode.SPACE, 8.0, 5.0, 10.0, 60));
-//		HealthAttribute playerHealth = new HealthAttribute();
-//		playerHealth.setHealth(100.0);
-//		MovementControlAttribute playerMove = new MovementControlAttribute();
-//		playerMove.setSpeed(3.0);
-//		attributes.add(playerHealth);
-//		attributes.add(playerMove);
-//		playerData.setType(GameObjectType.PLAYER);
-//		playerData.setSpawnPoint(0, 0);
-//		playerData.setWidth(50);
-//		playerData.setHeight(50);
-//		playerData.setImagePath(playerPath);
-//		playerData.setAttributes(attributes);
+		ObjectData playerData = new ObjectData();
+		Collection<IAttribute> attributes = new ArrayList<>();
+		attributes.add(new HealthAttribute());
+		attributes.add(new MovementControlAttribute());
+		attributes.add(new StunWeaponAttribute(missilePath, 1.0, KeyCode.SPACE, 8.0, 5.0, 10.0, 60));
+		HealthAttribute playerHealth = new HealthAttribute();
+		playerHealth.setHealth(100.0);
+		MovementControlAttribute playerMove = new MovementControlAttribute();
+		playerMove.setSpeed(3.0);
+		attributes.add(playerHealth);
+		attributes.add(playerMove);
+		playerData.setType(GameObjectType.PLAYER);
+		playerData.setSpawnPoint(0, 0);
+		playerData.setWidth(50);
+		playerData.setHeight(50);
+		playerData.setImagePath(playerPath);
+		playerData.setAttributes(attributes);
 
 		ObjectData enemyData3 = new ObjectData();
 		Collection<IAttribute> enemyAttributes3 = new ArrayList<IAttribute>();
@@ -268,10 +268,11 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 		enemyData3.setAttributes(enemyAttributes3);
 		enemyData3.setCollisionMap(collisions3);
 
-//		odata.add(playerData);
+		odata.add(playerData);
 		odata.add(enemyData);
 		odata.add(enemyData2);
-		WaveData wdata = new WaveData(odata);
+		int spawnRate = 10;
+		WaveData wdata = new WaveData(odata, spawnRate);
 		Collection<WaveData> sdata = new ArrayList<>();
 		sdata.add(wdata);
 		SpawnerData spawn = new SpawnerData(sdata);

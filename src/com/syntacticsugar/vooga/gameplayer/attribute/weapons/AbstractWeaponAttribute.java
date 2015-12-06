@@ -106,6 +106,7 @@ public abstract class AbstractWeaponAttribute extends AbstractAttribute implemen
 		params.setStartPoint(bulletInitPos);
 		params.setImagePath(myBulletImagePath);
 		params.setSpeed(myBulletSpeed);
+		System.out.println(myBulletSpeed);
 		params.setDamage(myBulletDamage);
 		params.setWidth(myBulletWidth);
 		params.setHeight(myBulletHeight);
