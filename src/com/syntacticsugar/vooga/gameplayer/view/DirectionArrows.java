@@ -1,5 +1,6 @@
 package com.syntacticsugar.vooga.gameplayer.view;
 
+import com.syntacticsugar.vooga.authoring.fluidmotion.mixandmatchmotion.PulsingFadeWizard;
 import com.syntacticsugar.vooga.gameplayer.attribute.control.actions.movement.Direction;
 import com.syntacticsugar.vooga.gameplayer.view.implementation.TileView;
 
@@ -17,6 +18,7 @@ public class DirectionArrows extends BorderPane {
 		ImageView right = createArrowImage(tile, myGameView, Direction.RIGHT, mySize);
 		ImageView up = createArrowImage(tile, myGameView, Direction.UP, mySize);
 		ImageView down = createArrowImage(tile, myGameView, Direction.DOWN, mySize);
+		PulsingFadeWizard.attachPulsingHandlers(left, right,up, down);
 		BorderPane.setAlignment(up, Pos.CENTER);
 		BorderPane.setAlignment(down, Pos.CENTER);
 		Canvas center = new Canvas(mySize, mySize);

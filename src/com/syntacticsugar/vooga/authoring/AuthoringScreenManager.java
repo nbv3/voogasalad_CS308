@@ -72,7 +72,7 @@ public class AuthoringScreenManager implements Observer, IVoogaApp {
 		myWindow.setCenter(myWindowGrid);
 
 		myScene = new Scene(myWindow);
-		myScene.getStylesheets().add("/com/syntacticsugar/vooga/authoring/css/default.css");
+		//myScene.getStylesheets().add("/com/syntacticsugar/vooga/authoring/css/default.css");
 		myScene.setOnKeyPressed(e -> handleKeyPress(e));
 		myStage = new Stage();
 		myStage.setScene(myScene);
