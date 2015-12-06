@@ -40,20 +40,24 @@ public class LevelConditionManager implements IVisualElement {
 		myView = new GridPane();
 
 		mySpawnInput = new TextField();
+		mySpawnInput.getStyleClass().add("textfield");
 		mySpawnInput.setPromptText(ResourceManager.getString("int_SpawnRate"));
 
 		myCash = new TextField();
 		myCash.setPromptText(ResourceManager.getString("int_InitialCash"));
-
+		myCash.getStyleClass().add("textfield");
+		
 		ObservableList<String> winOptions = FXCollections.observableArrayList(ResourceManager.getString("enemy_death"));
 		myWins = new ComboBox<String>(winOptions);
 		myWins.setPrefWidth(200);
+		myWins.getStyleClass().add("combobox");
 		myWinParameters = new ArrayList<Double>();
 
 		ObservableList<String> loseOptions = FXCollections.observableArrayList(ResourceManager.getString("destination"),
 				ResourceManager.getString("player_death"));
 		myLose = new ComboBox<String>(loseOptions);
 		myLose.setPrefWidth(200);
+		myLose.getStyleClass().add("combobox");
 		myLoseParameters = new ArrayList<Double>();
 
 		myWins.valueProperty().addListener((o, s1, s2) -> updateSelectedWin(s2));

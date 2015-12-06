@@ -56,6 +56,7 @@ public class CollisionViewer
 		element.setAlignment(Pos.BASELINE_CENTER);
 		Text text = new Text(type.toString());
 		ComboBox<String> dropdown = makeEventDropdown(events);
+		dropdown.getStyleClass().add("combobox");
 		element.setSpacing(100);
 		element.getChildren().add(text);
 		element.getChildren().add(dropdown);
@@ -64,6 +65,7 @@ public class CollisionViewer
 
 	private ComboBox<String> makeEventDropdown(Collection<ICollisionEvent> eventList) {
 		ComboBox<String> eventDropdown = new ComboBox<String>();
+		eventDropdown.getStyleClass().add("combobox");
 		for (ICollisionEvent event : eventList) {
 			eventDropdown.getItems().add(ResourceManager.getString(event.getClass().getSimpleName()));
 		}

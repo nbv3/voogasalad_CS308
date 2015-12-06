@@ -26,6 +26,7 @@ public class CommentBox implements IVisualElement {
 	private Node makeView(){
 		VBox commentBox = new VBox();
 		myAuthorName = new TextField();
+		myAuthorName.getStyleClass().add("textfield");
 		myComment = new TextArea("Post a comment...");
 		mySendButton = GUIFactory.buildButton("Post",
 				e-> postComment(),

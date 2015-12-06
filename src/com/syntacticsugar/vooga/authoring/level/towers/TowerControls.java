@@ -30,7 +30,7 @@ public class TowerControls extends Observable implements IVisualElement {
 		myRemoveButton = GUIFactory.buildButton("Remove Selected", e -> myTowerView.removeSelectedData(), 150.0, 50.0);
 		myEditButton = GUIFactory.buildButton("Edit Selected", e -> editSelectedData(), 100.0, 50.0);
 		myVBox.getChildren().addAll(myClearButton, myEditButton, myRemoveButton);
-		myVBox.setAlignment(Pos.CENTER_LEFT);
+		myVBox.setAlignment(Pos.CENTER);
 		myVBox.setSpacing(10);
 		myVBox.setPadding(new Insets(10));
 		
