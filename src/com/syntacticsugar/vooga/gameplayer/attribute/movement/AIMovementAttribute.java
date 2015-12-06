@@ -24,7 +24,7 @@ public class AIMovementAttribute extends AbstractMovementAttribute implements Se
 
 	}
 
-	private void printMap(boolean[][] map, List<Point> destinations) {
+	/*private void printMap(boolean[][] map, List<Point> destinations) {
 		for (int y = 0; y < map.length; y++) {
 			for (int x = 0; x < map[0].length; x++) {
 				if (destinations.contains(new Point(x, y))) {
@@ -37,7 +37,7 @@ public class AIMovementAttribute extends AbstractMovementAttribute implements Se
 			}
 			System.out.println();
 		}
-	}
+	}*/
 
 	@Override
 	public void updateSelf(IGameUniverse universe) {
@@ -52,7 +52,7 @@ public class AIMovementAttribute extends AbstractMovementAttribute implements Se
 				System.out.println("failed to fetch currentTile from map");
 			}
 			PathFinder pathFinder = new PathFinder(map.isWalkable(), myCurrentTile, ends);
-			printMap(map.isWalkable(), ends);
+			// printMap(map.isWalkable(), ends);
 			myNextTile = pathFinder.getNext();
 			return;
 		}

@@ -231,7 +231,7 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 		String playerPath = "player_pacman.png";
 		String missilePath = "scenery_pink.png";
 
-		/*ObjectData playerData = new ObjectData();
+		ObjectData playerData = new ObjectData();
 		Collection<IAttribute> attributes = new ArrayList<>();
 		attributes.add(new HealthAttribute());
 		attributes.add(new MovementControlAttribute());
@@ -249,10 +249,10 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 		playerData.setImagePath(playerPath);
 		playerData.setAttributes(attributes);
 
-		IGameObject player = new GameObject(playerData);*/
+		IGameObject player = new GameObject(playerData);
 		IGameObject enemy = new GameObject(enemyData);
 
-		//odata.add(playerData);
+		odata.add(playerData);
 		odata.add(enemyData);
 		odata.add(enemyData2);
 		WaveData wdata = new WaveData(odata);
