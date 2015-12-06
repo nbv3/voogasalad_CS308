@@ -16,11 +16,14 @@ public class Wave implements IWave {
 	
 	private int myWaveNum;
 	
+	private int mySpawnRate;
+	
 	public Wave (WaveData data) {
 		objs = new LinkedList<>();
 		for(ObjectData o: data.getObjs()) {
 			objs.add(new GameObject(o));
 		}
+		setSpawnRate(data.getSpawnRate());
 	}
 
 	@Override
@@ -41,6 +44,14 @@ public class Wave implements IWave {
 	@Override
 	public Collection<IGameObject> getAllObjs() {
 		return Collections.unmodifiableCollection(objs);
+	}
+
+	public int getSpawnRate() {
+		return mySpawnRate;
+	}
+
+	public void setSpawnRate(int mySpawnRate) {
+		this.mySpawnRate = mySpawnRate;
 	}
 
 }

@@ -1,6 +1,8 @@
 package com.syntacticsugar.vooga.gameplayer.universe.map.tiles.effects;
 
 import com.syntacticsugar.vooga.gameplayer.attribute.TimedDespawnAttribute;
+import java.io.Serializable;
+
 import com.syntacticsugar.vooga.gameplayer.event.implementations.HealthChangeEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.ObjectSpawnEvent;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObject;
@@ -9,7 +11,7 @@ import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.gameplayer.universe.map.IGameMap;
 
-public class TileDamageTemporaryEffect extends AbstractTileEffect {
+public class TileDamageTemporaryEffect extends AbstractTileEffect implements Serializable {
 
 private Double myDamage;
 

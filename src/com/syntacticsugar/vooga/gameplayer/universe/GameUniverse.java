@@ -60,7 +60,7 @@ public class GameUniverse implements IGameUniverse {
 		myConditions = new Conditions();
 		myGameObjects = new ArrayList<IGameObject>();
 		myGameMap = new GameMap(data.getMap());
-		mySpawner = new Spawner(data.getSpawns().getWaves(), data.getSettings().getSpawnRate());
+		mySpawner = new Spawner(data.getSpawns().getWaves());
 		myTowers = new ArrayList<>();
 		Collection<TowerData> towerdata = data.getTowers().getTowers();
 		for (TowerData d : towerdata) {
