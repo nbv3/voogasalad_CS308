@@ -1,8 +1,5 @@
 package com.syntacticsugar.vooga.gameplayer.event;
 
-import java.util.Map;
-
-import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 
 public abstract class CollisionEvent implements ICollisionEvent {
@@ -11,6 +8,7 @@ public abstract class CollisionEvent implements ICollisionEvent {
 	
 	public CollisionEvent(CollisionEventType type) {
 		this.myType = type;
+		setDefaults();
 	}
 	
 	@Override
@@ -21,4 +19,5 @@ public abstract class CollisionEvent implements ICollisionEvent {
 	@Override
 	abstract public void executeEvent(IGameObject obj);
 	
+	abstract protected void setDefaults();
 }

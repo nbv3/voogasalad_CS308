@@ -1,5 +1,9 @@
 package com.syntacticsugar.vooga.gameplayer.conditions.implementation;
 
+import com.syntacticsugar.vooga.authoring.parameters.EditableClass;
+import com.syntacticsugar.vooga.authoring.parameters.EditableField;
+import com.syntacticsugar.vooga.authoring.parameters.InputParser;
+import com.syntacticsugar.vooga.authoring.parameters.InputTypeException;
 import com.syntacticsugar.vooga.gameplayer.conditions.AbstractCondition;
 import com.syntacticsugar.vooga.gameplayer.conditions.ConditionType;
 import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
@@ -8,6 +12,9 @@ import com.syntacticsugar.vooga.gameplayer.event.implementations.ObjectDespawnEv
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.gameplayer.universe.IEventPoster;
 
+@EditableClass (
+		className = "Enemies Dead Necessary"
+		)
 public class EnemyDeathCondition extends AbstractCondition {
 
 	private int enemiesDead;
@@ -35,6 +42,19 @@ public class EnemyDeathCondition extends AbstractCondition {
 
 		}
 
+	}
+	
+	/**		  	      EDIT TAGS	     		    **/
+	/** *************************************** **/
+	
+	@EditableField (	
+		inputLabel = "Enemy Threshold",
+		defaultVal = "10"
+		)
+	private void editEnemiesThresh(String arg) {
+		try {
+			this.enemiesToDie = InputParser.parseAsInt(arg);
+		} catch (InputTypeException e) { 	}
 	}
 
 }
