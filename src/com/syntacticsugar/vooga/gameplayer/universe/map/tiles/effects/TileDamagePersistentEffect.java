@@ -9,8 +9,8 @@ public class TileDamagePersistentEffect extends AbstractTileEffect {
 
 	private Double myDamage;
 	
-	public TileDamagePersistentEffect() {
-		myDamage = 0.0;
+	public TileDamagePersistentEffect(Double d) {
+		myDamage = d;
 	}
 
 	@Override

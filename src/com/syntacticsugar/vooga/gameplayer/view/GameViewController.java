@@ -41,7 +41,9 @@ public class GameViewController implements IViewRemover, IViewAdder {
 	public void displayLevel(IUniverseView universe, IEventPoster poster) {
 		myGameView.resetComponents();
 		myGameView.initializeAvailableTowers(universe.getAvailableTowers(), universe, poster);
+		myGameView.setWaveButton(event -> universe.getSpawner().nextWave());
 		universe.observeScore(myGameView.getScoreBox());
+		universe.observeMoney(myGameView.getTowerShop());
 		for (IGameTile tile : universe.getMap().getTiles()) {
 			addTileObject(tile);
 		}

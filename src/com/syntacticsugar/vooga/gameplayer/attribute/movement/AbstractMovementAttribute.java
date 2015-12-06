@@ -30,6 +30,10 @@ public abstract class AbstractMovementAttribute extends AbstractAttribute implem
 		super();
 	}
 	
+	public AbstractMovementAttribute(double speed) {
+		super();
+		setSpeed(mySpeed);
+	}
 	
 	@Override
 	protected void setDefaults() {
@@ -95,6 +99,7 @@ public abstract class AbstractMovementAttribute extends AbstractAttribute implem
 			mapPoint = map.getMapIndexFromCoordinate(points.get(0));
 			mapPoint2 = map.getMapIndexFromCoordinate(points.get(1));
 		} catch (Exception e) {
+			System.out.println("reset velocity because of spillover - abstract movement");
 			resetVelocity();
 			return;
 		}
@@ -103,6 +108,7 @@ public abstract class AbstractMovementAttribute extends AbstractAttribute implem
 		Boolean canWalkTwo = map.isWalkable()[mapPoint2.x][mapPoint2.y];
 
 		if (!(canWalkOne && canWalkTwo)) {
+			System.out.println("reset velocity 2 because of spillover - abstract movement");
 			resetVelocity();
 		}
 	}

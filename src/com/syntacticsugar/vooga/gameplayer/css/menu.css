@@ -1,35 +1,45 @@
 .label {
-    -fx-font-size: 40pt;
-    -fx-font-family: "Arial Black";
-    -fx-opacity: 0.6;
-    -fx-fill: #818181;
+    -fx-font-size: 80pt;
+    -fx-font-family: "Bauhaus 93";
+    -fx-opacity: 1.0;
+    -fx-fill: #ffffff;
   	-fx-effect: innershadow( three-pass-box , rgba(0,0,0,0.7) , 6, 0.0 , 0 , 2 );
 }
 
 .label-bright {
     -fx-font-size: 40pt;
-    -fx-font-family: "Arial";
+    -fx-font-family: "Bauhaus 93";
     -fx-opacity: 1;
 }
 
 .label-header {
     -fx-font-size: 32pt;
-    -fx-font-family: "Arial";
+    -fx-font-family: "Bauhaus 93";
     -fx-opacity: 1;
 }
 
 .button {
     -fx-border-color: #e2e2e2;
-    -fx-border-width: 2;
-    -fx-background-radius: 0;
-    -fx-background-color: #1d1d1d;
-    -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+    -fx-border-width: 0;
+    -fx-background-radius: 8;
+    -fx-background-color: linear-gradient(#CCCCCC, #999999);
+    -fx-font-family: "Bauhaus 93", Arial, sans-serif;
     -fx-font-size: 30pt;
-    -fx-text-fill: #d8d8d8;
+    -fx-text-fill: #333333;
+}
+
+#options_box{
+	-fx-padding:50 70 0 0;
+}
+
+#menuTitle{
+	-fx-padding:30 70 0 0;
+	-fx-text-fill:#ffffff;
 }
 
 .button:hover {
-	-fx-background-color: linear-gradient(#61a2b1, #2A5058);
+	-fx-background-color: #1d1d1d;
+	-fx-text-fill: #d8d8d8;
 }
 
 .button:pressed, .button:default:hover:pressed {

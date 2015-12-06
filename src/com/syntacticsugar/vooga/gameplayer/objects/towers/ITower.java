@@ -6,4 +6,6 @@ public interface ITower extends IGameObject{
 	
 	public int getCost();
 	
+	public String getName();
+	
 }

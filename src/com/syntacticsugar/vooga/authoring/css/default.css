@@ -31,6 +31,9 @@
 .pane {
     -fx-background-color: linear-gradient(from 0% 0% to 80% 80%, #a6e3fb, #6f9dff);
 }
+#menu_pane{
+	-fx-background-image: url("mainmenu-1.jpg");
+}
 
 .label {
     -fx-font-size: 11pt;

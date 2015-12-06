@@ -16,7 +16,7 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.geometry.Point2D;
 
-public class ObjectData implements Serializable{
+public class ObjectData implements Serializable, IData {
 	
 	/**
 	 * 

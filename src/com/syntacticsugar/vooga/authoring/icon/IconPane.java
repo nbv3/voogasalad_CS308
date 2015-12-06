@@ -10,6 +10,7 @@ import com.syntacticsugar.vooga.util.dirview.IConverter;
 import com.syntacticsugar.vooga.util.dirview.IDirectoryViewer;
 import com.syntacticsugar.vooga.xml.XMLFileFilter;
 import com.syntacticsugar.vooga.xml.XMLHandler;
+import com.syntacticsugar.vooga.xml.data.IData;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
 
@@ -88,15 +89,15 @@ public class IconPane implements IVisualElement, IDirectoryViewer<String> {
 		}
 	}
 
-	public Map<ImageView, ObjectData> showDirectoryContentsMap(File directory, IConverter<String> fileConverter) {
+	public Map<ImageView, IData> showDirectoryContentsMap(File directory, IConverter<String> fileConverter) {
 		clearIconPane();
 		initializeGridPane();
-		Map<ImageView, ObjectData> map = new HashMap<ImageView, ObjectData>();
+		Map<ImageView, IData> map = new HashMap<>();
 
 		File[] files = directory.listFiles(new XMLFileFilter());
-		XMLHandler<ObjectData> xml = new XMLHandler<>();
+		XMLHandler<IData> xml = new XMLHandler<>();
 		for (int i = 0; i < files.length; i++) {
-			ObjectData obj = xml.read(files[i]);
+			IData obj = xml.read(files[i]);
 			ImageView image = new ImageView(
 					new Image(getClass().getClassLoader().getResourceAsStream(obj.getImagePath())));
 			image.fitWidthProperty().bind(myIconPane.maxWidthProperty().divide(NUM_COLS).subtract(INSET_VALUE));

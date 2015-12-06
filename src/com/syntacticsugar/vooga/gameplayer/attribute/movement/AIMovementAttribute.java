@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import com.syntacticsugar.vooga.authoring.parameters.EditableClass;
+import com.syntacticsugar.vooga.gameplayer.objects.IBoundingBox;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.gameplayer.universe.map.IGameMap;
 import com.syntacticsugar.vooga.util.pathfinder.PathFinder;
@@ -40,14 +41,14 @@ public class AIMovementAttribute extends AbstractMovementAttribute implements Se
 		List<Point> ends = map.getDestinationPoints();
 
 		if (myNextTile.equals(new Point(-1, -1))) {
-			// path has never been calculated
-			// calculate path
+			// calculate path first time
 			try {
 				myCurrentTile = map.getMapIndexFromCoordinate(getParent().getBoundingBox().getPoint());
 			} catch (Exception e) {
 				System.out.println("failed to fetch currentTile from map");
 			}
 			PathFinder pathFinder = new PathFinder(map.isWalkable(), myCurrentTile, ends);
+			// printMap(map.isWalkable(), ends);
 			myNextTile = pathFinder.getNext();
 			return;
 		}
@@ -58,9 +59,8 @@ public class AIMovementAttribute extends AbstractMovementAttribute implements Se
 			return;
 		}
 
-		// not at destination yet but close
 		if (closeToNextTile(map)) {
-			// move straight to nextmap
+			// move straight to next tile
 			getParent().setPoint(universe.getMap().getCoordinateFromMapIndex(myNextTile));
 			myCurrentTile = new Point(myNextTile);
 			// recalculate next tile
@@ -74,7 +74,6 @@ public class AIMovementAttribute extends AbstractMovementAttribute implements Se
 		// move along direction
 		moveDirection();
 		move(universe);
-
 	}
 
 	private boolean closeToNextTile(IGameMap map) {
@@ -82,16 +81,26 @@ public class AIMovementAttribute extends AbstractMovementAttribute implements Se
 		Point2D nextPoint = map.getCoordinateFromMapIndex(myNextTile);
 		return currentPoint.distance(nextPoint) <= 1.2 * getSpeed();
 	}
-	
+
 	private void moveDirection() {
 		Direction moveDirection = getNewDirection();
 		setDirection(moveDirection);
-		setVelocity(getDirection());
+		// setVelocity(getDirection()); WHY NOT THIS: TODO
+		setVelocity(moveDirection);
 	}
-	
+
 	private void stopDirection() {
 		setDirection(Direction.STOP);
 		setVelocity(Direction.STOP);
+	}
+
+	@Override
+	public void move(IGameUniverse universe) {
+		// TODO override solves issues with scenery collision
+		IBoundingBox box = getParent().getBoundingBox();
+		Point2D oldPoint = box.getPoint();
+		Point2D newPoint = new Point2D(oldPoint.getX() + getXVelocity(), oldPoint.getY() + getYVelocity());
+		box.setPoint(newPoint);
 	}
 
 	private Direction getNewDirection() {

@@ -1,14 +1,18 @@
 package com.syntacticsugar.vooga.gameplayer.universe.money;
 
+import java.util.Observable;
+
 import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.MoneyChangeEvent;
+import com.syntacticsugar.vooga.gameplayer.manager.IEventManager;
+import com.syntacticsugar.vooga.gameplayer.universe.score.IEventListener;
 
-public class Money implements IMoney {
+public class Money extends Observable implements IMoney{
 	
 	private int myMoney;
 	
-	public Money() {
-		myMoney = 0;
+	public Money(int initialCash) {
+		myMoney = initialCash;
 	}
 
 	@Override
@@ -16,6 +20,8 @@ public class Money implements IMoney {
 		try {
 			MoneyChangeEvent event = (MoneyChangeEvent) e;
 			changeMoney(event.getMoney());
+			setChanged();
+			notifyObservers(this);
 		}
 		catch (ClassCastException ex) {
 			

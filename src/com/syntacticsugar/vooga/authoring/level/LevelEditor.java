@@ -5,10 +5,14 @@ import java.util.Observable;
 import com.syntacticsugar.vooga.authoring.level.map.MapManager;
 import com.syntacticsugar.vooga.authoring.level.spawner.SpawnerManager;
 import com.syntacticsugar.vooga.authoring.level.towers.TowerManager;
-import com.syntacticsugar.vooga.authoring.objectediting.IObjectDataClipboard;
+import com.syntacticsugar.vooga.authoring.objectediting.IDataClipboard;
+import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
+import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 import com.syntacticsugar.vooga.xml.data.LevelSettings;
 import com.syntacticsugar.vooga.xml.data.MapData;
+import com.syntacticsugar.vooga.xml.data.ObjectData;
 import com.syntacticsugar.vooga.xml.data.SpawnerData;
+import com.syntacticsugar.vooga.xml.data.TowerData;
 import com.syntacticsugar.vooga.xml.data.TowerListData;
 
 import javafx.geometry.Insets;
@@ -20,17 +24,17 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 
-public class LevelEditor {
+public class LevelEditor implements IAddToSpawner {
 
 	private GridPane myContentGrid;
-
 	private MapManager myMapManager;
 	private SpawnerManager mySpawnerManager;
 	private TowerManager myTowerManager;
 	private LevelConditionManager myConditions;
 
-	public LevelEditor(IObjectDataClipboard clip) throws Exception {
-		myMapManager = new MapManager(clip);
+	public LevelEditor(IDataClipboard clip) throws Exception {
+		IAddToSpawner iSpawn = this;
+		myMapManager = new MapManager(clip, iSpawn);
 		mySpawnerManager = new SpawnerManager();
 		myTowerManager = new TowerManager();
 		myConditions = new LevelConditionManager();
@@ -87,7 +91,7 @@ public class LevelEditor {
 		r2.setPercentHeight(25);
 		RowConstraints r3 = new RowConstraints();
 		r3.setPercentHeight(30);
-		grid.getRowConstraints().addAll(r0, r1, r2,r3);
+		grid.getRowConstraints().addAll(r0, r1, r2, r3);
 	}
 
 	public MapData getMapData() {
@@ -116,7 +120,26 @@ public class LevelEditor {
 
 	public void loadMap(MapData loadedMap) {
 		myMapManager.setMapData(loadedMap);
+	}
 
+	public SpawnerManager getSpawnerManager() {
+		return mySpawnerManager;
+	}
+	
+	public TowerManager getTowerManager() {
+		return myTowerManager;
+	}
+	
+	public void addToSpawner(ObjectData data) {
+		if (data.getType().equals(GameObjectType.ENEMY))
+			mySpawnerManager.getCurrentView().addData(data);
+		else
+			AlertBoxFactory.createObject("Please Select an Enemy");
+
+	}
+
+	public void addToTowers(TowerData data) {
+		myTowerManager.addTowerData(data);
 	}
 
 }

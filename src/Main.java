@@ -5,6 +5,7 @@ import com.syntacticsugar.vooga.gameplayer.attribute.movement.*;
 import com.syntacticsugar.vooga.gameplayer.attribute.status.SlowAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.status.StunAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.weapon.BasicWeaponAttribute;
+import com.syntacticsugar.vooga.gameplayer.attribute.weapon.SlowWeaponAttribute;
 import com.syntacticsugar.vooga.menu.MainMenu;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
 
@@ -24,13 +25,13 @@ public class Main extends Application {
 	public void start(Stage astage) {
 		//new AllTests();
 		//new ObjectEditor();
-//		new MainMenu();
+		new MainMenu();
 		//new SceneManager(stage);
 		/*ObjectData data = new ObjectData();
 		data.setImagePath("scenery_gray.png");
 		String tileImagePath = "scenery_grass_2.png";*/
 		
-		AbstractAttribute health = new BasicWeaponAttribute();
+		AbstractAttribute health = new SlowWeaponAttribute();
 
 		ParameterInputFactory.createInputFields(health);
 		

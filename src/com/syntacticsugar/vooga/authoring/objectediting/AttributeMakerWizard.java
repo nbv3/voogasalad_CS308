@@ -5,9 +5,6 @@ import java.util.ListIterator;
 import java.util.Observable;
 import java.util.Observer;
 
-import com.syntacticsugar.vooga.authoring.parameters.AbstractParameter;
-import com.syntacticsugar.vooga.authoring.parameters.IEditableParameter;
-
 import com.syntacticsugar.vooga.gameplayer.attribute.AbstractAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.HealthAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;

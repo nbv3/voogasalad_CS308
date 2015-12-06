@@ -5,12 +5,12 @@ import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.gameplayer.universe.map.IGameMap;
 
-public class TileDamageTempEffect extends AbstractTileEffect {
+public class TileDamageTemporaryEffect extends AbstractTileEffect {
 
 private Double myDamage;
 	
-	public TileDamageTempEffect() {
-		myDamage = 0.0;
+	public TileDamageTemporaryEffect(Double d) {
+		myDamage = d;
 	}
 
 	@Override

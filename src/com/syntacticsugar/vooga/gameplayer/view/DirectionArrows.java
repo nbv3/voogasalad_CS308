@@ -11,7 +11,7 @@ import javafx.scene.layout.BorderPane;
 
 public class DirectionArrows extends BorderPane {
 
-	public DirectionArrows(TileView tile, GameView myGameView) {
+	public DirectionArrows(TileView tile, ISimpleGameView myGameView) {
 		double mySize = tile.getViewPane().getWidth();
 		ImageView left = createArrowImage(tile, myGameView, Direction.LEFT, mySize);
 		ImageView right = createArrowImage(tile, myGameView, Direction.RIGHT, mySize);
@@ -23,7 +23,7 @@ public class DirectionArrows extends BorderPane {
 		initializeBorderPane(left, right, up, down, center);
 	}
 
-	private ImageView createArrowImage(TileView tile, GameView myGameView, Direction direction, double mySize) {
+	private ImageView createArrowImage(TileView tile, ISimpleGameView myGameView, Direction direction, double mySize) {
 		System.out.println(Direction.LEFT.toString());
 		ImageView arrowImage = new ImageView(
 				new Image(getClass().getClassLoader().getResourceAsStream("arr" + direction.toString() + ".png")));

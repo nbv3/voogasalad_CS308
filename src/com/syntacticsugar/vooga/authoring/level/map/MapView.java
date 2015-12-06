@@ -4,14 +4,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.syntacticsugar.vooga.authoring.dragdrop.DragDropManager;
-import com.syntacticsugar.vooga.authoring.dragdrop.ObjectClippableItem;
-import com.syntacticsugar.vooga.authoring.dragdrop.TileClippableItem;
 import com.syntacticsugar.vooga.authoring.icon.Icon;
-import com.syntacticsugar.vooga.authoring.objectediting.IObjectDataClipboard;
+import com.syntacticsugar.vooga.authoring.objectediting.IDataClipboard;
+import com.syntacticsugar.vooga.authoring.level.IAddToSpawner;
 import com.syntacticsugar.vooga.authoring.objectediting.IVisualElement;
 import com.syntacticsugar.vooga.authoring.objectediting.sizing.ObjectResizer;
 import com.syntacticsugar.vooga.authoring.tooltips.TileInfoTooltip;
-import com.syntacticsugar.vooga.gameplayer.universe.spawner.Spawner;
+import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
+import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.effects.ITileEffect;
 import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
@@ -24,7 +24,6 @@ import com.syntacticsugar.vooga.xml.data.TileImplementation;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableSet;
 import javafx.collections.SetChangeListener;
-import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.control.TitledPane;
@@ -32,11 +31,9 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.effect.Effect;
 import javafx.scene.effect.InnerShadow;
 import javafx.scene.image.Image;
-import javafx.scene.input.Clipboard;
 import javafx.scene.input.DataFormat;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 
@@ -57,10 +54,13 @@ public class MapView implements IMapDisplay, IVisualElement {
 	private int myMapSize;
 	private GridPane myMapGrid;
 	private TitledPane myViewPane;
-	private IObjectDataClipboard iObject;
+	private IDataClipboard iObject;
 
-	public MapView(IObjectDataClipboard clip) throws Exception {
+	private IAddToSpawner iSpawn;
+
+	public MapView(IDataClipboard clip, IAddToSpawner isp) throws Exception {
 		iObject = clip;
+		iSpawn = isp;
 		myMapSize = inputMapSize();
 		myTileSelection = buildSelectionSet();
 		myMapData = new MapData(myMapSize, DEFAULT_TILE_IMAGE);
@@ -78,6 +78,9 @@ public class MapView implements IMapDisplay, IVisualElement {
 		for (TileData toChange : myTileSelection) {
 			setImplementation(toChange, newData.getImplementation());
 			setImagePath(toChange, newData.getImagePath());
+			if (newData.getEffect() != null)
+				setEffect(toChange, newData.getEffect());
+			System.out.println("here");
 			showAlert = setAsDestination(toChange, newData.isDestination());
 		}
 		if (showAlert)
@@ -178,13 +181,18 @@ public class MapView implements IMapDisplay, IVisualElement {
 			editTileDataFromClipboard(tdFromClipBoard, toedit);
 			myMapData.setTileData(toedit, colIndex, rowIndex);
 		} else if (db.hasContent(DataFormat.lookupMimeType("ObjectData"))) {
-			ObjectData receivedData = iObject.obtainSelectedObjectData();
+			System.out.println(iObject);
+			System.out.println(iObject.obtainSelectedIData());
+			ObjectData receivedData = (ObjectData) iObject.obtainSelectedIData();
 			receivedData.setSpawnPoint(x, y);
 			// Add to Spawner
+			iSpawn.addToSpawner(receivedData);
 			// TODO
-			
+
 			String[][] imagePathArray = populateImagePathArray(colIndex, rowIndex);
-			new ObjectResizer(receivedData, imagePathArray);
+			if(!receivedData.getType().equals(GameObjectType.TOWER)){
+				new ObjectResizer(receivedData, imagePathArray);
+			}
 		}
 	}
 
@@ -268,6 +276,9 @@ public class MapView implements IMapDisplay, IVisualElement {
 		myTileIconMap.get(toChange).setImage(new Image(ResourceManager.getResource(this, imagePath)));
 	}
 
+	private void setEffect(TileData toChange, ITileEffect effect) {
+		toChange.setEffect(effect);
+	}
 
 	@Override
 	public Point2D getDropPoint(DragEvent e) {

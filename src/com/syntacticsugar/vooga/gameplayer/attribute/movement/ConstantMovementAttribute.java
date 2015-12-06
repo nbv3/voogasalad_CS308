@@ -21,6 +21,11 @@ public class ConstantMovementAttribute extends AbstractMovementAttribute {
 		setDefaults();
 	}
 	
+	public ConstantMovementAttribute(Direction dir, double speed) {
+		super(speed);
+		myDir = dir;
+	}
+	
 	@Override
 	protected void setDefaults() {
 		super.setDefaults();
