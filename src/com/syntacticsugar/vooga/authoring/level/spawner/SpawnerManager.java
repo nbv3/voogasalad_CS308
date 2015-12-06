@@ -10,7 +10,6 @@ import java.util.Observable;
 import com.syntacticsugar.vooga.authoring.fluidmotion.FadeTransitionWizard;
 import com.syntacticsugar.vooga.authoring.fluidmotion.FluidGlassBall;
 import com.syntacticsugar.vooga.authoring.fluidmotion.ParallelTransitionWizard;
-import com.syntacticsugar.vooga.authoring.level.IDataSelector;
 import com.syntacticsugar.vooga.authoring.level.ITabbedManager;
 import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
@@ -23,7 +22,6 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.VBox;
-import javafx.util.Pair;
 
 public class SpawnerManager implements ITabbedManager<ObjectData> {
 
@@ -92,13 +90,13 @@ public class SpawnerManager implements ITabbedManager<ObjectData> {
 	}
 
 	public SpawnerData getSpawnerData() {
-		Collection<WaveData> map = new ArrayList<WaveData>();
+		Collection<WaveData> waves = new ArrayList<>();
 		for (Tab t : myTabPane.getTabs()) {
-			WaveData wave = mySpawnerViewMap.get(t).getSpawnerView().getWaveData();
-			wave.setSpawnRate(mySpawnerViewMap.get(t).getRate());
-			map.add(wave);
+			Collection<ObjectData> queue = mySpawnerViewMap.get(t).getSpawnerView().getObjectQueue();
+			WaveData wave = new WaveData(queue, mySpawnerViewMap.get(t).getRate());
+			waves.add(wave);
 		}
-		return new SpawnerData(map);
+		return new SpawnerData(waves);
 	}
 
 	private void clearWave_BAREBONE(ListView<VBox> wave) {
