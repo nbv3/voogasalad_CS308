@@ -36,7 +36,7 @@
 }
 
 .label {
-    -fx-font-size: 11pt;
+    -fx-font-size: 10pt;
     -fx-font-family: "Century Gothic";
     -fx-opacity: 0.6;
 }
@@ -84,7 +84,7 @@
     -fx-background-radius: 3;
     -fx-background-color: linear-gradient(#CCCCCC, #999999);
     -fx-font-family: "Century Gothic", Arial, sans-serif;
-    -fx-font-size: 13px;
+    -fx-font-size: 11px;
     -fx-text-fill: #333333;
 }
 
