@@ -46,8 +46,10 @@ public class Spawner implements ISpawner {
 
 	@Override
 	public void nextWave() {
-		myCurrentWave = myWaves.poll();
-		mySpawnRate = myCurrentWave.getSpawnRate();
+		if (myWaves != null && myWaves.size() != 0) {
+			myCurrentWave = myWaves.poll();
+			mySpawnRate = myCurrentWave.getSpawnRate();
+		}
 	}
 
 	@Override
