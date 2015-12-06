@@ -30,6 +30,7 @@ public abstract class AbstractMenu implements IVoogaApp{
 	private PropertiesManager myPropertiesManager;
 	private Stage myStage;
 	private Scene myScene;
+	private VBox optionsBox;
 	
 	public AbstractMenu(String title){
 		
@@ -45,10 +46,8 @@ public abstract class AbstractMenu implements IVoogaApp{
 		//myScene = new Scene(pane);
 		
 		// Make utility
-		BackgroundSize backgroundSize = new BackgroundSize(100,100 ,true, true, true, false);
-		BackgroundImage backgroundImg = new BackgroundImage(new Image(getClass().getClassLoader().getResourceAsStream("mainmenu-1.png")), BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, backgroundSize);
-		Background background = new Background(backgroundImg);
-		pane.setBackground(background);
+		Image backgroundImage = new Image(getClass().getClassLoader().getResourceAsStream("mainmenu-1.png"));
+		pane.setBackground(BackgroundCreator.setBackground(backgroundImage));
 		myScene = new Scene(pane);
 	
 		myStage.setScene(myScene);
@@ -61,6 +60,7 @@ public abstract class AbstractMenu implements IVoogaApp{
 	private Pane initializePane(String gameName) {
 		BorderPane pane = new BorderPane();
 		pane.setPrefWidth(myPropertiesManager.getDoubleProperty("DefaultWidth"));
+		pane.setPrefHeight(myPropertiesManager.getDoubleProperty("DefaultHeight"));
 		pane.getStylesheets().add("/com/syntacticsugar/vooga/gameplayer/css/menu.css");
 		Label title = new Label(gameName);
 		BorderPane.setAlignment(title, Pos.CENTER);
@@ -77,12 +77,12 @@ public abstract class AbstractMenu implements IVoogaApp{
 	}
 
 	protected void generateOptions(BorderPane myPane, Node... options){
-		VBox box = new VBox(10);
-		box.getChildren().addAll(options);
-		box.getChildren().add(new HBox());
-		box.setMaxWidth(myPropertiesManager.getDoubleProperty("ButtonWidth"));
-		BorderPane.setAlignment(box, Pos.CENTER);
-		myPane.setCenter(box);
+		optionsBox = new VBox(10);
+		optionsBox.getChildren().addAll(options);
+		optionsBox.getChildren().add(new HBox());
+		optionsBox.setMaxWidth(myPropertiesManager.getDoubleProperty("ButtonWidth"));
+		BorderPane.setAlignment(optionsBox, Pos.CENTER);
+		myPane.setCenter(optionsBox);
 	}
 	
 	protected String getProperty(String property){
@@ -104,7 +104,7 @@ public abstract class AbstractMenu implements IVoogaApp{
 	
 	protected void animatedShowStage() {
 		DirectionalFadeWizard
-			.applyEffect(myStage.getScene().getRoot())
+			.applyEffect(optionsBox)
 			.play();
 		myStage.show();
 	}
