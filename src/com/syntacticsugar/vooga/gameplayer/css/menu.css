@@ -2,7 +2,7 @@
     -fx-font-size: 40pt;
     -fx-font-family: "Arial Black";
     -fx-opacity: 0.6;
-    -fx-fill: #818181;
+    -fx-fill: #00FF00;
   	-fx-effect: innershadow( three-pass-box , rgba(0,0,0,0.7) , 6, 0.0 , 0 , 2 );
 }
 
@@ -37,7 +37,8 @@
 }
 
 .button:hover {
-	-fx-background-color: linear-gradient(#61a2b1, #2A5058);
+	-fx-background-color: linear-gradient(#CCCCCC, #999999);
+	-fx-text-fill: #333333;
 }
 
 .button:pressed, .button:default:hover:pressed {

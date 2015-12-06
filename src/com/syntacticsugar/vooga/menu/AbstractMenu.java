@@ -46,7 +46,7 @@ public abstract class AbstractMenu implements IVoogaApp{
 		//myScene = new Scene(pane);
 		
 		// Make utility
-		Image backgroundImage = new Image(getClass().getClassLoader().getResourceAsStream("mainmenu-1.png"));
+		Image backgroundImage = new Image(getClass().getClassLoader().getResourceAsStream("mainmenu-3.png"));
 		pane.setBackground(BackgroundCreator.setBackground(backgroundImage));
 		myScene = new Scene(pane);
 	
