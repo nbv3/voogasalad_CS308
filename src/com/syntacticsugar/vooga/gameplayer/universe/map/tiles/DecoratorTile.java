@@ -80,7 +80,9 @@ public class DecoratorTile extends AbstractViewableObject implements IGameTile {
 	@Override 
 	public void setTileEffect(ITileEffect effect) {
 		myEffect = effect;
-		myEffect.setTile(this);
+		if (effect != null) {
+			myEffect.setTile(this);
+		}
 	}
 	
 	@Override

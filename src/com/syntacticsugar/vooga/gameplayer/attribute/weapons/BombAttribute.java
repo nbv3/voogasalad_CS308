@@ -40,6 +40,15 @@ public class BombAttribute extends AbstractAttribute implements IUserControlAttr
 		super();
 	}
 	
+	public BombAttribute(String bulletImagePath, Double bulletDamage, KeyCode fireKeyCode,
+				Integer fuse, Integer fireDelay) {
+		myImagePath = bulletImagePath;
+		myDamage = bulletDamage;
+		myFireKeyCode = fireKeyCode;
+		myFuse = fuse;
+		fireFrameDelay = fireDelay;
+		
+	}
 	public void setDamage(int damage) {
 		myDamage = damage;
 	}
@@ -73,8 +82,15 @@ public class BombAttribute extends AbstractAttribute implements IUserControlAttr
 	
 	private void makeBomb(IGameUniverse universe) {
 		TileDamageTemporaryEffect effect = new TileDamageTemporaryEffect(myDamage, myFuse);
+		effect.setHitImagePath("scenery_black.png");
+		effect.setImagePersistenceLength(20);
 		IGameMap map = universe.getMap(); 
-		map.getTile(getParent().getPoint()).setTileEffect(effect);
+		Point2D tpoint = getParent().getPoint();
+		try {
+			map.getTileFromIJ(map.getMapIndexFromCoordinate(tpoint)).setTileEffect(effect);
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
 		try {
 			Point2D point = map.getCoordinateFromMapIndex(map.getMapIndexFromCoordinate(getParent().getPoint()));
 			IGameObject obj = new GameObject(GameObjectType.ITEM, point, map.getTileSize(), map.getTileSize(), myImagePath);
@@ -84,7 +100,6 @@ public class BombAttribute extends AbstractAttribute implements IUserControlAttr
 			timer.setParent(obj);
 			postBomb(universe, obj);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

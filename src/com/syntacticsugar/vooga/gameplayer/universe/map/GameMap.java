@@ -85,10 +85,21 @@ public class GameMap implements IGameMap {
 		}
 		return place;
 	}
-
+	
 	@Override
-	public IGameTile getTile(Point2D p) {		
-		return myTiles[(int) p.getX()][(int) p.getY()];		
+	public IGameTile getTile(Point2D point) {
+		try {
+			return getTileFromIJ(getMapIndexFromCoordinate(point));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	@Override
+	public IGameTile getTileFromIJ (Point point) {
+		return myTiles[point.x][point.y];
 	}
 	
 	@Override

@@ -15,19 +15,19 @@ public class MoneyInfo extends HBox{
 	private PropertiesManager myPropertiesManager;
 	
 	public MoneyInfo(int initialCash, String style){
-		this();
-		this.getStyleClass().add(style);
-		this.setAlignment(Pos.CENTER);
+		this(style);
+		this.setAlignment(Pos.CENTER_LEFT);
 		myMoney = new Label(labelText + initialCash);
-		ImageView coinImage = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream("coin.png")));
+		ImageView coinImage = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream("movingCoin.gif")));
 		coinImage.setFitHeight(myPropertiesManager.getDoubleProperty("CoinSize"));
 		coinImage.setFitWidth(myPropertiesManager.getDoubleProperty("CoinSize"));
 		this.getChildren().addAll(myMoney, coinImage);
 	}
 	
-	private MoneyInfo(){
+	private MoneyInfo(String style){
+		super(5);
 		myPropertiesManager = new PropertiesManager("com/syntacticsugar/vooga/resources/View");
-		labelText = myPropertiesManager.getProperty("Money");
+		labelText = myPropertiesManager.getProperty(style);
 	}
 	
 	public void changeMoney(int money){

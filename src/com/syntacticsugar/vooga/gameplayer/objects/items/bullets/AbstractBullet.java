@@ -37,7 +37,7 @@ public abstract class AbstractBullet extends GameObject {
 	public void onCollision(IGameObject obj){
 		super.onCollision(obj);
 		
-		if (obj.getType().equals(GameObjectType.ENEMY) || obj.getType().equals(GameObjectType.TOWER)) {
+		if (obj.getType().equals(GameObjectType.ENEMY)) {
 			setDespawnFlag(true);
 		}
 	}

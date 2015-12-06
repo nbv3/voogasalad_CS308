@@ -113,6 +113,7 @@ public class ObjectEditor extends Observable implements IDataClipboard {
 		ComboBox<GameObjectType> typeChooser = new ComboBox<>();
 		typeChooser.setPromptText(ResourceManager.getString("ChooseObjectType"));
 		typeChooser.setPrefWidth(150);
+		typeChooser.getStyleClass().add("combobox");
 		typeChooser.getItems().addAll(GameObjectType.values());
 		typeChooser.valueProperty().addListener((o, s1, s2) -> {
 			if (s2 == null) {

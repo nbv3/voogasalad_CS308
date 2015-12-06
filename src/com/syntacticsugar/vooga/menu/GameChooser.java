@@ -15,7 +15,9 @@ import com.syntacticsugar.vooga.gameplayer.attribute.movement.AIMovementAttribut
 import com.syntacticsugar.vooga.gameplayer.attribute.movement.ConstantMovementAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.movement.Direction;
 import com.syntacticsugar.vooga.gameplayer.attribute.movement.MovementControlAttribute;
+import com.syntacticsugar.vooga.gameplayer.attribute.weapons.BombAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.weapons.StunWeaponAttribute;
+import com.syntacticsugar.vooga.gameplayer.attribute.weapons.TowerBasicWeaponAttribute;
 import com.syntacticsugar.vooga.gameplayer.event.ICollisionEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.HealthChangeEvent;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
@@ -230,7 +232,8 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 		Collection<IAttribute> attributes = new ArrayList<>();
 		attributes.add(new HealthAttribute());
 		attributes.add(new MovementControlAttribute());
-		attributes.add(new StunWeaponAttribute(missilePath, 1.0, KeyCode.SPACE, 8.0, 5.0, 10.0, 60));
+		BombAttribute bomb = new BombAttribute(missilePath, 40.0, KeyCode.SPACE, 30, 60);
+		attributes.add(bomb);
 		HealthAttribute playerHealth = new HealthAttribute();
 		playerHealth.setHealth(100.0);
 		MovementControlAttribute playerMove = new MovementControlAttribute();
@@ -287,11 +290,12 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 		HealthAttribute newHealth = new HealthAttribute();
 		newHealth.setHealth(30.0);
 		towerAttributes.add(newHealth);
+		towerAttributes.add(new TowerBasicWeaponAttribute());
 		// towerAttributes.add(new AIMovementAttribute(3));
 		Map<GameObjectType, Collection<ICollisionEvent>> collisionst = new HashMap<GameObjectType, Collection<ICollisionEvent>>();
 		Collection<ICollisionEvent> towerEvents = new ArrayList<ICollisionEvent>();
 		towerEvents.add(new HealthChangeEvent(10.0));
-		towerData.setType(GameObjectType.ENEMY);
+		towerData.setType(GameObjectType.TOWER);
 
 		towerData.setImagePath(imgPath);
 		towerData.setAttributes(towerAttributes);

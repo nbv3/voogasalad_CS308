@@ -39,7 +39,7 @@ import javafx.scene.paint.Color;
 
 public class MapView implements IMapDisplay, IVisualElement {
 
-	private static final Effect TILE_EFFECT = createEffect();
+	public static final Effect TILE_EFFECT = createEffect();
 	private static final String DEFAULT_TILE_IMAGE = "scenery_gray.png";
 
 	private static Effect createEffect() {
@@ -184,14 +184,15 @@ public class MapView implements IMapDisplay, IVisualElement {
 			System.out.println(iObject);
 			System.out.println(iObject.obtainSelectedIData());
 			ObjectData receivedData = (ObjectData) iObject.obtainSelectedIData();
-			receivedData.setSpawnPoint(x, y);
+			ObjectData toCopy = new ObjectData(receivedData);
+			toCopy.setSpawnPoint(x, y);
 			// Add to Spawner
-			iSpawn.addToSpawner(receivedData);
+			iSpawn.addToSpawner(toCopy);
 			// TODO
 
 			String[][] imagePathArray = populateImagePathArray(colIndex, rowIndex);
-			if(!receivedData.getType().equals(GameObjectType.TOWER)){
-				new ObjectResizer(receivedData, imagePathArray);
+			if(!toCopy.getType().equals(GameObjectType.TOWER)){
+				new ObjectResizer(toCopy, imagePathArray);
 			}
 		}
 	}
@@ -284,6 +285,22 @@ public class MapView implements IMapDisplay, IVisualElement {
 	public Point2D getDropPoint(DragEvent e) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	public int getMapSize() {
+		return myMapSize;
+	}
+	
+	public double getMapGridWidth() {
+		return myMapGrid.getWidth();
+	}
+	
+	public double getMapGridHeight() {
+		return myMapGrid.getHeight();
+	}
+	
+	public Map<TileData, Icon> getTileIconMap() {
+		return myTileIconMap;
 	}
 
 }
