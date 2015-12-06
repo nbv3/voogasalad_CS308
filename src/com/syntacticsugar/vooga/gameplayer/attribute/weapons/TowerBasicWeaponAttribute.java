@@ -19,7 +19,7 @@ import javafx.geometry.Point2D;
 public class TowerBasicWeaponAttribute extends AbstractWeaponAttribute {
 	
 	private int fireRate;
-	//private String dummy;
+	private String dummy;
 	
 	private int myFrameCount;
 	
@@ -27,10 +27,13 @@ public class TowerBasicWeaponAttribute extends AbstractWeaponAttribute {
 		super();
 		myFrameCount = 0;
 	}
+
 	
-	//public TowerBasicWeaponAttribute(TowerBasicWeaponAttribute tbwa) {
-	//	this.dummy = tbwa.dummy;
-	//}
+	public TowerBasicWeaponAttribute(TowerBasicWeaponAttribute tbwa) {
+		this.dummy = tbwa.dummy;
+		this.myFrameCount = tbwa.myFrameCount;
+		this.fireRate = tbwa.fireRate;
+	}
 
 	@Override
 	protected IGameObject makeBullet() {
