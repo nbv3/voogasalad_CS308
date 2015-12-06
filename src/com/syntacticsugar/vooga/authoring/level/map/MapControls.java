@@ -16,6 +16,7 @@ import com.syntacticsugar.vooga.authoring.icon.IconPane;
 import com.syntacticsugar.vooga.authoring.icon.ImageFileFilter;
 import com.syntacticsugar.vooga.authoring.objectediting.IVisualElement;
 import com.syntacticsugar.vooga.util.ResourceManager;
+import com.syntacticsugar.vooga.util.filechooser.FileChooserUtil;
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
 import com.syntacticsugar.vooga.xml.data.TileData;
@@ -37,7 +38,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
-import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -185,25 +185,23 @@ public class MapControls extends Observable implements IVisualElement {
 		return imagePaths;
 	}
 
-	private void createNewImage(){
+	private void createNewImage() {
 		if (mySelectedType == null) {
 			AlertBoxFactory.createObject("Select a tile type.");
 			return;
 		}
-		FileChooser chooser = new FileChooser();
-		chooser.setTitle("Add Image File");
-		chooser.getExtensionFilters().add(new ExtensionFilter("Image Files", "*.jpeg", "*.gif", "*.png"));
-		File selectedFile = chooser.showOpenDialog(new Stage());
-		if(selectedFile != null) {
-			try {
-				String path = ResourceManager.getString(String.format("%s%s", mySelectedType, "_images"));
-				Files.copy(selectedFile.toPath(),
-						(new File(path + "/" + mySelectedType.toString().toLowerCase() + "_" + selectedFile.getName())).toPath(),
-						StandardCopyOption.REPLACE_EXISTING);
-			} catch (IOException e) {
-				AlertBoxFactory.createObject("Image already exists. Please select another.");
-			}
-		}
+		FileChooserUtil.loadFile("Add Image File", new ExtensionFilter("Image Files", "*.jpeg", "*.gif", "*.png"), null,
+				selectedFile -> {
+					try {
+						String path = ResourceManager.getString(String.format("%s%s", mySelectedType, "_images"));
+						Files.copy(selectedFile.toPath(), (new File(
+								path + "/" + mySelectedType.toString().toLowerCase() + "_" + selectedFile.getName()))
+										.toPath(),
+								StandardCopyOption.REPLACE_EXISTING);
+					} catch (IOException e) {
+						AlertBoxFactory.createObject("Image already exists. Please select another.");
+					}
+				});
 		showImageOptions(mySelectedType);
 	}
 
