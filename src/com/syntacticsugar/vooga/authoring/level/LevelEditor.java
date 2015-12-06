@@ -9,7 +9,6 @@ import com.syntacticsugar.vooga.authoring.level.towers.TowerManager;
 import com.syntacticsugar.vooga.authoring.objectediting.IDataClipboard;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
-import com.syntacticsugar.vooga.xml.data.IData;
 import com.syntacticsugar.vooga.xml.data.LevelSettings;
 import com.syntacticsugar.vooga.xml.data.MapData;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
@@ -121,6 +120,13 @@ public class LevelEditor implements IAddToSpawner {
 		return myConditions.getConditions();
 	}
 
+	public void setConditions(LevelSettings set) {
+		myConditions.setLoseParameters(set.getLoseParameters());
+		myConditions.setWinParameters(set.getWinParameters());
+		myConditions.setLosingCondition(set.getLoseCondition());
+		myConditions.setWinningCondition(set.getWinCondition());
+	}
+
 	public void loadMap(MapData loadedMap) {
 		myMapManager.setMapData(loadedMap);
 	}
@@ -143,6 +149,18 @@ public class LevelEditor implements IAddToSpawner {
 
 	public void addToTowers(TowerData data) {
 		myTowerManager.addTowerData(data);
+	}
+
+	public void setSpawners(SpawnerData spawns) {
+		mySpawnerManager.addSpawnerData(spawns);
+
+	}
+
+	public void setTowers(TowerListData towers) {
+		for (TowerData t : towers.getTowers()) {
+			myTowerManager.addTowerData(t);
+		}
+
 	}
 
 }
