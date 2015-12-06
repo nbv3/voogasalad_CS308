@@ -43,12 +43,12 @@ public class SocialCenter implements IVoogaApp{
 		
 		myLeft.getChildren().add(myXMLViewer.getView());
 		myLeft.getChildren().add(myObjectDataViewer.getView());
-		myLeft.setPrefWidth(500);
+		myLeft.setPrefWidth(700);
 		myView.getChildren().add(myLeft);
 		VBox myRight = (VBox) myObjectDataViewer.getCommentBox();
-		myRight.setMaxWidth(200);
+		myRight.setMaxWidth(Integer.MAX_VALUE);
 		myView.getChildren().add(myRight);
-		Scene scene = new Scene(myView, 700, 500);
+		Scene scene = new Scene(myView, 800, 500);
 		myStage.setScene(scene);
 		myStage.show();
 	}
