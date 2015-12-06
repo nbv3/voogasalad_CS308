@@ -17,14 +17,10 @@ public class SocialCenter implements IVoogaApp{
 	private XMLViewer myXMLViewer;
 	private ObjectDataViewer myObjectDataViewer;
 	private Stage myStage;
-	private VBox myLeft;
 	private HBox myView;
 	private CommentViewer myCommentViewer;
 	
 	public SocialCenter(){
-		myStage = new Stage();
-		myLeft = new VBox();
-		myView = new HBox();
 		myObjectDataViewer = new ObjectDataViewer();
 		myXMLViewer = new XMLViewer(new IDataViewUpdater(){
 
@@ -40,22 +36,26 @@ public class SocialCenter implements IVoogaApp{
 			
 		});
 		
-		
-		myLeft.getChildren().add(myXMLViewer.getView());
-		myLeft.getChildren().add(myObjectDataViewer.getView());
-		myLeft.setPrefWidth(700);
-		myView.getChildren().add(myLeft);
-
-		VBox myRight = (VBox) myObjectDataViewer.getCommentBox();
-		myRight.setMaxWidth(Integer.MAX_VALUE);
-		myView.getChildren().add(myRight);
+		myStage = new Stage();
+		myView = makeSceneNode();
 		Scene scene = new Scene(myView, 800, 500);
 		scene.getStylesheets().add("/com/syntacticsugar/vooga/authoring/css/default.css");
-
 		myStage.setScene(scene);
 		myStage.show();
 	}
 
+	private HBox makeSceneNode(){
+		HBox fullView = new HBox();
+		VBox myLeft = new VBox();
+		myLeft.getChildren().add(myXMLViewer.getView());
+		myLeft.getChildren().add(myObjectDataViewer.getView());
+		myLeft.setPrefWidth(700);
+		fullView.getChildren().add(myLeft);
+		VBox myRight = (VBox) myObjectDataViewer.getCommentBox();
+		fullView.getChildren().add(myRight);
+		return fullView;
+	}
+	
 	@Override
 	public void assignCloseHandler(EventHandler<WindowEvent> onclose) {
 		myStage.setOnCloseRequest(onclose);

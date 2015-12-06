@@ -30,7 +30,7 @@ public class TowerBasicWeaponAttribute extends AbstractWeaponAttribute {
 	@Override
 	protected IGameObject makeBullet() {
 		TowerBasicBullet bullet = null;
-		if (getParent().getType().equals(GameObjectType.PLAYER)) {
+		if (getParent().getType().equals(GameObjectType.TOWER)) {
 			Point2D bulletInitPos = new Point2D(getParent().getBoundingBox().getPoint().getX() + getParent().getBoundingBox().getWidth()/2,
 											getParent().getBoundingBox().getPoint().getY() + getParent().getBoundingBox().getHeight()/2);
 			BulletParams params = makeParams(bulletInitPos);
@@ -51,7 +51,7 @@ public class TowerBasicWeaponAttribute extends AbstractWeaponAttribute {
 		myFrameCount++;
 	}
 	
-	private boolean fireConditionsMet() {
+	protected boolean fireConditionsMet() {
 		return (myFrameCount >= fireRate);
 	}
 	
