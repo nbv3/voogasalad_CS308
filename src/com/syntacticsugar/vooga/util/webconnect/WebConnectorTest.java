@@ -21,11 +21,11 @@ public class WebConnectorTest {
 		postXMLTest();
 		deleteXMLTest(10);
 		postCommentTest();
-		getCommentsTest(1422);
+		getCommentsTest(20);
 	}
 	
 	public static void postCommentTest() {
-		int id = 1422;
+		int id = 20;
 		String author = "Strange person";
 		String comment = "Michael is a little b";
 		JSONObject request = JSONHelper.createCommentJSON(id, author, comment);

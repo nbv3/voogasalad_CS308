@@ -53,7 +53,7 @@ public class GameUniverse implements IGameUniverse {
 
 	public GameUniverse(UniverseData data, GlobalSettings settings) {
 		myScore = new Score(data.getSettings());
-		myMoney = new Money();
+		myMoney = new Money(120);
 		// Needs event manager
 		myConditions = new Conditions();
 		myGameObjects = new ArrayList<IGameObject>();
@@ -80,6 +80,7 @@ public class GameUniverse implements IGameUniverse {
 		mySpawnYard.registerEventManager(manager);
 		myPoster = manager;
 		manager.registerListener(myScore);
+		manager.registerListener(myMoney);
 	}
 
 	@Override
@@ -211,4 +212,10 @@ public class GameUniverse implements IGameUniverse {
 	public void observeScore(Observer observer) {
 		myScore.addObserver(observer);
 	}
+	
+	@Override
+	public void observeMoney(Observer observer){
+		myMoney.addObserver(observer);
+	}
+	
 }

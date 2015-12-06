@@ -12,7 +12,7 @@ import javafx.scene.control.Label;
 public class InformationBox extends DataBox implements Observer {
 
 	private Label myScore;
-	private static final String text = "Score: ";
+	private final String text = "Score: ";
 
 	public InformationBox() {
 		myScore = new Label("Score: 0");
