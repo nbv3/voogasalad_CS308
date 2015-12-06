@@ -10,8 +10,8 @@ public class TileSlowEffect extends AbstractTileEffect {
 	private Double mySlow;
 	private int myLength;
 	
-	public TileSlowEffect() {
-		mySlow = 1.0;
+	public TileSlowEffect(Double s) {
+		mySlow = s;
 		myLength = 15;
 	}
 	

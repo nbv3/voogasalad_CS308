@@ -9,6 +9,7 @@ import com.syntacticsugar.vooga.authoring.objectediting.IObjectDataClipboard;
 import com.syntacticsugar.vooga.authoring.objectediting.IVisualElement;
 import com.syntacticsugar.vooga.authoring.objectediting.sizing.ObjectResizer;
 import com.syntacticsugar.vooga.authoring.tooltips.TileInfoTooltip;
+import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.effects.ITileEffect;
 import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
@@ -72,6 +73,9 @@ public class MapView implements IMapDisplay, IVisualElement {
 		for (TileData toChange : myTileSelection) {
 			setImplementation(toChange, newData.getImplementation());
 			setImagePath(toChange, newData.getImagePath());
+			if (newData.getEffect() != null)
+				setEffect(toChange, newData.getEffect());
+			System.out.println("here");
 			showAlert = setAsDestination(toChange, newData.isDestination());
 		}
 		if (showAlert)
@@ -178,7 +182,7 @@ public class MapView implements IMapDisplay, IVisualElement {
 			receivedData.setSpawnPoint(x, y);
 			// Add to Spawner
 			// TODO
-			
+
 			String[][] imagePathArray = populateImagePathArray(colIndex, rowIndex);
 			new ObjectResizer(receivedData, imagePathArray);
 		}
@@ -264,6 +268,9 @@ public class MapView implements IMapDisplay, IVisualElement {
 		myTileIconMap.get(toChange).setImage(new Image(ResourceManager.getResource(this, imagePath)));
 	}
 
+	private void setEffect(TileData toChange, ITileEffect effect) {
+		toChange.setEffect(effect);
+	}
 
 	@Override
 	public Point2D getDropPoint(DragEvent e) {
