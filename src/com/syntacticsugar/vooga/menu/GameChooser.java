@@ -21,8 +21,6 @@ import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.dirview.IConverter;
 import com.syntacticsugar.vooga.util.dirview.IDirectoryViewer;
-import com.syntacticsugar.vooga.util.properties.PropertiesManager;
-import com.syntacticsugar.vooga.util.simplefilechooser.SimpleFileChooser;
 import com.syntacticsugar.vooga.xml.XMLFileFilter;
 import com.syntacticsugar.vooga.xml.XMLHandler;
 import com.syntacticsugar.vooga.xml.data.GameData;
@@ -316,7 +314,7 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 
 		LevelSettings lSetting = new LevelSettings(1000, 60);
 
-		return new UniverseData(spawn, td, map, lSetting);
+		return new UniverseData(spawn, td, map, lSetting,new ArrayList<>());
 	}
 
 }

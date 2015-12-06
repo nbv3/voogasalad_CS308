@@ -7,21 +7,26 @@ import com.syntacticsugar.vooga.authoring.fluidmotion.SequentialTransitionWizard
 import javafx.animation.Animation;
 import javafx.animation.SequentialTransition;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
 
 public class PulsingFadeWizard {
-	public static Animation applyEffect(Node node) {
+	public static Animation applyEffect(Node node){
 		SequentialTransition seq = (SequentialTransition) SequentialTransitionWizard.sequence(
-				FadeTransitionWizard.fadeIn(node, FluidGlassBall.getPreviewTilePulseDuration(),
-						FluidGlassBall.getPulsingFadeOpacityMin(), FluidGlassBall.getPulsingFadeOpacityMax(),
+				FadeTransitionWizard.fadeIn(
+						node, 
+						FluidGlassBall.getPreviewTilePulseDuration(), 
+						FluidGlassBall.getPulsingFadeOpacityMin(), 
+						FluidGlassBall.getPulsingFadeOpacityMax(),
 						FluidGlassBall.getDirectionalFadeCycleCount()),
-				FadeTransitionWizard.fadeOut(node, FluidGlassBall.getPreviewTilePulseDuration(),
-						FluidGlassBall.getPulsingFadeOpacityMax(), FluidGlassBall.getPulsingFadeOpacityMin(),
+				FadeTransitionWizard.fadeOut(
+						node, 
+						FluidGlassBall.getPreviewTilePulseDuration(), 
+						FluidGlassBall.getPulsingFadeOpacityMax(), 
+						FluidGlassBall.getPulsingFadeOpacityMin(), 
 						FluidGlassBall.getDirectionalFadeCycleCount()));
 		seq.setCycleCount(Integer.MAX_VALUE);
 		return seq;
 	}
-
+	
 	public static void attachPulsingHandlers(Node... nodes) {
 		for (Node n : nodes) {
 			Animation anim = PulsingFadeWizard.applyEffect(n);
