@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Queue;
 
 import com.syntacticsugar.vooga.authoring.fluidmotion.FadeTransitionWizard;
@@ -31,7 +33,7 @@ import javafx.scene.Node;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Tooltip;
 
-public class SpawnerView implements IDataSelector<ObjectData>, IVisualElement, IRefresher {
+public class SpawnerView implements IDataSelector<ObjectData>, IVisualElement, IRefresher, Observer {
 
 	private ListView<Node> myQueuePane;
 	private Queue<ObjectData> myQueue;
@@ -147,6 +149,12 @@ public class SpawnerView implements IDataSelector<ObjectData>, IVisualElement, I
 			myWave.add(temp);
 		});
 		myQueuePane.refresh();
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		refresh();
+		
 	}
 
 }

@@ -2,10 +2,12 @@ package com.syntacticsugar.vooga.authoring.objectediting;
 
 import java.io.File;
 import java.util.Collections;
+import java.util.Observable;
 
 import com.syntacticsugar.vooga.authoring.dragdrop.DragDropManager;
 import com.syntacticsugar.vooga.authoring.fluidmotion.FadeTransitionWizard;
 import com.syntacticsugar.vooga.authoring.fluidmotion.FluidGlassBall;
+import com.syntacticsugar.vooga.authoring.fluidmotion.SequentialTransitionWizard;
 import com.syntacticsugar.vooga.authoring.icon.Icon;
 import com.syntacticsugar.vooga.authoring.library.IRefresher;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
@@ -38,8 +40,8 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 
-public class ObjectEditor implements IObjectDataClipboard {
-
+public class ObjectEditor extends Observable implements IObjectDataClipboard{
+	
 	private GridPane myView;
 	private ObjectData currentData;
 	private AttributeViewer myAttributeViewer;
@@ -50,7 +52,6 @@ public class ObjectEditor implements IObjectDataClipboard {
 	private ComboBox<GameObjectType> myTypeChooser;
 	private IRefresher myRefresher;
 	private String selectedImagePath;
-	private SequentialTransition seqTrans;
 
 	public ObjectEditor(IRefresher refresher) {
 		myView = new GridPane();
@@ -152,6 +153,12 @@ public class ObjectEditor implements IObjectDataClipboard {
 		currentData.setType(currentData.getType());
 		currentData.setAttributes(myAttributeViewer.getData());
 		currentData.setCollisionMap(myCollisionViewer.getData());
+		registerChangeAndNotifyObserver();
+	}
+
+	private void registerChangeAndNotifyObserver() {
+		setChanged();
+		notifyObservers();
 	}
 
 	private void saveObject() {
@@ -222,11 +229,10 @@ public class ObjectEditor implements IObjectDataClipboard {
 		GridPane grid = new GridPane();
 		grid.setAlignment(Pos.CENTER);
 		myIcon = new Icon("scenery_gray.png");
-		SequentialTransition seq = new SequentialTransition(
+		SequentialTransition seq = (SequentialTransition) SequentialTransitionWizard.sequence(
 				FadeTransitionWizard.fadeIn(myIcon, FluidGlassBall.getPreviewTilePulseDuration(), 0.7, 1.0, 1),
 				FadeTransitionWizard.fadeOut(myIcon, FluidGlassBall.getPreviewTilePulseDuration(), 1.0, 0.7, 1));
 		seq.setCycleCount(Integer.MAX_VALUE);
-
 		seq.play();
 		Button button = GUIFactory.buildButton("Select Image", e -> selectImage(), null, null);
 		grid.getChildren().addAll(button, myIcon);
