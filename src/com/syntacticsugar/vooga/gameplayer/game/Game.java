@@ -8,6 +8,7 @@ import java.util.List;
 import com.syntacticsugar.vooga.gameplayer.manager.IEventManager;
 import com.syntacticsugar.vooga.gameplayer.universe.GameUniverse;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
+import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.filechooser.FileChooserUtil;
 import com.syntacticsugar.vooga.xml.XMLHandler;
 import com.syntacticsugar.vooga.xml.data.GameData;
@@ -61,7 +62,7 @@ public class Game implements IGame {
 		GameData gameSave = new GameData(gameData, mySettings);
 		XMLHandler<GameData> xmlMake = new XMLHandler<>();
 
-		FileChooserUtil.saveFile("Save Game", "", null, selectedFile -> {
+		FileChooserUtil.saveFile(ResourceManager.getString("save_game"), "", null, selectedFile -> {
 			xmlMake.write(gameSave, selectedFile);
 		});
 	

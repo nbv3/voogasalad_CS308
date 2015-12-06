@@ -67,9 +67,9 @@ public class ObjectEditor extends Observable implements IDataClipboard {
 		GridPane myMainEditorView = buildEditorView();
 		myTypeChooser = buildTypeChooser();
 		AnchorPane myTopControlPane = GUIFactory.buildAnchorPane(myTypeChooser,
-				GUIFactory.buildButton("New", e -> createEmptyEditor(), null, null));
-		myUpdateButton = GUIFactory.buildButton("Update", e -> storeEditedObject(), null, null);
-		mySaveButton = GUIFactory.buildButton("Save", e -> saveObject(), null, null);
+				GUIFactory.buildButton(ResourceManager.getString("new"), e -> createEmptyEditor(), null, null));
+		myUpdateButton = GUIFactory.buildButton(ResourceManager.getString("update"), e -> storeEditedObject(), null, null);
+		mySaveButton = GUIFactory.buildButton(ResourceManager.getString("save"), e -> saveObject(), null, null);
 		AnchorPane myBottomControlPane = GUIFactory.buildAnchorPane(myUpdateButton, mySaveButton);
 		myView.add(myTopControlPane, 0, 0, 1, 1);
 		myView.add(myMainEditorView, 0, 1, 1, 1);
@@ -230,7 +230,8 @@ public class ObjectEditor extends Observable implements IDataClipboard {
 		grid.setAlignment(Pos.CENTER);
 		myIcon = new Icon("scenery_gray.png");
 		PulsingFadeWizard.attachPulsingHandlers(myIcon);
-		Button button = GUIFactory.buildButton("Select Image", e -> selectImage(), null, null);
+		Button button = GUIFactory.buildButton(ResourceManager.getString("select_image"), 
+				e -> selectImage(), null, null);
 		grid.getChildren().addAll(button, myIcon);
 		GridPane.setConstraints(button, 0, 0, 1, 1);
 		GridPane.setConstraints(myIcon, 0, 1, 1, 1);

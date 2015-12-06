@@ -67,7 +67,7 @@ public class MapView implements IMapDisplay, IVisualElement {
 		myMapGrid = new GridPane();
 		myTileIconMap = new HashMap<>();
 		initializeMapView(myMapData);
-		myViewPane = GUIFactory.buildTitledPane("Map Display", myMapGrid);
+		myViewPane = GUIFactory.buildTitledPane(ResourceManager.getString("map_display"), myMapGrid);
 	}
 
 	@Override
@@ -84,7 +84,7 @@ public class MapView implements IMapDisplay, IVisualElement {
 			showAlert = setAsDestination(toChange, newData.isDestination());
 		}
 		if (showAlert)
-			AlertBoxFactory.createObject("Can only set Path tiles as destinations.");
+			AlertBoxFactory.createObject(ResourceManager.getString("tile_setting_error"));
 	}
 
 	@Override
@@ -140,9 +140,10 @@ public class MapView implements IMapDisplay, IVisualElement {
 	}
 
 	private int inputMapSize() throws Exception {
-		double size = SliderDialogFactory.createSliderDialog("Input Map Size", 10, 40, 1);
+		double size = SliderDialogFactory.createSliderDialog(
+				ResourceManager.getString("input_mapsize"), 10, 40, 1);
 		if (size == Double.MIN_VALUE) {
-			throw new Exception("Must select a map size before editing");
+			throw new Exception(ResourceManager.getString("select_mapsize_error"));
 		}
 		return (int) size;
 	}
@@ -171,25 +172,25 @@ public class MapView implements IMapDisplay, IVisualElement {
 	private void dragOverHandler(DragEvent event) {
 		double x = event.getX();
 		double y = event.getY();
-		int colIndex = (int) (myMapSize * x / myMapGrid.getWidth());
-		int rowIndex = (int) (myMapSize * y / myMapGrid.getHeight());
+		double colIndex = (int) (myMapSize * x / myMapGrid.getWidth());
+		double rowIndex = (int) (myMapSize * y / myMapGrid.getHeight());
 		Dragboard db = event.getDragboard();
 		if (db.hasContent(DataFormat.lookupMimeType("TileData"))) {
 			TileData tdFromClipBoard = (TileData) db.getContent(DataFormat.lookupMimeType("TileData"));
-			TileData toedit = myMapData.getTileData(colIndex, rowIndex);
+			TileData toedit = myMapData.getTileData((int)colIndex, (int)rowIndex);
 			editTileDataFromClipboard(tdFromClipBoard, toedit);
-			myMapData.setTileData(toedit, colIndex, rowIndex);
+			myMapData.setTileData(toedit, (int)colIndex, (int)rowIndex);
 		} else if (db.hasContent(DataFormat.lookupMimeType("ObjectData"))) {
 			System.out.println(iObject);
 			System.out.println(iObject.obtainSelectedIData());
 			ObjectData receivedData = (ObjectData) iObject.obtainSelectedIData();
 			ObjectData toCopy = new ObjectData(receivedData);
-			toCopy.setSpawnPoint(x, y);
+			toCopy.setSpawnPoint(colIndex/myMapSize * 1000, rowIndex/myMapSize * 1000);
 			// Add to Spawner
 			iSpawn.addToSpawner(toCopy);
 			// TODO
 
-			String[][] imagePathArray = populateImagePathArray(colIndex, rowIndex);
+			String[][] imagePathArray = populateImagePathArray((int)colIndex, (int)rowIndex);
 			if(!toCopy.getType().equals(GameObjectType.TOWER)){
 				new ObjectResizer(toCopy, imagePathArray);
 			}
