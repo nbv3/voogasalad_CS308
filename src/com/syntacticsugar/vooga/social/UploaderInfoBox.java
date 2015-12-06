@@ -10,7 +10,10 @@ import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
 
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -25,12 +28,14 @@ public class UploaderInfoBox {
 	public UploaderInfoBox(IUploader uploadInterface) {
 		myUploadInterface = uploadInterface;
 		initializeVariables();
+		Button button = GUIFactory.buildButton("OK", e-> postDataObject(), 
+				Double.MAX_VALUE, Double.MAX_VALUE);
 		myView.getChildren().addAll(
 		GUIFactory.buildTitledPane("Author Name", myAuthor),
 		GUIFactory.buildTitledPane("Game Name", myGameName),
 		GUIFactory.buildTitledPane("Game Description", myDescription),
-		GUIFactory.buildButton("OK", e-> postDataObject(), myView.getPrefWidth(), null));
-		
+		button);
+		VBox.setVgrow(button, Priority.ALWAYS);
 		Scene scene = new Scene(myView,250,250);
 		myStage = new Stage();
 		myStage.setScene(scene);

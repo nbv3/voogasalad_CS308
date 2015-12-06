@@ -122,6 +122,7 @@ public class XMLViewer implements IVisualElement {
 									description, XMLHandler.fileToString(selected)));
 				}
 			});
+			refresh();
 		});
 	}
 
