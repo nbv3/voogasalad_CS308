@@ -104,8 +104,8 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 	private void startGame() {
 		// SimpleFileChooser.saveGame(makeEmptyData(), new Stage());
 		myStage.hide();
-		// GameData data = selectedGameData;
-		GameData data = makeEmptyData();
+		GameData data = selectedGameData;
+		//GameData data = makeEmptyData();
 		System.out.println(data);
 		System.out.println(data.getName());
 		launchGame(new GameMenu(data));
