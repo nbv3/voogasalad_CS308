@@ -2,6 +2,7 @@ package com.syntacticsugar.vooga.gameplayer.engine;
 
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.gameplayer.universe.map.IGameMap;
+import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.IGameTile;
 import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.ITowerHolder;
 import com.syntacticsugar.vooga.gameplayer.universe.score.IScore;
 import com.syntacticsugar.vooga.gameplayer.universe.spawner.ISpawner;
@@ -88,6 +89,10 @@ public class GameEngine {
 		for (IGameObject object : myUniverse.getGameObjects()) {
 			object.updateSelf(myUniverse);
 		}
+		
+		for (IGameTile tile: myUniverse.getMap().getTiles()) {
+			tile.updateSelf(myUniverse);
+		}
 	}
 	
 	private void processSpawner() {
@@ -116,25 +121,25 @@ public class GameEngine {
 		return myView.getGameView();
 	}
 	
-	private void placeTower(ObjectData obj, Point2D point) {
-		IGameMap map = myUniverse.getMap();
-		double size = map.getTileSize();
-		Point2D spawnPoint;
-		try {
-			spawnPoint = map.getCoordinateFromMapIndex(map.getMapIndexFromCoordinate(point));
-		} catch (Exception e) {
-			return;
-		}
-		obj.setWidth(size);
-		obj.setHeight(size);
-		obj.setSpawnPoint(spawnPoint.getX(), spawnPoint.getY());
-		IGameObject tower = new Tower(obj);
-		
-		ITowerHolder tile = map.getTile(point);
-		tile.setIsPlaceable(false);
-		
-		ObjectSpawnEvent event = new ObjectSpawnEvent(tower);
-		myUniverse.postEvent(event);
-	}
+//	private void placeTower(ObjectData obj, Point2D point) {
+//		IGameMap map = myUniverse.getMap();
+//		double size = map.getTileSize();
+//		Point2D spawnPoint;
+//		try {
+//			spawnPoint = map.getCoordinateFromMapIndex(map.getMapIndexFromCoordinate(point));
+//		} catch (Exception e) {
+//			return;
+//		}
+//		obj.setWidth(size);
+//		obj.setHeight(size);
+//		obj.setSpawnPoint(spawnPoint.getX(), spawnPoint.getY());
+//		IGameObject tower = new Tower(obj);
+//		
+//		ITowerHolder tile = map.getTile(point);
+//		tile.setIsPlaceable(false);
+//		
+//		ObjectSpawnEvent event = new ObjectSpawnEvent(tower);
+//		myUniverse.postEvent(event);
+//	}
 
 }

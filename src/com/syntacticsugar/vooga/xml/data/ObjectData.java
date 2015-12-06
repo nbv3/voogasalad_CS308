@@ -30,7 +30,7 @@ public class ObjectData implements Serializable{
 	private double width;
 	private double height;
 	private Direction myDirection;
-	private ObjectProperty<String> myImagePath = new SimpleObjectProperty<String>();
+	private String myImagePath;
 	private Collection<IAttribute> myAttributes;
 	private Map<GameObjectType, Collection<ICollisionEvent>> myCollisionMap;
 	
@@ -46,7 +46,7 @@ public class ObjectData implements Serializable{
 		height = obj.getBoundingBox().getHeight();
 		myAttributes = obj.getAttributes().values();
 		myCollisionMap = obj.getCollisionMap();
-		myImagePath.set(obj.getPath());
+		myImagePath = obj.getPath();
 		myType = obj.getType();
 		myDirection = obj.getBoundingBox().getDirection();
 	}
@@ -68,7 +68,7 @@ public class ObjectData implements Serializable{
 	}
 	
 	public String getImagePath() {
-		return this.myImagePath.get();
+		return myImagePath;
 	}
 	
 	public Collection<IAttribute> getAttributes() {
@@ -96,7 +96,7 @@ public class ObjectData implements Serializable{
 	}
 	
 	public void setImagePath(String imagePath) {
-		this.myImagePath.set(imagePath);
+		myImagePath = imagePath;
 	}
 	
 	public void setObjectName(String name) {
@@ -125,7 +125,7 @@ public class ObjectData implements Serializable{
 		myDirection = dir;
 	}
 	
-	public ObjectProperty<String> getImagePathProperty() {
+	public String getImagePathProperty() {
 		return myImagePath;
 	}
 }

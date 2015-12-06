@@ -76,9 +76,9 @@ public class SpawnerView implements IDataSelector<ObjectData>, IVisualElement, I
 	// called when drag-drop happens
 	@Override
 	public void addData(ObjectData obj) {
-		obj.getImagePathProperty().addListener((e, ov, nv) -> {
-			refresh();
-		});
+//		obj.getImagePathProperty().addListener((e, ov, nv) -> {
+//			refresh();
+//		});
 		myQueue.add(obj);
 		Node temp = createQueueBoxFromObjData(obj);
 		temp.setOnMouseClicked(e -> selectedItem = temp);

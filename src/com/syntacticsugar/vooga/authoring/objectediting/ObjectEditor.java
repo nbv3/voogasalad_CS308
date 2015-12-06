@@ -134,6 +134,7 @@ public class ObjectEditor implements IObjectDataClipboard{
 	}
 
 	public void displayData(ObjectData data) {
+		selectedImagePath = data.getImagePath();
 		if (data != null) {
 			if (mySaveButton.isDisabled() && data.getType() != null) {
 				setSaveButtonViability(true);
