@@ -31,13 +31,13 @@ public class SpawnerControls extends Observable implements IVisualElement {
 
 	public SpawnerControls(SpawnerManager tabs) {
 		myVBox = new VBox();
-		myAddButton = GUIFactory.buildButton("Create wave", e -> tabs.append(), 150.0, 50.0);
-		myClearButton = GUIFactory.buildButton("Clear wave", e -> tabs.remove(), 150.0, 50.0);
-		myRemoveButton = GUIFactory.buildButton("Remove Selected", e -> tabs.getCurrentView().removeSelectedData(),
+		myAddButton = GUIFactory.buildButton(ResourceManager.getString("create_wave"), e -> tabs.append(), 150.0, 50.0);
+		myClearButton = GUIFactory.buildButton(ResourceManager.getString("clear_wave"), e -> tabs.remove(), 150.0, 50.0);
+		myRemoveButton = GUIFactory.buildButton(ResourceManager.getString("remove_selected"), e -> tabs.getCurrentView().removeSelectedData(),
 				150.0, 50.0);
-		myEditButton = GUIFactory.buildButton("Edit Selected", e -> editItem(tabs.getCurrentView().getSelectedData()),
+		myEditButton = GUIFactory.buildButton(ResourceManager.getString("edit_selected"), e -> editItem(tabs.getCurrentView().getSelectedData()),
 				150.0, 50.0);
-		mySpawnButton = GUIFactory.buildButton("Set Spawn Rate", e -> tabs.setCurrentWaveSpawnRate(getSavedSpawnRate()),
+		mySpawnButton = GUIFactory.buildButton(ResourceManager.getString("set_spawn_rate"), e -> tabs.setCurrentWaveSpawnRate(getSavedSpawnRate()),
 				150.0, 50.0);
 		mySpawnInput = new TextField();
 		mySpawnInput.setPromptText(ResourceManager.getString("int_SpawnRate"));
@@ -48,7 +48,7 @@ public class SpawnerControls extends Observable implements IVisualElement {
 		myVBox.setSpacing(10);
 		myVBox.setPadding(new Insets(10));
 
-		myViewPane = GUIFactory.buildTitledPane("Spawn Controls", myVBox);
+		myViewPane = GUIFactory.buildTitledPane(ResourceManager.getString("spawn_controls"), myVBox);
 	}
 
 	private void editItem(ObjectData toEdit) {

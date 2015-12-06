@@ -64,7 +64,7 @@ public class GameUniverse implements IGameUniverse {
 		myConditions = new Conditions();
 		myGameObjects = new ArrayList<IGameObject>();
 		myGameMap = new GameMap(data.getMap());
-		mySpawner = new Spawner(data.getSpawns().getWaves());
+		mySpawner = new Spawner(data.getSpawns().getWaves(), myGameMap.getTileSize());
 		myTowers = new ArrayList<>();
 		Collection<TowerData> towerdata = data.getTowers().getTowers();
 		for (TowerData d : towerdata) {
@@ -74,7 +74,10 @@ public class GameUniverse implements IGameUniverse {
 		System.out.println(objects);
 		//if (objects != null) {
 		for (ObjectData e: objects) {
-			myGameObjects.add(new GameObject(e));
+			IGameObject obj = new GameObject(e);
+			obj.getBoundingBox().setWidth(myGameMap.getTileSize() * .75);
+			obj.getBoundingBox().setHeight(myGameMap.getTileSize() * .75);
+			myGameObjects.add(obj);
 		}
 		
 		//}

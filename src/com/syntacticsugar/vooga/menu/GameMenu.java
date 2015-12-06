@@ -1,6 +1,7 @@
 package com.syntacticsugar.vooga.menu;
 
 import com.syntacticsugar.vooga.gameplayer.manager.GameManager;
+import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.xml.data.GameData;
 
 import javafx.scene.control.Button;
@@ -26,8 +27,8 @@ public class GameMenu extends AbstractMenu{
 
 	@Override
 	protected void initializeOptions(BorderPane pane) {
-		Button launchGame = createButton("Play Game", e -> launchNewEngine());
-		Button loadGame = createButton("Load Game", e -> loadGame());
+		Button launchGame = createButton(ResourceManager.getString("play_game"), e -> launchNewEngine());
+		Button loadGame = createButton(ResourceManager.getString("load_game"), e -> loadGame());
 		generateOptions(pane, launchGame, loadGame);
 	}
 

@@ -131,19 +131,19 @@ public class AuthoringScreenManager implements Observer, IVoogaApp {
 		newLevel.setOnAction(e -> addLevelRefresh());
 
 		MenuItem loadMap = new MenuItem();
-		loadMap.setText("Load map");
+		loadMap.setText(ResourceManager.getString("load_map"));
 		loadMap.setOnAction(e -> loadMap());
 
 		MenuItem saveMap = new MenuItem();
-		saveMap.setText("Save map");
+		saveMap.setText(ResourceManager.getString("save_map"));
 		saveMap.setOnAction(e -> saveMap());
 
 		MenuItem loadData = new MenuItem();
-		loadData.setText("Load ObjectData");
+		loadData.setText(ResourceManager.getString("load_objectdata"));
 		loadData.setOnAction(e -> loadData());
 
 		MenuItem saveGame = new MenuItem();
-		saveGame.setText("Save Game");
+		saveGame.setText(ResourceManager.getString("save_game"));
 		saveGame.setOnAction(e -> saveGame());
 
 		file.getItems().addAll(newLevel, loadMap, saveMap, loadData, saveGame);
@@ -155,9 +155,10 @@ public class AuthoringScreenManager implements Observer, IVoogaApp {
 	private void saveGame() {
 		GameData game = new GameData(myLevelEditor.getAllUniverseData(), new GlobalSettings());
 		// File f = SimpleFileChooser.saveGame(game, myStage);
-		StringInputBoxFactory msg = new StringInputBoxFactory("Enter File Name: ");
+		StringInputBoxFactory msg = new StringInputBoxFactory(
+				ResourceManager.getString("enter_filename") + " ");
 		String fileName = msg.getValue();
-		System.out.println("Filename: " + fileName);
+		System.out.println(ResourceManager.getString("filename") + " " + fileName);
 		String directory = ResourceManager.getString("game_data");
 		System.out.println(directory);
 		String path = directory + File.separator + fileName;
@@ -194,7 +195,7 @@ public class AuthoringScreenManager implements Observer, IVoogaApp {
 			MapData loaded = SimpleFileChooser.loadMap(myStage);
 			myLevelEditor.loadMap(loaded);
 		} catch (NullPointerException e) {
-			AlertBoxFactory.createObject("Load valid map.");
+			AlertBoxFactory.createObject(ResourceManager.getString("load_valid_map"));
 		}
 	}
 
