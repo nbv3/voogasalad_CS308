@@ -11,24 +11,22 @@ import javafx.stage.Modality;
 
 public class FileChooserUtil {
 
-	public static File saveFile(String data/*,String dialogLabel, String presetFill, File initialDirectory, IOnFileChooserAction onSave*/){
+	public static boolean saveFile(String dialogLabel, String presetFill, File initialDirectory, IOnFileChooserAction onSave){
 		boolean success = false;
 		FileChooser fileChooser = new FileChooser();
-		//fileChooser.setTitle(dialogLabel);
-		//fileChooser.setInitialFileName(presetFill);
-		//if (initialDirectory!=null){
-		//	fileChooser.setInitialDirectory(initialDirectory);
-		//}
-		//Stage stage = new Stage();
-		//stage.initModality(Modality.APPLICATION_MODAL);
+		fileChooser.setTitle(dialogLabel);
+		fileChooser.setInitialFileName(presetFill);
+		if (initialDirectory!=null){
+			fileChooser.setInitialDirectory(initialDirectory);
+		}
+		Stage stage = new Stage();
+		stage.initModality(Modality.APPLICATION_MODAL);
 		File selectedFile = fileChooser.showSaveDialog(new Stage());
-		return selectedFile;
-		/*if (selectedFile != null) {
+		if (selectedFile != null) {
 			success = true;
 			onSave.action(selectedFile);
-			return sele;
 		}
-		return success;*/
+		return success;
 	}
 	
 	public static boolean loadFile(String dialogLabel, ExtensionFilter extensions, File initialDirectory, IOnFileChooserAction onLoad){
