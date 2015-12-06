@@ -7,13 +7,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.syntacticsugar.vooga.authoring.fluidmotion.mixandmatchmotion.DirectionalFadeWizard;
-import com.syntacticsugar.vooga.authoring.fluidmotion.mixandmatchmotion.PulsingFadeWizard;
 import com.syntacticsugar.vooga.gameplayer.attribute.HealthAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.ScoreAttribute;
-import com.syntacticsugar.vooga.gameplayer.attribute.control.actions.movement.Direction;
 import com.syntacticsugar.vooga.gameplayer.attribute.movement.AIMovementAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.movement.ConstantMovementAttribute;
+import com.syntacticsugar.vooga.gameplayer.attribute.movement.Direction;
 import com.syntacticsugar.vooga.gameplayer.attribute.movement.MovementControlAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.weapon.StunWeaponAttribute;
 import com.syntacticsugar.vooga.gameplayer.event.ICollisionEvent;
@@ -39,10 +38,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
@@ -66,18 +63,7 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 		stringToGameData = new HashMap<String, GameData>();
 		myGameNames = FXCollections.observableArrayList();
 		showDirectoryContents(myDirectory, e -> getGameDescriptions(myDirectory));
-		initListView();
-
-		myScene = new Scene(buildScene());
-		myScene.getStylesheets().add("/com/syntacticsugar/vooga/gameplayer/css/menu.css");
-		myStage.setScene(myScene);
-		myStage.show();
-
-	}
-
-	private void initListView() {
 		myView = new ListView<String>(myGameNames);
-		myView.getStyleClass().add("listview-label");
 		myView.setOnMouseClicked(e -> {
 			if (myView.getSelectionModel().getSelectedItem() != null) {
 				startButton.setDisable(false);
@@ -85,24 +71,20 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 			selectedGameData = stringToGameData.get(myView.getSelectionModel().getSelectedItem());
 		});
 
-		myView.getItems().add("HEY");
-		myView.getItems().add("LOLCANO");
+		//myView.getItems().add("HEY");
+		//myView.getItems().add("LOLCANO");
+
+		myScene = new Scene(buildScene());
+		myStage.setScene(myScene);
+		myStage.show();
+
 	}
 
 	private VBox buildScene() {
-		VBox box = new VBox(10);
-		box.setId("game-chooser");
-		Label title = new Label("Choose your game!");
-		title.setAlignment(Pos.CENTER);
-		title.setId("game-chooser-title");
+		VBox box = new VBox();
 		startButton = createButton("Start", e -> startGame());
 		startButton.setDisable(true);
-		//startButton.setId("game-chooser-button");
-		PulsingFadeWizard.attachPulsingHandlers(startButton);
-		box.getChildren().addAll(title,myView, startButton);
-//		DirectionalFadeWizard
-//			.applyEffect(box)
-//			.play();
+		box.getChildren().addAll(myView, startButton);
 		return box;
 	}
 
@@ -110,9 +92,9 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 		//SimpleFileChooser.saveGame(makeEmptyData(), new Stage());
 		myStage.hide();
 //		GameData data = selectedGameData;
-//		System.out.println(data);
-//		System.out.println(data.getName());
-		GameData data  = makeEmptyData();
+		GameData data = makeEmptyData();
+		System.out.println(data);
+		System.out.println(data.getName());
 		launchGame(new GameMenu(data));
 	}
 
@@ -144,10 +126,13 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 		XMLHandler<GameData> xml = new XMLHandler<>();
 		Collection<String> names = new ArrayList<String>();
 		for (int i = 0; i < files.length; i++) {
-			File f = files[i];
-			GameData data = xml.read(f);
-			String gamename = data.getName();
-			stringToGameData.put(gamename, data);
+//			File f = files[i];
+//			GameData data = xml.read(f);
+//			String gamename = data.getName();
+//			names.add(gamename);
+//			System.out.println(stringToGameData);
+//			stringToGameData.put(gamename, data);
+			names.add("TEST");
 		}
 
 		return names;
@@ -161,9 +146,8 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 		button.setOnAction(onAction);
 		return button;
 	}
-
-
-	private GameData makeEmptyData() {
+	
+	private static GameData makeEmptyData() {
 
 		Collection<UniverseData> uni = new ArrayList<>();
 		uni.add(generateTestUni());
@@ -175,7 +159,7 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 		return data;
 	}
 
-	private UniverseData generateTestUni() {
+	private static UniverseData generateTestUni() {
 		Collection<ObjectData> odata = new ArrayList<>();
 
 		String enemyPath = "enemy_ghost_1.png";
@@ -330,7 +314,6 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 		TowerListData td = new TowerListData(towers);
 
 		LevelSettings lSetting = new LevelSettings(1000, 60);
-		lSetting.setStartingMoney(200);
 
 		return new UniverseData(spawn, td, map, lSetting,new ArrayList<>());
 	}

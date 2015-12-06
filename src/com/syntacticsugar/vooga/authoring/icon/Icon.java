@@ -14,37 +14,34 @@ public class Icon extends Pane {
 	private final ObjectProperty<Double> myHeightProperty = new SimpleObjectProperty<>();
 
 	private ImageView myImageView;
-	public ImageView getImageView() {
-		return myImageView;
-	}
-
 	private String myImagePath;
 
-	public Icon(String imagePath){
-		Image img = new Image(getClass().getClassLoader().getResourceAsStream(imagePath));
-		myImageView = new ImageView(img);
+	public Icon(String imagePath) {
 		myImagePath = imagePath;
-		myWidthProperty.addListener(new ChangeListener<Double>() {
+		myImageView = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(imagePath)));
 
+		myWidthProperty.addListener(new ChangeListener<Double>() {
 			@Override
 			public void changed(ObservableValue<? extends Double> arg0, Double arg1, Double arg2) {
 				setWidth(arg2);
 			}
-			
 		});
 		myHeightProperty.addListener(new ChangeListener<Double>() {
-
 			@Override
 			public void changed(ObservableValue<? extends Double> arg0, Double arg1, Double arg2) {
 				setHeight(arg2);
 			}
-			
 		});
+
 		makeResizable(myImageView);
 		this.getChildren().add(myImageView);
 	}
 
-	private void makeResizable(ImageView iv){
+	public void setImage(Image image) {
+		myImageView.setImage(image);
+	}
+
+	private void makeResizable(ImageView iv) {
 		iv.fitWidthProperty().bind(this.widthProperty());
 		iv.fitHeightProperty().bind(this.heightProperty());
 		iv.translateXProperty().bind(this.translateXProperty());
@@ -54,17 +51,17 @@ public class Icon extends Pane {
 	public ObjectProperty<Double> getWidthProperty() {
 		return this.myWidthProperty;
 	}
-	
+
 	public ObjectProperty<Double> getHeightProperty() {
 		return this.myHeightProperty;
 	}
 
-	public void setImage(Image image) {
-		myImageView.setImage(image);
-	}
-	
 	public String getImagePath() {
 		return this.myImagePath;
 	}
-	
+
+	public ImageView getImageView() {
+		return myImageView;
+	}
+
 }

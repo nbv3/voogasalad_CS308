@@ -5,9 +5,6 @@ import java.util.Collections;
 import java.util.Observable;
 
 import com.syntacticsugar.vooga.authoring.dragdrop.DragDropManager;
-import com.syntacticsugar.vooga.authoring.fluidmotion.FadeTransitionWizard;
-import com.syntacticsugar.vooga.authoring.fluidmotion.FluidGlassBall;
-import com.syntacticsugar.vooga.authoring.fluidmotion.SequentialTransitionWizard;
 import com.syntacticsugar.vooga.authoring.fluidmotion.mixandmatchmotion.PulsingFadeWizard;
 import com.syntacticsugar.vooga.authoring.icon.Icon;
 import com.syntacticsugar.vooga.authoring.library.IRefresher;
@@ -16,14 +13,10 @@ import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.filechooser.FileChooserUtil;
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
-import com.syntacticsugar.vooga.util.simplefilechooser.SimpleFileChooser;
 import com.syntacticsugar.vooga.xml.XMLHandler;
 import com.syntacticsugar.vooga.xml.data.IData;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
-import com.syntacticsugar.vooga.xml.data.TileData;
 
-import javafx.animation.Animation;
-import javafx.animation.SequentialTransition;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -43,10 +36,9 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser.ExtensionFilter;
-import javafx.stage.Stage;
 
-public class ObjectEditor extends Observable implements IDataClipboard{
-	
+public class ObjectEditor extends Observable implements IDataClipboard {
+
 	private GridPane myView;
 	private IData currentData;
 	private AttributeViewer myAttributeViewer;
@@ -178,25 +170,22 @@ public class ObjectEditor extends Observable implements IDataClipboard{
 		currentData.setImagePath(new String(selectedImagePath));
 		currentData.setAttributes(Collections.unmodifiableCollection(myAttributeViewer.getData()));
 		currentData.setCollisionMap(Collections.unmodifiableMap(myCollisionViewer.getData()));
-		// System.out.println("here");
-		// System.out.println(tempObjType);
-		// System.out.println(new String(selectedImagePath));
-		TextInputDialog td = new TextInputDialog("Name your creation");
+
+		TextInputDialog td = new TextInputDialog(ResourceManager.getString("name_creation"));
 		td.showAndWait();
 		if (td.getResult() == null || td.getResult().isEmpty()) {
-			AlertBoxFactory.createObject("Aborted save.");
+			AlertBoxFactory.createObject(ResourceManager.getString("aborted_save"));
 			return;
 		}
 		currentData.setObjectName(td.getResult());
 		launchSaveBox();
-		myRefresher.refresh();	
+		myRefresher.refresh();
 	}
-	
-	private void launchSaveBox(){
-		FileChooserUtil.saveFile("Save Resource File", 
-				String.format("%s.%s", currentData.getObjectName(),"xml"), 
-				new File(ResourceManager.getString(String.format("%s_%s", 
-						currentData.getType().toString().toLowerCase(),"data"))), 
+
+	private void launchSaveBox() {
+		FileChooserUtil.saveFile("Save Resource File", String.format("%s.%s", currentData.getObjectName(), "xml"),
+				new File(ResourceManager
+						.getString(String.format("%s_%s", currentData.getType().toString().toLowerCase(), "data"))),
 				selectedFile -> {
 					XMLHandler<IData> xml = new XMLHandler<>();
 					xml.write(currentData, selectedFile);
@@ -317,7 +306,6 @@ public class ObjectEditor extends Observable implements IDataClipboard{
 
 	@Override
 	public IData obtainSelectedIData() {
-		System.out.println("The string path of the objectData being transferred is "+ currentData.getImagePath());
 		return currentData;
 	}
 }

@@ -1,44 +1,48 @@
 package com.syntacticsugar.vooga.gameplayer.attribute;
 
-import java.util.Collection;
-import java.util.Observable;
-
-import com.syntacticsugar.vooga.authoring.parameters.IEditableParameter;
-import com.syntacticsugar.vooga.authoring.parameters.IntegerParameter;
+import com.syntacticsugar.vooga.authoring.parameters.EditableClass;
+import com.syntacticsugar.vooga.authoring.parameters.EditableField;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 
+@EditableClass (
+		className = "Score Value"
+		)
 public class ScoreAttribute extends AbstractAttribute {
-	
+
 	private Integer myScore;
-	
+
 	public ScoreAttribute() {
-		super(new IntegerParameter("Score: "));
-		myScore = 0;
+		super();
 	}
 
 	@Override
-	public void updateSelf(IGameUniverse universe) {
-		// TODO Auto-generated method stub
-
+	protected void setDefaults() {
+		myScore = 100;
 	}
-	
-	public void setScore(Integer score)
-	{
+
+	@Override
+	public void updateSelf(IGameUniverse universe) {	}
+
+	public void setScore(Integer score) {
 		myScore = score;
 	}
-	
+
 	public Integer getScore() {
 		return myScore;
 	}
 
-	@Override
-	public void update(Observable o, Object arg) {
-		setScore((Integer) arg);
-		setChanged();
-		notifyObservers(this);
-		
+	
+	/**		  	      EDIT TAGS	     		    **/
+	/** *************************************** **/
+	
+	@EditableField (
+			inputLabel="Score Value",
+			defaultVal = "100"	
+			)
+	private void editMaxHealth(String arg) {
+		try {
+			this.myScore = Integer.parseInt(arg);
+		} catch (NumberFormatException e) {	}
 	}
-
-
 }
 

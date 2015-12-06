@@ -1,7 +1,6 @@
 package com.syntacticsugar.vooga.authoring;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -12,10 +11,6 @@ import com.syntacticsugar.vooga.authoring.objectediting.ObjectEditor;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.menu.IVoogaApp;
 import com.syntacticsugar.vooga.util.ResourceManager;
-import com.syntacticsugar.vooga.util.filechooser.FileChooserUtil;
-import com.syntacticsugar.vooga.util.filechooser.IOnFileChooserAction;
-import com.syntacticsugar.vooga.util.fileutil.FileHandler;
-import com.syntacticsugar.vooga.util.gui.factory.MsgInputBoxFactory;
 import com.syntacticsugar.vooga.util.gui.factory.StringInputBoxFactory;
 import com.syntacticsugar.vooga.util.simplefilechooser.SimpleFileChooser;
 import com.syntacticsugar.vooga.xml.XMLHandler;
@@ -36,8 +31,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
-import javafx.stage.FileChooser;
-import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -207,12 +200,6 @@ public class AuthoringScreenManager implements Observer, IVoogaApp {
 	private void loadMap() {
 		MapData loaded = SimpleFileChooser.loadMap(myStage);
 		myLevelEditor.loadMap(loaded);
-		/*FileChooserUtil.loadFile("Open Resource File", new ExtensionFilter("XML Files", "*.xml"), null,
-				selectedFile -> {
-					XMLHandler<MapData> xml = new XMLHandler<>();
-					MapData toLoad = xml.read(selectedFile);
-					myLevelEditor.loadMap(toLoad);
-				});*/
 	}
 
 	private void addGridConstraints() {

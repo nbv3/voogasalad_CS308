@@ -1,8 +1,8 @@
 package com.syntacticsugar.vooga.gameplayer.objects.items.bullets;
 
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
-import com.syntacticsugar.vooga.gameplayer.attribute.control.actions.movement.Direction;
 import com.syntacticsugar.vooga.gameplayer.attribute.movement.ConstantMovementAttribute;
+import com.syntacticsugar.vooga.gameplayer.attribute.movement.Direction;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.HealthChangeEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.ObjectDespawnEvent;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObject;

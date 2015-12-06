@@ -1,9 +1,9 @@
 package com.syntacticsugar.vooga.gameplayer.view.implementation;
 
 import java.util.Observable;
-import com.syntacticsugar.vooga.gameplayer.attribute.control.actions.movement.Direction;
+
+import com.syntacticsugar.vooga.gameplayer.attribute.movement.Direction;
 import com.syntacticsugar.vooga.gameplayer.objects.BoundingBox;
-import com.syntacticsugar.vooga.gameplayer.view.DirectionArrows;
 import com.syntacticsugar.vooga.gameplayer.view.GameView;
 import com.syntacticsugar.vooga.gameplayer.view.ISimpleGameView;
 import com.syntacticsugar.vooga.gameplayer.view.ObjectView;

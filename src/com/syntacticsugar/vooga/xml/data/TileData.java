@@ -59,6 +59,13 @@ public class TileData implements Serializable {
 		return this.isDestination;
 	}
 
+	public String getEffectName() {
+		if (myEffect != null)
+			return myEffect.getEffectName();
+		else
+			return "None";
+	}
+
 	public ITileEffect getEffect() {
 		return myEffect;
 	}

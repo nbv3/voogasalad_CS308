@@ -1,19 +1,12 @@
 package com.syntacticsugar.vooga.util.gui.factory;
 
-import java.net.URL;
 import java.util.Optional;
 
-import com.syntacticsugar.vooga.util.ResourceManager;
-
-import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
-import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
 
 public class SliderDialogFactory {
 
@@ -22,20 +15,13 @@ public class SliderDialogFactory {
 		Dialog<Double> dialog = new Dialog<Double>();
 		dialog.setHeaderText(header);
 
-
 		// Set the button types.
 		ButtonType done = new ButtonType("Done", ButtonData.OK_DONE);
 		dialog.getDialogPane().getButtonTypes().addAll(done, ButtonType.CANCEL);
 
 		Slider slider = buildSlider(min, max, step);
 		
-//		// Create the username and password labels and fields.
-//		GridPane grid = new GridPane();
-//		grid.setHgap(10);
-//		grid.setVgap(10);
 		slider.setPadding(new Insets(30));
-
-//		grid.add(slider, 1, 0);
 
 		dialog.getDialogPane().setContent(slider);
 

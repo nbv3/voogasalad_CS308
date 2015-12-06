@@ -5,10 +5,6 @@ import javafx.scene.control.Alert.AlertType;
 
 public class AlertBoxFactory {
 
-	public AlertBoxFactory() {
-		
-	}
-
 	public static void createObject(String id) {
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("Error");
