@@ -4,9 +4,9 @@ import java.util.Observable;
 
 import com.syntacticsugar.vooga.gameplayer.attribute.movement.Direction;
 import com.syntacticsugar.vooga.gameplayer.objects.BoundingBox;
-import com.syntacticsugar.vooga.gameplayer.view.GameView;
-import com.syntacticsugar.vooga.gameplayer.view.ISimpleGameView;
 import com.syntacticsugar.vooga.gameplayer.view.ObjectView;
+import com.syntacticsugar.vooga.gameplayer.view.gameview.GameView;
+import com.syntacticsugar.vooga.gameplayer.view.gameview.ISimpleGameView;
 
 import javafx.scene.layout.StackPane;
 
