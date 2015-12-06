@@ -31,9 +31,9 @@ public class Main extends Application {
 		data.setImagePath("scenery_gray.png");
 		String tileImagePath = "scenery_grass_2.png";*/
 		
-		AbstractAttribute health = new SlowWeaponAttribute();
-
-		ParameterInputFactory.createInputFields(health);
+//		AbstractAttribute health = new SlowWeaponAttribute();
+//
+//		ParameterInputFactory.createInputFields(health);
 		
 		
 		
