@@ -1,3 +1,4 @@
+
 package com.syntacticsugar.vooga.gameplayer.manager;
 
 import com.syntacticsugar.vooga.gameplayer.conditions.ConditionType;
@@ -16,7 +17,6 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.util.Duration;
@@ -127,6 +127,9 @@ public class GameManager implements IGameManager {
 
 	@Override
 	public void startGame() {
+//		Media sound = new Media(this.getClass().getClassLoader().getResource("SuperMarioBros.mp3").toString());
+//		MediaPlayer mediaPlayer = new MediaPlayer(sound);
+//		mediaPlayer.play();
 		myGameTimeline.play();
 	}
 
