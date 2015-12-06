@@ -27,7 +27,7 @@ public class TileDamagePersistentEffect extends AbstractTileEffect {
 	@Override
 	public String getEffectName() {
 		// TODO Auto-generated method stub
-		return this.getClass().getSimpleName();
+		return this.getClass().getSimpleName().substring(4, this.getClass().getSimpleName().length() - 6);
 	}
 
 }

@@ -25,7 +25,6 @@ import com.syntacticsugar.vooga.util.reflection.Reflection;
 import com.syntacticsugar.vooga.xml.data.TileData;
 import com.syntacticsugar.vooga.xml.data.TileImplementation;
 
-import javafx.animation.Animation;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -103,28 +102,32 @@ public class MapControls extends Observable implements IVisualElement {
 		chooser = new ComboBox<>();
 		chooser.setPromptText("Select Tile Effect");
 		chooser.setPrefWidth(150);
-		ObservableList<String> effects = FXCollections.observableArrayList("Damage Persistent", "Damage Temporary",
-				"Slow");
+		ObservableList<String> effects = FXCollections.observableArrayList("None", "Damage Persistent",
+				"Damage Temporary", "Slow");
 		chooser.getItems().addAll(effects);
 
 		chooser.valueProperty().addListener((o, s1, s2) -> {
-			mySelectedEffect = s2;
-			String className = mySelectedEffect.replace(" ", "");
-			String classPath = String.format("%sTile%sEffect", CONDITION_PATH, className);
+			if (!s2.equals("None")) {
+				mySelectedEffect = s2;
+				String className = mySelectedEffect.replace(" ", "");
+				String classPath = String.format("%sTile%sEffect", CONDITION_PATH, className);
 
-			try {
-				Class<?> c = Class.forName(classPath);
-				Constructor<?>[] constr = c.getDeclaredConstructors();
-				Class<?>[] parameterTypes = constr[0].getParameterTypes();
-				for (int i = 0; i < parameterTypes.length; i++) {
-					MsgInputBoxFactory msgBox = new MsgInputBoxFactory(String.format("Set %s Value", mySelectedEffect));
-					myEffectParameters.add(msgBox.getInputValue());
+				try {
+					Class<?> c = Class.forName(classPath);
+					Constructor<?>[] constr = c.getDeclaredConstructors();
+					Class<?>[] parameterTypes = constr[0].getParameterTypes();
+					for (int i = 0; i < parameterTypes.length; i++) {
+						MsgInputBoxFactory msgBox = new MsgInputBoxFactory(
+								String.format("Set %s Value", mySelectedEffect));
+						myEffectParameters.add(msgBox.getInputValue());
+					}
+
+				} catch (SecurityException | ClassNotFoundException e) {
+					e.printStackTrace();
 				}
-
-			} catch (SecurityException | ClassNotFoundException e) {
-				e.printStackTrace();
 			}
 		});
+
 		return chooser;
 
 	}
@@ -167,7 +170,8 @@ public class MapControls extends Observable implements IVisualElement {
 	private void updatePreview() {
 		TileData td = initTileData();
 		initPreviewDragHandler(td);
-		previewTile.setImage(new Image(getClass().getClassLoader().getResourceAsStream(myIconPane.getSelectedImagePath())));
+		previewTile.setImage(
+				new Image(getClass().getClassLoader().getResourceAsStream(myIconPane.getSelectedImagePath())));
 		PulsingFadeWizard.attachPulsingHandlers(previewTile);
 	}
 
