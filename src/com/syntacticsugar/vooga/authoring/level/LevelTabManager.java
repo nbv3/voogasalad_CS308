@@ -12,6 +12,7 @@ import com.syntacticsugar.vooga.xml.data.LevelSettings;
 import com.syntacticsugar.vooga.xml.data.MapData;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
 import com.syntacticsugar.vooga.xml.data.SpawnerData;
+import com.syntacticsugar.vooga.xml.data.TowerData;
 import com.syntacticsugar.vooga.xml.data.TowerListData;
 import com.syntacticsugar.vooga.xml.data.UniverseData;
 
@@ -106,7 +107,7 @@ public class LevelTabManager {
 
 	}
 
-	public void addCurrentTower(ObjectData data) {
+	public void addCurrentTower(TowerData data) {
 		myLevelMap.get(myTabPane.getSelectionModel().getSelectedItem()).addToTowers(data);
 
 	}
