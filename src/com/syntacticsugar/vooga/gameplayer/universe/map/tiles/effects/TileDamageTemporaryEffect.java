@@ -52,4 +52,9 @@ private int myImagePersistenceLength;
 		myFrameCount++;
 	}
 
+	@Override
+	public String getEffectName() {
+		return this.getClass().getSimpleName();
+	}
+
 }

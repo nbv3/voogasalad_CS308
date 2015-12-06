@@ -15,6 +15,7 @@ import com.syntacticsugar.vooga.gameplayer.universe.money.IMoney;
 import com.syntacticsugar.vooga.xml.data.TowerData;
 
 import javafx.geometry.Point2D;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.HBox;
@@ -35,9 +36,11 @@ public class TowerShop extends Observable implements Observer {
 	public TowerShop() {
 		myContent = new VBox();
 		Label title = new Label("Tower Controls");
-		title.getStyleClass().add("title");
+		title.getStyleClass().add("label");
+		title.setAlignment(Pos.CENTER);
+
 		moneyLabel = new Label(moneyText);
-		moneyLabel.getStyleClass().add("score");
+		moneyLabel.getStyleClass().add("label2");
 		myContent.getChildren().addAll(title, moneyLabel);
 		towerList = new ScrollPane(myContent);
 	}

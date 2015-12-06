@@ -9,4 +9,6 @@ public interface ITileEffect {
 	
 	public void setTile(IGameTile tile);
 	
+	public String getEffectName();
+	
 }

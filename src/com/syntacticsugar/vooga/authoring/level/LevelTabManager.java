@@ -41,13 +41,16 @@ public class LevelTabManager {
 			e.printStackTrace();
 			return;
 		}
-		Tab newLevelTab = new Tab("Level 1");
+		
+		Tab newLevelTab = new Tab("");
 		newLevelTab.setContent(newLevel.getContent());
-		myLevelMap.put(newLevelTab, newLevel);
 		newLevelTab.setOnClosed(e -> removeLevel(newLevelTab));
+
+		myLevelMap.put(newLevelTab, newLevel);
 
 		myTabPane.getTabs().add(newLevelTab);
 		myTabPane.getSelectionModel().select(newLevelTab);
+		
 		updateLevelNumbers();
 	}
 
