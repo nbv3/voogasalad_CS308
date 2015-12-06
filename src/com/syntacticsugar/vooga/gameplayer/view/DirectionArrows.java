@@ -1,8 +1,5 @@
 package com.syntacticsugar.vooga.gameplayer.view;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.syntacticsugar.vooga.gameplayer.attribute.control.actions.movement.Direction;
 import com.syntacticsugar.vooga.gameplayer.view.implementation.TileView;
 
@@ -12,28 +9,28 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 
-public class DirectionArrows extends BorderPane{
-	
-	public DirectionArrows(TileView tile, GameView myGameView){
-		double size = tile.getViewPane().getWidth();
-		ImageView left = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream("arrLeft.png")));
-		left.setOnMouseClicked(e -> tile.informTowerControl(Direction.LEFT, this, myGameView));
-		ImageView right = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream("arrRight.png")));
-		right.setOnMouseClicked(e -> tile.informTowerControl(Direction.RIGHT, this, myGameView));
-		ImageView up = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream("arrUp.png")));
-		up.setOnMouseClicked(e -> tile.informTowerControl(Direction.UP, this, myGameView));
-		ImageView down = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream("arrDown.png")));
-		down.setOnMouseClicked(e -> tile.informTowerControl(Direction.DOWN, this, myGameView));
+public class DirectionArrows extends BorderPane {
+
+	public DirectionArrows(TileView tile, GameView myGameView) {
+		double mySize = tile.getViewPane().getWidth();
+		ImageView left = createArrowImage(tile, myGameView, Direction.LEFT, mySize);
+		ImageView right = createArrowImage(tile, myGameView, Direction.RIGHT, mySize);
+		ImageView up = createArrowImage(tile, myGameView, Direction.UP, mySize);
+		ImageView down = createArrowImage(tile, myGameView, Direction.DOWN, mySize);
 		BorderPane.setAlignment(up, Pos.CENTER);
 		BorderPane.setAlignment(down, Pos.CENTER);
-		List<ImageView> myImgs = new ArrayList<ImageView>();
-		myImgs.add(left); myImgs.add(right); myImgs.add(up); myImgs.add(down);
-		for(ImageView img: myImgs){
-			img.setFitHeight(size);
-			img.setFitWidth(size);
-		}
-		Canvas center = new Canvas(size, size);
+		Canvas center = new Canvas(mySize, mySize);
 		initializeBorderPane(left, right, up, down, center);
+	}
+
+	private ImageView createArrowImage(TileView tile, GameView myGameView, Direction direction, double mySize) {
+		System.out.println(Direction.LEFT.toString());
+		ImageView arrowImage = new ImageView(
+				new Image(getClass().getClassLoader().getResourceAsStream("arr" + direction.toString() + ".png")));
+		arrowImage.setOnMouseClicked(e -> tile.informTowerControl(direction, this, myGameView));
+		arrowImage.setFitHeight(mySize);
+		arrowImage.setFitWidth(mySize);
+		return arrowImage;
 	}
 
 	private void initializeBorderPane(ImageView left, ImageView right, ImageView up, ImageView down, Canvas center) {
@@ -43,5 +40,5 @@ public class DirectionArrows extends BorderPane{
 		this.setBottom(down);
 		this.setCenter(center);
 	}
-	
+
 }

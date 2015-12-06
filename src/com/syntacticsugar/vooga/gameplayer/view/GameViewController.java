@@ -3,17 +3,16 @@ package com.syntacticsugar.vooga.gameplayer.view;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.objects.IViewableObject;
 import com.syntacticsugar.vooga.gameplayer.universe.IUniverseView;
 import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.IGameTile;
 import com.syntacticsugar.vooga.gameplayer.view.implementation.TileView;
 
-public class GameViewController implements IViewRemover, IViewAdder{
+public class GameViewController implements IViewRemover, IViewAdder {
 
 	private Map<IViewableObject, ObjectView> myViewMap;
 	private GameView myGameView;
-	
+
 	public GameViewController(double size) {
 		myViewMap = new HashMap<IViewableObject, ObjectView>();
 		myGameView = new GameView(size);
@@ -42,14 +41,14 @@ public class GameViewController implements IViewRemover, IViewAdder{
 		myGameView.resetComponents();
 		myGameView.initializeAvailableTowers(universe.getAvailableTowers(), universe);
 		universe.observeScore(myGameView.getScoreBox());
-		for (IGameTile tile: universe.getMap().getTiles()) {
+		for (IGameTile tile : universe.getMap().getTiles()) {
 			addTileObject(tile);
 		}
 	}
 
 	private void addTileObject(IGameTile obj) {
 		TileView newView = new TileView(obj.getPath(), obj.getBoundingBox(), myGameView, obj.isWalkable());
-		//newView.addObserver(this);
+		// newView.addObserver(this);
 		myGameView.initializeTowerTileObserver(newView);
 		myViewMap.put(obj, newView);
 	}
