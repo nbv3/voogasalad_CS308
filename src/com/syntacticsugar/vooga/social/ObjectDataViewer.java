@@ -23,6 +23,8 @@ import com.syntacticsugar.vooga.xml.XMLHandler;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TitledPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
@@ -30,50 +32,31 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.FileChooser.ExtensionFilter;
 
-public class ObjectDataViewer extends ListViewer {
+public class ObjectDataViewer {
 
+	private Node myView;
+	private ListView<Node> myListView;
 	private int mySelectedItemID = Integer.MIN_VALUE;
 	private JSONObject myData;
 	private CommentViewer myCommentBox;
-	private IComments myCommentInterface;
 
 	public ObjectDataViewer() {
 		super();
-		myView = makeMyViewer("Information:");
-		myView.prefHeight(250);
-		myCommentInterface = new IComments(){
-			
-//			@Override
-//			public String getGameName() {
-//				return getSelectedGameName();
-//			}
-			@Override
-			public int getGameID() {
-				return getSelectedID();
-			}
-			@Override
-			public void updateData() {
-				update(mySelectedItemID);
-			}
-			@Override
-			public void updateComments() {
-				try {
-					myCommentBox.update();
-				} catch (JSONException e) {
-				}	
-			}
-		};	
-		
+		myCommentBox = new CommentViewer();
+		myListView = new ListView<Node>();
+		myView = makeMyViewer();		
+
 	}
 
-	private Node makeMyViewer(String viewerTitle) {
-		VBox view = GUIFactory.buildTitledVBox(makeContentBox(), viewerTitle);
+	private Node makeMyViewer() {
+		TitledPane view = GUIFactory.buildTitledPane("Information",myListView);
 		view.setPrefWidth(350);
 		VBox buttons = new VBox();
 		buttons.getChildren().addAll(GUIFactory.buildButton("Upload", e -> {uploadItem();
-		} , 100.0, null), GUIFactory.buildButton("Download", e -> {downloadSelectedItem();
-		} , 100.0, null));
+		} , 120.0, null), GUIFactory.buildButton("Download", e -> {downloadSelectedItem();
+		} , 120.0, null));
 		HBox viewAndButtons = new HBox(view,buttons);
+		viewAndButtons.setPrefHeight(350);
 		return viewAndButtons;
 	}
 
@@ -87,7 +70,7 @@ public class ObjectDataViewer extends ListViewer {
 				object.remove(key);
 				addElementToList(listElement);
 			}
-			myCommentBox = new CommentViewer(myCommentInterface);
+			myCommentBox.updateFromDataViewer(mySelectedItemID);
 			} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -142,23 +125,29 @@ public class ObjectDataViewer extends ListViewer {
 		
 	}
 
-	public void update(int id) {
+	public void update(int id) throws JSONException {
 		myData = getJSONObject(id);
+		mySelectedItemID = id;
 		populateList(myData);
+	}
+	
+	public void updateID(int id){
 		mySelectedItemID = id;
 	}
 	
-	private int getSelectedID(){
-		return mySelectedItemID;
+	private void clearList(){
+		myListView.getItems().clear();
 	}
 	
-//	private String getSelectedGameName() {
-//		try {
-//			return myData.getString("gamename");
-//		} catch (JSONException e) {
-//			e.printStackTrace();
-//		}
-//		return "";
-//	}
-
+	private void addElementToList(Node element){
+		myListView.getItems().add(element);
+	}
+	
+	public Node getView(){
+		return myView;
+	}
+	
+	public Node getCommentBox(){
+		return myCommentBox.getView();
+	}
 }

@@ -19,6 +19,7 @@ import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -78,6 +79,7 @@ public abstract class AbstractMenu implements IVoogaApp{
 	protected void generateOptions(BorderPane myPane, Node... options){
 		VBox box = new VBox(10);
 		box.getChildren().addAll(options);
+		box.getChildren().add(new HBox());
 		box.setMaxWidth(myPropertiesManager.getDoubleProperty("ButtonWidth"));
 		BorderPane.setAlignment(box, Pos.CENTER);
 		myPane.setCenter(box);
@@ -105,6 +107,10 @@ public abstract class AbstractMenu implements IVoogaApp{
 			.applyEffect(myStage.getScene().getRoot())
 			.play();
 		myStage.show();
+	}
+	
+	protected void setBackgroundImage(String imagePath){
+		
 	}
 
 

@@ -5,7 +5,7 @@ import java.util.Observable;
 import com.syntacticsugar.vooga.authoring.level.IDataSelector;
 import com.syntacticsugar.vooga.authoring.objectediting.IVisualElement;
 import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
-import com.syntacticsugar.vooga.xml.data.ObjectData;
+import com.syntacticsugar.vooga.xml.data.TowerData;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -21,9 +21,9 @@ public class TowerControls extends Observable implements IVisualElement {
 	private Button myRemoveButton;
 	private Button myClearButton;
 	private Button myEditButton;
-	IDataSelector<ObjectData> myTowerView;
+	IDataSelector<TowerData> myTowerView;
 
-	public TowerControls(IDataSelector<ObjectData> towers) {
+	public TowerControls(IDataSelector<TowerData> towers) {
 		myVBox = new VBox();
 		myTowerView = towers;
 		myClearButton = GUIFactory.buildButton("Clear Towers", e -> myTowerView.clearData(), 100.0, 50.0);

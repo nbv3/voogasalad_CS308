@@ -19,36 +19,28 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TitledPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
 public class CommentViewer {
 
-	private VBox myView;
+	private TitledPane myView;
 	private ListView<Node> myListView;
 	private List<JSONObject> myCommentList;
 	private String myGameName;
-	private IComments myCommentInterface;
+	private int mySelectedItemID;
 	private Stage myStage;
 
-	public CommentViewer(IComments commentInterface) {
-		myView = new VBox();
+	public CommentViewer() {
 		myListView = new ListView<Node>();
-		myView.getChildren().add(myListView);
-		
-		myCommentInterface = commentInterface;
+		myView = GUIFactory.buildTitledPane("Comments", myListView);
 		myCommentList = new ArrayList<JSONObject>();
-		//myGameName = commentInterface.getGameName();	
-		
-		myStage = new Stage();
-		Scene scene = new Scene(myView,500,500); 
-		myStage.setScene(scene);
-		myStage.show();
 	}
 
 	private void pullCurrentGameComments() throws JSONException {
-		JSONArray commentArray = WebConnector.getComments(myCommentInterface.getGameID());
+		JSONArray commentArray = WebConnector.getComments(mySelectedItemID);
 		myCommentList = convertJSONToList(commentArray);
 	}
 
@@ -61,7 +53,7 @@ public class CommentViewer {
 	}
 	
 	private void postComment(String author, String content) throws Exception{
-		JSONHelper.createCommentJSON(myCommentInterface.getGameID(), author, content);
+		JSONHelper.createCommentJSON(mySelectedItemID, author, content);
 		update();
 		populateList();
 	}
@@ -69,6 +61,8 @@ public class CommentViewer {
 	private void populateList() throws JSONException {
 		clearListview();
 		for (JSONObject obj: myCommentList){
+			System.out.println(obj.get("comment"));
+			System.out.println("HERE!!!!");
 			addElementToList(makeListElement(obj.getString("author"), obj.getString("comment")));
 		}
 	}
@@ -89,18 +83,20 @@ public class CommentViewer {
 		return comment;
 	}
 	
+	public void updateFromDataViewer(int id) throws JSONException{
+		mySelectedItemID = id;
+		update();
+	}
+	
 	public void update() throws JSONException {
-		myCommentInterface.updateData();
+		//myCommentInterface.updateData();
 		pullCurrentGameComments();
+		populateList();
 		System.out.println("Here!");
 	}
+	
+	public Node getView(){
+		return myView;
+	}
 
-/*	public static void main(String[] args) throws Exception {
-		List<Pair<String, String>> list = new ArrayList<Pair<String, String>>();
-		Pair<String, String> pair = new Pair<String, String>("michael", "hello");
-		list.add(pair);
-		
-		//deserializeString(serializeList(list));
-
-	}*/
 }
