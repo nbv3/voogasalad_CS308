@@ -1,7 +1,8 @@
 package com.syntacticsugar.vooga.gameplayer.attribute.weapon;
 
-import java.util.Observable;
-
+import com.syntacticsugar.vooga.authoring.parameters.EditableField;
+import com.syntacticsugar.vooga.authoring.parameters.InputParser;
+import com.syntacticsugar.vooga.authoring.parameters.InputTypeException;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.objects.items.bullets.BulletParams;
@@ -20,6 +21,10 @@ public class StunWeaponAttribute extends AbstractWeaponAttribute {
 		myStunTime = stunTime;
 	}
 
+	public StunWeaponAttribute() {
+		super();
+	}
+
 	@Override
 	protected IGameObject makeBullet() {
 		StunBullet bullet = null;
@@ -28,15 +33,20 @@ public class StunWeaponAttribute extends AbstractWeaponAttribute {
 											getParent().getBoundingBox().getPoint().getY() + getParent().getBoundingBox().getHeight()/2);
 			BulletParams params = makeParams(bulletInitPos);
 			bullet = new StunBullet(params, myStunTime);
-			
 		}
-		
 		return bullet;
 	}
 	
-	public void update(Observable o, Object arg) {
-		setChanged();
-		notifyObservers(this);
+	/**		  	  EDIT TAGS			    **/
+	// ********************************* //
+	
+	@EditableField
+	(	inputLabel = "Stun Duration",
+		defaultVal = "30"	)
+	private void editStunDamage(String arg) {
+		try {
+			this.myStunTime = InputParser.parseAsInt(arg);
+		} catch (InputTypeException e) { 	}
 	}
 
 }

@@ -1,28 +1,20 @@
 package com.syntacticsugar.vooga.gameplayer.attribute;
 
-import java.util.Collection;
-import java.util.ListIterator;
-import java.util.Observable;
-
-import com.syntacticsugar.vooga.authoring.parameters.DoubleParameter;
-import com.syntacticsugar.vooga.authoring.parameters.IEditableParameter;
+import com.syntacticsugar.vooga.authoring.parameters.EditableField;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.ObjectDespawnEvent;
 import com.syntacticsugar.vooga.gameplayer.universe.IEventPoster;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
-import com.syntacticsugar.vooga.gameplayer.universe.IObjectDespawner;
 import com.syntacticsugar.vooga.util.ResourceManager;
-
-import javafx.scene.Node;
-import javafx.scene.layout.HBox;
+import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 
 public class HealthAttribute extends AbstractAttribute {
 	
 	private static final String HEALTH_CHANGE_FREQ = "health_change_freq";
 
-	private Double myHealth;
-	private Double myMaxHealth;
-	private int myInvincibleFrames;
+	private double myMaxHealth;
 	
+	private double myHealth;
+	private int myInvincibleFrames;
 	private int myHealthChangeFreq;
 	
 	/**
@@ -31,12 +23,14 @@ public class HealthAttribute extends AbstractAttribute {
 	 * @param startingHealth
 	 */
 	public HealthAttribute() {
-		super(new DoubleParameter("Health: "));
-		this.myHealth = 10.0;
-		this.myMaxHealth = 50.0;
-		this.myInvincibleFrames = 0;
+		super();
+		this.myInvincibleFrames = Integer.parseInt(ResourceManager.getString(HEALTH_CHANGE_FREQ));
 	}
 
+	public void getHealth() {
+		System.out.println(myHealth);
+	}
+	
 	@Override
 	public void updateSelf(IGameUniverse universe) {
 		checkForDeath(universe);
@@ -50,7 +44,6 @@ public class HealthAttribute extends AbstractAttribute {
 	 * @param healthChange
 	 */
 	public void changeHealth(Double healthChange) {
-		System.out.println("HealthChange = " + healthChange);
 		if (healthChange >= 0) {
 			restoreHealth(healthChange);
 		}
@@ -64,7 +57,7 @@ public class HealthAttribute extends AbstractAttribute {
 			return;
 		}
 		this.myHealth += damage;
-		setInvincibile(myHealthChangeFreq);
+		setInvincible(myHealthChangeFreq);
 	}
 
 	private void restoreHealth(Double healthInc) {
@@ -82,7 +75,7 @@ public class HealthAttribute extends AbstractAttribute {
 		}
 	}
 
-	private void setInvincibile(int numFrames) {
+	private void setInvincible(int numFrames) {
 		this.myInvincibleFrames = numFrames;
 	}
 
@@ -90,22 +83,21 @@ public class HealthAttribute extends AbstractAttribute {
 		return this.myHealth <= 0;
 	}
 	
-	public void setHealth(Double health)
-	{
-		myMaxHealth = health;
-	}
 	
-	// test code here
-	public Double getHealth() {
-		return myHealth;
+	@EditableField(
+		inputLabel = "Max Health",
+		defaultVal = "100"
+	)
+	private void editMaxHealth(String maxHealthString) {
+		try {
+			String input = maxHealthString.trim();
+			double arg = Double.parseDouble(input);
+			this.myHealth = arg;
+			this.myMaxHealth = arg;
+			AlertBoxFactory.createObject("Assignment successful!");
+		} catch (NumberFormatException e) {
+			AlertBoxFactory.createObject("Please enter a double.");
+		}
 	}
-
-	@Override
-	public void update(Observable o, Object arg) {
-		setHealth((Double) arg);
-		setChanged();
-		notifyObservers(this);
-	}
-
 
 }

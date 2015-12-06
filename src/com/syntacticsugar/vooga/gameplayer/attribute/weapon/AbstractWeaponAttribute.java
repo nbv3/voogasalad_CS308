@@ -1,7 +1,9 @@
 package com.syntacticsugar.vooga.gameplayer.attribute.weapon;
 
-import java.util.Observable;
-
+import com.syntacticsugar.vooga.authoring.parameters.EditableClass;
+import com.syntacticsugar.vooga.authoring.parameters.EditableField;
+import com.syntacticsugar.vooga.authoring.parameters.InputParser;
+import com.syntacticsugar.vooga.authoring.parameters.InputTypeException;
 import com.syntacticsugar.vooga.gameplayer.attribute.AbstractAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.control.IUserControlAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.control.actions.movement.Direction;
@@ -15,19 +17,25 @@ import com.syntacticsugar.vooga.gameplayer.universe.userinput.IKeyInputStorage;
 import javafx.geometry.Point2D;
 import javafx.scene.input.KeyCode;
 
+@EditableClass (	
+	className = "Generic Weapon"	
+)
 public abstract class AbstractWeaponAttribute extends AbstractAttribute implements IUserControlAttribute {
 
-	protected Double myBulletDamage;
-	protected String myBulletImagePath;
-	protected KeyCode myFireKeyCode;
-	protected boolean isFireKeyPressed;
-	
-	protected Double myBulletSpeed;
-	protected Double myBulletWidth;
-	protected Double myBulletHeight;
-	
-	private Integer fireFrameDelay;
+	private double myBulletDamage;
+	private double myBulletSpeed;
+	private KeyCode myFireKeyCode;
+	private String myBulletImagePath;
+	private double myBulletWidth;
+	private double myBulletHeight;
+	private int fireFrameDelay;
+
+	private boolean isFireKeyPressed;
 	private int delayFrameCounter;
+
+	public AbstractWeaponAttribute() {
+		
+	}
 	
 	public AbstractWeaponAttribute(String bulletImagePath, Double bulletDamage, KeyCode fireKeyCode, 
 			Double bulletSpeed, Double bulletWidth, Double bulletHeight) {
@@ -41,7 +49,7 @@ public abstract class AbstractWeaponAttribute extends AbstractAttribute implemen
 		myBulletWidth = bulletWidth;
 		myBulletHeight = bulletHeight;
 	}
-	
+
 	@Override
 	public void updateSelf(IGameUniverse universe) {
 		updateKeyInput(universe);
@@ -54,38 +62,33 @@ public abstract class AbstractWeaponAttribute extends AbstractAttribute implemen
 		}
 		delayFrameCounter++;
 	}
-	
-	public String getImagePath()
-	{
-		return myBulletImagePath;
-	}
 
 	@Override
 	public void updateKeyInput(IKeyInputStorage universeKeyInput) {
-		 isFireKeyPressed = universeKeyInput.getCurrentKeyInput().contains(myFireKeyCode); 
+		isFireKeyPressed = universeKeyInput.getCurrentKeyInput().contains(myFireKeyCode); 
 	}
 
 	@Override
 	public void processKeyInput() {
-		
+
 	}
 
 	private boolean fireConditionsMet() {
 		return (delayFrameCounter > fireFrameDelay);
 	}
-	
+
 	protected abstract IGameObject makeBullet();
-	
-	protected void fireBullet(IEventPoster poster, IGameObject bullet) {
+
+	private void fireBullet(IEventPoster poster, IGameObject bullet) {
 		ObjectSpawnEvent event = new ObjectSpawnEvent(bullet);
 		poster.postEvent(event);
 	}
-	
-	protected Direction getCurrentDirection() {
+
+	private Direction getCurrentDirection() {
 		Direction dir = getParent().getBoundingBox().getDirection();
 		return dir;
 	}
-	
+
 	protected BulletParams makeParams(Point2D bulletInitPos) {
 		BulletParams params = new BulletParams();
 		params.setMove(getCurrentDirection());
@@ -95,11 +98,74 @@ public abstract class AbstractWeaponAttribute extends AbstractAttribute implemen
 		params.setDamage(myBulletDamage);
 		params.setWidth(myBulletWidth);
 		params.setHeight(myBulletHeight);
-		
+
 		return params;
 	}
+
+	/**		  	  EDIT TAGS			    **/
+	// ********************************* //
 	
-	@Override
-	abstract public void update(Observable o, Object arg);
+	@EditableField
+	(	inputLabel = "Bullet Damage",
+		defaultVal = "10"	)
+	private void editBulletDamage(String arg) {
+		try {
+			this.myBulletDamage = InputParser.parseAsDouble(arg);
+		} catch (InputTypeException e) { 	}
+	}
+	
+	@EditableField
+	(	inputLabel = "Bullet Speed",
+		defaultVal = "10"	)
+	private void editBulletSpeed(String arg) {
+		try {
+			this.myBulletSpeed = InputParser.parseAsDouble(arg);
+		} catch (InputTypeException e) {	}
+	}
+
+	@EditableField
+	(	inputLabel = "Fire Button",
+		defaultVal = "SPACE"	)
+	private void editFireCode(String arg) {
+		try {
+			this.myFireKeyCode = InputParser.parseAsKeyCode(arg);
+		} catch (InputTypeException e) {	}
+	}
+
+	@EditableField
+	(	inputLabel = "Bullet Image Path",
+		defaultVal = "scenery_pink.png"	)
+	private void editBulletImage(String arg) {
+		try {
+			this.myBulletImagePath = InputParser.parseAsImagePath(arg);
+		} catch (InputTypeException e) {	}
+	}
+
+	@EditableField
+	(	inputLabel = "Bullet Width (px)",
+		defaultVal = "3"	)
+	private void editBulletWidth(String arg) {
+		try {
+			this.myBulletWidth = InputParser.parseAsDouble(arg);
+		} catch (InputTypeException e) {	}
+	}
+	
+	@EditableField
+	(	inputLabel = "Bullet Height (px)",
+		defaultVal = "3"	)
+	private void editBulletHeight(String arg) {
+		try {
+			this.myBulletHeight = InputParser.parseAsDouble(arg);
+		} catch (InputTypeException e) {	}
+	}
+	
+	@EditableField
+	(	inputLabel = "Bullet Height (px)",
+		defaultVal = "3"	)
+	private void editFireDelay(String arg) {
+		try {
+			this.fireFrameDelay = InputParser.parseAsInt(arg);
+		} catch (InputTypeException e) {	}
+	}
 	
 }
