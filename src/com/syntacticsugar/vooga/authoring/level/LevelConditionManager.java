@@ -47,7 +47,8 @@ public class LevelConditionManager implements IVisualElement {
 		myCash.setPromptText(ResourceManager.getString("int_InitialCash"));
 		myCash.getStyleClass().add("textfield");
 		
-		ObservableList<String> winOptions = FXCollections.observableArrayList(ResourceManager.getString("enemy_death"));
+		ObservableList<String> winOptions = FXCollections.observableArrayList(ResourceManager.getString("enemy_death"),
+				ResourceManager.getString("score"));
 		myWins = new ComboBox<String>(winOptions);
 		myWins.setPrefWidth(200);
 		myWins.getStyleClass().add("combobox");
