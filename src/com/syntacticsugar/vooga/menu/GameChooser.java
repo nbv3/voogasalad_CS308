@@ -15,6 +15,7 @@ import com.syntacticsugar.vooga.gameplayer.attribute.movement.AIMovementAttribut
 import com.syntacticsugar.vooga.gameplayer.attribute.movement.ConstantMovementAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.movement.Direction;
 import com.syntacticsugar.vooga.gameplayer.attribute.movement.MovementControlAttribute;
+import com.syntacticsugar.vooga.gameplayer.attribute.weapons.BasicWeaponAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.weapons.BombAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.weapons.StunWeaponAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.weapons.TowerBasicWeaponAttribute;
@@ -104,8 +105,8 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 	private void startGame() {
 		//SimpleFileChooser.saveGame(makeEmptyData(), new Stage());
 		myStage.hide();
-		GameData data = selectedGameData;
-		//GameData data = makeEmptyData();
+		//GameData data = selectedGameData;
+		GameData data = makeEmptyData();
 		System.out.println(data);
 		System.out.println(data.getName());
 		launchGame(new GameMenu(data));
@@ -233,7 +234,11 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 		attributes.add(new HealthAttribute());
 		attributes.add(new MovementControlAttribute());
 		BombAttribute bomb = new BombAttribute(missilePath, 40.0, KeyCode.SPACE, 30, 60);
-		attributes.add(bomb);
+		BasicWeaponAttribute wpn = new BasicWeaponAttribute();
+		//wpn.
+		//attributes.add(wpn);
+		attributes.add(new StunWeaponAttribute(missilePath, 1.0, KeyCode.SPACE, 8.0, 5.0, 10.0, 60));
+		//attributes.add(bomb);
 		HealthAttribute playerHealth = new HealthAttribute();
 		playerHealth.setHealth(100.0);
 		MovementControlAttribute playerMove = new MovementControlAttribute();
@@ -264,9 +269,9 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 		enemyEvents3.add(new HealthChangeEvent(10.0));
 		collisions3.put(GameObjectType.PLAYER, enemyEvents3);
 		enemyData3.setType(GameObjectType.ENEMY);
-		enemyData3.setSpawnPoint(150, 150);
-		enemyData3.setWidth(100);
-		enemyData3.setHeight(100);
+		enemyData3.setSpawnPoint(100, 300);
+		enemyData3.setWidth(20);
+		enemyData3.setHeight(20);
 		enemyData3.setImagePath(enemyPath);
 		enemyData3.setAttributes(enemyAttributes3);
 		enemyData3.setCollisionMap(collisions3);
@@ -274,6 +279,7 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 		odata.add(playerData);
 		odata.add(enemyData);
 		odata.add(enemyData2);
+		odata.add(enemyData3);
 
 		WaveData wdata = new WaveData(odata, 60);
 		Collection<WaveData> sdata = new ArrayList<>();
