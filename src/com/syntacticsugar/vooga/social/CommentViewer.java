@@ -19,24 +19,50 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
 public class CommentViewer {
 
-	private TitledPane myView;
+	private VBox myView;
 	private ListView<Node> myListView;
 	private List<JSONObject> myCommentList;
 	private String myGameName;
 	private int mySelectedItemID;
 	private Stage myStage;
+	private TextField myCommentField;
+	private TextField myAuthorField;
+
 
 	public CommentViewer() {
 		myListView = new ListView<Node>();
-		myView = GUIFactory.buildTitledPane("Comments", myListView);
+		
+		myView = new VBox();
+		myView.getChildren().add(GUIFactory.buildTitledPane("Comments", myListView));
+		myView.getChildren().add(makeCommentBox());
 		myCommentList = new ArrayList<JSONObject>();
+	}
+	
+	private Node makeCommentBox() {
+		VBox commentRegion = new VBox();
+		myCommentField = new TextField();
+		myAuthorField = new TextField();
+		HBox authorStrip = new HBox();
+		
+		commentRegion.getChildren().add(authorStrip);
+		commentRegion.getChildren().add(myCommentField);
+		
+		authorStrip.getChildren().add(myAuthorField);
+		authorStrip.getChildren().add(GUIFactory.buildButton("Post",
+				e ->postComment(myAuthorField.getText(), myCommentField.getText()),
+				null, 50.0));
+		return commentRegion;
+		
 	}
 
 	private void pullCurrentGameComments() throws JSONException {
@@ -52,10 +78,14 @@ public class CommentViewer {
 		return list;
 	}
 	
-	private void postComment(String author, String content) throws Exception{
-		JSONHelper.createCommentJSON(mySelectedItemID, author, content);
-		update();
-		populateList();
+	private void postComment(String author, String content) {
+		try {
+			WebConnector.postComment(JSONHelper.createCommentJSON(mySelectedItemID, author, content));
+			update();
+			populateList();
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}	
 	}
 	
 	private void populateList() throws JSONException {

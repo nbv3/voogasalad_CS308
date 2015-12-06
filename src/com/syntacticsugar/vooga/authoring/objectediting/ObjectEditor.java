@@ -2,21 +2,27 @@ package com.syntacticsugar.vooga.authoring.objectediting;
 
 import java.io.File;
 import java.util.Collections;
+import java.util.Observable;
 
 import com.syntacticsugar.vooga.authoring.dragdrop.DragDropManager;
 import com.syntacticsugar.vooga.authoring.fluidmotion.FadeTransitionWizard;
 import com.syntacticsugar.vooga.authoring.fluidmotion.FluidGlassBall;
+import com.syntacticsugar.vooga.authoring.fluidmotion.SequentialTransitionWizard;
+import com.syntacticsugar.vooga.authoring.fluidmotion.mixandmatchmotion.PulsingFadeWizard;
 import com.syntacticsugar.vooga.authoring.icon.Icon;
 import com.syntacticsugar.vooga.authoring.library.IRefresher;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.util.ResourceManager;
+import com.syntacticsugar.vooga.util.filechooser.FileChooserUtil;
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
+import com.syntacticsugar.vooga.util.simplefilechooser.SimpleFileChooser;
 import com.syntacticsugar.vooga.xml.XMLHandler;
 import com.syntacticsugar.vooga.xml.data.IData;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
 import com.syntacticsugar.vooga.xml.data.TileData;
 
+import javafx.animation.Animation;
 import javafx.animation.SequentialTransition;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -36,12 +42,11 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
-import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 
-public class ObjectEditor implements IDataClipboard {
-
+public class ObjectEditor extends Observable implements IDataClipboard{
+	
 	private GridPane myView;
 	private IData currentData;
 	private AttributeViewer myAttributeViewer;
@@ -52,7 +57,6 @@ public class ObjectEditor implements IDataClipboard {
 	private ComboBox<GameObjectType> myTypeChooser;
 	private IRefresher myRefresher;
 	private String selectedImagePath;
-	private SequentialTransition seqTrans;
 
 	public ObjectEditor(IRefresher refresher) {
 		myView = new GridPane();
@@ -64,7 +68,6 @@ public class ObjectEditor implements IDataClipboard {
 		buildView();
 		myIcon.setOnDragDetected(e -> {
 			DragDropManager.createClipboard(currentData, myIcon.getImageView(), e);
-//			level.addCurrentSpawner(currentData);
 		});
 	}
 
@@ -92,7 +95,7 @@ public class ObjectEditor implements IDataClipboard {
 		myIcon.setImage(new Image(ResourceManager.getResource(this, emptyData.getImagePath())));
 		emptyData.setObjectName(null);
 		emptyData.setType(null);
-		setUpdateButtonViability(false);
+		setUpdateButtonVisibility(false);
 		setSaveButtonViability(false);
 		emptyData.setAttributes(FXCollections.observableArrayList());
 		emptyData.setCollisionMap(FXCollections.observableHashMap());
@@ -154,6 +157,12 @@ public class ObjectEditor implements IDataClipboard {
 		currentData.setType(currentData.getType());
 		currentData.setAttributes(myAttributeViewer.getData());
 		currentData.setCollisionMap(myCollisionViewer.getData());
+		registerChangeAndNotifyObserver();
+	}
+
+	private void registerChangeAndNotifyObserver() {
+		setChanged();
+		notifyObservers();
 	}
 
 	private void saveObject() {
@@ -179,38 +188,35 @@ public class ObjectEditor implements IDataClipboard {
 			return;
 		}
 		currentData.setObjectName(td.getResult());
-
-		// TODO : EXTRACT FILE CHOOSING INTO A UTILITY
-		FileChooser fileChooser = new FileChooser();
-		fileChooser.getExtensionFilters().add(new ExtensionFilter("XML Data", "*.xml"));
-		fileChooser.setTitle("Save Resource File");
-		fileChooser.setInitialDirectory(new File(ResourceManager
-				.getString(String.format("%s_%s", currentData.getType().toString().toLowerCase(), "data"))));
-		fileChooser.setInitialFileName(String.format("%s.%s", currentData.getObjectName(), "xml"));
-		File selectedFile = fileChooser.showSaveDialog(new Stage());
-		if (selectedFile != null) {
-			XMLHandler<IData> xml = new XMLHandler<>();
-			xml.write(currentData, selectedFile);
-		}
-		myRefresher.refresh();
+		launchSaveBox();
+		myRefresher.refresh();	
+	}
+	
+	private void launchSaveBox(){
+		FileChooserUtil.saveFile("Save Resource File", 
+				String.format("%s.%s", currentData.getObjectName(),"xml"), 
+				new File(ResourceManager.getString(String.format("%s_%s", 
+						currentData.getType().toString().toLowerCase(),"data"))), 
+				selectedFile -> {
+					XMLHandler<IData> xml = new XMLHandler<>();
+					xml.write(currentData, selectedFile);
+				});
 	}
 
 	private void selectImage() {
-		FileChooser fileChooser = new FileChooser();
-		fileChooser.getExtensionFilters().add(new ExtensionFilter("Image Files", "*.jpeg", "*.gif", "*.png"));
-		fileChooser.setTitle("Save Resource File");
 		if (currentData.getType() == null) {
 			AlertBoxFactory.createObject(ResourceManager.getString("select_object_type_error"));
 			return;
 		}
-		fileChooser.setInitialDirectory(new File(ResourceManager
-				.getString(String.format("%s_%s", currentData.getType().toString().toLowerCase(), "images"))));
-		File selectedFile = fileChooser.showOpenDialog(new Stage());
-		if (selectedFile != null) {
-			// currentData.setImagePath(selectedFile.getName());
-			selectedImagePath = selectedFile.getName();
-			myIcon.setImage(new Image(getClass().getClassLoader().getResourceAsStream(selectedFile.getName())));
-		}
+
+		FileChooserUtil.loadFile("Select Image File", new ExtensionFilter("Image Files", "*.jpeg", "*.gif", "*.png"),
+				new File(ResourceManager
+						.getString(String.format("%s_%s", currentData.getType().toString().toLowerCase(), "images"))),
+				selectedFile -> {
+					selectedImagePath = selectedFile.getName();
+					myIcon.setImage(new Image(getClass().getClassLoader().getResourceAsStream(selectedFile.getName())));
+					currentData.setImagePath(selectedImagePath);
+				});
 	}
 
 	private void buildNewAttribute() {
@@ -233,12 +239,7 @@ public class ObjectEditor implements IDataClipboard {
 		GridPane grid = new GridPane();
 		grid.setAlignment(Pos.CENTER);
 		myIcon = new Icon("scenery_gray.png");
-		SequentialTransition seq = new SequentialTransition(
-				FadeTransitionWizard.fadeIn(myIcon, FluidGlassBall.getPreviewTilePulseDuration(), 0.7, 1.0, 1),
-				FadeTransitionWizard.fadeOut(myIcon, FluidGlassBall.getPreviewTilePulseDuration(), 1.0, 0.7, 1));
-		seq.setCycleCount(Integer.MAX_VALUE);
-
-		seq.play();
+		PulsingFadeWizard.attachPulsingHandlers(myIcon);
 		Button button = GUIFactory.buildButton("Select Image", e -> selectImage(), null, null);
 		grid.getChildren().addAll(button, myIcon);
 		GridPane.setConstraints(button, 0, 0, 1, 1);
@@ -306,7 +307,7 @@ public class ObjectEditor implements IDataClipboard {
 		myTypeChooser.setDisable(!flag);
 	}
 
-	public void setUpdateButtonViability(boolean flag) {
+	public void setUpdateButtonVisibility(boolean flag) {
 		myUpdateButton.setDisable(!flag);
 	}
 
@@ -316,6 +317,7 @@ public class ObjectEditor implements IDataClipboard {
 
 	@Override
 	public IData obtainSelectedIData() {
+		System.out.println("The string path of the objectData being transferred is "+ currentData.getImagePath());
 		return currentData;
 	}
 }

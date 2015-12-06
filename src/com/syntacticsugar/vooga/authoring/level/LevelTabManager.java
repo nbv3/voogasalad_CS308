@@ -101,6 +101,10 @@ public class LevelTabManager {
 
 		return myLevelMap.get(myTabPane.getSelectionModel().getSelectedItem()).getMapData();
 	}
+	
+	public Map<Tab, LevelEditor> getCurrentLevelEditor() {
+		return myLevelMap;
+	}
 
 	public void addCurrentSpawner(ObjectData data) {
 		myLevelMap.get(myTabPane.getSelectionModel().getSelectedItem()).addToSpawner(data);

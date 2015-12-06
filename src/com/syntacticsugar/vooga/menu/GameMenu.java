@@ -28,21 +28,20 @@ public class GameMenu extends AbstractMenu{
 	protected void initializeOptions(BorderPane pane) {
 		Button launchGame = createButton("Play Game", e -> launchNewEngine());
 		Button loadGame = createButton("Load Game", e -> loadGame());
-		Button help = createButton("Help", e -> getHelp());
-		generateOptions(pane, launchGame, loadGame, help);
-	}
-
-	private void getHelp() {
-
+		generateOptions(pane, launchGame, loadGame);
 	}
 
 	private void loadGame() {
 
 	}
 
+	private void launchGame(IVoogaApp app) {
+		app.assignCloseHandler(e -> animatedShowStage());
+	}
+	
 	private void launchNewEngine() {
 		hideStage();
-		new GameManager(null, GAME_SIZE, myGame, FRAME_LENGTH);
+		launchGame(new GameManager(null, GAME_SIZE, myGame, FRAME_LENGTH));
 	}
 	
 }
