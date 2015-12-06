@@ -67,9 +67,13 @@ public class GameUniverse implements IGameUniverse {
 			myTowers.add(new Tower(d));
 		}
 		Collection<ObjectData> objects = data.getObjects();
+		System.out.println(objects);
+		//if (objects != null) {
 		for (ObjectData e: objects) {
 			myGameObjects.add(new GameObject(e));
 		}
+		
+		//}
 		
 		// Need event managers
 		myGraveYard = new GraveYard(this);
