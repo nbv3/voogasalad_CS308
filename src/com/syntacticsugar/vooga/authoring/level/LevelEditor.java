@@ -6,8 +6,11 @@ import com.syntacticsugar.vooga.authoring.level.map.MapManager;
 import com.syntacticsugar.vooga.authoring.level.spawner.SpawnerManager;
 import com.syntacticsugar.vooga.authoring.level.towers.TowerManager;
 import com.syntacticsugar.vooga.authoring.objectediting.IObjectDataClipboard;
+import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
+import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 import com.syntacticsugar.vooga.xml.data.LevelSettings;
 import com.syntacticsugar.vooga.xml.data.MapData;
+import com.syntacticsugar.vooga.xml.data.ObjectData;
 import com.syntacticsugar.vooga.xml.data.SpawnerData;
 import com.syntacticsugar.vooga.xml.data.TowerData;
 
@@ -87,7 +90,7 @@ public class LevelEditor {
 		r2.setPercentHeight(25);
 		RowConstraints r3 = new RowConstraints();
 		r3.setPercentHeight(30);
-		grid.getRowConstraints().addAll(r0, r1, r2,r3);
+		grid.getRowConstraints().addAll(r0, r1, r2, r3);
 	}
 
 	public MapData getMapData() {
@@ -117,6 +120,22 @@ public class LevelEditor {
 	public void loadMap(MapData loadedMap) {
 		myMapManager.setMapData(loadedMap);
 
+	}
+
+	public void addToSpawner(ObjectData data) {
+		if (data.getType().equals(GameObjectType.ENEMY))
+			mySpawnerManager.getCurrentView().addData(data);
+		else
+			AlertBoxFactory.createObject("Please Select an Enemy");
+
+	}
+
+	public void addToTowers(ObjectData data) {
+
+		if (data.getType().equals(GameObjectType.TOWER))
+			myTowerManager.addTowerData(data);
+		else
+			AlertBoxFactory.createObject("Please Select a Tower");
 	}
 
 }

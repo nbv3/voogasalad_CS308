@@ -77,9 +77,7 @@ public class TowerView implements IVisualElement, IDataSelector<ObjectData>, IRe
 
 	@Override
 	public void addData(ObjectData data) {
-//		data.getImagePathProperty().addListener((e,ov,nv) -> {
-//			refresh();
-//		});
+
 		myTowers.add(data);
 		Node newTower = createQueueBoxFromObjData(data);
 		newTower.setOnMouseClicked(e -> selectedItem = newTower);

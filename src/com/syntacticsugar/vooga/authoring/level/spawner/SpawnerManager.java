@@ -67,6 +67,10 @@ public class SpawnerManager implements ITabbedManager<ObjectData> {
 		return mySpawnerViewMap.get(myTabPane.getSelectionModel().getSelectedItem());
 	}
 
+	public void addDataToCurrentView(ObjectData data) {
+		mySpawnerViewMap.get(myTabPane.getSelectionModel().getSelectedItem()).addData(data);
+	}
+
 	@Override
 	public Observable getObservableController() {
 		return mySpawnerController;
