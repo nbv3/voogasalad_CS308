@@ -55,9 +55,9 @@ public class XMLViewer implements IVisualElement {
 	}
 	
 	private Node makeButtonStrip(){
-		Button download = GUIFactory.buildButton("Download", e->downloadSelectedItem(), 100.00, null);
-		Button upload = GUIFactory.buildButton("Upload", e->uploadItem(), 100.00, null);
-		Button refresh = GUIFactory.buildButton("Refresh", e-> refresh(), 100.0, null);
+		Button download = GUIFactory.buildButton(ResourceManager.getString("download"), e->downloadSelectedItem(), 100.00, null);
+		Button upload = GUIFactory.buildButton(ResourceManager.getString("upload"), e->uploadItem(), 100.00, null);
+		Button refresh = GUIFactory.buildButton(ResourceManager.getString("refresh"), e-> refresh(), 100.0, null);
 		HBox buttonStrip = new HBox();
 		buttonStrip.getChildren().addAll(refresh, download, upload);
 		return buttonStrip;
@@ -111,14 +111,20 @@ public class XMLViewer implements IVisualElement {
 		}
 	}
 
-	private void makeUploadFileChooser(){//EventHandler<ActionEvent> action) {
+	private void makeUploadFileChooser() {// EventHandler<ActionEvent> action) {
 		ExtensionFilter filter = new ExtensionFilter("XML files", "*.xml", "*.XML");
 		FileChooserUtil.loadFile("Choose an XML game file", filter, null, selected -> {
-				WebConnector.postXML(JSONHelper.createXMLJSON(
-						"Michael", "Tetris", "tetris", XMLHandler.fileToString(selected)));	
+			UploaderInfoBox infoBox = new UploaderInfoBox(new IUploader() {
+				@Override
+				public void postXML(String author, String gamename, String description) {
+					WebConnector.postXML(
+							JSONHelper.createXMLJSON(author, gamename, 
+									description, XMLHandler.fileToString(selected)));
+				}
 			});
+		});
 	}
-	
+
 	private void addElementToList(Node element){
 		myListView.getItems().add(element);
 	}
