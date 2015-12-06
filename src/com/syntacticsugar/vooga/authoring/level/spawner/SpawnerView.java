@@ -43,15 +43,8 @@ public class SpawnerView implements IDataSelector<ObjectData>, IVisualElement, I
 		myWave = FXCollections.observableArrayList();
 		myQueuePane.setItems(myWave);
 		myQueuePane.setOrientation(Orientation.HORIZONTAL);
-
-		// test code
-		// TODO: REMOVE
-
 	}
 
-
-
-	// called when drag-drop happens
 	@Override
 	public void addData(ObjectData obj) {
 		myQueue.add(obj);
@@ -69,9 +62,10 @@ public class SpawnerView implements IDataSelector<ObjectData>, IVisualElement, I
 		double y = obj.getSpawnPoint().getY();
 		int colIndex = (int) (myMapManager.getMapSize() * x / myMapManager.getMapGridWidth());
 		int rowIndex = (int) (myMapManager.getMapSize() * y / myMapManager.getMapGridHeight());
-		myMapManager.getTileIconMap().get(myMapManager.getMapData().getTileData(colIndex, rowIndex)).setEffect(MapView.TILE_EFFECT);
+		myMapManager.getTileIconMap().get(myMapManager.getMapData().getTileData(colIndex, rowIndex))
+				.setEffect(MapView.TILE_EFFECT);
 	}
-	
+
 	private void deHighlightSpawnTile(ObjectData obj) {
 		double x = obj.getSpawnPoint().getX();
 		double y = obj.getSpawnPoint().getY();
@@ -82,7 +76,7 @@ public class SpawnerView implements IDataSelector<ObjectData>, IVisualElement, I
 
 	private void setSelectItem(Node temp) {
 		selectedItem = temp;
-	
+
 	}
 
 	@Override

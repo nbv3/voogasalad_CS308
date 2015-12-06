@@ -105,7 +105,7 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 		// SimpleFileChooser.saveGame(makeEmptyData(), new Stage());
 		myStage.hide();
 		GameData data = selectedGameData;
-		//GameData data = makeEmptyData();
+		// GameData data = makeEmptyData();
 		System.out.println(data);
 		System.out.println(data.getName());
 		launchGame(new GameMenu(data));
@@ -134,7 +134,6 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 	}
 
 	private Collection<String> getGameDescriptions(File directory) {
-		// System.out.println(directory);
 		File[] files = directory.listFiles(new XMLFileFilter());
 		XMLHandler<GameData> xml = new XMLHandler<>();
 		Collection<String> names = new ArrayList<String>();

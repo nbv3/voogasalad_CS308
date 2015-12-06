@@ -125,6 +125,9 @@ public class SpawnerManager implements ITabbedManager<ObjectData> {
 	}
 
 	public void addSpawnerData(SpawnerData spawns) {
+		myTabPane.getTabs().clear();
+		mySpawnerViewMap.clear();
+		
 		for (WaveData w : spawns.getWaves()) {
 			SpawnerView newSpawnerView = new SpawnerView(myMapManager);
 			for (ObjectData d : w.getObjs()) {
