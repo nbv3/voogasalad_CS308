@@ -50,7 +50,6 @@ public class ObjectData implements Serializable, IData {
 		setImagePath(new String(objData.getImagePath()));
 		setObjectName(null);
 		setType(objData.getType());
-		//Collections.copy((List<IAttribute>) myAttributes, (List<IAttribute>) objData.getAttributes());
 		myAttributes.addAll(objData.getAttributes());
 		myCollisionMap.putAll(objData.getCollisionMap());
 	}
