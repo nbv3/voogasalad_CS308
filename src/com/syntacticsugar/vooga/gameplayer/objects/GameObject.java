@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
+import com.syntacticsugar.vooga.gameplayer.attribute.weapons.TowerBasicWeaponAttribute;
 import com.syntacticsugar.vooga.gameplayer.event.ICollisionEvent;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.util.ResourceManager;
@@ -29,7 +31,15 @@ public class GameObject extends AbstractViewableObject implements IGameObject {
 	
 	public GameObject(ObjectData data) {
 		super(data.getSpawnPoint(), data.getWidth(), data.getHeight(), data.getImagePath());
-		Collection<IAttribute> attributes = data.getAttributes();
+		//Collection<IAttribute> attributes = data.getAttributes();
+		Collection<IAttribute> attributes = new ArrayList();
+		for (IAttribute i : data.getAttributes()) {
+			if (i instanceof TowerBasicWeaponAttribute) {
+				attributes.add(new TowerBasicWeaponAttribute((TowerBasicWeaponAttribute)i));
+			} else {
+				attributes.add(i);
+			}
+		}
 		Map<GameObjectType, Collection<ICollisionEvent>> collisions = data.getCollisionMap();
 		myType = data.getType();
 		getBoundingBox().setDirection(data.getDirection());

@@ -8,8 +8,6 @@ public class Conditions implements IConditions, IEventListener {
 	private IGameCondition myWinCondition;
 	private IGameCondition myLossCondition;
 	
-	private IEventManager myManager;
-
 	public Conditions(IGameCondition win, IGameCondition loss) {
 		myWinCondition = win;
 		myLossCondition = loss;
@@ -27,9 +25,8 @@ public class Conditions implements IConditions, IEventListener {
 
 	@Override
 	public void registerEventManager(IEventManager eventmanager) {
-		myManager = eventmanager;
-		register(myWinCondition, myManager);
-		register(myLossCondition, myManager);
+		register(myWinCondition, eventmanager);
+		register(myLossCondition, eventmanager);
 	}		
 
 	private void register(IGameCondition condition, IEventManager manager) {

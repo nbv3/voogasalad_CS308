@@ -21,6 +21,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
@@ -134,11 +135,13 @@ public class CommentViewer implements IVisualElement {
 		VBox dateAndTime = new VBox();
 		Text Date = new Text(date);
 		Text Time = new Text(time);
+		Text Author = new Text(author);
+		applyTextStyle(Date, Time, Author);
 		Text Comment = new Text(comment);
-		HBox Author = GUIFactory.buildTitleNode(author);
 		dateAndTime.getChildren().addAll(Date, Time);
 		AnchorPane tag = GUIFactory.buildAnchorPane(Author, dateAndTime);		
 		TextFlow content = new TextFlow(Comment);
+		content.setMaxWidth(250);
 		commentElement.getChildren().addAll(tag, content);
 		return commentElement;		
 	}
@@ -147,7 +150,14 @@ public class CommentViewer implements IVisualElement {
 		mySelectedItemID = id;
 		update();
 	}
-	
+
+	private void applyTextStyle(Text... text) {
+		for (Text textElement : text) {
+			textElement.setFill(Color.GREY);
+			textElement.setStyle("-fx-font: 11 arial;");
+		}
+	}
+
 	public void update() throws JSONException {
 		pullCurrentGameComments();
 		populateList();

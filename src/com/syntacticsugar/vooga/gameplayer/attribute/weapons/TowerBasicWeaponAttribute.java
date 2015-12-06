@@ -18,6 +18,7 @@ import javafx.geometry.Point2D;
 public class TowerBasicWeaponAttribute extends AbstractWeaponAttribute {
 	
 	private int fireRate;
+	private String dummy;
 	
 	private int myFrameCount;
 	
@@ -26,12 +27,21 @@ public class TowerBasicWeaponAttribute extends AbstractWeaponAttribute {
 		myFrameCount = 0;
 	}
 
+	
+	public TowerBasicWeaponAttribute(TowerBasicWeaponAttribute tbwa) {
+		this.dummy = tbwa.dummy;
+		this.myFrameCount = tbwa.myFrameCount;
+		this.fireRate = tbwa.fireRate;
+	}
+
 	@Override
 	protected IGameObject makeBullet() {
 		TowerBasicBullet bullet = null;
 		if (getParent().getType().equals(GameObjectType.TOWER)) {
-			Point2D bulletInitPos = new Point2D(getParent().getBoundingBox().getPoint().getX() + getParent().getBoundingBox().getWidth()/2,
-											getParent().getBoundingBox().getPoint().getY() + getParent().getBoundingBox().getHeight()/2);
+			System.out.println(getParent().getBoundingBox().getWidth());
+			//getParent().getBoundingBox().get
+			Point2D bulletInitPos = new Point2D(getParent().getBoundingBox().getPoint().getX() + getParent().getBoundingBox().getWidth()/2.0,
+											getParent().getBoundingBox().getPoint().getY() + getParent().getBoundingBox().getHeight()/2.0);
 			BulletParams params = makeParams(bulletInitPos);
 			bullet = new TowerBasicBullet(params);
 			

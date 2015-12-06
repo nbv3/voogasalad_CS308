@@ -53,12 +53,11 @@ public class TileView extends ObjectView {
 	}
 
 	public void informTowerControl(Direction direction, DirectionArrows dirArrows, ISimpleGameView gameView) {
-		System.out.println(direction + "  Test direction");
-		TowerPlaceInfo towerData = new TowerPlaceInfo(this.getOriginalCoordinates().getX(),
-				this.getOriginalCoordinates().getY(), direction);
+		TowerPlaceInfo towerInfo = new TowerPlaceInfo(this.getOriginalCoordinates().getX(),
+				this.getOriginalCoordinates().getY(), direction, this.getViewPane().getWidth(), this.getViewPane().getHeight());
 		gameView.removeObjectView(dirArrows);
 		setChanged();
-		notifyObservers(towerData);
+		notifyObservers(towerInfo);
 	}
 
 	@Override
