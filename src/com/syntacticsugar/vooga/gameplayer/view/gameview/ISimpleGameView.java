@@ -1,4 +1,4 @@
-package com.syntacticsugar.vooga.gameplayer.view;
+package com.syntacticsugar.vooga.gameplayer.view.gameview;
 
 import javafx.scene.layout.Pane;
 

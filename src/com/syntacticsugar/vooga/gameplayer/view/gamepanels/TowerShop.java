@@ -74,12 +74,16 @@ public class TowerShop extends Observable implements Observer {
 	}
 
 	private void deselect(Icon tower) {
-		tower.setStyle("-fx-opacity: 1");
+		if(currentSelection == null){
+			tower.setStyle("-fx-opacity: 1");
+		}
 	}
 
 	private void checkIfCanBuy(Icon tower, int price) {
-		if( (-1)*price <= availableCash){
-			tower.setStyle("-fx-opacity: 0.5");
+		if(currentSelection == null){
+			if( (-1)*price <= availableCash){
+				tower.setStyle("-fx-opacity: 0.5");
+			}
 		}
 	}
 
