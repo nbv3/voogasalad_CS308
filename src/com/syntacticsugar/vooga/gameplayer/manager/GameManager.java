@@ -86,7 +86,7 @@ public class GameManager implements IGameManager,IVoogaApp {
 	
 
 	private void nextLevel() {
-		IGameObject player = currentLevel.getPlayer();
+		//IGameObject player = currentLevel.getPlayer();
 		
 		try{
 		currentLevel = myGame.nextLevel();
@@ -95,7 +95,7 @@ public class GameManager implements IGameManager,IVoogaApp {
 			BorderPane pane = new BorderPane();
 			myStage.setScene(gameOver);
 		}
-		player.setPoint(currentLevel.getPlayerSpawn());
+		//player.setPoint(currentLevel.getPlayerSpawn());
 		
 		myViewController.displayLevel(currentLevel, myEventManager);
 		myEventManager = new EventManager();
@@ -104,7 +104,7 @@ public class GameManager implements IGameManager,IVoogaApp {
 		myGameEngine.registerViewAdder(myViewController);
 		myGameEngine.registerViewRemover(myViewController);
 		
-		myViewController.addViewObject(player);
+		//myViewController.addViewObject(player);
 		
 		initializeAnimation(frameLength);
 	}
