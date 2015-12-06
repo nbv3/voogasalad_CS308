@@ -35,8 +35,6 @@ public class HealthAttribute extends AbstractAttribute {
 		this.myHealth = 10.0;
 		this.myMaxHealth = 50.0;
 		this.myInvincibleFrames = 0;
-		
-		myHealthChangeFreq = Integer.parseInt(ResourceManager.getString(HEALTH_CHANGE_FREQ));
 	}
 
 	@Override
