@@ -13,15 +13,13 @@ import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.xml.XMLFileFilter;
 import com.syntacticsugar.vooga.xml.XMLHandler;
 import com.syntacticsugar.vooga.xml.data.IData;
-import com.syntacticsugar.vooga.xml.data.ObjectData;
-import com.syntacticsugar.vooga.xml.data.TowerData;
 
 import javafx.scene.image.ImageView;
 
 public class DataLibrary extends Observable {
 
-	private IconPane myIconPane;
 	private final File myXMLDirectory;
+	private IconPane myIconPane;
 	private Map<ImageView, IData> myData;
 	private IData mySelected;
 
@@ -70,6 +68,5 @@ public class DataLibrary extends Observable {
 	{
 		return myData.get(myIconPane.getSelectedIcon());
 	}
-
 
 }
