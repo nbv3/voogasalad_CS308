@@ -134,6 +134,8 @@ public class TowerShop extends Observable implements Observer {
 			Point2D coordinates = data.getCoordinates();
 			currentSelection.setSpawnPoint(coordinates.getX(), coordinates.getY());
 			currentSelection.setDirection(data.getDirection());
+			currentSelection.setHeight(data.getHeight());
+			currentSelection.setWidth(data.getWidth());
 			
 			ObjectSpawnEvent event = new ObjectSpawnEvent(new Tower(currentSelection));
 			myPoster.postEvent(event);
