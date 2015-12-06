@@ -4,6 +4,8 @@ import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.syntacticsugar.vooga.authoring.objectediting.IVisualElement;
+import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 import com.syntacticsugar.vooga.util.gui.factory.MsgInputBoxFactory;
 import com.syntacticsugar.vooga.xml.data.LevelSettings;
@@ -18,38 +20,38 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 
-public class LevelConditionManager {
-
-	private static final String CONDITION_PATH = "com.syntacticsugar.vooga.gameplayer.conditions.implementation.";
+public class LevelConditionManager implements IVisualElement {
 
 	private GridPane myView;
 	private ComboBox<String> myWins;
 	private ComboBox<String> myLose;
-	private String mySelectedWin;
-	private List<Double> myWinParameters;
-	private String mySelectedLose;
-	private List<Double> myLoseParameters;
-	private int mySavedSpawnRate;
 	private TextField mySpawnInput;
 	private TextField myCash;
 
+	private List<Double> myWinParameters;
+	private List<Double> myLoseParameters;
+
+	private String mySelectedWin;
+	private String mySelectedLose;
+	private int mySavedSpawnRate;
 	private int mySetCash;
 
 	public LevelConditionManager() {
 		myView = new GridPane();
 
 		mySpawnInput = new TextField();
-		mySpawnInput.setPromptText("Enemy Spawn Rate");
+		mySpawnInput.setPromptText(ResourceManager.getString("int_SpawnRate"));
 
 		myCash = new TextField();
-		myCash.setPromptText("Initial Cash Amount");
+		myCash.setPromptText(ResourceManager.getString("int_InitialCash"));
 
-		ObservableList<String> winOptions = FXCollections.observableArrayList("Enemy Death");
+		ObservableList<String> winOptions = FXCollections.observableArrayList(ResourceManager.getString("enemy_death"));
 		myWins = new ComboBox<String>(winOptions);
 		myWins.setPrefWidth(200);
 		myWinParameters = new ArrayList<Double>();
 
-		ObservableList<String> loseOptions = FXCollections.observableArrayList("Destination", "Player Death");
+		ObservableList<String> loseOptions = FXCollections.observableArrayList(ResourceManager.getString("destination"),
+				ResourceManager.getString("player_death"));
 		myLose = new ComboBox<String>(loseOptions);
 		myLose.setPrefWidth(200);
 		myLoseParameters = new ArrayList<Double>();
@@ -57,9 +59,9 @@ public class LevelConditionManager {
 		myWins.valueProperty().addListener((o, s1, s2) -> updateSelectedWin(s2));
 		myLose.valueProperty().addListener((o, s1, s2) -> updateSelectedLose(s2));
 
-		Label win = new Label("Winning Condition");
+		Label win = new Label(ResourceManager.getString("win_condition"));
 		win.setAlignment(Pos.CENTER);
-		Label lose = new Label("Losing Condition");
+		Label lose = new Label(ResourceManager.getString("lose_condition"));
 		lose.setAlignment(Pos.CENTER);
 
 		myView.add(win, 0, 0, 1, 1);
@@ -76,14 +78,14 @@ public class LevelConditionManager {
 
 	private void updateSelectedWin(String w) {
 		mySelectedWin = w;
-		String className = mySelectedWin.replace(" ", "");
-
-		String classPath = String.format("%s%s%s", CONDITION_PATH, className, "Condition");
+		String classPath = String.format("%s%s%s", ResourceManager.getString("conditions"),
+				mySelectedWin.replace(" ", ""), "Condition");
 
 		try {
 			Class<?> c = Class.forName(classPath);
 			Constructor<?>[] constr = c.getDeclaredConstructors();
 			Class<?>[] parameterTypes = constr[0].getParameterTypes();
+
 			for (int i = 0; i < parameterTypes.length; i++) {
 				MsgInputBoxFactory msgBox = new MsgInputBoxFactory(String.format("Set %s Value", mySelectedWin));
 				myWinParameters.add(msgBox.getInputValue());
@@ -96,24 +98,20 @@ public class LevelConditionManager {
 
 	private void updateSelectedLose(String l) {
 		mySelectedLose = l;
-		String className = mySelectedLose.replace(" ", "");
-		String classPath = String.format("%s%s%s", "com.syntacticsugar.vooga.gameplayer.conditions.implementation.",
-				className, "Condition");
+		String classPath = String.format("%s%s%s", ResourceManager.getString("conditions"),
+				mySelectedLose.replace(" ", ""), "Condition");
 		try {
-
 			Class<?> c = Class.forName(classPath);
 			Constructor<?>[] constr = c.getDeclaredConstructors();
 			Class<?>[] parameterTypes = constr[0].getParameterTypes();
+
 			for (int i = 0; i < parameterTypes.length; i++) {
 				MsgInputBoxFactory msgBox = new MsgInputBoxFactory(String.format("Set %s Value", mySelectedLose));
 				myLoseParameters.add(msgBox.getInputValue());
 			}
-
 		} catch (SecurityException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		System.out.println(myLoseParameters);
-
 	}
 
 	public String getLosingCondition() {
@@ -133,27 +131,19 @@ public class LevelConditionManager {
 	}
 
 	public void saveSpawnRate() {
-		if (mySpawnInput.getText() == null) {
-			AlertBoxFactory.createObject("Please enter an integer.");
-
-		}
 		try {
 			mySavedSpawnRate = Integer.parseInt(mySpawnInput.getText());
 		} catch (Exception e) {
-			AlertBoxFactory.createObject("Please enter an integer.");
+			AlertBoxFactory.createObject(ResourceManager.getString("not_integer"));
 		}
 	}
 
 	public void saveCash() {
-		if (myCash.getText() == null) {
-			AlertBoxFactory.createObject("Please enter an integer.");
-
-		}
 		try {
 			mySetCash = Integer.parseInt(myCash.getText());
 
 		} catch (Exception e) {
-			AlertBoxFactory.createObject("Please enter an integer.");
+			AlertBoxFactory.createObject(ResourceManager.getString("not_integer"));
 		}
 	}
 
@@ -161,7 +151,6 @@ public class LevelConditionManager {
 		return myView;
 	}
 
-	// need to change constructor to take in cash
 	public LevelSettings getConditions() {
 		saveSpawnRate();
 		saveCash();

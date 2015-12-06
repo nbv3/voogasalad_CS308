@@ -11,8 +11,6 @@ import com.syntacticsugar.vooga.util.dirview.IDirectoryViewer;
 import com.syntacticsugar.vooga.xml.XMLFileFilter;
 import com.syntacticsugar.vooga.xml.XMLHandler;
 import com.syntacticsugar.vooga.xml.data.IData;
-import com.syntacticsugar.vooga.xml.data.ObjectData;
-import com.syntacticsugar.vooga.xml.data.ObjectData;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -32,37 +30,27 @@ public class IconPane implements IVisualElement, IDirectoryViewer<String> {
 	private ScrollPane myScrollPane;
 	private TilePane myIconPane;
 	private Map<ImageView, String> myImagePaths;
+
 	private Icon selectedTile;
-
-	public Icon getSelectedTile() {
-		return selectedTile;
-	}
-
-	public void setSelectedTile(Icon selectedTile) {
-		this.selectedTile = selectedTile;
-		System.out.println("here");
-	}
-
 	private final ObjectProperty<ImageView> mySelectedIcon = new SimpleObjectProperty<>();
+
 	private final double GLOW_PERCENTAGE = 0.75;
 	private final double INSET_VALUE = 3;
 	private final int NUM_COLS = 3;
 
 	public IconPane() {
-		mySelectedIcon.addListener((o, s1, s2) -> setSelectedEffect(s1, s2));
 		myImagePaths = new HashMap<>();
+		myIconPane = new TilePane();
+		mySelectedIcon.addListener((o, s1, s2) -> setSelectedEffect(s1, s2));
+
 		myScrollPane = new ScrollPane();
 		myScrollPane.setVbarPolicy(ScrollBarPolicy.AS_NEEDED);
 		myScrollPane.setHbarPolicy(ScrollBarPolicy.AS_NEEDED);
 		myScrollPane.setFitToWidth(true);
-		myIconPane = new TilePane();
 		myScrollPane.setPadding(new Insets(INSET_VALUE));
+
 		clearIconPane();
 		initializeGridPane();
-	}
-
-	public void addPreviewListener(ChangeListener<ImageView> event) {
-		mySelectedIcon.addListener(event);
 	}
 
 	private void initializeGridPane() {
@@ -70,15 +58,27 @@ public class IconPane implements IVisualElement, IDirectoryViewer<String> {
 		myIconPane.setAlignment(Pos.CENTER);
 		myIconPane.setHgap(INSET_VALUE);
 		myIconPane.setVgap(INSET_VALUE);
+		myIconPane.maxWidthProperty().set(myScrollPane.viewportBoundsProperty().get().getWidth() - 2 * INSET_VALUE);
 		myScrollPane.setContent(myIconPane);
-		myIconPane.maxWidthProperty().set(myScrollPane.viewportBoundsProperty().get().getWidth()-2*INSET_VALUE);
 	}
 
-	@Override
+	public Icon getSelectedTile() {
+		return selectedTile;
+	}
+
+	public void setSelectedTile(Icon selectedTile) {
+		this.selectedTile = selectedTile;
+	}
+
+	public void addPreviewListener(ChangeListener<ImageView> event) {
+		mySelectedIcon.addListener(event);
+	}
+
 	public void showDirectoryContents(File directory, IConverter<String> fileConverter) {
 		clearIconPane();
 		initializeGridPane();
 		Collection<String> imagePaths = fileConverter.getContents(directory);
+
 		for (String path : imagePaths) {
 			ImageView iv = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(path)));
 			iv.fitWidthProperty().bind(myIconPane.maxWidthProperty().divide(NUM_COLS).subtract(INSET_VALUE));
@@ -107,25 +107,13 @@ public class IconPane implements IVisualElement, IDirectoryViewer<String> {
 			myImagePaths.put(image, obj.getImagePath());
 			map.put(image, obj);
 		}
-
 		return map;
 	}
 
-	/**
-	 * Return the JavaFX Node used to display this IconPane.
-	 * 
-	 * @return
-	 */
 	public Node getView() {
-		// TODO Auto-generated method stub
 		return myScrollPane;
 	}
 
-	/**
-	 * Return the String image path representing the currently selected Tile.
-	 * 
-	 * @return
-	 */
 	public String getSelectedImagePath() {
 		return myImagePaths.get(mySelectedIcon.get());
 	}

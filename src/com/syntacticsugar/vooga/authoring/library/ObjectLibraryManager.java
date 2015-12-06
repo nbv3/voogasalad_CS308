@@ -43,31 +43,7 @@ public class ObjectLibraryManager {
 	}
 
 	private void populateLibraryTabs() {
-		//Player, Enemy, Tower, Item
-//		DataLibrary<ObjectData> lib = new DataLibrary<>(GameObjectType.PLAYER);
-//		Tab tab = new Tab(GameObjectType.PLAYER.toString());
-//		tab.setContent(lib.getContent().getView());
-//		myLibraryTabs.getTabs().add(tab);
-//		myLibraries.add(lib);
-//		
-//		DataLibrary<ObjectData> lib2 = new DataLibrary<>(GameObjectType.ENEMY);
-//		Tab tab2 = new Tab(GameObjectType.ENEMY.toString());
-//		tab2.setContent(lib2.getContent().getView());
-//		myLibraryTabs.getTabs().add(tab2);
-//		myLibraries.add(lib2);
-//		
-//		DataLibrary<TowerData> lib3 = new DataLibrary<TowerData>(GameObjectType.TOWER);
-//		Tab tab3 = new Tab(GameObjectType.TOWER.toString());
-//		tab3.setContent(lib3.getContent().getView());
-//		myLibraryTabs.getTabs().add(tab3);
-//		myLibraries.add(lib3);
-//		
-//		DataLibrary<ObjectData> lib4 = new DataLibrary<>(GameObjectType.ITEM);
-//		Tab tab4 = new Tab(GameObjectType.ITEM.toString());
-//		tab4.setContent(lib4.getContent().getView());
-//		myLibraryTabs.getTabs().add(tab4);
-//		myLibraries.add(lib4);
-		
+
 		for (GameObjectType type : getObjectTypes()) {
 			DataLibrary lib = new DataLibrary(type);
 			Tab tab = new Tab(type.toString());
@@ -93,17 +69,17 @@ public class ObjectLibraryManager {
 
 	private IData getCurrentData() {
 		int num = myLibraryTabs.getSelectionModel().getSelectedIndex();
-		IData data  = myLibraries.get(num).getCurrentData();
+		IData data = myLibraries.get(num).getCurrentData();
 		return data;
 	}
-	
+
 	private void processSpawner(LevelTabManager levels) {
-		if (getCurrentData().getType().equals(GameObjectType.ENEMY)){
+		if (getCurrentData().getType().equals(GameObjectType.ENEMY)) {
 			ObjectData data = (ObjectData) getCurrentData();
 			levels.addCurrentSpawner(data);
 		}
 	}
-	
+
 	private void processTower(LevelTabManager levels) {
 		if (getCurrentData().getType().equals(GameObjectType.TOWER)) {
 			TowerData data = (TowerData) getCurrentData();
