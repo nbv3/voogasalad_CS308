@@ -23,9 +23,17 @@
     -fx-border-width: 2;
     -fx-background-radius: 0;
     -fx-background-color: #1d1d1d;
-    -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
-    -fx-font-size: 30pt;
+    -fx-font-family: "Arial Black", Arial, sans-serif;
+    -fx-font-size: 15pt;
     -fx-text-fill: #d8d8d8;
+}
+
+#options_box{
+	-fx-padding:50 70 0 0;
+}
+
+#menuTitle{
+	-fx-padding:30 70 0 0;
 }
 
 .button:hover {

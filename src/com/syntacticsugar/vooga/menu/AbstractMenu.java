@@ -63,7 +63,8 @@ public abstract class AbstractMenu implements IVoogaApp{
 		pane.setPrefHeight(myPropertiesManager.getDoubleProperty("DefaultHeight"));
 		pane.getStylesheets().add("/com/syntacticsugar/vooga/gameplayer/css/menu.css");
 		Label title = new Label(gameName);
-		BorderPane.setAlignment(title, Pos.CENTER);
+		title.setId("menuTitle");
+		BorderPane.setAlignment(title, Pos.TOP_RIGHT);
 		pane.setTop(title);
 		initializeOptions(pane);
 		return pane;
@@ -77,11 +78,12 @@ public abstract class AbstractMenu implements IVoogaApp{
 	}
 
 	protected void generateOptions(BorderPane myPane, Node... options){
-		optionsBox = new VBox(10);
+		optionsBox = new VBox(myPropertiesManager.getDoubleProperty("OptionsBoxSpacing"));
 		optionsBox.getChildren().addAll(options);
 		optionsBox.getChildren().add(new HBox());
 		optionsBox.setMaxWidth(myPropertiesManager.getDoubleProperty("ButtonWidth"));
-		BorderPane.setAlignment(optionsBox, Pos.CENTER);
+		optionsBox.setId("options_box");
+		BorderPane.setAlignment(optionsBox, Pos.TOP_RIGHT);
 		myPane.setCenter(optionsBox);
 	}
 	
