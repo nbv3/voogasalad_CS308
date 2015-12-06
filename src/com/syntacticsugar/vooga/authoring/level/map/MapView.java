@@ -172,25 +172,25 @@ public class MapView implements IMapDisplay, IVisualElement {
 	private void dragOverHandler(DragEvent event) {
 		double x = event.getX();
 		double y = event.getY();
-		int colIndex = (int) (myMapSize * x / myMapGrid.getWidth());
-		int rowIndex = (int) (myMapSize * y / myMapGrid.getHeight());
+		double colIndex = (int) (myMapSize * x / myMapGrid.getWidth());
+		double rowIndex = (int) (myMapSize * y / myMapGrid.getHeight());
 		Dragboard db = event.getDragboard();
 		if (db.hasContent(DataFormat.lookupMimeType("TileData"))) {
 			TileData tdFromClipBoard = (TileData) db.getContent(DataFormat.lookupMimeType("TileData"));
-			TileData toedit = myMapData.getTileData(colIndex, rowIndex);
+			TileData toedit = myMapData.getTileData((int)colIndex, (int)rowIndex);
 			editTileDataFromClipboard(tdFromClipBoard, toedit);
-			myMapData.setTileData(toedit, colIndex, rowIndex);
+			myMapData.setTileData(toedit, (int)colIndex, (int)rowIndex);
 		} else if (db.hasContent(DataFormat.lookupMimeType("ObjectData"))) {
 			System.out.println(iObject);
 			System.out.println(iObject.obtainSelectedIData());
 			ObjectData receivedData = (ObjectData) iObject.obtainSelectedIData();
 			ObjectData toCopy = new ObjectData(receivedData);
-			toCopy.setSpawnPoint(colIndex, rowIndex);
+			toCopy.setSpawnPoint(colIndex/myMapSize * 1000, rowIndex/myMapSize * 1000);
 			// Add to Spawner
 			iSpawn.addToSpawner(toCopy);
 			// TODO
 
-			String[][] imagePathArray = populateImagePathArray(colIndex, rowIndex);
+			String[][] imagePathArray = populateImagePathArray((int)colIndex, (int)rowIndex);
 			if(!toCopy.getType().equals(GameObjectType.TOWER)){
 				new ObjectResizer(toCopy, imagePathArray);
 			}
