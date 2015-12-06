@@ -24,8 +24,10 @@ public class LevelTabManager {
 	private TabPane myTabPane;
 	private Map<Tab, LevelEditor> myLevelMap;
 	private IDataClipboard iObject;
+	private IDataClipboard myClip;
 
 	public LevelTabManager(IDataClipboard clip) {
+		myClip = clip;
 		myLevelMap = new HashMap<Tab, LevelEditor>();
 		myTabPane = new TabPane();
 		iObject = clip;
@@ -41,7 +43,7 @@ public class LevelTabManager {
 			e.printStackTrace();
 			return;
 		}
-		
+
 		Tab newLevelTab = new Tab("");
 		newLevelTab.setContent(newLevel.getContent());
 		newLevelTab.setOnClosed(e -> removeLevel(newLevelTab));
@@ -50,8 +52,37 @@ public class LevelTabManager {
 
 		myTabPane.getTabs().add(newLevelTab);
 		myTabPane.getSelectionModel().select(newLevelTab);
-		
+
 		updateLevelNumbers();
+	}
+
+	public void addNewLevelsFromData(Collection<UniverseData> universes) {
+		myLevelMap.clear();
+		myTabPane.getTabs().clear();
+		
+		int i = 1;
+		for (UniverseData d : universes) {
+			Tab t = new Tab("Wave " + i);
+			try {
+				LevelEditor l = new LevelEditor(myClip);
+				l.loadMap(d.getMap()); // im
+				l.setConditions(d.getSettings()); // im
+				l.setSpawners(d.getSpawns()); // im
+				l.setTowers(d.getTowers());// im
+				t.setContent(l.getContent());
+
+				t.setOnClosed(e -> removeLevel(t));
+
+				myLevelMap.put(t, l);
+
+				myTabPane.getTabs().add(t);
+				myTabPane.getSelectionModel().select(t);
+
+				updateLevelNumbers();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	public void loadMap(MapData loadedMap) {

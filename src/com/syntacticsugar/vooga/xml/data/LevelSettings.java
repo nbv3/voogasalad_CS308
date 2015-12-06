@@ -13,14 +13,18 @@ public class LevelSettings {
 	private IGameCondition lossCond;
 
 	private int startingMoney;
-	
+
 	private Point2D playerSpawn;
+	private String myWinCondition;
+	private String myLoseCondition;
+	private List<Double> myLoseParameters;
+	private List<Double> myWinParameters;
 
 	public LevelSettings(int money) {
 		startingMoney = money;
 		playerSpawn = new Point2D(0.0, 0.0);
 	}
-	
+
 	public LevelSettings(int money, Point2D spawn) {
 		startingMoney = money;
 		setPlayerSpawn(spawn);
@@ -28,6 +32,10 @@ public class LevelSettings {
 
 	public LevelSettings(String winClass, List<Double> winParam, String loseClass, List<Double> loseParam, int spawn,
 			int money) {
+		myWinCondition = winClass;
+		myLoseCondition = loseClass;
+		myWinParameters = winParam;
+		myLoseParameters = loseParam;
 		startingMoney = money;
 		{
 			String winName = winClass.replace(" ", "");
@@ -66,6 +74,22 @@ public class LevelSettings {
 
 	public void setPlayerSpawn(Point2D playerSpawn) {
 		this.playerSpawn = playerSpawn;
+	}
+
+	public List<Double> getLoseParameters() {
+		return myLoseParameters;
+	}
+
+	public String getLoseCondition() {
+		return myLoseCondition;
+	}
+
+	public String getWinCondition() {
+		return myWinCondition;
+	}
+
+	public List<Double> getWinParameters() {
+		return myWinParameters;
 	}
 
 }
