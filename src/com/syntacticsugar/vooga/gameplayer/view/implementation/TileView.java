@@ -1,13 +1,13 @@
 package com.syntacticsugar.vooga.gameplayer.view.implementation;
 
 import java.util.Observable;
-
 import com.syntacticsugar.vooga.gameplayer.attribute.control.actions.movement.Direction;
 import com.syntacticsugar.vooga.gameplayer.objects.BoundingBox;
 import com.syntacticsugar.vooga.gameplayer.view.DirectionArrows;
 import com.syntacticsugar.vooga.gameplayer.view.GameView;
+import com.syntacticsugar.vooga.gameplayer.view.ISimpleGameView;
 import com.syntacticsugar.vooga.gameplayer.view.ObjectView;
-import com.syntacticsugar.vooga.gameplayer.view.TowerData;
+import com.syntacticsugar.vooga.gameplayer.view.TowerPlaceInfo;
 import javafx.scene.layout.StackPane;
 
 public class TileView extends ObjectView{
@@ -22,7 +22,7 @@ public class TileView extends ObjectView{
 		initializeHoverProperties(myGameView);
 	}
 
-	private void initializeHoverProperties(GameView myGameView) {
+	private void initializeHoverProperties(ISimpleGameView myGameView) {
 		StackPane myPane = getViewPane();
 		myPane.getChildren().get(0).setOnMouseClicked(e -> selected(myGameView));
 		myPane.getChildren().get(0).setOnMouseEntered(e -> changeOpacity(myPane, 0.75));
@@ -35,7 +35,7 @@ public class TileView extends ObjectView{
 		}
 	}
 	
-	private void selected(GameView myGameView){
+	private void selected(ISimpleGameView myGameView){
 		if(!walkable && selectMode){
 			chooseDirection(myGameView);
 			//setChanged();
@@ -43,16 +43,16 @@ public class TileView extends ObjectView{
 		}
 	}
 	
-	private void chooseDirection(GameView myGameView){
+	private void chooseDirection(ISimpleGameView myGameView){
 		DirectionArrows myArrows = new DirectionArrows(this, myGameView);
 		myArrows.setLayoutX(myGameView.getScalingFactor()*this.tempCoord1 - this.getViewPane().getWidth());
 		myArrows.setLayoutY(myGameView.getScalingFactor()*this.tempCoord2 - this.getViewPane().getWidth());
 		myGameView.addObjectView(myArrows);
 	}
 	
-	public void informTowerControl(Direction direction, DirectionArrows dirArrows, GameView gameView){
+	public void informTowerControl(Direction direction, DirectionArrows dirArrows, ISimpleGameView gameView){
 		setChanged();
-		TowerData towerData = new TowerData(tempCoord1, tempCoord2, direction);
+		TowerPlaceInfo towerData = new TowerPlaceInfo(tempCoord1, tempCoord2, direction);
 		gameView.removeObjectView(dirArrows);
 		notifyObservers(towerData);
 	}

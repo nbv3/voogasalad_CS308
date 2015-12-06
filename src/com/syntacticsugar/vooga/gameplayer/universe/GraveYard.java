@@ -3,9 +3,11 @@ package com.syntacticsugar.vooga.gameplayer.universe;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import com.syntacticsugar.vooga.gameplayer.attribute.MoneyAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.ScoreAttribute;
 import com.syntacticsugar.vooga.gameplayer.event.GameEventListener;
 import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
+import com.syntacticsugar.vooga.gameplayer.event.implementations.MoneyChangeEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.ObjectDespawnEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.ScoreChangeEvent;
 import com.syntacticsugar.vooga.gameplayer.manager.IEventManager;
@@ -61,15 +63,23 @@ public class GraveYard implements IYard<IViewRemover>, GameEventListener, IEvent
 			ObjectDespawnEvent event = (ObjectDespawnEvent) e;
 			IGameObject obj = event.getObj();
 			addToYard(obj);
+			
 			ScoreAttribute score = (ScoreAttribute) obj.getAttributes().get(ResourceManager.getString(ScoreAttribute.class.getSimpleName()));
 			if (score != null) {
 				Integer scoreNum = score.getScore();
 				myPoster.postEvent(new ScoreChangeEvent(scoreNum));
 			}
+			
+			MoneyAttribute money = (MoneyAttribute) obj.getAttributes().get(ResourceManager.getString(MoneyAttribute.class.getSimpleName()));
+			if (money != null) {
+				Integer moneyAmt = money.getMoney();
+				myPoster.postEvent(new MoneyChangeEvent(moneyAmt));
+			}
 		}
 		catch (ClassCastException ex) {
 			
 		}
+
 	}
 
 

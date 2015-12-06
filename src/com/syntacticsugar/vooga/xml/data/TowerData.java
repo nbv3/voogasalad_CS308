@@ -1,17 +1,38 @@
 package com.syntacticsugar.vooga.xml.data;
 
-import java.util.Collection;
+import com.syntacticsugar.vooga.gameplayer.objects.towers.ITower;
 
-public class TowerData {
+public class TowerData extends ObjectData {
 	
-	private Collection<ObjectData> towers;
+	private int cost;
+	private String name;
 	
-	public TowerData(Collection<ObjectData> data) {
-		towers = data;
+	private static final long serialVersionUID = 2L;
+	
+	public TowerData(ITower o) {
+		super(o);
+		cost = o.getCost();
+		name = o.getName();
 	}
 	
-	public Collection<ObjectData> getTowers() {
-		return towers;
+	public TowerData() {
+		
+	}
+
+	public int getCost() {
+		return cost;
+	}
+	
+	public void setCost(int c) {
+		cost = c;
+	}
+
+	public String getName() {
+		return name;
+	}
+	
+	public void setName(String newName){
+		name = newName;
 	}
 
 }

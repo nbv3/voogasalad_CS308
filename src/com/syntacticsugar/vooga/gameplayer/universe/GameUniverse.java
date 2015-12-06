@@ -11,9 +11,12 @@ import com.syntacticsugar.vooga.gameplayer.conditions.implementation.PlayerDeath
 import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
 import com.syntacticsugar.vooga.gameplayer.manager.IEventManager;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
+import com.syntacticsugar.vooga.gameplayer.objects.towers.ITower;
 import com.syntacticsugar.vooga.gameplayer.objects.towers.Tower;
 import com.syntacticsugar.vooga.gameplayer.universe.map.GameMap;
 import com.syntacticsugar.vooga.gameplayer.universe.map.IGameMap;
+import com.syntacticsugar.vooga.gameplayer.universe.money.IMoney;
+import com.syntacticsugar.vooga.gameplayer.universe.money.Money;
 import com.syntacticsugar.vooga.gameplayer.universe.score.IScore;
 import com.syntacticsugar.vooga.gameplayer.universe.score.Score;
 import com.syntacticsugar.vooga.gameplayer.universe.spawner.ISpawner;
@@ -26,6 +29,7 @@ import com.syntacticsugar.vooga.xml.data.MapData;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
 import com.syntacticsugar.vooga.xml.data.SpawnerData;
 import com.syntacticsugar.vooga.xml.data.TowerData;
+import com.syntacticsugar.vooga.xml.data.TowerListData;
 import com.syntacticsugar.vooga.xml.data.UniverseData;
 
 import javafx.scene.input.KeyCode;
@@ -34,13 +38,14 @@ import javafx.scene.input.MouseEvent;
 public class GameUniverse implements IGameUniverse {
 
 	private Collection<IGameObject> myGameObjects;
-	private Collection<IGameObject> myTowers;
+	private Collection<ITower> myTowers;
 	private SpawnYard mySpawnYard;
 	private GraveYard myGraveYard;
 	private Conditions myConditions;
 	private ISpawner mySpawner;
 	private IGameMap myGameMap;
 	private IScore myScore;
+	private IMoney myMoney;
 
 	private Collection<KeyCode> myCurrentInput;
 
@@ -48,14 +53,15 @@ public class GameUniverse implements IGameUniverse {
 
 	public GameUniverse(UniverseData data, GlobalSettings settings) {
 		myScore = new Score(data.getSettings());
+		myMoney = new Money(120);
 		// Needs event manager
 		myConditions = new Conditions();
 		myGameObjects = new ArrayList<IGameObject>();
 		myGameMap = new GameMap(data.getMap());
 		mySpawner = new Spawner(data.getSpawns().getWaves(), data.getSettings().getSpawnRate());
 		myTowers = new ArrayList<>();
-		Collection<ObjectData> towerdata = data.getTowers().getTowers();
-		for (ObjectData d : towerdata) {
+		Collection<TowerData> towerdata = data.getTowers().getTowers();
+		for (TowerData d : towerdata) {
 			myTowers.add(new Tower(d));
 		}
 		// Need event managers
@@ -74,6 +80,7 @@ public class GameUniverse implements IGameUniverse {
 		mySpawnYard.registerEventManager(manager);
 		myPoster = manager;
 		manager.registerListener(myScore);
+		manager.registerListener(myMoney);
 	}
 
 	@Override
@@ -167,26 +174,26 @@ public class GameUniverse implements IGameUniverse {
 	@Override
 	public UniverseData saveGame() {
 		SpawnerData spawn = mySpawner.saveGame();
-		TowerData towers = saveTowers();
+		TowerListData towers = saveTowers();
 		MapData map = new MapData(myGameMap);
 		LevelSettings settings = new LevelSettings(mySpawner.getSpawnRate());
 		UniverseData data = new UniverseData(spawn, towers, map, settings);
 		return data;
 	}
 
-	private TowerData saveTowers() {
-		Collection<ObjectData> data = new ArrayList<>();
-		for (IGameObject o : myTowers) {
-			data.add(new ObjectData(o));
+	private TowerListData saveTowers() {
+		Collection<TowerData> data = new ArrayList<>();
+		for (ITower o : myTowers) {
+			data.add(new TowerData(o));
 		}
-		return new TowerData(data);
+		return new TowerListData(data);
 	}
 
 	@Override
-	public Collection<ObjectData> getAvailableTowers() {
-		List<ObjectData> towerData = new ArrayList<ObjectData>();
-		for (IGameObject tower : myTowers) {
-			towerData.add(new ObjectData(tower));
+	public Collection<TowerData> getAvailableTowers() {
+		List<TowerData> towerData = new ArrayList<>();
+		for (ITower tower : myTowers) {
+			towerData.add(new TowerData(tower));
 		}
 		return towerData;
 	}
@@ -195,9 +202,20 @@ public class GameUniverse implements IGameUniverse {
 	public IScore getScore() {
 		return myScore;
 	}
+	
+	@Override
+	public IMoney getMoney() {
+		return myMoney;
+	}
 
 	@Override
 	public void observeScore(Observer observer) {
 		myScore.addObserver(observer);
 	}
+	
+	@Override
+	public void observeMoney(Observer observer){
+		myMoney.addObserver(observer);
+	}
+	
 }
