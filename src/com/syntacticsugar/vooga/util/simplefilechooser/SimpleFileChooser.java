@@ -20,4 +20,32 @@ public class SimpleFileChooser {
 		System.out.println(f.getName());
 		return f;
 	}
+	
+	public static GameData loadGame(Stage myStage) {
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setTitle("Load Game File");
+		File f = fileChooser.showOpenDialog(myStage);
+		XMLHandler<GameData> xml = new XMLHandler<>();
+		GameData gm = xml.read(f);
+		return gm;
+	}
+	
+	public static File saveMap(MapData map, Stage myStage) {
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setTitle("Save Map File");
+		File f = fileChooser.showSaveDialog(myStage);
+		XMLHandler<MapData> xml = new XMLHandler<>();
+		xml.write(map, f);
+		System.out.println(f.getName());
+		return f;
+	}
+	
+	public static MapData loadMap(Stage myStage) {
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setTitle("Load Map File");
+		File f = fileChooser.showOpenDialog(myStage);
+		XMLHandler<MapData> xml = new XMLHandler<>();
+		MapData m = xml.read(f);
+		return m;
+	}
 }
