@@ -11,8 +11,7 @@ import com.syntacticsugar.vooga.authoring.objectediting.ObjectEditor;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.menu.IVoogaApp;
 import com.syntacticsugar.vooga.util.ResourceManager;
-import com.syntacticsugar.vooga.util.filechooser.FileChooserUtil;
-import com.syntacticsugar.vooga.util.filechooser.IOnFileChooserAction;
+import com.syntacticsugar.vooga.util.gui.factory.StringInputBoxFactory;
 import com.syntacticsugar.vooga.util.simplefilechooser.SimpleFileChooser;
 import com.syntacticsugar.vooga.xml.XMLHandler;
 import com.syntacticsugar.vooga.xml.data.GameData;
@@ -32,8 +31,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
-import javafx.stage.FileChooser;
-import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -165,7 +162,22 @@ public class AuthoringScreenManager implements Observer, IVoogaApp {
 
 	private void saveGame() {
 		GameData game = new GameData(myLevelEditor.getAllUniverseData(), new GlobalSettings());
-		File f = SimpleFileChooser.saveGame(game, myStage);	
+		//File f = SimpleFileChooser.saveGame(game, myStage);	
+		StringInputBoxFactory msg = new StringInputBoxFactory("Enter File Name: ");
+		String fileName = msg.getValue();
+		System.out.println("Filename: "+fileName);
+		String directory = ResourceManager.getString("game_data");
+		System.out.println(directory);
+		String path = directory + File.separator + fileName;
+		// Use relative path for Unix systems
+		File f = new File(path);
+		// Works for both Windows and Linux
+		game.setName(f.getName());
+		XMLHandler<GameData> xml = new XMLHandler<>();
+		xml.write(game, f);
+		
+		//File f = new File
+		//SimpleFileChooser.saveGameSimple(game, f);
 	}
 
 	private void loadData() {
@@ -188,12 +200,6 @@ public class AuthoringScreenManager implements Observer, IVoogaApp {
 	private void loadMap() {
 		MapData loaded = SimpleFileChooser.loadMap(myStage);
 		myLevelEditor.loadMap(loaded);
-		/*FileChooserUtil.loadFile("Open Resource File", new ExtensionFilter("XML Files", "*.xml"), null,
-				selectedFile -> {
-					XMLHandler<MapData> xml = new XMLHandler<>();
-					MapData toLoad = xml.read(selectedFile);
-					myLevelEditor.loadMap(toLoad);
-				});*/
 	}
 
 	private void addGridConstraints() {
