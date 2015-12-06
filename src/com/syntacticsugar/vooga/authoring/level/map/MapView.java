@@ -184,7 +184,7 @@ public class MapView implements IMapDisplay, IVisualElement {
 			System.out.println(iObject.obtainSelectedIData());
 			ObjectData receivedData = (ObjectData) iObject.obtainSelectedIData();
 			ObjectData toCopy = new ObjectData(receivedData);
-			toCopy.setSpawnPoint(x, y);
+			toCopy.setSpawnPoint(colIndex, rowIndex);
 			// Add to Spawner
 			iSpawn.addToSpawner(toCopy);
 			// TODO

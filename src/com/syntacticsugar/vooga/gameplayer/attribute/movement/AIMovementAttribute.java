@@ -39,17 +39,21 @@ public class AIMovementAttribute extends AbstractMovementAttribute implements Se
 	public void updateSelf(IGameUniverse universe) {
 		IGameMap map = universe.getMap();
 		List<Point> ends = map.getDestinationPoints();
+		//System.out.println(ends.toString());
 
 		if (myNextTile.equals(new Point(-1, -1))) {
 			// calculate path first time
 			try {
 				myCurrentTile = map.getMapIndexFromCoordinate(getParent().getBoundingBox().getPoint());
+				System.out.println(getParent().getBoundingBox().getPoint());
+				System.out.println(myCurrentTile);
 			} catch (Exception e) {
 				System.out.println("failed to fetch currentTile from map");
 			}
 			PathFinder pathFinder = new PathFinder(map.isWalkable(), myCurrentTile, ends);
 			// printMap(map.isWalkable(), ends);
 			myNextTile = pathFinder.getNext();
+			System.out.println(pathFinder.getPath().toString());
 			return;
 		}
 
@@ -61,6 +65,7 @@ public class AIMovementAttribute extends AbstractMovementAttribute implements Se
 
 		if (closeToNextTile(map)) {
 			// move straight to next tile
+			System.out.println("Close To next tile");
 			getParent().setPoint(universe.getMap().getCoordinateFromMapIndex(myNextTile));
 			myCurrentTile = new Point(myNextTile);
 			// recalculate next tile
@@ -74,11 +79,15 @@ public class AIMovementAttribute extends AbstractMovementAttribute implements Se
 		// move along direction
 		moveDirection();
 		move(universe);
+		//System.out.println(getNewDirection());
 	}
 
 	private boolean closeToNextTile(IGameMap map) {
 		Point2D currentPoint = getParent().getPoint();
+		//System.out.println(getParent().getPoint());
 		Point2D nextPoint = map.getCoordinateFromMapIndex(myNextTile);
+		//System.out.println("current: "+currentPoint.toString());
+		//System.out.println("next  t: "+nextPoint.toString());
 		return currentPoint.distance(nextPoint) <= 1.2 * getSpeed();
 	}
 
@@ -94,14 +103,14 @@ public class AIMovementAttribute extends AbstractMovementAttribute implements Se
 		setVelocity(Direction.STOP);
 	}
 
-	@Override
+	/*@Override
 	public void move(IGameUniverse universe) {
 		// TODO override solves issues with scenery collision
 		IBoundingBox box = getParent().getBoundingBox();
 		Point2D oldPoint = box.getPoint();
 		Point2D newPoint = new Point2D(oldPoint.getX() + getXVelocity(), oldPoint.getY() + getYVelocity());
 		box.setPoint(newPoint);
-	}
+	}*/
 
 	private Direction getNewDirection() {
 		if (myCurrentTile.x < myNextTile.x) {
