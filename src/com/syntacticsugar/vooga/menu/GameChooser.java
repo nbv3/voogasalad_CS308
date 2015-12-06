@@ -50,8 +50,8 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 			selectedGameData = stringToGameData.get(myView.getSelectionModel().getSelectedItem());
 		});
 
-		myView.getItems().add("HEY");
-		myView.getItems().add("LOLCANO");
+		//myView.getItems().add("HEY");
+		//myView.getItems().add("LOLCANO");
 
 		myScene = new Scene(buildScene());
 		myStage.setScene(myScene);
