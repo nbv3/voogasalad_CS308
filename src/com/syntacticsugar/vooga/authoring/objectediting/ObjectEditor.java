@@ -2,6 +2,7 @@ package com.syntacticsugar.vooga.authoring.objectediting;
 
 import java.io.File;
 import java.util.Collections;
+import java.util.Observable;
 
 import com.syntacticsugar.vooga.authoring.dragdrop.DragDropManager;
 import com.syntacticsugar.vooga.authoring.fluidmotion.FadeTransitionWizard;
@@ -39,8 +40,8 @@ import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 
-public class ObjectEditor implements IObjectDataClipboard {
-
+public class ObjectEditor extends Observable implements IObjectDataClipboard{
+	
 	private GridPane myView;
 	private ObjectData currentData;
 	private AttributeViewer myAttributeViewer;
@@ -90,7 +91,7 @@ public class ObjectEditor implements IObjectDataClipboard {
 		myIcon.setImage(new Image(ResourceManager.getResource(this, emptyData.getImagePath())));
 		emptyData.setObjectName(null);
 		emptyData.setType(null);
-		setUpdateButtonViability(false);
+		setUpdateButtonVisibility(false);
 		setSaveButtonViability(false);
 		emptyData.setAttributes(FXCollections.observableArrayList());
 		emptyData.setCollisionMap(FXCollections.observableHashMap());
@@ -152,6 +153,12 @@ public class ObjectEditor implements IObjectDataClipboard {
 		currentData.setType(currentData.getType());
 		currentData.setAttributes(myAttributeViewer.getData());
 		currentData.setCollisionMap(myCollisionViewer.getData());
+		registerChangeAndNotifyObserver();
+	}
+
+	private void registerChangeAndNotifyObserver() {
+		setChanged();
+		notifyObservers();
 	}
 
 	private void saveObject() {
@@ -298,7 +305,7 @@ public class ObjectEditor implements IObjectDataClipboard {
 		myTypeChooser.setDisable(!flag);
 	}
 
-	public void setUpdateButtonViability(boolean flag) {
+	public void setUpdateButtonVisibility(boolean flag) {
 		myUpdateButton.setDisable(!flag);
 	}
 

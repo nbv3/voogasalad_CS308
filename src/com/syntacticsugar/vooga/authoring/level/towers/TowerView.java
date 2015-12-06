@@ -5,6 +5,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Observable;
+import java.util.Observer;
 
 import com.syntacticsugar.vooga.authoring.fluidmotion.FadeTransitionWizard;
 import com.syntacticsugar.vooga.authoring.fluidmotion.FluidGlassBall;
@@ -20,6 +22,7 @@ import com.syntacticsugar.vooga.gameplayer.event.ICollisionEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.HealthChangeEvent;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
+import com.syntacticsugar.vooga.xml.data.ObjectData;
 import com.syntacticsugar.vooga.xml.data.TowerData;
 
 import javafx.animation.Animation;
@@ -32,7 +35,7 @@ import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.Tooltip;
 
-public class TowerView implements IVisualElement, IDataSelector<TowerData>, IRefresher {
+public class TowerView implements IVisualElement, IDataSelector<TowerData>, IRefresher, Observer {
 	
 	private ListView<Node> myTowerView;
 	private List<TowerData> myTowers;
@@ -171,6 +174,11 @@ public class TowerView implements IVisualElement, IDataSelector<TowerData>, IRef
 			myObservable.add(newTower);
 		});
 		myTowerView.refresh();
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		refresh();
 	}
 
 }

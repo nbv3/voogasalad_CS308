@@ -121,9 +121,16 @@ public class LevelEditor implements IAddToSpawner {
 
 	public void loadMap(MapData loadedMap) {
 		myMapManager.setMapData(loadedMap);
-
 	}
 
+	public SpawnerManager getSpawnerManager() {
+		return mySpawnerManager;
+	}
+	
+	public TowerManager getTowerManager() {
+		return myTowerManager;
+	}
+	
 	public void addToSpawner(ObjectData data) {
 		if (data.getType().equals(GameObjectType.ENEMY))
 			mySpawnerManager.getCurrentView().addData(data);

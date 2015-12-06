@@ -10,6 +10,7 @@ import com.syntacticsugar.vooga.authoring.objectediting.IObjectDataClipboard;
 import com.syntacticsugar.vooga.authoring.objectediting.IVisualElement;
 import com.syntacticsugar.vooga.authoring.objectediting.sizing.ObjectResizer;
 import com.syntacticsugar.vooga.authoring.tooltips.TileInfoTooltip;
+import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
@@ -184,7 +185,9 @@ public class MapView implements IMapDisplay, IVisualElement {
 			// TODO
 			
 			String[][] imagePathArray = populateImagePathArray(colIndex, rowIndex);
-			new ObjectResizer(receivedData, imagePathArray);
+			if(!receivedData.getType().equals(GameObjectType.TOWER)){
+				new ObjectResizer(receivedData, imagePathArray);
+			}
 		}
 	}
 
