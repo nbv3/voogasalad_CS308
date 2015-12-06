@@ -29,6 +29,11 @@ public class HealthAttribute extends AbstractAttribute {
 		super();
 	}
 	
+	public void setHealth(double set) {
+		this.myHealth = set;
+		this.myMaxHealth = set;
+	}
+	
 	@Override
 	public void setDefaults() {
 		this.myInvincibleFrames = Integer.parseInt(ResourceManager.getString(HEALTH_CHANGE_FREQ));
