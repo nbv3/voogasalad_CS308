@@ -70,7 +70,12 @@ public class XMLViewer extends ListViewer {
 		game.setPrefWidth(300);
 		listElement.getChildren().addAll(game, author);
 						
-		listElement.setOnMouseClicked(e-> {setCurrentlySelected(itemID); myUpdater.update(itemID);});
+		listElement.setOnMouseClicked(e-> {setCurrentlySelected(itemID); try {
+			myUpdater.update(itemID);
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}});
 		return listElement;
 	}
 	

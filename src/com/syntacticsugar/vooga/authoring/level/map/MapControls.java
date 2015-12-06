@@ -11,13 +11,13 @@ import java.util.List;
 import java.util.Observable;
 
 import com.syntacticsugar.vooga.authoring.dragdrop.DragDropManager;
-import com.syntacticsugar.vooga.authoring.fluidmotion.FadeTransitionWizard;
-import com.syntacticsugar.vooga.authoring.fluidmotion.FluidGlassBall;
+import com.syntacticsugar.vooga.authoring.fluidmotion.mixandmatchmotion.PulsingFadeWizard;
 import com.syntacticsugar.vooga.authoring.icon.IconPane;
 import com.syntacticsugar.vooga.authoring.icon.ImageFileFilter;
 import com.syntacticsugar.vooga.authoring.objectediting.IVisualElement;
 import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.effects.ITileEffect;
 import com.syntacticsugar.vooga.util.ResourceManager;
+import com.syntacticsugar.vooga.util.filechooser.FileChooserUtil;
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
 import com.syntacticsugar.vooga.util.gui.factory.MsgInputBoxFactory;
@@ -25,7 +25,7 @@ import com.syntacticsugar.vooga.util.reflection.Reflection;
 import com.syntacticsugar.vooga.xml.data.TileData;
 import com.syntacticsugar.vooga.xml.data.TileImplementation;
 
-import javafx.animation.SequentialTransition;
+import javafx.animation.Animation;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -42,9 +42,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
-import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
-import javafx.stage.Stage;
 
 public class MapControls extends Observable implements IVisualElement {
 
@@ -169,18 +167,14 @@ public class MapControls extends Observable implements IVisualElement {
 	private void updatePreview() {
 		TileData td = initTileData();
 		initPreviewDragHandler(td);
+
 		previewTile.setImage(
 				new Image(getClass().getClassLoader().getResourceAsStream(myIconPane.getSelectedImagePath())));
-		// Refactor
-		SequentialTransition seq = new SequentialTransition(
-				FadeTransitionWizard.fadeIn(previewTile, FluidGlassBall.getPreviewTilePulseDuration(), 0.7, 1.0, 1),
-				FadeTransitionWizard.fadeOut(previewTile, FluidGlassBall.getPreviewTilePulseDuration(), 1.0, 0.7, 1));
-		seq.setCycleCount(Integer.MAX_VALUE);
-		seq.play();
-		previewTile.setOnMouseEntered(e -> seq.play());
+		Animation anim = PulsingFadeWizard.applyEffect(previewTile);
+		previewTile.setOnMouseEntered(e -> anim.play());
 		previewTile.setOnMouseExited(e -> {
 			previewTile.setOpacity(1);
-			seq.stop();
+			anim.stop();
 		});
 	}
 
@@ -234,21 +228,19 @@ public class MapControls extends Observable implements IVisualElement {
 			AlertBoxFactory.createObject("Select a tile type.");
 			return;
 		}
-		FileChooser chooser = new FileChooser();
-		chooser.setTitle("Add Image File");
-		chooser.getExtensionFilters().add(new ExtensionFilter("Image Files", "*.jpeg", "*.gif", "*.png"));
-		File selectedFile = chooser.showOpenDialog(new Stage());
-		if (selectedFile != null) {
-			try {
-				String path = ResourceManager.getString(String.format("%s%s", mySelectedType, "_images"));
-				Files.copy(selectedFile.toPath(),
-						(new File(path + "/" + mySelectedType.toString().toLowerCase() + "_" + selectedFile.getName()))
-								.toPath(),
-						StandardCopyOption.REPLACE_EXISTING);
-			} catch (IOException e) {
-				AlertBoxFactory.createObject("Image already exists. Please select another.");
-			}
-		}
+
+		FileChooserUtil.loadFile("Add Image File", new ExtensionFilter("Image Files", "*.jpeg", "*.gif", "*.png"), null,
+				selectedFile -> {
+					try {
+						String path = ResourceManager.getString(String.format("%s%s", mySelectedType, "_images"));
+						Files.copy(selectedFile.toPath(), (new File(
+								path + "/" + mySelectedType.toString().toLowerCase() + "_" + selectedFile.getName()))
+										.toPath(),
+								StandardCopyOption.REPLACE_EXISTING);
+					} catch (IOException e) {
+						AlertBoxFactory.createObject("Image already exists. Please select another.");
+					}
+				});
 		showImageOptions(mySelectedType);
 	}
 

@@ -5,13 +5,14 @@ import java.nio.file.Files;
 
 public class CompressorTest {
 	public static void main(String args[]) {
-		regularTest();
+		//regularTest();
 		utf16Test();
-		base64Test();
+		//base64Test();
 	}
 
 	private static void regularTest() {
-		File selectedFile = new File("src/com/syntacticsugar/vooga/util/compress/Untitled.xml");
+		//File selectedFile = new File("src/com/syntacticsugar/vooga/util/compress/Untitled.xml");
+		File selectedFile = new File("C:/Users/jiawe/Desktop/testmap.xml");
 		System.out.println("Regular Test:");
 		String inputString = readFile(selectedFile);
 		System.out.printf("%30s: %8d\n", "Input string size", inputString.length());
@@ -24,7 +25,8 @@ public class CompressorTest {
 	}
 
 	private static void utf16Test() {
-		File selectedFile = new File("src/com/syntacticsugar/vooga/util/compress/Untitled.xml");
+		//File selectedFile = new File("src/com/syntacticsugar/vooga/util/compress/Untitled.xml");
+		File selectedFile = new File("C:/Users/jiawe/Desktop/testmap.xml");
 		System.out.println("UTF16 Test:");
 		String inputString = readFile(selectedFile);
 		System.out.printf("%30s: %8d\n", "Input string size", inputString.length());

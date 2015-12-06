@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import com.syntacticsugar.vooga.authoring.fluidmotion.FadeTransitionWizard;
 import com.syntacticsugar.vooga.authoring.fluidmotion.FluidGlassBall;
@@ -26,7 +28,7 @@ import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.Tooltip;
 
-public class TowerView implements IVisualElement, IDataSelector<TowerData>, IRefresher {
+public class TowerView implements IVisualElement, IDataSelector<TowerData>, IRefresher, Observer {
 
 	private ListView<Node> myTowerView;
 	private List<TowerData> myTowers;
@@ -136,6 +138,11 @@ public class TowerView implements IVisualElement, IDataSelector<TowerData>, IRef
 			myObservable.add(newTower);
 		});
 		myTowerView.refresh();
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		refresh();
 	}
 
 }
