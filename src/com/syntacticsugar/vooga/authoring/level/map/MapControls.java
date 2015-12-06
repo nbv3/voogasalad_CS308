@@ -87,7 +87,7 @@ public class MapControls extends Observable implements IVisualElement {
 		destinationWrapper.setContentDisplay(ContentDisplay.RIGHT); // You can
 																	// choose
 																	// RIGHT,LEFT,TOP,BOTTOM
-		addNewImage = GUIFactory.buildButton("Add New Image", e -> createNewImage(), null, null);
+		addNewImage = GUIFactory.buildButton("Add Image", e -> createNewImage(), null, null);
 		applyChanges = GUIFactory.buildButton("Apply", e -> mapEditor.displayData(buildTileFromSelections()), null,
 				null);
 		// Build control container view
@@ -102,6 +102,7 @@ public class MapControls extends Observable implements IVisualElement {
 		chooser = new ComboBox<>();
 		chooser.setPromptText("Select Tile Effect");
 		chooser.setPrefWidth(150);
+		chooser.getStyleClass().add("combobox"); 
 		ObservableList<String> effects = FXCollections.observableArrayList("None", "Damage Persistent",
 				"Damage Temporary", "Slow");
 		chooser.getItems().addAll(effects);
@@ -120,10 +121,14 @@ public class MapControls extends Observable implements IVisualElement {
 						MsgInputBoxFactory msgBox = new MsgInputBoxFactory(
 								String.format("Set %s Value", mySelectedEffect));
 						myEffectParameters.add(msgBox.getInputValue());
+
 					}
 
 				} catch (SecurityException | ClassNotFoundException e) {
 					e.printStackTrace();
+				} catch (NumberFormatException e) {
+					AlertBoxFactory.createObject("Enter a value.");
+
 				}
 			}
 		});
@@ -156,13 +161,13 @@ public class MapControls extends Observable implements IVisualElement {
 
 	private void buildView() {
 		AnchorPane top = GUIFactory.buildAnchorPane(selectAll, clearAll);
-		AnchorPane middle = GUIFactory.buildAnchorPane(typeChooser, destinationWrapper);
+		//AnchorPane middle = GUIFactory.buildAnchorPane(typeChooser);
 		AnchorPane bottom = GUIFactory.buildAnchorPane(addNewImage, applyChanges);
 		myVBox = new VBox();
 		myVBox.setSpacing(10);
 		myVBox.setPadding(new Insets(10));
 		myVBox.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-		myVBox.getChildren().addAll(top, middle, myTileEffect, myIconPane.getView(), bottom, previewTile);
+		myVBox.getChildren().addAll(top, typeChooser, destinationWrapper, myTileEffect, myIconPane.getView(), bottom, previewTile);
 		myVBox.setAlignment(Pos.CENTER);
 		myViewPane = GUIFactory.buildTitledPane("Map Controls", myVBox);
 	}

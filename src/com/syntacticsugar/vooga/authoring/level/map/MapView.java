@@ -5,8 +5,8 @@ import java.util.Map;
 
 import com.syntacticsugar.vooga.authoring.dragdrop.DragDropManager;
 import com.syntacticsugar.vooga.authoring.icon.Icon;
-import com.syntacticsugar.vooga.authoring.objectediting.IDataClipboard;
 import com.syntacticsugar.vooga.authoring.level.IAddToSpawner;
+import com.syntacticsugar.vooga.authoring.objectediting.IDataClipboard;
 import com.syntacticsugar.vooga.authoring.objectediting.IVisualElement;
 import com.syntacticsugar.vooga.authoring.objectediting.sizing.ObjectResizer;
 import com.syntacticsugar.vooga.authoring.tooltips.TileInfoTooltip;
@@ -118,7 +118,6 @@ public class MapView implements IMapDisplay, IVisualElement {
 		myMapData = loadedMap;
 		myMapSize = loadedMap.getMapSize();
 		initializeMapView(myMapData);
-		System.out.println("LOADIDNGINGING");
 	}
 
 	public MapData getMapData() {

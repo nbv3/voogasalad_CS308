@@ -5,7 +5,8 @@ import java.util.Observer;
 
 import com.syntacticsugar.vooga.gameplayer.universe.IEventPoster;
 import com.syntacticsugar.vooga.gameplayer.universe.IUniverseView;
-import com.syntacticsugar.vooga.gameplayer.view.implementation.InformationBox;
+import com.syntacticsugar.vooga.gameplayer.view.gamepanels.GlobalDataPanel;
+import com.syntacticsugar.vooga.gameplayer.view.gamepanels.TowerShop;
 import com.syntacticsugar.vooga.gameplayer.view.implementation.TileView;
 import com.syntacticsugar.vooga.xml.data.TowerData;
 
@@ -18,11 +19,11 @@ public class GameView extends BorderPane implements ISimpleGameView{
 	
 	private double mySize;
 	private Pane gameField;
-	private InformationBox myInfoBox; 
+	private GlobalDataPanel myInfoBox; 
 	private TowerShop myTowerShop;
 	
 	public GameView(double size){
-		this.getStylesheets().add("/com/syntacticsugar/vooga/authoring/css/default.css");
+		this.getStylesheets().add("/com/syntacticsugar/vooga/gameplayer/css/game.css");
 		this.setFocusTraversable(true);
 		mySize = size;
 		initializeComponents();
@@ -38,7 +39,7 @@ public class GameView extends BorderPane implements ISimpleGameView{
 		this.setCenter(gameField);
 		myTowerShop = new TowerShop();
 		this.setRight(myTowerShop.getContent());
-		myInfoBox = new InformationBox();
+		myInfoBox = new GlobalDataPanel();
 		this.setBottom(myInfoBox);
 	}
 

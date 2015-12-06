@@ -45,23 +45,16 @@ public class ObjectDataViewer {
 	public ObjectDataViewer() {
 		super();
 		myCommentBox = new CommentViewer();
+		myView = makeView();		
+	}
+
+	private Node makeView() {
 		myListView = new ListView<Node>();
-		myView = makeMyViewer();		
-
+		TitledPane view = GUIFactory.buildTitledPane("Information", myListView);
+		view.setMaxWidth(Integer.MAX_VALUE);
+		return view;
 	}
-
-	private Node makeMyViewer() {
-		TitledPane view = GUIFactory.buildTitledPane("Information",myListView);
-		view.setPrefWidth(350);
-		VBox buttons = new VBox();
-		buttons.getChildren().addAll(GUIFactory.buildButton("Upload", e -> {uploadItem();
-		} , 120.0, null), GUIFactory.buildButton("Download", e -> {downloadSelectedItem();
-		} , 120.0, null));
-		HBox viewAndButtons = new HBox(view,buttons);
-		viewAndButtons.setPrefHeight(350);
-		return viewAndButtons;
-	}
-
+	
 	private void populateList(JSONObject object) {
 		clearList();
 		try {
@@ -88,34 +81,6 @@ public class ObjectDataViewer {
 		Node valueNode = GUIFactory.buildTitleNode(value);
 		Node element = GUIFactory.buildAnchorPane(keyNode, valueNode);
 		return element;
-	}
-
-	private void uploadItem() {
-		makeUploadFileChooser();
-	}
-
-	private void downloadSelectedItem() {
-		if (mySelectedItemID == Integer.MIN_VALUE)
-			return;
-		else {
-			FileChooserUtil.saveFile("Choose a save location.", ".xml", null, selected -> {
-					XMLHandler.writeXMLToFile(JSONHelper.extractXML(WebConnector.getXML(mySelectedItemID)),
-							selected.toPath().toString());					
-			});
-		}
-	}
-
-	private void makeUploadFileChooser(){//EventHandler<ActionEvent> action) {
-		ExtensionFilter filter = new ExtensionFilter("XML files", "*.xml", "*.XML");
-		FileChooserUtil.loadFile("Choose an XML game file", filter, null, selected -> {
-				WebConnector.postXML(JSONHelper.createXMLJSON(
-						"Michael", "Tetris", "tetris", XMLHandler.fileToString(selected)));	
-			});
-	}
-	
-	private void launchPropertiesBox(){
-		MsgInputBoxFactory inputFactory = new MsgInputBoxFactory("Fill in author name, game name, and description");
-		
 	}
 
 	public void update(int id) throws JSONException {

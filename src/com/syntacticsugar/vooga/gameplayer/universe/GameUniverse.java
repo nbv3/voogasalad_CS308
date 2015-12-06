@@ -12,6 +12,7 @@ import com.syntacticsugar.vooga.gameplayer.conditions.implementation.PlayerDeath
 import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
 import com.syntacticsugar.vooga.gameplayer.manager.IEventManager;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObject;
+import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.objects.towers.ITower;
 import com.syntacticsugar.vooga.gameplayer.objects.towers.Tower;
@@ -34,6 +35,7 @@ import com.syntacticsugar.vooga.xml.data.TowerData;
 import com.syntacticsugar.vooga.xml.data.TowerListData;
 import com.syntacticsugar.vooga.xml.data.UniverseData;
 
+import javafx.geometry.Point2D;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 
@@ -48,6 +50,8 @@ public class GameUniverse implements IGameUniverse {
 	private IGameMap myGameMap;
 	private IScore myScore;
 	private IMoney myMoney;
+	
+	private Point2D myPlayerSpawn;
 
 	private Collection<KeyCode> myCurrentInput;
 
@@ -60,7 +64,7 @@ public class GameUniverse implements IGameUniverse {
 		myConditions = new Conditions();
 		myGameObjects = new ArrayList<IGameObject>();
 		myGameMap = new GameMap(data.getMap());
-		mySpawner = new Spawner(data.getSpawns().getWaves(), data.getSettings().getSpawnRate());
+		mySpawner = new Spawner(data.getSpawns().getWaves());
 		myTowers = new ArrayList<>();
 		Collection<TowerData> towerdata = data.getTowers().getTowers();
 		for (TowerData d : towerdata) {
@@ -74,6 +78,8 @@ public class GameUniverse implements IGameUniverse {
 		}
 		
 		//}
+		
+		myPlayerSpawn = data.getSettings().getPlayerSpawn();
 		
 		// Need event managers
 		myGraveYard = new GraveYard(this);
@@ -187,6 +193,7 @@ public class GameUniverse implements IGameUniverse {
 		MapData map = new MapData(myGameMap);
 		LevelSettings settings = new LevelSettings(mySpawner.getSpawnRate());
 		settings.setStartingMoney(myMoney.getMoney());
+		settings.setPlayerSpawn(myPlayerSpawn);
 		Collection<ObjectData> objects = new ArrayList<>();
 		for (IGameObject o: myGameObjects){
 			objects.add(new ObjectData(o));
@@ -231,6 +238,23 @@ public class GameUniverse implements IGameUniverse {
 	@Override
 	public void observeMoney(Observer observer){
 		myMoney.addObserver(observer);
+	}
+
+	@Override
+	public IGameObject getPlayer() {
+		IGameObject player = null;
+		for (IGameObject obj: myGameObjects) {
+			if (obj.getType().equals(GameObjectType.PLAYER)){
+				player = obj;
+				break;
+			}
+		}
+		return player;
+	}
+
+	@Override
+	public Point2D getPlayerSpawn() {
+		return myPlayerSpawn;
 	}
 	
 }

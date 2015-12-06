@@ -23,6 +23,7 @@ public class ConstantMovementAttribute extends AbstractMovementAttribute {
 	
 	public ConstantMovementAttribute(Direction dir, double speed) {
 		super(speed);
+		System.out.println(speed);
 		myDir = dir;
 	}
 	

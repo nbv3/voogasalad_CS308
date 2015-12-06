@@ -10,9 +10,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.syntacticsugar.vooga.authoring.library.IRefresher;
+import com.syntacticsugar.vooga.authoring.objectediting.IVisualElement;
 import com.syntacticsugar.vooga.util.ResourceManager;
+import com.syntacticsugar.vooga.util.filechooser.FileChooserUtil;
 import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
+import com.syntacticsugar.vooga.util.webconnect.JSONHelper;
 import com.syntacticsugar.vooga.util.webconnect.WebConnector;
+import com.syntacticsugar.vooga.xml.XMLHandler;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -23,25 +27,42 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser.ExtensionFilter;
 
-public class XMLViewer extends ListViewer {
+public class XMLViewer implements IVisualElement {
 
+	private VBox myView;
+	private ListView<Node> myListView;
 	private int mySelectedItemID = Integer.MIN_VALUE;
 	private IDataViewUpdater myUpdater;
 
 	public XMLViewer(IDataViewUpdater updater){
-		super();
 		myUpdater = updater;
-		myView = (VBox) makeMyViewer("Downloadable Games");
+		myView = makeView();
 		populateListFromDatabase();
 	}	
 	
-	private Node makeMyViewer(String viewerTitle) {
-		Node refreshButton = GUIFactory.buildButton("Refresh", e-> refresh(), 100.0, null);
-		Collection<Node> buttons = new ArrayList<Node>(); buttons.add(refreshButton);
-		VBox view = GUIFactory.buildTitledPaneWithButtons(makeContentBox(), viewerTitle, buttons);
-		return view;
+	private VBox makeView(){
+		myListView = new ListView<Node>();
+		myView = new VBox();
+		myView.getChildren().addAll(makeTitleNode(makeButtonStrip()), myListView);
+		return myView;
 	}
+	
+	private Node makeTitleNode(Node buttons){
+		HBox title = GUIFactory.buildTitleNode("Game Name | Author Name");
+		return GUIFactory.buildAnchorPane(title, buttons);
+	}
+	
+	private Node makeButtonStrip(){
+		Button download = GUIFactory.buildButton("Download", e->downloadSelectedItem(), 100.00, null);
+		Button upload = GUIFactory.buildButton("Upload", e->uploadItem(), 100.00, null);
+		Button refresh = GUIFactory.buildButton("Refresh", e-> refresh(), 100.0, null);
+		HBox buttonStrip = new HBox();
+		buttonStrip.getChildren().addAll(refresh, download, upload);
+		return buttonStrip;
+	}
+	
 	
 	private void populateListFromDatabase() {
 		JSONObject XMLs = WebConnector.getXMLs();
@@ -58,10 +79,6 @@ public class XMLViewer extends ListViewer {
 		}
 	}
 	
-	private void refresh() {
-		clearList();
-		populateListFromDatabase();
-	}
 
 	private Node makeListElement(String itemName, String itemData, int itemID) {
 		HBox listElement = new HBox();
@@ -79,12 +96,53 @@ public class XMLViewer extends ListViewer {
 		return listElement;
 	}
 	
+	private void uploadItem() {
+		makeUploadFileChooser();
+	}
+
+	private void downloadSelectedItem() {
+		if (mySelectedItemID == Integer.MIN_VALUE)
+			return;
+		else {
+			FileChooserUtil.saveFile("Choose a save location.", ".xml", null, selected -> {
+					XMLHandler.writeXMLToFile(JSONHelper.extractXML(WebConnector.getXML(mySelectedItemID)),
+							selected.toPath().toString());					
+			});
+		}
+	}
+
+	private void makeUploadFileChooser(){//EventHandler<ActionEvent> action) {
+		ExtensionFilter filter = new ExtensionFilter("XML files", "*.xml", "*.XML");
+		FileChooserUtil.loadFile("Choose an XML game file", filter, null, selected -> {
+				WebConnector.postXML(JSONHelper.createXMLJSON(
+						"Michael", "Tetris", "tetris", XMLHandler.fileToString(selected)));	
+			});
+	}
+	
+	private void addElementToList(Node element){
+		myListView.getItems().add(element);
+	}
+	
+	private void refresh() {
+		clearList();
+		populateListFromDatabase();
+	}
+	
+	private void clearList(){
+		myListView.getItems().clear();
+	}
+	
 	private void setCurrentlySelected(int id){
 		mySelectedItemID = id;
 	}
 	
 	public int getCurrentlySelected(){
 		return mySelectedItemID;
+	}
+
+	@Override
+	public Node getView() {
+		return myView;
 	}
 
 }

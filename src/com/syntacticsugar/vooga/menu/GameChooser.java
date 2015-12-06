@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.syntacticsugar.vooga.authoring.fluidmotion.mixandmatchmotion.DirectionalFadeWizard;
+import com.syntacticsugar.vooga.authoring.fluidmotion.mixandmatchmotion.PulsingFadeWizard;
 import com.syntacticsugar.vooga.gameplayer.attribute.HealthAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.ScoreAttribute;
@@ -14,7 +15,7 @@ import com.syntacticsugar.vooga.gameplayer.attribute.movement.AIMovementAttribut
 import com.syntacticsugar.vooga.gameplayer.attribute.movement.ConstantMovementAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.movement.Direction;
 import com.syntacticsugar.vooga.gameplayer.attribute.movement.MovementControlAttribute;
-import com.syntacticsugar.vooga.gameplayer.attribute.weapon.StunWeaponAttribute;
+import com.syntacticsugar.vooga.gameplayer.attribute.weapons.StunWeaponAttribute;
 import com.syntacticsugar.vooga.gameplayer.event.ICollisionEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.HealthChangeEvent;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
@@ -38,11 +39,14 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -64,6 +68,7 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 		myGameNames = FXCollections.observableArrayList();
 		showDirectoryContents(myDirectory, e -> getGameDescriptions(myDirectory));
 		myView = new ListView<String>(myGameNames);
+		myView.setId("game-chooser-listview");
 		myView.setOnMouseClicked(e -> {
 			if (myView.getSelectionModel().getSelectedItem() != null) {
 				startButton.setDisable(false);
@@ -73,18 +78,24 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 
 		//myView.getItems().add("HEY");
 		//myView.getItems().add("LOLCANO");
-
 		myScene = new Scene(buildScene());
+		myScene.getStylesheets().add("/com/syntacticsugar/vooga/gameplayer/css/menu.css");
+
 		myStage.setScene(myScene);
 		myStage.show();
 
 	}
 
 	private VBox buildScene() {
-		VBox box = new VBox();
+		VBox box = new VBox(10);
+		box.setId("game-chooser-vbox");
+		Label title = new Label("Choose a game:");
+		title.setAlignment(Pos.CENTER);
+		title.setId("game-chooser-title");
 		startButton = createButton("Start", e -> startGame());
 		startButton.setDisable(true);
-		box.getChildren().addAll(myView, startButton);
+		PulsingFadeWizard.attachPulsingHandlers(startButton);
+		box.getChildren().addAll(title,myView, startButton);
 		return box;
 	}
 
@@ -260,7 +271,8 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 		odata.add(playerData);
 		odata.add(enemyData);
 		odata.add(enemyData2);
-		WaveData wdata = new WaveData(odata);
+
+		WaveData wdata = new WaveData(odata, 60);
 		Collection<WaveData> sdata = new ArrayList<>();
 		sdata.add(wdata);
 		SpawnerData spawn = new SpawnerData(sdata);
@@ -313,7 +325,7 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 
 		TowerListData td = new TowerListData(towers);
 
-		LevelSettings lSetting = new LevelSettings(1000, 60);
+		LevelSettings lSetting = new LevelSettings(1000);
 
 		return new UniverseData(spawn, td, map, lSetting,new ArrayList<>());
 	}

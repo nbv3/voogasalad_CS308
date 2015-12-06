@@ -25,18 +25,13 @@ import com.syntacticsugar.vooga.gameplayer.event.ICollisionEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.HealthChangeEvent;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
-import com.syntacticsugar.vooga.xml.data.TileData;
-import com.syntacticsugar.vooga.xml.data.WaveData;
-
 import javafx.animation.Animation;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Orientation;
 import javafx.scene.Node;
 import javafx.scene.control.ListView;
-import javafx.scene.control.Tab;
 import javafx.scene.control.Tooltip;
-import javafx.scene.effect.Glow;
 
 public class SpawnerView implements IDataSelector<ObjectData>, IVisualElement, IRefresher, Observer {
 
@@ -162,8 +157,8 @@ public class SpawnerView implements IDataSelector<ObjectData>, IVisualElement, I
 		return myObjects.values();
 	}
 
-	public WaveData getWaveData() {
-		return new WaveData(myQueue);
+	public Collection<ObjectData> getObjectQueue() {
+		return myQueue;
 	}
 
 	@Override
@@ -181,7 +176,7 @@ public class SpawnerView implements IDataSelector<ObjectData>, IVisualElement, I
 	@Override
 	public void update(Observable o, Object arg) {
 		refresh();
-		
+
 	}
 
 }

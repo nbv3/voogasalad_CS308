@@ -1,4 +1,4 @@
-package com.syntacticsugar.vooga.util.gui.factory;
+package com.syntacticsugar.vooga.util.gui.factory.boxfactory;
 
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 
@@ -14,20 +14,32 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class MsgInputBoxFactory {
+public abstract class AbstractInputBoxFactory implements IInputBoxFactory {
 
-	private double value;
+	private String value;
 	private TextField textField;
+	private Stage dialogStage;
+	private BorderPane brd_pan;
 
-	public MsgInputBoxFactory(String str){
-	    Stage dialogStage = new Stage();
-	    BorderPane brd_pan = new BorderPane();
+	public AbstractInputBoxFactory(String str){
+		stageInit();
+		textFieldInit(str);
+		buttonInit();
+		
+	    dialogStage.showAndWait();
+	}
+	
+	private void stageInit() {
+		dialogStage = new Stage();
+	    brd_pan = new BorderPane();
 	    Scene scene = new Scene(brd_pan,300,150);
 	    dialogStage.setScene(scene);
 	    dialogStage.setTitle("Message Box");
 	    dialogStage.initModality(Modality.APPLICATION_MODAL);
-	    
-	    HBox textFieldBox = new HBox();
+	}
+	
+	private void textFieldInit(String str) {
+		HBox textFieldBox = new HBox();
 	    textFieldBox.setAlignment(Pos.CENTER);
 	    Label textFieldLable = new Label(str);
 	    textFieldLable.setPrefWidth(150);
@@ -46,8 +58,10 @@ public class MsgInputBoxFactory {
 	    });
 	    textFieldBox.getChildren().addAll(textFieldLable,textField);
 	    brd_pan.setCenter(textFieldBox);
-
-	    HBox navBox = new HBox();
+	}
+	
+	private void buttonInit() {
+		HBox navBox = new HBox();
 	    navBox.setSpacing(50);
 	    navBox.setAlignment(Pos.CENTER);
 	    Button btn_cancel = new Button("Cancel");
@@ -66,29 +80,14 @@ public class MsgInputBoxFactory {
 	    	}
 	    });
 	    navBox.getChildren().addAll(btn_cancel,btn_ok);
-	    
 	    brd_pan.setBottom(navBox);
-	    dialogStage.showAndWait();
 	}
 	
-	public double getInputValue() {	
-		if (textField.getText().isEmpty() || !isNumber(textField.getText())) {
-			throw new NumberFormatException();
-		}
-		return 	Double.parseDouble(textField.getText());
+	public String getInputValue() {
+		return textField.getText();
 	}
 	
-	private boolean isNumber(String string) {
-	    try {
-	        Double.parseDouble(string);
-	    } catch (Exception e) {
-	        return false;
-	    }
-	    return true;
+	public void setValue(String str) {
+		value = str;
 	}
-	
-	public double getValue() {
-		return value;
-	}
-
 }
