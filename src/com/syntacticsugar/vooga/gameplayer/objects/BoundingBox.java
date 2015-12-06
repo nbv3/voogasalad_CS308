@@ -2,7 +2,7 @@ package com.syntacticsugar.vooga.gameplayer.objects;
 
 import java.util.Observable;
 
-import com.syntacticsugar.vooga.gameplayer.attribute.control.actions.movement.Direction;
+import com.syntacticsugar.vooga.gameplayer.attribute.movement.Direction;
 
 import javafx.geometry.Point2D;
 

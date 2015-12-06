@@ -1,7 +1,9 @@
 package com.syntacticsugar.vooga.gameplayer.attribute.weapon;
 
-import java.util.Observable;
-
+import com.syntacticsugar.vooga.authoring.parameters.EditableClass;
+import com.syntacticsugar.vooga.authoring.parameters.EditableField;
+import com.syntacticsugar.vooga.authoring.parameters.InputParser;
+import com.syntacticsugar.vooga.authoring.parameters.InputTypeException;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.objects.items.bullets.BulletParams;
@@ -10,6 +12,9 @@ import com.syntacticsugar.vooga.gameplayer.objects.items.bullets.SlowBullet;
 import javafx.geometry.Point2D;
 import javafx.scene.input.KeyCode;
 
+@EditableClass (
+		className = "Slow Weapon"
+		)
 public class SlowWeaponAttribute extends AbstractWeaponAttribute {
 
 	private double mySpeedDecrease;
@@ -20,6 +25,16 @@ public class SlowWeaponAttribute extends AbstractWeaponAttribute {
 		super(bulletImagePath, bulletDamage, fireKeyCode, bulletSpeed, bulletWidth, bulletHeight);
 		mySpeedDecrease = speedDecrease;
 		myTime = time;
+	}
+	
+	public SlowWeaponAttribute() {
+		super();
+	}
+	
+	@Override
+	protected void setDefaults() {
+		super.setDefaults();
+		mySpeedDecrease = 0.50;
 	}
 
 	@Override
@@ -37,11 +52,19 @@ public class SlowWeaponAttribute extends AbstractWeaponAttribute {
 
 		return bullet;
 	}
-
-	@Override
-	public void update(Observable o, Object arg) {
-		setChanged();
-		notifyObservers(this);
+	
+	
+	/**		  	      EDIT TAGS	     		    **/
+	/** *************************************** **/
+	
+	@EditableField (	
+		inputLabel = "Bullet Slowdown Effect",
+		defaultVal = "0.50"
+		)
+	private void editSlowDown(String arg) {
+		try {
+			this.mySpeedDecrease = InputParser.parseAsDouble(arg);
+		} catch (InputTypeException e) { 	}
 	}
 
 }
