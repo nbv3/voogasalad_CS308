@@ -46,13 +46,17 @@ public abstract class AbstractMenu implements IVoogaApp{
 		//myScene = new Scene(pane);
 		
 		// Make utility
-		Image backgroundImage = new Image(getClass().getClassLoader().getResourceAsStream("mainmenu-3.png"));
+		Image backgroundImage = new Image(getClass().getClassLoader().getResourceAsStream("mainmenu-6.gif"));
 		pane.setBackground(BackgroundCreator.setBackground(backgroundImage));
 		myScene = new Scene(pane);
 	
 		myStage.setScene(myScene);
 		animatedShowStage();
 		
+	}
+	
+	public Stage getStage() {
+		return myStage;
 	}
 	
 	protected abstract void initializeOptions(BorderPane pane);
