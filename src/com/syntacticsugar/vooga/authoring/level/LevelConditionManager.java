@@ -17,7 +17,6 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
 
 public class LevelConditionManager {
 
@@ -31,17 +30,19 @@ public class LevelConditionManager {
 	private String mySelectedLose;
 	private List<Double> myLoseParameters;
 	private int mySavedSpawnRate;
-	private VBox mySpawnSet;
-	private TextField myInput;
+	private TextField mySpawnInput;
+	private TextField myCash;
+
+	private int mySetCash;
 
 	public LevelConditionManager() {
 		myView = new GridPane();
 
-		mySpawnSet = new VBox(10);
-		myInput = new TextField();
-		myInput.setPromptText("Enemy Spawn Rate");
-		Label spawnLabel = new Label("Enter Enemy Spawn Rate");
-		mySpawnSet.getChildren().addAll(spawnLabel, myInput);
+		mySpawnInput = new TextField();
+		mySpawnInput.setPromptText("Enemy Spawn Rate");
+
+		myCash = new TextField();
+		myCash.setPromptText("Initial Cash Amount");
 
 		ObservableList<String> winOptions = FXCollections.observableArrayList("Enemy Death");
 		myWins = new ComboBox<String>(winOptions);
@@ -65,7 +66,8 @@ public class LevelConditionManager {
 		myView.add(lose, 0, 2, 1, 1);
 		myView.add(myWins, 0, 1, 1, 1);
 		myView.add(myLose, 0, 3, 1, 1);
-		myView.add(mySpawnSet, 0, 4, 1, 1);
+		myView.add(mySpawnInput, 0, 4, 1, 1);
+		myView.add(myCash, 0, 5, 1, 1);
 
 		myView.setPadding(new Insets(10, 10, 10, 10));
 		myView.setVgap(10);
@@ -75,6 +77,7 @@ public class LevelConditionManager {
 	private void updateSelectedWin(String w) {
 		mySelectedWin = w;
 		String className = mySelectedWin.replace(" ", "");
+
 		String classPath = String.format("%s%s%s", CONDITION_PATH, className, "Condition");
 
 		try {
@@ -130,8 +133,25 @@ public class LevelConditionManager {
 	}
 
 	public void saveSpawnRate() {
+		if (mySpawnInput.getText() == null) {
+			AlertBoxFactory.createObject("Please enter an integer.");
+
+		}
 		try {
-			mySavedSpawnRate = Integer.parseInt(myInput.getText());
+			mySavedSpawnRate = Integer.parseInt(mySpawnInput.getText());
+		} catch (Exception e) {
+			AlertBoxFactory.createObject("Please enter an integer.");
+		}
+	}
+
+	public void saveCash() {
+		if (myCash.getText() == null) {
+			AlertBoxFactory.createObject("Please enter an integer.");
+
+		}
+		try {
+			mySetCash = Integer.parseInt(myCash.getText());
+
 		} catch (Exception e) {
 			AlertBoxFactory.createObject("Please enter an integer.");
 		}
@@ -141,10 +161,12 @@ public class LevelConditionManager {
 		return myView;
 	}
 
+	// need to change constructor to take in cash
 	public LevelSettings getConditions() {
 		saveSpawnRate();
+		saveCash();
 		LevelSettings settings = new LevelSettings(mySelectedWin, myWinParameters, mySelectedLose, myLoseParameters,
-				mySavedSpawnRate);
+				mySavedSpawnRate, mySetCash);
 		return settings;
 	}
 }
