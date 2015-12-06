@@ -2,6 +2,7 @@ package com.syntacticsugar.vooga.gameplayer.attribute;
 
 import java.util.Observable;
 
+import com.syntacticsugar.vooga.gameplayer.universe.GameUniverse;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 
 public class MoneyAttribute extends AbstractAttribute {
@@ -27,7 +28,7 @@ public class MoneyAttribute extends AbstractAttribute {
 	}
 
 	@Override
-	public void updateSelf(IGameUniverse universe) {
+	public void updateSelf(GameUniverse universe) {
 
 	}
 

@@ -5,16 +5,9 @@ import java.util.ListIterator;
 import java.util.Observable;
 
 import com.syntacticsugar.vooga.authoring.parameters.DoubleParameter;
-import com.syntacticsugar.vooga.authoring.parameters.IEditableParameter;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.ObjectDespawnEvent;
 import com.syntacticsugar.vooga.gameplayer.universe.GameUniverse;
 import com.syntacticsugar.vooga.gameplayer.universe.IEventPoster;
-import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
-import com.syntacticsugar.vooga.gameplayer.universe.IObjectDespawner;
-import com.syntacticsugar.vooga.util.ResourceManager;
-
-import javafx.scene.Node;
-import javafx.scene.layout.HBox;
 
 public class HealthAttribute extends AbstractAttribute {
 	
