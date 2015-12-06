@@ -90,7 +90,7 @@ public abstract class AbstractWeaponAttribute extends AbstractAttribute implemen
 
 	protected abstract IGameObject makeBullet();
 
-	private void fireBullet(IEventPoster poster, IGameObject bullet) {
+	protected void fireBullet(IEventPoster poster, IGameObject bullet) {
 		ObjectSpawnEvent event = new ObjectSpawnEvent(bullet);
 		poster.postEvent(event);
 	}
