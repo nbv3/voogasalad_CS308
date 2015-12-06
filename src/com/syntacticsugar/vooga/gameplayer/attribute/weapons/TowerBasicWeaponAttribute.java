@@ -7,7 +7,6 @@ import com.syntacticsugar.vooga.authoring.parameters.InputTypeException;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.objects.items.bullets.BulletParams;
-import com.syntacticsugar.vooga.gameplayer.objects.items.bullets.PlayerBullet;
 import com.syntacticsugar.vooga.gameplayer.objects.items.bullets.TowerBasicBullet;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 

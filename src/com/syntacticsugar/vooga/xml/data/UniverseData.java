@@ -15,7 +15,6 @@ public class UniverseData {
 		towers = b;
 		map = c;
 		settings = d;
-		System.out.println("In the universedata constructor");
 		setObjects(e);
 	}
 	
@@ -41,6 +40,5 @@ public class UniverseData {
 
 	public void setObjects(Collection<ObjectData> objects) {
 		this.objects = objects;
-		System.out.println(objects);
 	}
 }

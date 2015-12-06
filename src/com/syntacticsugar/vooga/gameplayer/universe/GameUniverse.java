@@ -51,8 +51,6 @@ public class GameUniverse implements IGameUniverse {
 	private IScore myScore;
 	private IMoney myMoney;
 	
-	private Point2D myPlayerSpawn;
-
 	private Collection<KeyCode> myCurrentInput;
 
 	private IEventManager myPoster;
@@ -60,8 +58,7 @@ public class GameUniverse implements IGameUniverse {
 	public GameUniverse(UniverseData data, GlobalSettings settings) {
 		myScore = new Score(data.getSettings());
 		myMoney = new Money(data.getSettings().getStartingMoney());
-		// Needs event manager
-		myConditions = new Conditions();
+		myConditions = new Conditions(data.getSettings().getWinCondition(), data.getSettings().getLossCondition());;
 		myGameObjects = new ArrayList<IGameObject>();
 		myGameMap = new GameMap(data.getMap());
 		mySpawner = new Spawner(data.getSpawns().getWaves(), myGameMap.getTileSize());
@@ -70,27 +67,22 @@ public class GameUniverse implements IGameUniverse {
 		for (TowerData d : towerdata) {
 			myTowers.add(new Tower(d));
 		}
-		Collection<ObjectData> objects = data.getObjects();
-		System.out.println(objects);
-		//if (objects != null) {
-		for (ObjectData e: objects) {
-			IGameObject obj = new GameObject(e);
-			obj.getBoundingBox().setWidth(myGameMap.getTileSize() * .75);
-			obj.getBoundingBox().setHeight(myGameMap.getTileSize() * .75);
-			myGameObjects.add(obj);
-		}
+//		Collection<ObjectData> objects = data.getObjects();
+//		System.out.println(objects);
+//
+//		for (ObjectData e: objects) {
+//			IGameObject obj = new GameObject(e);
+//			obj.getBoundingBox().setWidth(myGameMap.getTileSize() * .75);
+//			obj.getBoundingBox().setHeight(myGameMap.getTileSize() * .75);
+//			myGameObjects.add(obj);
+//		}
 		
 		//}
-		
-		myPlayerSpawn = data.getSettings().getPlayerSpawn();
 		
 		// Need event managers
 		myGraveYard = new GraveYard(this);
 		mySpawnYard = new SpawnYard(this);
 		myCurrentInput = new ArrayList<KeyCode>();
-		//TODO: DEBUG
-		myConditions.addCondition(new PlayerDeathCondition());
-		myConditions.addCondition(new EnemyDeathCondition(2));
 	}
 
 	public void registerListeners(IEventManager manager) {
@@ -195,9 +187,9 @@ public class GameUniverse implements IGameUniverse {
 		SpawnerData spawn = mySpawner.saveGame();
 		TowerListData towers = saveTowers();
 		MapData map = new MapData(myGameMap);
-		LevelSettings settings = new LevelSettings(mySpawner.getSpawnRate());
-		settings.setStartingMoney(myMoney.getMoney());
-		settings.setPlayerSpawn(myPlayerSpawn);
+		LevelSettings settings = new LevelSettings(myConditions.getWinCondition(), 
+												   myConditions.getLossCondition(), 
+												   myMoney.getMoney());
 		Collection<ObjectData> objects = new ArrayList<>();
 		for (IGameObject o: myGameObjects){
 			objects.add(new ObjectData(o));
@@ -256,9 +248,4 @@ public class GameUniverse implements IGameUniverse {
 		return player;
 	}
 
-	@Override
-	public Point2D getPlayerSpawn() {
-		return myPlayerSpawn;
-	}
-	
 }

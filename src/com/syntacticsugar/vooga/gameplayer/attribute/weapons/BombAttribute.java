@@ -1,7 +1,5 @@
 package com.syntacticsugar.vooga.gameplayer.attribute.weapons;
 
-import java.util.Observable;
-
 import com.syntacticsugar.vooga.authoring.parameters.EditableClass;
 import com.syntacticsugar.vooga.authoring.parameters.EditableField;
 import com.syntacticsugar.vooga.authoring.parameters.InputParser;
@@ -127,9 +125,9 @@ public class BombAttribute extends AbstractAttribute implements IUserControlAttr
 	/** *************************************** **/
 	
 	@EditableField
-	(	inputLabel = "Bullet Damage",
+	(	inputLabel = "Bomb Damage",
 		defaultVal = "10"	)
-	private void editBulletDamage(String arg) {
+	private void editBombDamage(String arg) {
 		try {
 			this.myDamage = InputParser.parseAsDouble(arg);
 		} catch (InputTypeException e) { 	}
@@ -145,9 +143,9 @@ public class BombAttribute extends AbstractAttribute implements IUserControlAttr
 	}
 
 	@EditableField
-	(	inputLabel = "Bullet Image Path",
+	(	inputLabel = "Bomb Image Path",
 		defaultVal = "scenery_black.png"	)
-	private void editBulletImage(String arg) {
+	private void editBombImage(String arg) {
 		try {
 			this.myImagePath = InputParser.parseAsImagePath(this.getClass().getClassLoader(), arg);
 		} catch (InputTypeException e) {	}

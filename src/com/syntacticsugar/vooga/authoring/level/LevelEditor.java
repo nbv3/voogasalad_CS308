@@ -121,9 +121,7 @@ public class LevelEditor implements IAddToSpawner {
 	}
 
 	public void setConditions(LevelSettings set) {
-		myConditions.setLoseParameters(set.getLoseParameters());
-		myConditions.setWinParameters(set.getWinParameters());
-		myConditions.setLosingCondition(set.getLoseCondition());
+		myConditions.setLosingCondition(set.getLossCondition());
 		myConditions.setWinningCondition(set.getWinCondition());
 	}
 
