@@ -4,6 +4,7 @@ import java.util.Observable;
 
 import com.syntacticsugar.vooga.authoring.level.IDataSelector;
 import com.syntacticsugar.vooga.authoring.objectediting.IVisualElement;
+import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
 import com.syntacticsugar.vooga.xml.data.TowerData;
 
@@ -26,19 +27,20 @@ public class TowerControls extends Observable implements IVisualElement {
 	public TowerControls(IDataSelector<TowerData> towers) {
 		myVBox = new VBox();
 		myTowerView = towers;
-		myClearButton = GUIFactory.buildButton("Clear Towers", e -> myTowerView.clearData(), 100.0, 50.0);
-		myRemoveButton = GUIFactory.buildButton("Remove Selected", e -> myTowerView.removeSelectedData(), 150.0, 50.0);
-		myEditButton = GUIFactory.buildButton("Edit Selected", e -> editSelectedData(), 100.0, 50.0);
+		myClearButton = GUIFactory.buildButton(ResourceManager.getString("clear_towers"), e -> myTowerView.clearData(), 150.0, 50.0);
+		myRemoveButton = GUIFactory.buildButton(ResourceManager.getString("remove_selected"), e -> myTowerView.removeSelectedData(), 150.0, 50.0);
+		myEditButton = GUIFactory.buildButton(ResourceManager.getString("edit_selected"), e -> editSelectedData(), 150.0, 50.0);
 		myVBox.getChildren().addAll(myClearButton, myEditButton, myRemoveButton);
 		myVBox.setAlignment(Pos.CENTER);
 		myVBox.setSpacing(10);
 		myVBox.setPadding(new Insets(10));
 		
-		myViewPane = GUIFactory.buildTitledPane("Tower Controls", myVBox);
+		myViewPane = GUIFactory.buildTitledPane(ResourceManager.getString("tower_controls"), myVBox);
 	}
 	
 	private void editSelectedData() {
 		setChanged();
+		if (myTowerView.getSelectedData() == null) return;
 		notifyObservers(myTowerView.getSelectedData());
 	}
 	
