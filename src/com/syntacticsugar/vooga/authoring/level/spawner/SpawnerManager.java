@@ -87,7 +87,7 @@ public class SpawnerManager implements ITabbedManager<ObjectData> {
 	public Node getViewNode() {
 		return GUIFactory.buildTitledPane("Spawner Display", myTabPane);
 	}
-	
+
 	public void setCurrentWaveSpawnRate(int rate) {
 		mySpawnerViewMap.get(myTabPane.getSelectionModel().getSelectedItem()).setSpawnRate(rate);
 	}
@@ -121,6 +121,26 @@ public class SpawnerManager implements ITabbedManager<ObjectData> {
 		for (int i = 0; i < myTabPane.getTabs().size(); i++) {
 			Tab t = myTabPane.getTabs().get(i);
 			t.setText(String.format("%s %s", "Wave", i + 1));
+		}
+	}
+
+	public void addSpawnerData(SpawnerData spawns) {
+		for (WaveData w : spawns.getWaves()) {
+			SpawnerView newSpawnerView = new SpawnerView(myMapManager);
+			for (ObjectData d : w.getObjs()) {
+				newSpawnerView.addData(d);
+			}
+
+			Tab newWaveTab = new Tab();
+			newWaveTab.setContent(newSpawnerView.getView());
+			newWaveTab.setOnCloseRequest(e -> remove());
+			newWaveTab.setOnClosed(e -> updateWaveNumbers());
+			SpawnerPair spawnerWaveAndRatePair = new SpawnerPair(w.getSpawnRate(), newSpawnerView);
+			mySpawnerViewMap.put(newWaveTab, spawnerWaveAndRatePair);
+
+			myTabPane.getTabs().add(newWaveTab);
+			myTabPane.getSelectionModel().select(newWaveTab);
+			updateWaveNumbers();
 		}
 	}
 

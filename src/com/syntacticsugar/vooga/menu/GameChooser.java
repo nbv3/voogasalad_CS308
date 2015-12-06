@@ -16,7 +16,6 @@ import com.syntacticsugar.vooga.gameplayer.attribute.movement.ConstantMovementAt
 import com.syntacticsugar.vooga.gameplayer.attribute.movement.Direction;
 import com.syntacticsugar.vooga.gameplayer.attribute.movement.MovementControlAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.weapons.BombAttribute;
-import com.syntacticsugar.vooga.gameplayer.attribute.weapons.StunWeaponAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.weapons.TowerBasicWeaponAttribute;
 import com.syntacticsugar.vooga.gameplayer.event.ICollisionEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.HealthChangeEvent;
@@ -48,7 +47,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -139,13 +137,11 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 		XMLHandler<GameData> xml = new XMLHandler<>();
 		Collection<String> names = new ArrayList<String>();
 		for (int i = 0; i < files.length; i++) {
-//			File f = files[i];
-//			GameData data = xml.read(f);
-//			String gamename = data.getName();
-//			names.add(gamename);
-//			System.out.println(stringToGameData);
-//			stringToGameData.put(gamename, data);
-			names.add("TEST");
+			File f = files[i];
+			GameData data = xml.read(f);
+			String gamename = data.getName();
+			names.add(gamename);
+			stringToGameData.put(gamename, data);
 		}
 
 		return names;

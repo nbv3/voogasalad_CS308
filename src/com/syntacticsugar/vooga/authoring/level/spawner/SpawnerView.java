@@ -1,11 +1,8 @@
 package com.syntacticsugar.vooga.authoring.level.spawner;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Queue;
@@ -19,12 +16,8 @@ import com.syntacticsugar.vooga.authoring.level.map.MapView;
 import com.syntacticsugar.vooga.authoring.library.IRefresher;
 import com.syntacticsugar.vooga.authoring.objectediting.IVisualElement;
 import com.syntacticsugar.vooga.authoring.tooltips.ObjectTooltip;
-import com.syntacticsugar.vooga.gameplayer.attribute.HealthAttribute;
-import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
-import com.syntacticsugar.vooga.gameplayer.event.ICollisionEvent;
-import com.syntacticsugar.vooga.gameplayer.event.implementations.HealthChangeEvent;
-import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
+
 import javafx.animation.Animation;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -53,29 +46,10 @@ public class SpawnerView implements IDataSelector<ObjectData>, IVisualElement, I
 
 		// test code
 		// TODO: REMOVE
-		testCreatedObjectDataList();
 
 	}
 
-	// test code
-	private void testCreatedObjectDataList() {
-		for (int i = 1; i < 3; i++) {
-			ObjectData objToAdd = new ObjectData();
-			objToAdd.setImagePath(String.format("enemy_monster_%d.png", i));
-			objToAdd.setType(GameObjectType.ENEMY);
-			List<IAttribute> attributeList = new ArrayList<IAttribute>();
-			attributeList.add(new HealthAttribute());
-			objToAdd.setAttributes(attributeList);
-			Map<GameObjectType, Collection<ICollisionEvent>> eventMap = new HashMap<GameObjectType, Collection<ICollisionEvent>>();
-			List<ICollisionEvent> eventList = new ArrayList<ICollisionEvent>();
-			ICollisionEvent eventToAdd = new HealthChangeEvent(i * 10.0);
-			eventList.add(eventToAdd);
-			eventMap.put(GameObjectType.ENEMY, eventList);
-			objToAdd.setCollisionMap(eventMap);
-			addData(objToAdd);
-		}
-	}
-	// end test
+
 
 	// called when drag-drop happens
 	@Override

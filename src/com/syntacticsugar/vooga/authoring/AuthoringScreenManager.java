@@ -141,12 +141,17 @@ public class AuthoringScreenManager implements Observer, IVoogaApp {
 		MenuItem loadData = new MenuItem();
 		loadData.setText("Load ObjectData");
 		loadData.setOnAction(e -> loadData());
+		
+		MenuItem loadGame = new MenuItem();
+		loadGame.setText("Load Game");
+		loadGame.setOnAction(e->loadData());
 
 		MenuItem saveGame = new MenuItem();
 		saveGame.setText("Save Game");
 		saveGame.setOnAction(e -> saveGame());
+		
 
-		file.getItems().addAll(newLevel, loadMap, saveMap, loadData, saveGame);
+		file.getItems().addAll(newLevel, loadMap, saveMap, loadData, loadGame,saveGame);
 
 		menuBar.getMenus().addAll(file);
 		myWindow.setTop(menuBar);
@@ -168,20 +173,15 @@ public class AuthoringScreenManager implements Observer, IVoogaApp {
 		XMLHandler<GameData> xml = new XMLHandler<>();
 		xml.write(game, f);
 
-		// File f = new File
-		// SimpleFileChooser.saveGameSimple(game, f);
 	}
 
 	private void loadData() {
-		/* GameData gm = SimpleFileChooser.loadGame(myStage); */
-		// TODO loadData();
-		/*
-		 * FileChooserUtil.loadFile("Open Resource File", new ExtensionFilter(
-		 * "XML Files", "*.xml"), new File(ResourceManager.getString("data")),
-		 * selectedFile -> { myObjectEditor.setUpdateButtonVisibility(false);
-		 * XMLHandler<ObjectData> xml = new XMLHandler<>(); ObjectData toload =
-		 * xml.read(selectedFile); myObjectEditor.displayData(toload); });
-		 */
+		GameData map = SimpleFileChooser.loadGame(myStage);
+		
+		myObjectLibraryManager.loadLibraries();
+		myLevelEditor.addNewLevelsFromData(map.getUniverses());
+
+
 	}
 
 	private void saveMap() {
