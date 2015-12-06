@@ -27,11 +27,14 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 public class ParameterInputFactory {
-	
+
 	private static Map<Node, Boolean> isSet;
-	
-	public static Node createInputFields(Object toEdit) {
+
+	public static void createInputFields(Object toEdit) {
 		isSet = new HashMap<>();
+		EditableClass a = toEdit.getClass().getDeclaredAnnotation(EditableClass.class);
+		if (a == null)
+			return;
 		Collection<Node> inputFields = inspectEditableFields(toEdit);
 		VBox container = new VBox();
 		container.getChildren().addAll(inputFields);
@@ -41,11 +44,12 @@ public class ParameterInputFactory {
 		Scene scene = new Scene(container);
 		Stage stage = new Stage();
 		stage.setScene(scene);
+		stage.setTitle(a.className());
 		stage.setOnCloseRequest(e -> checkValidity(e));
 		stage.showAndWait();
-		return container;
+
 	}
-	
+
 	private static void checkValidity(WindowEvent e) {
 		for (Boolean b : isSet.values())
 			if (!b) {
@@ -55,7 +59,7 @@ public class ParameterInputFactory {
 				break;
 			}
 	}
-	
+
 	private static Collection<Node> inspectEditableFields(Object toEdit) {
 		Collection<Node> inputNodes = new ArrayList<>();
 		Class<?> c = toEdit.getClass();
@@ -80,7 +84,7 @@ public class ParameterInputFactory {
 		}
 		return inputNodes;
 	}
-	
+
 	private static Node createTextField(Object toEdit, String inputLabel, String defaultVal, Method toCall) {
 		TextField t = new TextField();
 		t.setText(defaultVal);
@@ -89,19 +93,19 @@ public class ParameterInputFactory {
 		Button b = new Button("OK");
 		Label label = new Label(inputLabel);
 		anchor.getChildren().addAll(label, t, b);
-		GridPane.setConstraints(label, 0, 0, 1, 1, HPos.LEFT, VPos.CENTER, Priority.ALWAYS, Priority.NEVER, new Insets(10));
-		GridPane.setConstraints(t, 1, 0, 1, 1, HPos.CENTER, VPos.CENTER, Priority.NEVER, Priority.NEVER, new Insets(10));
-		GridPane.setConstraints(b, 2, 0, 1, 1, HPos.CENTER, VPos.CENTER, Priority.NEVER, Priority.NEVER, new Insets(10));
+		GridPane.setConstraints(label, 0, 0, 1, 1, HPos.LEFT, VPos.CENTER, Priority.ALWAYS, Priority.NEVER, new Insets(5));
+		GridPane.setConstraints(t, 1, 0, 1, 1, HPos.CENTER, VPos.CENTER, Priority.NEVER, Priority.NEVER, new Insets(5));
+		GridPane.setConstraints(b, 2, 0, 1, 1, HPos.CENTER, VPos.CENTER, Priority.NEVER, Priority.NEVER, new Insets(5));
 		anchor.setAlignment(Pos.CENTER);
-		
+
 		isSet.put(anchor, false);
-		
+
 		t.setOnAction(e -> processInput(anchor, toEdit, t.getText(), toCall));
 		b.setOnAction(e -> processInput(anchor, toEdit, t.getText(), toCall));
-		
+
 		return anchor;
 	}
-	
+
 	private static void processInput(Node key, Object toEdit, String input, Method toCall) {
 		try {
 			toCall.invoke(toEdit, input);
@@ -110,18 +114,18 @@ public class ParameterInputFactory {
 			AlertBoxFactory.createObject("Assignment unsuccessful - Java Reflection error");
 		}
 	}
-	
+
 	private static void addConstraints(GridPane grid) {
 		grid.getColumnConstraints().addAll(
 				colWithWidth(25), 
 				colWithWidth(50),
 				colWithWidth(25));
 	}
-	
+
 	private static ColumnConstraints colWithWidth(double percentWidth) {
 		ColumnConstraints c = new ColumnConstraints();
 		c.setPercentWidth(percentWidth);
 		return c;
 	}
-	
+
 }
