@@ -6,6 +6,7 @@ public class GameData {
 	private Collection<UniverseData> universes;
 	private GlobalSettings settings;
 	private String name;
+	private String backgroundImage;
 	
 	public GameData(Collection<UniverseData> data, GlobalSettings s) {
 		universes = data;
@@ -26,5 +27,13 @@ public class GameData {
 	
 	public void setName(String newName){
 		name = newName;
+	}
+	
+	public void setBackgroundImage(String path){
+		backgroundImage = path;
+	}
+	
+	public String getBackgroundImage(){
+		return backgroundImage;
 	}
 }
