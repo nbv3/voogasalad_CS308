@@ -6,8 +6,15 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
 import com.syntacticsugar.vooga.util.webconnect.JSONHelper;
+import com.syntacticsugar.vooga.util.webconnect.WebConnector;
+
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -20,8 +27,7 @@ public class CommentViewer {
 
 	private VBox myView;
 	private ListView<Node> myListView;
-	private List<Pair<String, String>> myCommentList;
-	private int mySelectedItemID = Integer.MIN_VALUE;
+	private List<JSONObject> myCommentList;
 	private String myGameName;
 	private IComments myCommentInterface;
 	private Stage myStage;
@@ -32,72 +38,42 @@ public class CommentViewer {
 		myView.getChildren().add(myListView);
 		
 		myCommentInterface = commentInterface;
-		myGameName = commentInterface.getGameName();	
-		mySelectedItemID = commentInterface.getGameID();
+		myCommentList = new ArrayList<JSONObject>();
+		//myGameName = commentInterface.getGameName();	
 		
-		myCommentList = new ArrayList<Pair<String, String>>();
-		
-		if (mySelectedItemID != Integer.MIN_VALUE) getCurrentGameComments();
-		myCommentList = new ArrayList<Pair<String, String>>();
-		Pair<String, String> pair = new Pair<String, String>("michael", "hello");
-		myCommentList.add(pair);
-	
 		myStage = new Stage();
-		Scene scene = new Scene((Parent) myView,500,500); 
+		Scene scene = new Scene(myView,500,500); 
 		myStage.setScene(scene);
 		myStage.show();
 	}
 
-	private String getCurrentGameComments() {
-		String serializedComments = myCommentInterface.getSerializedComments(myGameName);
-		try {
-			myCommentList = deserializeString(serializedComments);
-			populateList();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return serializedComments;
+	private void pullCurrentGameComments() throws JSONException {
+		JSONArray commentArray = WebConnector.getComments(myCommentInterface.getGameID());
+		myCommentList = convertJSONToList(commentArray);
 	}
 
-	public static String serializeList(List<Pair<String, String>> commentList) throws Exception {
-		String serialized;
-		ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
-		ObjectOutputStream outputStream = new ObjectOutputStream(byteStream);
-		outputStream.writeObject(commentList);
-		outputStream.flush();
-		serialized = byteStream.toString("ISO-8859-1");
-
-		return serialized;
-	}
-
-	private List<Pair<String, String>> deserializeString(String serialized) throws Exception {
-		byte bytes[] = serialized.getBytes("ISO-8859-1");
-		ByteArrayInputStream byteStream = new ByteArrayInputStream(bytes);
-		ObjectInputStream inputStream = new ObjectInputStream(byteStream);
-		List<Pair<String, String>> deserialized = (List<Pair<String, String>>) inputStream.readObject();
-		return deserialized;
-
+	private List<JSONObject> convertJSONToList(JSONArray commentArray) throws JSONException {
+		List<JSONObject> list = new ArrayList<JSONObject>();
+		for (int i = 0; i<commentArray.length(); i++){
+			list.add(commentArray.getJSONObject(i));
+		}		
+		return list;
 	}
 	
 	private void postComment(String author, String content) throws Exception{
-		String oldComments = getCurrentGameComments();
-		List<Pair<String, String>> commentList = deserializeString(oldComments);
-		commentList.add(new Pair<String,String>(author, content));
-		String serialized = serializeList(commentList);
-		//myCommentInterface.postComment(author, serialized);
-		//JSONHelper.modifyJSON(mySelectedItemID, "comment", serialized);
-		
+		JSONHelper.createCommentJSON(myCommentInterface.getGameID(), author, content);
+		update();
+		populateList();
 	}
 	
-	private void populateList() {
-		clearList();
-		for (Pair<String, String> comment: myCommentList){
-			addElementToList(makeListElement(comment.getKey(),comment.getValue()));
-			System.out.println(comment.getKey() + comment.getValue());
+	private void populateList() throws JSONException {
+		clearListview();
+		for (JSONObject obj: myCommentList){
+			addElementToList(makeListElement(obj.getString("author"), obj.getString("comment")));
 		}
 	}
 	
-	private void clearList(){
+	private void clearListview(){
 		myListView.getItems().clear();
 	}
 	
@@ -113,9 +89,10 @@ public class CommentViewer {
 		return comment;
 	}
 	
-	public void update() {
+	public void update() throws JSONException {
 		myCommentInterface.updateData();
-		getCurrentGameComments();
+		pullCurrentGameComments();
+		System.out.println("Here!");
 	}
 
 /*	public static void main(String[] args) throws Exception {
