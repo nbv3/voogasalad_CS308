@@ -135,7 +135,7 @@ public class LevelEditor implements IAddToSpawner {
 
 	public void addToSpawner(ObjectData data) {
 		ObjectData copyData = new ObjectData(data);
-		if (copyData.getType().equals(GameObjectType.ENEMY))
+		if (copyData.getType().equals(GameObjectType.ENEMY) || copyData.getType().equals(GameObjectType.PLAYER))
 			mySpawnerManager.getCurrentView().addData(copyData);
 		else
 			AlertBoxFactory.createObject(ResourceManager.getString("select_enemy"));
