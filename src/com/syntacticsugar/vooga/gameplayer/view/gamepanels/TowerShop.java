@@ -1,4 +1,4 @@
-package com.syntacticsugar.vooga.gameplayer.view;
+package com.syntacticsugar.vooga.gameplayer.view.gamepanels;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -12,6 +12,9 @@ import com.syntacticsugar.vooga.gameplayer.objects.towers.Tower;
 import com.syntacticsugar.vooga.gameplayer.universe.IEventPoster;
 import com.syntacticsugar.vooga.gameplayer.universe.IUniverseView;
 import com.syntacticsugar.vooga.gameplayer.universe.money.IMoney;
+import com.syntacticsugar.vooga.gameplayer.view.implementation.MoneyInfo;
+import com.syntacticsugar.vooga.gameplayer.view.implementation.TowerPlaceInfo;
+import com.syntacticsugar.vooga.util.properties.PropertiesManager;
 import com.syntacticsugar.vooga.xml.data.TowerData;
 
 import javafx.geometry.Point2D;
@@ -26,22 +29,23 @@ public class TowerShop extends Observable implements Observer {
 	private VBox myContent;
 	private ScrollPane towerList;
 	private TowerData currentSelection;
-	//private IUniverseView myUniverse;
 	private Collection<Icon> myTowerIcons;
-	private final String moneyText = "Money: ";
-	private Label moneyLabel;
+	private MoneyInfo myMoneyInfo;
 	private int availableCash;
 	private IEventPoster myPoster;
+	private PropertiesManager myPropertiesManager;
 
 	public TowerShop() {
-		myContent = new VBox();
-		Label title = new Label("Tower Controls");
-		title.getStyleClass().add("label");
+		myPropertiesManager = new PropertiesManager("com/syntacticsugar/vooga/resources/View");
+		myContent = new VBox(20);
+		myContent.setAlignment(Pos.TOP_CENTER);
+		
+		Label title = new Label("Tower Shop");
+		title.setId("tower-shop");
 		title.setAlignment(Pos.CENTER);
-
-		moneyLabel = new Label(moneyText);
-		moneyLabel.getStyleClass().add("label2");
-		myContent.getChildren().addAll(title, moneyLabel);
+		
+		myMoneyInfo = new MoneyInfo(0, "game-data");
+		myContent.getChildren().addAll(title, myMoneyInfo);
 		towerList = new ScrollPane(myContent);
 	}
 
@@ -50,15 +54,15 @@ public class TowerShop extends Observable implements Observer {
 		//myUniverse = universe;
 		myPoster = poster;
 		availableCash = universe.getMoney().getMoney();
-		moneyLabel.setText(moneyText + " " + availableCash);
+		myMoneyInfo.changeMoney(availableCash);
 	}
 
 	private void testDragAndDrop(Collection<TowerData> availableTowers) {
 		myTowerIcons = new ArrayList<>();
 		for (TowerData towerObject : availableTowers) {
 			Icon tower = new Icon(towerObject.getImagePath());
-			tower.setPrefHeight(100);
-			tower.setPrefWidth(100);
+			double towerSize = myPropertiesManager.getDoubleProperty("TowerSize");
+			tower.setPrefSize(towerSize, towerSize);
 			tower.setOnMouseClicked(event -> selectedTower(tower, towerObject));
 			tower.setOnMouseEntered(event -> checkIfCanBuy(tower, towerObject.getCost()));
 			tower.setOnMouseExited(event -> deselect(tower));
@@ -118,7 +122,7 @@ public class TowerShop extends Observable implements Observer {
 		if(arg0 instanceof IMoney){
 			int money = ((IMoney) arg1).getMoney();
 			availableCash = money;
-			moneyLabel.setText(moneyText + " " + money);
+			myMoneyInfo.changeMoney(availableCash);
 		} else {
 			TowerPlaceInfo data = (TowerPlaceInfo) arg1;
 			Point2D coordinates = data.getCoordinates();
