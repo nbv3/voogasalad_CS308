@@ -169,22 +169,24 @@ public class AuthoringScreenManager implements Observer, IVoogaApp {
 	}
 
 	private void loadData() {
-		FileChooserUtil.loadFile("Open Resource File", new ExtensionFilter("XML Files", "*.xml"),
+		GameData gm = SimpleFileChooser.loadGame(myStage);
+		// TODO loadData();
+		/*FileChooserUtil.loadFile("Open Resource File", new ExtensionFilter("XML Files", "*.xml"),
 				new File(ResourceManager.getString("data")), selectedFile -> {
 					myObjectEditor.setUpdateButtonVisibility(false);
 					XMLHandler<ObjectData> xml = new XMLHandler<>();
 					ObjectData toload = xml.read(selectedFile);
 					myObjectEditor.displayData(toload);
-				});
+				});*/
 	}
 
 	private void loadMap() {
-		FileChooserUtil.loadFile("Open Resource File", new ExtensionFilter("XML Files", "*.xml"), null,
+		/*FileChooserUtil.loadFile("Open Resource File", new ExtensionFilter("XML Files", "*.xml"), null,
 				selectedFile -> {
 					XMLHandler<MapData> xml = new XMLHandler<>();
 					MapData toLoad = xml.read(selectedFile);
 					myLevelEditor.loadMap(toLoad);
-				});
+				});*/
 	}
 
 	private void saveMap() {
