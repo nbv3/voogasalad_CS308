@@ -7,53 +7,45 @@ import com.syntacticsugar.vooga.authoring.parameters.InputTypeException;
 import com.syntacticsugar.vooga.gameplayer.conditions.AbstractCondition;
 import com.syntacticsugar.vooga.gameplayer.conditions.ConditionType;
 import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
+import com.syntacticsugar.vooga.gameplayer.event.implementations.DestinationReachedEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.LevelChangeEvent;
-import com.syntacticsugar.vooga.gameplayer.event.implementations.ObjectDespawnEvent;
-import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
-import com.syntacticsugar.vooga.gameplayer.universe.IEventPoster;
+import com.syntacticsugar.vooga.gameplayer.event.implementations.ScoreUpdateEvent;
 
 @EditableClass (
-		className = "Enemies Dead Necessary"
+		className = "Score Threshold Needed"
 		)
-public class EnemyDeathCondition extends AbstractCondition {
-
-	private int enemiesDead;
-	private int enemiesToDie;
-
-	public EnemyDeathCondition(int numbertodie) {
+public class ScoreCondition extends AbstractCondition {
+	
+	private int myScoreThreshold;
+	
+	public ScoreCondition(int threshold) {
 		super(ConditionType.WINNING);
-		enemiesToDie = numbertodie;
-		enemiesDead = 0;
+		myScoreThreshold = threshold;
 	}
 
 	@Override
 	public void onEvent(IGameEvent e) {
 		try {
-			ObjectDespawnEvent event = (ObjectDespawnEvent) e;
-			if (event.getObj().getType().equals(GameObjectType.ENEMY)) {
-				enemiesDead++;
-				if (enemiesDead >= enemiesToDie) {
-					postEvent(new LevelChangeEvent(this.returnType()));
-				}
+			ScoreUpdateEvent event = (ScoreUpdateEvent) e;
+			if (event.getScore() >= myScoreThreshold) {
+				postEvent(new LevelChangeEvent(this.returnType()));
 			}
-			
 
 		} catch (ClassCastException ce) {
 
 		}
-
 	}
 	
 	/**		  	      EDIT TAGS	     		    **/
 	/** *************************************** **/
 	
 	@EditableField (	
-		inputLabel = "Enemy Threshold",
-		defaultVal = "10"
+		inputLabel = "Score Threshold",
+		defaultVal = "100"
 		)
-	private void editEnemiesThresh(String arg) {
+	private void setScoreThreshold(String arg) {
 		try {
-			this.enemiesToDie = InputParser.parseAsInt(arg);
+			this.myScoreThreshold = InputParser.parseAsInt(arg);
 		} catch (InputTypeException e) { 	}
 	}
 

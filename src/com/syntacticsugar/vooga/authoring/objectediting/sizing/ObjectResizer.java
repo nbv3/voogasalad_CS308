@@ -23,17 +23,16 @@ public class ObjectResizer {
 	private GridPane myZoomedTileView;
 	private ObjectData myObjectData;
 	
-	
-	
-	
 	public ObjectResizer(ObjectData data, String[][] imagePaths) {
 		myStage = new Stage();
 		setMyObjectData(data);
 		myImageView = buildResizableImageView(data.getImagePath());
 		System.out.println(data.getImagePath());
 		myZoomedTileView = buildTileView(imagePaths);
+		myZoomedTileView.add(myImageView, 1, 1);
 		StackPane root = new StackPane();
-		root.getChildren().addAll(myZoomedTileView, myImageView);
+		root.getChildren().add(myZoomedTileView);
+		//root.getChildren().addAll(myZoomedTileView, myImageView);
 		myScene = new Scene(root, 400, 400);
 		myStage.setScene(myScene);
 		myStage.show();
@@ -112,5 +111,4 @@ public class ObjectResizer {
 	public void setMyObjectData(ObjectData myObjectData) {
 		this.myObjectData = myObjectData;
 	}
-	
 }

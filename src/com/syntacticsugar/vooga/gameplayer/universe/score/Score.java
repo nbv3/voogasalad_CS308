@@ -6,6 +6,7 @@ import com.syntacticsugar.vooga.gameplayer.conditions.ConditionType;
 import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.LevelChangeEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.ScoreChangeEvent;
+import com.syntacticsugar.vooga.gameplayer.event.implementations.ScoreUpdateEvent;
 import com.syntacticsugar.vooga.gameplayer.manager.IEventManager;
 import com.syntacticsugar.vooga.gameplayer.universe.IEventPoster;
 import com.syntacticsugar.vooga.xml.data.LevelSettings;
@@ -13,10 +14,15 @@ import com.syntacticsugar.vooga.xml.data.LevelSettings;
 public class Score extends Observable implements IScore {
 
 	int myScore;
+	
+	IEventPoster myPoster;
 
 	public Score(LevelSettings settings) {
 		myScore = 0;
-
+	}
+	
+	public void registerEventManager(IEventPoster poster) {
+		myPoster = poster;
 	}
 
 	@Override
@@ -24,6 +30,8 @@ public class Score extends Observable implements IScore {
 		try {
 			ScoreChangeEvent event = (ScoreChangeEvent) e;
 			changeScore(event);
+			ScoreUpdateEvent ev2 = new ScoreUpdateEvent(myScore);
+			myPoster.postEvent(ev2);
 		} catch (ClassCastException ex) {
 
 		}
