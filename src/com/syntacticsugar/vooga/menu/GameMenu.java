@@ -43,6 +43,6 @@ public class GameMenu extends AbstractMenu{
 		hideStage();
 		launchGame(new GameManager(null, GAME_SIZE, myGame, FRAME_LENGTH));
 	}
-	
+
 }
 
