@@ -27,9 +27,9 @@ public class TowerControls extends Observable implements IVisualElement {
 	public TowerControls(IDataSelector<TowerData> towers) {
 		myVBox = new VBox();
 		myTowerView = towers;
-		myClearButton = GUIFactory.buildButton(ResourceManager.getString("clear_towers"), e -> myTowerView.clearData(), 100.0, 50.0);
+		myClearButton = GUIFactory.buildButton(ResourceManager.getString("clear_towers"), e -> myTowerView.clearData(), 150.0, 50.0);
 		myRemoveButton = GUIFactory.buildButton(ResourceManager.getString("remove_selected"), e -> myTowerView.removeSelectedData(), 150.0, 50.0);
-		myEditButton = GUIFactory.buildButton(ResourceManager.getString("edit_selected"), e -> editSelectedData(), 100.0, 50.0);
+		myEditButton = GUIFactory.buildButton(ResourceManager.getString("edit_selected"), e -> editSelectedData(), 150.0, 50.0);
 		myVBox.getChildren().addAll(myClearButton, myEditButton, myRemoveButton);
 		myVBox.setAlignment(Pos.CENTER);
 		myVBox.setSpacing(10);
@@ -40,6 +40,7 @@ public class TowerControls extends Observable implements IVisualElement {
 	
 	private void editSelectedData() {
 		setChanged();
+		if (myTowerView.getSelectedData() == null) return;
 		notifyObservers(myTowerView.getSelectedData());
 	}
 	

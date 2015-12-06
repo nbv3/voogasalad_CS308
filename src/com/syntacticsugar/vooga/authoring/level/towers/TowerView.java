@@ -73,7 +73,6 @@ public class TowerView implements IVisualElement, IDataSelector<TowerData>, IRef
 
 	@Override
 	public TowerData getSelectedData() {
-		System.out.println(myMap.get(myTowerView.getSelectionModel().getSelectedItem()));
 		return myMap.get(myTowerView.getSelectionModel().getSelectedItem());
 	}
 
