@@ -27,7 +27,6 @@ import javafx.scene.layout.VBox;
 public class LevelEditor implements IAddToSpawner {
 
 	private GridPane myContentGrid;
-
 	private MapManager myMapManager;
 	private SpawnerManager mySpawnerManager;
 	private TowerManager myTowerManager;
