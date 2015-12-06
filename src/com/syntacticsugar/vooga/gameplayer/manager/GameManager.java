@@ -6,6 +6,7 @@ import com.syntacticsugar.vooga.gameplayer.engine.GameEngine;
 import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.LevelChangeEvent;
 import com.syntacticsugar.vooga.gameplayer.game.Game;
+import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.gameplayer.view.GameViewController;
 import com.syntacticsugar.vooga.menu.IVoogaApp;
@@ -74,18 +75,25 @@ public class GameManager implements IGameManager,IVoogaApp {
 	
 
 	private void nextLevel() {
+		IGameObject player = currentLevel.getPlayer();
+		
 		try{
 		currentLevel = myGame.nextLevel();
 		}
 		catch(IndexOutOfBoundsException e){
 			myStage.close();
 		}
+		player.setPoint(currentLevel.getPlayerSpawn());
+		
 		myViewController.displayLevel(currentLevel, myEventManager);
 		myEventManager = new EventManager();
 		myEventManager.registerListener(this);
 		currentLevel.registerListeners(myEventManager);
 		myGameEngine.registerViewAdder(myViewController);
 		myGameEngine.registerViewRemover(myViewController);
+		
+		myViewController.addViewObject(player);
+		
 		initializeAnimation(frameLength);
 	}
 
