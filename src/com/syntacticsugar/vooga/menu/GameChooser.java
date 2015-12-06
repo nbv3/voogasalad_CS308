@@ -21,7 +21,6 @@ import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.dirview.IConverter;
 import com.syntacticsugar.vooga.util.dirview.IDirectoryViewer;
-import com.syntacticsugar.vooga.util.properties.PropertiesManager;
 import com.syntacticsugar.vooga.xml.XMLFileFilter;
 import com.syntacticsugar.vooga.xml.XMLHandler;
 import com.syntacticsugar.vooga.xml.data.GameData;
@@ -43,6 +42,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -60,8 +60,8 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 	private Button startButton;
 
 	public GameChooser() {
-		stringToGameData = new HashMap<String, GameData>();
 		myStage = new Stage();
+		stringToGameData = new HashMap<String, GameData>();
 		myGameNames = FXCollections.observableArrayList();
 		showDirectoryContents(myDirectory, e -> getGameDescriptions(myDirectory));
 		myView = new ListView<String>(myGameNames);
@@ -69,6 +69,7 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 			if (myView.getSelectionModel().getSelectedItem() != null) {
 				startButton.setDisable(false);
 			}
+			selectedGameData = stringToGameData.get(myView.getSelectionModel().getSelectedItem());
 		});
 
 		myView.getItems().add("HEY");
@@ -89,14 +90,10 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 	}
 
 	private void startGame() {
-		// selectedGameData =
-		// stringToGameData.get(myView.getSelectionModel().getSelectedItem());
-		// System.out.println(myView.getSelectionModel().getSelectedItem());
-		// System.out.print(selectedGameData);
-		// launchNewEngine();
 		myStage.hide();
-		GameData data = makeEmptyData();
-		data.setName("Go Bolts");
+		GameData data = selectedGameData;
+		System.out.println(data);
+		System.out.println(data.getName());
 		launchGame(new GameMenu(data));
 	}
 
@@ -105,7 +102,7 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 		myStage.hide();
 	}
 
-	private void animatedShowStage() {
+	protected void animatedShowStage() {
 		DirectionalFadeWizard.applyEffect(myStage.getScene().getRoot()).play();
 		myStage.show();
 	}
@@ -140,7 +137,7 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 
 	}
 
-	private Button createButton(String name, EventHandler<ActionEvent> onAction) {
+	protected Button createButton(String name, EventHandler<ActionEvent> onAction) {
 		Button button = new Button(name);
 		button.setFont(new Font(30));
 		button.setMaxWidth(Double.MAX_VALUE);
@@ -156,6 +153,7 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 		uni.add(generateTestUni());
 		GlobalSettings settings = new GlobalSettings();
 		GameData data = new GameData(uni, settings);
+		data.setName("Go Bolts");
 
 		return data;
 	}
@@ -316,7 +314,7 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 
 		LevelSettings lSetting = new LevelSettings(1000, 60);
 
-		return new UniverseData(spawn, td, map, lSetting);
+		return new UniverseData(spawn, td, map, lSetting,new ArrayList<>());
 	}
 
 }

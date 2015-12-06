@@ -89,7 +89,8 @@ public class LevelTabManager {
 			MapData map = myLevelMap.get(t).getMapData();
 			TowerListData tower = myLevelMap.get(t).getTowerList();
 			LevelSettings conditions = myLevelMap.get(t).getConditions();
-			UniverseData universe = new UniverseData(spawner, tower, map, conditions);
+			List<ObjectData> onScreen = new ArrayList<>();
+			UniverseData universe = new UniverseData(spawner, tower, map, conditions, onScreen);
 
 			game.add(universe);
 		}
@@ -101,7 +102,7 @@ public class LevelTabManager {
 
 		return myLevelMap.get(myTabPane.getSelectionModel().getSelectedItem()).getMapData();
 	}
-	
+
 	public Map<Tab, LevelEditor> getCurrentLevelEditor() {
 		return myLevelMap;
 	}

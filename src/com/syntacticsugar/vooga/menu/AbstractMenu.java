@@ -55,6 +55,10 @@ public abstract class AbstractMenu implements IVoogaApp{
 		
 	}
 	
+	public Stage getStage() {
+		return myStage;
+	}
+	
 	protected abstract void initializeOptions(BorderPane pane);
 	
 	private Pane initializePane(String gameName) {
