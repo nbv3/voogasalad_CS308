@@ -37,6 +37,7 @@ public class TowerShop extends Observable implements Observer {
 		Label title = new Label("Tower Controls");
 		title.getStyleClass().add("title");
 		moneyLabel = new Label(moneyText);
+		moneyLabel.getStyleClass().add("score");
 		myContent.getChildren().addAll(title, moneyLabel);
 		towerList = new ScrollPane(myContent);
 	}
@@ -74,7 +75,6 @@ public class TowerShop extends Observable implements Observer {
 	}
 
 	private void addTowerInfo(Icon towerIcon, TowerData towerData) {
-		System.out.println(towerData.getName());
 		HBox towerInfo = new HBox(10);
 		VBox towerValues = new VBox(5);
 		towerValues.getChildren().addAll(new Label(towerData.getName()), 
@@ -124,8 +124,7 @@ public class TowerShop extends Observable implements Observer {
 			
 			ObjectSpawnEvent event = new ObjectSpawnEvent(new Tower(currentSelection));
 			myPoster.postEvent(event);
-			
-			System.out.println(currentSelection.getCost());
+
 			MoneyChangeEvent ev2 = new MoneyChangeEvent(currentSelection.getCost());
 			myPoster.postEvent(ev2);
 		}
