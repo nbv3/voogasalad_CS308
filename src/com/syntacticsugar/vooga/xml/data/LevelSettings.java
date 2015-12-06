@@ -17,10 +17,6 @@ public class LevelSettings {
 		setScoreThreshold(score);
 	}
 
-	public LevelSettings(int score, int spawnrate) {
-		setScoreThreshold(score);
-	}
-
 	public LevelSettings(String winClass, List<Double> winParam, String loseClass, List<Double> loseParam, int spawn,
 			int money) {
 		startingMoney = money;

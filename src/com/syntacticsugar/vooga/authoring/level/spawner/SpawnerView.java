@@ -23,7 +23,6 @@ import com.syntacticsugar.vooga.gameplayer.event.ICollisionEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.HealthChangeEvent;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
-import com.syntacticsugar.vooga.xml.data.WaveData;
 
 import javafx.animation.Animation;
 import javafx.collections.FXCollections;
@@ -78,9 +77,9 @@ public class SpawnerView implements IDataSelector<ObjectData>, IVisualElement, I
 	// called when drag-drop happens
 	@Override
 	public void addData(ObjectData obj) {
-//		obj.getImagePathProperty().addListener((e, ov, nv) -> {
-//			refresh();
-//		});
+		// obj.getImagePathProperty().addListener((e, ov, nv) -> {
+		// refresh();
+		// });
 		myQueue.add(obj);
 		Node temp = createQueueBoxFromObjData(obj);
 		temp.setOnMouseClicked(e -> selectedItem = temp);
@@ -135,8 +134,8 @@ public class SpawnerView implements IDataSelector<ObjectData>, IVisualElement, I
 		return myObjects.values();
 	}
 
-	public WaveData getWaveData() {
-		return new WaveData(myQueue);
+	public Collection<ObjectData> getObjectQueue() {
+		return myQueue;
 	}
 
 	@Override
@@ -154,7 +153,7 @@ public class SpawnerView implements IDataSelector<ObjectData>, IVisualElement, I
 	@Override
 	public void update(Observable o, Object arg) {
 		refresh();
-		
+
 	}
 
 }
