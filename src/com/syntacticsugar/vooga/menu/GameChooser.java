@@ -60,6 +60,7 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 	private Button startButton;
 
 	public GameChooser() {
+		stringToGameData = new HashMap<String, GameData>();
 		myStage = new Stage();
 		myGameNames = FXCollections.observableArrayList();
 		showDirectoryContents(myDirectory, e -> getGameDescriptions(myDirectory));
@@ -131,6 +132,7 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 			GameData data = xml.read(f);
 			String gamename = data.getName();
 			names.add(gamename);
+			System.out.println(stringToGameData);
 			stringToGameData.put(gamename, data);
 		}
 
