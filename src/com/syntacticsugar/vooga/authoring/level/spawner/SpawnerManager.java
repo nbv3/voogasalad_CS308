@@ -11,6 +11,7 @@ import com.syntacticsugar.vooga.authoring.fluidmotion.FadeTransitionWizard;
 import com.syntacticsugar.vooga.authoring.fluidmotion.FluidGlassBall;
 import com.syntacticsugar.vooga.authoring.fluidmotion.ParallelTransitionWizard;
 import com.syntacticsugar.vooga.authoring.level.ITabbedManager;
+import com.syntacticsugar.vooga.authoring.level.map.MapManager;
 import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
 import com.syntacticsugar.vooga.xml.data.SpawnerData;
@@ -28,8 +29,10 @@ public class SpawnerManager implements ITabbedManager<ObjectData> {
 	private TabPane myTabPane;
 	private Map<Tab, SpawnerPair> mySpawnerViewMap;
 	private SpawnerControls mySpawnerController;
+	private MapManager myMapManager;
 
-	public SpawnerManager() {
+	public SpawnerManager(MapManager mapManager) {
+		myMapManager = mapManager;
 		myTabPane = new TabPane();
 		mySpawnerViewMap = new HashMap<>();
 		mySpawnerController = new SpawnerControls(this);
@@ -38,7 +41,7 @@ public class SpawnerManager implements ITabbedManager<ObjectData> {
 
 	@Override
 	public void append() {
-		SpawnerView newSpawnerView = new SpawnerView();
+		SpawnerView newSpawnerView = new SpawnerView(myMapManager);
 
 		Tab newWaveTab = new Tab();
 		newWaveTab.setContent(newSpawnerView.getView());

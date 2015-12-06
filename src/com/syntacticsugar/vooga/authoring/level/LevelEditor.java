@@ -38,7 +38,7 @@ public class LevelEditor implements IAddToSpawner {
 	public LevelEditor(IDataClipboard clip) throws Exception {
 		IAddToSpawner iSpawn = this;
 		myMapManager = new MapManager(clip, iSpawn);
-		mySpawnerManager = new SpawnerManager();
+		mySpawnerManager = new SpawnerManager(myMapManager);
 		myTowerManager = new TowerManager();
 		myConditions = new LevelConditionManager();
 
@@ -134,9 +134,8 @@ public class LevelEditor implements IAddToSpawner {
 	}
 
 	public void addToSpawner(ObjectData data) {
-		ObjectData copyData = new ObjectData(data);
-		if (copyData.getType().equals(GameObjectType.ENEMY) || copyData.getType().equals(GameObjectType.PLAYER))
-			mySpawnerManager.getCurrentView().addData(copyData);
+		if (data.getType().equals(GameObjectType.ENEMY) || data.getType().equals(GameObjectType.PLAYER))
+			mySpawnerManager.getCurrentView().addData(data);
 		else
 			AlertBoxFactory.createObject(ResourceManager.getString("select_enemy"));
 

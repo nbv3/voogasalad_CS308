@@ -26,7 +26,6 @@ public class DirectionArrows extends BorderPane {
 	}
 
 	private ImageView createArrowImage(TileView tile, ISimpleGameView myGameView, Direction direction, double mySize) {
-		System.out.println(Direction.LEFT.toString());
 		ImageView arrowImage = new ImageView(
 				new Image(getClass().getClassLoader().getResourceAsStream("arr" + direction.toString() + ".png")));
 		arrowImage.setOnMouseClicked(e -> tile.informTowerControl(direction, this, myGameView));

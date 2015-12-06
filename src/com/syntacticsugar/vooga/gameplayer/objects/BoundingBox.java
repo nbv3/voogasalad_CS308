@@ -56,6 +56,9 @@ public class BoundingBox extends Observable implements IBoundingBox {
 	@Override
 	public void setDirection(Direction dir) {
 		this.myDirection = dir;
+		if (dir == null) {
+			return;
+		}
 		switch (dir) {
 		case DOWN:
 			setRotate(90);

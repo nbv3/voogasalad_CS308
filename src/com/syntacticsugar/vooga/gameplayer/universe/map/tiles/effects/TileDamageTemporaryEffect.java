@@ -13,13 +13,16 @@ import com.syntacticsugar.vooga.gameplayer.universe.map.IGameMap;
 
 public class TileDamageTemporaryEffect extends AbstractTileEffect implements Serializable {
 
-private Double myDamage;
+	private static final long serialVersionUID = 10L;
 
-private int myDelay;
-private int myFrameCount;
+	private Double myDamage;
+	
+	private int myDelay;
+	private int myFrameCount;
+	
+	private String myHitImagePath;
 
-private String myHitImagePath;
-private int myImagePersistenceLength;
+	private int myImagePersistenceLength;
 	
 	public TileDamageTemporaryEffect(Double d, int time) {
 		myDamage = d;
@@ -59,4 +62,20 @@ private int myImagePersistenceLength;
 		return this.getClass().getSimpleName().substring(4, this.getClass().getSimpleName().length() - 6);
 	}
 
+	public String getHitImagePath() {
+		return myHitImagePath;
+	}
+	
+	public void setHitImagePath(String hitImagePath) {
+		this.myHitImagePath = hitImagePath;
+	}
+	
+	public int getImagePersistenceLength() {
+		return myImagePersistenceLength;
+	}
+	
+	public void setImagePersistenceLength(int ImagePersistenceLength) {
+		this.myImagePersistenceLength = ImagePersistenceLength;
+	}
+	
 }
