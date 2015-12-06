@@ -13,6 +13,7 @@ public class LevelSettings {
 	private int spawnRate;
 	
 	private int scoreThreshold;
+	private int startingMoney;
 	
 	public LevelSettings (int score) {
 		setScoreThreshold(score);
@@ -63,6 +64,14 @@ public class LevelSettings {
 
 	public void setScoreThreshold(int scoreThreshold) {
 		this.scoreThreshold = scoreThreshold;
+	}
+
+	public int getStartingMoney() {
+		return startingMoney;
+	}
+
+	public void setStartingMoney(int startingMoney) {
+		this.startingMoney = startingMoney;
 	}
 	
 }
