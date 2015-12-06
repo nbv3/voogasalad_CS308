@@ -51,7 +51,7 @@ public class ObjectDataViewer {
 	private Node makeView() {
 		myListView = new ListView<Node>();
 		TitledPane view = GUIFactory.buildTitledPane("Information", myListView);
-		view.setPrefWidth(350);
+		view.setMaxWidth(Integer.MAX_VALUE);
 		return view;
 	}
 	
