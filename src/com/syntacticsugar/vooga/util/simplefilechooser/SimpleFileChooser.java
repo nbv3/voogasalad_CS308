@@ -22,13 +22,8 @@ public class SimpleFileChooser {
 		return f;
 	}
 	
-	public static GameData loadGame(Stage myStage) {
-		FileChooser fileChooser = new FileChooser();
-		fileChooser.setTitle("Load Game File");
-		File f = fileChooser.showOpenDialog(myStage);
-		XMLHandler<GameData> xml = new XMLHandler<>();
-		GameData gm = xml.read(f);
-		return gm;
+	public static void saveGameSimple(GameData game, File f) {
+		
 	}
 	
 	public static File saveObject(ObjectData obj, Stage myStage) {
