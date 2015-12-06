@@ -63,6 +63,7 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 	private Scene myScene;
 	private GameData selectedGameData;
 	private Button startButton;
+	private VBox chooserContentBox;
 
 	public GameChooser() {
 		myStage = new Stage();
@@ -89,23 +90,23 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 	}
 
 	private VBox buildScene() {
-		VBox box = new VBox(10);
-		box.setId("game-chooser-vbox");
+		chooserContentBox = new VBox(10);
+		chooserContentBox.setId("game-chooser-vbox");
 		Label title = new Label("Choose a game:");
 		title.setAlignment(Pos.CENTER);
 		title.setId("game-chooser-title");
 		startButton = createButton("Start", e -> startGame());
 		startButton.setDisable(true);
 		PulsingFadeWizard.attachPulsingHandlers(startButton);
-		box.getChildren().addAll(title, myView, startButton);
-		return box;
+		chooserContentBox.getChildren().addAll(title, myView, startButton);
+		return chooserContentBox;
 	}
 
 	private void startGame() {
 		// SimpleFileChooser.saveGame(makeEmptyData(), new Stage());
 		myStage.hide();
 		GameData data = selectedGameData;
-		//GameData data = makeEmptyData();
+		// GameData data = makeEmptyData();
 		System.out.println(data);
 		System.out.println(data.getName());
 		launchGame(new GameMenu(data));
@@ -117,7 +118,7 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 	}
 
 	protected void animatedShowStage() {
-		DirectionalFadeWizard.applyEffect(myStage.getScene().getRoot()).play();
+		DirectionalFadeWizard.applyEffect(chooserContentBox).play();
 		myStage.show();
 	}
 
@@ -134,7 +135,6 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 	}
 
 	private Collection<String> getGameDescriptions(File directory) {
-		// System.out.println(directory);
 		File[] files = directory.listFiles(new XMLFileFilter());
 		XMLHandler<GameData> xml = new XMLHandler<>();
 		Collection<String> names = new ArrayList<String>();
