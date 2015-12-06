@@ -33,23 +33,20 @@ import javafx.stage.FileChooser.ExtensionFilter;
 public class ObjectDataViewer extends ListViewer {
 
 	private int mySelectedItemID = Integer.MIN_VALUE;
-	private Map<String, String> myProperties;
+	private JSONObject myData;
 	private CommentViewer myCommentBox;
+	private IComments myCommentInterface;
 
 	public ObjectDataViewer() {
 		super();
 		myView = makeMyViewer("Information:");
 		myView.prefHeight(250);
-		myProperties = new HashMap<String, String>();
-	/*	myCommentBox = new CommentViewer(new IComments(){
-			@Override
-			public String getSerializedComments(String gameName) {
-				return getComments();
-			}
-			@Override
-			public String getGameName() {
-				return getSelectedGameName();
-			}
+		myCommentInterface = new IComments(){
+			
+//			@Override
+//			public String getGameName() {
+//				return getSelectedGameName();
+//			}
 			@Override
 			public int getGameID() {
 				return getSelectedID();
@@ -58,7 +55,15 @@ public class ObjectDataViewer extends ListViewer {
 			public void updateData() {
 				update(mySelectedItemID);
 			}
-		});	*/
+			@Override
+			public void updateComments() {
+				try {
+					myCommentBox.update();
+				} catch (JSONException e) {
+				}	
+			}
+		};	
+		
 	}
 
 	private Node makeMyViewer(String viewerTitle) {
@@ -81,21 +86,23 @@ public class ObjectDataViewer extends ListViewer {
 				Node listElement = makeListElement(key, value);
 				object.remove(key);
 				addElementToList(listElement);
-				myProperties.put(key, value);
 			}
+			myCommentBox = new CommentViewer(myCommentInterface);
 			} catch (JSONException e) {
 			e.printStackTrace();
 		}
 	}
 
 	private JSONObject getJSONObject(int id) {
+		mySelectedItemID = id;
 		return WebConnector.getXMLData(id);	
 	}
 
 	private Node makeListElement(String key, String value) {
 		Node keyNode = GUIFactory.buildTitleNode(ResourceManager.getString(key));
 		Node valueNode = GUIFactory.buildTitleNode(value);
-		return GUIFactory.buildAnchorPane(keyNode, valueNode);
+		Node element = GUIFactory.buildAnchorPane(keyNode, valueNode);
+		return element;
 	}
 
 	private void uploadItem() {
@@ -125,7 +132,7 @@ public class ObjectDataViewer extends ListViewer {
 		chooser.getExtensionFilters().add(new ExtensionFilter("Image Files", "*.xml", "*.XML"));
 		File selectedFile = chooser.showOpenDialog(new Stage());
 		if (selectedFile != null) {
-			launchPropertiesBox();
+		//	launchPropertiesBox();
 			WebConnector.postXML(JSONHelper.createXMLJSON("Michael", "Tetris", "tetris", XMLHandler.fileToString(selectedFile)));
 		}
 	}
@@ -136,7 +143,8 @@ public class ObjectDataViewer extends ListViewer {
 	}
 
 	public void update(int id) {
-		populateList(getJSONObject(id));
+		myData = getJSONObject(id);
+		populateList(myData);
 		mySelectedItemID = id;
 	}
 	
@@ -144,12 +152,13 @@ public class ObjectDataViewer extends ListViewer {
 		return mySelectedItemID;
 	}
 	
-	private String getSelectedGameName(){
-		return myProperties.get("gamename");
-	}
-	
-	private String getComments(){
-		return myProperties.get("comments");
-	}
+//	private String getSelectedGameName() {
+//		try {
+//			return myData.getString("gamename");
+//		} catch (JSONException e) {
+//			e.printStackTrace();
+//		}
+//		return "";
+//	}
 
 }

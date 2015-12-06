@@ -1,5 +1,7 @@
 package com.syntacticsugar.vooga.util.webconnect;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class WebConnector {
@@ -37,7 +39,7 @@ public class WebConnector {
 		return WebConnectorHelper.post(json, POST_COMMENT_URL);
 	}
 	
-	public static JSONObject getComments(int gameindex) {
-		return WebConnectorHelper.get(GET_COMMENTS_URL+gameindex);
+	public static JSONArray getComments(int gameindex) throws JSONException {
+		return WebConnectorHelper.get(GET_COMMENTS_URL+gameindex).getJSONArray("comments");
 	}
 }
