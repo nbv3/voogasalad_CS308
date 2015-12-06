@@ -58,7 +58,7 @@ public class PathFinder {
 			Point front = distanceQueue.poll();
 			List<Point> frontNeighbors = getNeighbors(front);
 			// find the smallest distance of its neighbors and add one,
-			int minDistance = Integer.MAX_VALUE;
+			int minDistance = Integer.MAX_VALUE-1;
 			for (Point nPoint : frontNeighbors) {
 				if (distanceMap.containsKey(nPoint)) {
 					if (distanceMap.get(nPoint) < minDistance) {
@@ -72,6 +72,7 @@ public class PathFinder {
 				}
 			}
 			distanceMap.put(front, minDistance + 1);
+			//System.out.println("Added point: "+front+" with distance "+(minDistance+1));
 		}
 	}
 

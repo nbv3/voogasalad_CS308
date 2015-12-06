@@ -14,6 +14,7 @@ public class MapManager implements IManager {
 	private MapControls myMapControls;
 	
 	public MapManager(IObjectDataClipboard clip) throws Exception {
+		System.out.println("Map Manager IOBJECT " + clip);
 		myMapDisplay = new MapView(clip);
 		myMapControls = new MapControls(myMapDisplay);
 	}

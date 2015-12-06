@@ -40,7 +40,7 @@ import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 
 public class ObjectEditor extends Observable implements IObjectDataClipboard{
-
+	
 	private GridPane myView;
 	private ObjectData currentData;
 	private AttributeViewer myAttributeViewer;
@@ -61,11 +61,9 @@ public class ObjectEditor extends Observable implements IObjectDataClipboard{
 		myCollisionViewer = new CollisionViewer();
 		myRefresher = refresher;
 		buildView();
-		myIcon.setOnDragDetected(e->{
-			DragDropManager.createClipboard(
-					currentData,
-					myIcon.getImageView(),
-					e);
+		myIcon.setOnDragDetected(e -> {
+			DragDropManager.createClipboard(currentData, myIcon.getImageView(), e);
+//			level.addCurrentSpawner(currentData);
 		});
 	}
 
@@ -234,9 +232,10 @@ public class ObjectEditor extends Observable implements IObjectDataClipboard{
 		GridPane grid = new GridPane();
 		grid.setAlignment(Pos.CENTER);
 		myIcon = new Icon("scenery_gray.png");
-		SequentialTransition seq = new SequentialTransition(FadeTransitionWizard.fadeIn(myIcon, FluidGlassBall.getPreviewTilePulseDuration(), 0.7,1.0,1),
-				FadeTransitionWizard.fadeOut(myIcon, FluidGlassBall.getPreviewTilePulseDuration(), 1.0,0.7,1));
-			seq.setCycleCount(Integer.MAX_VALUE);
+		SequentialTransition seq = new SequentialTransition(
+				FadeTransitionWizard.fadeIn(myIcon, FluidGlassBall.getPreviewTilePulseDuration(), 0.7, 1.0, 1),
+				FadeTransitionWizard.fadeOut(myIcon, FluidGlassBall.getPreviewTilePulseDuration(), 1.0, 0.7, 1));
+		seq.setCycleCount(Integer.MAX_VALUE);
 
 		seq.play();
 		Button button = GUIFactory.buildButton("Select Image", e -> selectImage(), null, null);
@@ -316,6 +315,6 @@ public class ObjectEditor extends Observable implements IObjectDataClipboard{
 
 	@Override
 	public ObjectData obtainSelectedObjectData() {
-			return currentData;
+		return currentData;
 	}
 }

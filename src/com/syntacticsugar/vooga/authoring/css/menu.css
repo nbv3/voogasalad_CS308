@@ -1,3 +1,6 @@
+#menu_pane{
+	-fx-background-image: url("mainmenu-12.png");
+}
 .label {
     -fx-font-size: 40pt;
     -fx-font-family: "Helvetica";

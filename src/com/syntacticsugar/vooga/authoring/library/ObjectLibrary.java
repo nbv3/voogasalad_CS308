@@ -14,42 +14,22 @@ import com.syntacticsugar.vooga.xml.XMLFileFilter;
 import com.syntacticsugar.vooga.xml.XMLHandler;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
 
-import javafx.scene.Node;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.VBox;
 
 public class ObjectLibrary extends Observable {
 
-	private GameObjectType myType;
 	private IconPane myIconPane;
 	private final File myXMLDirectory;
-	// private Map<Icon, ObjectData> myData;
 	private Map<ImageView, ObjectData> myData;
 	private ObjectData mySelected;
 
 	public ObjectLibrary(GameObjectType objectType) {
-		myType = objectType;
-		// myTab.setText(objectType.toString());
 		myIconPane = new IconPane();
 		myData = new HashMap<ImageView, ObjectData>();
-		// myTab.setContent(buildTitledPane(myIconPane, myType));
 		myXMLDirectory = new File(
 				ResourceManager.getString(String.format("%s_%s", objectType.toString().toLowerCase(), "data")));
 		populatePaneFromXMLFiles(myXMLDirectory);
 		myIconPane.addPreviewListener((o, s1, s2) -> editItem());
-	}
-
-	// private Node buildTitledPane(IconPane myIconPane2, GameObjectType
-	// myType2) {
-	// VBox box = new VBox();
-	// box.getChildren().add(myIconPane2.getIconPane());
-	// return box;
-	// }
-
-	private Node buildTitledPane(IconPane myIconPane2, GameObjectType myType2) {
-		VBox box = new VBox();
-		box.getChildren().add(myIconPane2.getView());
-		return box;
 	}
 
 	public void refresh() {
@@ -76,14 +56,16 @@ public class ObjectLibrary extends Observable {
 		return myIconPane;
 	}
 
-	// public ObjectData getItemToEdit() {
-	// return myData.get(myIconPane.getSelectedIcon());
-	// }
-
 	private void editItem() {
 		mySelected = myData.get(myIconPane.getSelectedIcon());
 		setChanged();
 		notifyObservers(mySelected);
+	}
+
+	public ObjectData getCurrentData()
+
+	{
+		return myData.get(myIconPane.getSelectedIcon());
 	}
 
 }

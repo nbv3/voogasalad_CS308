@@ -17,5 +17,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/3"/>
 	<classpathentry kind="lib" path="data/games"/>
+	<classpathentry kind="lib" path="images/menu"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

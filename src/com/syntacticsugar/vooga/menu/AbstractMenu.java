@@ -1,6 +1,7 @@
 package com.syntacticsugar.vooga.menu;
 
 import com.syntacticsugar.vooga.authoring.fluidmotion.mixandmatchmotion.DirectionalFadeWizard;
+import com.syntacticsugar.vooga.menu.fluidmenu.BackgroundCreator;
 import com.syntacticsugar.vooga.util.properties.PropertiesManager;
 
 import javafx.event.ActionEvent;
@@ -10,7 +11,15 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -29,8 +38,19 @@ public abstract class AbstractMenu implements IVoogaApp{
 		myPropertiesManager = new PropertiesManager("com/syntacticsugar/vooga/resources/View");
 		myStage = new Stage();
 		myStage.setTitle(myPropertiesManager.getProperty("WindowTitle"));
+		Pane pane = initializePane(title);
+		//ImageView background = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream("mainmenu-1.png"), myPropertiesManager.getDoubleProperty("DefaultWidth"), pane.getHeight(),true,true));
+		//myScene = new Scene(BackgroundCreator.addBackground(background, pane));
 		
-		myScene = new Scene(initializePane(title));
+		//myScene = new Scene(pane);
+		
+		// Make utility
+		BackgroundSize backgroundSize = new BackgroundSize(100,100 ,true, true, true, false);
+		BackgroundImage backgroundImg = new BackgroundImage(new Image(getClass().getClassLoader().getResourceAsStream("mainmenu-1.png")), BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, backgroundSize);
+		Background background = new Background(backgroundImg);
+		pane.setBackground(background);
+		myScene = new Scene(pane);
+	
 		myStage.setScene(myScene);
 		animatedShowStage();
 		
@@ -59,6 +79,7 @@ public abstract class AbstractMenu implements IVoogaApp{
 	protected void generateOptions(BorderPane myPane, Node... options){
 		VBox box = new VBox(10);
 		box.getChildren().addAll(options);
+		box.getChildren().add(new HBox());
 		box.setMaxWidth(myPropertiesManager.getDoubleProperty("ButtonWidth"));
 		BorderPane.setAlignment(box, Pos.CENTER);
 		myPane.setCenter(box);
@@ -86,6 +107,10 @@ public abstract class AbstractMenu implements IVoogaApp{
 			.applyEffect(myStage.getScene().getRoot())
 			.play();
 		myStage.show();
+	}
+	
+	protected void setBackgroundImage(String imagePath){
+		
 	}
 
 

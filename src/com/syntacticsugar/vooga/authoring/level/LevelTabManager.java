@@ -10,7 +10,9 @@ import com.syntacticsugar.vooga.authoring.objectediting.IObjectDataClipboard;
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 import com.syntacticsugar.vooga.xml.data.LevelSettings;
 import com.syntacticsugar.vooga.xml.data.MapData;
+import com.syntacticsugar.vooga.xml.data.ObjectData;
 import com.syntacticsugar.vooga.xml.data.SpawnerData;
+import com.syntacticsugar.vooga.xml.data.TowerData;
 import com.syntacticsugar.vooga.xml.data.TowerListData;
 import com.syntacticsugar.vooga.xml.data.UniverseData;
 
@@ -78,17 +80,10 @@ public class LevelTabManager {
 	}
 
 	public Collection<UniverseData> getAllUniverseData() {
-		// Map<Integer, MapData> mapMap = new HashMap<Integer, MapData>();
-		// Map<Integer, SpawnerData> spawnerMap = new HashMap<Integer,
-		// SpawnerData>();
-		// Map<Integer, TowerData> towerMap = new HashMap<Integer, TowerData>();
-		// Map<Integer, LevelSettings> conditionsMap = new HashMap<Integer,
-		// LevelSettings>();
 
 		List<UniverseData> game = new ArrayList<UniverseData>();
 
 		for (Tab t : myTabPane.getTabs()) {
-			int i = t.getText().charAt(t.getText().length() - 1);
 
 			SpawnerData spawner = myLevelMap.get(t).getSpawnerQueues();
 			MapData map = myLevelMap.get(t).getMapData();
@@ -109,6 +104,16 @@ public class LevelTabManager {
 	
 	public Map<Tab, LevelEditor> getCurrentLevelEditor() {
 		return myLevelMap;
+	}
+
+	public void addCurrentSpawner(ObjectData data) {
+		myLevelMap.get(myTabPane.getSelectionModel().getSelectedItem()).addToSpawner(data);
+
+	}
+
+	public void addCurrentTower(TowerData data) {
+		myLevelMap.get(myTabPane.getSelectionModel().getSelectedItem()).addToTowers(data);
+
 	}
 
 }
