@@ -36,8 +36,23 @@ public class MapData {
 		for (int i=0; i<numTiles; i++) {
 			for (int j=0; j<numTiles; j++) {
 				myTileData[i][j] = new TileData(tileImage);
-				if(i == 1){
+				if(i == 2 && j != 8){
 					myTileData[i][j].setImplementation(TileImplementation.Scenery);
+				}
+				if (i== 4 && j != 0) {
+					myTileData[i][j].setImplementation(TileImplementation.Scenery);
+				}
+				if (i==6 && j != 9) {
+					myTileData[i][j].setImplementation(TileImplementation.Scenery);
+				}
+				if (i==8  && (j != 9 && j != 0)) {
+					myTileData[i][j].setImplementation(TileImplementation.Scenery);
+				}
+				if (i==7 && j==8) {
+					myTileData[i][j].setImplementation(TileImplementation.Scenery);
+				}
+				if (i==7 && j==7) {
+					myTileData[i][j].setDestination(true);
 				}
 			}
 		}
