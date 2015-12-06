@@ -70,7 +70,7 @@
 }
 
 .button:hover {
-	-fx-background-color: #1d1d1d;
+	-fx-background-color: #666666;
 	-fx-text-fill: #d8d8d8;
 }
 
