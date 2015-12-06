@@ -8,6 +8,7 @@ import com.syntacticsugar.vooga.authoring.dragdrop.DragDropManager;
 import com.syntacticsugar.vooga.authoring.fluidmotion.FadeTransitionWizard;
 import com.syntacticsugar.vooga.authoring.fluidmotion.FluidGlassBall;
 import com.syntacticsugar.vooga.authoring.fluidmotion.SequentialTransitionWizard;
+import com.syntacticsugar.vooga.authoring.fluidmotion.mixandmatchmotion.PulsingFadeWizard;
 import com.syntacticsugar.vooga.authoring.icon.Icon;
 import com.syntacticsugar.vooga.authoring.library.IRefresher;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
@@ -17,6 +18,7 @@ import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
 import com.syntacticsugar.vooga.xml.XMLHandler;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
 
+import javafx.animation.Animation;
 import javafx.animation.SequentialTransition;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -233,11 +235,13 @@ public class ObjectEditor extends Observable implements IObjectDataClipboard{
 		GridPane grid = new GridPane();
 		grid.setAlignment(Pos.CENTER);
 		myIcon = new Icon("scenery_gray.png");
-		SequentialTransition seq = (SequentialTransition) SequentialTransitionWizard.sequence(
-				FadeTransitionWizard.fadeIn(myIcon, FluidGlassBall.getPreviewTilePulseDuration(), 0.7, 1.0, 1),
-				FadeTransitionWizard.fadeOut(myIcon, FluidGlassBall.getPreviewTilePulseDuration(), 1.0, 0.7, 1));
-		seq.setCycleCount(Integer.MAX_VALUE);
-		seq.play();
+		Animation anim = PulsingFadeWizard
+			.applyEffect(myIcon);		
+		myIcon.setOnMouseEntered(e->anim.play());
+		myIcon.setOnMouseExited(e->{
+			myIcon.setOpacity(1);
+			anim.stop();
+		});
 		Button button = GUIFactory.buildButton("Select Image", e -> selectImage(), null, null);
 		grid.getChildren().addAll(button, myIcon);
 		GridPane.setConstraints(button, 0, 0, 1, 1);

@@ -11,6 +11,7 @@ import java.util.Observable;
 import com.syntacticsugar.vooga.authoring.dragdrop.DragDropManager;
 import com.syntacticsugar.vooga.authoring.fluidmotion.FadeTransitionWizard;
 import com.syntacticsugar.vooga.authoring.fluidmotion.FluidGlassBall;
+import com.syntacticsugar.vooga.authoring.fluidmotion.mixandmatchmotion.PulsingFadeWizard;
 import com.syntacticsugar.vooga.authoring.icon.IconPane;
 import com.syntacticsugar.vooga.authoring.icon.ImageFileFilter;
 import com.syntacticsugar.vooga.authoring.objectediting.IVisualElement;
@@ -20,6 +21,7 @@ import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
 import com.syntacticsugar.vooga.xml.data.TileData;
 import com.syntacticsugar.vooga.xml.data.TileImplementation;
 
+import javafx.animation.Animation;
 import javafx.animation.SequentialTransition;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -139,15 +141,12 @@ public class MapControls extends Observable implements IVisualElement {
 		TileData td = initTileData();
 		initPreviewDragHandler(td);
 		previewTile.setImage(new Image(getClass().getClassLoader().getResourceAsStream(myIconPane.getSelectedImagePath())));
-		// Refactor
-		SequentialTransition seq = new SequentialTransition(FadeTransitionWizard.fadeIn(previewTile, FluidGlassBall.getPreviewTilePulseDuration(), 0.7,1.0,1),
-				FadeTransitionWizard.fadeOut(previewTile, FluidGlassBall.getPreviewTilePulseDuration(), 1.0,0.7,1));
-		seq.setCycleCount(Integer.MAX_VALUE);
-		seq.play();
-		previewTile.setOnMouseEntered(e->seq.play());
+		Animation anim = PulsingFadeWizard
+								.applyEffect(previewTile);
+		previewTile.setOnMouseEntered(e->anim.play());
 		previewTile.setOnMouseExited(e->{
 			previewTile.setOpacity(1);
-			seq.stop();
+			anim.stop();
 		});
 	}
 
