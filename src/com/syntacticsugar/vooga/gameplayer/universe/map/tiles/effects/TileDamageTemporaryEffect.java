@@ -25,4 +25,9 @@ private Double myDamage;
 		myTile.setTileEffect(null);
 	}
 
+	@Override
+	public String getEffectName() {
+		return this.getClass().getSimpleName();
+	}
+
 }

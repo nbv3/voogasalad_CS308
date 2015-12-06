@@ -13,7 +13,6 @@ public class QueueBox implements IVisualElement {
 
 	private VBox myView;
 	private ImageView myImage;
-	// private HBox mySpawnCount;
 	private ObjectData myData;
 
 	public QueueBox(ObjectData data) {
@@ -21,7 +20,6 @@ public class QueueBox implements IVisualElement {
 		myView = new VBox();
 		addImage(data.getImagePath());
 		Tooltip.install(myView, new ObjectTooltip(myData));
-
 	}
 
 	private void addImage(String path) {
