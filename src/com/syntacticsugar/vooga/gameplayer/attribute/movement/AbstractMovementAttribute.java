@@ -31,10 +31,12 @@ public abstract class AbstractMovementAttribute extends AbstractAttribute implem
 	}
 	
 	public double getXVelocity() {
+		//System.out.println("X is here: "+xVelocity);
 		return new Double(xVelocity);
 	}
 
 	public double getYVelocity() {
+		//System.out.println("Y is here: "+yVelocity);
 		return new Double(yVelocity);
 	}
 	
@@ -86,6 +88,7 @@ public abstract class AbstractMovementAttribute extends AbstractAttribute implem
 			mapPoint = map.getMapIndexFromCoordinate(points.get(0));
 			mapPoint2 = map.getMapIndexFromCoordinate(points.get(1));
 		} catch (Exception e) {
+			System.out.println("reset velocity because of spillover - abstract movement");
 			resetVelocity();
 			return;
 		}
@@ -95,6 +98,7 @@ public abstract class AbstractMovementAttribute extends AbstractAttribute implem
 		
 		
 		if (!(canWalkOne && canWalkTwo)) {
+			System.out.println("reset velocity 2 because of spillover - abstract movement");
 			resetVelocity();
 		}
 	}

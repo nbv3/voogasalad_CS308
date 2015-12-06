@@ -186,19 +186,21 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 		health.setHealth(30.0);
 		ScoreAttribute score = new ScoreAttribute();
 		score.setScore(30);
-		ConstantMovementAttribute move = new ConstantMovementAttribute(Direction.DOWN, 0.5);
+		//ConstantMovementAttribute move = new ConstantMovementAttribute(Direction.DOWN, 0.5);
 		enemyAttributes.add(health);
 		enemyAttributes.add(score);
-		enemyAttributes.add(move);
-		// enemyAttributes.add(new AIMovementAttribute(3));
+		//enemyAttributes.add(move);
+		AIMovementAttribute enemyMotion = new AIMovementAttribute();
+		enemyMotion.setSpeed(4.5);
+		enemyAttributes.add(enemyMotion);
 		Map<GameObjectType, Collection<ICollisionEvent>> collisions = new HashMap<GameObjectType, Collection<ICollisionEvent>>();
 		Collection<ICollisionEvent> enemyEvents = new ArrayList<ICollisionEvent>();
 		enemyEvents.add(new HealthChangeEvent(10.0));
 		collisions.put(GameObjectType.PLAYER, enemyEvents);
 		enemyData.setType(GameObjectType.ENEMY);
-		enemyData.setSpawnPoint(250, 150);
-		enemyData.setWidth(100);
-		enemyData.setHeight(100);
+		enemyData.setSpawnPoint(0, 100);
+		enemyData.setWidth(40);
+		enemyData.setHeight(40);
 		enemyData.setImagePath(enemyPath);
 		enemyData.setAttributes(enemyAttributes);
 		enemyData.setCollisionMap(collisions);
@@ -211,14 +213,16 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 		enemyScore.setScore(40);
 		enemyAttributes2.add(enemyHealth);
 		enemyAttributes2.add(enemyScore);
-		// enemyAttributes.add(new AIMovementAttribute(3));
+		AIMovementAttribute enemyMotion2 = new AIMovementAttribute();
+		enemyMotion2.setSpeed(4.0);
+		enemyAttributes2.add(enemyMotion2);
 		Map<GameObjectType, Collection<ICollisionEvent>> collisions2 = new HashMap<GameObjectType, Collection<ICollisionEvent>>();
 		Collection<ICollisionEvent> enemyEvents2 = new ArrayList<ICollisionEvent>();
 		enemyEvents2.add(new HealthChangeEvent(10.0));
 		enemyData2.setType(GameObjectType.ENEMY);
-		enemyData2.setSpawnPoint(350, 150);
-		enemyData2.setWidth(100);
-		enemyData2.setHeight(100);
+		enemyData2.setSpawnPoint(0, 300);
+		enemyData2.setWidth(50);
+		enemyData2.setHeight(50);
 		enemyData2.setImagePath(enemyPath);
 		enemyData2.setAttributes(enemyAttributes2);
 		enemyData2.setCollisionMap(collisions2);
@@ -227,7 +231,7 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 		String playerPath = "player_pacman.png";
 		String missilePath = "scenery_pink.png";
 
-		ObjectData playerData = new ObjectData();
+		/*ObjectData playerData = new ObjectData();
 		Collection<IAttribute> attributes = new ArrayList<>();
 		attributes.add(new HealthAttribute());
 		attributes.add(new MovementControlAttribute());
@@ -245,10 +249,10 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 		playerData.setImagePath(playerPath);
 		playerData.setAttributes(attributes);
 
-		IGameObject player = new GameObject(playerData);
+		IGameObject player = new GameObject(playerData);*/
 		IGameObject enemy = new GameObject(enemyData);
 
-		odata.add(playerData);
+		//odata.add(playerData);
 		odata.add(enemyData);
 		odata.add(enemyData2);
 		WaveData wdata = new WaveData(odata);
