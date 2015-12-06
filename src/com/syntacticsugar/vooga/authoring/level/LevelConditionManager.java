@@ -46,8 +46,8 @@ public class LevelConditionManager implements IVisualElement {
 		myCash = new TextField();
 		myCash.setPromptText(ResourceManager.getString("int_InitialCash"));
 		myCash.getStyleClass().add("textfield");
-		
-		ObservableList<String> winOptions = FXCollections.observableArrayList(ResourceManager.getString("enemy_death"));
+		ObservableList<String> winOptions = FXCollections.observableArrayList(ResourceManager.getString("enemy_death"),
+				ResourceManager.getString("score"));
 		myWins = new ComboBox<String>(winOptions);
 		myWins.setPrefWidth(200);
 		myWins.getStyleClass().add("combobox");
@@ -133,13 +133,21 @@ public class LevelConditionManager implements IVisualElement {
 		return mySelectedWin;
 	}
 
-//	public void saveSpawnRate() {
-//		try {
-//			mySavedSpawnRate = Integer.parseInt(mySpawnInput.getText());
-//		} catch (Exception e) {
-//			AlertBoxFactory.createObject(ResourceManager.getString("not_integer"));
-//		}
-//	}
+	public void setLosingCondition(String l) {
+		mySelectedLose = l;
+	}
+
+	public void setWinParameters(List<Double> p) {
+		myWinParameters = p;
+	}
+
+	public void setLoseParameters(List<Double> p) {
+		myLoseParameters = p;
+	}
+
+	public void setWinningCondition(String w) {
+		mySelectedWin = w;
+	}
 
 	public void saveCash() {
 		try {
@@ -155,7 +163,7 @@ public class LevelConditionManager implements IVisualElement {
 	}
 
 	public LevelSettings getConditions() {
-//		saveSpawnRate();
+		// saveSpawnRate();
 		saveCash();
 		LevelSettings settings = new LevelSettings(mySelectedWin, myWinParameters, mySelectedLose, myLoseParameters,
 				mySavedSpawnRate, mySetCash);

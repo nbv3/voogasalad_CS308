@@ -17,8 +17,12 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.util.Duration;
@@ -26,6 +30,7 @@ import javafx.util.Duration;
 public class GameManager implements IGameManager,IVoogaApp {
 
 	private Game myGame;
+	private Scene gameOver;
 	private IGameUniverse currentLevel;
 	private Timeline myGameTimeline;
 	private GameEngine myGameEngine;
@@ -40,7 +45,7 @@ public class GameManager implements IGameManager,IVoogaApp {
 		this.frameLength = frameRate;
 		myStage = new Stage();
 		myStage.setOnCloseRequest(onClose);
-
+		createGameOverScene();
 		myEventManager = new EventManager();
 		myEventManager.registerListener(this);
 
@@ -62,6 +67,12 @@ public class GameManager implements IGameManager,IVoogaApp {
 		stageInit();
 	}
 
+	private void createGameOverScene() {
+		ImageView parent = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream("gameover.gif")));
+		Pane x = new Pane(parent);
+		gameOver = new Scene(x);
+	}
+
 	private void stageInit() {
 		Scene gameScene = new Scene(myViewController.getGameView());
 		initializeAnimation(frameLength);
@@ -75,15 +86,16 @@ public class GameManager implements IGameManager,IVoogaApp {
 	
 
 	private void nextLevel() {
-		IGameObject player = currentLevel.getPlayer();
+		//IGameObject player = currentLevel.getPlayer();
 		
 		try{
 		currentLevel = myGame.nextLevel();
 		}
 		catch(IndexOutOfBoundsException e){
-			myStage.close();
+			BorderPane pane = new BorderPane();
+			myStage.setScene(gameOver);
 		}
-		player.setPoint(currentLevel.getPlayerSpawn());
+		//player.setPoint(currentLevel.getPlayerSpawn());
 		
 		myViewController.displayLevel(currentLevel, myEventManager);
 		myEventManager = new EventManager();
@@ -92,7 +104,7 @@ public class GameManager implements IGameManager,IVoogaApp {
 		myGameEngine.registerViewAdder(myViewController);
 		myGameEngine.registerViewRemover(myViewController);
 		
-		myViewController.addViewObject(player);
+		//myViewController.addViewObject(player);
 		
 		initializeAnimation(frameLength);
 	}
@@ -114,7 +126,7 @@ public class GameManager implements IGameManager,IVoogaApp {
 			nextLevel();
 		} else if (type.equals(ConditionType.LOSING)) {
 			System.out.println("YOU LOSE");
-			startGame();
+			myStage.setScene(gameOver);
 		}
 
 	}

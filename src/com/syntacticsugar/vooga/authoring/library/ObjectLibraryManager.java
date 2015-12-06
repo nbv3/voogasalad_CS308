@@ -40,10 +40,7 @@ public class ObjectLibraryManager {
 		addTower.setPrefWidth(120);
 		buttons.add(addSpawn, 0, 0, 1, 1);
 		buttons.add(addTower, 1, 0, 1, 1);
-		// myView.setHgap(50);
-		// myView.add(addSpawn, 0, 0, 1, 1);
-		// myView.add(addTower, 1, 0, 1, 1);
-		// myView.add(myLibraryTabs, 0, 1, 2, 1);
+
 		myView.setAlignment(Pos.TOP_CENTER);
 		buttons.setAlignment(Pos.TOP_CENTER);
 		buttons.setHgap(77);
@@ -64,6 +61,11 @@ public class ObjectLibraryManager {
 			myLibraryTabs.getTabs().add(tab);
 			myLibraries.add(lib);
 		}
+	}
+
+	public void loadLibraries() {
+		myLibraryTabs.getTabs().clear();
+		populateLibraryTabs();
 	}
 
 	public Node getView() {
