@@ -102,7 +102,7 @@ public class MapControls extends Observable implements IVisualElement {
 		chooser = new ComboBox<>();
 		chooser.setPromptText("Select Tile Effect");
 		chooser.setPrefWidth(150);
-		chooser.getStyleClass().add("combobox");
+		chooser.getStyleClass().add("combobox"); 
 		ObservableList<String> effects = FXCollections.observableArrayList("None", "Damage Persistent",
 				"Damage Temporary", "Slow");
 		chooser.getItems().addAll(effects);
