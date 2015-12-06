@@ -4,14 +4,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.syntacticsugar.vooga.authoring.dragdrop.DragDropManager;
-import com.syntacticsugar.vooga.authoring.dragdrop.ObjectClippableItem;
-import com.syntacticsugar.vooga.authoring.dragdrop.TileClippableItem;
 import com.syntacticsugar.vooga.authoring.icon.Icon;
 import com.syntacticsugar.vooga.authoring.objectediting.IObjectDataClipboard;
 import com.syntacticsugar.vooga.authoring.objectediting.IVisualElement;
 import com.syntacticsugar.vooga.authoring.objectediting.sizing.ObjectResizer;
 import com.syntacticsugar.vooga.authoring.tooltips.TileInfoTooltip;
-import com.syntacticsugar.vooga.gameplayer.universe.spawner.Spawner;
 import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
@@ -24,7 +21,6 @@ import com.syntacticsugar.vooga.xml.data.TileImplementation;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableSet;
 import javafx.collections.SetChangeListener;
-import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.control.TitledPane;
@@ -32,11 +28,9 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.effect.Effect;
 import javafx.scene.effect.InnerShadow;
 import javafx.scene.image.Image;
-import javafx.scene.input.Clipboard;
 import javafx.scene.input.DataFormat;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 
@@ -178,6 +172,8 @@ public class MapView implements IMapDisplay, IVisualElement {
 			editTileDataFromClipboard(tdFromClipBoard, toedit);
 			myMapData.setTileData(toedit, colIndex, rowIndex);
 		} else if (db.hasContent(DataFormat.lookupMimeType("ObjectData"))) {
+			System.out.println(iObject);
+			System.out.println(iObject.obtainSelectedObjectData());
 			ObjectData receivedData = iObject.obtainSelectedObjectData();
 			receivedData.setSpawnPoint(x, y);
 			// Add to Spawner

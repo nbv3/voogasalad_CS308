@@ -6,6 +6,7 @@ import com.syntacticsugar.vooga.authoring.level.LevelTabManager;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
+import com.syntacticsugar.vooga.xml.data.TowerData;
 
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -29,7 +30,7 @@ public class ObjectLibraryManager {
 		myLibraries = new ArrayList<>();
 		populateLibraryTabs();
 		addSpawn = GUIFactory.buildButton("Add To Wave", e -> levels.addCurrentSpawner(getCurrentData()), 150.0, null);
-		addTower = GUIFactory.buildButton("Add To Towers", e -> levels.addCurrentTower(getCurrentData()), 150.0, null);
+		addTower = GUIFactory.buildButton("Add To Towers", e -> levels.addCurrentTower((TowerData) getCurrentData()), 150.0, null);
 		myView.add(addSpawn, 0, 0, 1, 1);
 		myView.add(addTower, 1, 0, 1, 1);
 		myView.add(myLibraryTabs, 0, 1, 2, 1);
@@ -65,7 +66,8 @@ public class ObjectLibraryManager {
 	}
 
 	private ObjectData getCurrentData() {
-		return myLibraries.get(myLibraryTabs.getSelectionModel().getSelectedIndex()).getCurrentData();
+		ObjectData data = myLibraries.get(myLibraryTabs.getSelectionModel().getSelectedIndex()).getCurrentData();
+		return data;
 	}
 
 }

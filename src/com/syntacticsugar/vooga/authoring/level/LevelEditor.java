@@ -12,6 +12,7 @@ import com.syntacticsugar.vooga.xml.data.LevelSettings;
 import com.syntacticsugar.vooga.xml.data.MapData;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
 import com.syntacticsugar.vooga.xml.data.SpawnerData;
+import com.syntacticsugar.vooga.xml.data.TowerData;
 import com.syntacticsugar.vooga.xml.data.TowerListData;
 
 import javafx.geometry.Insets;
@@ -130,12 +131,8 @@ public class LevelEditor {
 
 	}
 
-	public void addToTowers(ObjectData data) {
-
-		if (data.getType().equals(GameObjectType.TOWER))
-			myTowerManager.addTowerData(data);
-		else
-			AlertBoxFactory.createObject("Please Select a Tower");
+	public void addToTowers(TowerData data) {
+		myTowerManager.addTowerData(data);
 	}
 
 }
