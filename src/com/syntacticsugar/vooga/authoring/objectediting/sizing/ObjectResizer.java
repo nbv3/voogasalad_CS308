@@ -30,6 +30,7 @@ public class ObjectResizer {
 		myStage = new Stage();
 		setMyObjectData(data);
 		myImageView = buildResizableImageView(data.getImagePath());
+		System.out.println(data.getImagePath());
 		myZoomedTileView = buildTileView(imagePaths);
 		StackPane root = new StackPane();
 		root.getChildren().addAll(myZoomedTileView, myImageView);

@@ -24,7 +24,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 
-public class LevelEditor {
+public class LevelEditor implements IAddToSpawner {
 
 	private GridPane myContentGrid;
 
@@ -34,7 +34,8 @@ public class LevelEditor {
 	private LevelConditionManager myConditions;
 
 	public LevelEditor(IObjectDataClipboard clip) throws Exception {
-		myMapManager = new MapManager(clip);
+		IAddToSpawner iSpawn = this;
+		myMapManager = new MapManager(clip, iSpawn);
 		mySpawnerManager = new SpawnerManager();
 		myTowerManager = new TowerManager();
 		myConditions = new LevelConditionManager();
