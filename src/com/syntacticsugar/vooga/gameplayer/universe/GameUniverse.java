@@ -56,71 +56,42 @@ public class GameUniverse implements IGameUniverse {
 
 	private IEventManager myPoster;
 
-	public GameUniverse(UniverseData data, GlobalSettings settings, IEventManager manager) {
+	public GameUniverse(UniverseData data, GlobalSettings settings) {
 
-		myPoster = manager;
-		myScore = new Score(manager, data.getSettings());
-		myConditions = new Conditions(manager);
+		myScore = new Score(data.getSettings());
+		
+		// Needs event manager
+		myConditions = new Conditions();
+		
 		myGameObjects = new ArrayList<IGameObject>();
 		myGameMap = new GameMap(data.getMap());
-		mySpawner = new Spawner(data.getSpawns().getWaves(), this, settings.getSpawnRate());
+		
+		// Needs event manager
+		mySpawner = new Spawner(data.getSpawns().getWaves(), settings.getSpawnRate());
+		
 		myTowers = new ArrayList<>();
 		Collection<ObjectData> towerdata = data.getTowers().getTowers();
 		for (ObjectData d : towerdata) {
 			myTowers.add(new Tower(d));
 		}
-		myGraveYard = new GraveYard(this, manager);
-		mySpawnYard = new SpawnYard(this, manager);
+		// Need event managers
+		myGraveYard = new GraveYard(this);
+		mySpawnYard = new SpawnYard(this);
 		myCurrentInput = new ArrayList<KeyCode>();
 		myConditions.addCondition(new PlayerDeathCondition());
 		myConditions.addCondition(new EnemyDeathCondition(3));
-		myTowers = new ArrayList<IGameObject>();
-		testTower();
+		
 	}
 
-	private void testTower() {
-		String imgPath = "tower_1.png";
-		ObjectData towerData = new ObjectData();
-		towerData.setImagePath(imgPath);
-		Collection<IAttribute> towerAttributes = new ArrayList<IAttribute>();
-		HealthAttribute health = new HealthAttribute();
-		health.setHealth(30.0);
-		towerAttributes.add(health);
-		// towerAttributes.add(new AIMovementAttribute(3));
-		Map<GameObjectType, Collection<ICollisionEvent>> collisions = new HashMap<GameObjectType, Collection<ICollisionEvent>>();
-		Collection<ICollisionEvent> towerEvents = new ArrayList<ICollisionEvent>();
-		towerEvents.add(new HealthChangeEvent(10.0));
-		towerData.setType(GameObjectType.ENEMY);
-		towerData.setImagePath(imgPath);
-		towerData.setAttributes(towerAttributes);
-		towerData.setCollisionMap(collisions);
-		towerData.setWidth(100);
-		towerData.setHeight(100);
-		IGameObject tower = new GameObject(towerData);
-		myTowers.add(tower);
-
-		String imgPath1 = "tower_4.png";
-		ObjectData towerData2 = new ObjectData();
-		towerData.setImagePath(imgPath1);
-		Collection<IAttribute> towerAttributes2 = new ArrayList<IAttribute>();
-		HealthAttribute towerHealth = new HealthAttribute();
-		towerHealth.setHealth(30.0);
-		towerAttributes2.add(towerHealth);
-		// towerAttributes.add(new AIMovementAttribute(3));
-		Map<GameObjectType, Collection<ICollisionEvent>> collisions2 = new HashMap<GameObjectType, Collection<ICollisionEvent>>();
-		Collection<ICollisionEvent> towerEvents2 = new ArrayList<ICollisionEvent>();
-		towerEvents2.add(new HealthChangeEvent(10.0));
-		towerData2.setType(GameObjectType.TOWER);
-		towerData2.setImagePath(imgPath);
-		towerData2.setAttributes(towerAttributes2);
-		towerData2.setCollisionMap(collisions2);
-		towerData2.setWidth(100);
-		towerData2.setHeight(100);
-		IGameObject tower2 = new GameObject(towerData);
-		myTowers.add(tower2);
-
+	public void registerListeners(IEventManager manager) {
+		myConditions.registerEventManager(manager);
+		mySpawner.registerEventManager(manager);
+		myGraveYard.registerEventManager(manager);
+		mySpawnYard.registerEventManager(manager);
+		myPoster = manager;
+		manager.registerListener(myScore);               
+		
 	}
-
 
 	@Override
 	public Collection<IGameObject> getGameObjects() {
@@ -129,7 +100,6 @@ public class GameUniverse implements IGameUniverse {
 
 	@Override
 	public void addGameObject(IGameObject toAdd) {
-		System.out.println("ADD");
 		myGameObjects.add(toAdd);
 	}
 
@@ -215,7 +185,7 @@ public class GameUniverse implements IGameUniverse {
 		SpawnerData spawn = mySpawner.saveGame();
 		TowerData towers = saveTowers();
 		MapData map = new MapData(myGameMap);
-		LevelSettings settings = new LevelSettings(myScore.getScoreThreshold());
+		LevelSettings settings = new LevelSettings(0);
 		UniverseData data = new UniverseData(spawn, towers, map, settings);
 		return data;
 	}

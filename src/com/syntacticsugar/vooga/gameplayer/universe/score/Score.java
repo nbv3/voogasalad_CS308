@@ -13,21 +13,10 @@ import com.syntacticsugar.vooga.xml.data.LevelSettings;
 public class Score extends Observable implements IScore {
 
 	int myScore;
-	int myScoreThreshold;
-	private IEventPoster myPoster;
 
-	public Score(IEventManager manager, LevelSettings settings) {
-		manager.registerListener(this);
+	public Score(LevelSettings settings) {
 		myScore = 0;
-		myScoreThreshold = settings.getScoreThreshold();
-		myPoster = manager;
-	}
 
-	@Override
-	public void update() {
-		if (myScoreThreshold > 0 && myScore > myScoreThreshold) {
-			myPoster.postEvent(new LevelChangeEvent(ConditionType.WINNING));
-		}
 	}
 
 	@Override
@@ -48,9 +37,9 @@ public class Score extends Observable implements IScore {
 	}
 
 	@Override
-	public int getScoreThreshold() {
-		return myScoreThreshold;
-	}
+	public int getScore() {
+		return myScore;
 
+	}
 
 }

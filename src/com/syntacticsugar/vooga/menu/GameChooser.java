@@ -164,6 +164,16 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 
 	private GameData makeEmptyData() {
 
+		Collection<UniverseData> uni = new ArrayList<>();
+		uni.add(generateTestUni());
+		uni.add(generateTestUni());
+		GlobalSettings settings = new GlobalSettings();
+		GameData data = new GameData(uni, settings);
+
+		return data;
+	}
+
+	private UniverseData generateTestUni() {
 		Collection<ObjectData> odata = new ArrayList<>();
 
 		String enemyPath = "enemy_ghost_1.png";
@@ -312,12 +322,7 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 		TowerData td = new TowerData(towers);
 
 		LevelSettings lSetting = new LevelSettings(50);
-		Collection<UniverseData> uni = new ArrayList<>();
-		uni.add(new UniverseData(spawn, td, map, lSetting));
-		GlobalSettings settings = new GlobalSettings(1, 60);
-		GameData data = new GameData(uni, settings);
-
-		return data;
+		return new UniverseData(spawn, td, map, lSetting);
 	}
 
 

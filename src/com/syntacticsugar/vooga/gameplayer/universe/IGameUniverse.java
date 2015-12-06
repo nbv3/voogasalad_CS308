@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.Observer;
 
 import com.syntacticsugar.vooga.gameplayer.conditions.IGameCondition;
+import com.syntacticsugar.vooga.gameplayer.manager.IEventManager;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.universe.map.IGameMap;
 import com.syntacticsugar.vooga.gameplayer.universe.score.IScore;
@@ -30,6 +31,8 @@ public interface IGameUniverse extends IObjectCollection,
 	public IGameMap getMap();
 	
 	public UniverseData saveGame();
+	
+	public void registerListeners(IEventManager manager);
 	
 	
 }

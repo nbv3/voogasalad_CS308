@@ -4,22 +4,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.syntacticsugar.vooga.gameplayer.manager.IEventManager;
+import com.syntacticsugar.vooga.gameplayer.universe.score.IEventListener;
 
-public class Conditions implements IConditions {
+public class Conditions implements IConditions, IEventListener {
 
 	private List<IGameCondition> myConditions;
-	private IEventManager myManager;
 
-	public Conditions(IEventManager manager) {
+	public Conditions() {
 		myConditions = new ArrayList<IGameCondition>();
-		myManager = manager;
+
 	}
 
 	@Override
 	public void addCondition(IGameCondition condition) {
-		condition.registerManager(myManager);
-		myManager.registerListener(condition);
 		myConditions.add(condition);
+
+	}
+
+	@Override
+	public void registerEventManager(IEventManager eventmanager) {
+
+		for (IGameCondition cond : myConditions) {
+
+			cond.registerManager(eventmanager);
+			eventmanager.registerListener(cond);
+		}
 
 	}
 

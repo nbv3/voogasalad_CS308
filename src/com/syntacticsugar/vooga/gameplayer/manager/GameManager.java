@@ -1,62 +1,34 @@
 package com.syntacticsugar.vooga.gameplayer.manager;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.EventListener;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import com.syntacticsugar.vooga.gameplayer.attribute.HealthAttribute;
-import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
-import com.syntacticsugar.vooga.gameplayer.attribute.ScoreAttribute;
-import com.syntacticsugar.vooga.gameplayer.attribute.WeaponAttribute;
-import com.syntacticsugar.vooga.gameplayer.attribute.movement.MovementControlAttribute;
 import com.syntacticsugar.vooga.gameplayer.conditions.ConditionType;
 import com.syntacticsugar.vooga.gameplayer.engine.GameEngine;
-import com.syntacticsugar.vooga.gameplayer.event.ICollisionEvent;
 import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
-import com.syntacticsugar.vooga.gameplayer.event.implementations.HealthChangeEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.LevelChangeEvent;
 import com.syntacticsugar.vooga.gameplayer.game.Game;
-import com.syntacticsugar.vooga.gameplayer.objects.GameObject;
-import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
-import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
-import com.syntacticsugar.vooga.gameplayer.view.ViewController;
+import com.syntacticsugar.vooga.gameplayer.view.GameViewController;
 import com.syntacticsugar.vooga.xml.data.GameData;
-import com.syntacticsugar.vooga.xml.data.ObjectData;
 import com.syntacticsugar.vooga.xml.data.UniverseData;
-
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 
-public class GameManager implements IGameManager{
+public class GameManager implements IGameManager {
 
 	private Game myGame;
 	private IGameUniverse currentLevel;
-	// private List<IGameCondition> myConditions;
-	// private GameInformation myInformation;
 	private Timeline myGameTimeline;
 	private GameEngine myGameEngine;
-
 	private IEventManager myEventManager;
-	
-	private ViewController myViewController;
-	
-	// engine stage
+	private GameViewController myViewController;
 	private Stage myStage;
 	private double frameLength;
-	
-	private List<EventListener> myListeners; // Will go in game players
 
 	public GameManager(EventHandler<WindowEvent> onClose, double gameSize, GameData data, double frameRate) {
 		this.frameLength = frameRate;
@@ -66,19 +38,21 @@ public class GameManager implements IGameManager{
 		myEventManager = new EventManager();
 		myEventManager.registerListener(this);
 
-		myGame = new Game(data, myEventManager);
+		myGame = new Game(data);
 		currentLevel = myGame.getLevel(1);
 
-		myViewController = new ViewController(gameSize);
-
-		myViewController.initializeView(currentLevel);
-		myGameEngine = new GameEngine(currentLevel, myViewController);
+		myViewController = new GameViewController(gameSize);
+		myViewController.displayLevel(currentLevel);
+		currentLevel.registerListeners(myEventManager);
+		myGameEngine = new GameEngine();
+		myGameEngine.registerViewAdder(myViewController);
+		myGameEngine.registerViewRemover(myViewController);
 
 		stageInit();
 	}
 
 	private void stageInit() {
-		Scene gameScene = new Scene(getGameView());
+		Scene gameScene = new Scene(myViewController.getGameView());
 		initializeAnimation(frameLength);
 		gameScene.addEventFilter(KeyEvent.KEY_PRESSED, e -> receiveKeyPressed(e.getCode()));
 		gameScene.addEventFilter(KeyEvent.KEY_RELEASED, e -> receiveKeyReleased(e.getCode()));
@@ -89,32 +63,39 @@ public class GameManager implements IGameManager{
 	}
 
 	@Override
-	public void restartGame() {
-		myGameEngine.resetUniverse(currentLevel);
+	public void updateGame() {
+		myGameEngine.update(currentLevel);
+
 	}
 
-	@Override
-	public void updateGame() {
-		myGameEngine.update();
-		
-	}
-	
 	public void pause() {
 		myGameTimeline.pause();
 	}
-	
 
 	@Override
 	public void switchLevel(ConditionType type) {
 		pause();
 		if (type.equals(ConditionType.WINNING)) {
 			System.out.println("WINNER");
+			nextLevel();
 		} else if (type.equals(ConditionType.LOSING)) {
 			System.out.println("YOU LOSE");
-			restartGame();
 			startGame();
 		}
 
+	}
+
+	private void nextLevel() {
+		currentLevel = myGame.nextLevel();
+		myViewController.displayLevel(currentLevel);
+		myEventManager = new EventManager();
+		myEventManager.registerListener(this);
+		currentLevel.registerListeners(myEventManager);
+		myGameEngine = new GameEngine();
+		myGameEngine.registerViewAdder(myViewController);
+		myGameEngine.registerViewRemover(myViewController);
+		// myGameTimeline.stop();
+		initializeAnimation(frameLength);
 	}
 
 	public void receiveKeyPressed(KeyCode code) {
@@ -124,21 +105,15 @@ public class GameManager implements IGameManager{
 			} else {
 				myGameTimeline.pause();
 			}
-		} 
-		else if (code.equals(KeyCode.S)) {
+		} else if (code.equals(KeyCode.S)) {
 			saveGame();
-		} 
-		else {
-			myGameEngine.receiveKeyPressed(code);
+		} else {
+			currentLevel.receiveKeyPress(code);
 		}
 	}
 
 	public void receiveKeyReleased(KeyCode code) {
-		myGameEngine.receiveKeyReleased(code);
-	}
-
-	public Pane getGameView() {
-		return myGameEngine.getGameView();
+		currentLevel.receiveKeyRelease(code);
 	}
 
 	@Override
@@ -158,14 +133,12 @@ public class GameManager implements IGameManager{
 	public void onEvent(IGameEvent e) {
 		try {
 			LevelChangeEvent event = (LevelChangeEvent) e;
-			System.out.println("LEVEL SWITCH");
-			pause();
-		}
-		catch (ClassCastException ex) {
-			
+			switchLevel(event.getLevelConditionType());
+		} catch (ClassCastException ex) {
+
 		}
 	}
-	
+
 	private void saveGame() {
 		UniverseData data = currentLevel.saveGame();
 		myGame.saveGame(data);

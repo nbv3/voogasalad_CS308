@@ -9,12 +9,12 @@ import com.syntacticsugar.vooga.gameplayer.universe.IUniverseView;
 import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.IGameTile;
 import com.syntacticsugar.vooga.gameplayer.view.implementation.TileView;
 
-public class ViewController implements IViewRemover, IViewAdder{
+public class GameViewController implements IViewRemover, IViewAdder{
 
 	private Map<IViewableObject, ObjectView> myViewMap;
 	private GameView myGameView;
 	
-	public ViewController(double size) {
+	public GameViewController(double size) {
 		myViewMap = new HashMap<IViewableObject, ObjectView>();
 		myGameView = new GameView(size);
 	}
@@ -38,14 +38,12 @@ public class ViewController implements IViewRemover, IViewAdder{
 		myViewMap.remove(obj);
 	}
 
-	public void initializeView(IUniverseView universe) {
+	public void displayLevel(IUniverseView universe) {
+		myGameView.resetComponents();
 		myGameView.initializeAvailableTowers(universe.getAvailableTowers(), universe);
 		universe.observeScore(myGameView.getScoreBox());
 		for (IGameTile tile: universe.getMap().getTiles()) {
 			addTileObject(tile);
-		}
-		for (IGameObject object : universe.getGameObjects()) {
-			addViewObject(object);
 		}
 	}
 
