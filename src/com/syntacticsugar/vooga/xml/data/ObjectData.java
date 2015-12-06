@@ -46,7 +46,7 @@ public class ObjectData implements Serializable{
 		height = obj.getBoundingBox().getHeight();
 		myAttributes = obj.getAttributes().values();
 		myCollisionMap = obj.getCollisionMap();
-		myImagePath.setValue(obj.getPath());
+		myImagePath.set(obj.getPath());
 		myType = obj.getType();
 		myDirection = obj.getBoundingBox().getDirection();
 	}
@@ -68,7 +68,7 @@ public class ObjectData implements Serializable{
 	}
 	
 	public String getImagePath() {
-		return this.myImagePath.getValue();
+		return this.myImagePath.get();
 	}
 	
 	public Collection<IAttribute> getAttributes() {
@@ -95,8 +95,8 @@ public class ObjectData implements Serializable{
 		height = h;
 	}
 	
-	public void setImagePath(String myImagePath) {
-		this.myImagePath.setValue(myImagePath);
+	public void setImagePath(String imagePath) {
+		this.myImagePath.set(imagePath);
 	}
 	
 	public void setObjectName(String name) {

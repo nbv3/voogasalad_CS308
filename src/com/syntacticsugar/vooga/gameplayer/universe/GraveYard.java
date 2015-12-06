@@ -10,21 +10,30 @@ import com.syntacticsugar.vooga.gameplayer.event.implementations.ObjectDespawnEv
 import com.syntacticsugar.vooga.gameplayer.event.implementations.ScoreChangeEvent;
 import com.syntacticsugar.vooga.gameplayer.manager.IEventManager;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
+import com.syntacticsugar.vooga.gameplayer.universe.score.IEventListener;
 import com.syntacticsugar.vooga.gameplayer.view.IViewRemover;
 import com.syntacticsugar.vooga.util.ResourceManager;
 
-public class GraveYard implements IYard<IViewRemover>, GameEventListener {
+public class GraveYard implements IYard<IViewRemover>, GameEventListener, IEventListener {
 
 	private Collection<IGameObject> objectsInYard;
 	private IObjectRemover myUniverse;
 	
 	private IEventPoster myPoster;
 
-	public GraveYard(IObjectRemover universe, IEventManager manager) {
+	public GraveYard(IObjectRemover universe) {
 		objectsInYard = new ArrayList<IGameObject>();
 		myUniverse = universe;
-		manager.registerListener(this);
-		myPoster = manager;
+
+
+	}
+	
+
+	@Override
+	public void registerEventManager(IEventManager eventmanager) {
+		eventmanager.registerListener(this);
+		myPoster = eventmanager;
+		
 	}
 
 	@Override
@@ -62,5 +71,6 @@ public class GraveYard implements IYard<IViewRemover>, GameEventListener {
 			
 		}
 	}
+
 
 }

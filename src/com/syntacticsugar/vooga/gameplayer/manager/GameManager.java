@@ -1,31 +1,13 @@
 package com.syntacticsugar.vooga.gameplayer.manager;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.EventListener;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import com.syntacticsugar.vooga.gameplayer.attribute.HealthAttribute;
-import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
-import com.syntacticsugar.vooga.gameplayer.attribute.ScoreAttribute;
-import com.syntacticsugar.vooga.gameplayer.attribute.WeaponAttribute;
-import com.syntacticsugar.vooga.gameplayer.attribute.movement.MovementControlAttribute;
 import com.syntacticsugar.vooga.gameplayer.conditions.ConditionType;
 import com.syntacticsugar.vooga.gameplayer.engine.GameEngine;
-import com.syntacticsugar.vooga.gameplayer.event.ICollisionEvent;
 import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
-import com.syntacticsugar.vooga.gameplayer.event.implementations.HealthChangeEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.LevelChangeEvent;
 import com.syntacticsugar.vooga.gameplayer.game.Game;
-import com.syntacticsugar.vooga.gameplayer.objects.GameObject;
-import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
-import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.gameplayer.view.GameViewController;
 import com.syntacticsugar.vooga.xml.data.GameData;
-import com.syntacticsugar.vooga.xml.data.ObjectData;
 import com.syntacticsugar.vooga.xml.data.UniverseData;
 
 import javafx.animation.KeyFrame;
@@ -56,7 +38,6 @@ public class GameManager implements IGameManager{
 	private Stage myStage;
 	private double frameLength;
 	
-	private List<EventListener> myListeners; // Will go in game players
 
 	public GameManager(EventHandler<WindowEvent> onClose, double gameSize, GameData data, double frameRate) {
 		this.frameLength = frameRate;
@@ -66,12 +47,12 @@ public class GameManager implements IGameManager{
 		myEventManager = new EventManager();
 		myEventManager.registerListener(this);
 
-		myGame = new Game(data, myEventManager);
+		myGame = new Game(data);
 		currentLevel = myGame.getLevel(1);
 
 		myViewController = new GameViewController(gameSize);
 		myViewController.displayLevel(currentLevel);
-		
+		currentLevel.registerListeners(myEventManager);
 		myGameEngine = new GameEngine(currentLevel, myViewController);
 
 		stageInit();
@@ -121,9 +102,13 @@ public class GameManager implements IGameManager{
 	private void nextLevel(){
 		currentLevel = myGame.nextLevel();
 		myViewController.displayLevel(currentLevel);
+		myEventManager = new EventManager();
+		myEventManager.registerListener(this);
+		currentLevel.registerListeners(myEventManager);
 		myGameEngine = new GameEngine(currentLevel, myViewController);
 		//myGameTimeline.stop();
 		initializeAnimation(frameLength);
+		System.out.println("HERRRRRR");
 	}
 
 	public void receiveKeyPressed(KeyCode code) {
@@ -169,7 +154,6 @@ public class GameManager implements IGameManager{
 			LevelChangeEvent event = (LevelChangeEvent) e;
 			System.out.println("LEVEL SWITCH");
 			switchLevel(event.getLevelConditionType());
-			pause();
 		}
 		catch (ClassCastException ex) {
 			

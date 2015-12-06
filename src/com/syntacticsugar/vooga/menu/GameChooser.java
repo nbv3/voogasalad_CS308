@@ -10,14 +10,17 @@ import com.syntacticsugar.vooga.authoring.fluidmotion.mixandmatchmotion.Directio
 import com.syntacticsugar.vooga.gameplayer.attribute.HealthAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.ScoreAttribute;
-import com.syntacticsugar.vooga.gameplayer.attribute.WeaponAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.control.actions.movement.Direction;
 import com.syntacticsugar.vooga.gameplayer.attribute.movement.ConstantMovementAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.movement.MovementControlAttribute;
+import com.syntacticsugar.vooga.gameplayer.attribute.weapon.BasicWeaponAttribute;
+import com.syntacticsugar.vooga.gameplayer.attribute.weapon.StunWeaponAttribute;
 import com.syntacticsugar.vooga.gameplayer.event.ICollisionEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.HealthChangeEvent;
 import com.syntacticsugar.vooga.gameplayer.manager.GameManager;
+import com.syntacticsugar.vooga.gameplayer.objects.GameObject;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
+import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.dirview.IConverter;
 import com.syntacticsugar.vooga.util.dirview.IDirectoryViewer;
@@ -192,8 +195,10 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 		health.setHealth(30.0);
 		ScoreAttribute score = new ScoreAttribute();
 		score.setScore(30);
+		ConstantMovementAttribute move = new ConstantMovementAttribute(Direction.DOWN, 0.5);
 		enemyAttributes.add(health);
 		enemyAttributes.add(score);
+		enemyAttributes.add(move);
 		// enemyAttributes.add(new AIMovementAttribute(3));
 		Map<GameObjectType, Collection<ICollisionEvent>> collisions = new HashMap<GameObjectType, Collection<ICollisionEvent>>();
 		Collection<ICollisionEvent> enemyEvents = new ArrayList<ICollisionEvent>();
@@ -233,18 +238,16 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 		String missilePath = "scenery_pink.png";
 
 		ObjectData playerData = new ObjectData();
-		Collection<IAttribute> attributes = new ArrayList<IAttribute>();
+		Collection<IAttribute> attributes = new ArrayList<>();
+		attributes.add(new HealthAttribute());
+		attributes.add(new MovementControlAttribute());
+		attributes.add(new StunWeaponAttribute(missilePath, 1.0, KeyCode.SPACE, 8.0, 5.0, 10.0, 60));
 		HealthAttribute playerHealth = new HealthAttribute();
 		playerHealth.setHealth(100.0);
-		WeaponAttribute playerWeapon = new WeaponAttribute();
-		playerWeapon.setBulletDamage(50.0);
-		playerWeapon.setBulletImagePath(missilePath);
-		playerWeapon.setFireKeyCode(KeyCode.SPACE);
 		MovementControlAttribute playerMove = new MovementControlAttribute();
 		playerMove.setSpeed(3.0);
 		attributes.add(playerHealth);
 		attributes.add(playerMove);
-		attributes.add(playerWeapon);
 		playerData.setType(GameObjectType.PLAYER);
 		playerData.setSpawnPoint(0, 0);
 		playerData.setWidth(50);
@@ -279,7 +282,6 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 		odata.add(playerData);
 		odata.add(enemyData);
 		odata.add(enemyData2);
-		odata.add(enemyData3);
 		WaveData wdata = new WaveData(odata);
 		Collection<WaveData> sdata = new ArrayList<>();
 		sdata.add(wdata);
@@ -329,7 +331,8 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 
 		TowerData td = new TowerData(towers);
 
-		LevelSettings lSetting = new LevelSettings(50);
+		LevelSettings lSetting = new LevelSettings(1000, 60);
+
 		return new UniverseData(spawn, td, map, lSetting);
 	}
 

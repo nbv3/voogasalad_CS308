@@ -1,5 +1,5 @@
 package com.syntacticsugar.vooga.gameplayer.event;
 
 public enum CollisionEventType {
-	HealthChange
+	HealthChange, Slow, Stun,
 }

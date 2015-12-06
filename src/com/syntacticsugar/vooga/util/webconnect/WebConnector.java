@@ -23,6 +23,12 @@ public class WebConnector {
 		return WebConnectorHelper.get(GET_GAME_URL + gameindex);
 	}
 
+	public static JSONObject getXMLData(int gameindex){
+		JSONObject fullXML = getXML(gameindex);
+		fullXML.remove("xml");
+		return fullXML;
+	}
+	
 	public static String deleteXML(int gameindex) {
 		return WebConnectorHelper.delete(DELETE_GAME_URL + gameindex);
 	}

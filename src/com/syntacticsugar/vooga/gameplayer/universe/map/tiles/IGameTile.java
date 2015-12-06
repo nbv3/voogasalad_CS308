@@ -30,4 +30,9 @@ public interface IGameTile extends IViewableObject, ITowerHolder{
 	 */
 	public Point2D getPoint();
 	
+	/**
+	 * Set this point as a destination.
+	 */
+	public void setDestination(boolean dest);
+	
 }

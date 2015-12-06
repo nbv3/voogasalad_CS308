@@ -29,7 +29,7 @@ public class XMLHandler<T> implements IXML<T> {
 		}
 	}
 
-	private String fileToString(File f) {
+	public static String fileToString(File f) {
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(f));
 			String line;
@@ -49,7 +49,7 @@ public class XMLHandler<T> implements IXML<T> {
 		}
 	}
 
-	private void writeXMLToFile(String xml, String path) {
+	public static void writeXMLToFile(String xml, String path) {
 		try {
 			PrintWriter out = new PrintWriter(path);
 			out.println(xml);

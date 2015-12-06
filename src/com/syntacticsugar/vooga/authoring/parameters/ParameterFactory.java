@@ -9,7 +9,9 @@ import java.util.Observable;
 import java.util.ResourceBundle;
 
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
+import com.syntacticsugar.vooga.gameplayer.attribute.movement.AIMovementAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.movement.MovementControlAttribute;
+import com.syntacticsugar.vooga.gameplayer.attribute.weapon.BasicWeaponAttribute;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

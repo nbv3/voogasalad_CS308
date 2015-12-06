@@ -5,7 +5,12 @@ import org.json.JSONObject;
 public interface IComments {
 
 	public String getSerializedComments(String gameName);
+		
+	public String getGameName();
 	
-	public void postComment(String author, String comment);
+	public int getGameID();
+	
+	public void updateData();
+	
 	
 }
