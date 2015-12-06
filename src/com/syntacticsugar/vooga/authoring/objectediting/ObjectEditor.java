@@ -90,7 +90,7 @@ public class ObjectEditor implements IObjectDataClipboard {
 		myIcon.setImage(new Image(ResourceManager.getResource(this, emptyData.getImagePath())));
 		emptyData.setObjectName(null);
 		emptyData.setType(null);
-		setUpdateButtonViability(false);
+		setUpdateButtonVisibility(false);
 		setSaveButtonViability(false);
 		emptyData.setAttributes(FXCollections.observableArrayList());
 		emptyData.setCollisionMap(FXCollections.observableHashMap());
@@ -298,7 +298,7 @@ public class ObjectEditor implements IObjectDataClipboard {
 		myTypeChooser.setDisable(!flag);
 	}
 
-	public void setUpdateButtonViability(boolean flag) {
+	public void setUpdateButtonVisibility(boolean flag) {
 		myUpdateButton.setDisable(!flag);
 	}
 
