@@ -10,7 +10,6 @@ import java.util.Observable;
 import com.syntacticsugar.vooga.authoring.fluidmotion.FadeTransitionWizard;
 import com.syntacticsugar.vooga.authoring.fluidmotion.FluidGlassBall;
 import com.syntacticsugar.vooga.authoring.fluidmotion.ParallelTransitionWizard;
-import com.syntacticsugar.vooga.authoring.level.IDataSelector;
 import com.syntacticsugar.vooga.authoring.level.ITabbedManager;
 import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
@@ -27,7 +26,7 @@ import javafx.scene.layout.VBox;
 public class SpawnerManager implements ITabbedManager<ObjectData> {
 
 	private TabPane myTabPane;
-	private Map<Tab, SpawnerView> mySpawnerViewMap;
+	private Map<Tab, SpawnerPair> mySpawnerViewMap;
 	private SpawnerControls mySpawnerController;
 
 	public SpawnerManager() {
@@ -45,8 +44,8 @@ public class SpawnerManager implements ITabbedManager<ObjectData> {
 		newWaveTab.setContent(newSpawnerView.getView());
 		newWaveTab.setOnCloseRequest(e -> remove());
 		newWaveTab.setOnClosed(e -> updateWaveNumbers());
-
-		mySpawnerViewMap.put(newWaveTab, newSpawnerView);
+		SpawnerPair spawnerWaveAndRatePair = new SpawnerPair(0, newSpawnerView);
+		mySpawnerViewMap.put(newWaveTab, spawnerWaveAndRatePair);
 
 		myTabPane.getTabs().add(newWaveTab);
 		myTabPane.getSelectionModel().select(newWaveTab);
@@ -64,11 +63,11 @@ public class SpawnerManager implements ITabbedManager<ObjectData> {
 
 	@Override
 	public SpawnerView getCurrentView() {
-		return mySpawnerViewMap.get(myTabPane.getSelectionModel().getSelectedItem());
+		return mySpawnerViewMap.get(myTabPane.getSelectionModel().getSelectedItem()).getSpawnerView();
 	}
 
 	public void addDataToCurrentView(ObjectData data) {
-		mySpawnerViewMap.get(myTabPane.getSelectionModel().getSelectedItem()).addData(data);
+		mySpawnerViewMap.get(myTabPane.getSelectionModel().getSelectedItem()).getSpawnerView().addData(data);
 	}
 
 	@Override
@@ -85,14 +84,19 @@ public class SpawnerManager implements ITabbedManager<ObjectData> {
 	public Node getViewNode() {
 		return GUIFactory.buildTitledPane("Spawner Display", myTabPane);
 	}
+	
+	public void setCurrentWaveSpawnRate(int rate) {
+		mySpawnerViewMap.get(myTabPane.getSelectionModel().getSelectedItem()).setSpawnRate(rate);
+	}
 
 	public SpawnerData getSpawnerData() {
-		Collection<WaveData> map = new ArrayList<WaveData>();
+		Collection<WaveData> waves = new ArrayList<>();
 		for (Tab t : myTabPane.getTabs()) {
-			WaveData queue = mySpawnerViewMap.get(t).getWaveData();
-			map.add(queue);
+			Collection<ObjectData> queue = mySpawnerViewMap.get(t).getSpawnerView().getObjectQueue();
+			WaveData wave = new WaveData(queue, mySpawnerViewMap.get(t).getRate());
+			waves.add(wave);
 		}
-		return new SpawnerData(map);
+		return new SpawnerData(waves);
 	}
 
 	private void clearWave_BAREBONE(ListView<VBox> wave) {

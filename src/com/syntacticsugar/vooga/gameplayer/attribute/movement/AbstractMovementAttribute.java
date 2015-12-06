@@ -31,15 +31,14 @@ public abstract class AbstractMovementAttribute extends AbstractAttribute implem
 	}
 	
 	public AbstractMovementAttribute(double speed) {
-		super();
-		setSpeed(mySpeed);
+		setSpeed(speed);
 	}
 	
 	@Override
 	protected void setDefaults() {
 		resetVelocity();
 		myCurrentTile = new Point(0,0);
-		this.mySpeed = 3.0;
+		this.mySpeed = 10.0;
 	}
 
 	protected double getXVelocity() {

@@ -84,7 +84,7 @@ public abstract class AbstractWeaponAttribute extends AbstractAttribute implemen
 
 	}
 
-	private boolean fireConditionsMet() {
+	protected boolean fireConditionsMet() {
 		return (delayFrameCounter > fireFrameDelay);
 	}
 
@@ -106,11 +106,24 @@ public abstract class AbstractWeaponAttribute extends AbstractAttribute implemen
 		params.setStartPoint(bulletInitPos);
 		params.setImagePath(myBulletImagePath);
 		params.setSpeed(myBulletSpeed);
+		System.out.println(myBulletSpeed);
 		params.setDamage(myBulletDamage);
 		params.setWidth(myBulletWidth);
 		params.setHeight(myBulletHeight);
 
 		return params;
+	}
+	
+	protected boolean getIsFireKeyPressed() {
+		return isFireKeyPressed;
+	}
+	
+	protected void setDelayFrameCounter(int c) {
+		delayFrameCounter = c;
+	}
+	
+	protected void incDelayFrameCounter() {
+		delayFrameCounter++;
 	}
 
 	

@@ -44,7 +44,8 @@ public class TowerShop extends Observable implements Observer {
 		title.setId("tower-shop");
 		title.setAlignment(Pos.CENTER);
 		
-		myMoneyInfo = new MoneyInfo(0, "game-data");
+		myMoneyInfo = new MoneyInfo(0, "money");
+		myMoneyInfo.setAlignment(Pos.CENTER);
 		myContent.getChildren().addAll(title, myMoneyInfo);
 		towerList = new ScrollPane(myContent);
 	}
@@ -85,7 +86,7 @@ public class TowerShop extends Observable implements Observer {
 		HBox towerInfo = new HBox(10);
 		VBox towerValues = new VBox(5);
 		towerValues.getChildren().addAll(new Label(towerData.getName()), 
-				new Label("Cost: " + (-1)*towerData.getCost()));
+				new MoneyInfo((-1)*towerData.getCost(), "cost"));
 		towerInfo.getChildren().addAll(towerIcon, towerValues);
 		myContent.getChildren().add(towerInfo);
 	}
