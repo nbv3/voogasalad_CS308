@@ -4,6 +4,6 @@ import java.io.File;
 
 public interface IOnFileChooserAction {
 
-	public void action(File selected);
+	public void action(File selectedFile);
 	
 }

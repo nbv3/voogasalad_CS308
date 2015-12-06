@@ -98,25 +98,19 @@ public class ObjectDataViewer {
 		if (mySelectedItemID == Integer.MIN_VALUE)
 			return;
 		else {
-			FileChooserUtil.saveFile("Choose a save location.", ".xml", new IOnFileChooserAction(){
-				@Override
-				public void action(File selected) {
+			FileChooserUtil.saveFile("Choose a save location.", ".xml", null, selected -> {
 					XMLHandler.writeXMLToFile(JSONHelper.extractXML(WebConnector.getXML(mySelectedItemID)),
 							selected.toPath().toString());					
-				}
 			});
 		}
 	}
 
 	private void makeUploadFileChooser(){//EventHandler<ActionEvent> action) {
 		ExtensionFilter filter = new ExtensionFilter("XML files", "*.xml", "*.XML");
-		FileChooserUtil.loadFile("Choose an XML game file", filter, new IOnFileChooserAction(){
-			@Override
-			public void action(File selected) {
+		FileChooserUtil.loadFile("Choose an XML game file", filter, null, selected -> {
 				WebConnector.postXML(JSONHelper.createXMLJSON(
 						"Michael", "Tetris", "tetris", XMLHandler.fileToString(selected)));	
-			}
-		});		
+			});
 	}
 	
 	private void launchPropertiesBox(){

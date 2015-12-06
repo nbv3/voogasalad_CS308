@@ -10,6 +10,7 @@ import com.syntacticsugar.vooga.authoring.icon.Icon;
 import com.syntacticsugar.vooga.authoring.library.IRefresher;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.util.ResourceManager;
+import com.syntacticsugar.vooga.util.filechooser.FileChooserUtil;
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
 import com.syntacticsugar.vooga.xml.XMLHandler;
@@ -34,7 +35,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
-import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 
@@ -171,39 +171,35 @@ public class ObjectEditor implements IObjectDataClipboard {
 			return;
 		}
 		currentData.setObjectName(td.getResult());
-
-		// TODO : EXTRACT FILE CHOOSING INTO A UTILITY
-		FileChooser fileChooser = new FileChooser();
-		fileChooser.getExtensionFilters().add(new ExtensionFilter("XML Data", "*.xml"));
-		fileChooser.setTitle("Save Resource File");
-		fileChooser.setInitialDirectory(new File(ResourceManager
-				.getString(String.format("%s_%s", currentData.getType().toString().toLowerCase(), "data"))));
-		fileChooser.setInitialFileName(String.format("%s.%s", currentData.getObjectName(), "xml"));
-		File selectedFile = fileChooser.showSaveDialog(new Stage());
-		if (selectedFile != null) {
-			XMLHandler<ObjectData> xml = new XMLHandler<>();
-			xml.write(currentData, selectedFile);
-		}
-		myRefresher.refresh();
+		launchSaveBox();
+		myRefresher.refresh();	
+	}
+	
+	private void launchSaveBox(){
+		FileChooserUtil.saveFile("Save Resource File", 
+				String.format("%s.%s", currentData.getObjectName(),"xml"), 
+				new File(ResourceManager.getString(String.format("%s_%s", 
+						currentData.getType().toString().toLowerCase(),"data"))), 
+				selectedFile -> {
+					XMLHandler<ObjectData> xml = new XMLHandler<>();
+					xml.write(currentData, selectedFile);
+				});
 	}
 
 	private void selectImage() {
-		FileChooser fileChooser = new FileChooser();
-		fileChooser.getExtensionFilters().add(new ExtensionFilter("Image Files", "*.jpeg", "*.gif", "*.png"));
-		fileChooser.setTitle("Save Resource File");
 		if (currentData.getType() == null) {
 			AlertBoxFactory.createObject(ResourceManager.getString("select_object_type_error"));
 			return;
 		}
-		fileChooser.setInitialDirectory(new File(ResourceManager
-				.getString(String.format("%s_%s", currentData.getType().toString().toLowerCase(), "images"))));
-		File selectedFile = fileChooser.showOpenDialog(new Stage());
-		if (selectedFile != null) {
-			// currentData.setImagePath(selectedFile.getName());
-			selectedImagePath = selectedFile.getName();
-			myIcon.setImage(new Image(getClass().getClassLoader().getResourceAsStream(selectedFile.getName())));
-			currentData.setImagePath( selectedImagePath);
-		}
+
+		FileChooserUtil.loadFile("Select Image File", new ExtensionFilter("Image Files", "*.jpeg", "*.gif", "*.png"),
+				new File(ResourceManager
+						.getString(String.format("%s_%s", currentData.getType().toString().toLowerCase(), "images"))),
+				selectedFile -> {
+					selectedImagePath = selectedFile.getName();
+					myIcon.setImage(new Image(getClass().getClassLoader().getResourceAsStream(selectedFile.getName())));
+					currentData.setImagePath(selectedImagePath);
+				});
 	}
 
 	private void buildNewAttribute() {
