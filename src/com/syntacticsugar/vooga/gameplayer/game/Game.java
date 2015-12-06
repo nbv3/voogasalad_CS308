@@ -8,13 +8,13 @@ import java.util.List;
 import com.syntacticsugar.vooga.gameplayer.manager.IEventManager;
 import com.syntacticsugar.vooga.gameplayer.universe.GameUniverse;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
+import com.syntacticsugar.vooga.util.filechooser.FileChooserUtil;
 import com.syntacticsugar.vooga.xml.XMLHandler;
 import com.syntacticsugar.vooga.xml.data.GameData;
 import com.syntacticsugar.vooga.xml.data.MapData;
 import com.syntacticsugar.vooga.xml.data.UniverseData;
 import com.syntacticsugar.vooga.xml.data.GlobalSettings;
 
-import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 
@@ -61,12 +61,10 @@ public class Game implements IGame {
 		GameData gameSave = new GameData(gameData, mySettings);
 		XMLHandler<GameData> xmlMake = new XMLHandler<>();
 
-		FileChooser fileChooser = new FileChooser();
-		fileChooser.setTitle("Save Game");
-		File selectedFile = fileChooser.showSaveDialog(new Stage());
-		if (selectedFile != null) {
+		FileChooserUtil.saveFile("Save Game", "", null, selectedFile -> {
 			xmlMake.write(gameSave, selectedFile);
-		}
+		});
+	
 		//TODO: Write it to a file (look at the authoring env object save
 //		xmlMake.writeXMLToFile(xmldata, f);
 	}

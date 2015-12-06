@@ -2,14 +2,16 @@ package com.syntacticsugar.vooga.menu;
 
 import com.syntacticsugar.vooga.authoring.AuthoringScreenManager;
 import com.syntacticsugar.vooga.social.SocialCenter;
+import com.syntacticsugar.vooga.util.properties.PropertiesManager;
 
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 
 public class MainMenu extends AbstractMenu{
+	private static PropertiesManager propManager= new PropertiesManager("com/syntacticsugar/vooga/resources/View");
 
 	public MainMenu() {
-		super("Synctactic Sugar");
+		super(propManager.getProperty("ProgramTitle"));
 	}
 
 	@Override

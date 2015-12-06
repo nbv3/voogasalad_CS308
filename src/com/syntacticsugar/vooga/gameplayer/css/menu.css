@@ -2,7 +2,7 @@
     -fx-font-size: 40pt;
     -fx-font-family: "Arial Black";
     -fx-opacity: 0.6;
-    -fx-fill: #818181;
+    -fx-fill: #00FF00;
   	-fx-effect: innershadow( three-pass-box , rgba(0,0,0,0.7) , 6, 0.0 , 0 , 2 );
 }
 
@@ -20,16 +20,25 @@
 
 .button {
     -fx-border-color: #e2e2e2;
-    -fx-border-width: 2;
-    -fx-background-radius: 0;
+    -fx-border-width: 0;
+    -fx-background-radius: 8;
     -fx-background-color: #1d1d1d;
-    -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
-    -fx-font-size: 30pt;
+    -fx-font-family: "Arial Black", Arial, sans-serif;
+    -fx-font-size: 15pt;
     -fx-text-fill: #d8d8d8;
 }
 
+#options_box{
+	-fx-padding:50 70 0 0;
+}
+
+#menuTitle{
+	-fx-padding:30 70 0 0;
+}
+
 .button:hover {
-	-fx-background-color: linear-gradient(#61a2b1, #2A5058);
+	-fx-background-color: linear-gradient(#CCCCCC, #999999);
+	-fx-text-fill: #333333;
 }
 
 .button:pressed, .button:default:hover:pressed {
