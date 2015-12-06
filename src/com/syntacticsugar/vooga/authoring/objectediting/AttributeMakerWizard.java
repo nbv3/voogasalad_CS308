@@ -91,6 +91,7 @@ public class AttributeMakerWizard {
 				myAttributes.add(attributeToAdd);
 			}
 			catch (ReflectionException ex) {
+				System.out.println(className);
 			}
 	}
 	

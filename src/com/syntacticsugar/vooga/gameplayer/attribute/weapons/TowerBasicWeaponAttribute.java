@@ -1,4 +1,4 @@
-package com.syntacticsugar.vooga.gameplayer.attribute.weapon;
+package com.syntacticsugar.vooga.gameplayer.attribute.weapons;
 
 import com.syntacticsugar.vooga.authoring.parameters.EditableClass;
 import com.syntacticsugar.vooga.authoring.parameters.EditableField;
@@ -7,55 +7,63 @@ import com.syntacticsugar.vooga.authoring.parameters.InputTypeException;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.objects.items.bullets.BulletParams;
-import com.syntacticsugar.vooga.gameplayer.objects.items.bullets.StunBullet;
+import com.syntacticsugar.vooga.gameplayer.objects.items.bullets.PlayerBullet;
+import com.syntacticsugar.vooga.gameplayer.objects.items.bullets.TowerBasicBullet;
+import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 
 import javafx.geometry.Point2D;
-import javafx.scene.input.KeyCode;
 
-@EditableClass (	
-		className = "Stun Weapon"	
-	)
-public class StunWeaponAttribute extends AbstractWeaponAttribute {
+@EditableClass (
+		className = "Tower Basic Weapon"
+		)
+public class TowerBasicWeaponAttribute extends AbstractWeaponAttribute {
 	
-	private int myStunTime;
+	private int fireRate;
 	
-	public StunWeaponAttribute(String bulletImagePath, Double bulletDamage, KeyCode fireKeyCode,
-			Double bulletSpeed, Double bulletWidth, Double bulletHeight, Integer stunTime) {
-		super(bulletImagePath, bulletDamage, fireKeyCode, bulletSpeed, bulletWidth, bulletHeight);
-		myStunTime = stunTime;
-	}
-
-	public StunWeaponAttribute() {
+	private int myFrameCount;
+	
+	public TowerBasicWeaponAttribute() {
 		super();
-	}
-	
-	@Override
-	protected void setDefaults() {
-		super.setDefaults();
-		this.myStunTime = 30;
+		myFrameCount = 0;
 	}
 
 	@Override
 	protected IGameObject makeBullet() {
-		StunBullet bullet = null;
+		TowerBasicBullet bullet = null;
 		if (getParent().getType().equals(GameObjectType.PLAYER)) {
 			Point2D bulletInitPos = new Point2D(getParent().getBoundingBox().getPoint().getX() + getParent().getBoundingBox().getWidth()/2,
 											getParent().getBoundingBox().getPoint().getY() + getParent().getBoundingBox().getHeight()/2);
 			BulletParams params = makeParams(bulletInitPos);
-			bullet = new StunBullet(params, myStunTime);
+			bullet = new TowerBasicBullet(params);
+			
 		}
 		return bullet;
+	}
+	
+	@Override
+	public void updateSelf(IGameUniverse universe) {
+		if (fireConditionsMet()) {
+			IGameObject bullet = makeBullet();
+			fireBullet(universe, bullet);
+			myFrameCount = 0;
+		}
+		
+		myFrameCount++;
+	}
+	
+	private boolean fireConditionsMet() {
+		return (myFrameCount >= fireRate);
 	}
 	
 	/**		  	      EDIT TAGS	     		    **/
 	/** *************************************** **/
 	
 	@EditableField
-	(	inputLabel = "Stun Duration",
+	(	inputLabel = "Fire rate",
 		defaultVal = "30"	)
-	private void editStunDamage(String arg) {
+	private void editBulletDamage(String arg) {
 		try {
-			this.myStunTime = InputParser.parseAsInt(arg);
+			this.fireRate = InputParser.parseAsInt(arg);
 		} catch (InputTypeException e) { 	}
 	}
 

@@ -12,7 +12,7 @@ import com.syntacticsugar.vooga.gameplayer.attribute.movement.AIMovementAttribut
 import com.syntacticsugar.vooga.gameplayer.attribute.movement.ConstantMovementAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.movement.Direction;
 import com.syntacticsugar.vooga.gameplayer.attribute.movement.MovementControlAttribute;
-import com.syntacticsugar.vooga.gameplayer.attribute.weapon.StunWeaponAttribute;
+import com.syntacticsugar.vooga.gameplayer.attribute.weapons.StunWeaponAttribute;
 import com.syntacticsugar.vooga.gameplayer.event.ICollisionEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.HealthChangeEvent;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;

@@ -1,4 +1,4 @@
-package com.syntacticsugar.vooga.gameplayer.attribute.weapon;
+package com.syntacticsugar.vooga.gameplayer.attribute.weapons;
 
 import com.syntacticsugar.vooga.authoring.parameters.EditableClass;
 import com.syntacticsugar.vooga.authoring.parameters.EditableField;
@@ -90,7 +90,7 @@ public abstract class AbstractWeaponAttribute extends AbstractAttribute implemen
 
 	protected abstract IGameObject makeBullet();
 
-	private void fireBullet(IEventPoster poster, IGameObject bullet) {
+	protected void fireBullet(IEventPoster poster, IGameObject bullet) {
 		ObjectSpawnEvent event = new ObjectSpawnEvent(bullet);
 		poster.postEvent(event);
 	}

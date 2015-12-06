@@ -32,6 +32,21 @@
     -fx-font-family: "Century Gothic";
     -fx-opacity: 1;
 }
+#game-chooser-title{
+	-fx-font-size:24pt;
+	 -fx-font-family: "Century Gothic";
+	 -fx-padding:5;
+	
+}
+#game-chooser-listview{
+	 -fx-font-family: "Century Gothic";
+	 -fx-font-size:18pt;
+	 -fx-padding:5;
+}
+#game-chooser-vbox{
+	-fx-padding:30;
+}
+
 
 .button {
     -fx-border-color: #e2e2e2;
@@ -43,6 +58,8 @@
     -fx-text-fill: #333333;
 }
 
+
+
 #options_box{
 	-fx-padding:50 70 0 0;
 }
@@ -53,7 +70,7 @@
 }
 
 .button:hover {
-	-fx-background-color: #1d1d1d;
+	-fx-background-color: #666666;
 	-fx-text-fill: #d8d8d8;
 }
 

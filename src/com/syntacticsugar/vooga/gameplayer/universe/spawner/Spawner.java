@@ -24,16 +24,18 @@ public class Spawner implements ISpawner {
 	private int myFrameCount;
 	private int mySpawnRate;
 
-	public Spawner(Collection<WaveData> data, int spawnRate) {
+	public Spawner(Collection<WaveData> data) {
 		myWaves = new LinkedList<>();
 		for (WaveData d : data) {
 			myWaves.add(new Wave(d));
 		}
+		
+		mySpawnRate = 0;
+		
 		if (myWaves.size() != 0 && myWaves.peek().getWaveNum() == 0) {
-			myCurrentWave = myWaves.poll();
+			nextWave();
 		}
-
-		mySpawnRate = spawnRate;
+		
 	}
 
 	@Override
@@ -44,7 +46,10 @@ public class Spawner implements ISpawner {
 
 	@Override
 	public void nextWave() {
-		myCurrentWave = myWaves.poll();
+		if (myWaves != null && myWaves.size() != 0) {
+			myCurrentWave = myWaves.poll();
+			mySpawnRate = myCurrentWave.getSpawnRate();
+		}
 	}
 
 	@Override
@@ -99,7 +104,7 @@ public class Spawner implements ISpawner {
 				obj.setImagePath(obj.getImagePath());
 				objs.add(new ObjectData(o));
 			}
-			waves.add(new WaveData(objs));
+			waves.add(new WaveData(objs, w.getSpawnRate()));
 		}
 		return new SpawnerData(waves);
 	}
