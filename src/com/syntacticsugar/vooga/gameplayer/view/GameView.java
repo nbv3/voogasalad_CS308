@@ -3,10 +3,12 @@ package com.syntacticsugar.vooga.gameplayer.view;
 import java.util.Collection;
 import java.util.Observer;
 
+import com.syntacticsugar.vooga.gameplayer.universe.IEventPoster;
 import com.syntacticsugar.vooga.gameplayer.universe.IUniverseView;
 import com.syntacticsugar.vooga.gameplayer.view.implementation.InformationBox;
 import com.syntacticsugar.vooga.gameplayer.view.implementation.TileView;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
+import com.syntacticsugar.vooga.xml.data.TowerData;
 
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
@@ -60,13 +62,12 @@ public class GameView extends BorderPane{
 		tile.addObserver(myTowerBox);
 	}
 
-	public void initializeAvailableTowers(Collection<ObjectData> availableTowers, IUniverseView universe) {
-		myTowerBox.initialize(availableTowers, universe);
+	public void initializeAvailableTowers(Collection<TowerData> availableTowers, IUniverseView universe, IEventPoster poster) {
+		myTowerBox.initialize(availableTowers, universe, poster);
 		
 	}
 
 	public Observer getScoreBox() {
 		return myInfoBox;
 	}
-
 }

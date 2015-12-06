@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.syntacticsugar.vooga.gameplayer.objects.IViewableObject;
+import com.syntacticsugar.vooga.gameplayer.universe.IEventPoster;
 import com.syntacticsugar.vooga.gameplayer.universe.IUniverseView;
 import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.IGameTile;
 import com.syntacticsugar.vooga.gameplayer.view.implementation.TileView;
@@ -37,9 +38,9 @@ public class GameViewController implements IViewRemover, IViewAdder {
 		myViewMap.remove(obj);
 	}
 
-	public void displayLevel(IUniverseView universe) {
+	public void displayLevel(IUniverseView universe, IEventPoster poster) {
 		myGameView.resetComponents();
-		myGameView.initializeAvailableTowers(universe.getAvailableTowers(), universe);
+		myGameView.initializeAvailableTowers(universe.getAvailableTowers(), universe, poster);
 		universe.observeScore(myGameView.getScoreBox());
 		for (IGameTile tile : universe.getMap().getTiles()) {
 			addTileObject(tile);

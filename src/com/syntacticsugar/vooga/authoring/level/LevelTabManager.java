@@ -11,7 +11,7 @@ import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 import com.syntacticsugar.vooga.xml.data.LevelSettings;
 import com.syntacticsugar.vooga.xml.data.MapData;
 import com.syntacticsugar.vooga.xml.data.SpawnerData;
-import com.syntacticsugar.vooga.xml.data.TowerData;
+import com.syntacticsugar.vooga.xml.data.TowerListData;
 import com.syntacticsugar.vooga.xml.data.UniverseData;
 
 import javafx.scene.control.Tab;
@@ -92,7 +92,7 @@ public class LevelTabManager {
 
 			SpawnerData spawner = myLevelMap.get(t).getSpawnerQueues();
 			MapData map = myLevelMap.get(t).getMapData();
-			TowerData tower = myLevelMap.get(t).getTowerList();
+			TowerListData tower = myLevelMap.get(t).getTowerList();
 			LevelSettings conditions = myLevelMap.get(t).getConditions();
 			UniverseData universe = new UniverseData(spawner, tower, map, conditions);
 

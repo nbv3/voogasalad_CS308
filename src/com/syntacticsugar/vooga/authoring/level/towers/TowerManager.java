@@ -3,7 +3,7 @@ package com.syntacticsugar.vooga.authoring.level.towers;
 import java.util.Observable;
 
 import com.syntacticsugar.vooga.authoring.level.IManager;
-import com.syntacticsugar.vooga.xml.data.TowerData;
+import com.syntacticsugar.vooga.xml.data.TowerListData;
 
 import javafx.scene.Node;
 
@@ -32,8 +32,8 @@ public class TowerManager implements IManager {
 		return myTowerView.getView();
 	}
 
-	public TowerData getTowerData() {
-		return new TowerData(myTowerView.getData());
+	public TowerListData getTowerData() {
+		return new TowerListData(myTowerView.getData());
 	}
 
 }

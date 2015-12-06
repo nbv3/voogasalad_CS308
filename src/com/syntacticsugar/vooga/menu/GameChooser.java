@@ -34,6 +34,7 @@ import com.syntacticsugar.vooga.xml.data.MapData;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
 import com.syntacticsugar.vooga.xml.data.SpawnerData;
 import com.syntacticsugar.vooga.xml.data.TowerData;
+import com.syntacticsugar.vooga.xml.data.TowerListData;
 import com.syntacticsugar.vooga.xml.data.UniverseData;
 import com.syntacticsugar.vooga.xml.data.WaveData;
 
@@ -289,9 +290,9 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 
 		MapData map = new MapData(10, "scenery_grass_2.png");
 
-		ArrayList<ObjectData> towers = new ArrayList<>();
+		ArrayList<TowerData> towers = new ArrayList<>();
 		String imgPath = "tower_1.png";
-		ObjectData towerData = new ObjectData();
+		TowerData towerData = new TowerData();
 		towerData.setImagePath(imgPath);
 		Collection<IAttribute> towerAttributes = new ArrayList<IAttribute>();
 		HealthAttribute newHealth = new HealthAttribute();
@@ -308,10 +309,11 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 		towerData.setCollisionMap(collisionst);
 		towerData.setWidth(100);
 		towerData.setHeight(100);
+		towerData.setCost(60);
 		towers.add(towerData);
 
 		String imgPath1 = "tower_4.png";
-		ObjectData towerData2 = new ObjectData();
+		TowerData towerData2 = new TowerData();
 		towerData2.setImagePath(imgPath1);
 		Collection<IAttribute> towerAttributes2 = new ArrayList<IAttribute>();
 		HealthAttribute healthAtt = new HealthAttribute();
@@ -327,9 +329,10 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 		towerData2.setCollisionMap(collisionst2);
 		towerData2.setWidth(100);
 		towerData2.setHeight(100);
+		towerData2.setCost(30);
 		towers.add(towerData2);
 
-		TowerData td = new TowerData(towers);
+		TowerListData td = new TowerListData(towers);
 
 		LevelSettings lSetting = new LevelSettings(1000, 60);
 
