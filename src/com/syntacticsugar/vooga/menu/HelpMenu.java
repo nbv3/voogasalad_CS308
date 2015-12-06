@@ -1,10 +1,12 @@
 package com.syntacticsugar.vooga.menu;
 
-import com.syntacticsugar.vooga.util.browser.BrowserManager;
+import com.syntacticsugar.vooga.help.HelpManager;
 import com.syntacticsugar.vooga.util.properties.PropertiesManager;
 
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 
 public class HelpMenu extends AbstractMenu {
 	
@@ -24,14 +26,22 @@ public class HelpMenu extends AbstractMenu {
 	}
 
 	private void launchEngineHelp() {
-		BrowserManager.open(myPropertiesManager.getProperty("enginehelp"));
+		launch(myPropertiesManager.getProperty("enginehelp"));
 	}
 
 	private void launchAuthoringHelp() {
-		BrowserManager.open(myPropertiesManager.getProperty("authoringhelp"));
+		launch(myPropertiesManager.getProperty("authoringhelp"));
 	}
 
 	private void launchSocialHelp() {
-		BrowserManager.open(myPropertiesManager.getProperty("socialhelp"));
+		launch(myPropertiesManager.getProperty("socialhelp"));
+	}
+	
+	private void launch(String url) {
+		Stage stage = new Stage();
+		stage.setTitle("Web View");
+        Scene scene = new Scene(new HelpManager(url),750,500);
+        stage.setScene(scene);
+        stage.show();
 	}
 }
