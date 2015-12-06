@@ -6,9 +6,14 @@ import java.util.Observable;
 import java.util.Observer;
 
 import com.syntacticsugar.vooga.authoring.icon.Icon;
+import com.syntacticsugar.vooga.gameplayer.event.implementations.MoneyChangeEvent;
+import com.syntacticsugar.vooga.gameplayer.event.implementations.ObjectSpawnEvent;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObject;
+import com.syntacticsugar.vooga.gameplayer.objects.towers.Tower;
+import com.syntacticsugar.vooga.gameplayer.universe.IEventPoster;
 import com.syntacticsugar.vooga.gameplayer.universe.IUniverseView;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
+import com.syntacticsugar.vooga.xml.data.TowerData;
 
 import javafx.geometry.Point2D;
 import javafx.scene.control.Label;
@@ -20,9 +25,11 @@ public class TowerControlSection extends Observable implements Observer {
 
 	private VBox myContent;
 	private ScrollPane towerList;
-	private ObjectData currentSelection;
+	private TowerData currentSelection;
 	private IUniverseView myUniverse;
 	private Collection<Icon> myTowerIcons;
+	
+	private IEventPoster myPoster;
 
 	public TowerControlSection() {
 		myContent = new VBox();
@@ -32,14 +39,15 @@ public class TowerControlSection extends Observable implements Observer {
 		towerList = new ScrollPane(myContent);
 	}
 
-	public void initialize(Collection<ObjectData> availableTowers, IUniverseView universe) {
+	public void initialize(Collection<TowerData> availableTowers, IUniverseView universe, IEventPoster poster) {
 		testDragAndDrop(availableTowers);
 		myUniverse = universe;
+		myPoster = poster;
 	}
 
-	private void testDragAndDrop(Collection<ObjectData> availableTowers) {
+	private void testDragAndDrop(Collection<TowerData> availableTowers) {
 		myTowerIcons = new ArrayList<>();
-		for (ObjectData towerObject : availableTowers) {
+		for (TowerData towerObject : availableTowers) {
 			Icon tower = new Icon(towerObject.getImagePath());
 			tower.setPrefHeight(100);
 			tower.setPrefWidth(100);
@@ -57,7 +65,7 @@ public class TowerControlSection extends Observable implements Observer {
 		myContent.getChildren().add(towerInfo);
 	}
 
-	private void selectedTower(Icon tower, ObjectData towerObject) {
+	private void selectedTower(Icon tower, TowerData towerObject) {
 		if (towerObject.equals(currentSelection)) {
 			tower.setStyle("-fx-background-color: transparent");
 			setChanged();
@@ -81,10 +89,17 @@ public class TowerControlSection extends Observable implements Observer {
 
 	@Override
 	public void update(Observable arg0, Object arg1) {
-		TowerData data = (TowerData) arg1;
-		Point2D coordinates = data.getCoordinates();
-		currentSelection.setSpawnPoint(coordinates.getX(), coordinates.getY());
-		currentSelection.setDirection(data.getDirection());
-		myUniverse.addToSpawnYard(new GameObject(currentSelection));
+		if (currentSelection.getCost() <= myUniverse.getMoney().getMoney()){
+			TowerPlaceInfo data = (TowerPlaceInfo) arg1;
+			Point2D coordinates = data.getCoordinates();
+			currentSelection.setSpawnPoint(coordinates.getX(), coordinates.getY());
+			currentSelection.setDirection(data.getDirection());
+			
+			ObjectSpawnEvent event = new ObjectSpawnEvent(new Tower(currentSelection));
+			myPoster.postEvent(event);
+			
+			MoneyChangeEvent ev2 = new MoneyChangeEvent(currentSelection.getCost());
+			myPoster.postEvent(ev2);
+		}
 	}
 }

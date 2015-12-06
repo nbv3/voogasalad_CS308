@@ -7,7 +7,7 @@ import com.syntacticsugar.vooga.gameplayer.objects.BoundingBox;
 import com.syntacticsugar.vooga.gameplayer.view.DirectionArrows;
 import com.syntacticsugar.vooga.gameplayer.view.GameView;
 import com.syntacticsugar.vooga.gameplayer.view.ObjectView;
-import com.syntacticsugar.vooga.gameplayer.view.TowerData;
+import com.syntacticsugar.vooga.gameplayer.view.TowerPlaceInfo;
 import javafx.scene.layout.StackPane;
 
 public class TileView extends ObjectView{
@@ -52,7 +52,7 @@ public class TileView extends ObjectView{
 	
 	public void informTowerControl(Direction direction, DirectionArrows dirArrows, GameView gameView){
 		setChanged();
-		TowerData towerData = new TowerData(tempCoord1, tempCoord2, direction);
+		TowerPlaceInfo towerData = new TowerPlaceInfo(tempCoord1, tempCoord2, direction);
 		gameView.removeObjectView(dirArrows);
 		notifyObservers(towerData);
 	}

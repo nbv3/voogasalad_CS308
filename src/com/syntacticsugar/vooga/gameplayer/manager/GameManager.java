@@ -51,7 +51,7 @@ public class GameManager implements IGameManager{
 		currentLevel = myGame.getLevel(1);
 
 		myViewController = new GameViewController(gameSize);
-		myViewController.displayLevel(currentLevel);
+		myViewController.displayLevel(currentLevel, myEventManager);
 		currentLevel.registerListeners(myEventManager);
 		myGameEngine = new GameEngine(currentLevel, myViewController);
 
@@ -101,7 +101,7 @@ public class GameManager implements IGameManager{
 	
 	private void nextLevel(){
 		currentLevel = myGame.nextLevel();
-		myViewController.displayLevel(currentLevel);
+		myViewController.displayLevel(currentLevel, myEventManager);
 		myEventManager = new EventManager();
 		myEventManager.registerListener(this);
 		currentLevel.registerListeners(myEventManager);

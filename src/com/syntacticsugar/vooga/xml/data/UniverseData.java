@@ -3,11 +3,11 @@ package com.syntacticsugar.vooga.xml.data;
 public class UniverseData {
 	
 	private SpawnerData spawns;
-	private TowerData towers;
+	private TowerListData towers;
 	private MapData map;
 	private LevelSettings settings;
 	
-	public UniverseData(SpawnerData a, TowerData b, MapData c, LevelSettings d) {
+	public UniverseData(SpawnerData a, TowerListData b, MapData c, LevelSettings d) {
 		spawns = a;
 		towers = b;
 		map = c;
@@ -18,7 +18,7 @@ public class UniverseData {
 		return spawns;
 	}
 	
-	public TowerData getTowers() {
+	public TowerListData getTowers() {
 		return towers;
 	}
 	

@@ -1,5 +1,9 @@
 package com.syntacticsugar.vooga.gameplayer.objects.towers;
 
-public interface ITower {
+import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
+
+public interface ITower extends IGameObject{
+	
+	public int getCost();
 	
 }

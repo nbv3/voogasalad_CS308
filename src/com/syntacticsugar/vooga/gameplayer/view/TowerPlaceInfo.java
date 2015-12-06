@@ -3,12 +3,12 @@ import com.syntacticsugar.vooga.gameplayer.attribute.control.actions.movement.Di
 
 import javafx.geometry.Point2D;
 
-public class TowerData {
+public class TowerPlaceInfo {
 	
 	private Point2D myCoordinates;
 	private Direction myDirection;
 	
-	public TowerData(double x, double y, Direction direction){
+	public TowerPlaceInfo(double x, double y, Direction direction){
 		myCoordinates = new Point2D(x, y);
 		myDirection = direction;
 	}

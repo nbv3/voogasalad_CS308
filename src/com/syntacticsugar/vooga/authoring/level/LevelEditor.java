@@ -9,7 +9,7 @@ import com.syntacticsugar.vooga.authoring.objectediting.IObjectDataClipboard;
 import com.syntacticsugar.vooga.xml.data.LevelSettings;
 import com.syntacticsugar.vooga.xml.data.MapData;
 import com.syntacticsugar.vooga.xml.data.SpawnerData;
-import com.syntacticsugar.vooga.xml.data.TowerData;
+import com.syntacticsugar.vooga.xml.data.TowerListData;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -106,7 +106,7 @@ public class LevelEditor {
 		return mySpawnerManager.getObservableController();
 	}
 
-	public TowerData getTowerList() {
+	public TowerListData getTowerList() {
 		return myTowerManager.getTowerData();
 	}
 
