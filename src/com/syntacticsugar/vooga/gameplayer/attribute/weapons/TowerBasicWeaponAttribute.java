@@ -51,7 +51,7 @@ public class TowerBasicWeaponAttribute extends AbstractWeaponAttribute {
 		myFrameCount++;
 	}
 	
-	private boolean fireConditionsMet() {
+	protected boolean fireConditionsMet() {
 		return (myFrameCount >= fireRate);
 	}
 	
