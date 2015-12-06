@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import com.syntacticsugar.vooga.authoring.parameters.EditableClass;
+import com.syntacticsugar.vooga.gameplayer.event.implementations.DestinationReachedEvent;
 import com.syntacticsugar.vooga.gameplayer.objects.IBoundingBox;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.gameplayer.universe.map.IGameMap;
@@ -24,7 +25,7 @@ public class AIMovementAttribute extends AbstractMovementAttribute implements Se
 	public AIMovementAttribute() {
 		super();
 	}
-	
+
 	@Override
 	protected void setDefaults() {
 		super.setDefaults();
@@ -45,27 +46,25 @@ public class AIMovementAttribute extends AbstractMovementAttribute implements Se
 			// calculate path first time
 			try {
 				myCurrentTile = map.getMapIndexFromCoordinate(getParent().getBoundingBox().getPoint());
-				System.out.println(getParent().getBoundingBox().getPoint());
-				System.out.println(myCurrentTile);
-			} catch (Exception e) {
-				System.out.println("failed to fetch currentTile from map");
-			}
+			} catch (Exception e) { }
 			PathFinder pathFinder = new PathFinder(map.isWalkable(), myCurrentTile, ends);
-			// printMap(map.isWalkable(), ends);
 			myNextTile = pathFinder.getNext();
-			System.out.println(pathFinder.getPath().toString());
+			return;
+		}
+		if (ends.contains(myCurrentTile) ) {
+			// reached destination or no path available
+			stopDirection();
+			universe.postEvent(new DestinationReachedEvent());
 			return;
 		}
 
-		if (ends.contains(myCurrentTile) || myNextTile.equals(myCurrentTile)) {
-			// reached destination or no path available
+		if ( myNextTile.equals(myCurrentTile)) {
 			stopDirection();
 			return;
 		}
 
 		if (closeToNextTile(map)) {
 			// move straight to next tile
-			System.out.println("Close To next tile");
 			getParent().setPoint(universe.getMap().getCoordinateFromMapIndex(myNextTile));
 			myCurrentTile = new Point(myNextTile);
 			// recalculate next tile
@@ -79,7 +78,6 @@ public class AIMovementAttribute extends AbstractMovementAttribute implements Se
 		// move along direction
 		moveDirection();
 		move(universe);
-		//System.out.println(getNewDirection());
 	}
 
 	private boolean closeToNextTile(IGameMap map) {
@@ -102,15 +100,6 @@ public class AIMovementAttribute extends AbstractMovementAttribute implements Se
 		setDirection(Direction.STOP);
 		setVelocity(Direction.STOP);
 	}
-
-	/*@Override
-	public void move(IGameUniverse universe) {
-		// TODO override solves issues with scenery collision
-		IBoundingBox box = getParent().getBoundingBox();
-		Point2D oldPoint = box.getPoint();
-		Point2D newPoint = new Point2D(oldPoint.getX() + getXVelocity(), oldPoint.getY() + getYVelocity());
-		box.setPoint(newPoint);
-	}*/
 
 	private Direction getNewDirection() {
 		if (myCurrentTile.x < myNextTile.x) {
