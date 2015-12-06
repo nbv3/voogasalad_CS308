@@ -18,7 +18,9 @@ import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
 import com.syntacticsugar.vooga.util.simplefilechooser.SimpleFileChooser;
 import com.syntacticsugar.vooga.xml.XMLHandler;
+import com.syntacticsugar.vooga.xml.data.IData;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
+import com.syntacticsugar.vooga.xml.data.TileData;
 
 import javafx.animation.Animation;
 import javafx.animation.SequentialTransition;
@@ -43,10 +45,10 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 
-public class ObjectEditor extends Observable implements IObjectDataClipboard{
+public class ObjectEditor extends Observable implements IDataClipboard{
 	
 	private GridPane myView;
-	private ObjectData currentData;
+	private IData currentData;
 	private AttributeViewer myAttributeViewer;
 	private CollisionViewer myCollisionViewer;
 	private Icon myIcon;
@@ -88,7 +90,7 @@ public class ObjectEditor extends Observable implements IObjectDataClipboard{
 	private void createEmptyEditor() {
 		setTypeChooserViability(true);
 		myTypeChooser.setValue(null);
-		ObjectData emptyData = new ObjectData();
+		IData emptyData = new ObjectData();
 		emptyData.setImagePath("scenery_white.png");
 		myIcon.setImage(new Image(ResourceManager.getResource(this, emptyData.getImagePath())));
 		emptyData.setObjectName(null);
@@ -134,7 +136,7 @@ public class ObjectEditor extends Observable implements IObjectDataClipboard{
 		return typeChooser;
 	}
 
-	public void displayData(ObjectData data) {
+	public void displayData(IData data) {
 		selectedImagePath = data.getImagePath();
 		if (data != null) {
 			if (mySaveButton.isDisabled() && data.getType() != null) {
@@ -165,7 +167,13 @@ public class ObjectEditor extends Observable implements IObjectDataClipboard{
 
 	private void saveObject() {
 		GameObjectType tempObjType = currentData.getType();
-		currentData = new ObjectData();
+		Class<?> c;
+		try {
+			c = Class.forName(ResourceManager.getString(tempObjType.toString() + "_DATA"));
+			currentData = (IData) c.newInstance();
+		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
+			e.printStackTrace();
+		}
 		currentData.setType(tempObjType);
 		currentData.setImagePath(new String(selectedImagePath));
 		currentData.setAttributes(Collections.unmodifiableCollection(myAttributeViewer.getData()));
@@ -190,7 +198,7 @@ public class ObjectEditor extends Observable implements IObjectDataClipboard{
 				new File(ResourceManager.getString(String.format("%s_%s", 
 						currentData.getType().toString().toLowerCase(),"data"))), 
 				selectedFile -> {
-					XMLHandler<ObjectData> xml = new XMLHandler<>();
+					XMLHandler<IData> xml = new XMLHandler<>();
 					xml.write(currentData, selectedFile);
 				});
 	}
@@ -308,7 +316,7 @@ public class ObjectEditor extends Observable implements IObjectDataClipboard{
 	}
 
 	@Override
-	public ObjectData obtainSelectedObjectData() {
+	public IData obtainSelectedIData() {
 		System.out.println("The string path of the objectData being transferred is "+ currentData.getImagePath());
 		return currentData;
 	}

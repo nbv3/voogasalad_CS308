@@ -12,24 +12,27 @@ import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.xml.XMLFileFilter;
 import com.syntacticsugar.vooga.xml.XMLHandler;
+import com.syntacticsugar.vooga.xml.data.IData;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
+import com.syntacticsugar.vooga.xml.data.TowerData;
 
 import javafx.scene.image.ImageView;
 
-public class ObjectLibrary extends Observable {
+public class DataLibrary extends Observable {
 
 	private IconPane myIconPane;
 	private final File myXMLDirectory;
-	private Map<ImageView, ObjectData> myData;
-	private ObjectData mySelected;
+	private Map<ImageView, IData> myData;
+	private IData mySelected;
 
-	public ObjectLibrary(GameObjectType objectType) {
+	public DataLibrary(GameObjectType objectType) {
 		myIconPane = new IconPane();
-		myData = new HashMap<ImageView, ObjectData>();
+		myData = new HashMap<>();
 		myXMLDirectory = new File(
 				ResourceManager.getString(String.format("%s_%s", objectType.toString().toLowerCase(), "data")));
 		populatePaneFromXMLFiles(myXMLDirectory);
 		myIconPane.addPreviewListener((o, s1, s2) -> editItem());
+		System.out.println();
 	}
 
 	public void refresh() {
@@ -43,10 +46,10 @@ public class ObjectLibrary extends Observable {
 
 	private Collection<String> getImagePathsFromXML(File directory) {
 		File[] files = directory.listFiles(new XMLFileFilter());
-		XMLHandler<ObjectData> xml = new XMLHandler<>();
+		XMLHandler<IData> xml = new XMLHandler<>();
 		Collection<String> imagePaths = new ArrayList<String>();
 		for (int i = 0; i < files.length; i++) {
-			ObjectData obj = xml.read(files[i]);
+			IData obj = xml.read(files[i]);
 			imagePaths.add(obj.getImagePath());
 		}
 		return imagePaths;
@@ -62,10 +65,11 @@ public class ObjectLibrary extends Observable {
 		notifyObservers(mySelected);
 	}
 
-	public ObjectData getCurrentData()
+	public IData getCurrentData()
 
 	{
 		return myData.get(myIconPane.getSelectedIcon());
 	}
+
 
 }

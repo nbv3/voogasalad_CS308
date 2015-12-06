@@ -5,7 +5,7 @@ import java.util.Observable;
 import com.syntacticsugar.vooga.authoring.level.map.MapManager;
 import com.syntacticsugar.vooga.authoring.level.spawner.SpawnerManager;
 import com.syntacticsugar.vooga.authoring.level.towers.TowerManager;
-import com.syntacticsugar.vooga.authoring.objectediting.IObjectDataClipboard;
+import com.syntacticsugar.vooga.authoring.objectediting.IDataClipboard;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 import com.syntacticsugar.vooga.xml.data.LevelSettings;
@@ -33,7 +33,7 @@ public class LevelEditor implements IAddToSpawner {
 	private TowerManager myTowerManager;
 	private LevelConditionManager myConditions;
 
-	public LevelEditor(IObjectDataClipboard clip) throws Exception {
+	public LevelEditor(IDataClipboard clip) throws Exception {
 		IAddToSpawner iSpawn = this;
 		myMapManager = new MapManager(clip, iSpawn);
 		mySpawnerManager = new SpawnerManager();
