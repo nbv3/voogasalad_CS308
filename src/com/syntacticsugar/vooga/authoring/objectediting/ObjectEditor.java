@@ -231,13 +231,7 @@ public class ObjectEditor extends Observable implements IObjectDataClipboard{
 		GridPane grid = new GridPane();
 		grid.setAlignment(Pos.CENTER);
 		myIcon = new Icon("scenery_gray.png");
-		Animation anim = PulsingFadeWizard
-			.applyEffect(myIcon);		
-		myIcon.setOnMouseEntered(e->anim.play());
-		myIcon.setOnMouseExited(e->{
-			myIcon.setOpacity(1);
-			anim.stop();
-		});
+		PulsingFadeWizard.attachPulsingHandlers(myIcon);
 		Button button = GUIFactory.buildButton("Select Image", e -> selectImage(), null, null);
 		grid.getChildren().addAll(button, myIcon);
 		GridPane.setConstraints(button, 0, 0, 1, 1);

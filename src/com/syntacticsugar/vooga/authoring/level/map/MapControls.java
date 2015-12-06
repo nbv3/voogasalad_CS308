@@ -141,13 +141,7 @@ public class MapControls extends Observable implements IVisualElement {
 		TileData td = initTileData();
 		initPreviewDragHandler(td);
 		previewTile.setImage(new Image(getClass().getClassLoader().getResourceAsStream(myIconPane.getSelectedImagePath())));
-		Animation anim = PulsingFadeWizard
-								.applyEffect(previewTile);
-		previewTile.setOnMouseEntered(e->anim.play());
-		previewTile.setOnMouseExited(e->{
-			previewTile.setOpacity(1);
-			anim.stop();
-		});
+		PulsingFadeWizard.attachPulsingHandlers(previewTile);
 	}
 
 	private TileData initTileData() {

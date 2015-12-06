@@ -22,7 +22,7 @@ public class FluidGlassBall {
 	private static final Duration PREVIEW_TILE_PULSE_DURATION = Duration.millis(300);
 	
 	// PulsingFade Transition
-	private static final double PULSING_FADE_OPACITY_MIN = 0.7;
+	private static final double PULSING_FADE_OPACITY_MIN = 0.6;
 	private static final double PULSING_FADE_OPACITY_MAX = 1;
 	
 	public static double getPulsingFadeOpacityMax() {
