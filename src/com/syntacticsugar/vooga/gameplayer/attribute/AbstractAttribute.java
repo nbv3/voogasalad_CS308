@@ -13,7 +13,15 @@ public abstract class AbstractAttribute implements IAttribute {
 	 */
 	public AbstractAttribute() {
 		this.myParent = null;
+		setDefaults();
 	}
+	
+	/**
+	 * Set any necessary instance variables for this object explicitly 
+	 * upon construction. Used to avoid null pointers if user input is 
+	 * invalid.
+	 */
+	protected abstract void setDefaults();
 	
 	@Override
 	public abstract void updateSelf(IGameUniverse universe);

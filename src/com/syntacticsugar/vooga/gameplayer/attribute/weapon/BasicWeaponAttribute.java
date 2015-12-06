@@ -1,5 +1,6 @@
 package com.syntacticsugar.vooga.gameplayer.attribute.weapon;
 
+import com.syntacticsugar.vooga.authoring.parameters.EditableClass;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.objects.items.bullets.BulletParams;
@@ -7,10 +8,18 @@ import com.syntacticsugar.vooga.gameplayer.objects.items.bullets.PlayerBullet;
 
 import javafx.geometry.Point2D;
 
+@EditableClass (
+		className = "Basic Weapon"
+		)
 public class BasicWeaponAttribute extends AbstractWeaponAttribute {
 
 	public BasicWeaponAttribute() {
 		super();
+	}
+	
+	@Override
+	protected void setDefaults() {
+		super.setDefaults();
 	}
 	
 	protected IGameObject makeBullet() {
@@ -22,7 +31,6 @@ public class BasicWeaponAttribute extends AbstractWeaponAttribute {
 			bullet = new PlayerBullet(params);
 			
 		}
-		
 		return bullet;
 	}
 	

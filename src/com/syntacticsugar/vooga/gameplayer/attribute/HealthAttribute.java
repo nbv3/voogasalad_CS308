@@ -1,12 +1,15 @@
 package com.syntacticsugar.vooga.gameplayer.attribute;
 
+import com.syntacticsugar.vooga.authoring.parameters.EditableClass;
 import com.syntacticsugar.vooga.authoring.parameters.EditableField;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.ObjectDespawnEvent;
 import com.syntacticsugar.vooga.gameplayer.universe.IEventPoster;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.util.ResourceManager;
-import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 
+@EditableClass (
+	className = "Health Settings"
+)
 public class HealthAttribute extends AbstractAttribute {
 	
 	private static final String HEALTH_CHANGE_FREQ = "health_change_freq";
@@ -24,13 +27,19 @@ public class HealthAttribute extends AbstractAttribute {
 	 */
 	public HealthAttribute() {
 		super();
-		this.myInvincibleFrames = Integer.parseInt(ResourceManager.getString(HEALTH_CHANGE_FREQ));
-	}
-
-	public void getHealth() {
-		System.out.println(myHealth);
 	}
 	
+	@Override
+	public void setDefaults() {
+		this.myInvincibleFrames = Integer.parseInt(ResourceManager.getString(HEALTH_CHANGE_FREQ));
+		this.myMaxHealth = 100;
+	}
+
+	/**
+	 * Checks on every frame to see if the health has gone to zero. Despawns
+	 * parent object if health is gone.
+	 * @param universe
+	 */
 	@Override
 	public void updateSelf(IGameUniverse universe) {
 		checkForDeath(universe);
@@ -84,20 +93,19 @@ public class HealthAttribute extends AbstractAttribute {
 	}
 	
 	
+	/**		  	      EDIT TAGS	     		    **/
+	/** *************************************** **/
+
 	@EditableField(
 		inputLabel = "Max Health",
 		defaultVal = "100"
 	)
-	private void editMaxHealth(String maxHealthString) {
+	private void editMaxHealth(String arg) {
 		try {
-			String input = maxHealthString.trim();
-			double arg = Double.parseDouble(input);
-			this.myHealth = arg;
-			this.myMaxHealth = arg;
-			AlertBoxFactory.createObject("Assignment successful!");
-		} catch (NumberFormatException e) {
-			AlertBoxFactory.createObject("Please enter a double.");
-		}
+			double val = Double.parseDouble(arg);
+			this.myHealth = val;
+			this.myMaxHealth = val;
+		} catch (NumberFormatException e) {	}
 	}
 
 }

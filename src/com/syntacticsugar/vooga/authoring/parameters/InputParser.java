@@ -1,5 +1,6 @@
 package com.syntacticsugar.vooga.authoring.parameters;
 
+import com.syntacticsugar.vooga.gameplayer.attribute.movement.Direction;
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 
 import javafx.scene.image.Image;
@@ -15,9 +16,8 @@ public class InputParser {
 	 * @throws InputTypeException
 	 */
 	public static KeyCode parseAsKeyCode(String arg) throws InputTypeException {
-		String input = arg.trim().replace(" ", "");
+		String input = arg.trim().replace(" ", "").toUpperCase();
 		KeyCode result = KeyCode.valueOf(input);
-		AlertBoxFactory.createObject("Assignment successful!");
 		if (result != null) 
 			return result;
 		InputTypeException exception = makeException("KeyCode", arg);
@@ -36,7 +36,6 @@ public class InputParser {
 		try {
 			String input = arg.trim();
 			double result = Double.parseDouble(input);
-			AlertBoxFactory.createObject("Assignment successful!");
 			return result;
 		} catch (NumberFormatException e) {
 			InputTypeException exception = makeException("Double", arg);
@@ -56,10 +55,27 @@ public class InputParser {
 		try {
 			String input = arg.trim();
 			int result = Integer.parseInt(input);
-			AlertBoxFactory.createObject("Assignment successful!");
 			return result;
 		} catch (NumberFormatException e) {
 			InputTypeException exception = makeException("Integer", arg);
+			showInputAlert(exception);
+			throw exception;
+		}
+	}
+	
+	/**
+	 * Tries to parse a String input as a Direction enum. Shows an AlertBox if
+	 * the parse was unsuccessful and throws an InputTypeException.
+	 * @param arg
+	 * @return
+	 */
+	public static Direction parseAsDirection(String arg) throws InputTypeException {
+		try {
+			String input = arg.trim().replace(" ", "").toUpperCase();
+			Direction result = Direction.valueOf(input);
+			return result;
+		} catch (NumberFormatException e) {
+			InputTypeException exception = makeException("Direction", arg);
 			showInputAlert(exception);
 			throw exception;
 		}
@@ -71,13 +87,12 @@ public class InputParser {
 	 * @param arg
 	 * @return
 	 */
-	public static String parseAsImagePath(String arg) {
-		String input = arg.trim();
+	public static String parseAsImagePath(ClassLoader loader, String arg) {
+		String input = arg;
 		try {
 			// Is this in the directory?
 			@SuppressWarnings("unused")
-			Image test = new Image(arg.getClass().getClassLoader().getResourceAsStream(input));
-			AlertBoxFactory.createObject("Assignment successful!");
+			Image test = new Image(loader.getResourceAsStream(input));
 			return arg;
 		} catch (Exception e) {
 			InputTypeException exception = makeException("Image Path", arg);

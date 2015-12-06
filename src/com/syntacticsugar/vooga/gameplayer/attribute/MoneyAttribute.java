@@ -1,32 +1,26 @@
 package com.syntacticsugar.vooga.gameplayer.attribute;
 
+import com.syntacticsugar.vooga.authoring.parameters.EditableClass;
 import com.syntacticsugar.vooga.authoring.parameters.EditableField;
+import com.syntacticsugar.vooga.authoring.parameters.InputParser;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
-import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 
+@EditableClass (
+		className = "Monetary Value"
+		)
 public class MoneyAttribute extends AbstractAttribute {
 
 	private int myMoney;
 
 	public MoneyAttribute() {
-		myMoney = 0;
+		super();
 	}
 
-	@EditableField(
-			inputLabel = "Max Health",
-			defaultVal = "0"
-			)
-	private void editMoney(String arg) {
-		try {
-			String input = arg.trim();
-			int money = Integer.parseInt(input);
-			this.myMoney = money;
-			AlertBoxFactory.createObject("Assignment successful!");
-		} catch (NumberFormatException e) {
-			AlertBoxFactory.createObject("Please enter a double.");
-		}
+	@Override
+	public void setDefaults() {
+		this.myMoney = 100;
 	}
-
+	
 	public int getMoney() {
 		return myMoney;
 	}
@@ -34,6 +28,20 @@ public class MoneyAttribute extends AbstractAttribute {
 	@Override
 	public void updateSelf(IGameUniverse universe) {
 
+	}
+	
+	
+	/**		  	      EDIT TAGS	     		    **/
+	/** *************************************** **/
+	
+	@EditableField(
+			inputLabel = "Money",
+			defaultVal = "100"
+			)
+	private void editMoney(String arg) {
+		try {
+			this.myMoney = InputParser.parseAsInt(arg);
+		} catch (NumberFormatException e) {	}
 	}
 
 }

@@ -3,49 +3,57 @@ package com.syntacticsugar.vooga.gameplayer.attribute.movement;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observable;
 
-import com.syntacticsugar.vooga.authoring.parameters.AbstractParameter;
-import com.syntacticsugar.vooga.authoring.parameters.IEditableParameter;
+import com.syntacticsugar.vooga.authoring.parameters.EditableClass;
+import com.syntacticsugar.vooga.authoring.parameters.EditableField;
+import com.syntacticsugar.vooga.authoring.parameters.InputParser;
+import com.syntacticsugar.vooga.authoring.parameters.InputTypeException;
 import com.syntacticsugar.vooga.gameplayer.attribute.AbstractAttribute;
-import com.syntacticsugar.vooga.gameplayer.attribute.control.actions.movement.Direction;
-import com.syntacticsugar.vooga.gameplayer.attribute.control.actions.movement.IMover;
 import com.syntacticsugar.vooga.gameplayer.objects.IBoundingBox;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.gameplayer.universe.map.IGameMap;
 
 import javafx.geometry.Point2D;
 
+@EditableClass (
+		className = "General Movement Settings"
+		)
 public abstract class AbstractMovementAttribute extends AbstractAttribute implements IMover {
-	
-	private Double xVelocity;
-	private Double yVelocity;
-	private Double mySpeed;
-	
+
+	private double mySpeed;
+
+	private double xVelocity;
+	private double yVelocity;
 	protected Point myCurrentTile;
+
+	public AbstractMovementAttribute() {
+		super();
+	}
 	
-	public AbstractMovementAttribute(AbstractParameter<?>... params) {
-		super(params);
+	
+	@Override
+	protected void setDefaults() {
 		resetVelocity();
 		myCurrentTile = new Point(0,0);
-	}
-	
-	public double getXVelocity() {
-		return new Double(xVelocity);
+		this.mySpeed = 3.0;
 	}
 
-	public double getYVelocity() {
-		return new Double(yVelocity);
+	protected double getXVelocity() {
+		return this.xVelocity;
 	}
-	
+
+	protected double getYVelocity() {
+		return this.yVelocity;
+	}
+
 	@Override
 	public void resetVelocity() {
 		this.xVelocity = 0.0;
 		this.yVelocity = 0.0;
 	}
-	
+
 	@Override
-	public Double getSpeed() {
+	public double getSpeed() {
 		return this.mySpeed;
 	}
 
@@ -64,16 +72,17 @@ public abstract class AbstractMovementAttribute extends AbstractAttribute implem
 			this.yVelocity = 0.0;
 		}
 	}
-	
+
 	@Override
 	public void setDirection(Direction dir) {
 		this.getParent().getBoundingBox().setDirection(dir);
 	}
-	
+
+	@Override
 	public Direction getDirection() {
 		return this.getParent().getBoundingBox().getDirection();
 	}
-	
+
 	private void fixBounds(IGameUniverse universe) {
 		IGameMap map = universe.getMap();
 		List<Point2D> points = getPointsToCheck();
@@ -89,22 +98,21 @@ public abstract class AbstractMovementAttribute extends AbstractAttribute implem
 			resetVelocity();
 			return;
 		}
-		
+
 		Boolean canWalkOne = map.isWalkable()[mapPoint.x][mapPoint.y];
 		Boolean canWalkTwo = map.isWalkable()[mapPoint2.x][mapPoint2.y];
-		
-		
+
 		if (!(canWalkOne && canWalkTwo)) {
 			resetVelocity();
 		}
 	}
-	
+
 	private List<Point2D> getPointsToCheck() {
 		//Important: This only works for cardinal movement!
 		Point2D point = getParent().getBoundingBox().getPoint();
 		double XVel = getXVelocity();
 		double YVel = getYVelocity();
-		
+
 		List<Point2D> points = new ArrayList<>();
 		if (XVel < 0) {
 			Point2D newPoint = new Point2D(point.getX() + getXVelocity(), point.getY());
@@ -130,19 +138,18 @@ public abstract class AbstractMovementAttribute extends AbstractAttribute implem
 			points.add(newPoint);
 			points.add(newPoint2);
 		}
-		
+
 		return points;
 	}
-	
+
 	@Override
-	public void setSpeed(Double value)
-	{
-		mySpeed = value;
+	public void setSpeed(double value) {
+		this.mySpeed = value;
 	}
-	
+
 	@Override
 	public abstract void updateSelf(IGameUniverse universe);
-	
+
 	@Override
 	public void move(IGameUniverse universe) {
 		fixBounds(universe);
@@ -151,13 +158,19 @@ public abstract class AbstractMovementAttribute extends AbstractAttribute implem
 		Point2D newPoint = new Point2D(oldPoint.getX() + getXVelocity(), oldPoint.getY() + getYVelocity());
 		box.setPoint(newPoint);
 	}
-	
-	@Override
-	public void update(Observable o, Object arg)
-	{
-		setSpeed((Double) arg);
-		setChanged();
-		notifyObservers(this);
+
+
+	/**		  	      EDIT TAGS	     		    **/
+	/** *************************************** **/
+
+	@EditableField(
+			inputLabel = "Movement Speed (px/frame)",
+			defaultVal = "3.0"
+			)
+	private void editSpeed(String arg) {
+		try {
+			this.mySpeed = InputParser.parseAsDouble(arg);
+		} catch (InputTypeException e) { }
 	}
-	
+
 }

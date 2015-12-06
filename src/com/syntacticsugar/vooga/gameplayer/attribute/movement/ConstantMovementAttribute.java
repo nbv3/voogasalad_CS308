@@ -1,24 +1,30 @@
 package com.syntacticsugar.vooga.gameplayer.attribute.movement;
 
-import java.util.Collection;
-import java.util.Observable;
-
-import com.syntacticsugar.vooga.authoring.parameters.DoubleParameter;
-import com.syntacticsugar.vooga.authoring.parameters.IEditableParameter;
-import com.syntacticsugar.vooga.gameplayer.attribute.control.actions.movement.Direction;
+import com.syntacticsugar.vooga.authoring.parameters.EditableClass;
+import com.syntacticsugar.vooga.authoring.parameters.EditableField;
+import com.syntacticsugar.vooga.authoring.parameters.InputParser;
+import com.syntacticsugar.vooga.authoring.parameters.InputTypeException;
 import com.syntacticsugar.vooga.gameplayer.objects.IBoundingBox;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 
 import javafx.geometry.Point2D;
 
+@EditableClass (
+		className = "Constant Movement Attribute"
+		)
 public class ConstantMovementAttribute extends AbstractMovementAttribute {
 
-	Direction myDir;
+	private Direction myDir;
 	
-	public ConstantMovementAttribute(Direction dir, Double speed) {
-		super(new DoubleParameter("Speed: "));
-		setSpeed(speed);
-		myDir = dir;
+	public ConstantMovementAttribute() {
+		super();
+		setDefaults();
+	}
+	
+	@Override
+	protected void setDefaults() {
+		super.setDefaults();
+		this.myDir = Direction.DOWN;
 	}
 
 	@Override
@@ -34,8 +40,20 @@ public class ConstantMovementAttribute extends AbstractMovementAttribute {
 		Point2D oldPoint = box.getPoint();
 		box.setPoint(new Point2D(oldPoint.getX() + getXVelocity(), oldPoint.getY() + getYVelocity()));
 	}
+	
 
+	/**		  	      EDIT TAGS	     		    **/
+	/** *************************************** **/
 
+	@EditableField(
+			inputLabel = "Direction",
+			defaultVal = "DOWN"
+			)
+	private void editDirection(String arg) {
+		try {
+			this.myDir = InputParser.parseAsDirection(arg);
+		} catch (InputTypeException e) { }
+	}
 	
 	
 }

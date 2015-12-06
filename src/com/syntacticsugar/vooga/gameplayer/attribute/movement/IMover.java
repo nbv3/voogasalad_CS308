@@ -1,4 +1,4 @@
-package com.syntacticsugar.vooga.gameplayer.attribute.control.actions.movement;
+package com.syntacticsugar.vooga.gameplayer.attribute.movement;
 
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 
@@ -14,13 +14,13 @@ public interface IMover {
 	 * Returns the current speed (scalar) of this ISimpleMover object.
 	 * @return
 	 */
-	public Double getSpeed();
+	public double getSpeed();
 	
 	/**
 	 * Sets the current speed (scalar) of this ISimpleMover object.
 	 * @param speed
 	 */
-	public void setSpeed(Double speed);
+	public void setSpeed(double speed);
 	
 	/**
 	 * Sets the velocity of this ISimpleMover object equal to the current
@@ -47,8 +47,9 @@ public interface IMover {
 	 */
 	void resetVelocity();
 	
-	/*
-	 * Updates the object's position.
+	/**
+	 * Updates this object's position.
+	 * @param universe
 	 */
 	public void updateSelf(IGameUniverse universe);
 }

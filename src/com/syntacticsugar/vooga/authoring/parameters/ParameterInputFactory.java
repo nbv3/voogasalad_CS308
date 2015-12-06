@@ -4,49 +4,79 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
+import com.syntacticsugar.vooga.util.gui.factory.WarningDialogFactory;
 
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.geometry.VPos;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyCode;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 public class ParameterInputFactory {
 	
+	private static Map<Node, Boolean> isSet;
+	
 	public static Node createInputFields(Object toEdit) {
+		isSet = new HashMap<>();
 		Collection<Node> inputFields = inspectEditableFields(toEdit);
 		VBox container = new VBox();
 		container.getChildren().addAll(inputFields);
 		container.setSpacing(10);
 		container.setAlignment(Pos.CENTER);
 		container.setPadding(new Insets(10));
+		Scene scene = new Scene(container);
+		Stage stage = new Stage();
+		stage.setScene(scene);
+		stage.setOnCloseRequest(e -> checkValidity(e));
+		stage.showAndWait();
 		return container;
+	}
+	
+	private static void checkValidity(WindowEvent e) {
+		for (Boolean b : isSet.values())
+			if (!b) {
+				boolean result = WarningDialogFactory.createWarningDialog("Not all parameters have been set!");
+				if (result) 
+					e.consume();
+				break;
+			}
 	}
 	
 	private static Collection<Node> inspectEditableFields(Object toEdit) {
 		Collection<Node> inputNodes = new ArrayList<>();
-		Class<?> c;
-		while (true) {
-			c = toEdit.getClass();
-			for (Method m : toEdit.getClass().getDeclaredMethods()) {
+		Class<?> c = toEdit.getClass();
+		while (c.getAnnotation(EditableClass.class) != null) {
+			Collection<Node> inputFields = new ArrayList<>();
+			for (Method m : c.getDeclaredMethods()) {
 				if (m.isAnnotationPresent(EditableField.class)) {
 					m.setAccessible(true);
 					EditableField a = m.getAnnotation(EditableField.class);
 					String editLabel = a.inputLabel();
 					String defaultVal = a.defaultVal();
-					inputNodes.add(createTextField(toEdit, editLabel, defaultVal, m));
+					inputFields.add(createTextField(toEdit, editLabel, defaultVal, m));
 				}
 			}
-			if (c.getSuperclass().getAnnotation(EditableField.class) != null) {
-				
+			if (inputFields.size() > 0) {
+				Label classLabel = new Label(c.getAnnotation(EditableClass.class).className());
+				classLabel.setAlignment(Pos.CENTER);
+				inputNodes.add(classLabel);
+				inputNodes.addAll(inputFields);
 			}
+			c = c.getSuperclass();
 		}
 		return inputNodes;
 	}
@@ -54,27 +84,44 @@ public class ParameterInputFactory {
 	private static Node createTextField(Object toEdit, String inputLabel, String defaultVal, Method toCall) {
 		TextField t = new TextField();
 		t.setText(defaultVal);
-		HBox anchor = new HBox();
+		GridPane anchor = new GridPane();
+		addConstraints(anchor);
 		Button b = new Button("OK");
-		t.setOnKeyPressed(e -> {
-			if (e.getCode().equals(KeyCode.ENTER)) {
-				processInput(toEdit, t.getText(), toCall);
-			}
-		});
-		b.setOnAction(e -> processInput(toEdit, t.getText(), toCall));
 		Label label = new Label(inputLabel);
 		anchor.getChildren().addAll(label, t, b);
-		anchor.setSpacing(10);
+		GridPane.setConstraints(label, 0, 0, 1, 1, HPos.LEFT, VPos.CENTER, Priority.ALWAYS, Priority.NEVER, new Insets(10));
+		GridPane.setConstraints(t, 1, 0, 1, 1, HPos.CENTER, VPos.CENTER, Priority.NEVER, Priority.NEVER, new Insets(10));
+		GridPane.setConstraints(b, 2, 0, 1, 1, HPos.CENTER, VPos.CENTER, Priority.NEVER, Priority.NEVER, new Insets(10));
 		anchor.setAlignment(Pos.CENTER);
-		HBox.setHgrow(label, Priority.ALWAYS);
+		
+		isSet.put(anchor, false);
+		
+		t.setOnAction(e -> processInput(anchor, toEdit, t.getText(), toCall));
+		b.setOnAction(e -> processInput(anchor, toEdit, t.getText(), toCall));
+		
 		return anchor;
 	}
 	
-	private static void processInput(Object toEdit, String input, Method toCall) {
+	private static void processInput(Node key, Object toEdit, String input, Method toCall) {
 		try {
 			toCall.invoke(toEdit, input);
+			isSet.put(key, true);
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 			AlertBoxFactory.createObject("Assignment unsuccessful - Java Reflection error");
 		}
 	}
+	
+	private static void addConstraints(GridPane grid) {
+		grid.getColumnConstraints().addAll(
+				colWithWidth(25), 
+				colWithWidth(50),
+				colWithWidth(25));
+	}
+	
+	private static ColumnConstraints colWithWidth(double percentWidth) {
+		ColumnConstraints c = new ColumnConstraints();
+		c.setPercentWidth(percentWidth);
+		return c;
+	}
+	
 }

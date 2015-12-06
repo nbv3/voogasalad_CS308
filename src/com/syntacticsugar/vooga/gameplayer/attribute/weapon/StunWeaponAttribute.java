@@ -1,5 +1,6 @@
 package com.syntacticsugar.vooga.gameplayer.attribute.weapon;
 
+import com.syntacticsugar.vooga.authoring.parameters.EditableClass;
 import com.syntacticsugar.vooga.authoring.parameters.EditableField;
 import com.syntacticsugar.vooga.authoring.parameters.InputParser;
 import com.syntacticsugar.vooga.authoring.parameters.InputTypeException;
@@ -11,6 +12,9 @@ import com.syntacticsugar.vooga.gameplayer.objects.items.bullets.StunBullet;
 import javafx.geometry.Point2D;
 import javafx.scene.input.KeyCode;
 
+@EditableClass (	
+		className = "Stun Weapon"	
+	)
 public class StunWeaponAttribute extends AbstractWeaponAttribute {
 	
 	private int myStunTime;
@@ -23,6 +27,12 @@ public class StunWeaponAttribute extends AbstractWeaponAttribute {
 
 	public StunWeaponAttribute() {
 		super();
+	}
+	
+	@Override
+	protected void setDefaults() {
+		super.setDefaults();
+		this.myStunTime = 30;
 	}
 
 	@Override
@@ -37,8 +47,8 @@ public class StunWeaponAttribute extends AbstractWeaponAttribute {
 		return bullet;
 	}
 	
-	/**		  	  EDIT TAGS			    **/
-	// ********************************* //
+	/**		  	      EDIT TAGS	     		    **/
+	/** *************************************** **/
 	
 	@EditableField
 	(	inputLabel = "Stun Duration",

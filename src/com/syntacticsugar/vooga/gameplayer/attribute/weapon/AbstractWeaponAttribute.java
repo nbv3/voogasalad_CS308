@@ -6,7 +6,7 @@ import com.syntacticsugar.vooga.authoring.parameters.InputParser;
 import com.syntacticsugar.vooga.authoring.parameters.InputTypeException;
 import com.syntacticsugar.vooga.gameplayer.attribute.AbstractAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.control.IUserControlAttribute;
-import com.syntacticsugar.vooga.gameplayer.attribute.control.actions.movement.Direction;
+import com.syntacticsugar.vooga.gameplayer.attribute.movement.Direction;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.ObjectSpawnEvent;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.objects.items.bullets.BulletParams;
@@ -18,7 +18,7 @@ import javafx.geometry.Point2D;
 import javafx.scene.input.KeyCode;
 
 @EditableClass (	
-	className = "Generic Weapon"	
+	className = "General Weapon Settings"	
 )
 public abstract class AbstractWeaponAttribute extends AbstractAttribute implements IUserControlAttribute {
 
@@ -34,7 +34,18 @@ public abstract class AbstractWeaponAttribute extends AbstractAttribute implemen
 	private int delayFrameCounter;
 
 	public AbstractWeaponAttribute() {
-		
+		super();
+	}
+	
+	@Override
+	protected void setDefaults() {
+		this.myBulletDamage = 10;
+		this.myBulletSpeed = 10;
+		this.myFireKeyCode = KeyCode.SPACE;
+		this.myBulletImagePath = "scenery_black.png";
+		this.myBulletWidth = 3;
+		this.myBulletHeight = 3;
+		this.fireFrameDelay = 15;
 	}
 	
 	public AbstractWeaponAttribute(String bulletImagePath, Double bulletDamage, KeyCode fireKeyCode, 
@@ -102,8 +113,9 @@ public abstract class AbstractWeaponAttribute extends AbstractAttribute implemen
 		return params;
 	}
 
-	/**		  	  EDIT TAGS			    **/
-	// ********************************* //
+	
+	/**		  	      EDIT TAGS	     		    **/
+	/** *************************************** **/
 	
 	@EditableField
 	(	inputLabel = "Bullet Damage",
@@ -134,10 +146,10 @@ public abstract class AbstractWeaponAttribute extends AbstractAttribute implemen
 
 	@EditableField
 	(	inputLabel = "Bullet Image Path",
-		defaultVal = "scenery_pink.png"	)
+		defaultVal = "scenery_black.png"	)
 	private void editBulletImage(String arg) {
 		try {
-			this.myBulletImagePath = InputParser.parseAsImagePath(arg);
+			this.myBulletImagePath = InputParser.parseAsImagePath(this.getClass().getClassLoader(), arg);
 		} catch (InputTypeException e) {	}
 	}
 
@@ -160,8 +172,8 @@ public abstract class AbstractWeaponAttribute extends AbstractAttribute implemen
 	}
 	
 	@EditableField
-	(	inputLabel = "Bullet Height (px)",
-		defaultVal = "3"	)
+	(	inputLabel = "Fire Delay (# Frame)",
+		defaultVal = "15"	)
 	private void editFireDelay(String arg) {
 		try {
 			this.fireFrameDelay = InputParser.parseAsInt(arg);

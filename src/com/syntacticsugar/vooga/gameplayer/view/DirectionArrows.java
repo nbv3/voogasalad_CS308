@@ -1,6 +1,6 @@
 package com.syntacticsugar.vooga.gameplayer.view;
 
-import com.syntacticsugar.vooga.gameplayer.attribute.control.actions.movement.Direction;
+import com.syntacticsugar.vooga.gameplayer.attribute.movement.Direction;
 import com.syntacticsugar.vooga.gameplayer.view.implementation.TileView;
 
 import javafx.geometry.Pos;

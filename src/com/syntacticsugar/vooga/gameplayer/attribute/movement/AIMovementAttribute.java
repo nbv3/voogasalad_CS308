@@ -4,24 +4,36 @@ import java.awt.Point;
 import java.io.Serializable;
 import java.util.List;
 
-import com.syntacticsugar.vooga.authoring.parameters.AbstractParameter;
-import com.syntacticsugar.vooga.gameplayer.attribute.control.actions.movement.Direction;
+import com.syntacticsugar.vooga.authoring.parameters.EditableClass;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.gameplayer.universe.map.IGameMap;
 import com.syntacticsugar.vooga.util.pathfinder.PathFinder;
 
 import javafx.geometry.Point2D;
 
+@EditableClass(
+		className = "AI Motion Attribute"
+		)
 public class AIMovementAttribute extends AbstractMovementAttribute implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 
 	private Point myNextTile;
 
-	public AIMovementAttribute(AbstractParameter<?>[] speed) {
-		super(speed);
+	public AIMovementAttribute() {
+		super();
+	}
+	
+	@Override
+	protected void setDefaults() {
+		super.setDefaults();
 		myNextTile = new Point(-1, -1);
-
 	}
 
+	/**
+	 * Moves towards the nearest location on the game map that has been
+	 * flagged as a destination point.
+	 */
 	@Override
 	public void updateSelf(IGameUniverse universe) {
 		IGameMap map = universe.getMap();
