@@ -75,9 +75,6 @@ public class LevelConditionManager {
 	private void updateSelectedWin(String w) {
 		mySelectedWin = w;
 		String className = mySelectedWin.replace(" ", "");
-		// String classPath = String.format("%s%s%s",
-		// "com.syntacticsugar.vooga.gameplayer.conditions.implementation.",
-		// className, "Condition");
 		String classPath = String.format("%s%s%s", CONDITION_PATH, className, "Condition");
 
 		try {
@@ -92,7 +89,6 @@ public class LevelConditionManager {
 		} catch (SecurityException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		System.out.println(myWinParameters);
 	}
 
 	private void updateSelectedLose(String l) {

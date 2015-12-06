@@ -65,7 +65,6 @@ public class ObjectEditor extends Observable implements IObjectDataClipboard{
 		buildView();
 		myIcon.setOnDragDetected(e -> {
 			DragDropManager.createClipboard(currentData, myIcon.getImageView(), e);
-//			level.addCurrentSpawner(currentData);
 		});
 	}
 
