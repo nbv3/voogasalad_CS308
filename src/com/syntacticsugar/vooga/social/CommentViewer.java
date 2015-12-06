@@ -1,27 +1,18 @@
 package com.syntacticsugar.vooga.social;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+
 import java.util.ArrayList;
 import java.util.List;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import com.syntacticsugar.vooga.authoring.objectediting.IVisualElement;
 import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
 import com.syntacticsugar.vooga.util.webconnect.JSONHelper;
 import com.syntacticsugar.vooga.util.webconnect.WebConnector;
-
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
@@ -30,8 +21,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
-import javafx.stage.Stage;
-import javafx.util.Pair;
 
 public class CommentViewer implements IVisualElement {
 
@@ -42,9 +31,11 @@ public class CommentViewer implements IVisualElement {
 	private Button mySendButton;
 	private TextArea myComment;
 	private TextField myAuthorName;
-
+	@SuppressWarnings("unused")
+	private boolean justPosted;
 
 	public CommentViewer() {
+		justPosted = true;
 		myView = makeView();
 		myCommentList = new ArrayList<JSONObject>();
 	}
@@ -64,12 +55,23 @@ public class CommentViewer implements IVisualElement {
 		mySendButton = GUIFactory.buildButton("Post",
 				e-> postComment(myAuthorName.getText(), myComment.getText()),
 					  100.0, null);
+		setCommentBoxFunctionality();
 		Node titledAuthorField = GUIFactory.buildTitledPane("Author Name:", myAuthorName);
 		Node anchorPane = GUIFactory.buildAnchorPane(titledAuthorField, mySendButton);
 		commentBox.getChildren().addAll(anchorPane, myComment);
 		return commentBox;
 	}
 	
+	private void setCommentBoxFunctionality(){
+		myComment.setOnMouseClicked( e->
+			myComment.clear());
+		myComment.setWrapText(true);
+	}
+	
+	private void setFieldDefaults(){
+		myComment.setText("Post a comment...");
+		myAuthorName.clear();
+	}
 
 	private void pullCurrentGameComments() throws JSONException {
 		JSONArray commentArray = WebConnector.getComments(mySelectedItemID);
@@ -86,11 +88,13 @@ public class CommentViewer implements IVisualElement {
 	
 	private void postComment(String author, String content) {
 		if (author.length() == 0 || content.length() == 0) return;
+		if (mySelectedItemID == Integer.MAX_VALUE) return;
 		
 		try {
 			WebConnector.postComment(JSONHelper.createCommentJSON(mySelectedItemID, author, content));
 			update();
 			populateList();
+			setFieldDefaults();
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}	
