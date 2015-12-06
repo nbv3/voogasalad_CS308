@@ -87,6 +87,13 @@ public class GameManager implements IGameManager,IVoogaApp {
 
 	private void nextLevel() {
 		//IGameObject player = currentLevel.getPlayer();
+		myGameTimeline.pause();
+		try {
+			System.out.println("Waiting");
+		    Thread.sleep(2500);                 //1000 milliseconds is one second.
+		} catch(InterruptedException ex) {
+		    Thread.currentThread().interrupt();
+		}
 		
 		try{
 		currentLevel = myGame.nextLevel();

@@ -18,6 +18,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
@@ -55,17 +56,22 @@ public class CommentViewer implements IVisualElement {
 		mySendButton = GUIFactory.buildButton("Post",
 				e-> postComment(myAuthorName.getText(), myComment.getText()),
 					  100.0, null);
-		setCommentBoxFunctionality();
+		setFieldProperties();
 		Node titledAuthorField = GUIFactory.buildTitledPane("Author Name:", myAuthorName);
-		Node anchorPane = GUIFactory.buildAnchorPane(titledAuthorField, mySendButton);
-		commentBox.getChildren().addAll(anchorPane, myComment);
+		HBox pane = new HBox();
+		pane.getChildren().addAll(titledAuthorField, mySendButton);
+		commentBox.getChildren().addAll(pane, myComment);
 		return commentBox;
 	}
 	
-	private void setCommentBoxFunctionality(){
+	private void setFieldProperties(){
 		myComment.setOnMouseClicked( e->
 			myComment.clear());
 		myComment.setWrapText(true);
+		mySendButton.setMaxHeight(Integer.MAX_VALUE);
+		mySendButton.setMaxWidth(Integer.MAX_VALUE);
+		HBox.setHgrow(mySendButton, Priority.ALWAYS);
+
 	}
 	
 	private void setFieldDefaults(){

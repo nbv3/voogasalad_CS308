@@ -35,7 +35,7 @@ public class SocialCenter implements IVoogaApp{
 		
 		myStage = new Stage();
 		Scene scene = new Scene(makeSceneNode(), 800, 500);
-		scene.getStylesheets().add("/com/syntacticsugar/vooga/authoring/css/default.css");
+		//scene.getStylesheets().add("/com/syntacticsugar/vooga/authoring/css/default.css");
 		myStage.setScene(scene);
 		myStage.show();
 	}

@@ -1,11 +1,16 @@
 package com.syntacticsugar.vooga.gameplayer.attribute;
 
+import com.syntacticsugar.vooga.authoring.parameters.EditableClass;
 import com.syntacticsugar.vooga.authoring.parameters.EditableField;
 import com.syntacticsugar.vooga.authoring.parameters.InputParser;
 import com.syntacticsugar.vooga.authoring.parameters.InputTypeException;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.ObjectDespawnEvent;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 
+
+@EditableClass (
+		className = "Time Despawn Value"
+		)
 public class TimedDespawnAttribute extends AbstractAttribute {
 	
 	private int myFrameCount;
@@ -43,7 +48,8 @@ public class TimedDespawnAttribute extends AbstractAttribute {
 		)
 	private void editFrameCount(String arg) {
 		try {
-			this.myFrameCount = InputParser.parseAsInt(arg);
+			this.timeHere = InputParser.parseAsInt(arg);
 		} catch (InputTypeException e) { 	}
 	}
+	
 }
