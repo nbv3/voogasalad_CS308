@@ -271,7 +271,7 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 //		odata.add(playerData);
 		odata.add(enemyData);
 		odata.add(enemyData2);
-		WaveData wdata = new WaveData(odata);
+		WaveData wdata = new WaveData(odata, 60);
 		Collection<WaveData> sdata = new ArrayList<>();
 		sdata.add(wdata);
 		SpawnerData spawn = new SpawnerData(sdata);
@@ -324,7 +324,7 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 
 		TowerListData td = new TowerListData(towers);
 
-		LevelSettings lSetting = new LevelSettings(1000, 60);
+		LevelSettings lSetting = new LevelSettings(1000);
 
 		return new UniverseData(spawn, td, map, lSetting,new ArrayList<>());
 	}
