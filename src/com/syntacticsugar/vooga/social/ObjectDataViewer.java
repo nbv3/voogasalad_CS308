@@ -14,6 +14,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.syntacticsugar.vooga.util.ResourceManager;
+import com.syntacticsugar.vooga.util.filechooser.FileChooserUtil;
+import com.syntacticsugar.vooga.util.filechooser.IOnFileChooserAction;
 import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
 import com.syntacticsugar.vooga.util.gui.factory.MsgInputBoxFactory;
 import com.syntacticsugar.vooga.util.webconnect.JSONHelper;
@@ -95,29 +97,26 @@ public class ObjectDataViewer {
 	private void downloadSelectedItem() {
 		if (mySelectedItemID == Integer.MIN_VALUE)
 			return;
-
 		else {
-			FileChooser chooser = new FileChooser();
-			chooser.setInitialFileName(".xml");
-			File selectedFile = chooser.showSaveDialog(new Stage());
-			if (selectedFile != null) {
-
-				XMLHandler.writeXMLToFile(JSONHelper.extractXML(WebConnector.getXML(mySelectedItemID)),
-						selectedFile.toPath().toString());
-
-			}
+			FileChooserUtil.saveFile("Choose a save location.", ".xml", new IOnFileChooserAction(){
+				@Override
+				public void action(File selected) {
+					XMLHandler.writeXMLToFile(JSONHelper.extractXML(WebConnector.getXML(mySelectedItemID)),
+							selected.toPath().toString());					
+				}
+			});
 		}
 	}
 
 	private void makeUploadFileChooser(){//EventHandler<ActionEvent> action) {
-		FileChooser chooser = new FileChooser();
-		chooser.setTitle("Choose an XML file.");
-		chooser.getExtensionFilters().add(new ExtensionFilter("Image Files", "*.xml", "*.XML"));
-		File selectedFile = chooser.showOpenDialog(new Stage());
-		if (selectedFile != null) {
-		//	launchPropertiesBox();
-			WebConnector.postXML(JSONHelper.createXMLJSON("Michael", "Tetris", "tetris", XMLHandler.fileToString(selectedFile)));
-		}
+		ExtensionFilter filter = new ExtensionFilter("XML files", "*.xml", "*.XML");
+		FileChooserUtil.loadFile("Choose an XML game file", filter, new IOnFileChooserAction(){
+			@Override
+			public void action(File selected) {
+				WebConnector.postXML(JSONHelper.createXMLJSON(
+						"Michael", "Tetris", "tetris", XMLHandler.fileToString(selected)));	
+			}
+		});		
 	}
 	
 	private void launchPropertiesBox(){
