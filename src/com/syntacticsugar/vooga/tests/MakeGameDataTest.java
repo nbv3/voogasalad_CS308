@@ -150,7 +150,7 @@ public class MakeGameDataTest {
 		odata.add(playerData);
 		odata.add(enemyData);
 		odata.add(enemyData2);
-		WaveData wdata = new WaveData(odata);
+		WaveData wdata = new WaveData(odata, 1);
 		Collection<WaveData> sdata = new ArrayList<>();
 		sdata.add(wdata);
 		SpawnerData spawn = new SpawnerData(sdata);
