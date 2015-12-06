@@ -23,14 +23,17 @@ public class Spawner implements ISpawner {
 
 	private int myFrameCount;
 	private int mySpawnRate;
+	
+	private double myObjSize;
 
-	public Spawner(Collection<WaveData> data) {
+	public Spawner(Collection<WaveData> data, double size) {
 		myWaves = new LinkedList<>();
 		for (WaveData d : data) {
 			myWaves.add(new Wave(d));
 		}
 		
 		mySpawnRate = 0;
+		myObjSize = size;
 		
 		if (myWaves.size() != 0 && myWaves.peek().getWaveNum() == 0) {
 			nextWave();
@@ -84,6 +87,8 @@ public class Spawner implements ISpawner {
 
 	private void spawn() {
 		IGameObject obj = myCurrentWave.getObj();
+		obj.getBoundingBox().setWidth(myObjSize * .75);
+		obj.getBoundingBox().setHeight(myObjSize * .75);
 		ObjectSpawnEvent event = new ObjectSpawnEvent(obj);
 		myPoster.postEvent(event);
 	}
