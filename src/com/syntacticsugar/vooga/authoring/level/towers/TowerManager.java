@@ -2,6 +2,7 @@ package com.syntacticsugar.vooga.authoring.level.towers;
 
 import java.util.Observable;
 
+import com.syntacticsugar.vooga.authoring.level.IDataSelector;
 import com.syntacticsugar.vooga.authoring.level.IManager;
 import com.syntacticsugar.vooga.xml.data.TowerData;
 import com.syntacticsugar.vooga.xml.data.TowerListData;

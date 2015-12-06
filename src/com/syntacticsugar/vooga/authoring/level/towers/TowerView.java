@@ -23,6 +23,7 @@ import com.syntacticsugar.vooga.gameplayer.event.implementations.HealthChangeEve
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
+import com.syntacticsugar.vooga.xml.data.TowerData;
 
 import javafx.animation.Animation;
 import javafx.collections.FXCollections;
@@ -34,34 +35,34 @@ import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.Tooltip;
 
-public class TowerView implements IVisualElement, IDataSelector<ObjectData>, IRefresher, Observer {
+public class TowerView implements IVisualElement, IDataSelector<TowerData>, IRefresher, Observer {
 	
 	private ListView<Node> myTowerView;
-	private List<ObjectData> myTowers;
+	private List<TowerData> myTowers;
 	private ObservableList<Node> myObservable;
-	private HashMap<Node, ObjectData> myMap;
+	private HashMap<Node, TowerData> myMap;
 	private Object selectedItem;
 	private TitledPane myViewPane;
 
 	public TowerView() {
 		myTowerView = new ListView<Node>();
-		myTowers = new ArrayList<ObjectData>();
+		myTowers = new ArrayList<>();
 		myObservable = FXCollections.observableArrayList();
 		myTowerView.setItems(myObservable);
 		myTowerView.setOrientation(Orientation.VERTICAL);
 		myTowerView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-		myMap = new HashMap<Node, ObjectData>();
+		myMap = new HashMap<Node, TowerData>();
 
 		//TODO: REMOVE (blank initialization)
-		testCreatedObjectDataList();
+		testCreatedTowerDataList();
 		
 		myViewPane = GUIFactory.buildTitledPane("Available Towers", myTowerView);
 	}
 
 	// test method
-	private void testCreatedObjectDataList() {
+	private void testCreatedTowerDataList() {
 		for (int i = 1; i < 3; i++) {
-			ObjectData objToAdd = new ObjectData();
+			TowerData objToAdd = new TowerData();
 			objToAdd.setImagePath(String.format(String.format("tower_%d.png", i)));
 			objToAdd.setType(GameObjectType.TOWER);
 			List<IAttribute> attributeList = new ArrayList<IAttribute>();
@@ -78,10 +79,8 @@ public class TowerView implements IVisualElement, IDataSelector<ObjectData>, IRe
 	}
 
 	@Override
-	public void addData(ObjectData data) {
-//		data.getImagePathProperty().addListener((e,ov,nv) -> {
-//			refresh();
-//		});
+	public void addData(TowerData data) {
+
 		myTowers.add(data);
 		Node newTower = createQueueBoxFromObjData(data);
 		newTower.setOnMouseClicked(e -> selectedItem = newTower);
@@ -92,8 +91,8 @@ public class TowerView implements IVisualElement, IDataSelector<ObjectData>, IRe
 	
 	// Used when we initiate a save game in the authoring environment
 	@Override
-	public Collection<ObjectData> getData() {
-		ArrayList<ObjectData> list = new ArrayList<ObjectData>();
+	public Collection<TowerData> getData() {
+		ArrayList<TowerData> list = new ArrayList<TowerData>();
 		for (Node n :myObservable) {
 			list.add(myMap.get(n));
 		}
@@ -101,7 +100,7 @@ public class TowerView implements IVisualElement, IDataSelector<ObjectData>, IRe
 	}
 
 	@Override
-	public ObjectData getSelectedData() {
+	public TowerData getSelectedData() {
 		System.out.println(myMap.get(myTowerView.getSelectionModel().getSelectedItem()));
 		return myMap.get(myTowerView.getSelectionModel().getSelectedItem());
 	}
@@ -136,7 +135,7 @@ public class TowerView implements IVisualElement, IDataSelector<ObjectData>, IRe
 	
 	// *********************************************//
 	
-	public Node createQueueBoxFromObjData(ObjectData obj) {
+	public Node createQueueBoxFromObjData(TowerData obj) {
 		QueueBox queueBox = new QueueBox(obj);
 		return queueBox.getView();
 	}
