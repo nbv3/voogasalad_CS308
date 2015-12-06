@@ -120,10 +120,14 @@ public class MapControls extends Observable implements IVisualElement {
 						MsgInputBoxFactory msgBox = new MsgInputBoxFactory(
 								String.format("Set %s Value", mySelectedEffect));
 						myEffectParameters.add(msgBox.getInputValue());
+
 					}
 
 				} catch (SecurityException | ClassNotFoundException e) {
 					e.printStackTrace();
+				} catch (NumberFormatException e) {
+					AlertBoxFactory.createObject("Enter a value.");
+
 				}
 			}
 		});
