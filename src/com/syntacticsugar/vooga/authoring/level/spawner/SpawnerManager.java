@@ -10,7 +10,6 @@ import java.util.Observable;
 import com.syntacticsugar.vooga.authoring.fluidmotion.FadeTransitionWizard;
 import com.syntacticsugar.vooga.authoring.fluidmotion.FluidGlassBall;
 import com.syntacticsugar.vooga.authoring.fluidmotion.ParallelTransitionWizard;
-import com.syntacticsugar.vooga.authoring.level.IDataSelector;
 import com.syntacticsugar.vooga.authoring.level.ITabbedManager;
 import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
@@ -86,11 +85,12 @@ public class SpawnerManager implements ITabbedManager<ObjectData> {
 		return GUIFactory.buildTitledPane("Spawner Display", myTabPane);
 	}
 
-	public SpawnerData getSpawnerData() {
-		Collection<WaveData> map = new ArrayList<WaveData>();
+	public SpawnerData getWaveData() {
+		Collection<WaveData> map = new ArrayList<>();
 		for (Tab t : myTabPane.getTabs()) {
-			WaveData queue = mySpawnerViewMap.get(t).getWaveData();
-			map.add(queue);
+			Collection<ObjectData> queue = mySpawnerViewMap.get(t).getSpawnerData();
+			// get spawn number
+			map.add(new WaveData(queue, 0));
 		}
 		return new SpawnerData(map);
 	}

@@ -313,7 +313,7 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 
 		TowerListData td = new TowerListData(towers);
 
-		LevelSettings lSetting = new LevelSettings(1000, 60);
+		LevelSettings lSetting = new LevelSettings(1000);
 
 		return new UniverseData(spawn, td, map, lSetting,new ArrayList<>());
 	}

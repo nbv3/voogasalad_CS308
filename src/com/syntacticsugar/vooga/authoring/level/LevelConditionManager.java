@@ -39,8 +39,8 @@ public class LevelConditionManager implements IVisualElement {
 	public LevelConditionManager() {
 		myView = new GridPane();
 
-		mySpawnInput = new TextField();
-		mySpawnInput.setPromptText(ResourceManager.getString("int_SpawnRate"));
+//		mySpawnInput = new TextField();
+//		mySpawnInput.setPromptText(ResourceManager.getString("int_SpawnRate"));
 
 		myCash = new TextField();
 		myCash.setPromptText(ResourceManager.getString("int_InitialCash"));
@@ -130,13 +130,13 @@ public class LevelConditionManager implements IVisualElement {
 		return mySelectedWin;
 	}
 
-	public void saveSpawnRate() {
-		try {
-			mySavedSpawnRate = Integer.parseInt(mySpawnInput.getText());
-		} catch (Exception e) {
-			AlertBoxFactory.createObject(ResourceManager.getString("not_integer"));
-		}
-	}
+//	public void saveSpawnRate() {
+//		try {
+//			mySavedSpawnRate = Integer.parseInt(mySpawnInput.getText());
+//		} catch (Exception e) {
+//			AlertBoxFactory.createObject(ResourceManager.getString("not_integer"));
+//		}
+//	}
 
 	public void saveCash() {
 		try {
@@ -152,7 +152,7 @@ public class LevelConditionManager implements IVisualElement {
 	}
 
 	public LevelSettings getConditions() {
-		saveSpawnRate();
+//		saveSpawnRate();
 		saveCash();
 		LevelSettings settings = new LevelSettings(mySelectedWin, myWinParameters, mySelectedLose, myLoseParameters,
 				mySavedSpawnRate, mySetCash);
