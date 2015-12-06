@@ -1,11 +1,6 @@
-.border-pane{
-	-fx-padding:30;
-}
-
 .vbox{
 	-fx-padding:30;
 }
-
 .label {
     -fx-font-size: 20pt;
     -fx-font-family: "Century Gothic";
@@ -31,7 +26,6 @@
 	-fx-font-size: 24pt;
     -fx-font-family: "Century Gothic";
 }
-
 
 .label-header {
     -fx-font-size: 32pt;
