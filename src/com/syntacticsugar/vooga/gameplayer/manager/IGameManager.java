@@ -10,11 +10,6 @@ public interface IGameManager extends ILevelSwitcher, GameEventListener {
 	public void updateGame();
 
 
-	
-	/**
-	 * 
-	 */
-	public void restartGame();
 
 	public void startGame();
 

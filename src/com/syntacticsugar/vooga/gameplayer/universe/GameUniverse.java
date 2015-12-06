@@ -7,9 +7,11 @@ import java.util.List;
 import java.util.Observer;
 
 import com.syntacticsugar.vooga.gameplayer.conditions.Conditions;
+import com.syntacticsugar.vooga.gameplayer.conditions.implementation.EnemyDeathCondition;
 import com.syntacticsugar.vooga.gameplayer.conditions.implementation.PlayerDeathCondition;
 import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
 import com.syntacticsugar.vooga.gameplayer.manager.IEventManager;
+import com.syntacticsugar.vooga.gameplayer.objects.GameObject;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.objects.towers.ITower;
 import com.syntacticsugar.vooga.gameplayer.objects.towers.Tower;
@@ -53,7 +55,7 @@ public class GameUniverse implements IGameUniverse {
 
 	public GameUniverse(UniverseData data, GlobalSettings settings) {
 		myScore = new Score(data.getSettings());
-		myMoney = new Money(120);
+		myMoney = new Money(data.getSettings().getStartingMoney());
 		// Needs event manager
 		myConditions = new Conditions();
 		myGameObjects = new ArrayList<IGameObject>();
@@ -64,13 +66,18 @@ public class GameUniverse implements IGameUniverse {
 		for (TowerData d : towerdata) {
 			myTowers.add(new Tower(d));
 		}
+		Collection<ObjectData> objects = data.getObjects();
+		for (ObjectData e: objects) {
+			myGameObjects.add(new GameObject(e));
+		}
+		
 		// Need event managers
 		myGraveYard = new GraveYard(this);
 		mySpawnYard = new SpawnYard(this);
 		myCurrentInput = new ArrayList<KeyCode>();
 		//TODO: DEBUG
 		myConditions.addCondition(new PlayerDeathCondition());
-//		myConditions.addCondition(new EnemyDeathCondition(3));
+		myConditions.addCondition(new EnemyDeathCondition(2));
 	}
 
 	public void registerListeners(IEventManager manager) {
@@ -146,7 +153,6 @@ public class GameUniverse implements IGameUniverse {
 
 	@Override
 	public void removeGameObject(IGameObject obj) {
-		System.out.println("HERE");
 		myGameObjects.remove(obj);
 	}
 
@@ -177,7 +183,13 @@ public class GameUniverse implements IGameUniverse {
 		TowerListData towers = saveTowers();
 		MapData map = new MapData(myGameMap);
 		LevelSettings settings = new LevelSettings(mySpawner.getSpawnRate());
-		UniverseData data = new UniverseData(spawn, towers, map, settings);
+		settings.setStartingMoney(myMoney.getMoney());
+		Collection<ObjectData> objects = new ArrayList<>();
+		for (IGameObject o: myGameObjects){
+			objects.add(new ObjectData(o));
+		}
+		
+		UniverseData data = new UniverseData(spawn, towers, map, settings, objects);
 		return data;
 	}
 

@@ -35,9 +35,13 @@ public class GameMenu extends AbstractMenu{
 
 	}
 
+	private void launchGame(IVoogaApp app) {
+		app.assignCloseHandler(e -> animatedShowStage());
+	}
+	
 	private void launchNewEngine() {
 		hideStage();
-		new GameManager(null, GAME_SIZE, myGame, FRAME_LENGTH);
+		launchGame(new GameManager(null, GAME_SIZE, myGame, FRAME_LENGTH));
 	}
 	
 }
