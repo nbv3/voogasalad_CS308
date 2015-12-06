@@ -1,6 +1,7 @@
 package com.syntacticsugar.vooga.authoring;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -13,6 +14,9 @@ import com.syntacticsugar.vooga.menu.IVoogaApp;
 import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.filechooser.FileChooserUtil;
 import com.syntacticsugar.vooga.util.filechooser.IOnFileChooserAction;
+import com.syntacticsugar.vooga.util.fileutil.FileHandler;
+import com.syntacticsugar.vooga.util.gui.factory.MsgInputBoxFactory;
+import com.syntacticsugar.vooga.util.gui.factory.StringInputBoxFactory;
 import com.syntacticsugar.vooga.util.simplefilechooser.SimpleFileChooser;
 import com.syntacticsugar.vooga.xml.XMLHandler;
 import com.syntacticsugar.vooga.xml.data.GameData;
@@ -165,7 +169,22 @@ public class AuthoringScreenManager implements Observer, IVoogaApp {
 
 	private void saveGame() {
 		GameData game = new GameData(myLevelEditor.getAllUniverseData(), new GlobalSettings());
-		File f = SimpleFileChooser.saveGame(game, myStage);	
+		//File f = SimpleFileChooser.saveGame(game, myStage);	
+		StringInputBoxFactory msg = new StringInputBoxFactory("Enter File Name: ");
+		String fileName = msg.getValue();
+		System.out.println("Filename: "+fileName);
+		String directory = ResourceManager.getString("game_data");
+		System.out.println(directory);
+		String path = directory + File.separator + fileName;
+		// Use relative path for Unix systems
+		File f = new File(path);
+		// Works for both Windows and Linux
+		game.setName(f.getName());
+		XMLHandler<GameData> xml = new XMLHandler<>();
+		xml.write(game, f);
+		
+		//File f = new File
+		//SimpleFileChooser.saveGameSimple(game, f);
 	}
 
 	private void loadData() {
