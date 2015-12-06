@@ -38,6 +38,7 @@ public class TowerShop extends Observable implements Observer {
 	public TowerShop() {
 		myPropertiesManager = new PropertiesManager("com/syntacticsugar/vooga/resources/View");
 		myContent = new VBox(20);
+		myContent.getStyleClass().add("vbox");
 		myContent.setAlignment(Pos.TOP_CENTER);
 		
 		Label title = new Label("Tower Shop");
