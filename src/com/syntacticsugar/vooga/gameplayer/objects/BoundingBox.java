@@ -39,12 +39,12 @@ public class BoundingBox extends Observable implements IBoundingBox {
 
 	@Override
 	public double getWidth() {
-		return new Double(myWidth);
+		return myWidth;
 	}
 
 	@Override
 	public double getHeight() {
-		return new Double(myHeight);
+		return myHeight;
 	}
 
 	@Override
@@ -83,6 +83,7 @@ public class BoundingBox extends Observable implements IBoundingBox {
 	
 	@Override
 	public void setWidth(double width) {
+		System.out.println("\n\n\n\n\n\n\n\n\n\n\nZERO SSETs");
 		myWidth = width;
 		triggerViewUpdate();
 	}
