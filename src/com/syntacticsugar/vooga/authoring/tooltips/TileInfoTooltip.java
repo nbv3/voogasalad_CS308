@@ -47,6 +47,6 @@ public class TileInfoTooltip extends CustomTooltip {
 		myType.setText(myTileData.getImplementation().toString());
 		myDestinationMarker
 				.setText(String.format("%s %s", "Destination?", myTileData.isDestination().toString().toUpperCase()));
-		myEffect.setText("Effect? " + myTileData.getEffectName().substring(4, myTileData.getEffectName().length() - 6));
+		myEffect.setText("Effect? " + myTileData.getEffectName());
 	}
 }
