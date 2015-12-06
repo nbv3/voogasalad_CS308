@@ -1,8 +1,8 @@
-package com.syntacticsugar.vooga.gameplayer.view;
+package com.syntacticsugar.vooga.gameplayer.view.implementation;
 
 import com.syntacticsugar.vooga.authoring.fluidmotion.mixandmatchmotion.PulsingFadeWizard;
 import com.syntacticsugar.vooga.gameplayer.attribute.movement.Direction;
-import com.syntacticsugar.vooga.gameplayer.view.implementation.TileView;
+import com.syntacticsugar.vooga.gameplayer.view.ISimpleGameView;
 
 import javafx.geometry.Pos;
 import javafx.scene.canvas.Canvas;

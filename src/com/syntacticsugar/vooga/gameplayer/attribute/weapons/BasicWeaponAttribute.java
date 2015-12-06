@@ -1,4 +1,4 @@
-package com.syntacticsugar.vooga.gameplayer.attribute.weapon;
+package com.syntacticsugar.vooga.gameplayer.attribute.weapons;
 
 import com.syntacticsugar.vooga.authoring.parameters.EditableClass;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
