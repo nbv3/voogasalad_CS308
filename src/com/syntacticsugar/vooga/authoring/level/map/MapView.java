@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.syntacticsugar.vooga.authoring.dragdrop.DragDropManager;
 import com.syntacticsugar.vooga.authoring.icon.Icon;
+import com.syntacticsugar.vooga.authoring.level.IAddToSpawner;
 import com.syntacticsugar.vooga.authoring.objectediting.IObjectDataClipboard;
 import com.syntacticsugar.vooga.authoring.objectediting.IVisualElement;
 import com.syntacticsugar.vooga.authoring.objectediting.sizing.ObjectResizer;
@@ -52,9 +53,11 @@ public class MapView implements IMapDisplay, IVisualElement {
 	private GridPane myMapGrid;
 	private TitledPane myViewPane;
 	private IObjectDataClipboard iObject;
+	private IAddToSpawner iSpawn;
 
-	public MapView(IObjectDataClipboard clip) throws Exception {
+	public MapView(IObjectDataClipboard clip, IAddToSpawner isp) throws Exception {
 		iObject = clip;
+		iSpawn = isp;
 		myMapSize = inputMapSize();
 		myTileSelection = buildSelectionSet();
 		myMapData = new MapData(myMapSize, DEFAULT_TILE_IMAGE);
@@ -177,6 +180,7 @@ public class MapView implements IMapDisplay, IVisualElement {
 			ObjectData receivedData = iObject.obtainSelectedObjectData();
 			receivedData.setSpawnPoint(x, y);
 			// Add to Spawner
+			iSpawn.addToSpawner(receivedData);
 			// TODO
 			
 			String[][] imagePathArray = populateImagePathArray(colIndex, rowIndex);
