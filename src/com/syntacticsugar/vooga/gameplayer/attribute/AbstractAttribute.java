@@ -11,10 +11,11 @@ import com.syntacticsugar.vooga.authoring.parameters.IParameterContainer;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 
-public abstract class AbstractAttribute extends Observable implements IAttribute, IParameterContainer, Observer {
+public abstract class AbstractAttribute<T> extends Observable implements IAttribute, IParameterContainer, Observer {
 
 	private IGameObject myParent;
 	private Collection<IEditableParameter<?>> myParams;
+	private Double myValue;
 	
 	/**
 	 * Construct a new SimpleAttribute object with a null parent.
@@ -26,6 +27,15 @@ public abstract class AbstractAttribute extends Observable implements IAttribute
 		this.myParent = null;
 	}
 	
+	public void setValue(Double value)
+	{
+		myValue = value;
+	}
+	
+	public Double getValue()
+	{
+		return myValue;
+	}
 	private void addParameters(AbstractParameter<?>... params)
 	{
 		for (int i=0; i<params.length; i++) {

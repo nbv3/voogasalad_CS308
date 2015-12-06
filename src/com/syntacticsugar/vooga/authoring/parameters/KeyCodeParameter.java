@@ -1,7 +1,10 @@
 package com.syntacticsugar.vooga.authoring.parameters;
 
+import java.util.ArrayList;
+
 import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
+import javafx.util.Pair;
 
 public class KeyCodeParameter extends AbstractParameter<KeyCode>{
 
@@ -10,10 +13,6 @@ public class KeyCodeParameter extends AbstractParameter<KeyCode>{
 		super(label);
 	}
 
-	@Override
-	public void setInputNode() {
-		
-	}
 	
 	@Override
 	public void setValue(KeyCode code)
@@ -21,9 +20,11 @@ public class KeyCodeParameter extends AbstractParameter<KeyCode>{
 		myCode = code;
 	}
 
+
 	@Override
 	public KeyCode getInputValue() {
 		return myCode;
 	}
+
 
 }

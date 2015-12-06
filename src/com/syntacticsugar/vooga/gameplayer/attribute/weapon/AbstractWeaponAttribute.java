@@ -1,7 +1,13 @@
 package com.syntacticsugar.vooga.gameplayer.attribute.weapon;
 
+import java.util.ArrayList;
 import java.util.Observable;
 
+import com.syntacticsugar.vooga.authoring.parameters.AbstractParameter;
+import com.syntacticsugar.vooga.authoring.parameters.DoubleParameter;
+import com.syntacticsugar.vooga.authoring.parameters.IEditableParameter;
+import com.syntacticsugar.vooga.authoring.parameters.KeyCodeParameter;
+import com.syntacticsugar.vooga.authoring.parameters.StringParameter;
 import com.syntacticsugar.vooga.gameplayer.attribute.AbstractAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.control.IUserControlAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.control.actions.movement.Direction;
@@ -29,17 +35,33 @@ public abstract class AbstractWeaponAttribute extends AbstractAttribute implemen
 	private Integer fireFrameDelay;
 	private int delayFrameCounter;
 	
-	public AbstractWeaponAttribute(String bulletImagePath, Double bulletDamage, KeyCode fireKeyCode, 
-			Double bulletSpeed, Double bulletWidth, Double bulletHeight) {
-		this.myBulletImagePath = bulletImagePath;
-		this.myBulletDamage = bulletDamage;
-		this.myFireKeyCode = fireKeyCode;
+	public AbstractWeaponAttribute(AbstractParameter<?>... params) {
+		super(params);
+		this.myBulletImagePath = "";
+		this.myBulletDamage = 0.0;
+		this.myFireKeyCode = KeyCode.SPACE;
 		this.isFireKeyPressed = false;
 		this.fireFrameDelay = 10;
 		this.delayFrameCounter = 0;
-		myBulletSpeed = bulletSpeed;
-		myBulletWidth = bulletWidth;
-		myBulletHeight = bulletHeight;
+		myBulletSpeed = 5.0;
+		myBulletWidth = 10.0;
+		myBulletHeight = 10.0;
+	}
+	
+	public void setImagePath(String path){
+		myBulletImagePath = path;
+	}
+	public void setBulletDamage(Double val)
+	{
+		myBulletDamage = val;
+	}
+	public void setBulletSpeed(Double val)
+	{
+		myBulletSpeed = val;
+	}
+	public void setFireKeyCode(KeyCode code)
+	{
+		myFireKeyCode = code;
 	}
 	
 	@Override

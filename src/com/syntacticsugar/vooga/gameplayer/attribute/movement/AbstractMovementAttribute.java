@@ -15,6 +15,7 @@ import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.gameplayer.universe.map.IGameMap;
 
 import javafx.geometry.Point2D;
+import javafx.util.Pair;
 
 public abstract class AbstractMovementAttribute extends AbstractAttribute implements IMover {
 	

@@ -28,6 +28,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -114,16 +115,33 @@ public class AttributeMakerWizard implements Observer{
 		BorderPane tempPane = new BorderPane();
 		Scene tempScene = new Scene(tempPane);
 		tempStage.setScene(tempScene);
+		tempStage.show();
 		Collection<IEditableParameter<?>> myParameters = ((AbstractAttribute)attribute).getParams();
 		for(IEditableParameter<?> parameter: myParameters)
 		{
-			if(parameter.getInputNode() != null)
-			{
-				tempPane.setCenter(parameter.getInputNode());
-			}
-			
+			TextField myText = new TextField();
+			myText.setOnKeyPressed(e->updateAttribute(tempStage, e.getCode(), myText.getText(), (AbstractAttribute)attribute));
+			HBox temp = new HBox();
+			temp.getChildren().addAll(parameter.getLabel(), myText);
+			tempPane.setCenter(temp);
 		}
-		tempStage.show();
+	}
+	
+	private void updateAttribute(Stage s, KeyCode code, String userInput, AbstractAttribute att)
+	{
+		if(!userInput.equals(null))
+		{
+			if(code.equals(KeyCode.ENTER))
+			{
+				if(!userInput.equals(""))
+				{
+					att.setValue(Double.parseDouble(userInput));
+					myAttributes.add((IAttribute) att);
+					s.close();
+				}
+			}
+		}
+
 	}
 
 	@Override

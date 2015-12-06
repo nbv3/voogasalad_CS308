@@ -2,6 +2,7 @@ package com.syntacticsugar.vooga.gameplayer.attribute.movement;
 
 import java.awt.Point;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Observable;
@@ -14,6 +15,7 @@ import com.syntacticsugar.vooga.gameplayer.universe.map.IGameMap;
 import com.syntacticsugar.vooga.util.pathfinder.PathFinder;
 
 import javafx.geometry.Point2D;
+import javafx.util.Pair;
 
 public class AIMovementAttribute extends AbstractMovementAttribute implements Serializable{
 
@@ -23,6 +25,7 @@ public class AIMovementAttribute extends AbstractMovementAttribute implements Se
 	
 	private int myFrameCount;
 	private int myPathUpdateRate; // TODO: Move into a resource file
+	
 	
 	public AIMovementAttribute() {
 		super(new DoubleParameter("AISpeed: "));

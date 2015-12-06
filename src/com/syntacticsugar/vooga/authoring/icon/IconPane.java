@@ -97,6 +97,7 @@ public class IconPane implements IVisualElement, IDirectoryViewer<String> {
 		XMLHandler<ObjectData> xml = new XMLHandler<>();
 		for (int i = 0; i < files.length; i++) {
 			ObjectData obj = xml.read(files[i]);
+			System.out.println(obj.getImagePath());
 			ImageView image = new ImageView(
 					new Image(getClass().getClassLoader().getResourceAsStream(obj.getImagePath())));
 			image.fitWidthProperty().bind(myIconPane.maxWidthProperty().divide(NUM_COLS).subtract(INSET_VALUE));

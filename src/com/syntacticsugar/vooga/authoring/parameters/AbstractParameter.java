@@ -2,14 +2,16 @@ package com.syntacticsugar.vooga.authoring.parameters;
 
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.util.Pair;
+
+import java.util.ArrayList;
 import java.util.Observable;
 
 public abstract class AbstractParameter<T> extends Observable implements IEditableParameter<T> {
 
 	private Label myLabel;
-	private Node myNode;
 	private T myValue;
-	
+
 	public AbstractParameter(String label)
 	{
 		setLabel(label);
@@ -20,11 +22,7 @@ public abstract class AbstractParameter<T> extends Observable implements IEditab
 		myLabel = new Label(label);
 	}
 	
-	public void setNode(Node n)
-	{
-		myNode = n;
-	}
-	
+	@Override
 	public Label getLabel()
 	{
 		return myLabel;
@@ -39,10 +37,6 @@ public abstract class AbstractParameter<T> extends Observable implements IEditab
 	{
 		return myValue;
 	}
-	
-	public Node getInputNode()
-	{
-		return myNode;
-	}
+
 	
 }

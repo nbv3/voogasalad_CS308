@@ -1,5 +1,9 @@
 package com.syntacticsugar.vooga.authoring.parameters;
 
+import java.util.ArrayList;
+
+import javafx.util.Pair;
+
 public class StringParameter extends AbstractParameter<String>{
 
 	private String myValue;
@@ -8,11 +12,6 @@ public class StringParameter extends AbstractParameter<String>{
 		super(label);
 	}
 
-	@Override
-	public void setInputNode() {
-		// TODO Auto-generated method stub
-		
-	}
 	
 	@Override
 	public void setValue(String value)

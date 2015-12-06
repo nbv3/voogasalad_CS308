@@ -27,6 +27,7 @@ public class ScoreAttribute extends AbstractAttribute {
 		myScore = score;
 	}
 	
+	
 	public Integer getScore() {
 		return myScore;
 	}

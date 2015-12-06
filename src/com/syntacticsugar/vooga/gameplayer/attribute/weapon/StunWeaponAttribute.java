@@ -2,6 +2,10 @@ package com.syntacticsugar.vooga.gameplayer.attribute.weapon;
 
 import java.util.Observable;
 
+import com.syntacticsugar.vooga.authoring.parameters.DoubleParameter;
+import com.syntacticsugar.vooga.authoring.parameters.IntegerParameter;
+import com.syntacticsugar.vooga.authoring.parameters.KeyCodeParameter;
+import com.syntacticsugar.vooga.authoring.parameters.StringParameter;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.objects.items.bullets.BulletParams;
@@ -12,12 +16,11 @@ import javafx.scene.input.KeyCode;
 
 public class StunWeaponAttribute extends AbstractWeaponAttribute {
 	
-	private int myStunTime;
+	private Integer myStunTime;
 	
-	public StunWeaponAttribute(String bulletImagePath, Double bulletDamage, KeyCode fireKeyCode,
-			Double bulletSpeed, Double bulletWidth, Double bulletHeight, Integer stunTime) {
-		super(bulletImagePath, bulletDamage, fireKeyCode, bulletSpeed, bulletWidth, bulletHeight);
-		myStunTime = stunTime;
+	public StunWeaponAttribute() {
+		super(new DoubleParameter("Bullet Damage: "), new DoubleParameter("Bullet Speed: "), new StringParameter("Image Path: "), new KeyCodeParameter("Fire KeyCode: "), new IntegerParameter("Stun Time: "));
+		myStunTime = 0;
 	}
 
 	@Override
@@ -34,9 +37,56 @@ public class StunWeaponAttribute extends AbstractWeaponAttribute {
 		return bullet;
 	}
 	
+	public void setStunTime(Integer time)
+	{
+		myStunTime = time;
+	}
+	
+	@Override
 	public void update(Observable o, Object arg) {
-		setChanged();
-		notifyObservers(this);
+		try{
+			Double value = (Double) arg;
+			setChanged();
+			notifyObservers(this);
+		}
+		catch (ClassCastException e)
+		{
+			try
+			{
+				KeyCode code = (KeyCode) arg;
+				setFireKeyCode(code);
+				setChanged();
+				notifyObservers(this);
+				
+			}
+			catch (ClassCastException e1)
+			{
+				try
+				{
+					String s = (String) arg;
+					setImagePath(s);
+					setChanged();
+					notifyObservers(this);
+				}
+				catch (ClassCastException e2)
+				{
+					try
+					{
+						Integer val = (Integer) arg;
+						setStunTime(val);
+						setChanged();
+						notifyObservers(this);
+					}
+					catch (ClassCastException e3)
+					{
+						
+					}
+				}
+
+			}
+			
+		}
+
 	}
 
 }

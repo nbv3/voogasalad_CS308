@@ -1,6 +1,8 @@
 package com.syntacticsugar.vooga.gameplayer.attribute;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.ListIterator;
 import java.util.Observable;
 
@@ -13,6 +15,7 @@ import com.syntacticsugar.vooga.gameplayer.universe.IObjectDespawner;
 
 import javafx.scene.Node;
 import javafx.scene.layout.HBox;
+import javafx.util.Pair;
 
 public class HealthAttribute extends AbstractAttribute {
 
@@ -87,19 +90,22 @@ public class HealthAttribute extends AbstractAttribute {
 	
 	public void setHealth(Double health)
 	{
-		myMaxHealth = health;
+		myHealth = health;
 	}
 	
 	// test code here
 	public Double getHealth() {
 		return myHealth;
 	}
+	
 
 	@Override
 	public void update(Observable o, Object arg) {
 		setHealth((Double) arg);
 		setChanged();
 		notifyObservers(this);
+		//setHealth((Double) arg);
+		
 	}
 
 

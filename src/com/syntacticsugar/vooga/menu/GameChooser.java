@@ -231,7 +231,13 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 		Collection<IAttribute> attributes = new ArrayList<>();
 		attributes.add(new HealthAttribute());
 		attributes.add(new MovementControlAttribute());
-		attributes.add(new StunWeaponAttribute(missilePath, 1.0, KeyCode.SPACE, 8.0, 5.0, 10.0, 60));
+		StunWeaponAttribute stunWeapon = new StunWeaponAttribute();
+		stunWeapon.setImagePath(missilePath);
+		stunWeapon.setBulletDamage(1.0);
+		stunWeapon.setFireKeyCode(KeyCode.SPACE);
+		stunWeapon.setStunTime(60);
+		stunWeapon.setBulletSpeed(10.0);
+		attributes.add(stunWeapon);
 		HealthAttribute playerHealth = new HealthAttribute();
 		playerHealth.setHealth(100.0);
 		MovementControlAttribute playerMove = new MovementControlAttribute();
