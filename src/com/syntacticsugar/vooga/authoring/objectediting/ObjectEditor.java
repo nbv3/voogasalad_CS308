@@ -94,6 +94,7 @@ public class ObjectEditor extends Observable implements IDataClipboard {
 		emptyData.setType(null);
 		setUpdateButtonVisibility(false);
 		setSaveButtonViability(false);
+		setCreateButtonViability(false);
 		emptyData.setAttributes(FXCollections.observableArrayList());
 		emptyData.setCollisionMap(FXCollections.observableHashMap());
 		displayData(emptyData);
@@ -123,10 +124,12 @@ public class ObjectEditor extends Observable implements IDataClipboard {
 		typeChooser.valueProperty().addListener((o, s1, s2) -> {
 			if (s2 == null) {
 				mySaveButton.setDisable(true);
+				myCreateButton.setDisable(true);
 				return;
 			}
 			if (mySaveButton.isDisabled()) {
 				setSaveButtonViability(true);
+				setCreateButtonViability(true);
 			}
 
 			currentData.setType(s2);
@@ -139,6 +142,7 @@ public class ObjectEditor extends Observable implements IDataClipboard {
 		if (data != null) {
 			if (mySaveButton.isDisabled() && data.getType() != null) {
 				setSaveButtonViability(true);
+				setCreateButtonViability(true);
 			}
 			currentData = data;
 			if (data.getType() != null) {
@@ -312,6 +316,10 @@ public class ObjectEditor extends Observable implements IDataClipboard {
 
 	public void setSaveButtonViability(boolean flag) {
 		mySaveButton.setDisable(!flag);
+	}
+	
+	private void setCreateButtonViability(boolean flag) {
+		myCreateButton.setDisable(!flag);
 	}
 
 	@Override
