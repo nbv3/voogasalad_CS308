@@ -4,8 +4,6 @@ import java.util.Observable;
 
 import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.MoneyChangeEvent;
-import com.syntacticsugar.vooga.gameplayer.manager.IEventManager;
-import com.syntacticsugar.vooga.gameplayer.universe.score.IEventListener;
 
 public class Money extends Observable implements IMoney{
 	

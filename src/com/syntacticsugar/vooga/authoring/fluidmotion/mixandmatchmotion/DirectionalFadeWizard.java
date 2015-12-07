@@ -2,7 +2,6 @@ package com.syntacticsugar.vooga.authoring.fluidmotion.mixandmatchmotion;
 
 import com.syntacticsugar.vooga.authoring.fluidmotion.FadeTransitionWizard;
 import com.syntacticsugar.vooga.authoring.fluidmotion.FluidGlassBall;
-import com.syntacticsugar.vooga.authoring.fluidmotion.ITransitionApplyEffect;
 import com.syntacticsugar.vooga.authoring.fluidmotion.ParallelTransitionWizard;
 import com.syntacticsugar.vooga.authoring.fluidmotion.TranslateTransitionWizard;
 

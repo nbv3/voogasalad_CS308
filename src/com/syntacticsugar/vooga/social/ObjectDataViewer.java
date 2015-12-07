@@ -1,38 +1,14 @@
 package com.syntacticsugar.vooga.social;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.syntacticsugar.vooga.util.ResourceManager;
-import com.syntacticsugar.vooga.util.filechooser.FileChooserUtil;
-import com.syntacticsugar.vooga.util.filechooser.IOnFileChooserAction;
 import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
-import com.syntacticsugar.vooga.util.gui.factory.MsgInputBoxFactory;
-import com.syntacticsugar.vooga.util.webconnect.JSONHelper;
 import com.syntacticsugar.vooga.util.webconnect.WebConnector;
-import com.syntacticsugar.vooga.xml.XMLHandler;
-
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TitledPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import javafx.stage.FileChooser;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import javafx.stage.FileChooser.ExtensionFilter;
 
 public class ObjectDataViewer {
 

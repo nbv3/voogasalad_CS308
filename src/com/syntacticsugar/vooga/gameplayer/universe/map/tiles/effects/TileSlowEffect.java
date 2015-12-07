@@ -9,6 +9,10 @@ import com.syntacticsugar.vooga.gameplayer.universe.map.IGameMap;
 
 public class TileSlowEffect extends AbstractTileEffect implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Double mySlow;
 	private int myLength;
 

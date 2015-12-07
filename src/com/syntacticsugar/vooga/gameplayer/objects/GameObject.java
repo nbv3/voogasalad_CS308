@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
@@ -32,7 +31,7 @@ public class GameObject extends AbstractViewableObject implements IGameObject {
 	public GameObject(ObjectData data) {
 		super(data.getSpawnPoint(), data.getWidth(), data.getHeight(), data.getImagePath());
 		//Collection<IAttribute> attributes = data.getAttributes();
-		Collection<IAttribute> attributes = new ArrayList();
+		Collection<IAttribute> attributes = new ArrayList<IAttribute>();
 		for (IAttribute i : data.getAttributes()) {
 			if (i instanceof TowerBasicWeaponAttribute) {
 				attributes.add(new TowerBasicWeaponAttribute((TowerBasicWeaponAttribute)i));

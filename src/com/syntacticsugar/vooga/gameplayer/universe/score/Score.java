@@ -2,12 +2,9 @@ package com.syntacticsugar.vooga.gameplayer.universe.score;
 
 import java.util.Observable;
 
-import com.syntacticsugar.vooga.gameplayer.conditions.ConditionType;
 import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
-import com.syntacticsugar.vooga.gameplayer.event.implementations.LevelChangeEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.ScoreChangeEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.ScoreUpdateEvent;
-import com.syntacticsugar.vooga.gameplayer.manager.IEventManager;
 import com.syntacticsugar.vooga.gameplayer.universe.IEventPoster;
 import com.syntacticsugar.vooga.xml.data.LevelSettings;
 

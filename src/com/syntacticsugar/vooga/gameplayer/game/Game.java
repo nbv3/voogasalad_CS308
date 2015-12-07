@@ -1,23 +1,17 @@
 package com.syntacticsugar.vooga.gameplayer.game;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import com.syntacticsugar.vooga.gameplayer.manager.IEventManager;
 import com.syntacticsugar.vooga.gameplayer.universe.GameUniverse;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.filechooser.FileChooserUtil;
 import com.syntacticsugar.vooga.xml.XMLHandler;
 import com.syntacticsugar.vooga.xml.data.GameData;
-import com.syntacticsugar.vooga.xml.data.MapData;
 import com.syntacticsugar.vooga.xml.data.UniverseData;
 import com.syntacticsugar.vooga.xml.data.GlobalSettings;
-
-import javafx.stage.FileChooser.ExtensionFilter;
-import javafx.stage.Stage;
 
 public class Game implements IGame {
 	

@@ -1,7 +1,5 @@
 package com.syntacticsugar.vooga.gameplayer.universe;
 
-import java.util.Collection;
-
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.view.IViewRemover;
 

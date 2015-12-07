@@ -10,7 +10,7 @@ public class CompressorTest {
 		//base64Test();
 	}
 
-	private static void regularTest() {
+/*	private static void regularTest() {
 		//File selectedFile = new File("src/com/syntacticsugar/vooga/util/compress/Untitled.xml");
 		File selectedFile = new File("C:/Users/jiawe/Desktop/testmap.xml");
 		System.out.println("Regular Test:");
@@ -22,7 +22,7 @@ public class CompressorTest {
 		System.out.printf("%30s: %8d\n", "Uncompressed string size", uncompressed.length());
 		System.out.printf("%30s: %8b\n", "Equal", inputString.equals(uncompressed));
 		System.out.println();
-	}
+	}*/
 
 	private static void utf16Test() {
 		//File selectedFile = new File("src/com/syntacticsugar/vooga/util/compress/Untitled.xml");
@@ -38,7 +38,7 @@ public class CompressorTest {
 		System.out.println();
 	}
 
-	private static void base64Test() {
+/*	private static void base64Test() {
 		File selectedFile = new File("src/com/syntacticsugar/vooga/util/compress/Untitled.xml");
 		System.out.println("Base64 Test:");
 		String inputString = readFile(selectedFile);
@@ -49,7 +49,7 @@ public class CompressorTest {
 		System.out.printf("%30s: %8d\n", "Uncompressed string size", uncompressed.length());
 		System.out.printf("%30s: %8b\n", "Equal", inputString.equals(uncompressed));
 		System.out.println();
-	}
+	}*/
 
 	private static String readFile(File f) {
 		try {

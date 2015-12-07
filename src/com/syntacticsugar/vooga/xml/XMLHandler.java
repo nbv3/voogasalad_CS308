@@ -64,6 +64,7 @@ public class XMLHandler<T> implements IXML<T> {
 		writeXMLToFile(generateXML(object), f.getPath());
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public T read(File f) {
 		String xml = fileToString(f);

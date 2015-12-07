@@ -1,17 +1,11 @@
 package com.syntacticsugar.vooga.util.webconnect;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.syntacticsugar.vooga.social.CommentViewer;
 import com.syntacticsugar.vooga.util.webconnect.WebConnector;
-
-import javafx.util.Pair;
 
 public class WebConnectorTest {
 	public static void main(String args[]) throws Exception {

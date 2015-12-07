@@ -3,7 +3,6 @@ package com.syntacticsugar.vooga.authoring.level;
 import com.syntacticsugar.vooga.authoring.objectediting.IVisualElement;
 import com.syntacticsugar.vooga.authoring.parameters.ParameterInputFactory;
 import com.syntacticsugar.vooga.gameplayer.conditions.IGameCondition;
-import com.syntacticsugar.vooga.gameplayer.conditions.implementation.EnemyDeathCondition;
 import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 import com.syntacticsugar.vooga.util.reflection.Reflection;

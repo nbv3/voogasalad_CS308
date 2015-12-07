@@ -8,7 +8,7 @@ public class FileHelper {
 
 		File selectedFile = new File("src/com/syntacticsugar/vooga/util/compress/Untitled.xml");
 		
-		String inputString = readFile(selectedFile);
+		readFile(selectedFile);
 		
 	}
 

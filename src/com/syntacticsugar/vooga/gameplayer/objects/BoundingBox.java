@@ -72,6 +72,8 @@ public class BoundingBox extends Observable implements IBoundingBox {
 		case LEFT:
 			setRotate(180);
 			break;
+		default:
+			break;
 		}
 	}
 	

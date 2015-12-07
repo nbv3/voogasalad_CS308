@@ -8,36 +8,12 @@ import java.util.Map;
 
 import com.syntacticsugar.vooga.authoring.fluidmotion.mixandmatchmotion.DirectionalFadeWizard;
 import com.syntacticsugar.vooga.authoring.fluidmotion.mixandmatchmotion.PulsingFadeWizard;
-import com.syntacticsugar.vooga.gameplayer.attribute.HealthAttribute;
-import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
-import com.syntacticsugar.vooga.gameplayer.attribute.ScoreAttribute;
-import com.syntacticsugar.vooga.gameplayer.attribute.movement.AIMovementAttribute;
-import com.syntacticsugar.vooga.gameplayer.attribute.movement.ConstantMovementAttribute;
-import com.syntacticsugar.vooga.gameplayer.attribute.movement.Direction;
-import com.syntacticsugar.vooga.gameplayer.attribute.movement.MovementControlAttribute;
-import com.syntacticsugar.vooga.gameplayer.attribute.weapons.BasicWeaponAttribute;
-import com.syntacticsugar.vooga.gameplayer.attribute.weapons.BombAttribute;
-import com.syntacticsugar.vooga.gameplayer.attribute.weapons.StunWeaponAttribute;
-import com.syntacticsugar.vooga.gameplayer.attribute.weapons.TowerBasicWeaponAttribute;
-import com.syntacticsugar.vooga.gameplayer.event.ICollisionEvent;
-import com.syntacticsugar.vooga.gameplayer.event.implementations.HealthChangeEvent;
-import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.dirview.IConverter;
 import com.syntacticsugar.vooga.util.dirview.IDirectoryViewer;
 import com.syntacticsugar.vooga.xml.XMLFileFilter;
 import com.syntacticsugar.vooga.xml.XMLHandler;
 import com.syntacticsugar.vooga.xml.data.GameData;
-import com.syntacticsugar.vooga.xml.data.GlobalSettings;
-import com.syntacticsugar.vooga.xml.data.LevelSettings;
-import com.syntacticsugar.vooga.xml.data.MapData;
-import com.syntacticsugar.vooga.xml.data.ObjectData;
-import com.syntacticsugar.vooga.xml.data.SpawnerData;
-import com.syntacticsugar.vooga.xml.data.TowerData;
-import com.syntacticsugar.vooga.xml.data.TowerListData;
-import com.syntacticsugar.vooga.xml.data.UniverseData;
-import com.syntacticsugar.vooga.xml.data.WaveData;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -47,7 +23,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -159,7 +134,7 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 		return button;
 	}
 
-	private static GameData makeEmptyData() {
+/*	private static GameData makeEmptyData() {
 
 		Collection<UniverseData> uni = new ArrayList<>();
 		uni.add(generateTestUni());
@@ -169,9 +144,9 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 		data.setName("Go Bolts");
 
 		return data;
-	}
+	}*/
 
-	private static UniverseData generateTestUni() {
+	/*private static UniverseData generateTestUni() {
 		Collection<ObjectData> odata = new ArrayList<>();
 
 		String enemyPath = "enemy_ghost_1.png";
@@ -337,6 +312,6 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 		LevelSettings lSetting = new LevelSettings(1000);
 
 		return new UniverseData(spawn, td, map, lSetting, new ArrayList<>());
-	}
+	}*/
 
 }

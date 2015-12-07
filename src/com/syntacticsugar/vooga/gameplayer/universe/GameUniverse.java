@@ -7,11 +7,8 @@ import java.util.List;
 import java.util.Observer;
 
 import com.syntacticsugar.vooga.gameplayer.conditions.Conditions;
-import com.syntacticsugar.vooga.gameplayer.conditions.implementation.EnemyDeathCondition;
-import com.syntacticsugar.vooga.gameplayer.conditions.implementation.PlayerDeathCondition;
 import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
 import com.syntacticsugar.vooga.gameplayer.manager.IEventManager;
-import com.syntacticsugar.vooga.gameplayer.objects.GameObject;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.objects.towers.ITower;
@@ -35,7 +32,6 @@ import com.syntacticsugar.vooga.xml.data.TowerData;
 import com.syntacticsugar.vooga.xml.data.TowerListData;
 import com.syntacticsugar.vooga.xml.data.UniverseData;
 
-import javafx.geometry.Point2D;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 

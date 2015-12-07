@@ -189,7 +189,12 @@ public class AuthoringScreenManager implements Observer, IVoogaApp {
 
 	private void saveMap() {
 		MapData toSave = myLevelEditor.getIndividualMapData();
-		File f = SimpleFileChooser.saveMap(toSave, myStage);
+		try { 
+			SimpleFileChooser.saveMap(toSave, myStage);
+		}
+		catch(Exception ex){
+			return;
+		}
 	}
 
 	private void loadMap() {

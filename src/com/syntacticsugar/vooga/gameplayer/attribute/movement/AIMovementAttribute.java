@@ -6,7 +6,6 @@ import java.util.List;
 
 import com.syntacticsugar.vooga.authoring.parameters.EditableClass;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.DestinationReachedEvent;
-import com.syntacticsugar.vooga.gameplayer.objects.IBoundingBox;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.gameplayer.universe.map.IGameMap;
 import com.syntacticsugar.vooga.util.pathfinder.PathFinder;

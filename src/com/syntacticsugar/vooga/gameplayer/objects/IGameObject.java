@@ -1,10 +1,5 @@
 package com.syntacticsugar.vooga.gameplayer.objects;
 
-import java.util.Collection;
-import java.util.Map;
-
-import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
-import com.syntacticsugar.vooga.gameplayer.event.ICollisionEvent;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 
 public interface IGameObject extends IAttributeCollection, ICollidable, IViewableObject {

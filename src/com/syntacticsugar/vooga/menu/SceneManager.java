@@ -1,43 +1,18 @@
 package com.syntacticsugar.vooga.menu;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-
-import com.syntacticsugar.vooga.authoring.AuthoringScreenManager;
-import com.syntacticsugar.vooga.gameplayer.attribute.HealthAttribute;
-import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
-import com.syntacticsugar.vooga.gameplayer.attribute.ScoreAttribute;
-import com.syntacticsugar.vooga.gameplayer.event.ICollisionEvent;
-import com.syntacticsugar.vooga.gameplayer.event.implementations.HealthChangeEvent;
-import com.syntacticsugar.vooga.gameplayer.manager.GameManager;
-import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
-import com.syntacticsugar.vooga.social.SocialCenter;
 import com.syntacticsugar.vooga.util.properties.PropertiesManager;
-import com.syntacticsugar.vooga.xml.XMLHandler;
-import com.syntacticsugar.vooga.xml.data.GameData;
-import com.syntacticsugar.vooga.xml.data.GlobalSettings;
-import com.syntacticsugar.vooga.xml.data.LevelSettings;
-import com.syntacticsugar.vooga.xml.data.MapData;
-import com.syntacticsugar.vooga.xml.data.ObjectData;
-import com.syntacticsugar.vooga.xml.data.SpawnerData;
-import com.syntacticsugar.vooga.xml.data.TowerListData;
-import com.syntacticsugar.vooga.xml.data.UniverseData;
-import com.syntacticsugar.vooga.xml.data.WaveData;
-
-import javafx.scene.Scene;
-import javafx.stage.FileChooser;
-import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 
 public class SceneManager {
 
+	@SuppressWarnings("unused")
 	private double WIDTH;
+	@SuppressWarnings("unused")
 	private double HEIGHT;
+	@SuppressWarnings("unused")
 	private double GAME_SIZE;
 	private String TITLE; // = "Vooga Salad";
+	@SuppressWarnings("unused")
 	private double FRAME_LENGTH;
 
 	private PropertiesManager myPropertiesManager;

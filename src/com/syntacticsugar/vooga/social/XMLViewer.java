@@ -1,15 +1,9 @@
 package com.syntacticsugar.vooga.social;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.syntacticsugar.vooga.authoring.library.IRefresher;
 import com.syntacticsugar.vooga.authoring.objectediting.IVisualElement;
 import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.filechooser.FileChooserUtil;
@@ -18,13 +12,9 @@ import com.syntacticsugar.vooga.util.webconnect.JSONHelper;
 import com.syntacticsugar.vooga.util.webconnect.WebConnector;
 import com.syntacticsugar.vooga.xml.XMLHandler;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser.ExtensionFilter;
@@ -114,7 +104,7 @@ public class XMLViewer implements IVisualElement {
 	private void makeUploadFileChooser() {// EventHandler<ActionEvent> action) {
 		ExtensionFilter filter = new ExtensionFilter("XML files", "*.xml", "*.XML");
 		FileChooserUtil.loadFile("Choose an XML game file", filter, null, selected -> {
-			UploaderInfoBox infoBox = new UploaderInfoBox(new IUploader() {
+			new UploaderInfoBox(new IUploader() {
 				@Override
 				public void postXML(String author, String gamename, String description) {
 					WebConnector.postXML(

@@ -4,6 +4,7 @@ import javafx.geometry.Point2D;
 
 public abstract class AbstractTile{
 
+	@SuppressWarnings("unused")
 	private Point2D myPoint;
 	
 	public AbstractTile(Point2D point) {

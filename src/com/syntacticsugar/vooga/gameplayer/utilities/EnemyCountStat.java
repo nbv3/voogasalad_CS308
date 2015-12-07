@@ -5,6 +5,7 @@ import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 
 public class EnemyCountStat implements IGameStat{
 	
+	@SuppressWarnings("unused")
 	private int enemyCount;
 
 	public EnemyCountStat(){

@@ -6,7 +6,6 @@ import java.awt.Point;
 import java.util.Collection;
 import java.util.List;
 
-import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.DecoratorTile;
 import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.IGameTile;
 
 public interface IGameMap extends PathFindingMap{

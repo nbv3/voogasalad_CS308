@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 
 public abstract class AbstractInputBoxFactory implements IInputBoxFactory {
 
+	@SuppressWarnings("unused")
 	private String value;
 	private TextField textField;
 	private Stage dialogStage;
