@@ -46,7 +46,7 @@ public class SpawnerView implements IDataSelector<ObjectData>, IVisualElement, I
 	}
 
 	@Override
-	public void addData(ObjectData obj) {
+	public void addData(ObjectData obj) { 
 		myQueue.add(obj);
 		Node temp = createQueueBoxFromObjData(obj);
 		myWave.add(temp);
