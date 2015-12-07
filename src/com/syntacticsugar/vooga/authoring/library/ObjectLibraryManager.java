@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import com.syntacticsugar.vooga.authoring.level.LevelTabManager;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
+import com.syntacticsugar.vooga.util.ResourceManager;
+import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
 import com.syntacticsugar.vooga.xml.data.IData;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
@@ -89,6 +91,10 @@ public class ObjectLibraryManager {
 	}
 
 	private void processSpawner(LevelTabManager levels) {
+		if (getCurrentData() == null) {
+			AlertBoxFactory.createObject(ResourceManager.getString("select_enemy"));
+			return;
+		}
 		if (getCurrentData().getType().equals(GameObjectType.ENEMY)) {
 			ObjectData data = (ObjectData) getCurrentData();
 			levels.addCurrentSpawner(data);
@@ -96,6 +102,11 @@ public class ObjectLibraryManager {
 	}
 
 	private void processTower(LevelTabManager levels) {
+		
+		if (getCurrentData() == null) {
+			AlertBoxFactory.createObject(ResourceManager.getString("select_tower"));
+			return;
+		}
 		if (getCurrentData().getType().equals(GameObjectType.TOWER)) {
 			TowerData data = (TowerData) getCurrentData();
 			levels.addCurrentTower(data);
