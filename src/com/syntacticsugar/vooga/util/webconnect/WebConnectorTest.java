@@ -55,7 +55,7 @@ public class WebConnectorTest {
 		String author = "the one with date";
 		String gamename = "SS";
 		String description = "game djlfakjdlkfjdlkfjdljflkdlfjdlfjk goes here";
-		File f = new File("src/com/syntacticsugar/vooga/util/compress/Untitled.xml");
+		new File("src/com/syntacticsugar/vooga/util/compress/Untitled.xml");
 		//String xml = FileHelper.readFile(f);
 		String xml = "<testxml>soem shittejjiejiefe</testxml>";
 		JSONObject request = JSONHelper.createXMLJSON(author, gamename, description, xml);
