@@ -165,6 +165,9 @@ public class AuthoringScreenManager implements Observer, IVoogaApp {
 		StringInputBoxFactory msg = new StringInputBoxFactory(
 				ResourceManager.getString("enter_filename") + " ");
 		String fileName = msg.getValue();
+		if (fileName == null) {
+			return;
+		}
 		System.out.println(ResourceManager.getString("filename") + " " + fileName);
 		String directory = ResourceManager.getString("game_data");
 		System.out.println(directory);
