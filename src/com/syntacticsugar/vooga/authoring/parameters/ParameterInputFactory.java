@@ -29,12 +29,16 @@ import javafx.stage.WindowEvent;
 public class ParameterInputFactory {
 
 	private static Map<Node, Boolean> isSet;
+	private static Stage myStage;
+	private static Map<Node, Method> myMethodFields;
 
 	public static void createInputFields(Object toEdit) {
 		isSet = new HashMap<>();
+		myMethodFields = new HashMap<>();
 		EditableClass a = toEdit.getClass().getDeclaredAnnotation(EditableClass.class);
 		if (a == null)
 			return;
+		myStage = new Stage();
 		Collection<Node> inputFields = inspectEditableFields(toEdit);
 		VBox container = new VBox();
 		container.getChildren().addAll(inputFields);
@@ -42,11 +46,10 @@ public class ParameterInputFactory {
 		container.setAlignment(Pos.CENTER);
 		container.setPadding(new Insets(10));
 		Scene scene = new Scene(container);
-		Stage stage = new Stage();
-		stage.setScene(scene);
-		stage.setTitle(a.className());
-		stage.setOnCloseRequest(e -> checkValidity(e));
-		stage.showAndWait();
+		myStage.setScene(scene);
+		myStage.setTitle(a.className());
+		myStage.setOnCloseRequest(e -> checkValidity(e));
+		myStage.showAndWait();
 
 	}
 
@@ -63,11 +66,13 @@ public class ParameterInputFactory {
 	private static Collection<Node> inspectEditableFields(Object toEdit) {
 		Collection<Node> inputNodes = new ArrayList<>();
 		Class<?> c = toEdit.getClass();
+		Collection<Method> myMethods = new ArrayList<Method>();
 		while (c.getAnnotation(EditableClass.class) != null) {
 			Collection<Node> inputFields = new ArrayList<>();
 			for (Method m : c.getDeclaredMethods()) {
 				if (m.isAnnotationPresent(EditableField.class)) {
 					m.setAccessible(true);
+					myMethods.add(m);
 					EditableField a = m.getAnnotation(EditableField.class);
 					String editLabel = a.inputLabel();
 					String defaultVal = a.defaultVal();
@@ -82,7 +87,41 @@ public class ParameterInputFactory {
 			}
 			c = c.getSuperclass();
 		}
+		Button accept = new Button("ACCEPT");
+		accept.setOnAction(e-> checkInputFields(toEdit));
+		inputNodes.add(accept);
+
 		return inputNodes;
+	}
+	
+	private static void checkInputFields(Object toEdit)
+	{
+		int count = 0;
+		for(Node key: myMethodFields.keySet())
+		{
+				Method m = myMethodFields.get(key);
+				if(!((TextField)key).getText().equals(null) && !((TextField)key).getText().equals(""))
+				{
+					try {
+						m.invoke(toEdit, ((TextField)key).getText());
+						count ++;
+					}
+						catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+							AlertBoxFactory.createObject("Assignment unsuccessful - Java Reflection error");
+						}
+
+				}
+
+		}
+		if(count == myMethodFields.keySet().size())
+		{
+			myStage.close();
+		}
+		else
+		{
+			WarningDialogFactory.createWarningDialog("All parameters have not been set yet!");
+		}
+
 	}
 
 	private static Node createTextField(Object toEdit, String inputLabel, String defaultVal, Method toCall) {
@@ -90,30 +129,18 @@ public class ParameterInputFactory {
 		t.setText(defaultVal);
 		GridPane anchor = new GridPane();
 		addConstraints(anchor);
-		Button b = new Button("OK");
 		Label label = new Label(inputLabel);
-		anchor.getChildren().addAll(label, t, b);
+		anchor.getChildren().addAll(label, t);
 		GridPane.setConstraints(label, 0, 0, 1, 1, HPos.LEFT, VPos.CENTER, Priority.ALWAYS, Priority.NEVER, new Insets(5));
 		GridPane.setConstraints(t, 1, 0, 1, 1, HPos.CENTER, VPos.CENTER, Priority.NEVER, Priority.NEVER, new Insets(5));
-		GridPane.setConstraints(b, 2, 0, 1, 1, HPos.CENTER, VPos.CENTER, Priority.NEVER, Priority.NEVER, new Insets(5));
 		anchor.setAlignment(Pos.CENTER);
 
-		isSet.put(anchor, false);
-
-		t.setOnAction(e -> processInput(anchor, toEdit, t.getText(), toCall));
-		b.setOnAction(e -> processInput(anchor, toEdit, t.getText(), toCall));
+		isSet.put(t, false);
+		myMethodFields.put(t, toCall);
 
 		return anchor;
 	}
-
-	private static void processInput(Node key, Object toEdit, String input, Method toCall) {
-		try {
-			toCall.invoke(toEdit, input);
-			isSet.put(key, true);
-		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-			AlertBoxFactory.createObject("Assignment unsuccessful - Java Reflection error");
-		}
-	}
+	
 
 	private static void addConstraints(GridPane grid) {
 		grid.getColumnConstraints().addAll(
