@@ -10,6 +10,7 @@ public abstract class AbstractCondition implements IGameCondition, IEventPoster 
 
 	public AbstractCondition(ConditionType type) {
 		myType = type;
+		setDefaults();
 	}
 
 	/**

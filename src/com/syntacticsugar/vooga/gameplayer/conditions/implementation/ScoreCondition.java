@@ -17,9 +17,9 @@ public class ScoreCondition extends AbstractCondition {
 	
 	private int myScoreThreshold;
 	
-	public ScoreCondition(int threshold) {
+	public ScoreCondition() {
 		super(ConditionType.WINNING);
-		myScoreThreshold = threshold;
+		setDefaults();
 	}
 	
 	@Override

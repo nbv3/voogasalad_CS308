@@ -44,9 +44,9 @@ public class SpawnerControls extends Observable implements IVisualElement {
 
 		myVBox.getChildren().addAll(mySpawnInput, mySpawnButton, myAddButton, myClearButton, myEditButton,
 				myRemoveButton);
-		myVBox.setAlignment(Pos.CENTER);
-		myVBox.setSpacing(10);
-		myVBox.setPadding(new Insets(10));
+		myVBox.setAlignment(Pos.TOP_CENTER);
+		myVBox.setSpacing(7);
+		myVBox.setPadding(new Insets(5, 10, 5, 10));
 
 		myViewPane = GUIFactory.buildTitledPane(ResourceManager.getString("spawn_controls"), myVBox);
 	}

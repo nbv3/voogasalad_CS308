@@ -138,8 +138,8 @@ public class ObjectEditor extends Observable implements IDataClipboard {
 	}
 
 	public void displayData(IData data) {
-		selectedImagePath = data.getImagePath();
 		if (data != null) {
+			selectedImagePath = data.getImagePath();
 			if (mySaveButton.isDisabled() && data.getType() != null) {
 				setSaveButtonViability(true);
 				setCreateButtonViability(true);
