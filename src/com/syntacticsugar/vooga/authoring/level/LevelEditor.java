@@ -138,11 +138,10 @@ public class LevelEditor implements IAddToSpawner {
 	}
 
 	public void addToSpawner(ObjectData data) {
-		if (data.getType().equals(GameObjectType.ENEMY) || data.getType().equals(GameObjectType.PLAYER))
+		if (!data.getType().equals(GameObjectType.TOWER))
 			mySpawnerManager.getCurrentView().addData(data);
 		else
-			AlertBoxFactory.createObject(ResourceManager.getString("select_enemy"));
-
+			AlertBoxFactory.createObject(ResourceManager.getString("select_not_tower"));
 	}
 
 	public void addToTowers(TowerData data) {
