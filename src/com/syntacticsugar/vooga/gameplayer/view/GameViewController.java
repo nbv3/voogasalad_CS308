@@ -41,10 +41,14 @@ public class GameViewController implements IViewRemover, IViewAdder {
 
 	public void displayLevel(IUniverseView universe, IEventPoster poster) {
 		myGameView.resetComponents();
-		myGameView.initializeAvailableTowers(universe.getAvailableTowers(), universe, poster);
+		if(!universe.getAvailableTowers().isEmpty()){
+			myGameView.initializeAvailableTowers(universe.getAvailableTowers(), universe, poster);
+			universe.observeMoney(myGameView.getTowerShop());
+		}
+		//myGameView.initializeAvailableTowers(universe.getAvailableTowers(), universe, poster);
 		myGameView.setWaveButton(event -> universe.getSpawner().nextWave());
 		universe.observeScore(myGameView.getScoreBox());
-		universe.observeMoney(myGameView.getTowerShop());
+		//universe.observeMoney(myGameView.getTowerShop());
 		for (IGameTile tile : universe.getMap().getTiles()) {
 			addTileObject(tile);
 		}
@@ -53,7 +57,9 @@ public class GameViewController implements IViewRemover, IViewAdder {
 	private void addTileObject(IGameTile obj) {
 		TileView newView = new TileView(obj.getPath(), obj.getBoundingBox(), myGameView, obj.isWalkable());
 		// newView.addObserver(this);
-		myGameView.initializeTowerTileObserver(newView);
+		if(myGameView.getTowerShop() != null){
+			myGameView.initializeTowerTileObserver(newView);
+		}
 		myViewMap.put(obj, newView);
 	}
 
