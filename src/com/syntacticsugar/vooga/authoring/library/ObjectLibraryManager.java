@@ -8,7 +8,6 @@ import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
 import com.syntacticsugar.vooga.xml.data.IData;
-import com.syntacticsugar.vooga.xml.data.ObjectData;
 import com.syntacticsugar.vooga.xml.data.TowerData;
 
 import javafx.geometry.Pos;
@@ -17,36 +16,26 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TabPane.TabClosingPolicy;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
 public class ObjectLibraryManager {
 
 	private VBox myView;
-	private GridPane buttons;
-	private Button addSpawn;
-	private Button addTower;
+	private Button addTowerBtn;
 	private TabPane myLibraryTabs;
 	private ArrayList<DataLibrary> myLibraries;
 
 	public ObjectLibraryManager(LevelTabManager levels) {
-		buttons = new GridPane();
 		myView = new VBox();
 		myLibraryTabs = new TabPane();
 		myLibraryTabs.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
 		myLibraries = new ArrayList<>();
 		populateLibraryTabs();
-		addSpawn = GUIFactory.buildButton("Add To Wave", e -> processSpawner(levels), null, null);
-		addTower = GUIFactory.buildButton("Add To Towers", e -> processTower(levels), null, null);
-		addSpawn.setPrefWidth(120);
-		addTower.setPrefWidth(120);
-		buttons.add(addSpawn, 0, 0, 1, 1);
-		buttons.add(addTower, 1, 0, 1, 1);
-
+		addTowerBtn = GUIFactory.buildButton("Add To Towers", e -> processTower(levels), null, null);
+		addTowerBtn.setPrefWidth(120);
+		addTowerBtn.setAlignment(Pos.CENTER);
 		myView.setAlignment(Pos.TOP_CENTER);
-		buttons.setAlignment(Pos.TOP_CENTER);
-		buttons.setHgap(77);
-		myView.getChildren().addAll(buttons, myLibraryTabs);
+		myView.getChildren().addAll(addTowerBtn, myLibraryTabs);
 
 	}
 
@@ -88,17 +77,6 @@ public class ObjectLibraryManager {
 		int num = myLibraryTabs.getSelectionModel().getSelectedIndex();
 		IData data = myLibraries.get(num).getCurrentData();
 		return data;
-	}
-
-	private void processSpawner(LevelTabManager levels) {
-		if (getCurrentData() == null) {
-			AlertBoxFactory.createObject(ResourceManager.getString("select_enemy"));
-			return;
-		}
-		if (getCurrentData().getType().equals(GameObjectType.ENEMY)) {
-			ObjectData data = (ObjectData) getCurrentData();
-			levels.addCurrentSpawner(data);
-		}
 	}
 
 	private void processTower(LevelTabManager levels) {
