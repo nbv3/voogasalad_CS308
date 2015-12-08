@@ -10,18 +10,18 @@ import com.syntacticsugar.vooga.util.webconnect.WebConnector;
 public class WebConnectorTest {
 	public static void main(String args[]) throws Exception {
 
-		getXMLsTest();
-		getXMLTest(11);
-		postXMLTest();
-		deleteXMLTest(10);
-		postCommentTest();
-		getCommentsTest(20);
+		//getXMLsTest();
+		//getXMLTest(11);
+		//postXMLTest();
+		//deleteXMLTest(67);
+		//postCommentTest();
+		//getCommentsTest(20);
 	}
 	
 	public static void postCommentTest() {
 		int id = 20;
 		String author = "Strange person";
-		String comment = "Michael is a little b";
+		String comment = "TESTING COMMENTS";
 		JSONObject request = JSONHelper.createCommentJSON(id, author, comment);
 		System.out.println("Sending Request: " + request.toString());
 		String output = WebConnector.postComment(request);

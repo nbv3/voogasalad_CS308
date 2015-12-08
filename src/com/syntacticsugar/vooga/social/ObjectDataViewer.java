@@ -9,6 +9,9 @@ import com.syntacticsugar.vooga.util.webconnect.WebConnector;
 import javafx.scene.Node;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TitledPane;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
+import javafx.scene.text.TextFlow;
 
 public class ObjectDataViewer {
 
@@ -54,7 +57,9 @@ public class ObjectDataViewer {
 
 	private Node makeListElement(String key, String value) {
 		Node keyNode = GUIFactory.buildTitleNode(ResourceManager.getString(key));
-		Node valueNode = GUIFactory.buildTitleNode(value);
+		TextFlow valueNode = new TextFlow(new Text(value));
+		valueNode.setMaxWidth(150);
+		valueNode.setTextAlignment(TextAlignment.RIGHT);
 		Node element = GUIFactory.buildAnchorPane(keyNode, valueNode);
 		return element;
 	}
