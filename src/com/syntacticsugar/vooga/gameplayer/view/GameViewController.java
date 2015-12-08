@@ -34,9 +34,14 @@ public class GameViewController implements IViewRemover, IViewAdder {
 	}
 
 	public void removeViewObject(IViewableObject obj) {
-		ObjectView object = myViewMap.get(obj);
-		myGameView.getView().getChildren().remove(object.getViewPane());
-		myViewMap.remove(obj);
+		try {
+			ObjectView object = myViewMap.get(obj);
+			myGameView.getView().getChildren().remove(object.getViewPane());
+			myViewMap.remove(obj);
+		} catch (NullPointerException exception) {
+
+		}
+
 	}
 
 	public void displayLevel(IUniverseView universe, IEventPoster poster) {
