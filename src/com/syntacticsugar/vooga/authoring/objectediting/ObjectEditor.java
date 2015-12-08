@@ -217,7 +217,6 @@ public class ObjectEditor extends Observable implements IDataClipboard {
 				selectedFile -> {
 					selectedImagePath = selectedFile.getName();
 					myIcon.setImage(new Image(getClass().getClassLoader().getResourceAsStream(selectedFile.getName())));
-					currentData.setImagePath(selectedImagePath);
 				});
 	}
 

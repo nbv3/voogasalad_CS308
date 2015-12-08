@@ -63,7 +63,7 @@ public class AuthoringScreenManager implements Observer, IVoogaApp {
 		addGridConstraints();
 
 		setUpMyObserver();
-		if (myLevelEditor.getCurrentLevelEditor() == null) {
+		if (myLevelEditor.getCurrentLevelEditor() != null) {
 			linkObserverAndObservableObjects();
 		}
 		myWindowGrid.add(myLevelEditor.getTabPane(), 0, 0, 1, 2);
