@@ -52,14 +52,14 @@ public class TowerShop extends Observable implements Observer {
 	}
 
 	public void initialize(Collection<TowerData> availableTowers, IUniverseView universe, IEventPoster poster) {
-		testDragAndDrop(availableTowers);
+		initializeTowerIcons(availableTowers);
 		//myUniverse = universe;
 		myPoster = poster;
 		availableCash = universe.getMoney().getMoney();
 		myMoneyInfo.changeMoney(availableCash);
 	}
 
-	private void testDragAndDrop(Collection<TowerData> availableTowers) {
+	private void initializeTowerIcons(Collection<TowerData> availableTowers) {
 		myTowerIcons = new ArrayList<>();
 		for (TowerData towerObject : availableTowers) {
 			Icon tower = new Icon(towerObject.getImagePath());

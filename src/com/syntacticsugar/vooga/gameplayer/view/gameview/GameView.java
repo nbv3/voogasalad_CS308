@@ -37,8 +37,8 @@ public class GameView extends BorderPane implements ISimpleGameView, IScalingFac
 	private void initializeComponents() {
 		gameField = new Pane();
 		this.setCenter(gameField);
-		myTowerShop = new TowerShop();
-		this.setRight(myTowerShop.getContent());
+//		myTowerShop = new TowerShop();
+//		this.setRight(myTowerShop.getContent());
 		myInfoBox = new GlobalDataPanel();
 		this.setBottom(myInfoBox);
 	}
@@ -66,6 +66,8 @@ public class GameView extends BorderPane implements ISimpleGameView, IScalingFac
 
 	public void initializeAvailableTowers(Collection<TowerData> availableTowers, IUniverseView universe,
 			IEventPoster poster) {
+		myTowerShop = new TowerShop();
+		this.setRight(myTowerShop.getContent());
 		myTowerShop.initialize(availableTowers, universe, poster);
 
 	}
