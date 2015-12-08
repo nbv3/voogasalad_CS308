@@ -103,7 +103,8 @@ public class HealthAttribute extends AbstractAttribute {
 
 	@EditableField(
 		inputLabel = "Max Health",
-		defaultVal = "100"
+		defaultVal = "100", getClassType = double.class
+		
 	)
 	private void editMaxHealth(String arg) {
 		try {

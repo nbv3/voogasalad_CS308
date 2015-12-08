@@ -8,6 +8,7 @@ import com.syntacticsugar.vooga.gameplayer.objects.IBoundingBox;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 
 import javafx.geometry.Point2D;
+import javafx.scene.input.KeyCode;
 
 @EditableClass (
 		className = "Constant Movement Attribute"
@@ -53,7 +54,7 @@ public class ConstantMovementAttribute extends AbstractMovementAttribute {
 
 	@EditableField(
 			inputLabel = "Direction",
-			defaultVal = "DOWN"
+			defaultVal = "DOWN", getClassType = KeyCode.class
 			)
 	private void editDirection(String arg) {
 		try {

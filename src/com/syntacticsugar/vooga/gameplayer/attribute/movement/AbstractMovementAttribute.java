@@ -170,7 +170,7 @@ public abstract class AbstractMovementAttribute extends AbstractAttribute implem
 
 	@EditableField(
 			inputLabel = "Movement Speed (px/frame)",
-			defaultVal = "3.0"
+			defaultVal = "3.0", getClassType = double.class
 			)
 	private void editSpeed(String arg) {
 		try {

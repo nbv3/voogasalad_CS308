@@ -37,7 +37,7 @@ public class ScoreAttribute extends AbstractAttribute {
 	
 	@EditableField (
 			inputLabel="Score Value",
-			defaultVal = "100"	
+			defaultVal = "100", getClassType = int.class	
 			)
 	private void editMaxHealth(String arg) {
 		try {

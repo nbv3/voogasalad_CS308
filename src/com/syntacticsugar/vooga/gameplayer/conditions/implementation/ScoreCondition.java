@@ -44,7 +44,7 @@ public class ScoreCondition extends AbstractCondition {
 	
 	@EditableField (	
 		inputLabel = "Score Threshold",
-		defaultVal = "100"
+		defaultVal = "100", getClassType = int.class
 		)
 	private void setScoreThreshold(String arg) {
 		try {

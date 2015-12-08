@@ -36,7 +36,7 @@ public class MoneyAttribute extends AbstractAttribute {
 	
 	@EditableField(
 			inputLabel = "Money",
-			defaultVal = "100"
+			defaultVal = "100", getClassType = int.class
 			)
 	private void editMoney(String arg) {
 		try {

@@ -126,7 +126,7 @@ public class BombAttribute extends AbstractAttribute implements IUserControlAttr
 	
 	@EditableField
 	(	inputLabel = "Bomb Damage",
-		defaultVal = "10"	)
+		defaultVal = "10", getClassType = double.class	)
 	private void editBombDamage(String arg) {
 		try {
 			this.myDamage = InputParser.parseAsDouble(arg);
@@ -135,7 +135,7 @@ public class BombAttribute extends AbstractAttribute implements IUserControlAttr
 
 	@EditableField
 	(	inputLabel = "Fire Button",
-		defaultVal = "SPACE"	)
+		defaultVal = "SPACE", getClassType = KeyCode.class	)
 	private void editFireCode(String arg) {
 		try {
 			this.myFireKeyCode = InputParser.parseAsKeyCode(arg);
@@ -144,7 +144,7 @@ public class BombAttribute extends AbstractAttribute implements IUserControlAttr
 
 	@EditableField
 	(	inputLabel = "Bomb Image Path",
-		defaultVal = "scenery_black.png"	)
+		defaultVal = "scenery_black.png", getClassType = String.class	)
 	private void editBombImage(String arg) {
 		try {
 			this.myImagePath = InputParser.parseAsImagePath(this.getClass().getClassLoader(), arg);
@@ -153,7 +153,7 @@ public class BombAttribute extends AbstractAttribute implements IUserControlAttr
 	
 	@EditableField
 	(	inputLabel = "Fire Delay (# Frame)",
-		defaultVal = "90"	)
+		defaultVal = "90", getClassType = int.class	)
 	private void editFireDelay(String arg) {
 		try {
 			this.fireFrameDelay = InputParser.parseAsInt(arg);
@@ -162,7 +162,7 @@ public class BombAttribute extends AbstractAttribute implements IUserControlAttr
 	
 	@EditableField
 	(	inputLabel = "Bomb Fuse (# Frame)",
-		defaultVal = "60"	)
+		defaultVal = "60", getClassType = int.class	)
 	private void editFuse(String arg) {
 		try {
 			this.myFuse = InputParser.parseAsInt(arg);

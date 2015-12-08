@@ -53,7 +53,7 @@ public class StunEvent extends CollisionEvent {
 
 	@EditableField(
 		inputLabel = "Stun Duration (Frames)",
-		defaultVal = "60"
+		defaultVal = "60", getClassType = int.class
 	)
 	private void editStunTime(String arg) {
 		try {

@@ -69,7 +69,7 @@ public class TowerBasicWeaponAttribute extends AbstractWeaponAttribute {
 	
 	@EditableField
 	(	inputLabel = "Fire rate",
-		defaultVal = "30"	)
+		defaultVal = "30", getClassType = int.class	)
 	private void editBulletDamage(String arg) {
 		try {
 			this.fireRate = InputParser.parseAsInt(arg);

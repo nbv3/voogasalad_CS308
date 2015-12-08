@@ -55,7 +55,7 @@ public class SlowEvent extends CollisionEvent {
 
 	@EditableField(
 		inputLabel = "Slowdown Factor",
-		defaultVal = "0.50"
+		defaultVal = "0.50", getClassType = double.class
 	)
 	private void editSlowFactor(String arg) {
 		try {
@@ -65,7 +65,7 @@ public class SlowEvent extends CollisionEvent {
 	
 	@EditableField(
 		inputLabel = "Frame Duration",
-		defaultVal = "60"
+		defaultVal = "60", getClassType = int.class
 	)
 	private void editFrameDuration(String arg) {
 		try {

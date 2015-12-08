@@ -19,6 +19,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
@@ -100,27 +101,16 @@ public class ParameterInputFactory {
 		for(Node key: myMethodFields.keySet())
 		{
 				Method m = myMethodFields.get(key);
-				if(!((TextField)key).getText().equals(null) && !((TextField)key).getText().equals(""))
+				if(processInput(key, toEdit, ((TextField)key).getText(), m) && !((TextField)key).getText().equals("") && !((TextField)key).getText().equals(null))
 				{
-					try {
-						m.invoke(toEdit, ((TextField)key).getText());
-						count ++;
-					}
-						catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-							AlertBoxFactory.createObject("Assignment unsuccessful - Java Reflection error");
-						}
-
+					count ++;
 				}
-
 		}
 		if(count == myMethodFields.keySet().size())
 		{
 			myStage.close();
 		}
-		else
-		{
-			WarningDialogFactory.createWarningDialog("All parameters have not been set yet!");
-		}
+
 
 	}
 
@@ -136,11 +126,23 @@ public class ParameterInputFactory {
 		anchor.setAlignment(Pos.CENTER);
 
 		isSet.put(t, false);
+		t.setOnAction(e->processInput(t, toEdit, t.getText(), toCall));
 		myMethodFields.put(t, toCall);
-
 		return anchor;
 	}
+
 	
+	private static boolean processInput(Node key, Object toEdit, String input, Method toCall) {
+		try {
+			toCall.invoke(toEdit, input);
+			isSet.put(key, true);
+			return true;
+		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+			AlertBoxFactory.createObject("Assignment unsuccessful - Java Reflection error");
+			return false;
+		}
+
+	}
 
 	private static void addConstraints(GridPane grid) {
 		grid.getColumnConstraints().addAll(

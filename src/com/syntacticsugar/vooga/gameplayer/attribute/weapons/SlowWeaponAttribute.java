@@ -59,7 +59,7 @@ public class SlowWeaponAttribute extends AbstractWeaponAttribute {
 	
 	@EditableField (	
 		inputLabel = "Bullet Slowdown Effect",
-		defaultVal = "0.50"
+		defaultVal = "0.50", getClassType = double.class
 		)
 	private void editSlowDown(String arg) {
 		try {

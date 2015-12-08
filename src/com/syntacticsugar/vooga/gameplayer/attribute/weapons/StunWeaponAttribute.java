@@ -52,7 +52,7 @@ public class StunWeaponAttribute extends AbstractWeaponAttribute {
 	
 	@EditableField
 	(	inputLabel = "Stun Duration",
-		defaultVal = "30"	)
+		defaultVal = "30", getClassType = int.class	)
 	private void editStunDamage(String arg) {
 		try {
 			this.myStunTime = InputParser.parseAsInt(arg);

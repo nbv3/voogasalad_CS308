@@ -52,7 +52,7 @@ public class SlowAttribute extends StatusEffectAttribute {
 	
 	@EditableField(
 			inputLabel = "Slow Factor",
-			defaultVal = "0.50"
+			defaultVal = "0.50", getClassType = double.class
 			)
 	private void editSlow(String arg) {
 		try {

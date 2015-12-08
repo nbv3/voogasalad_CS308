@@ -59,7 +59,7 @@ public abstract class StatusEffectAttribute extends AbstractAttribute {
 	
 	@EditableField(
 			inputLabel = "Frame Duration",
-			defaultVal = "60"
+			defaultVal = "60", getClassType = int.class
 			)
 	private void editDuration(String arg) {
 		try {

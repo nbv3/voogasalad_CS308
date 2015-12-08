@@ -58,7 +58,7 @@ public class EnemyDeathCondition extends AbstractCondition {
 	
 	@EditableField (	
 		inputLabel = "Enemy Threshold",
-		defaultVal = "10"
+		defaultVal = "10", getClassType = int.class
 		)
 	private void editEnemiesThresh(String arg) {
 		try {

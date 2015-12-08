@@ -132,7 +132,7 @@ public abstract class AbstractWeaponAttribute extends AbstractAttribute implemen
 	
 	@EditableField
 	(	inputLabel = "Bullet Damage",
-		defaultVal = "10"	)
+		defaultVal = "10", getClassType = double.class	)
 	private void editBulletDamage(String arg) {
 		try {
 			this.myBulletDamage = InputParser.parseAsDouble(arg);
@@ -141,7 +141,7 @@ public abstract class AbstractWeaponAttribute extends AbstractAttribute implemen
 	
 	@EditableField
 	(	inputLabel = "Bullet Speed",
-		defaultVal = "10"	)
+		defaultVal = "10", getClassType = double.class	)
 	private void editBulletSpeed(String arg) {
 		try {
 			this.myBulletSpeed = InputParser.parseAsDouble(arg);
@@ -150,7 +150,7 @@ public abstract class AbstractWeaponAttribute extends AbstractAttribute implemen
 
 	@EditableField
 	(	inputLabel = "Fire Button",
-		defaultVal = "SPACE"	)
+		defaultVal = "SPACE", getClassType = KeyCode.class	)
 	private void editFireCode(String arg) {
 		try {
 			this.myFireKeyCode = InputParser.parseAsKeyCode(arg);
@@ -159,7 +159,7 @@ public abstract class AbstractWeaponAttribute extends AbstractAttribute implemen
 
 	@EditableField
 	(	inputLabel = "Bullet Image Path",
-		defaultVal = "scenery_black.png"	)
+		defaultVal = "scenery_black.png", getClassType = String.class	)
 	private void editBulletImage(String arg) {
 		try {
 			this.myBulletImagePath = InputParser.parseAsImagePath(this.getClass().getClassLoader(), arg);
@@ -168,7 +168,7 @@ public abstract class AbstractWeaponAttribute extends AbstractAttribute implemen
 
 	@EditableField
 	(	inputLabel = "Bullet Width (px)",
-		defaultVal = "3"	)
+		defaultVal = "3", getClassType = double.class	)
 	private void editBulletWidth(String arg) {
 		try {
 			this.myBulletWidth = InputParser.parseAsDouble(arg);
@@ -177,7 +177,7 @@ public abstract class AbstractWeaponAttribute extends AbstractAttribute implemen
 	
 	@EditableField
 	(	inputLabel = "Bullet Height (px)",
-		defaultVal = "3"	)
+		defaultVal = "3", getClassType = double.class	)
 	private void editBulletHeight(String arg) {
 		try {
 			this.myBulletHeight = InputParser.parseAsDouble(arg);
@@ -186,7 +186,7 @@ public abstract class AbstractWeaponAttribute extends AbstractAttribute implemen
 	
 	@EditableField
 	(	inputLabel = "Fire Delay (# Frame)",
-		defaultVal = "15"	)
+		defaultVal = "15", getClassType = int.class	)
 	private void editFireDelay(String arg) {
 		try {
 			this.fireFrameDelay = InputParser.parseAsInt(arg);

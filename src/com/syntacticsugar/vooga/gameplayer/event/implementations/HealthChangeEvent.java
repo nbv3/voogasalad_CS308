@@ -53,7 +53,7 @@ public class HealthChangeEvent extends CollisionEvent {
 
 	@EditableField(
 		inputLabel = "Health Change Value",
-		defaultVal = "-50.0"
+		defaultVal = "-50.0", getClassType = double.class
 	)
 	private void editMaxHealth(String arg) {
 		try {

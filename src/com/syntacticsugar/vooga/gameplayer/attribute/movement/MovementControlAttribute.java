@@ -78,7 +78,7 @@ public class MovementControlAttribute extends AbstractMovementAttribute implemen
 
 	@EditableField(
 			inputLabel = "KeyCode: Move Up",
-			defaultVal = "UP"
+			defaultVal = "UP", getClassType = KeyCode.class
 			)
 	private void editUpCode(String arg) {
 		try {
@@ -88,7 +88,7 @@ public class MovementControlAttribute extends AbstractMovementAttribute implemen
 
 	@EditableField(
 			inputLabel = "KeyCode: Move Down",
-			defaultVal = "DOWN"
+			defaultVal = "DOWN", getClassType = KeyCode.class
 			)
 	private void editDownCode(String arg) {
 		try {
@@ -98,7 +98,7 @@ public class MovementControlAttribute extends AbstractMovementAttribute implemen
 
 	@EditableField(
 			inputLabel = "KeyCode: Move Left",
-			defaultVal = "LEFT"
+			defaultVal = "LEFT", getClassType = KeyCode.class
 			)
 	private void editLeftCode(String arg) {
 		try {
@@ -108,7 +108,7 @@ public class MovementControlAttribute extends AbstractMovementAttribute implemen
 
 	@EditableField(
 			inputLabel = "KeyCode: Move Right",
-			defaultVal = "RIGHT"
+			defaultVal = "RIGHT", getClassType = KeyCode.class
 			)
 	private void editRightCode(String arg) {
 		try {

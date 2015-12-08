@@ -44,7 +44,7 @@ public class TimedDespawnAttribute extends AbstractAttribute {
 	
 	@EditableField (	
 		inputLabel = "Duration (Frames)",
-		defaultVal = "180"
+		defaultVal = "180", getClassType = int.class
 		)
 	private void editFrameCount(String arg) {
 		try {

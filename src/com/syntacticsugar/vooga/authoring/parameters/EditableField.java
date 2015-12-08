@@ -13,5 +13,6 @@ public @interface EditableField {
 
 	public String inputLabel();
 	public String defaultVal();
+	public Class<?> getClassType();
 	
 }
