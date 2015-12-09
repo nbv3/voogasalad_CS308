@@ -5,6 +5,7 @@ import com.syntacticsugar.vooga.authoring.parameters.EditableField;
 import com.syntacticsugar.vooga.authoring.parameters.InputParser;
 import com.syntacticsugar.vooga.authoring.parameters.InputTypeException;
 import com.syntacticsugar.vooga.gameplayer.attribute.AbstractAttribute;
+import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.control.IUserControlAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.movement.Direction;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.ObjectSpawnEvent;
@@ -35,6 +36,17 @@ public abstract class AbstractWeaponAttribute extends AbstractAttribute implemen
 
 	public AbstractWeaponAttribute() {
 		super();
+	}
+	
+	protected AbstractWeaponAttribute(AbstractWeaponAttribute toCopy) {
+		super(toCopy);
+		this.myBulletDamage = toCopy.myBulletDamage;
+		this.myBulletSpeed = toCopy.myBulletSpeed;
+		this.myBulletImagePath = toCopy.myBulletImagePath;
+		this.myFireKeyCode = toCopy.myFireKeyCode;
+		this.myBulletWidth = toCopy.myBulletWidth;
+		this.myBulletHeight = toCopy.myBulletHeight;
+		this.fireFrameDelay = toCopy.fireFrameDelay;
 	}
 	
 	@Override
@@ -192,5 +204,8 @@ public abstract class AbstractWeaponAttribute extends AbstractAttribute implemen
 			this.fireFrameDelay = InputParser.parseAsInt(arg);
 		} catch (InputTypeException e) {	}
 	}
+	
+	@Override
+	public abstract IAttribute copyAttribute();
 	
 }

@@ -15,6 +15,11 @@ public class MoneyAttribute extends AbstractAttribute {
 	public MoneyAttribute() {
 		super();
 	}
+	
+	private MoneyAttribute(MoneyAttribute toCopy) {
+		super(toCopy);
+		this.myMoney = toCopy.myMoney;
+	}
 
 	@Override
 	public void setDefaults() {
@@ -42,6 +47,11 @@ public class MoneyAttribute extends AbstractAttribute {
 		try {
 			this.myMoney = InputParser.parseAsInt(arg);
 		} catch (NumberFormatException e) {	}
+	}
+
+	@Override
+	public IAttribute copyAttribute() {
+		return new MoneyAttribute(this);
 	}
 
 }

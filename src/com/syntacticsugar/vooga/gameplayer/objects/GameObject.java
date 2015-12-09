@@ -33,11 +33,7 @@ public class GameObject extends AbstractViewableObject implements IGameObject {
 		//Collection<IAttribute> attributes = data.getAttributes();
 		Collection<IAttribute> attributes = new ArrayList<IAttribute>();
 		for (IAttribute i : data.getAttributes()) {
-			if (i instanceof TowerBasicWeaponAttribute) {
-				attributes.add(new TowerBasicWeaponAttribute((TowerBasicWeaponAttribute)i));
-			} else {
-				attributes.add(i);
-			}
+			attributes.add(i.copyAttribute());
 		}
 		Map<GameObjectType, Collection<ICollisionEvent>> collisions = data.getCollisionMap();
 		myType = data.getType();

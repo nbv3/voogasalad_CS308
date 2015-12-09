@@ -18,7 +18,6 @@ public class EventManager implements IEventManager {
 	public void postEvent(IGameEvent event) {
 		for (GameEventListener l: myListeners) {
 			l.onEvent(event);
-			System.out.println(event);
 		}
 	}
 

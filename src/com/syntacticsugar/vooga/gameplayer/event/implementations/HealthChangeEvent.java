@@ -39,7 +39,7 @@ public class HealthChangeEvent extends CollisionEvent {
 		Map<String, IAttribute> targetAttributes = obj.getAttributes();
 		HealthAttribute health = (HealthAttribute) targetAttributes.get(TARGET_ATTRIBUTE);
 		if (health != null) {
-			health.changeHealth(-1 * myDeltaHealth);
+			health.changeHealth(myDeltaHealth);
 		}
 	}
 	

@@ -4,6 +4,7 @@ import com.syntacticsugar.vooga.authoring.parameters.EditableClass;
 import com.syntacticsugar.vooga.authoring.parameters.EditableField;
 import com.syntacticsugar.vooga.authoring.parameters.InputParser;
 import com.syntacticsugar.vooga.authoring.parameters.InputTypeException;
+import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
 import com.syntacticsugar.vooga.gameplayer.objects.IBoundingBox;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 
@@ -21,9 +22,14 @@ public class ConstantMovementAttribute extends AbstractMovementAttribute {
 		setDefaults();
 	}
 	
+	private ConstantMovementAttribute(ConstantMovementAttribute toCopy) {
+		super(toCopy);
+		this.myDir = toCopy.myDir;
+	}
+	
 	public ConstantMovementAttribute(Direction dir, double speed) {
-		super(speed);
-		System.out.println(speed);
+		super();
+		setSpeed(speed);
 		myDir = dir;
 	}
 	
@@ -59,6 +65,11 @@ public class ConstantMovementAttribute extends AbstractMovementAttribute {
 		try {
 			this.myDir = InputParser.parseAsDirection(arg);
 		} catch (InputTypeException e) { }
+	}
+
+	@Override
+	public IAttribute copyAttribute() {
+		return new ConstantMovementAttribute(this);
 	}
 	
 	
