@@ -136,6 +136,7 @@ public class TowerShop extends Observable implements Observer {
 			currentSelection.setDirection(data.getDirection());
 			currentSelection.setHeight(data.getHeight());
 			currentSelection.setWidth(data.getWidth());
+			currentSelection.setCost(100);
 			
 			ObjectSpawnEvent event = new ObjectSpawnEvent(new Tower(currentSelection));
 			myPoster.postEvent(event);
