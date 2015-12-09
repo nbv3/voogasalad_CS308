@@ -11,44 +11,79 @@ import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.IGameTile;
 public interface IGameMap extends PathFindingMap{
 
 	/**
-	 * Returns a 2D boolean array representing the walkable vs. non-walkable
-	 * tiles in this Universe.
+	 * Returns a Collection of all the tiles in the map.
 	 * 
-	 * @return
+	 * @return a collection of game tiles
 	 */
 
 	public Collection<IGameTile> getTiles();
 
+	/**
+	 * Returns a 2-dimensional boolean array of values denoting
+	 * if each tile is walkable.
+	 * 
+	 * @return the walkable array
+	 */
 	public boolean[][] isWalkable();
 
+	/**
+	 * Returns a 2-dimensional boolean array of values denoting
+	 * if each tile is placeable.
+	 * 
+	 * @return the placeable array
+	 */
 	public boolean[][] isPlaceable();
 	
+	/**
+	 * Returns the map index of the tile that contains the given point.
+	 * @param coordinate the point
+	 * @return the map index
+	 * @throws Exception out of bounds exception
+	 */
 	public Point getMapIndexFromCoordinate(Point2D coordinate) throws Exception;
 	
+	/**
+	 * Returns the top-left point of the game tile corresponding to
+	 * the given map index.
+	 * 
+	 * @param index the map index
+	 * @return the point
+	 */
 	public Point2D getCoordinateFromMapIndex(Point index);
 	
 	/**
 	 * Returns the size of the array (number of columns = number of rows)
 	 * 
-	 * @return size
+	 * @return size the size
 	 */
 	public int getSize();
 	
 	/**
 	 * Returns the width/height of any given tile
 	 * 
-	 * @return size
+	 * @return size the size
 	 */
 	public double getTileSize();
 	
 	/**
 	 * Returns a list of points that are destinations
 	 * 
-	 * @return destinations
+	 * @return destinations the desination points
 	 */
 	public List<Point> getDestinationPoints();
 	
+	/**
+	 * Returns the tile which contains the given point.
+	 * 
+	 * @param point the point
+	 * @return the tile
+	 */
 	public IGameTile getTile(Point2D point);
 
+	/**
+	 * Returns the tile corresponding to the given map index.
+	 * @param point the map index
+	 * @return the tile
+	 */
 	public IGameTile getTileFromIJ(Point point);
 }

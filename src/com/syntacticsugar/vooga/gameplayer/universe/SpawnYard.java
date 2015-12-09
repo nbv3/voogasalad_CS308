@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import com.syntacticsugar.vooga.gameplayer.event.GameEventListener;
+import com.syntacticsugar.vooga.gameplayer.event.IEventListener;
 import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.ObjectSpawnEvent;
 import com.syntacticsugar.vooga.gameplayer.manager.IEventManager;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
-import com.syntacticsugar.vooga.gameplayer.universe.score.IEventListener;
 import com.syntacticsugar.vooga.gameplayer.view.IViewAdder;
 
 public class SpawnYard implements IYard<IViewAdder>, GameEventListener, IEventListener {

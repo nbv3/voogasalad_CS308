@@ -12,33 +12,33 @@ public interface IMover {
 	
 	/**
 	 * Returns the current speed (scalar) of this ISimpleMover object.
-	 * @return
+	 * @return the speed
 	 */
 	public double getSpeed();
 	
 	/**
 	 * Sets the current speed (scalar) of this ISimpleMover object.
-	 * @param speed
+	 * @param speed the speed to be set
 	 */
 	public void setSpeed(double speed);
 	
 	/**
 	 * Sets the velocity of this ISimpleMover object equal to the current
 	 * speed of the object in the specified direction.
-	 * @param Dir
+	 * @param Dir the direction of the velocity
 	 */
-	public void setVelocity(Direction xDir);
+	public void setVelocity(Direction Dir);
 	
 	/**
 	 * Set the direction of this object.
-	 * @param dir
+	 * @param dir the direction
 	 */
 	public void setDirection(Direction dir);
 	
 	/**
 	 * Get the direction of this object.
 	 * 
-	 * @return dir
+	 * @return the direction
 	 */
 	public Direction getDirection();
 	
@@ -49,7 +49,7 @@ public interface IMover {
 	
 	/**
 	 * Updates this object's position.
-	 * @param universe
+	 * @param universe the universe
 	 */
 	public void updateSelf(IGameUniverse universe);
 }

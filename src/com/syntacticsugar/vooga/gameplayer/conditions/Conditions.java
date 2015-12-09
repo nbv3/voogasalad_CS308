@@ -1,7 +1,7 @@
 package com.syntacticsugar.vooga.gameplayer.conditions;
 
+import com.syntacticsugar.vooga.gameplayer.event.IEventListener;
 import com.syntacticsugar.vooga.gameplayer.manager.IEventManager;
-import com.syntacticsugar.vooga.gameplayer.universe.score.IEventListener;
 
 public class Conditions implements IConditions, IEventListener {
 

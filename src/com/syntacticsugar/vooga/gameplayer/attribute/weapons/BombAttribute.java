@@ -127,11 +127,6 @@ public class BombAttribute extends AbstractAttribute implements IUserControlAttr
 	private boolean fireConditionsMet() {
 		return (delayFrameCounter > fireFrameDelay);
 	}
-
-	@Override
-	public void processKeyInput() {
-		
-	}
 	
 	/**		  	      EDIT TAGS	     		    **/
 	/** *************************************** **/

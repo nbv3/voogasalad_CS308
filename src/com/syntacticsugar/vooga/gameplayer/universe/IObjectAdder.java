@@ -6,7 +6,8 @@ public interface IObjectAdder {
 
 	/**
 	 * Adds a single object to the container.
-	 * @param gameObject
+	 * 
+	 * @param gameObject the object
 	 */
 	public void addGameObject(IGameObject toAdd);
 	

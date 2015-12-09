@@ -19,12 +19,23 @@ public interface IGameUniverse extends IObjectCollection,
 	
 	/**
 	 * Returns a limited data view of the map in the Universe.
-	 * @return
+	 * 
+	 * @return the map
 	 */
 	public IGameMap getMap();
 	
+	/**
+	 * Saves the game to a universe data object and returns that data.
+	 * 
+	 * @return the universe data
+	 */
 	public UniverseData saveGame();
 	
+	/**
+	 * Registers the components of the universe to a given event manager.
+	 * 
+	 * @param manager the event manager
+	 */
 	public void registerListeners(IEventManager manager);
 	
 	

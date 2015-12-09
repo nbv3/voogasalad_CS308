@@ -10,32 +10,44 @@ public interface IGameTile extends IViewableObject, ITowerHolder{
 
 	/**
 	 * Returns whether or not this Tile can be walked on.
-	 * @return
+	 * @return the walkability
 	 */
 	public boolean isWalkable();
 	
 	/**
 	 * Returns whether or not this Tile can have a Tower placed on it.
-	 * @return
+	 * @return the placeability
 	 */
 	public boolean isPlaceable();
 	
 	/**
 	 * Returns whether or not this Tile is a global destination point on the map.
-	 * @return
+	 * @return whether the tile is a destination
 	 */
 	public boolean isDestination();
 	
 	/**
 	 * Returns the point corresponding to the centerpoint of this Tile.
-	 * @return
+	 * @return the center of the tile
 	 */
 	public Point2D getPoint();
 	
+	/**
+	 * Sets the effect that the tile holds.
+	 * @param effect the effect
+	 */
 	public void setTileEffect(ITileEffect effect);
 	
+	/**
+	 * Returns the effect that the tile holds.
+	 * @return the effect
+	 */
 	public ITileEffect getTileEffect();
 	
+	/**
+	 * Updates the tile in the universe.
+	 * @param universe the universe
+	 */
 	public void updateSelf(IGameUniverse universe);
 	/**
 	 * Set this point as a destination.

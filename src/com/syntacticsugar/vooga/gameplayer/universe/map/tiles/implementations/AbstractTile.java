@@ -11,8 +11,16 @@ public abstract class AbstractTile{
 		this.myPoint = point;
 	}
 	
+	/**
+	 * Returns true if the tile is walkable.
+	 * @return the walkability
+	 */
 	public abstract boolean isWalkable();
 
+	/**
+	 * Returns true if an object can be placed upon the tile.
+	 * @return the placeability
+	 */
 	public abstract boolean isPlaceable();
 
 }

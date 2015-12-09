@@ -54,8 +54,7 @@ public class MovementControlAttribute extends AbstractMovementAttribute implemen
 		}
 	}
 
-	@Override
-	public void processKeyInput() {
+	private void processKeyInput() {
 		if (!myCurrentMovement.equals(Direction.STOP)) {
 			setDirection(myCurrentMovement);
 		}

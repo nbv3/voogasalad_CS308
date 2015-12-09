@@ -91,15 +91,14 @@ public abstract class AbstractWeaponAttribute extends AbstractAttribute implemen
 		isFireKeyPressed = universeKeyInput.getCurrentKeyInput().contains(myFireKeyCode); 
 	}
 
-	@Override
-	public void processKeyInput() {
-
-	}
-
 	protected boolean fireConditionsMet() {
 		return (delayFrameCounter > fireFrameDelay);
 	}
 
+	/**
+	 * Makes the bullet.
+	 * @return the bullet
+	 */
 	protected abstract IGameObject makeBullet();
 
 	protected void fireBullet(IEventPoster poster, IGameObject bullet) {

@@ -6,13 +6,13 @@ public interface IGameObject extends IAttributeCollection, ICollidable, IViewabl
 
 	/**
 	 * Update this object within the context of the whole universe.
-	 * @param universe
+	 * @param universe the universe
 	 */
 	public void updateSelf(IGameUniverse universe);
 	
 	/**
-	 * Returns the Type of this object as specified by the SimpleObjectType enum.
-	 * @return
+	 * Returns the Type of this object as specified by the GameObjectType enum.
+	 * @return the object type
 	 */
 	public GameObjectType getType();
 
