@@ -1,11 +1,14 @@
 package com.syntacticsugar.vooga.gameplayer.attribute.movement;
 
+import java.awt.Point;
+
 import com.syntacticsugar.vooga.authoring.parameters.EditableClass;
 import com.syntacticsugar.vooga.authoring.parameters.EditableField;
 import com.syntacticsugar.vooga.authoring.parameters.InputParser;
 import com.syntacticsugar.vooga.authoring.parameters.InputTypeException;
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.control.IUserControlAttribute;
+import com.syntacticsugar.vooga.gameplayer.event.implementations.PlayerChangeTileEvent;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.gameplayer.universe.userinput.IKeyInputStorage;
 
@@ -63,11 +66,17 @@ public class MovementControlAttribute extends AbstractMovementAttribute implemen
 
 	@Override
 	public void updateSelf(IGameUniverse universe) {
+		Point oldPoint = new Point(universe.getMap().getMapIndexFromCoordinate(getParent().getPoint()));
 		updateKeyInput(universe);
 		setVelocity(myCurrentMovement);
 		processKeyInput();
 		move(universe);
 		resetVelocity();
+		Point newPoint = new Point(universe.getMap().getMapIndexFromCoordinate(getParent().getPoint()));
+		if (oldPoint.x != newPoint.x || oldPoint.y != newPoint.y) {
+			universe.postEvent(new PlayerChangeTileEvent(oldPoint, newPoint));
+			System.out.println("********* MOVED ************");
+		}
 	}
 
 	private Direction getDirectionFromInput(KeyCode code) {
@@ -81,7 +90,6 @@ public class MovementControlAttribute extends AbstractMovementAttribute implemen
 			return Direction.RIGHT;
 		return myCurrentMovement;
 	}
-
 
 	/**		  	      EDIT TAGS	     		    **/
 	/** *************************************** **/

@@ -11,6 +11,7 @@ import com.syntacticsugar.vooga.authoring.parameters.InputTypeException;
 import com.syntacticsugar.vooga.gameplayer.attribute.AbstractAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
 import com.syntacticsugar.vooga.gameplayer.objects.IBoundingBox;
+import com.syntacticsugar.vooga.gameplayer.universe.IEventPoster;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.gameplayer.universe.map.IGameMap;
 
@@ -24,7 +25,6 @@ public abstract class AbstractMovementAttribute extends AbstractAttribute implem
 	private double mySpeed;
 	private double xVelocity;
 	private double yVelocity;
-	protected Point myCurrentTile;
 
 	public AbstractMovementAttribute() {
 		super();
@@ -35,14 +35,12 @@ public abstract class AbstractMovementAttribute extends AbstractAttribute implem
 		this.mySpeed = toCopy.mySpeed;
 		this.xVelocity = toCopy.xVelocity;
 		this.yVelocity = toCopy.yVelocity;
-		this.myCurrentTile = toCopy.myCurrentTile;
 	}
 
 	@Override
 	protected void setDefaults() {
 		resetVelocity();
-		this.myCurrentTile = new Point(0,0);
-		this.mySpeed = 10.0;
+		this.mySpeed = 3.0;
 	}
 
 	protected double getXVelocity() {
@@ -102,7 +100,6 @@ public abstract class AbstractMovementAttribute extends AbstractAttribute implem
 			mapPoint = map.getMapIndexFromCoordinate(points.get(0));
 			mapPoint2 = map.getMapIndexFromCoordinate(points.get(1));
 		} catch (Exception e) {
-			System.out.println("reset velocity because of spillover - abstract movement");
 			resetVelocity();
 			return;
 		}
@@ -111,7 +108,6 @@ public abstract class AbstractMovementAttribute extends AbstractAttribute implem
 		Boolean canWalkTwo = map.isWalkable()[mapPoint2.x][mapPoint2.y];
 
 		if (!(canWalkOne && canWalkTwo)) {
-			System.out.println("reset velocity 2 because of spillover - abstract movement");
 			resetVelocity();
 		}
 	}
@@ -167,7 +163,6 @@ public abstract class AbstractMovementAttribute extends AbstractAttribute implem
 		Point2D newPoint = new Point2D(oldPoint.getX() + getXVelocity(), oldPoint.getY() + getYVelocity());
 		box.setPoint(newPoint);
 	}
-
 
 	/**		  	      EDIT TAGS	     		    **/
 	/** *************************************** **/

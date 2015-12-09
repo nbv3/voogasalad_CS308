@@ -1,7 +1,6 @@
 package com.syntacticsugar.vooga.gameplayer.attribute.movement;
 
 import java.awt.Point;
-import java.io.Serializable;
 import java.util.List;
 
 import com.syntacticsugar.vooga.authoring.parameters.EditableClass;
@@ -16,28 +15,33 @@ import javafx.geometry.Point2D;
 @EditableClass(
 		className = "AI Motion Attribute"
 		)
-public class AIMovementAttribute extends AbstractMovementAttribute implements Serializable{
-
-	private static final long serialVersionUID = 1L;
+public class AIMovementAttribute extends AbstractMovementAttribute {
 
 	private Point myNextTile;
+	private Point myCurrentTile;
 
 	public AIMovementAttribute() {
 		super();
 		setDefaults();
 	}
 
-	private AIMovementAttribute(AIMovementAttribute toCopy) {
+	protected AIMovementAttribute(AIMovementAttribute toCopy) {
 		super(toCopy);
+		this.myCurrentTile = new Point(0, 0);
 		this.myNextTile = new Point(-1, -1);
 	}
 	
 	@Override
 	protected void setDefaults() {
 		super.setDefaults();
+		this.myCurrentTile = new Point(0, 0);
 		myNextTile = new Point(-1, -1);
 	}
 
+	protected List<Point> getDestinations(IGameMap map) {
+		return map.getDestinationPoints();
+	}
+	
 	/**
 	 * Moves towards the nearest location on the game map that has been
 	 * flagged as a destination point.
@@ -45,8 +49,10 @@ public class AIMovementAttribute extends AbstractMovementAttribute implements Se
 	@Override
 	public void updateSelf(IGameUniverse universe) {
 		IGameMap map = universe.getMap();
-		List<Point> ends = map.getDestinationPoints();
-		//System.out.println(ends.toString());
+		List<Point> ends = getDestinations(map);
+		if (ends.size() == 0) {
+			return;
+		}
 
 		if (myNextTile.equals(new Point(-1, -1))) {
 			// calculate path first time
@@ -55,6 +61,7 @@ public class AIMovementAttribute extends AbstractMovementAttribute implements Se
 			} catch (Exception e) { }
 			PathFinder pathFinder = new PathFinder(map.isWalkable(), myCurrentTile, ends);
 			myNextTile = pathFinder.getNext();
+			System.out.println(pathFinder.getPath());
 			return;
 		}
 		if (ends.contains(myCurrentTile) ) {
@@ -88,17 +95,13 @@ public class AIMovementAttribute extends AbstractMovementAttribute implements Se
 
 	private boolean closeToNextTile(IGameMap map) {
 		Point2D currentPoint = getParent().getPoint();
-		//System.out.println(getParent().getPoint());
 		Point2D nextPoint = map.getCoordinateFromMapIndex(myNextTile);
-		//System.out.println("current: "+currentPoint.toString());
-		//System.out.println("next  t: "+nextPoint.toString());
 		return currentPoint.distance(nextPoint) <= 1.2 * getSpeed();
 	}
 
 	private void moveDirection() {
 		Direction moveDirection = getNewDirection();
 		setDirection(moveDirection);
-		// setVelocity(getDirection()); WHY NOT THIS: TODO
 		setVelocity(moveDirection);
 	}
 

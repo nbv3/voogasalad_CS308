@@ -9,15 +9,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
+import com.syntacticsugar.vooga.gameplayer.event.implementations.PlayerChangeTileEvent;
 import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.DecoratorTile;
 import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.IGameTile;
 import com.syntacticsugar.vooga.xml.data.MapData;
-import com.syntacticsugar.vooga.xml.data.TileImplementation;
 
 
 public class GameMap implements IGameMap {
 	
 	private static final double MAP_DIMENSIONS = 1000.0;
+	private List<Point> myPlayerLocations;
 	
 	private final DecoratorTile[][] myTiles;
 	private int numCols;
@@ -27,6 +29,7 @@ public class GameMap implements IGameMap {
 	private Point myDestination;
 
 	public GameMap(MapData mapData) {
+		myPlayerLocations = new ArrayList<>();
 		numCols = mapData.getMapSize();
 		numRows = mapData.getMapSize();
 		myTiles = new DecoratorTile[numCols][numRows];
@@ -38,21 +41,9 @@ public class GameMap implements IGameMap {
 			}
 		}
 	}
-	
-	// TO IMPLEMENT: xDIMENSION, yDIMENSION
-	public GameMap(int dim) {
-		numCols = dim;
-		numRows = dim;
-		myTiles = new DecoratorTile[numCols][numRows];
-		for (int row = 0; row < numCols; row++) {
-			for (int col = 0; col < numRows; col++) {
-				Point2D point = new Point2D(row*MAP_DIMENSIONS/numRows, col*MAP_DIMENSIONS/numCols);
-				String path = "scenery_grass_1.png";
-				myTiles[row][col] = new DecoratorTile(point,TileImplementation.Path,MAP_DIMENSIONS/numCols,MAP_DIMENSIONS/numRows,path);
-			}
-		}
-	}
 
+	
+	
 	@Override
 	public Collection<IGameTile> getTiles() {
 		Collection<IGameTile> tiles = new ArrayList<>();
@@ -103,14 +94,10 @@ public class GameMap implements IGameMap {
 	}
 	
 	@Override
-	public Point getMapIndexFromCoordinate(Point2D coordinate) throws Exception {
+	public Point getMapIndexFromCoordinate(Point2D coordinate) {
 		int r = (int) Math.floor((coordinate.getX() / MAP_DIMENSIONS) * numRows);
 		int c = (int) Math.floor((coordinate.getY() / MAP_DIMENSIONS) * numCols);
-		if (r < 0 || r >= numRows || c < 0 || c >= numCols) {
-			throw new Exception("Out of Map Bounds");
-		}
 		return new Point(r, c);
-//		return coordinate;
 	}
 	
 	@Override
@@ -155,6 +142,24 @@ public class GameMap implements IGameMap {
 		double x = (index.x * MAP_DIMENSIONS / (double) (numRows));
 		double y = (index.y * MAP_DIMENSIONS / (double) (numCols));
 		return new Point2D(x,y);
+	}
+
+
+
+	@Override
+	public void onEvent(IGameEvent e) {
+		try {
+			PlayerChangeTileEvent event = (PlayerChangeTileEvent) e;
+			myPlayerLocations.remove(event.getOld());
+			myPlayerLocations.add(event.getNew());
+		} catch (ClassCastException e2) {	}
+	} 
+
+
+
+	@Override
+	public List<Point> getPlayerLocations() {
+		return new ArrayList<>(myPlayerLocations);
 	}
 
 }
