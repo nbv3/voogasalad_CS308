@@ -26,7 +26,4 @@ public abstract class AbstractCondition implements IGameCondition, IEventPoster 
 		myManager.postEvent(event);
 	}
 	
-	
-
-
 }
