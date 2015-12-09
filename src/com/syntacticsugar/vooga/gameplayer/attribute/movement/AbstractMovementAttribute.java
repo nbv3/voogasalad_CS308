@@ -9,6 +9,7 @@ import com.syntacticsugar.vooga.authoring.parameters.EditableField;
 import com.syntacticsugar.vooga.authoring.parameters.InputParser;
 import com.syntacticsugar.vooga.authoring.parameters.InputTypeException;
 import com.syntacticsugar.vooga.gameplayer.attribute.AbstractAttribute;
+import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
 import com.syntacticsugar.vooga.gameplayer.objects.IBoundingBox;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.gameplayer.universe.map.IGameMap;
@@ -21,7 +22,6 @@ import javafx.geometry.Point2D;
 public abstract class AbstractMovementAttribute extends AbstractAttribute implements IMover {
 
 	private double mySpeed;
-
 	private double xVelocity;
 	private double yVelocity;
 	protected Point myCurrentTile;
@@ -30,14 +30,18 @@ public abstract class AbstractMovementAttribute extends AbstractAttribute implem
 		super();
 	}
 	
-	public AbstractMovementAttribute(double speed) {
-		setSpeed(speed);
+	protected AbstractMovementAttribute(AbstractMovementAttribute toCopy) {
+		super(toCopy);
+		this.mySpeed = toCopy.mySpeed;
+		this.xVelocity = toCopy.xVelocity;
+		this.yVelocity = toCopy.yVelocity;
+		this.myCurrentTile = toCopy.myCurrentTile;
 	}
-	
+
 	@Override
 	protected void setDefaults() {
 		resetVelocity();
-		myCurrentTile = new Point(0,0);
+		this.myCurrentTile = new Point(0,0);
 		this.mySpeed = 10.0;
 	}
 
@@ -178,4 +182,7 @@ public abstract class AbstractMovementAttribute extends AbstractAttribute implem
 		} catch (InputTypeException e) { }
 	}
 
+	@Override
+	public abstract IAttribute copyAttribute();
+	
 }

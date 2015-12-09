@@ -46,6 +46,7 @@ public class GameEngine {
 					continue;
 				}
 				if (intersects(a, b)) {
+					System.out.println("A: " + a.getType() + "  |  " + "B: " + b.getType());
 					a.onCollision(b);
 				}
 			}

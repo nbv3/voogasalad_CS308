@@ -13,9 +13,16 @@ public abstract class AbstractAttribute implements IAttribute {
 	 */
 	public AbstractAttribute() {
 		this.myParent = null;
-		setDefaults();
 	}
 	
+	/**
+	 * Helper constructor used to copy attributes for use in data reconstruction.
+	 * @param toCopy
+	 */
+	public AbstractAttribute(AbstractAttribute toCopy) {
+		this.myParent = null;
+	}
+
 	/**
 	 * Set any necessary instance variables for this object explicitly 
 	 * upon construction. Used to avoid null pointers if user input is 
@@ -36,4 +43,6 @@ public abstract class AbstractAttribute implements IAttribute {
 		myParent = parent;
 	}
 
+	
+	
 }

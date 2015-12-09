@@ -4,6 +4,7 @@ import com.syntacticsugar.vooga.authoring.parameters.EditableClass;
 import com.syntacticsugar.vooga.authoring.parameters.EditableField;
 import com.syntacticsugar.vooga.authoring.parameters.InputParser;
 import com.syntacticsugar.vooga.authoring.parameters.InputTypeException;
+import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.objects.items.bullets.BulletParams;
@@ -27,6 +28,11 @@ public class StunWeaponAttribute extends AbstractWeaponAttribute {
 
 	public StunWeaponAttribute() {
 		super();
+	}
+	
+	private StunWeaponAttribute(StunWeaponAttribute toCopy) {
+		super(toCopy);
+		this.myStunTime = toCopy.myStunTime;
 	}
 	
 	@Override
@@ -57,6 +63,11 @@ public class StunWeaponAttribute extends AbstractWeaponAttribute {
 		try {
 			this.myStunTime = InputParser.parseAsInt(arg);
 		} catch (InputTypeException e) { 	}
+	}
+	
+	@Override
+	public IAttribute copyAttribute() {
+		return new StunWeaponAttribute(this);
 	}
 
 }

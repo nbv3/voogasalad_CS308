@@ -1,6 +1,7 @@
 package com.syntacticsugar.vooga.gameplayer.attribute.weapons;
 
 import com.syntacticsugar.vooga.authoring.parameters.EditableClass;
+import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.objects.items.bullets.BulletParams;
@@ -15,6 +16,10 @@ public class BasicWeaponAttribute extends AbstractWeaponAttribute {
 
 	public BasicWeaponAttribute() {
 		super();
+	}
+	
+	private BasicWeaponAttribute(BasicWeaponAttribute toCopy) {
+		super(toCopy);
 	}
 	
 	@Override
@@ -33,5 +38,9 @@ public class BasicWeaponAttribute extends AbstractWeaponAttribute {
 		}
 		return bullet;
 	}
-	
+
+	@Override
+	public IAttribute copyAttribute() {
+		return new BasicWeaponAttribute(this);
+	}
 }

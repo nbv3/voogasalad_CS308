@@ -4,6 +4,7 @@ import com.syntacticsugar.vooga.authoring.parameters.EditableClass;
 import com.syntacticsugar.vooga.authoring.parameters.EditableField;
 import com.syntacticsugar.vooga.authoring.parameters.InputParser;
 import com.syntacticsugar.vooga.authoring.parameters.InputTypeException;
+import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.control.IUserControlAttribute;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.gameplayer.universe.userinput.IKeyInputStorage;
@@ -24,8 +25,18 @@ public class MovementControlAttribute extends AbstractMovementAttribute implemen
 
 	public MovementControlAttribute() {
 		super();
+		setDefaults();
 	}
 
+	private MovementControlAttribute(MovementControlAttribute toCopy) {
+		super(toCopy);
+		this.upCode = toCopy.upCode;
+		this.downCode = toCopy.downCode;
+		this.leftCode = toCopy.leftCode;
+		this.rightCode = toCopy.rightCode;
+		this.myCurrentMovement = toCopy.myCurrentMovement;
+	}
+	
 	@Override
 	protected void setDefaults() {
 		super.setDefaults();
@@ -114,6 +125,11 @@ public class MovementControlAttribute extends AbstractMovementAttribute implemen
 		try {
 			this.rightCode = InputParser.parseAsKeyCode(arg.trim());
 		} catch (InputTypeException e) { }
+	}
+
+	@Override
+	public IAttribute copyAttribute() {
+		return new MovementControlAttribute(this);
 	}
 
 }

@@ -4,6 +4,7 @@ import com.syntacticsugar.vooga.authoring.parameters.EditableClass;
 import com.syntacticsugar.vooga.authoring.parameters.EditableField;
 import com.syntacticsugar.vooga.authoring.parameters.InputParser;
 import com.syntacticsugar.vooga.authoring.parameters.InputTypeException;
+import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.objects.items.bullets.BulletParams;
@@ -29,6 +30,12 @@ public class SlowWeaponAttribute extends AbstractWeaponAttribute {
 	
 	public SlowWeaponAttribute() {
 		super();
+	}
+	
+	private SlowWeaponAttribute(SlowWeaponAttribute toCopy) {
+		super(toCopy);
+		this.mySpeedDecrease = toCopy.mySpeedDecrease;
+		this.myTime = toCopy.myTime;
 	}
 	
 	@Override
@@ -65,6 +72,10 @@ public class SlowWeaponAttribute extends AbstractWeaponAttribute {
 		try {
 			this.mySpeedDecrease = InputParser.parseAsDouble(arg);
 		} catch (InputTypeException e) { 	}
+	}
+	
+	public IAttribute copyAttribute() {
+		return new SlowWeaponAttribute(this);
 	}
 
 }

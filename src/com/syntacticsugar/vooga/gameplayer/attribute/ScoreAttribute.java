@@ -9,10 +9,16 @@ import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 		)
 public class ScoreAttribute extends AbstractAttribute {
 
-	private Integer myScore;
+	private int myScore;
 
 	public ScoreAttribute() {
 		super();
+		setDefaults();
+	}
+	
+	private ScoreAttribute(ScoreAttribute toCopy) {
+		super(toCopy);
+		this.myScore = toCopy.myScore;
 	}
 
 	@Override
@@ -39,10 +45,15 @@ public class ScoreAttribute extends AbstractAttribute {
 			inputLabel="Score Value",
 			defaultVal = "100"	
 			)
-	private void editMaxHealth(String arg) {
+	private void editScore(String arg) {
 		try {
 			this.myScore = Integer.parseInt(arg);
 		} catch (NumberFormatException e) {	}
 	}
+	
+	public IAttribute copyAttribute() {
+		return new ScoreAttribute(this);
+	}
+	
 }
 
