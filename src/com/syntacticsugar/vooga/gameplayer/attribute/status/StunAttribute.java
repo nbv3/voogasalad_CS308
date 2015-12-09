@@ -1,6 +1,7 @@
 package com.syntacticsugar.vooga.gameplayer.attribute.status;
 
 import com.syntacticsugar.vooga.authoring.parameters.EditableClass;
+import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.movement.AbstractMovementAttribute;
 import com.syntacticsugar.vooga.util.ResourceManager;
 
@@ -9,7 +10,7 @@ import com.syntacticsugar.vooga.util.ResourceManager;
 		)
 public class StunAttribute extends StatusEffectAttribute {
 	
-	AbstractMovementAttribute move;
+	private AbstractMovementAttribute move;
 	
 	private boolean didStun;
 	
@@ -19,8 +20,14 @@ public class StunAttribute extends StatusEffectAttribute {
 	
 	public StunAttribute(Integer time) {
 		super(time);
-		move = null;
-		didStun = false;
+		this.move = null;
+		this.didStun = false;
+	}
+	
+	private StunAttribute(StunAttribute toCopy) {
+		super(toCopy);
+		this.move = toCopy.move;
+		this.didStun = toCopy.didStun;
 	}
 
 	@Override
@@ -42,6 +49,11 @@ public class StunAttribute extends StatusEffectAttribute {
 		if (move != null && didStun) {
 			move.setSpeed(move.getSpeed() / .000001);
 		}
+	}
+	
+	@Override
+	public IAttribute copyAttribute() {
+		return new StunAttribute(this);
 	}
 	
 }

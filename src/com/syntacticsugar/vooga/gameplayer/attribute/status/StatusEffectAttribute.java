@@ -5,6 +5,7 @@ import com.syntacticsugar.vooga.authoring.parameters.EditableField;
 import com.syntacticsugar.vooga.authoring.parameters.InputParser;
 import com.syntacticsugar.vooga.authoring.parameters.InputTypeException;
 import com.syntacticsugar.vooga.gameplayer.attribute.AbstractAttribute;
+import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 
 @EditableClass (
@@ -18,14 +19,20 @@ public abstract class StatusEffectAttribute extends AbstractAttribute {
 	
 	public StatusEffectAttribute(int time) {
 		super();
-		timeLeft = time;
-		isStarted = false;
+		this.timeLeft = time;
+		this.isStarted = false;
 	}
 	
 	public StatusEffectAttribute() {
 		super();
 	}
 	
+	protected StatusEffectAttribute(StatusEffectAttribute toCopy) {
+		super(toCopy);
+		this.timeLeft = toCopy.timeLeft;
+		this.isStarted = toCopy.isStarted;
+	}
+
 	@Override
 	protected void setDefaults() {
 		this.timeLeft = 60;
@@ -66,5 +73,8 @@ public abstract class StatusEffectAttribute extends AbstractAttribute {
 			this.timeLeft = InputParser.parseAsInt(arg);
 		} catch (InputTypeException e) {	}
 	}
+	
+	@Override
+	public abstract IAttribute copyAttribute();
 	
 }

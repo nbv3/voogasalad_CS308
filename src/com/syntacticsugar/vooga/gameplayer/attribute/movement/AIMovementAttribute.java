@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import com.syntacticsugar.vooga.authoring.parameters.EditableClass;
+import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.DestinationReachedEvent;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.gameplayer.universe.map.IGameMap;
@@ -23,8 +24,14 @@ public class AIMovementAttribute extends AbstractMovementAttribute implements Se
 
 	public AIMovementAttribute() {
 		super();
+		setDefaults();
 	}
 
+	private AIMovementAttribute(AIMovementAttribute toCopy) {
+		super(toCopy);
+		this.myNextTile = new Point(-1, -1);
+	}
+	
 	@Override
 	protected void setDefaults() {
 		super.setDefaults();
@@ -112,4 +119,10 @@ public class AIMovementAttribute extends AbstractMovementAttribute implements Se
 		}
 		return Direction.STOP;
 	}
+	
+	@Override
+	public IAttribute copyAttribute() {
+		return new AIMovementAttribute(this);
+	}
+	
 }

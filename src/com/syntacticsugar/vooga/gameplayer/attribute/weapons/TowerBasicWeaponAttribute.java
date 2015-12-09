@@ -4,6 +4,7 @@ import com.syntacticsugar.vooga.authoring.parameters.EditableClass;
 import com.syntacticsugar.vooga.authoring.parameters.EditableField;
 import com.syntacticsugar.vooga.authoring.parameters.InputParser;
 import com.syntacticsugar.vooga.authoring.parameters.InputTypeException;
+import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.objects.items.bullets.BulletParams;
@@ -18,20 +19,17 @@ import javafx.geometry.Point2D;
 public class TowerBasicWeaponAttribute extends AbstractWeaponAttribute {
 	
 	private int fireRate;
-	private String dummy;
-	
 	private int myFrameCount;
 	
 	public TowerBasicWeaponAttribute() {
 		super();
 		myFrameCount = 0;
 	}
-
 	
-	public TowerBasicWeaponAttribute(TowerBasicWeaponAttribute tbwa) {
-		this.dummy = tbwa.dummy;
-		this.myFrameCount = tbwa.myFrameCount;
-		this.fireRate = tbwa.fireRate;
+	private TowerBasicWeaponAttribute(TowerBasicWeaponAttribute toCopy) {
+		super(toCopy);
+		this.fireRate = toCopy.fireRate;
+		this.myFrameCount = toCopy.myFrameCount;
 	}
 
 	@Override
@@ -70,10 +68,15 @@ public class TowerBasicWeaponAttribute extends AbstractWeaponAttribute {
 	@EditableField
 	(	inputLabel = "Fire rate",
 		defaultVal = "30"	)
-	private void editBulletDamage(String arg) {
+	private void editFireRate(String arg) {
 		try {
 			this.fireRate = InputParser.parseAsInt(arg);
 		} catch (InputTypeException e) { 	}
 	}
 
+	@Override
+	public IAttribute copyAttribute() {
+		return new TowerBasicWeaponAttribute(this);
+	}
+	
 }

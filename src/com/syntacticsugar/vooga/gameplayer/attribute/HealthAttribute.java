@@ -27,6 +27,15 @@ public class HealthAttribute extends AbstractAttribute {
 	 */
 	public HealthAttribute() {
 		super();
+		setDefaults();
+	}
+	
+	private HealthAttribute(HealthAttribute toCopy) {
+		super(toCopy);
+		this.myMaxHealth = toCopy.myMaxHealth;
+		this.myHealth = toCopy.myHealth;
+		this.myInvincibleFrames = toCopy.myInvincibleFrames;
+		this.myHealthChangeFreq = toCopy.myHealthChangeFreq;
 	}
 	
 	public void setHealth(double set) {
@@ -111,6 +120,11 @@ public class HealthAttribute extends AbstractAttribute {
 			this.myHealth = val;
 			this.myMaxHealth = val;
 		} catch (NumberFormatException e) {	}
+	}
+	
+	@Override
+	public IAttribute copyAttribute() {
+		return new HealthAttribute(this);
 	}
 
 }
