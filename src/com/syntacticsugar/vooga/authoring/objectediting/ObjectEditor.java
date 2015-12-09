@@ -88,7 +88,7 @@ public class ObjectEditor extends Observable implements IDataClipboard {
 		setTypeChooserViability(true);
 		myTypeChooser.setValue(null);
 		IData emptyData = new ObjectData();
-		emptyData.setImagePath("scenery_white.png");
+		emptyData.setImagePath("white.png");
 		myIcon.setImage(new Image(ResourceManager.getResource(this, emptyData.getImagePath())));
 		emptyData.setObjectName(null);
 		emptyData.setType(null);
@@ -239,7 +239,7 @@ public class ObjectEditor extends Observable implements IDataClipboard {
 	private GridPane createIconGrid() {
 		GridPane grid = new GridPane();
 		grid.setAlignment(Pos.CENTER);
-		myIcon = new Icon("scenery_gray.png");
+		myIcon = new Icon("gray.png");
 		PulsingFadeWizard.attachPulsingHandlers(myIcon);
 		Button button = GUIFactory.buildButton(ResourceManager.getString("select_image"), 
 				e -> selectImage(), null, null);
