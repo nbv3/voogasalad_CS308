@@ -173,8 +173,10 @@ public class MapView implements IMapDisplay, IVisualElement {
 	private void dragOverHandler(DragEvent event) {
 		double x = event.getX();
 		double y = event.getY();
+		System.out.println("( " + x + ", " + y + ")");
 		double colIndex = (int) (myMapSize * x / myMapGrid.getWidth());
 		double rowIndex = (int) (myMapSize * y / myMapGrid.getHeight());
+		System.out.println("( " + rowIndex + ", " + colIndex + ")");
 		Dragboard db = event.getDragboard();
 		if (db.hasContent(DataFormat.lookupMimeType("TileData"))) {
 			TileData tdFromClipBoard = (TileData) db.getContent(DataFormat.lookupMimeType("TileData"));
@@ -191,7 +193,8 @@ public class MapView implements IMapDisplay, IVisualElement {
 			
 			ObjectData toCopy = new ObjectData();
 			for (int i = 0; i < numSpawn; i++) {
-				toCopy = new ObjectData(receivedData);
+				toCopy = new ObjectData(receivedData);     
+				System.out.println("( " + colIndex/myMapSize * 1000 + ", " + rowIndex/myMapSize * 1000 + ")");
 				toCopy.setSpawnPoint(colIndex/myMapSize * 1000, rowIndex/myMapSize * 1000);
 				// Add to Spawner
 				iSpawn.addToSpawner(toCopy);

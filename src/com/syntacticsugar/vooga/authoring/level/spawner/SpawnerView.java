@@ -64,8 +64,10 @@ public class SpawnerView implements IDataSelector<ObjectData>, IVisualElement, I
 	private void highlightSpawnTile(ObjectData obj) {
 		double x = obj.getSpawnPoint().getX();
 		double y = obj.getSpawnPoint().getY();
-		int colIndex = (int) (myMapManager.getMapSize() * x / 1000);
-		int rowIndex = (int) (myMapManager.getMapSize() * y / 1000);
+		System.out.println("( " + x + ", " + y + ")");
+		int colIndex = (int) Math.round(myMapManager.getMapSize() * x / 1000);
+		int rowIndex = (int) Math.round(myMapManager.getMapSize() * y / 1000);
+		System.out.println("( " + rowIndex + ", " + colIndex + ")");
 		myMapManager.getTileIconMap().get(myMapManager.getMapData().getTileData(colIndex, rowIndex))
 				.setEffect(MapView.TILE_EFFECT);
 	}
@@ -73,8 +75,8 @@ public class SpawnerView implements IDataSelector<ObjectData>, IVisualElement, I
 	private void deHighlightSpawnTile(ObjectData obj) {
 		double x = obj.getSpawnPoint().getX();
 		double y = obj.getSpawnPoint().getY();
-		int colIndex = (int) (myMapManager.getMapSize() * x / 1000);
-		int rowIndex = (int) (myMapManager.getMapSize() * y / 1000);
+		int colIndex = (int) Math.round(myMapManager.getMapSize() * x / 1000);
+		int rowIndex = (int) Math.round(myMapManager.getMapSize() * y / 1000);
 		myMapManager.getTileIconMap().get(myMapManager.getMapData().getTileData(colIndex, rowIndex)).setEffect(null);
 	}
 
