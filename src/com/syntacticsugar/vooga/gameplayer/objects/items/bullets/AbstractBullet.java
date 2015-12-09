@@ -16,9 +16,12 @@ public abstract class AbstractBullet extends GameObject {
 	
 	private boolean despawnFlag;
 	
+	private GameObjectType myFoe;
+	
 	public AbstractBullet(BulletParams params) {
 		super(GameObjectType.ITEM, params.getStartPoint(), params.getWidth(), params.getHeight(), params.getImagePath());
 		HealthChangeEvent bulletDamage = new HealthChangeEvent(-1.0 * params.getDamage());
+		myFoe = params.getType();
 		addAttribute(new ConstantMovementAttribute(params.getMove(), params.getSpeed()));
 		addCollisionBinding(params.getType(), bulletDamage);
 		for (IAttribute att: getAttributes().values()) {
@@ -43,7 +46,7 @@ public abstract class AbstractBullet extends GameObject {
 	public void onCollision(IGameObject obj){
 		super.onCollision(obj);
 		
-		if (obj.getType().equals(GameObjectType.ENEMY)) {
+		if (obj.getType().equals(myFoe)) {
 			setDespawnFlag(true);
 		}
 	}
