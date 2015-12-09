@@ -63,6 +63,7 @@ public class TowerShop extends Observable implements Observer {
 		myTowerIcons = new ArrayList<>();
 		for (TowerData towerObject : availableTowers) {
 			Icon tower = new Icon(towerObject.getImagePath());
+			towerObject.setCost(100);
 			double towerSize = myPropertiesManager.getDoubleProperty("TowerSize");
 			tower.setPrefSize(towerSize, towerSize);
 			tower.setOnMouseClicked(event -> selectedTower(tower, towerObject));
@@ -136,7 +137,6 @@ public class TowerShop extends Observable implements Observer {
 			currentSelection.setDirection(data.getDirection());
 			currentSelection.setHeight(data.getHeight());
 			currentSelection.setWidth(data.getWidth());
-			currentSelection.setCost(100);
 			
 			ObjectSpawnEvent event = new ObjectSpawnEvent(new Tower(currentSelection));
 			myPoster.postEvent(event);
