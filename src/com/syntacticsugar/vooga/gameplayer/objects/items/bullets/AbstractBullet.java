@@ -15,7 +15,7 @@ public abstract class AbstractBullet extends GameObject {
 	
 	public AbstractBullet(BulletParams params) {
 		super(GameObjectType.ITEM, params.getStartPoint(), params.getWidth(), params.getHeight(), params.getImagePath());
-		HealthChangeEvent bulletDamage = new HealthChangeEvent(params.getDamage());
+		HealthChangeEvent bulletDamage = new HealthChangeEvent(-1.0 * params.getDamage());
 		addAttribute(new ConstantMovementAttribute(params.getMove(), params.getSpeed()));
 		addCollisionBinding(GameObjectType.ENEMY, bulletDamage);
 		for (IAttribute att: getAttributes().values()) {
