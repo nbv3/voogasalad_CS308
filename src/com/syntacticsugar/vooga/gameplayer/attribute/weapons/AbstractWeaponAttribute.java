@@ -55,8 +55,8 @@ public abstract class AbstractWeaponAttribute extends AbstractAttribute implemen
 		this.myBulletSpeed = 10;
 		this.myFireKeyCode = KeyCode.SPACE;
 		this.myBulletImagePath = "scenery_black.png";
-		this.myBulletWidth = 3;
-		this.myBulletHeight = 3;
+		this.myBulletWidth = 5;
+		this.myBulletHeight = 10;
 		this.fireFrameDelay = 15;
 	}
 	
@@ -182,7 +182,7 @@ public abstract class AbstractWeaponAttribute extends AbstractAttribute implemen
 
 	@EditableField
 	(	inputLabel = "Bullet Width (px)",
-		defaultVal = "3"	)
+		defaultVal = "5"	)
 	private void editBulletWidth(String arg) {
 		try {
 			this.myBulletWidth = InputParser.parseAsDouble(arg);
@@ -191,7 +191,7 @@ public abstract class AbstractWeaponAttribute extends AbstractAttribute implemen
 	
 	@EditableField
 	(	inputLabel = "Bullet Height (px)",
-		defaultVal = "3"	)
+		defaultVal = "10"	)
 	private void editBulletHeight(String arg) {
 		try {
 			this.myBulletHeight = InputParser.parseAsDouble(arg);
