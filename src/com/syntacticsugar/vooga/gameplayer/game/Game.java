@@ -19,10 +19,12 @@ public class Game implements IGame {
 	
 	private List<UniverseData> myUniverseData; // For saving
 	private GlobalSettings mySettings;
+	private GameData gameData;
 	
 	private int myLevel; // STARTS AT 1 BY CONVENTION
 	
 	public Game(GameData data) {
+		gameData = data;
 		Collection<UniverseData> udata =  data.getUniverses();
 		myUniverses = new ArrayList<>();
 		myUniverseData = new ArrayList<>();
@@ -40,6 +42,15 @@ public class Game implements IGame {
 			System.out.println("Out of levels. You win");
 		}
 		return myUniverses.get(myLevel++);
+	}
+	
+	public void reset(){
+		myUniverses.clear();
+		for(UniverseData datum : myUniverseData){
+			myUniverses.add(new GameUniverse(datum, gameData.getSettings()));
+		}
+		mySettings = gameData.getSettings();
+		myLevel = mySettings.getLevel();
 	}
 	
 	@Override
