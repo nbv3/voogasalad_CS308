@@ -15,5 +15,12 @@ public interface IGameObject extends IAttributeCollection, ICollidable, IViewabl
 	 * @return the object type
 	 */
 	public GameObjectType getType();
+	
+	/**
+	 * Returns the type of this object's foe (as specified by the resource file).
+	 * 
+	 * @return the foe type
+	 */
+	public GameObjectType getFoe();
 
 }

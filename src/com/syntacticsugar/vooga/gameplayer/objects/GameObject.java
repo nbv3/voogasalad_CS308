@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
+import com.syntacticsugar.vooga.gameplayer.attribute.movement.Direction;
 import com.syntacticsugar.vooga.gameplayer.event.ICollisionEvent;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.util.ResourceManager;
@@ -25,6 +26,7 @@ public class GameObject extends AbstractViewableObject implements IGameObject {
 		myType = type;
 		myAttributeMap = new HashMap<String, IAttribute>();
 		myCollisionEventMap = new HashMap<GameObjectType, Collection<ICollisionEvent>>();
+		getBoundingBox().setDirection(Direction.DOWN);
 	}
 	
 	public GameObject(ObjectData data) {
@@ -36,7 +38,12 @@ public class GameObject extends AbstractViewableObject implements IGameObject {
 		}
 		Map<GameObjectType, Collection<ICollisionEvent>> collisions = data.getCollisionMap();
 		myType = data.getType();
-		getBoundingBox().setDirection(data.getDirection());
+		if (data.getDirection() == null) {
+			getBoundingBox().setDirection(Direction.DOWN);
+		}
+		else {
+			getBoundingBox().setDirection(data.getDirection());
+		}
 		myAttributeMap = new HashMap<String, IAttribute>();
 		myCollisionEventMap = new HashMap<GameObjectType, Collection<ICollisionEvent>>();
 		for (IAttribute att: attributes) {
@@ -103,6 +110,12 @@ public class GameObject extends AbstractViewableObject implements IGameObject {
 	public void removeAttribute(IAttribute attribute) {
 		String key = ResourceManager.getString(attribute.getClass().getSimpleName());
 		myAttributeMap.remove(key);
+	}
+
+	@Override
+	public GameObjectType getFoe() {
+		String type = ResourceManager.getString(getType().toString() + "_FOE");
+		return GameObjectType.valueOf(type);
 	}
 
 }
