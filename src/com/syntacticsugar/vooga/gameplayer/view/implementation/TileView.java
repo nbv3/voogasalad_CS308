@@ -8,6 +8,7 @@ import com.syntacticsugar.vooga.gameplayer.view.ObjectView;
 import com.syntacticsugar.vooga.gameplayer.view.gameview.GameView;
 import com.syntacticsugar.vooga.gameplayer.view.gameview.ISimpleGameView;
 
+import javafx.scene.Node;
 import javafx.scene.layout.StackPane;
 
 public class TileView extends ObjectView {
@@ -27,10 +28,11 @@ public class TileView extends ObjectView {
 	}
 
 	private void initializeHoverProperties(ISimpleGameView myGameView) {
-		StackPane myPane = getViewPane();
-		myPane.getChildren().get(0).setOnMouseClicked(e -> selected(myGameView));
-		myPane.getChildren().get(0).setOnMouseEntered(e -> changeOpacity(myPane, 0.75));
-		myPane.getChildren().get(0).setOnMouseExited(e -> changeOpacity(myPane, 1));
+		//StackPane myPane = getViewPane();
+		Node tileView = getViewPane().getChildren().get(0);
+		tileView.setOnMouseClicked(e -> selected(myGameView));
+		tileView.setOnMouseEntered(e -> changeOpacity(getViewPane(), 0.75));
+		tileView.setOnMouseExited(e -> changeOpacity(getViewPane(), 1));
 	}
 
 	private void changeOpacity(StackPane myPane, double value) {
