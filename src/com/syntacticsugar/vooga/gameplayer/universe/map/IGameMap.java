@@ -6,9 +6,10 @@ import java.awt.Point;
 import java.util.Collection;
 import java.util.List;
 
+import com.syntacticsugar.vooga.gameplayer.event.GameEventListener;
 import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.IGameTile;
 
-public interface IGameMap extends PathFindingMap{
+public interface IGameMap extends PathFindingMap, GameEventListener {
 
 	/**
 	 * Returns a Collection of all the tiles in the map.
@@ -40,7 +41,7 @@ public interface IGameMap extends PathFindingMap{
 	 * @return the map index
 	 * @throws Exception out of bounds exception
 	 */
-	public Point getMapIndexFromCoordinate(Point2D coordinate) throws Exception;
+	public Point getMapIndexFromCoordinate(Point2D coordinate);
 	
 	/**
 	 * Returns the top-left point of the game tile corresponding to
@@ -68,7 +69,7 @@ public interface IGameMap extends PathFindingMap{
 	/**
 	 * Returns a list of points that are destinations
 	 * 
-	 * @return destinations the desination points
+	 * @return destinations the destination points
 	 */
 	public List<Point> getDestinationPoints();
 	
@@ -79,6 +80,12 @@ public interface IGameMap extends PathFindingMap{
 	 * @return the tile
 	 */
 	public IGameTile getTile(Point2D point);
+
+	/**
+	 * Return a list of all the player locations on the map
+	 * @return points: list of player locations in Point format
+	 */
+	public List<Point> getPlayerLocations();
 
 	/**
 	 * Returns the tile corresponding to the given map index.

@@ -59,11 +59,10 @@ public class GameManager implements IGameManager, IVoogaApp {
 		stageInit();
 	}
 
-	private void createGameOver() {
+	private void createGameOver(ConditionType type) {
 		myGameTimeline.stop();
-
 		myStage.close();
-		new GameOver(onClose);
+		new GameOver(onClose, type);
 
 	}
 
@@ -78,9 +77,13 @@ public class GameManager implements IGameManager, IVoogaApp {
 		myStage.show();
 	}
 
-	private void nextLevel() {
+	private void nextLevel(boolean bool) {
 		try {
-			currentLevel = myGame.nextLevel();
+			if (bool) {
+				currentLevel = myGame.getLevel(1);
+			} else {
+				currentLevel = myGame.nextLevel();
+			}
 			myViewController.displayLevel(currentLevel, myEventManager);
 			myEventManager = new EventManager();
 			myEventManager.registerListener(this);
@@ -90,7 +93,7 @@ public class GameManager implements IGameManager, IVoogaApp {
 			initializeAnimation(frameLength);
 		} catch (IndexOutOfBoundsException e) {
 			myGameTimeline.pause();
-			createGameOver();
+			createGameOver(ConditionType.WINNING);
 
 		}
 		// player.setPoint(currentLevel.getPlayerSpawn());
@@ -111,10 +114,12 @@ public class GameManager implements IGameManager, IVoogaApp {
 		pause();
 		if (type.equals(ConditionType.WINNING)) {
 			System.out.println("WINNER");
-			nextLevel();
+			nextLevel(false);
 		} else if (type.equals(ConditionType.LOSING)) {
 			System.out.println("YOU LOSE");
-			createGameOver();
+			myGame.reset();
+			nextLevel(true);
+			// createGameOver(ConditionType.LOSING);
 		}
 
 	}
@@ -139,7 +144,6 @@ public class GameManager implements IGameManager, IVoogaApp {
 
 	@Override
 	public void startGame() {
-		// Media sound = new
 		// Media(this.getClass().getClassLoader().getResource("SuperMarioBros.mp3").toString());
 		// MediaPlayer mediaPlayer = new MediaPlayer(sound);
 		// mediaPlayer.play();

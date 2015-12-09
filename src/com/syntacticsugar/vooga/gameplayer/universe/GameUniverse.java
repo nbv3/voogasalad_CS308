@@ -90,6 +90,7 @@ public class GameUniverse implements IGameUniverse {
 		manager.registerListener(myScore);
 		manager.registerListener(myMoney);
 		myScore.registerEventManager(manager);
+		manager.registerListener(myGameMap);
 	}
 
 	@Override

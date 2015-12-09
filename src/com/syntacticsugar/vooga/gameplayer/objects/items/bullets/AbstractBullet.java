@@ -8,6 +8,9 @@ import com.syntacticsugar.vooga.gameplayer.objects.GameObject;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
+import com.syntacticsugar.vooga.util.ResourceManager;
+
+import javafx.geometry.Point2D;
 
 public abstract class AbstractBullet extends GameObject {
 	
@@ -27,6 +30,9 @@ public abstract class AbstractBullet extends GameObject {
 	@Override
 	public void updateSelf(IGameUniverse universe) {
 		super.updateSelf(universe);
+		if (outOfBounds()) {
+			despawnFlag = true;
+		}
 		if (despawnFlag) {
 			ObjectDespawnEvent event = new ObjectDespawnEvent(this);
 			universe.postEvent(event);
@@ -44,6 +50,13 @@ public abstract class AbstractBullet extends GameObject {
 	
 	protected void setDespawnFlag(boolean flag) {
 		this.despawnFlag = flag;
+	}
+	
+	private boolean outOfBounds() {
+		Point2D point = getPoint();
+		boolean cond1 = (point.getX() < 0 || point.getX() > Double.parseDouble(ResourceManager.getString("WIDTH")));
+		boolean cond2 = (point.getY() < 0 || point.getY() > Double.parseDouble(ResourceManager.getString("HEIGHT")));
+		return (cond1 || cond2);
 	}
 
 }
