@@ -1,13 +1,12 @@
 package com.syntacticsugar.vooga.authoring.level;
 
-import java.lang.reflect.Constructor;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.syntacticsugar.vooga.authoring.objectediting.IVisualElement;
+import com.syntacticsugar.vooga.authoring.parameters.ParameterInputFactory;
+import com.syntacticsugar.vooga.gameplayer.conditions.IGameCondition;
 import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
-import com.syntacticsugar.vooga.util.gui.factory.MsgInputBoxFactory;
+import com.syntacticsugar.vooga.util.reflection.Reflection;
+import com.syntacticsugar.vooga.util.reflection.ReflectionException;
 import com.syntacticsugar.vooga.xml.data.LevelSettings;
 
 import javafx.collections.FXCollections;
@@ -28,12 +27,8 @@ public class LevelConditionManager implements IVisualElement {
 	private TextField mySpawnInput;
 	private TextField myCash;
 
-	private List<Double> myWinParameters;
-	private List<Double> myLoseParameters;
-
-	private String mySelectedWin;
-	private String mySelectedLose;
-	private int mySavedSpawnRate;
+	private IGameCondition mySelectedWin;
+	private IGameCondition mySelectedLose;
 	private int mySetCash;
 
 	public LevelConditionManager() {
@@ -51,14 +46,12 @@ public class LevelConditionManager implements IVisualElement {
 		myWins = new ComboBox<String>(winOptions);
 		myWins.setPrefWidth(200);
 		myWins.getStyleClass().add("combobox");
-		myWinParameters = new ArrayList<Double>();
 
 		ObservableList<String> loseOptions = FXCollections.observableArrayList(ResourceManager.getString("destination"),
 				ResourceManager.getString("player_death"));
 		myLose = new ComboBox<String>(loseOptions);
 		myLose.setPrefWidth(200);
 		myLose.getStyleClass().add("combobox");
-		myLoseParameters = new ArrayList<Double>();
 
 		myWins.valueProperty().addListener((o, s1, s2) -> updateSelectedWin(s2));
 		myLose.valueProperty().addListener((o, s1, s2) -> updateSelectedLose(s2));
@@ -79,76 +72,52 @@ public class LevelConditionManager implements IVisualElement {
 		myView.setAlignment(Pos.CENTER);
 	}
 
-	private void updateSelectedWin(String w) {
-		mySelectedWin = w;
+	private void updateSelectedWin(String winName) {
 		String classPath = String.format("%s%s%s", ResourceManager.getString("conditions"),
-				mySelectedWin.replace(" ", ""), "Condition");
-
+				winName.replace(" ", ""), "Condition");
 		try {
-			Class<?> c = Class.forName(classPath);
-			Constructor<?>[] constr = c.getDeclaredConstructors();
-			Class<?>[] parameterTypes = constr[0].getParameterTypes();
-
-			for (int i = 0; i < parameterTypes.length; i++) {
-				MsgInputBoxFactory msgBox = new MsgInputBoxFactory(String.format("Set %s Value", mySelectedWin));
-				myWinParameters.add(msgBox.getInputValue());
-			}
-
-		} catch (SecurityException | ClassNotFoundException e) {
-			e.printStackTrace();
+			mySelectedWin = (IGameCondition) Reflection.createInstance(classPath);
+			if (mySelectedWin == null) {
+				AlertBoxFactory.createObject("");
+				return;
+			}	
+			ParameterInputFactory.createInputFields(mySelectedWin);
+		} catch (ReflectionException e) {	
+			AlertBoxFactory.createObject(e.getMessage());
 		}
 	}
 
-	private void updateSelectedLose(String l) {
-		mySelectedLose = l;
+	private void updateSelectedLose(String lossName) {
 		String classPath = String.format("%s%s%s", ResourceManager.getString("conditions"),
-				mySelectedLose.replace(" ", ""), "Condition");
+				lossName.replace(" ", ""), "Condition");
 		try {
-			Class<?> c = Class.forName(classPath);
-			Constructor<?>[] constr = c.getDeclaredConstructors();
-			Class<?>[] parameterTypes = constr[0].getParameterTypes();
-
-			for (int i = 0; i < parameterTypes.length; i++) {
-				MsgInputBoxFactory msgBox = new MsgInputBoxFactory(String.format("Set %s Value", mySelectedLose));
-				myLoseParameters.add(msgBox.getInputValue());
-			}
-		} catch (SecurityException | ClassNotFoundException e) {
-			e.printStackTrace();
+			mySelectedLose = (IGameCondition) Reflection.createInstance(classPath);
+			if (mySelectedLose == null) {
+				AlertBoxFactory.createObject("");
+				return;
+			}	
+			ParameterInputFactory.createInputFields(mySelectedLose);
+		} catch (ReflectionException e) {	
+			AlertBoxFactory.createObject(e.getMessage());
 		}
 	}
 
-	public String getLosingCondition() {
+	public IGameCondition getLosingCondition() {
 		return mySelectedLose;
 	}
 
-	public List<Double> getWinParameters() {
-		return myWinParameters;
-	}
-
-	public List<Double> getLoseParameters() {
-		return myLoseParameters;
-	}
-
-	public String getWinningCondition() {
+	public IGameCondition getWinningCondition() {
 		return mySelectedWin;
 	}
 
-	public void setLosingCondition(String l) {
-		mySelectedLose = l;
+	public void setLosingCondition(IGameCondition cond) {
+		this.mySelectedLose = cond;
 	}
-
-	public void setWinParameters(List<Double> p) {
-		myWinParameters = p;
+	
+	public void setWinningCondition(IGameCondition cond) {
+		this.mySelectedWin = cond;
 	}
-
-	public void setLoseParameters(List<Double> p) {
-		myLoseParameters = p;
-	}
-
-	public void setWinningCondition(String w) {
-		mySelectedWin = w;
-	}
-
+	
 	public void saveCash() {
 		try {
 			mySetCash = Integer.parseInt(myCash.getText());
@@ -163,10 +132,8 @@ public class LevelConditionManager implements IVisualElement {
 	}
 
 	public LevelSettings getConditions() {
-		// saveSpawnRate();
 		saveCash();
-		LevelSettings settings = new LevelSettings(mySelectedWin, myWinParameters, mySelectedLose, myLoseParameters,
-				mySavedSpawnRate, mySetCash);
+		LevelSettings settings = new LevelSettings(mySelectedWin, mySelectedLose, mySetCash);
 		return settings;
 	}
 }

@@ -139,11 +139,11 @@ public class MapView implements IMapDisplay, IVisualElement {
 		return set;
 	}
 
-	private int inputMapSize() throws Exception {
+	private int inputMapSize() {
 		double size = SliderDialogFactory.createSliderDialog(
 				ResourceManager.getString("input_mapsize"), 10, 40, 1);
 		if (size == Double.MIN_VALUE) {
-			throw new Exception(ResourceManager.getString("select_mapsize_error"));
+			return 10;
 		}
 		return (int) size;
 	}

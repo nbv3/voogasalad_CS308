@@ -52,14 +52,14 @@ public class TowerShop extends Observable implements Observer {
 	}
 
 	public void initialize(Collection<TowerData> availableTowers, IUniverseView universe, IEventPoster poster) {
-		testDragAndDrop(availableTowers);
+		initializeTowerIcons(availableTowers);
 		//myUniverse = universe;
 		myPoster = poster;
 		availableCash = universe.getMoney().getMoney();
 		myMoneyInfo.changeMoney(availableCash);
 	}
 
-	private void testDragAndDrop(Collection<TowerData> availableTowers) {
+	private void initializeTowerIcons(Collection<TowerData> availableTowers) {
 		myTowerIcons = new ArrayList<>();
 		for (TowerData towerObject : availableTowers) {
 			Icon tower = new Icon(towerObject.getImagePath());
@@ -74,12 +74,16 @@ public class TowerShop extends Observable implements Observer {
 	}
 
 	private void deselect(Icon tower) {
-		tower.setStyle("-fx-opacity: 1");
+		if(currentSelection == null){
+			tower.setStyle("-fx-opacity: 1");
+		}
 	}
 
 	private void checkIfCanBuy(Icon tower, int price) {
-		if( (-1)*price <= availableCash){
-			tower.setStyle("-fx-opacity: 0.5");
+		if(currentSelection == null){
+			if( (-1)*price <= availableCash){
+				tower.setStyle("-fx-opacity: 0.5");
+			}
 		}
 	}
 
@@ -130,6 +134,8 @@ public class TowerShop extends Observable implements Observer {
 			Point2D coordinates = data.getCoordinates();
 			currentSelection.setSpawnPoint(coordinates.getX(), coordinates.getY());
 			currentSelection.setDirection(data.getDirection());
+			currentSelection.setHeight(data.getHeight());
+			currentSelection.setWidth(data.getWidth());
 			
 			ObjectSpawnEvent event = new ObjectSpawnEvent(new Tower(currentSelection));
 			myPoster.postEvent(event);

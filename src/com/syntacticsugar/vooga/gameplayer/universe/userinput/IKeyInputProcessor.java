@@ -1,8 +1,6 @@
 package com.syntacticsugar.vooga.gameplayer.universe.userinput;
 
 import java.util.Collection;
-import java.util.List;
-
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 

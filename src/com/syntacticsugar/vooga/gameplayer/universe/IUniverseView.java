@@ -6,7 +6,6 @@ import java.util.Observer;
 import com.syntacticsugar.vooga.gameplayer.universe.map.IGameMap;
 import com.syntacticsugar.vooga.gameplayer.universe.money.IMoney;
 import com.syntacticsugar.vooga.gameplayer.universe.score.IScore;
-import com.syntacticsugar.vooga.xml.data.ObjectData;
 import com.syntacticsugar.vooga.xml.data.TowerData;
 
 /**

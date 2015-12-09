@@ -12,7 +12,6 @@ import java.util.Map;
 import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.DecoratorTile;
 import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.IGameTile;
 import com.syntacticsugar.vooga.xml.data.MapData;
-import com.syntacticsugar.vooga.xml.data.TileData;
 import com.syntacticsugar.vooga.xml.data.TileImplementation;
 
 
@@ -24,6 +23,7 @@ public class GameMap implements IGameMap {
 	private int numCols;
 	private int numRows;
 	
+	@SuppressWarnings("unused")
 	private Point myDestination;
 
 	public GameMap(MapData mapData) {

@@ -6,9 +6,9 @@ import com.syntacticsugar.vooga.gameplayer.engine.GameEngine;
 import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.LevelChangeEvent;
 import com.syntacticsugar.vooga.gameplayer.game.Game;
-import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.gameplayer.view.GameViewController;
+import com.syntacticsugar.vooga.menu.GameOver;
 import com.syntacticsugar.vooga.menu.IVoogaApp;
 import com.syntacticsugar.vooga.xml.data.GameData;
 import com.syntacticsugar.vooga.xml.data.UniverseData;
@@ -23,7 +23,7 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 
-public class GameManager implements IGameManager,IVoogaApp {
+public class GameManager implements IGameManager, IVoogaApp {
 
 	private Game myGame;
 	private IGameUniverse currentLevel;
@@ -35,31 +35,36 @@ public class GameManager implements IGameManager,IVoogaApp {
 	private GameViewController myViewController;
 	private Stage myStage;
 	private double frameLength;
+	private EventHandler<WindowEvent> onClose;
 
-	public GameManager(EventHandler<WindowEvent> onClose, double gameSize, GameData data, double frameRate) {
+	public GameManager(EventHandler<WindowEvent> onclose, double gameSize, GameData data, double frameRate) {
 		this.frameLength = frameRate;
 		myStage = new Stage();
-		myStage.setOnCloseRequest(onClose);
-
+		myStage.setOnCloseRequest(onclose);
 		myEventManager = new EventManager();
 		myEventManager.registerListener(this);
-
+		onClose = onclose;
 		myGame = new Game(data);
 		currentLevel = myGame.getLevel(1);
-		
 
 		myViewController = new GameViewController(gameSize);
 		myViewController.displayLevel(currentLevel, myEventManager);
-		
 
-		
 		currentLevel.registerListeners(myEventManager);
 		myGameEngine = new GameEngine();
 
 		myGameEngine.registerViewAdder(myViewController);
 		myGameEngine.registerViewRemover(myViewController);
-		
+
 		stageInit();
+	}
+
+	private void createGameOver() {
+		myGameTimeline.stop();
+
+		myStage.close();
+		new GameOver(onClose);
+
 	}
 
 	private void stageInit() {
@@ -72,29 +77,24 @@ public class GameManager implements IGameManager,IVoogaApp {
 		myStage.setScene(gameScene);
 		myStage.show();
 	}
-	
 
 	private void nextLevel() {
-		//IGameObject player = currentLevel.getPlayer();
-		
-		try{
-		currentLevel = myGame.nextLevel();
+		try {
+			currentLevel = myGame.nextLevel();
+			myViewController.displayLevel(currentLevel, myEventManager);
+			myEventManager = new EventManager();
+			myEventManager.registerListener(this);
+			currentLevel.registerListeners(myEventManager);
+			myGameEngine.registerViewAdder(myViewController);
+			myGameEngine.registerViewRemover(myViewController);
+			initializeAnimation(frameLength);
+		} catch (IndexOutOfBoundsException e) {
+			myGameTimeline.pause();
+			createGameOver();
+
 		}
-		catch(IndexOutOfBoundsException e){
-			myStage.close();
-		}
-		//player.setPoint(currentLevel.getPlayerSpawn());
-		
-		myViewController.displayLevel(currentLevel, myEventManager);
-		myEventManager = new EventManager();
-		myEventManager.registerListener(this);
-		currentLevel.registerListeners(myEventManager);
-		myGameEngine.registerViewAdder(myViewController);
-		myGameEngine.registerViewRemover(myViewController);
-		
-		//myViewController.addViewObject(player);
-		
-		initializeAnimation(frameLength);
+		// player.setPoint(currentLevel.getPlayerSpawn());
+
 	}
 
 	@Override
@@ -114,11 +114,10 @@ public class GameManager implements IGameManager,IVoogaApp {
 			nextLevel();
 		} else if (type.equals(ConditionType.LOSING)) {
 			System.out.println("YOU LOSE");
-			startGame();
+			createGameOver();
 		}
 
 	}
-
 
 	public void receiveKeyPressed(KeyCode code) {
 		if (code.equals(KeyCode.P)) {
@@ -138,12 +137,12 @@ public class GameManager implements IGameManager,IVoogaApp {
 		currentLevel.receiveKeyRelease(code);
 	}
 
-
 	@Override
 	public void startGame() {
-//		Media sound = new Media(this.getClass().getClassLoader().getResource("SuperMarioBros.mp3").toString());
-//		MediaPlayer mediaPlayer = new MediaPlayer(sound);
-//		mediaPlayer.play();
+		// Media sound = new
+		// Media(this.getClass().getClassLoader().getResource("SuperMarioBros.mp3").toString());
+		// MediaPlayer mediaPlayer = new MediaPlayer(sound);
+		// mediaPlayer.play();
 		myGameTimeline.play();
 	}
 
@@ -173,7 +172,8 @@ public class GameManager implements IGameManager,IVoogaApp {
 
 	@Override
 	public void assignCloseHandler(EventHandler<WindowEvent> onclose) {
-		myStage.setOnCloseRequest(onclose);
+		// TODO Auto-generated method stub
+
 	}
 
 }

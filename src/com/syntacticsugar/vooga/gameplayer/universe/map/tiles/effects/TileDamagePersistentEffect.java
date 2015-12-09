@@ -9,6 +9,10 @@ import com.syntacticsugar.vooga.gameplayer.universe.map.IGameMap;
 
 public class TileDamagePersistentEffect extends AbstractTileEffect implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Double myDamage;
 
 	public TileDamagePersistentEffect(Double d) {

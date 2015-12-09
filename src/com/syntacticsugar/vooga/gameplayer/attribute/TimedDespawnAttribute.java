@@ -1,11 +1,16 @@
 package com.syntacticsugar.vooga.gameplayer.attribute;
 
+import com.syntacticsugar.vooga.authoring.parameters.EditableClass;
 import com.syntacticsugar.vooga.authoring.parameters.EditableField;
 import com.syntacticsugar.vooga.authoring.parameters.InputParser;
 import com.syntacticsugar.vooga.authoring.parameters.InputTypeException;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.ObjectDespawnEvent;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 
+
+@EditableClass (
+		className = "Time Despawn Value"
+	)
 public class TimedDespawnAttribute extends AbstractAttribute {
 	
 	private int myFrameCount;
@@ -15,13 +20,19 @@ public class TimedDespawnAttribute extends AbstractAttribute {
 		myFrameCount = 0;
 	}
 	
+	private TimedDespawnAttribute(TimedDespawnAttribute toCopy) {
+		super(toCopy);
+		this.myFrameCount = toCopy.myFrameCount;
+		this.timeHere = toCopy.timeHere;
+	}
+	
 	@Override
 	protected void setDefaults() {
 		this.myFrameCount = 180;
 	}
 	
 	public void setTimeHere (int time) {
-		timeHere = time;
+		this.timeHere = time;
 	}
 
 	@Override
@@ -41,9 +52,15 @@ public class TimedDespawnAttribute extends AbstractAttribute {
 		inputLabel = "Duration (Frames)",
 		defaultVal = "180"
 		)
-	private void editFrameCount(String arg) {
+	private void editTimeHere(String arg) {
 		try {
-			this.myFrameCount = InputParser.parseAsInt(arg);
+			this.timeHere = InputParser.parseAsInt(arg);
 		} catch (InputTypeException e) { 	}
 	}
+	
+	@Override
+	public IAttribute copyAttribute() {
+		return new TimedDespawnAttribute(this);
+	}
+	
 }

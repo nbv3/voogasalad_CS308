@@ -23,5 +23,12 @@ public interface IAttribute {
 	 */
 	public void setParent(IGameObject parent);
 	
+	/**
+	 * Return an identical copy of this Attribute without sharing references (useful
+	 * for rebuilding from data).
+	 * @return
+	 */
+	public IAttribute copyAttribute();
+	
 	
 }

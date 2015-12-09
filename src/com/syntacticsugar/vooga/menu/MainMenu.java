@@ -37,7 +37,7 @@ public class MainMenu extends AbstractMenu {
 	private void launchHelpView(String url) {
 		Stage stage = new Stage();
 		stage.setTitle(ResourceManager.getString("help_label"));
-        Scene scene = new Scene(new HelpManager(url),750,500);
+        Scene scene = new Scene(new HelpManager(url),900,500);
         stage.setScene(scene);
         stage.show();
 	}

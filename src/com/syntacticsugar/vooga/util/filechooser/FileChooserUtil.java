@@ -2,8 +2,6 @@ package com.syntacticsugar.vooga.util.filechooser;
 
 import java.io.File;
 
-import com.syntacticsugar.vooga.util.ResourceManager;
-
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.FileChooser.ExtensionFilter;

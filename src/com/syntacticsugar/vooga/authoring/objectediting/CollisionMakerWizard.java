@@ -4,13 +4,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 
+import com.syntacticsugar.vooga.authoring.parameters.ParameterInputFactory;
 import com.syntacticsugar.vooga.gameplayer.event.ICollisionEvent;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
-import com.syntacticsugar.vooga.util.gui.factory.MsgInputBoxFactory;
 import com.syntacticsugar.vooga.util.reflection.Reflection;
-import com.syntacticsugar.vooga.util.reflection.ReflectionException;
 
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -104,32 +103,18 @@ public class CollisionMakerWizard {
 	}
 
 	private void addCollideEventToExistingKey() {
-		MsgInputBoxFactory msgBox = new MsgInputBoxFactory(
-				ResourceManager.getString(String.format("%s%s", "double_", selectedCollisionEvent)));
 		String className = ResourceManager.getString(String.format("%s_%s", selectedCollisionEvent, "name"));
-		if (msgBox.getValue() != 0) {
-			try {
-				collisionEventToAdd = (ICollisionEvent) Reflection.createInstance(className, msgBox.getValue());
-			} catch (ReflectionException ex) {
-				collisionEventToAdd = (ICollisionEvent) Reflection.createInstance(className);
-			}
-			myCollisions.get(selectedCollideObjType).add(collisionEventToAdd);
-
-		}
+		collisionEventToAdd = (ICollisionEvent) Reflection.createInstance(className);
+		ParameterInputFactory.createInputFields(collisionEventToAdd);
+		myCollisions.get(selectedCollideObjType).add(collisionEventToAdd);
 	}
 
 	private void addCollideEventToNonExistingKey() {
-		MsgInputBoxFactory msgBox = new MsgInputBoxFactory(
-				ResourceManager.getString(String.format("%s%s", "double_", selectedCollisionEvent)));
 		String className = ResourceManager.getString(String.format("%s_%s", selectedCollisionEvent, "name"));
-		if (msgBox.getValue() != 0) {
-			Collection<ICollisionEvent> collideEvents = new ArrayList<ICollisionEvent>();
-			try {
-				collideEvents.add((ICollisionEvent) Reflection.createInstance(className, msgBox.getValue()));
-			} catch (ReflectionException ex) {
-				collideEvents.add((ICollisionEvent) Reflection.createInstance(className));
-			}
-			myCollisions.put(selectedCollideObjType, collideEvents);
-		}
+		Collection<ICollisionEvent> collideEvents = new ArrayList<ICollisionEvent>();
+		ICollisionEvent eventToAdd = (ICollisionEvent) Reflection.createInstance(className);
+		ParameterInputFactory.createInputFields(eventToAdd);
+		collideEvents.add(eventToAdd);
+		myCollisions.put(selectedCollideObjType, collideEvents);
 	}
 }

@@ -1,31 +1,15 @@
 package com.syntacticsugar.vooga.gameplayer.engine;
 
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
-import com.syntacticsugar.vooga.gameplayer.universe.map.IGameMap;
 import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.IGameTile;
-import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.ITowerHolder;
-import com.syntacticsugar.vooga.gameplayer.universe.score.IScore;
 import com.syntacticsugar.vooga.gameplayer.universe.spawner.ISpawner;
-import com.syntacticsugar.vooga.gameplayer.view.GameViewController;
 import com.syntacticsugar.vooga.gameplayer.view.IViewAdder;
 import com.syntacticsugar.vooga.gameplayer.view.IViewRemover;
-import com.syntacticsugar.vooga.xml.data.ObjectData;
-
-import javafx.geometry.Point2D;
-import javafx.scene.input.KeyCode;
-import javafx.scene.layout.Pane;
-
-import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import com.syntacticsugar.vooga.gameplayer.conditions.IGameCondition;
-import com.syntacticsugar.vooga.gameplayer.event.implementations.ObjectSpawnEvent;
-import com.syntacticsugar.vooga.gameplayer.manager.IEventManager;
-import com.syntacticsugar.vooga.gameplayer.manager.ILevelSwitcher;
 import com.syntacticsugar.vooga.gameplayer.objects.IBoundingBox;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
-import com.syntacticsugar.vooga.gameplayer.objects.towers.Tower;
 
 public class GameEngine {
 
@@ -62,6 +46,7 @@ public class GameEngine {
 					continue;
 				}
 				if (intersects(a, b)) {
+					System.out.println("A: " + a.getType() + "  |  " + "B: " + b.getType());
 					a.onCollision(b);
 				}
 			}

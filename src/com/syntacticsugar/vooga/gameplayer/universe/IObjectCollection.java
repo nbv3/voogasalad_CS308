@@ -4,8 +4,6 @@ import java.util.Collection;
 
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 
-import javafx.geometry.Point2D;
-
 public interface IObjectCollection extends IObjectSpawner, 
 										   IObjectDespawner, 
 										   IObjectAdder, 
@@ -23,11 +21,5 @@ public interface IObjectCollection extends IObjectSpawner,
 	 */
 	public IGameObject getPlayer();
 	
-	/**
-	 * Returns the spawn point associated with the player
-	 * @return
-	 */
-	public Point2D getPlayerSpawn();
-
 		
 }

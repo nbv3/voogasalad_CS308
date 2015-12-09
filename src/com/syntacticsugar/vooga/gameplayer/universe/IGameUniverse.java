@@ -1,15 +1,8 @@
 package com.syntacticsugar.vooga.gameplayer.universe;
 
-import java.util.Collection;
-import java.util.Observer;
-
-import com.syntacticsugar.vooga.gameplayer.conditions.IGameCondition;
 import com.syntacticsugar.vooga.gameplayer.manager.IEventManager;
-import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
 import com.syntacticsugar.vooga.gameplayer.universe.map.IGameMap;
-import com.syntacticsugar.vooga.gameplayer.universe.score.IScore;
 import com.syntacticsugar.vooga.gameplayer.universe.userinput.IKeyInputProcessor;
-import com.syntacticsugar.vooga.xml.data.ObjectData;
 import com.syntacticsugar.vooga.xml.data.UniverseData;
 
 public interface IGameUniverse extends IObjectCollection,

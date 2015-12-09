@@ -1,6 +1,7 @@
 package com.syntacticsugar.vooga.gameplayer.attribute.weapons;
 
 import com.syntacticsugar.vooga.authoring.parameters.EditableClass;
+import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.movement.Direction;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.gameplayer.objects.IGameObject;
@@ -17,6 +18,10 @@ public class CardinalWeaponAttribute extends AbstractWeaponAttribute {
 	
 	public CardinalWeaponAttribute() {
 		super();
+	}
+	
+	private CardinalWeaponAttribute(CardinalWeaponAttribute toCopy) {
+		super(toCopy);
 	}
 	
 	@Override
@@ -60,13 +65,15 @@ public class CardinalWeaponAttribute extends AbstractWeaponAttribute {
 		return bullet;
 	}
 	
-	protected void fireBullet(IGameUniverse universe, IGameObject bullet) {
-		
-	}
 
 	@Override
 	protected IGameObject makeBullet() {
 		return null;
+	}
+
+	@Override
+	public IAttribute copyAttribute() {
+		return new CardinalWeaponAttribute(this);
 	}
 
 }

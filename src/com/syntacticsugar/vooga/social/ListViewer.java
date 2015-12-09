@@ -1,14 +1,8 @@
 package com.syntacticsugar.vooga.social;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
-import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
-
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.ListView;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 public abstract class ListViewer {

@@ -32,6 +32,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
@@ -46,6 +47,7 @@ public class ObjectEditor extends Observable implements IDataClipboard {
 	private Icon myIcon;
 	private Button mySaveButton;
 	private Button myUpdateButton;
+	private Button myCreateButton;
 	private ComboBox<GameObjectType> myTypeChooser;
 	private IRefresher myRefresher;
 	private String selectedImagePath;
@@ -69,8 +71,11 @@ public class ObjectEditor extends Observable implements IDataClipboard {
 		AnchorPane myTopControlPane = GUIFactory.buildAnchorPane(myTypeChooser,
 				GUIFactory.buildButton(ResourceManager.getString("new"), e -> createEmptyEditor(), null, null));
 		myUpdateButton = GUIFactory.buildButton(ResourceManager.getString("update"), e -> storeEditedObject(), null, null);
+		myCreateButton = GUIFactory.buildButton(ResourceManager.getString("create"), e -> createNewObjectInstance(), null, null);
 		mySaveButton = GUIFactory.buildButton(ResourceManager.getString("save"), e -> saveObject(), null, null);
-		AnchorPane myBottomControlPane = GUIFactory.buildAnchorPane(myUpdateButton, mySaveButton);
+		HBox myBottomControlPane = new HBox();
+		myBottomControlPane.setSpacing(75);
+		myBottomControlPane.getChildren().addAll(myUpdateButton, myCreateButton, mySaveButton);
 		myView.add(myTopControlPane, 0, 0, 1, 1);
 		myView.add(myMainEditorView, 0, 1, 1, 1);
 		myView.add(myBottomControlPane, 0, 2, 1, 1);
@@ -89,6 +94,7 @@ public class ObjectEditor extends Observable implements IDataClipboard {
 		emptyData.setType(null);
 		setUpdateButtonVisibility(false);
 		setSaveButtonViability(false);
+		setCreateButtonViability(false);
 		emptyData.setAttributes(FXCollections.observableArrayList());
 		emptyData.setCollisionMap(FXCollections.observableHashMap());
 		displayData(emptyData);
@@ -117,11 +123,13 @@ public class ObjectEditor extends Observable implements IDataClipboard {
 		typeChooser.getItems().addAll(GameObjectType.values());
 		typeChooser.valueProperty().addListener((o, s1, s2) -> {
 			if (s2 == null) {
-				mySaveButton.setDisable(true);
+				setSaveButtonViability(false);
+				setCreateButtonViability(false);
 				return;
 			}
 			if (mySaveButton.isDisabled()) {
 				setSaveButtonViability(true);
+				setCreateButtonViability(true);
 			}
 
 			currentData.setType(s2);
@@ -130,10 +138,11 @@ public class ObjectEditor extends Observable implements IDataClipboard {
 	}
 
 	public void displayData(IData data) {
-		selectedImagePath = data.getImagePath();
 		if (data != null) {
+			selectedImagePath = data.getImagePath();
 			if (mySaveButton.isDisabled() && data.getType() != null) {
 				setSaveButtonViability(true);
+				setCreateButtonViability(true);
 			}
 			currentData = data;
 			if (data.getType() != null) {
@@ -159,6 +168,19 @@ public class ObjectEditor extends Observable implements IDataClipboard {
 	}
 
 	private void saveObject() {
+		createNewObjectInstance();
+		TextInputDialog td = new TextInputDialog(ResourceManager.getString("name_creation"));
+		td.showAndWait();
+		if (td.getResult() == null || td.getResult().isEmpty()) {
+			AlertBoxFactory.createObject(ResourceManager.getString("aborted_save"));
+			return;
+		}
+		currentData.setObjectName(td.getResult());
+		launchSaveBox();
+		myRefresher.refresh();
+	}
+
+	private void createNewObjectInstance() {
 		GameObjectType tempObjType = currentData.getType();
 		Class<?> c;
 		try {
@@ -171,16 +193,6 @@ public class ObjectEditor extends Observable implements IDataClipboard {
 		currentData.setImagePath(new String(selectedImagePath));
 		currentData.setAttributes(Collections.unmodifiableCollection(myAttributeViewer.getData()));
 		currentData.setCollisionMap(Collections.unmodifiableMap(myCollisionViewer.getData()));
-
-		TextInputDialog td = new TextInputDialog(ResourceManager.getString("name_creation"));
-		td.showAndWait();
-		if (td.getResult() == null || td.getResult().isEmpty()) {
-			AlertBoxFactory.createObject(ResourceManager.getString("aborted_save"));
-			return;
-		}
-		currentData.setObjectName(td.getResult());
-		launchSaveBox();
-		myRefresher.refresh();
 	}
 
 	private void launchSaveBox() {
@@ -205,7 +217,6 @@ public class ObjectEditor extends Observable implements IDataClipboard {
 				selectedFile -> {
 					selectedImagePath = selectedFile.getName();
 					myIcon.setImage(new Image(getClass().getClassLoader().getResourceAsStream(selectedFile.getName())));
-					currentData.setImagePath(selectedImagePath);
 				});
 	}
 
@@ -305,9 +316,14 @@ public class ObjectEditor extends Observable implements IDataClipboard {
 	public void setSaveButtonViability(boolean flag) {
 		mySaveButton.setDisable(!flag);
 	}
+	
+	private void setCreateButtonViability(boolean flag) {
+		myCreateButton.setDisable(!flag);
+	}
 
 	@Override
 	public IData obtainSelectedIData() {
 		return currentData;
 	}
+	
 }

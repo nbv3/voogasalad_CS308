@@ -1,4 +1,4 @@
-package com.syntacticsugar.vooga.gameplayer.view;
+package com.syntacticsugar.vooga.gameplayer.view.gameview;
 
 import java.util.Collection;
 import java.util.Observer;
@@ -15,21 +15,21 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 
-public class GameView extends BorderPane implements ISimpleGameView{
-	
+public class GameView extends BorderPane implements ISimpleGameView, IScalingFactorContainer {
+
 	private double mySize;
 	private Pane gameField;
-	private GlobalDataPanel myInfoBox; 
+	private GlobalDataPanel myInfoBox;
 	private TowerShop myTowerShop;
-	
-	public GameView(double size){
+
+	public GameView(double size) {
 		this.getStylesheets().add("/com/syntacticsugar/vooga/gameplayer/css/game.css");
 		this.setFocusTraversable(true);
 		mySize = size;
 		initializeComponents();
 	}
-	
-	public void resetComponents(){
+
+	public void resetComponents() {
 		this.getChildren().clear();
 		initializeComponents();
 	}
@@ -37,36 +37,39 @@ public class GameView extends BorderPane implements ISimpleGameView{
 	private void initializeComponents() {
 		gameField = new Pane();
 		this.setCenter(gameField);
-		myTowerShop = new TowerShop();
-		this.setRight(myTowerShop.getContent());
+//		myTowerShop = new TowerShop();
+//		this.setRight(myTowerShop.getContent());
 		myInfoBox = new GlobalDataPanel();
 		this.setBottom(myInfoBox);
 	}
 
-	public double getScalingFactor(){
-		return (1.0/1000)*mySize;
+	public double getScalingFactor() {
+		return (1.0 / 1000) * mySize;
 	}
 
 	public void addObjectView(Pane myViewPane) {
 		gameField.getChildren().add(myViewPane);
 	}
-	
-	public void removeObjectView(Pane myViewPane){
+
+	public void removeObjectView(Pane myViewPane) {
 		gameField.getChildren().remove(myViewPane);
 	}
 
 	public Pane getView() {
 		return gameField;
 	}
-	
-	public void initializeTowerTileObserver(TileView tile){
+
+	public void initializeTowerTileObserver(TileView tile) {
 		myTowerShop.addObserver(tile);
 		tile.addObserver(myTowerShop);
 	}
 
-	public void initializeAvailableTowers(Collection<TowerData> availableTowers, IUniverseView universe, IEventPoster poster) {
+	public void initializeAvailableTowers(Collection<TowerData> availableTowers, IUniverseView universe,
+			IEventPoster poster) {
+		myTowerShop = new TowerShop();
+		this.setRight(myTowerShop.getContent());
 		myTowerShop.initialize(availableTowers, universe, poster);
-		
+
 	}
 
 	public Observer getScoreBox() {
@@ -76,8 +79,8 @@ public class GameView extends BorderPane implements ISimpleGameView{
 	public Observer getTowerShop() {
 		return myTowerShop;
 	}
-	
-	public void setWaveButton(EventHandler<MouseEvent> onMouseClicked){
+
+	public void setWaveButton(EventHandler<MouseEvent> onMouseClicked) {
 		myInfoBox.setWaveButton(onMouseClicked);
 	}
 }

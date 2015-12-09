@@ -1,36 +1,37 @@
 package com.syntacticsugar.vooga.gameplayer.conditions;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.syntacticsugar.vooga.gameplayer.manager.IEventManager;
 import com.syntacticsugar.vooga.gameplayer.universe.score.IEventListener;
 
 public class Conditions implements IConditions, IEventListener {
 
-	private List<IGameCondition> myConditions;
-	private IEventManager myManager;
-
-	public Conditions() {
-		myConditions = new ArrayList<IGameCondition>();
-
+	private IGameCondition myWinCondition;
+	private IGameCondition myLossCondition;
+	
+	public Conditions(IGameCondition win, IGameCondition loss) {
+		myWinCondition = win;
+		myLossCondition = loss;
+	}
+	
+	@Override
+	public IGameCondition getWinCondition() {
+		return myWinCondition;
 	}
 
 	@Override
-	public void addCondition(IGameCondition condition) {
-		myConditions.add(condition);
-
+	public IGameCondition getLossCondition() {
+		return myLossCondition;
 	}
 
 	@Override
 	public void registerEventManager(IEventManager eventmanager) {
-		myManager = eventmanager;
-		for (IGameCondition cond : myConditions) {
+		register(myWinCondition, eventmanager);
+		register(myLossCondition, eventmanager);
+	}		
 
-			cond.registerManager(myManager);
-			myManager.registerListener(cond);
-		}
-
+	private void register(IGameCondition condition, IEventManager manager) {
+		condition.registerManager(manager);
+		manager.registerListener(condition);
 	}
 
 }

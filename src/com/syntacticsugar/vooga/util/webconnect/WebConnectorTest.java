@@ -1,33 +1,27 @@
 package com.syntacticsugar.vooga.util.webconnect;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.syntacticsugar.vooga.social.CommentViewer;
 import com.syntacticsugar.vooga.util.webconnect.WebConnector;
-
-import javafx.util.Pair;
 
 public class WebConnectorTest {
 	public static void main(String args[]) throws Exception {
 
-		getXMLsTest();
-		getXMLTest(11);
-		postXMLTest();
-		deleteXMLTest(10);
-		postCommentTest();
-		getCommentsTest(20);
+		//getXMLsTest();
+		//getXMLTest(11);
+		//postXMLTest();
+		//deleteXMLTest(67);
+		//postCommentTest();
+		//getCommentsTest(20);
 	}
 	
 	public static void postCommentTest() {
 		int id = 20;
 		String author = "Strange person";
-		String comment = "Michael is a little b";
+		String comment = "TESTING COMMENTS";
 		JSONObject request = JSONHelper.createCommentJSON(id, author, comment);
 		System.out.println("Sending Request: " + request.toString());
 		String output = WebConnector.postComment(request);
@@ -61,7 +55,7 @@ public class WebConnectorTest {
 		String author = "the one with date";
 		String gamename = "SS";
 		String description = "game djlfakjdlkfjdlkfjdljflkdlfjdlfjk goes here";
-		File f = new File("src/com/syntacticsugar/vooga/util/compress/Untitled.xml");
+		new File("src/com/syntacticsugar/vooga/util/compress/Untitled.xml");
 		//String xml = FileHelper.readFile(f);
 		String xml = "<testxml>soem shittejjiejiefe</testxml>";
 		JSONObject request = JSONHelper.createXMLJSON(author, gamename, description, xml);

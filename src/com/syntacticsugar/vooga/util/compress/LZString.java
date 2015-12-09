@@ -628,7 +628,6 @@ public class LZString {
 		int chr1, chr2, chr3;
 		int enc1, enc2, enc3, enc4;
 		int i = 0;
-		int j = 0;
 
 		while (i < input.length()) {
 

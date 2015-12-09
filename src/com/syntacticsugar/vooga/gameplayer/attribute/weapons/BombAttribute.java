@@ -1,12 +1,11 @@
 package com.syntacticsugar.vooga.gameplayer.attribute.weapons;
 
-import java.util.Observable;
-
 import com.syntacticsugar.vooga.authoring.parameters.EditableClass;
 import com.syntacticsugar.vooga.authoring.parameters.EditableField;
 import com.syntacticsugar.vooga.authoring.parameters.InputParser;
 import com.syntacticsugar.vooga.authoring.parameters.InputTypeException;
 import com.syntacticsugar.vooga.gameplayer.attribute.AbstractAttribute;
+import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.TimedDespawnAttribute;
 import com.syntacticsugar.vooga.gameplayer.attribute.control.IUserControlAttribute;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.ObjectSpawnEvent;
@@ -33,15 +32,26 @@ public class BombAttribute extends AbstractAttribute implements IUserControlAttr
 	protected boolean isFireKeyPressed;
 	protected int myFuse; 
 	
-	private Integer fireFrameDelay;
+	private int fireFrameDelay;
 	private int delayFrameCounter;
 	
 	public BombAttribute() {
 		super();
 	}
 	
-	public BombAttribute(String bulletImagePath, Double bulletDamage, KeyCode fireKeyCode,
-				Integer fuse, Integer fireDelay) {
+	private BombAttribute(BombAttribute toCopy) {
+		super(toCopy);
+		this.myDamage = toCopy.myDamage;
+		this.myImagePath = toCopy.myImagePath;
+		this.myFireKeyCode = toCopy.myFireKeyCode;
+		this.isFireKeyPressed = toCopy.isFireKeyPressed;
+		this.myFuse = toCopy.myFuse;
+		this.fireFrameDelay = toCopy.fireFrameDelay;
+		this.delayFrameCounter = toCopy.delayFrameCounter;
+	}
+	
+	public BombAttribute(String bulletImagePath, double bulletDamage, KeyCode fireKeyCode,
+				int fuse, int fireDelay) {
 		myImagePath = bulletImagePath;
 		myDamage = bulletDamage;
 		myFireKeyCode = fireKeyCode;
@@ -127,9 +137,9 @@ public class BombAttribute extends AbstractAttribute implements IUserControlAttr
 	/** *************************************** **/
 	
 	@EditableField
-	(	inputLabel = "Bullet Damage",
+	(	inputLabel = "Bomb Damage",
 		defaultVal = "10"	)
-	private void editBulletDamage(String arg) {
+	private void editBombDamage(String arg) {
 		try {
 			this.myDamage = InputParser.parseAsDouble(arg);
 		} catch (InputTypeException e) { 	}
@@ -145,9 +155,9 @@ public class BombAttribute extends AbstractAttribute implements IUserControlAttr
 	}
 
 	@EditableField
-	(	inputLabel = "Bullet Image Path",
+	(	inputLabel = "Bomb Image Path",
 		defaultVal = "scenery_black.png"	)
-	private void editBulletImage(String arg) {
+	private void editBombImage(String arg) {
 		try {
 			this.myImagePath = InputParser.parseAsImagePath(this.getClass().getClassLoader(), arg);
 		} catch (InputTypeException e) {	}
@@ -169,6 +179,11 @@ public class BombAttribute extends AbstractAttribute implements IUserControlAttr
 		try {
 			this.myFuse = InputParser.parseAsInt(arg);
 		} catch (InputTypeException e) {	}
+	}
+	
+	@Override
+	public IAttribute copyAttribute() {
+		return new BombAttribute(this);
 	}
 
 

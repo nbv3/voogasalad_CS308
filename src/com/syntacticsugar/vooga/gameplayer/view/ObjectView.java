@@ -4,6 +4,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import com.syntacticsugar.vooga.gameplayer.objects.BoundingBox;
+import com.syntacticsugar.vooga.gameplayer.view.gameview.IScalingFactorContainer;
 
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
@@ -16,17 +17,17 @@ public class ObjectView extends Observable implements Observer {
 	private double scalingFactor;
 	private Point2D originalCoordinates;
 	
-	public ObjectView(String path, BoundingBox box , GameView gameView) {
+	public ObjectView(String path, BoundingBox box , IScalingFactorContainer myContainer) {
 		myViewPane = new StackPane();
 		ImageView iv = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(path)));
 		iv.setFocusTraversable(true);
-		scalingFactor = gameView.getScalingFactor();
+		scalingFactor = myContainer.getScalingFactor();
 		applyTransform(box);
 		originalCoordinates = new Point2D(box.getPoint().getX(), box.getPoint().getY());
 		iv.setFitHeight(scalingFactor*box.getWidth());
 		iv.setFitWidth(scalingFactor*box.getHeight());
 		myViewPane.getChildren().add(iv);
-		gameView.addObjectView(myViewPane);
+		myContainer.addObjectView(myViewPane);
 		box.addObserver(this);
 	}
 

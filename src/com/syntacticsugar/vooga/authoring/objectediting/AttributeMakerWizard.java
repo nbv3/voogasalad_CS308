@@ -33,6 +33,8 @@ public class AttributeMakerWizard {
 	}
 
 	public void setType(GameObjectType type) {
+		if (buildAttributes(type).getChildren().size() == 0) 
+			return;
 		myScene = new Scene(buildAttributes(type), SCENE_DIMENSION, SCENE_DIMENSION);
 		myStage.setScene(myScene);
 		myStage.initModality(Modality.APPLICATION_MODAL);
@@ -42,6 +44,10 @@ public class AttributeMakerWizard {
 	private VBox buildAttributes(GameObjectType type) {
 		VBox ret = new VBox();
 		ListView<String> attributeView = createAttributeListView(type);
+		
+		if (attributeView.getItems().size() == 0) 
+			return new VBox(); 
+		
 		Button addAttribute = createAddAttributeBtn();
 		ret.getChildren().addAll(attributeView, addAttribute);
 		ret.setAlignment(Pos.CENTER_LEFT);
@@ -52,6 +58,7 @@ public class AttributeMakerWizard {
 
 	private ListView<String> createAttributeListView(GameObjectType type) {
 		ListView<String> attributeView = new ListView<String>();
+		if (type == null) return new ListView<String>();
 		String[] attributeNames = ResourceManager
 				.getString(String.format("%s%s", type.name().toLowerCase(), "_attributes")).split(",");
 		attributeView.getItems().addAll(attributeNames);

@@ -41,7 +41,7 @@ public class HelpMenu extends AbstractMenu {
 	private void launch(String url) {
 		Stage stage = new Stage();
 		stage.setTitle(ResourceManager.getString("web_view"));
-        Scene scene = new Scene(new HelpManager(url),750,500);
+        Scene scene = new Scene(new HelpManager(url));
         stage.setScene(scene);
         stage.show();
 	}

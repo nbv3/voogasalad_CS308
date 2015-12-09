@@ -62,7 +62,7 @@ public class LevelEditor implements IAddToSpawner {
 		VBox towerBox = new VBox();
 		towerBox.getChildren().addAll(myTowerManager.getControlNode(), myTowerManager.getViewNode());
 		towerBox.setAlignment(Pos.CENTER);
-		towerBox.setSpacing(20);
+		towerBox.setSpacing(10);
 		myContentGrid.add(towerBox, 2, 0, 1, 2);
 
 		myContentGrid.add(myConditions.getView(), 2, 2, 1, 1);
@@ -86,11 +86,11 @@ public class LevelEditor implements IAddToSpawner {
 
 	private void addRowConstraints(GridPane grid) {
 		RowConstraints r0 = new RowConstraints();
-		r0.setPercentHeight(10);
+		r0.setPercentHeight(15);
 		RowConstraints r1 = new RowConstraints();
 		r1.setPercentHeight(20);
 		RowConstraints r2 = new RowConstraints();
-		r2.setPercentHeight(30);
+		r2.setPercentHeight(25);
 		RowConstraints r3 = new RowConstraints();
 		r3.setPercentHeight(40);
 		grid.getRowConstraints().addAll(r0, r1, r2, r3);
@@ -121,9 +121,7 @@ public class LevelEditor implements IAddToSpawner {
 	}
 
 	public void setConditions(LevelSettings set) {
-		myConditions.setLoseParameters(set.getLoseParameters());
-		myConditions.setWinParameters(set.getWinParameters());
-		myConditions.setLosingCondition(set.getLoseCondition());
+		myConditions.setLosingCondition(set.getLossCondition());
 		myConditions.setWinningCondition(set.getWinCondition());
 	}
 
@@ -140,11 +138,10 @@ public class LevelEditor implements IAddToSpawner {
 	}
 
 	public void addToSpawner(ObjectData data) {
-		if (data.getType().equals(GameObjectType.ENEMY) || data.getType().equals(GameObjectType.PLAYER))
+		if (!data.getType().equals(GameObjectType.TOWER))
 			mySpawnerManager.getCurrentView().addData(data);
 		else
-			AlertBoxFactory.createObject(ResourceManager.getString("select_enemy"));
-
+			AlertBoxFactory.createObject(ResourceManager.getString("select_not_tower"));
 	}
 
 	public void addToTowers(TowerData data) {

@@ -63,7 +63,9 @@ public class AuthoringScreenManager implements Observer, IVoogaApp {
 		addGridConstraints();
 
 		setUpMyObserver();
-		linkObserverAndObservableObjects();
+		if (myLevelEditor.getCurrentLevelEditor() != null) {
+			linkObserverAndObservableObjects();
+		}
 		myWindowGrid.add(myLevelEditor.getTabPane(), 0, 0, 1, 2);
 		myWindowGrid.add(myObjectLibraryManager.getView(), 1, 0, 1, 1);
 		myWindowGrid.add(myObjectEditor.getView(), 1, 1, 1, 1);
@@ -163,6 +165,9 @@ public class AuthoringScreenManager implements Observer, IVoogaApp {
 		StringInputBoxFactory msg = new StringInputBoxFactory(
 				ResourceManager.getString("enter_filename") + " ");
 		String fileName = msg.getValue();
+		if (fileName == null) {
+			return;
+		}
 		System.out.println(ResourceManager.getString("filename") + " " + fileName);
 		String directory = ResourceManager.getString("game_data");
 		System.out.println(directory);
@@ -187,7 +192,12 @@ public class AuthoringScreenManager implements Observer, IVoogaApp {
 
 	private void saveMap() {
 		MapData toSave = myLevelEditor.getIndividualMapData();
-		File f = SimpleFileChooser.saveMap(toSave, myStage);
+		try { 
+			SimpleFileChooser.saveMap(toSave, myStage);
+		}
+		catch(Exception ex){
+			return;
+		}
 	}
 
 	private void loadMap() {

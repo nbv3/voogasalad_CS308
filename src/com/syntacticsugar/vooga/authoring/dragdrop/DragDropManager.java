@@ -2,14 +2,8 @@ package com.syntacticsugar.vooga.authoring.dragdrop;
 
 import com.syntacticsugar.vooga.authoring.icon.Icon;
 
-import com.syntacticsugar.vooga.authoring.icon.IconPane;
-import com.syntacticsugar.vooga.authoring.level.map.MapView;
 import com.syntacticsugar.vooga.xml.data.IData;
-import com.syntacticsugar.vooga.xml.data.ObjectData;
 import com.syntacticsugar.vooga.xml.data.TileData;
-import com.syntacticsugar.vooga.xml.data.TileImplementation;
-
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DataFormat;
@@ -54,7 +48,7 @@ public class DragDropManager {
 	}
 	
 	public static void dragOverHandler(DragEvent event) {
-		Dragboard db = event.getDragboard();
+		event.getDragboard();
 		event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
 		event.consume();
 	}

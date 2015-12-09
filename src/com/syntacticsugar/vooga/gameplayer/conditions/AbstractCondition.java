@@ -10,8 +10,14 @@ public abstract class AbstractCondition implements IGameCondition, IEventPoster 
 
 	public AbstractCondition(ConditionType type) {
 		myType = type;
+		setDefaults();
 	}
 
+	/**
+	 * Set default condition values.
+	 */
+	protected abstract void setDefaults();
+	
 	@Override
 	public void registerManager(IEventPoster manager){
 		myManager = manager;

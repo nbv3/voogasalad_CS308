@@ -4,9 +4,9 @@ import java.util.Observable;
 
 import com.syntacticsugar.vooga.gameplayer.attribute.movement.Direction;
 import com.syntacticsugar.vooga.gameplayer.objects.BoundingBox;
-import com.syntacticsugar.vooga.gameplayer.view.GameView;
-import com.syntacticsugar.vooga.gameplayer.view.ISimpleGameView;
 import com.syntacticsugar.vooga.gameplayer.view.ObjectView;
+import com.syntacticsugar.vooga.gameplayer.view.gameview.GameView;
+import com.syntacticsugar.vooga.gameplayer.view.gameview.ISimpleGameView;
 
 import javafx.scene.layout.StackPane;
 
@@ -53,12 +53,11 @@ public class TileView extends ObjectView {
 	}
 
 	public void informTowerControl(Direction direction, DirectionArrows dirArrows, ISimpleGameView gameView) {
-		System.out.println(direction + "  Test direction");
-		TowerPlaceInfo towerData = new TowerPlaceInfo(this.getOriginalCoordinates().getX(),
-				this.getOriginalCoordinates().getY(), direction);
+		TowerPlaceInfo towerInfo = new TowerPlaceInfo(this.getOriginalCoordinates().getX(),
+				this.getOriginalCoordinates().getY(), direction, this.getViewPane().getWidth(), this.getViewPane().getHeight());
 		gameView.removeObjectView(dirArrows);
 		setChanged();
-		notifyObservers(towerData);
+		notifyObservers(towerInfo);
 	}
 
 	@Override
