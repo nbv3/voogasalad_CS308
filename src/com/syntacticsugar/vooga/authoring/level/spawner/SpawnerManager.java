@@ -103,6 +103,7 @@ public class SpawnerManager implements ITabbedManager<ObjectData> {
 	}
 
 	private void clearWave_BAREBONE(ListView<VBox> wave) {
+		((List<WaveData>) this.getSpawnerData().getWaves()).get(myTabPane.getSelectionModel().getSelectedIndex()).getObjs().clear();
 		wave.getItems().clear();
 	}
 
