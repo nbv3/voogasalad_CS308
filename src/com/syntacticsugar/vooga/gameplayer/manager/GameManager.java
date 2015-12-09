@@ -139,7 +139,6 @@ public class GameManager implements IGameManager, IVoogaApp {
 
 	@Override
 	public void startGame() {
-		// Media sound = new
 		// Media(this.getClass().getClassLoader().getResource("SuperMarioBros.mp3").toString());
 		// MediaPlayer mediaPlayer = new MediaPlayer(sound);
 		// mediaPlayer.play();
