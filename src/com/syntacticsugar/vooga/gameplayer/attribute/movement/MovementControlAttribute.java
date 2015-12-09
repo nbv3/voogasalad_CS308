@@ -75,7 +75,6 @@ public class MovementControlAttribute extends AbstractMovementAttribute implemen
 		Point newPoint = new Point(universe.getMap().getMapIndexFromCoordinate(getParent().getPoint()));
 		if (oldPoint.x != newPoint.x || oldPoint.y != newPoint.y) {
 			universe.postEvent(new PlayerChangeTileEvent(oldPoint, newPoint));
-			System.out.println("********* MOVED ************");
 		}
 	}
 

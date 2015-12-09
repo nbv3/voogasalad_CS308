@@ -61,7 +61,6 @@ public class AIMovementAttribute extends AbstractMovementAttribute {
 			} catch (Exception e) { }
 			PathFinder pathFinder = new PathFinder(map.isWalkable(), myCurrentTile, ends);
 			myNextTile = pathFinder.getNext();
-			System.out.println(pathFinder.getPath());
 			return;
 		}
 		if (ends.contains(myCurrentTile) ) {
