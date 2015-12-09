@@ -15,6 +15,7 @@ import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.effects.ITileEffec
 import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
+import com.syntacticsugar.vooga.util.gui.factory.MsgInputBoxFactory;
 import com.syntacticsugar.vooga.util.gui.factory.SliderDialogFactory;
 import com.syntacticsugar.vooga.xml.data.MapData;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
@@ -181,14 +182,20 @@ public class MapView implements IMapDisplay, IVisualElement {
 			editTileDataFromClipboard(tdFromClipBoard, toedit);
 			myMapData.setTileData(toedit, (int)colIndex, (int)rowIndex);
 		} else if (db.hasContent(DataFormat.lookupMimeType("ObjectData"))) {
-			System.out.println(iObject);
-			System.out.println(iObject.obtainSelectedIData());
+			//System.out.println(iObject);
+			//System.out.println(iObject.obtainSelectedIData());
 			ObjectData receivedData = (ObjectData) iObject.obtainSelectedIData();
-			ObjectData toCopy = new ObjectData(receivedData);
-			toCopy.setSpawnPoint(colIndex/myMapSize * 1000, rowIndex/myMapSize * 1000);
-			// Add to Spawner
-			iSpawn.addToSpawner(toCopy);
-			// TODO
+			
+			MsgInputBoxFactory spawnNumMsgBox = new MsgInputBoxFactory("Input spawn number");
+			int numSpawn = (int) spawnNumMsgBox.getInputValue();
+			
+			ObjectData toCopy = new ObjectData();
+			for (int i = 0; i < numSpawn; i++) {
+				toCopy = new ObjectData(receivedData);
+				toCopy.setSpawnPoint(colIndex/myMapSize * 1000, rowIndex/myMapSize * 1000);
+				// Add to Spawner
+				iSpawn.addToSpawner(toCopy);
+			}
 
 			String[][] imagePathArray = populateImagePathArray((int)colIndex, (int)rowIndex);
 			if(!toCopy.getType().equals(GameObjectType.TOWER)){
