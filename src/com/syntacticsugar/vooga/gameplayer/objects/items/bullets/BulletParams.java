@@ -1,6 +1,7 @@
 package com.syntacticsugar.vooga.gameplayer.objects.items.bullets;
 
 import com.syntacticsugar.vooga.gameplayer.attribute.movement.Direction;
+import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 
 import javafx.geometry.Point2D;
 
@@ -14,6 +15,15 @@ public class BulletParams {
 	
 	double width;
 	double height;
+	
+	GameObjectType type;
+	
+	public GameObjectType getType() {
+		return type;
+	}
+	public void setType(GameObjectType type) {
+		this.type = type;
+	}
 	
 	public Direction getMove() {
 		return move;

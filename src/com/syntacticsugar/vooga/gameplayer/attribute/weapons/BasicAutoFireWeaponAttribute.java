@@ -14,19 +14,19 @@ import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import javafx.geometry.Point2D;
 
 @EditableClass (
-		className = "Tower Basic Weapon"
+		className = "Basic Auto Fire Weapon Attribute"
 		)
-public class TowerBasicWeaponAttribute extends AbstractWeaponAttribute {
+public class BasicAutoFireWeaponAttribute extends AbstractWeaponAttribute {
 	
 	private int fireRate;
 	private int myFrameCount;
 	
-	public TowerBasicWeaponAttribute() {
+	public BasicAutoFireWeaponAttribute() {
 		super();
 		myFrameCount = 0;
 	}
 	
-	private TowerBasicWeaponAttribute(TowerBasicWeaponAttribute toCopy) {
+	private BasicAutoFireWeaponAttribute(BasicAutoFireWeaponAttribute toCopy) {
 		super(toCopy);
 		this.fireRate = toCopy.fireRate;
 		this.myFrameCount = toCopy.myFrameCount;
@@ -35,15 +35,13 @@ public class TowerBasicWeaponAttribute extends AbstractWeaponAttribute {
 	@Override
 	protected IGameObject makeBullet() {
 		TowerBasicBullet bullet = null;
-		if (getParent().getType().equals(GameObjectType.TOWER)) {
-			System.out.println(getParent().getBoundingBox().getWidth());
-			//getParent().getBoundingBox().get
-			Point2D bulletInitPos = new Point2D(getParent().getBoundingBox().getPoint().getX() + getParent().getBoundingBox().getWidth()/2.0,
-											getParent().getBoundingBox().getPoint().getY() + getParent().getBoundingBox().getHeight()/2.0);
-			BulletParams params = makeParams(bulletInitPos);
-			bullet = new TowerBasicBullet(params);
-			
-		}
+		System.out.println(getParent().getBoundingBox().getWidth());
+		//getParent().getBoundingBox().get
+		Point2D bulletInitPos = new Point2D(getParent().getBoundingBox().getPoint().getX() + getParent().getBoundingBox().getWidth()/2.0,
+										getParent().getBoundingBox().getPoint().getY() + getParent().getBoundingBox().getHeight()/2.0);
+		BulletParams params = makeParams(bulletInitPos);
+		bullet = new TowerBasicBullet(params);
+
 		return bullet;
 	}
 	
@@ -76,7 +74,7 @@ public class TowerBasicWeaponAttribute extends AbstractWeaponAttribute {
 
 	@Override
 	public IAttribute copyAttribute() {
-		return new TowerBasicWeaponAttribute(this);
+		return new BasicAutoFireWeaponAttribute(this);
 	}
 	
 }

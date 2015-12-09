@@ -102,8 +102,10 @@ public abstract class AbstractWeaponAttribute extends AbstractAttribute implemen
 	protected abstract IGameObject makeBullet();
 
 	protected void fireBullet(IEventPoster poster, IGameObject bullet) {
-		ObjectSpawnEvent event = new ObjectSpawnEvent(bullet);
-		poster.postEvent(event);
+		if (bullet != null) {
+			ObjectSpawnEvent event = new ObjectSpawnEvent(bullet);
+			poster.postEvent(event);			
+		}
 	}
 
 	private Direction getCurrentDirection() {
@@ -121,6 +123,7 @@ public abstract class AbstractWeaponAttribute extends AbstractAttribute implemen
 		params.setDamage(myBulletDamage);
 		params.setWidth(myBulletWidth);
 		params.setHeight(myBulletHeight);
+		params.setType(getParent().getFoe());
 
 		return params;
 	}
