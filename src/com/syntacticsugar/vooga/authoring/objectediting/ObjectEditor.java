@@ -123,8 +123,8 @@ public class ObjectEditor extends Observable implements IDataClipboard {
 		typeChooser.getItems().addAll(GameObjectType.values());
 		typeChooser.valueProperty().addListener((o, s1, s2) -> {
 			if (s2 == null) {
-				mySaveButton.setDisable(true);
-				myCreateButton.setDisable(true);
+				setSaveButtonViability(false);
+				setCreateButtonViability(false);
 				return;
 			}
 			if (mySaveButton.isDisabled()) {
@@ -325,4 +325,5 @@ public class ObjectEditor extends Observable implements IDataClipboard {
 	public IData obtainSelectedIData() {
 		return currentData;
 	}
+	
 }
