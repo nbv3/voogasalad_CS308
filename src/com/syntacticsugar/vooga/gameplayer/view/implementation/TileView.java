@@ -14,11 +14,15 @@ public class TileView extends ObjectView {
 
 	private boolean walkable;
 	private boolean selectMode;
+	private double towerWidth;
+	private double towerHeight;
 
 	public TileView(String path, BoundingBox box, GameView myGameView, Boolean isPath) {
 		super(path, box, myGameView);
 		walkable = isPath;
 		selectMode = false;
+		towerHeight = box.getHeight();
+		towerWidth = box.getWidth();
 		initializeHoverProperties(myGameView);
 	}
 
@@ -38,23 +42,21 @@ public class TileView extends ObjectView {
 	private void selected(ISimpleGameView myGameView) {
 		if (!walkable && selectMode) {
 			chooseDirection(myGameView);
-			// setChanged();
-			// notifyObservers(new Point2D(tempCoord1, tempCoord2));
 		}
 	}
 
 	private void chooseDirection(ISimpleGameView myGameView) {
 		DirectionArrows myArrows = new DirectionArrows(this, myGameView);
 		myArrows.setLayoutX(
-				myGameView.getScalingFactor() * this.getOriginalCoordinates().getX() - this.getViewPane().getWidth());
+				this.getViewPane().getLayoutX()- this.getViewPane().getWidth());
 		myArrows.setLayoutY(
-				myGameView.getScalingFactor() * this.getOriginalCoordinates().getY() - this.getViewPane().getWidth());
+				this.getViewPane().getLayoutY() - this.getViewPane().getWidth());
 		myGameView.addObjectView(myArrows);
 	}
 
 	public void informTowerControl(Direction direction, DirectionArrows dirArrows, ISimpleGameView gameView) {
 		TowerPlaceInfo towerInfo = new TowerPlaceInfo(this.getOriginalCoordinates().getX(),
-				this.getOriginalCoordinates().getY(), direction, this.getViewPane().getWidth(), this.getViewPane().getHeight());
+				this.getOriginalCoordinates().getY(), direction, towerWidth, towerHeight);
 		gameView.removeObjectView(dirArrows);
 		setChanged();
 		notifyObservers(towerInfo);
