@@ -40,6 +40,8 @@ import javafx.stage.FileChooser.ExtensionFilter;
 
 public class ObjectEditor extends Observable implements IDataClipboard {
 
+	private static final String DEFAULT_IMAGE_PATH = "scenery_gray.png";
+	
 	private GridPane myView;
 	private IData currentData;
 	private AttributeViewer myAttributeViewer;
@@ -88,7 +90,7 @@ public class ObjectEditor extends Observable implements IDataClipboard {
 		setTypeChooserViability(true);
 		myTypeChooser.setValue(null);
 		IData emptyData = new ObjectData();
-		emptyData.setImagePath("white.png");
+		emptyData.setImagePath(DEFAULT_IMAGE_PATH);
 		myIcon.setImage(new Image(ResourceManager.getResource(this, emptyData.getImagePath())));
 		emptyData.setObjectName(null);
 		emptyData.setType(null);
@@ -239,7 +241,7 @@ public class ObjectEditor extends Observable implements IDataClipboard {
 	private GridPane createIconGrid() {
 		GridPane grid = new GridPane();
 		grid.setAlignment(Pos.CENTER);
-		myIcon = new Icon("gray.png");
+		myIcon = new Icon(DEFAULT_IMAGE_PATH);
 		PulsingFadeWizard.attachPulsingHandlers(myIcon);
 		Button button = GUIFactory.buildButton(ResourceManager.getString("select_image"), 
 				e -> selectImage(), null, null);
