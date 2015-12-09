@@ -1,5 +1,7 @@
 package com.syntacticsugar.vooga.gameplayer.objects;
 
+import com.syntacticsugar.vooga.gameplayer.attribute.movement.Direction;
+
 import javafx.geometry.Point2D;
 
 public abstract class AbstractViewableObject implements IViewableObject{
@@ -11,6 +13,7 @@ public abstract class AbstractViewableObject implements IViewableObject{
 	public AbstractViewableObject(Point2D point, double width, double height, String path){
 		myBoundingBox = new BoundingBox(point, width, height);
 		myPath = path;
+		myBoundingBox.setDirection(Direction.DOWN);
 	}
 	
 	@Override
