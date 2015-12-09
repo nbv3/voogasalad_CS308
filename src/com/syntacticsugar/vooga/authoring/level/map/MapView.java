@@ -40,7 +40,7 @@ import javafx.scene.paint.Color;
 public class MapView implements IMapDisplay, IVisualElement {
 
 	public static final Effect TILE_EFFECT = createEffect();
-	private static final String DEFAULT_TILE_IMAGE = "scenery_grass_2.png";
+	private static final String DEFAULT_TILE_IMAGE = "path_rock_2.png";
 
 	private static Effect createEffect() {
 		InnerShadow shadow = new InnerShadow();
