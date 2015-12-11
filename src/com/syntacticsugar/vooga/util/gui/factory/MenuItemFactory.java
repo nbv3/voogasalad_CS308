@@ -1,4 +1,4 @@
-// This entire file is part of my masterpiece.
+// This entire file is part of my Masterpiece.
 // Henry Yuen
 package com.syntacticsugar.vooga.util.gui.factory;
 

@@ -1,5 +1,3 @@
-// This entire file is part of my masterpiece.
-// Henry Yuen
 package com.syntacticsugar.vooga.authoring;
 
 import java.io.File;
