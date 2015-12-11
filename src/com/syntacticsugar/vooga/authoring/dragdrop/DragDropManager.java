@@ -1,3 +1,5 @@
+// This entire file is part of my masterpiece.
+// Henry Yuen
 package com.syntacticsugar.vooga.authoring.dragdrop;
 
 import com.syntacticsugar.vooga.authoring.icon.Icon;
