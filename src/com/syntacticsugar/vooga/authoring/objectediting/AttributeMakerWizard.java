@@ -6,6 +6,7 @@ import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
+import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
 import com.syntacticsugar.vooga.util.reflection.Reflection;
 import com.syntacticsugar.vooga.util.reflection.ReflectionException;
 
@@ -69,11 +70,7 @@ public class AttributeMakerWizard {
 	}
 
 	private Button createAddAttributeBtn() {
-		Button addAttribute = new Button(ResourceManager.getString("add_attribute"));
-		addAttribute.setOnMouseClicked(e -> {
-			createAttribute();
-		});
-		return addAttribute;
+		return GUIFactory.buildButton(ResourceManager.getString("add_attribute"),  e->createAttribute());
 	}
 
 	private void createAttribute() {

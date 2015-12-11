@@ -4,6 +4,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import com.syntacticsugar.vooga.authoring.fluidmotion.mixandmatchmotion.PulsingFadeWizard;
+import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
 
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -24,7 +25,7 @@ public class GlobalDataPanel extends HBox implements Observer {
 		this.setAlignment(Pos.CENTER_LEFT);
 		myScore = new Label("Score: 0");
 		myScore.getStyleClass().add("game-data");
-		waveButton = new Button("Start Wave");
+		waveButton = GUIFactory.buildButton("Start Wave");
 		PulsingFadeWizard.applyEffect(waveButton).play();
 		waveButton.setAlignment(Pos.CENTER);
 		waveButton.setMaxHeight(Double.MAX_VALUE);

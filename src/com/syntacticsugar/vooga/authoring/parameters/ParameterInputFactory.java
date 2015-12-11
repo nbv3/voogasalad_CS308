@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
+import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
 import com.syntacticsugar.vooga.util.gui.factory.WarningDialogFactory;
 
 import javafx.geometry.HPos;
@@ -90,19 +91,15 @@ public class ParameterInputFactory {
 		t.setText(defaultVal);
 		GridPane anchor = new GridPane();
 		addConstraints(anchor);
-		Button b = new Button("OK");
+		Button b = GUIFactory.buildButton("OK", e -> processInput(anchor, toEdit, t.getText(), toCall));
 		Label label = new Label(inputLabel);
 		anchor.getChildren().addAll(label, t, b);
 		GridPane.setConstraints(label, 0, 0, 1, 1, HPos.LEFT, VPos.CENTER, Priority.ALWAYS, Priority.NEVER, new Insets(5));
 		GridPane.setConstraints(t, 1, 0, 1, 1, HPos.CENTER, VPos.CENTER, Priority.NEVER, Priority.NEVER, new Insets(5));
 		GridPane.setConstraints(b, 2, 0, 1, 1, HPos.CENTER, VPos.CENTER, Priority.NEVER, Priority.NEVER, new Insets(5));
 		anchor.setAlignment(Pos.CENTER);
-
 		isSet.put(anchor, false);
-
 		t.setOnAction(e -> processInput(anchor, toEdit, t.getText(), toCall));
-		b.setOnAction(e -> processInput(anchor, toEdit, t.getText(), toCall));
-
 		return anchor;
 	}
 

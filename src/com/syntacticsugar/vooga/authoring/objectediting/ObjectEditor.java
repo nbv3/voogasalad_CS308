@@ -287,22 +287,16 @@ public class ObjectEditor extends Observable implements IDataClipboard {
 	}
 
 	private AnchorPane buildButtons(EventHandler<ActionEvent> add, EventHandler<ActionEvent> remove, String label) {
-		Button a = new Button();
-		a.setText("+");
-		a.setOnAction(add);
-		a.setPrefWidth(25);
-		Button r = new Button();
-		r.setText("-");
-		r.setOnAction(remove);
-		r.setPrefWidth(25);
+		Button addButton = GUIFactory.buildButton("+", add ,25);
+		Button removeButton = GUIFactory.buildButton("-", remove, 25);
 		GridPane buttonGrid = new GridPane();
-		buttonGrid.add(a, 0, 0, 1, 1);
-		buttonGrid.add(r, 1, 0, 1, 1);
+		buttonGrid.add(addButton, 0, 0, 1, 1);
+		buttonGrid.add(removeButton, 1, 0, 1, 1);
 		buttonGrid.setHgap(5);
-		a.setAlignment(Pos.CENTER);
-		r.setAlignment(Pos.CENTER);
-		GridPane.setHgrow(a, Priority.ALWAYS);
-		GridPane.setHgrow(r, Priority.ALWAYS);
+		addButton.setAlignment(Pos.CENTER);
+		removeButton.setAlignment(Pos.CENTER);
+		GridPane.setHgrow(addButton, Priority.ALWAYS);
+		GridPane.setHgrow(removeButton, Priority.ALWAYS);
 		AnchorPane anchor = GUIFactory.buildAnchorPane(new Label(label), buttonGrid);
 		return anchor;
 	}

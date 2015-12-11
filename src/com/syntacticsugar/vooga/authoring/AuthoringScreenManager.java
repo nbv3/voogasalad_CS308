@@ -12,7 +12,9 @@ import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.menu.IVoogaApp;
 import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
+import com.syntacticsugar.vooga.util.gui.factory.MenuItemFactory;
 import com.syntacticsugar.vooga.util.gui.factory.StringInputBoxFactory;
+import com.syntacticsugar.vooga.util.properties.PropertiesManager;
 import com.syntacticsugar.vooga.util.simplefilechooser.SimpleFileChooser;
 import com.syntacticsugar.vooga.xml.XMLHandler;
 import com.syntacticsugar.vooga.xml.data.GameData;
@@ -39,20 +41,31 @@ public class AuthoringScreenManager implements Observer, IVoogaApp {
 
 	private BorderPane myWindow;
 	private GridPane myWindowGrid;
-
 	private LevelTabManager myLevelEditor;
 	private ObjectLibraryManager myObjectLibraryManager;
 	private Stage myStage;
 	private Scene myScene;
 	private ObjectEditor myObjectEditor;
+	private MenuItemFactory menuItemFactory;
+	private IDataClipboard iObject;
+	private PropertiesManager propManager = new PropertiesManager("com/syntacticsugar/vooga/resources/View");
+
+	private double COL_CONSTRAINT_MAJOR = propManager.getDoubleProperty("COL_CONSTRAINT_MAJOR");
+	private double COL_CONSTRAINT_MINOR = propManager.getDoubleProperty("COL_CONSTRAINT_MINOR");
+	private double ROW_CONSTRAINT_MAJOR = propManager.getDoubleProperty("ROW_CONSTRAINT_MAJOR");
+	private double ROW_CONSTRAINT_MINOR = propManager.getDoubleProperty("ROW_CONSTRAINT_MINOR");
 
 	public AuthoringScreenManager() {
+		initKeyParameters();
+		initWindow();
+	}
+
+	private void initKeyParameters() {
 		myObjectEditor = new ObjectEditor(() -> myObjectLibraryManager.refresh());
-		IDataClipboard iObject = myObjectEditor;
+		iObject = myObjectEditor;
 		myLevelEditor = new LevelTabManager(iObject);
 		myObjectLibraryManager = new ObjectLibraryManager(myLevelEditor);
-
-		initWindow();
+		menuItemFactory = new MenuItemFactory();
 	}
 
 	private void initWindow() {
@@ -63,14 +76,8 @@ public class AuthoringScreenManager implements Observer, IVoogaApp {
 		addGridConstraints();
 
 		setUpMyObserver();
-		if (myLevelEditor.getCurrentLevelEditor() != null) {
-			linkObserverAndObservableObjects();
-		}
-		myWindowGrid.add(myLevelEditor.getTabPane(), 0, 0, 1, 2);
-		myWindowGrid.add(myObjectLibraryManager.getView(), 1, 0, 1, 1);
-		myWindowGrid.add(myObjectEditor.getView(), 1, 1, 1, 1);
-		myWindow.setCenter(myWindowGrid);
-
+		tryRunObservingLink();
+		setUpWindow();
 		myScene = new Scene(myWindow);
 		myScene.getStylesheets().add("/com/syntacticsugar/vooga/authoring/css/default.css");
 		myScene.setOnKeyPressed(e -> handleKeyPress(e));
@@ -80,16 +87,31 @@ public class AuthoringScreenManager implements Observer, IVoogaApp {
 		myStage.show();
 	}
 
+	private void tryRunObservingLink() {
+		try{
+			myLevelEditor.getCurrentLevelEditor();
+			linkObserverAndObservableObjects();
+		} catch (NullPointerException e){
+			AlertBoxFactory.createObject("nullLevelEditor");
+			myLevelEditor = new LevelTabManager(iObject);
+			linkObserverAndObservableObjects();
+		}
+	}
+
+	private void setUpWindow() {
+		myWindowGrid.add(myLevelEditor.getTabPane(), 0, 0, 1, 2);
+		myWindowGrid.add(myObjectLibraryManager.getView(), 1, 0, 1, 1);
+		myWindowGrid.add(myObjectEditor.getView(), 1, 1, 1, 1);
+		myWindow.setCenter(myWindowGrid);
+	}
+
 	private void setUpMyObserver() {
 		for (int i = 0; i < myLevelEditor.getLevels().size(); i++) {
 			myLevelEditor.getLevels().get(i).getTowerControls().addObserver(this);
 			myLevelEditor.getLevels().get(i).getSpawnerControls().addObserver(this);
-
 		}
-
 		for (int i = 0; i < myObjectLibraryManager.getLibraries().size(); i++) {
 			myObjectLibraryManager.getLibraries().get(i).addObserver(this);
-
 		}
 	}
 
@@ -107,7 +129,7 @@ public class AuthoringScreenManager implements Observer, IVoogaApp {
 		}
 		if (e.getCode().equals(KeyCode.S)) {
 			ObjectData data = new ObjectData();
-			data.setImagePath("enemy_moster_1.png");
+			data.setImagePath(ResourceManager.getString("keyCodeDefaultPicture"));
 			data.setType(GameObjectType.TOWER);
 			myObjectEditor.displayData(data);
 		}
@@ -127,34 +149,14 @@ public class AuthoringScreenManager implements Observer, IVoogaApp {
 		// file menu
 		Menu file = new Menu();
 		file.setText("File");
-		MenuItem newLevel = new MenuItem();
-		newLevel.setText("New Level");
-		// newLevel.setOnAction(e -> myLevelEditor.addNewLevel());
-		newLevel.setOnAction(e -> addLevelRefresh());
-
-		MenuItem loadMap = new MenuItem();
-		loadMap.setText(ResourceManager.getString("load_map"));
-		loadMap.setOnAction(e -> loadMap());
-
-		MenuItem saveMap = new MenuItem();
-		saveMap.setText(ResourceManager.getString("save_map"));
-		saveMap.setOnAction(e -> saveMap());
-
-		MenuItem loadData = new MenuItem();
-		loadData.setText(ResourceManager.getString("load_objectdata"));
-		loadData.setOnAction(e -> loadData());
-		
-		MenuItem loadGame = new MenuItem();
-		loadGame.setText("Load Game");
-		loadGame.setOnAction(e->loadData());
-
-		MenuItem saveGame = new MenuItem();
-		saveGame.setText(ResourceManager.getString("save_game"));
-		saveGame.setOnAction(e -> saveGame());
-		
-
-		file.getItems().addAll(newLevel, loadMap, saveMap, loadData, loadGame,saveGame);
-
+		file.getItems().addAll(		
+				menuItemFactory.buildMenuItem(ResourceManager.getString("new_level"),		e -> addLevelRefresh()),
+				menuItemFactory.buildMenuItem(ResourceManager.getString("load_map"),		e -> loadMap()),
+				menuItemFactory.buildMenuItem(ResourceManager.getString("save_map"), 		e -> saveMap()),
+				menuItemFactory.buildMenuItem(ResourceManager.getString("load_objectdata"), e -> loadData()),
+				menuItemFactory.buildMenuItem(ResourceManager.getString("load_game"), 		e -> loadData()),
+				menuItemFactory.buildMenuItem(ResourceManager.getString("save_game"), 		e -> saveGame())
+				);
 		menuBar.getMenus().addAll(file);
 		myWindow.setTop(menuBar);
 	}
@@ -162,12 +164,8 @@ public class AuthoringScreenManager implements Observer, IVoogaApp {
 	private void saveGame() {
 		GameData game = new GameData(myLevelEditor.getAllUniverseData(), new GlobalSettings());
 		// File f = SimpleFileChooser.saveGame(game, myStage);
-		StringInputBoxFactory msg = new StringInputBoxFactory(
-				ResourceManager.getString("enter_filename") + " ");
-		String fileName = msg.getValue();
-		if (fileName == null) {
-			return;
-		}
+		StringInputBoxFactory msg = new StringInputBoxFactory(ResourceManager.getString("enter_filename") + " ");
+		String fileName = tryObtainSavedGameName(msg);
 		System.out.println(ResourceManager.getString("filename") + " " + fileName);
 		String directory = ResourceManager.getString("game_data");
 		System.out.println(directory);
@@ -178,16 +176,27 @@ public class AuthoringScreenManager implements Observer, IVoogaApp {
 		game.setName(f.getName());
 		XMLHandler<GameData> xml = new XMLHandler<>();
 		xml.write(game, f);
+	}
 
+	private String tryObtainSavedGameName(StringInputBoxFactory msg) {
+		String fileName = null;
+		try{
+			if(!msg.isValidValue()){ 
+				throw new IllegalArgumentException();
+			} else{
+				fileName = msg.getValue();
+			}
+		} catch(IllegalArgumentException e){
+			AlertBoxFactory.createObject(ResourceManager.getString("badInputSaveGameMessage"));
+			fileName = ResourceManager.getString("badSaveGameFileName");
+		}
+		return fileName;
 	}
 
 	private void loadData() {
 		GameData map = SimpleFileChooser.loadGame(myStage);
-		
 		myObjectLibraryManager.loadLibraries();
 		myLevelEditor.addNewLevelsFromData(map.getUniverses());
-
-
 	}
 
 	private void saveMap() {
@@ -195,7 +204,10 @@ public class AuthoringScreenManager implements Observer, IVoogaApp {
 		try { 
 			SimpleFileChooser.saveMap(toSave, myStage);
 		}
-		catch(Exception ex){
+		catch(NullPointerException npe){
+			AlertBoxFactory.createObject("nullMapData");
+		}
+		catch(Exception e){
 			return;
 		}
 	}
@@ -216,18 +228,17 @@ public class AuthoringScreenManager implements Observer, IVoogaApp {
 
 	private void addColumnConstraints() {
 		ColumnConstraints c1 = new ColumnConstraints();
-		c1.setPercentWidth(75.0);
+		c1.setPercentWidth(COL_CONSTRAINT_MAJOR);
 		ColumnConstraints c2 = new ColumnConstraints();
-		c2.setPercentWidth(25.0);
+		c2.setPercentWidth(COL_CONSTRAINT_MINOR);
 		myWindowGrid.getColumnConstraints().addAll(c1, c2);
 	}
 
 	private void addRowConstraints() {
 		RowConstraints r1 = new RowConstraints();
-		r1.setPercentHeight(50);
+		r1.setPercentHeight(ROW_CONSTRAINT_MAJOR);
 		RowConstraints r2 = new RowConstraints();
-		r2.setPercentHeight(50);
-
+		r2.setPercentHeight(ROW_CONSTRAINT_MINOR);
 		myWindowGrid.getRowConstraints().addAll(r1, r2);
 	}
 
@@ -236,12 +247,10 @@ public class AuthoringScreenManager implements Observer, IVoogaApp {
 		myObjectEditor.setTypeChooserViability(false);
 		myObjectEditor.setUpdateButtonVisibility(true);
 		myObjectEditor.displayData((ObjectData) arg);
-
 	}
 
 	@Override
 	public void assignCloseHandler(EventHandler<WindowEvent> onclose) {
 		myStage.setOnCloseRequest(onclose);
 	}
-
 }

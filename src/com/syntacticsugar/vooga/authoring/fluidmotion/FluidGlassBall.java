@@ -5,7 +5,6 @@ import javafx.util.Duration;
 
 public class FluidGlassBall {	
 	// All durations are in milliseconds. 
-	
 	private static final Duration FADE_DURATION = Duration.millis(150); 
 	private static final int FADE_IN_OPACITY_START = 0;
 	private static final int FADE_IN_OPACITY_END =1;

@@ -43,12 +43,32 @@ public class GUIFactory {
 		return titledPane;
 	}
 	
-	public static Button buildButton(String label, EventHandler<ActionEvent> action, Double width, Double height) {
+	public static Button buildButton(String label){
 		Button button = new Button(label);
-		if (width!=null)  button.setMaxWidth(width);
-		if (height!=null) button.setMaxHeight(height);
+		return button;
+	}
+	
+	public static Button buildButton(String label, EventHandler<ActionEvent> action){
+		Button button = buildButton(label);
 		button.setOnAction(action);
 		return button;
+	}
+	
+	public static Button buildButton(String label, EventHandler<ActionEvent> action, Double maxWidth, Double maxHeight) {
+		Button button = buildButton(label,action);
+		if (maxWidth!=null)  button.setMaxWidth(maxWidth);
+		if (maxHeight!=null) button.setMaxHeight(maxHeight);
+		return button;
+	}
+	
+	public static Button buildButton(String label, EventHandler<ActionEvent> action, Double prefWidth){
+		Button button = buildButton(label,action);
+		button.setPrefWidth(prefWidth);
+		return button;
+	}
+	
+	public static Button buildButton(String label, EventHandler<ActionEvent> action, int prefWidth){
+		return buildButton(label,action,(double) prefWidth);
 	}
 
 	public static HBox buildTitleNode(String text){
@@ -84,6 +104,4 @@ public class GUIFactory {
 		titledPaneWithButtons.getChildren().add(pane);
 		return titledPaneWithButtons;
 	}
-	
-	
 }

@@ -9,6 +9,7 @@ import com.syntacticsugar.vooga.gameplayer.event.ICollisionEvent;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
+import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
 import com.syntacticsugar.vooga.util.reflection.Reflection;
 
 import javafx.scene.Scene;
@@ -70,11 +71,7 @@ public class CollisionMakerWizard {
 	}
 
 	private Button createAddCollisionBtn() {
-		Button addCollision = new Button(ResourceManager.getString("add_collision"));
-		addCollision.setOnMouseClicked(e -> {
-			createCollision();
-		});
-		return addCollision;
+		return GUIFactory.buildButton(ResourceManager.getString("add_collision"), e -> createCollision());
 	}
 
 	private void createCollision() {

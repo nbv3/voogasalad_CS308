@@ -160,8 +160,8 @@ public class MapView implements IMapDisplay, IVisualElement {
 				icon.setOnMouseEntered(e -> mouseOverHandler(tile, e.isControlDown(), e.isShiftDown()));
 				icon.setOnMouseClicked(e -> mouseClickHandler(tile));
 				icon.setOnDragOver((DragEvent event) -> DragDropManager.dragOverHandler(event));
-				icon.setOnDragEntered((DragEvent event) -> DragDropManager.dragEnteredHandler(icon, event));
-				icon.setOnDragExited((DragEvent event) -> DragDropManager.dragExitedHandler(icon, event));
+				icon.setOnDragEntered((DragEvent event) -> DragDropManager.handleDragEntered(icon, event));
+				icon.setOnDragExited((DragEvent event) -> DragDropManager.handleDragExited(icon, event));
 				myMapGrid.add(icon, i, j, 1, 1);
 			}
 			myMapGrid.setOnDragDropped(e -> {

@@ -2,6 +2,7 @@ package com.syntacticsugar.vooga.menu;
 
 import com.syntacticsugar.vooga.authoring.fluidmotion.mixandmatchmotion.DirectionalFadeWizard;
 import com.syntacticsugar.vooga.menu.fluidmenu.BackgroundCreator;
+import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
 import com.syntacticsugar.vooga.util.properties.PropertiesManager;
 
 import javafx.event.ActionEvent;
@@ -70,10 +71,7 @@ public abstract class AbstractMenu implements IVoogaApp{
 	}
 	
 	protected Button createButton(String name, EventHandler<ActionEvent> onAction) {
-		Button button = new Button(name);
-		button.setMaxWidth(Double.MAX_VALUE);
-		button.setOnAction(onAction);
-		return button;
+		return GUIFactory.buildButton(name,onAction,Double.MAX_VALUE,null);
 	}
 
 	protected void generateOptions(BorderPane myPane, Node... options){

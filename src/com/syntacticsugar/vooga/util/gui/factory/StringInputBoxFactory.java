@@ -16,6 +16,11 @@ public class StringInputBoxFactory {
 
 	private String value;
 	private TextField textField;
+	private boolean isValidValue = true;
+
+	public boolean isValidValue() {
+		return isValidValue;
+	}
 
 	public StringInputBoxFactory(String str) {
 		Stage dialogStage = new Stage();
@@ -66,7 +71,7 @@ public class StringInputBoxFactory {
 
 	public String getInputValue() {
 		if (textField.getText().isEmpty() || textField.getText().contains(" ")) {
-			throw new IllegalArgumentException();
+			isValidValue=false;
 		}
 		return textField.getText();
 	}
