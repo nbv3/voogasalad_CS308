@@ -1,3 +1,6 @@
+// This entire file is part of my masterpiece.
+// Brody Kellish
+
 package com.syntacticsugar.vooga.util.dirview;
 
 import java.io.File;
