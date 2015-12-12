@@ -13,6 +13,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
 public class ObjectTooltip extends CustomTooltip {
+	
 	private ObjectData myData;
 	private ImageView currentImageView;
 	private VBox box;

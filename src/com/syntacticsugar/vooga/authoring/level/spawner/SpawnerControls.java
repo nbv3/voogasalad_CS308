@@ -6,6 +6,7 @@ import com.syntacticsugar.vooga.authoring.objectediting.IVisualElement;
 import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
+import com.syntacticsugar.vooga.util.gui.factory.TextFieldFactory;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
 
 import javafx.geometry.Insets;
@@ -18,18 +19,19 @@ import javafx.scene.layout.VBox;
 
 public class SpawnerControls extends Observable implements IVisualElement {
 
+	private TitledPane myViewPane;
 	private VBox myVBox;
 	private Button myAddButton;
 	private Button myRemoveButton;
 	private Button myClearButton;
 	private Button myEditButton;
-	private TitledPane myViewPane;
 	private TextField mySpawnInput;
 	private int mySavedSpawnRate;
 	private Button mySpawnButton;
 
 	public SpawnerControls(SpawnerManager tabs) {
 		myVBox = new VBox();
+		
 		myAddButton = GUIFactory.buildButton(ResourceManager.getString("create_wave"), e -> tabs.append(), 150.0, 50.0);
 		myClearButton = GUIFactory.buildButton(ResourceManager.getString("clear_wave"), e -> tabs.remove(), 150.0,
 				50.0);
@@ -39,8 +41,8 @@ public class SpawnerControls extends Observable implements IVisualElement {
 				e -> editItem(tabs.getCurrentView().getSelectedData()), 150.0, 50.0);
 		mySpawnButton = GUIFactory.buildButton(ResourceManager.getString("set_spawn_rate"),
 				e -> tabs.setCurrentWaveSpawnRate(getSavedSpawnRate()), 150.0, 50.0);
-		mySpawnInput = new TextField();
-		mySpawnInput.setPromptText(ResourceManager.getString("int_SpawnRate"));
+		
+		mySpawnInput = TextFieldFactory.buildStylizedField(ResourceManager.getString("int_SpawnRate"), ResourceManager.getString("textfield"));
 
 		myVBox.getChildren().addAll(mySpawnInput, mySpawnButton, myAddButton, myClearButton, myEditButton,
 				myRemoveButton);

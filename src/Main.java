@@ -3,7 +3,6 @@ import com.syntacticsugar.vooga.menu.MainMenu;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
-//import xml.data.ObjectData;
 
 public class Main extends Application {
 

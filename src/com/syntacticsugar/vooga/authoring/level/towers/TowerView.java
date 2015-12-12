@@ -1,9 +1,13 @@
+// This entire file is part of my masterpiece.
+// Elsie Ling
+
 package com.syntacticsugar.vooga.authoring.level.towers;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -16,6 +20,7 @@ import com.syntacticsugar.vooga.authoring.library.IRefresher;
 import com.syntacticsugar.vooga.authoring.objectediting.IVisualElement;
 import com.syntacticsugar.vooga.authoring.tooltips.ObjectTooltip;
 import com.syntacticsugar.vooga.util.ResourceManager;
+import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
 import com.syntacticsugar.vooga.xml.data.TowerData;
 
@@ -31,42 +36,38 @@ import javafx.scene.control.Tooltip;
 
 public class TowerView implements IVisualElement, IDataSelector<TowerData>, IRefresher, Observer {
 
-	private ListView<Node> myTowerView;
-	private List<TowerData> myTowers;
-	private ObservableList<Node> myObservable;
-	private HashMap<Node, TowerData> myMap;
-	private Object selectedItem;
 	private TitledPane myViewPane;
+	private ListView<Node> myTowerView;
+	private ObservableList<Node> myObservable;
+
+	private List<TowerData> myTowerData;
+	private Map<Node, TowerData> myMap;
+
+	private Object selectedItem;
 
 	public TowerView() {
-		myTowerView = new ListView<Node>();
-		myTowers = new ArrayList<>();
+		myTowerData = new ArrayList<>();
 		myObservable = FXCollections.observableArrayList();
-		myTowerView.setItems(myObservable);
+		myMap = new HashMap<Node, TowerData>();
+
+		myTowerView = new ListView<Node>(myObservable);
 		myTowerView.setOrientation(Orientation.VERTICAL);
 		myTowerView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-		myMap = new HashMap<Node, TowerData>();
 
 		myViewPane = GUIFactory.buildTitledPane(ResourceManager.getString("available_towers"), myTowerView);
 	}
 
 	@Override
 	public void addData(TowerData data) {
-
-		myTowers.add(data);
-		Node newTower = createQueueBoxFromObjData(data);
-		newTower.setOnMouseClicked(e -> selectedItem = newTower);
-		myMap.put(newTower, data);
-		Tooltip.install(newTower, new ObjectTooltip(myMap.get(newTower)));
+		Node newTower = addInternal(data);
 		myObservable.add(newTower);
 	}
 
-	// Used when we initiate a save game in the authoring environment
 	@Override
 	public Collection<TowerData> getData() {
 		ArrayList<TowerData> list = new ArrayList<TowerData>();
-		for (Node n : myObservable) {
-			list.add(myMap.get(n));
+		for (Node tower : myObservable) {
+			list.add(myMap.get(tower));
 		}
 		return list;
 	}
@@ -78,12 +79,14 @@ public class TowerView implements IVisualElement, IDataSelector<TowerData>, IRef
 
 	@Override
 	public void removeSelectedData() {
-		if (selectedItem != null) {
+		try {
 			Animation fade = FadeTransitionWizard.fadeOut((Node) selectedItem, FluidGlassBall.getFadeDuration(),
 					FluidGlassBall.getFadeOutOpacityStart(), FluidGlassBall.getFadeOutOpacityEnd(),
 					FluidGlassBall.getFadeCycleCount());
 			fade.setOnFinished(toExecuteOnFinished -> removeObjectFromList_BAREBONE());
 			fade.play();
+		} catch (NullPointerException e) {
+			AlertBoxFactory.createObject(ResourceManager.getString("invalid-selection"));
 		}
 	}
 
@@ -99,15 +102,20 @@ public class TowerView implements IVisualElement, IDataSelector<TowerData>, IRef
 		return myViewPane;
 	}
 
+	@Override
+	public void update(Observable o, Object arg) {
+		refresh();
+	}
+
 	// *********************************************//
 
-	public Node createQueueBoxFromObjData(TowerData obj) {
+	private Node createQueueBoxFromObjData(TowerData obj) {
 		QueueBox queueBox = new QueueBox(obj);
 		return queueBox.getView();
 	}
 
 	private void removeObjectFromList_BAREBONE() {
-		myTowers.remove(myMap.get(selectedItem));
+		myTowerData.remove(myMap.get(selectedItem));
 		myObservable.remove(selectedItem);
 		myMap.remove(selectedItem);
 	}
@@ -124,6 +132,7 @@ public class TowerView implements IVisualElement, IDataSelector<TowerData>, IRef
 	}
 
 	private void clearAll_BAREBONE() {
+		myTowerData.clear();
 		myObservable.clear();
 		myMap.clear();
 	}
@@ -131,18 +140,20 @@ public class TowerView implements IVisualElement, IDataSelector<TowerData>, IRef
 	@Override
 	public void refresh() {
 		myObservable.clear();
-		myTowers.forEach(e -> {
-			Node newTower = createQueueBoxFromObjData(e);
-			newTower.setOnMouseClicked(a -> selectedItem = newTower);
-			myMap.put(newTower, e);
-			myObservable.add(newTower);
+		myMap.clear();
+		myTowerData.forEach(e -> {
+			addInternal(e);
 		});
 		myTowerView.refresh();
 	}
 
-	@Override
-	public void update(Observable o, Object arg) {
-		refresh();
+	private Node addInternal(TowerData data) {
+		Node newTower = createQueueBoxFromObjData(data);
+		newTower.setOnMouseClicked(a -> selectedItem = newTower);
+		myMap.put(newTower, data);
+		Tooltip.install(newTower, new ObjectTooltip(myMap.get(newTower)));
+		myObservable.add(newTower);
+		return newTower;
 	}
 
 }

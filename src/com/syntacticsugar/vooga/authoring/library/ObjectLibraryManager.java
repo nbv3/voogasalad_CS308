@@ -21,7 +21,7 @@ import javafx.scene.layout.VBox;
 public class ObjectLibraryManager {
 
 	private VBox myView;
-	private Button addTowerBtn;
+	private Button addTowerButton;
 	private TabPane myLibraryTabs;
 	private ArrayList<DataLibrary> myLibraries;
 
@@ -31,11 +31,11 @@ public class ObjectLibraryManager {
 		myLibraryTabs.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
 		myLibraries = new ArrayList<>();
 		populateLibraryTabs();
-		addTowerBtn = GUIFactory.buildButton("Add To Towers", e -> processTower(levels), null, null);
-		addTowerBtn.setPrefWidth(120);
-		addTowerBtn.setAlignment(Pos.CENTER);
+		addTowerButton = GUIFactory.buildButton("Add To Towers", e -> processTower(levels), null, null);
+		addTowerButton.setPrefWidth(120);
+		addTowerButton.setAlignment(Pos.CENTER);
 		myView.setAlignment(Pos.TOP_CENTER);
-		myView.getChildren().addAll(addTowerBtn, myLibraryTabs);
+		myView.getChildren().addAll(addTowerButton, myLibraryTabs);
 
 	}
 
@@ -80,7 +80,7 @@ public class ObjectLibraryManager {
 	}
 
 	private void processTower(LevelTabManager levels) {
-		
+
 		if (getCurrentData() == null) {
 			AlertBoxFactory.createObject(ResourceManager.getString("select_tower"));
 			return;
