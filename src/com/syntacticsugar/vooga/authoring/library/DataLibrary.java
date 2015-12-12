@@ -1,3 +1,6 @@
+// This entire file is part of my masterpiece.
+// Brody Kellish
+
 package com.syntacticsugar.vooga.authoring.library;
 
 import java.io.File;
@@ -23,7 +26,7 @@ import javafx.scene.control.TitledPane;
  * 
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Included to show my refactored DataSelectionPane in action!
- * Refactored for cleanliness and compatibility
+ * Heavily refactored for cleanliness and compatibility
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 
  * 
