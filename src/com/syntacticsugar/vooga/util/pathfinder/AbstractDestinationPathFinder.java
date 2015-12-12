@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 
-public abstract class AbstractDestinationPathFinder extends AbstractPathFinder implements IDestinationPathFinder {
+public abstract class AbstractDestinationPathFinder extends AbstractPathFinder {
 	private Map<Point, List<Point>> memo;
 	private Map<Point, Integer> distanceMap;
 	private Queue<Point> distanceQueue;
@@ -24,7 +24,7 @@ public abstract class AbstractDestinationPathFinder extends AbstractPathFinder i
 		distanceQueue = new LinkedList<Point>();
 
 		paths = new ArrayList<List<Point>>();
-		shortestPaths();
+		findDestinationPaths();
 	}
 
 	private void fillDistances() {
@@ -50,7 +50,7 @@ public abstract class AbstractDestinationPathFinder extends AbstractPathFinder i
 		}
 	}
 	
-	private void generateShortestPaths() {
+	private void generateDestinationPaths() {
 		for (Point endPoint : getDestinations()) {
 			if (distanceMap.keySet().contains(endPoint)) {
 				List<Point> sta = new ArrayList<Point>();
@@ -76,12 +76,12 @@ public abstract class AbstractDestinationPathFinder extends AbstractPathFinder i
 		}
 	}
 
-	public void shortestPaths() {
+	protected void findDestinationPaths() {
 		fillDistances();
-		generateShortestPaths();
+		generateDestinationPaths();
 	}
 
-	public List<Point> getNeighbors(Point p) {
+	protected List<Point> getNeighbors(Point p) {
 		if (memo.containsKey(p)) {
 			List<Point> ret = memo.get(p);
 			Collections.shuffle(ret);
@@ -93,7 +93,7 @@ public abstract class AbstractDestinationPathFinder extends AbstractPathFinder i
 		return validPoints;
 	}
 
-	public List<List<Point>> getPaths() {
+	protected List<List<Point>> getPaths() {
 		return paths;
 	}
 

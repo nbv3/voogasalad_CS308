@@ -7,6 +7,4 @@ public interface IPathFinder {
 	public Point getNext();
 
 	public List<Point> getPath();
-		
-	public List<Point> getValidPoints(Point p);
 }

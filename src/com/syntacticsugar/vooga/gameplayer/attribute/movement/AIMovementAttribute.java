@@ -14,9 +14,7 @@ import com.syntacticsugar.vooga.util.pathfinder.ShortestDestinationPathFinder;
 
 import javafx.geometry.Point2D;
 
-@EditableClass(
-		className = "AI Motion Attribute"
-		)
+@EditableClass(className = "AI Motion Attribute")
 public class AIMovementAttribute extends AbstractMovementAttribute {
 
 	private Point myNextTile;
@@ -32,7 +30,7 @@ public class AIMovementAttribute extends AbstractMovementAttribute {
 		this.myCurrentTile = new Point(0, 0);
 		this.myNextTile = new Point(-1, -1);
 	}
-	
+
 	@Override
 	protected void setDefaults() {
 		super.setDefaults();
@@ -43,10 +41,10 @@ public class AIMovementAttribute extends AbstractMovementAttribute {
 	protected List<Point> getDestinations(IGameMap map) {
 		return map.getDestinationPoints();
 	}
-	
+
 	/**
-	 * Moves towards the nearest location on the game map that has been
-	 * flagged as a destination point.
+	 * Moves towards the nearest location on the game map that has been flagged
+	 * as a destination point.
 	 */
 	@Override
 	public void updateSelf(IGameUniverse universe) {
@@ -60,19 +58,21 @@ public class AIMovementAttribute extends AbstractMovementAttribute {
 			// calculate path first time
 			try {
 				myCurrentTile = map.getMapIndexFromCoordinate(getParent().getBoundingBox().getPoint());
-			} catch (Exception e) { }
-			RepeatingRandomPathFinder pathFinder = new RepeatingRandomPathFinder(map.isWalkable(), myCurrentTile, ends);
+			} catch (Exception e) {
+			}
+			ShortestDestinationPathFinder pathFinder = new ShortestDestinationPathFinder(map.isWalkable(),
+					myCurrentTile, ends);
 			myNextTile = pathFinder.getNext();
 			return;
 		}
-		if (ends.contains(myCurrentTile) ) {
+		if (ends.contains(myCurrentTile)) {
 			// reached destination or no path available
 			stopDirection();
 			universe.postEvent(new DestinationReachedEvent());
 			return;
 		}
 
-		if ( myNextTile.equals(myCurrentTile)) {
+		if (myNextTile.equals(myCurrentTile)) {
 			stopDirection();
 			return;
 		}
@@ -82,7 +82,8 @@ public class AIMovementAttribute extends AbstractMovementAttribute {
 			getParent().setPoint(universe.getMap().getCoordinateFromMapIndex(myNextTile));
 			myCurrentTile = new Point(myNextTile);
 			// recalculate next tile
-			RepeatingRandomPathFinder pathFinder = new RepeatingRandomPathFinder(map.isWalkable(), myCurrentTile, ends);
+			ShortestDestinationPathFinder pathFinder = new ShortestDestinationPathFinder(map.isWalkable(),
+					myCurrentTile, ends);
 			myNextTile = pathFinder.getNext();
 
 			moveDirection();
@@ -123,10 +124,10 @@ public class AIMovementAttribute extends AbstractMovementAttribute {
 		}
 		return Direction.STOP;
 	}
-	
+
 	@Override
 	public IAttribute copyAttribute() {
 		return new AIMovementAttribute(this);
 	}
-	
+
 }
