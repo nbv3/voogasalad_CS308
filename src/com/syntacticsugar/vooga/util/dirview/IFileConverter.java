@@ -1,6 +1,3 @@
-// This entire file is part of my masterpiece.
-// Brody Kellish
-
 package com.syntacticsugar.vooga.util.dirview;
 
 import java.io.File;
@@ -15,7 +12,9 @@ import java.util.Collection;
  *
  * @param <T> : The type to which each File should be converted
  */
-public interface IConverter<T> {
+
+@FunctionalInterface
+public interface IFileConverter<T> {
 
 	/**
 	 * This method can be overwritten to only grab Files of a certain extension, 

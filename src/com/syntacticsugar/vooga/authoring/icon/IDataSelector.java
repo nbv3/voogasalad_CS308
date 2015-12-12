@@ -1,23 +1,31 @@
-// This entire file is part of my masterpiece.
-// Brody Kellish
-
 package com.syntacticsugar.vooga.authoring.icon;
 
 import java.util.Collection;
 
+import com.syntacticsugar.vooga.authoring.objectediting.IVisualElement;
+
+import javafx.beans.value.ChangeListener;
+import javafx.scene.Node;
+
 /**
- * Interface that provides several utility methods for
- * choosing between individual data elements in a larger
- * data collection. Allows the user to add new data, remove 
- * the currently selected data, or get/clear the entire 
- * backing data Collection.
+ * Interface that allows a user to bind arbitrary data objects to 
+ * visual JavaFX Nodes. User may define the type of data used to back
+ * this Display and the JavaFX Nodes used to visually display the data.
  * 
  * @author Brody Kellish
  *
  * @param <T> : The type of data being stored/selected.
  */
-public interface IDataSelector<T> {
+public interface IDataSelector<T> extends IVisualElement {
 
+	/**
+	 * Add a listener that updates whenever the current selected Node in this pane changes.
+	 * Allows the programmer to bind custom events to selection changes.
+	 * 
+	 * @param listener : the function to call whenever a selection change occurs on this pane.
+	 */
+	public void addSelectionListener(ChangeListener<Node> listener);
+	
 	/**
 	 * Return a Collection containing all current data.
 	 * 
@@ -38,11 +46,12 @@ public interface IDataSelector<T> {
 	public void removeSelectedData();
 	
 	/**
-	 * Add a new data element.
+	 * Add a new data element and corresponding JavaFX Node to visualize said data.
 	 * 
-	 * @param toAdd : The single data element to add to this DataSelector.
+	 * @param dataToAdd : The data element to add to this DataSelector.
+	 * @param dataView : The Node used to visually represent the data to be added.
 	 */
-	public void addData(T toAdd);
+	public void addData(T dataToAdd, Node dataView);
 	
 	/**
 	 * Clear all existing data.

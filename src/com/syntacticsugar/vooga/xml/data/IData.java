@@ -7,7 +7,7 @@ import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
 import com.syntacticsugar.vooga.gameplayer.event.ICollisionEvent;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 
-public interface IData extends IViewableData {
+public interface IData {
 	
 	public String getImagePath();
 	

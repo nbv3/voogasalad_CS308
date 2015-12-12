@@ -10,7 +10,6 @@ import java.util.Queue;
 import com.syntacticsugar.vooga.authoring.fluidmotion.FadeTransitionWizard;
 import com.syntacticsugar.vooga.authoring.fluidmotion.FluidGlassBall;
 import com.syntacticsugar.vooga.authoring.icon.IDataSelector;
-import com.syntacticsugar.vooga.authoring.level.QueueBox;
 import com.syntacticsugar.vooga.authoring.level.map.MapManager;
 import com.syntacticsugar.vooga.authoring.level.map.MapView;
 import com.syntacticsugar.vooga.authoring.library.IRefresher;
@@ -19,6 +18,7 @@ import com.syntacticsugar.vooga.authoring.tooltips.ObjectTooltip;
 import com.syntacticsugar.vooga.xml.data.ObjectData;
 
 import javafx.animation.Animation;
+import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Orientation;
@@ -46,28 +46,25 @@ public class SpawnerView implements IDataSelector<ObjectData>, IVisualElement, I
 	}
 
 	@Override
-	public void addData(ObjectData obj) { 
-		myQueue.add(obj);
-		addToSpawnerView(obj);
+	public void addData(ObjectData dataToAdd, Node dataView) { 
+		myQueue.add(dataToAdd);
+		addToSpawnerView(dataToAdd, dataView);
 	}
 
-	private void addToSpawnerView(ObjectData obj) {
-		Node temp = createQueueBoxFromObjData(obj);
-		myWave.add(temp);
-		temp.setOnMousePressed(e -> highlightSpawnTile(obj));
-		temp.setOnMouseReleased(e -> deHighlightSpawnTile(obj));
-		temp.setOnMouseClicked(e -> setSelectItem(temp));
-		myObjects.put(temp, obj);
-		Tooltip.install(temp, new ObjectTooltip(myObjects.get(temp)));
+	private void addToSpawnerView(ObjectData obj, Node dataView) {
+		myWave.add(dataView);
+		dataView.setOnMousePressed(e -> highlightSpawnTile(obj));
+		dataView.setOnMouseReleased(e -> deHighlightSpawnTile(obj));
+		dataView.setOnMouseClicked(e -> setSelectItem(dataView));
+		myObjects.put(dataView, obj);
+		Tooltip.install(dataView, new ObjectTooltip(obj));
 	}
 
 	private void highlightSpawnTile(ObjectData obj) {
 		double x = obj.getSpawnPoint().getX();
 		double y = obj.getSpawnPoint().getY();
-		System.out.println("( " + x + ", " + y + ")");
 		int colIndex = (int) Math.round(myMapManager.getMapSize() * x / 1000);
 		int rowIndex = (int) Math.round(myMapManager.getMapSize() * y / 1000);
-		System.out.println("( " + rowIndex + ", " + colIndex + ")");
 		myMapManager.getTileIconMap().get(myMapManager.getMapData().getTileData(colIndex, rowIndex))
 				.setEffect(MapView.TILE_EFFECT);
 	}
@@ -111,11 +108,6 @@ public class SpawnerView implements IDataSelector<ObjectData>, IVisualElement, I
 
 	}
 
-	private Node createQueueBoxFromObjData(ObjectData obj) {
-		QueueBox queueBox = new QueueBox(obj);
-		return queueBox.getView();
-	}
-
 	@Override
 	public Node getView() {
 		return myQueuePane;
@@ -137,8 +129,6 @@ public class SpawnerView implements IDataSelector<ObjectData>, IVisualElement, I
 
 	@Override
 	public void refresh() {
-		myWave.clear();
-		myQueue.forEach(i -> addToSpawnerView(i));
 		myQueuePane.refresh();
 	}
 
@@ -146,6 +136,12 @@ public class SpawnerView implements IDataSelector<ObjectData>, IVisualElement, I
 	public void update(Observable o, Object arg) {
 		refresh();
 
+	}
+
+	@Override
+	public void addSelectionListener(ChangeListener<Node> listener) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

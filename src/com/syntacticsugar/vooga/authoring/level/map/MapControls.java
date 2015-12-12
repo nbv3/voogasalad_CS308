@@ -214,7 +214,16 @@ public class MapControls extends Observable implements IVisualElement {
 
 	private void showImageOptions(TileImplementation type) {
 		File imgDirectory = new File(ResourceManager.getString(String.format("%s%s", mySelectedType, "_images")));
-		myIconPane.showDirectoryContents(imgDirectory, e -> convertImageFiles(imgDirectory));
+		myIconPane.showDirectoryContents(
+				imgDirectory, 
+				c -> convertImageFiles(c),
+				n -> createNodeFromTileData(n));
+	}
+	
+	private Node createNodeFromTileData(TileData dataToView) {
+		String imagePath = dataToView.getImagePath();
+		Image img = new Image(getClass().getClassLoader().getResourceAsStream(imagePath));
+		return new ImageView(img);
 	}
 
 	private Collection<TileData> convertImageFiles(File directory) {

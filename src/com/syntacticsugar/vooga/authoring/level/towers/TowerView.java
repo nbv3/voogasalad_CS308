@@ -20,6 +20,7 @@ import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
 import com.syntacticsugar.vooga.xml.data.TowerData;
 
 import javafx.animation.Animation;
+import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Orientation;
@@ -51,14 +52,13 @@ public class TowerView implements IVisualElement, IDataSelector<TowerData>, IRef
 	}
 
 	@Override
-	public void addData(TowerData data) {
+	public void addData(TowerData dataToAdd, Node dataView) {
 
-		myTowers.add(data);
-		Node newTower = createQueueBoxFromObjData(data);
-		newTower.setOnMouseClicked(e -> selectedItem = newTower);
-		myMap.put(newTower, data);
-		Tooltip.install(newTower, new ObjectTooltip(myMap.get(newTower)));
-		myObservable.add(newTower);
+		myTowers.add(dataToAdd);
+		dataView.setOnMouseClicked(e -> selectedItem = dataView);
+		myMap.put(dataView, dataToAdd);
+		Tooltip.install(dataView, new ObjectTooltip(myMap.get(dataView)));
+		myObservable.add(dataView);
 	}
 
 	// Used when we initiate a save game in the authoring environment
@@ -143,6 +143,12 @@ public class TowerView implements IVisualElement, IDataSelector<TowerData>, IRef
 	@Override
 	public void update(Observable o, Object arg) {
 		refresh();
+	}
+
+	@Override
+	public void addSelectionListener(ChangeListener<Node> listener) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
