@@ -9,36 +9,22 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 
-public class PathFinder extends AbstractPathFinder {
-
+public abstract class AbstractDestinationPathFinder extends AbstractPathFinder implements IDestinationPathFinder {
 	private Map<Point, List<Point>> memo;
 	private Map<Point, Integer> distanceMap;
 	private Queue<Point> distanceQueue;
 
 	private List<List<Point>> paths;
 
-	public PathFinder(boolean[][] map, Point startPoint, List<Point> destinationPoints) {
+	public AbstractDestinationPathFinder(boolean[][] map, Point startPoint, List<Point> destinationPoints) {
 		super(map, startPoint, destinationPoints);
-
 		memo = new HashMap<Point, List<Point>>();
+
 		distanceMap = new HashMap<Point, Integer>();
 		distanceQueue = new LinkedList<Point>();
 
 		paths = new ArrayList<List<Point>>();
-		fillDistances();
 		shortestPaths();
-	}
-
-	public Point getNext() {
-		List<Point> shortestPath = shortestPath();
-		if (shortestPath.size() <= 1) {
-			return getStart();
-		}
-		return shortestPath.get(1);
-	}
-
-	public List<Point> getPath() {
-		return shortestPath();
 	}
 
 	private void fillDistances() {
@@ -67,7 +53,8 @@ public class PathFinder extends AbstractPathFinder {
 		}
 	}
 
-	private void shortestPaths() {
+	public void shortestPaths() {
+		fillDistances();
 		for (Point endPoint : getDestinations()) {
 			if (distanceMap.keySet().contains(endPoint)) {
 				List<Point> sta = new ArrayList<Point>();
@@ -93,20 +80,7 @@ public class PathFinder extends AbstractPathFinder {
 		}
 	}
 
-	private List<Point> shortestPath() {
-		List<Point> shortest = new ArrayList<Point>();
-		Collections.shuffle(paths);
-		int shortSize = Integer.MAX_VALUE;
-		for (int i = 0; i < paths.size(); i++) {
-			if (paths.get(i).size() < shortSize) {
-				shortest = paths.get(i);
-				shortSize = paths.get(i).size();
-			}
-		}
-		return shortest;
-	}
-
-	private List<Point> getNeighbors(Point p) {
+	public List<Point> getNeighbors(Point p) {
 		if (memo.containsKey(p)) {
 			List<Point> ret = memo.get(p);
 			Collections.shuffle(ret);
@@ -145,6 +119,10 @@ public class PathFinder extends AbstractPathFinder {
 		memo.put(p, validPoints);
 		Collections.shuffle(validPoints);
 		return validPoints;
+	}
+
+	public List<List<Point>> getPaths() {
+		return paths;
 	}
 
 }

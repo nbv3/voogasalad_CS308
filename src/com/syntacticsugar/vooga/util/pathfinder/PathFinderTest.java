@@ -21,7 +21,7 @@ public class PathFinderTest {
 		
 		List<Point> destination = new ArrayList<Point>();
 		destination.add(new Point(5,5));
-		PathFinder pf = new PathFinder(map, new Point(0,0), destination);
+		ShortestDestinationPathFinder pf = new ShortestDestinationPathFinder(map, new Point(0,0), destination);
 		Point next = pf.getNext();
 		System.out.println(next);
 		List<Point> path = pf.getPath();

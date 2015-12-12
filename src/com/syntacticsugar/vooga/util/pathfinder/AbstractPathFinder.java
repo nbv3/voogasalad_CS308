@@ -19,6 +19,8 @@ public abstract class AbstractPathFinder implements IPathFinder {
 
 	public abstract List<Point> getPath();
 	
+	public abstract List<Point> getNeighbors(Point p);
+		
 	public List<Point> getDestinations() {
 		return destinationPoints;
 	}
