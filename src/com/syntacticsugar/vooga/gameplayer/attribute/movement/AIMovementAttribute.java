@@ -9,6 +9,7 @@ import com.syntacticsugar.vooga.gameplayer.event.implementations.DestinationReac
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.gameplayer.universe.map.IGameMap;
 import com.syntacticsugar.vooga.util.pathfinder.RandomDestinationPathFinder;
+import com.syntacticsugar.vooga.util.pathfinder.RepeatingRandomPathFinder;
 import com.syntacticsugar.vooga.util.pathfinder.ShortestDestinationPathFinder;
 
 import javafx.geometry.Point2D;
@@ -60,7 +61,7 @@ public class AIMovementAttribute extends AbstractMovementAttribute {
 			try {
 				myCurrentTile = map.getMapIndexFromCoordinate(getParent().getBoundingBox().getPoint());
 			} catch (Exception e) { }
-			RandomDestinationPathFinder pathFinder = new RandomDestinationPathFinder(map.isWalkable(), myCurrentTile, ends);
+			RepeatingRandomPathFinder pathFinder = new RepeatingRandomPathFinder(map.isWalkable(), myCurrentTile, ends);
 			myNextTile = pathFinder.getNext();
 			return;
 		}
@@ -81,7 +82,7 @@ public class AIMovementAttribute extends AbstractMovementAttribute {
 			getParent().setPoint(universe.getMap().getCoordinateFromMapIndex(myNextTile));
 			myCurrentTile = new Point(myNextTile);
 			// recalculate next tile
-			RandomDestinationPathFinder pathFinder = new RandomDestinationPathFinder(map.isWalkable(), myCurrentTile, ends);
+			RepeatingRandomPathFinder pathFinder = new RepeatingRandomPathFinder(map.isWalkable(), myCurrentTile, ends);
 			myNextTile = pathFinder.getNext();
 
 			moveDirection();

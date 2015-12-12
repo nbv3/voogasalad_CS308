@@ -41,20 +41,16 @@ public abstract class AbstractDestinationPathFinder extends AbstractPathFinder i
 						minDistance = distanceMap.get(nPoint);
 					}
 				} else {
-					// add all neighbors to the queue
 					if (!distanceQueue.contains(nPoint)) {
 						distanceQueue.add(nPoint);
 					}
 				}
 			}
 			distanceMap.put(front, minDistance + 1);
-			// System.out.println("Added point: "+front+" with distance
-			// "+(minDistance+1));
 		}
 	}
-
-	public void shortestPaths() {
-		fillDistances();
+	
+	private void generateShortestPaths() {
 		for (Point endPoint : getDestinations()) {
 			if (distanceMap.keySet().contains(endPoint)) {
 				List<Point> sta = new ArrayList<Point>();
@@ -80,42 +76,18 @@ public abstract class AbstractDestinationPathFinder extends AbstractPathFinder i
 		}
 	}
 
+	public void shortestPaths() {
+		fillDistances();
+		generateShortestPaths();
+	}
+
 	public List<Point> getNeighbors(Point p) {
 		if (memo.containsKey(p)) {
 			List<Point> ret = memo.get(p);
 			Collections.shuffle(ret);
 			return ret;
 		}
-		List<Point> validPoints = new ArrayList<Point>();
-		int x = p.x;
-		int y = p.y;
-		if (x - 1 >= 0) {
-			Point n = new Point(x - 1, y);
-			if (getMap()[x][y]) {
-				validPoints.add(n);
-			}
-		}
-		if (x + 1 < getMap().length) {
-			Point n = new Point(x + 1, y);
-			if (getMap()[x][y]) {
-				validPoints.add(n);
-			}
-		}
-
-		if (y - 1 >= 0) {
-			Point n = new Point(x, y - 1);
-			if (getMap()[x][y]) {
-				validPoints.add(n);
-			}
-
-		}
-		if (y + 1 < getMap()[0].length) {
-			Point n = new Point(x, y + 1);
-			if (getMap()[x][y]) {
-				validPoints.add(n);
-			}
-
-		}
+		List<Point> validPoints = getValidPoints(p);
 		memo.put(p, validPoints);
 		Collections.shuffle(validPoints);
 		return validPoints;

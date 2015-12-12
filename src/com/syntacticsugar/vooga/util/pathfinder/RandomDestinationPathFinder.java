@@ -5,13 +5,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-public class RandomDestinationPathFinder extends AbstractDestinationPathFinder implements IRandomPathFinder{
-	
-	private Random rand;
+public class RandomDestinationPathFinder extends AbstractDestinationPathFinder {
 
 	public RandomDestinationPathFinder(boolean[][] map, Point startPoint, List<Point> destinationPoints) {
 		super(map, startPoint, destinationPoints);
-		rand = generateSeed();
 	}
 
 	public Point getNext() {
@@ -28,12 +25,7 @@ public class RandomDestinationPathFinder extends AbstractDestinationPathFinder i
 
 	private List<Point> shortestPath() {
 		List<List<Point>> tempPaths = getPaths();
-		Collections.shuffle(tempPaths, rand);
+		Collections.shuffle(tempPaths, new Random());
 		return tempPaths.get(0);
-	}
-
-	@Override
-	public Random generateSeed() {
-		return new Random();
 	}
 }
