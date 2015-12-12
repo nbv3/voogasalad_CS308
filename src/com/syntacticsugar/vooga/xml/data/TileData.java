@@ -5,7 +5,7 @@ import java.io.Serializable;
 import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.IGameTile;
 import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.effects.ITileEffect;
 
-public class TileData implements Serializable {
+public class TileData implements Serializable, IViewableData {
 
 	/**
 	 * 

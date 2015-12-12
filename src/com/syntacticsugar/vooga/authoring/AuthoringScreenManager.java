@@ -8,7 +8,6 @@ import com.syntacticsugar.vooga.authoring.level.LevelTabManager;
 import com.syntacticsugar.vooga.authoring.library.ObjectLibraryManager;
 import com.syntacticsugar.vooga.authoring.objectediting.IDataClipboard;
 import com.syntacticsugar.vooga.authoring.objectediting.ObjectEditor;
-import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.menu.IVoogaApp;
 import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
@@ -51,7 +50,6 @@ public class AuthoringScreenManager implements Observer, IVoogaApp {
 		IDataClipboard iObject = myObjectEditor;
 		myLevelEditor = new LevelTabManager(iObject);
 		myObjectLibraryManager = new ObjectLibraryManager(myLevelEditor);
-
 		initWindow();
 	}
 
@@ -84,12 +82,9 @@ public class AuthoringScreenManager implements Observer, IVoogaApp {
 		for (int i = 0; i < myLevelEditor.getLevels().size(); i++) {
 			myLevelEditor.getLevels().get(i).getTowerControls().addObserver(this);
 			myLevelEditor.getLevels().get(i).getSpawnerControls().addObserver(this);
-
 		}
-
 		for (int i = 0; i < myObjectLibraryManager.getLibraries().size(); i++) {
 			myObjectLibraryManager.getLibraries().get(i).addObserver(this);
-
 		}
 	}
 
@@ -104,12 +99,6 @@ public class AuthoringScreenManager implements Observer, IVoogaApp {
 	private void handleKeyPress(KeyEvent e) {
 		if (e.isControlDown() && e.getCode().equals(KeyCode.N)) {
 			addLevelRefresh();
-		}
-		if (e.getCode().equals(KeyCode.S)) {
-			ObjectData data = new ObjectData();
-			data.setImagePath("enemy_moster_1.png");
-			data.setType(GameObjectType.TOWER);
-			myObjectEditor.displayData(data);
 		}
 	}
 
@@ -151,7 +140,6 @@ public class AuthoringScreenManager implements Observer, IVoogaApp {
 		MenuItem saveGame = new MenuItem();
 		saveGame.setText(ResourceManager.getString("save_game"));
 		saveGame.setOnAction(e -> saveGame());
-		
 
 		file.getItems().addAll(newLevel, loadMap, saveMap, loadData, loadGame,saveGame);
 
@@ -168,9 +156,7 @@ public class AuthoringScreenManager implements Observer, IVoogaApp {
 		if (fileName == null) {
 			return;
 		}
-		System.out.println(ResourceManager.getString("filename") + " " + fileName);
 		String directory = ResourceManager.getString("game_data");
-		System.out.println(directory);
 		String path = directory + File.separator + fileName;
 		// Use relative path for Unix systems
 		File f = new File(path);
@@ -178,16 +164,12 @@ public class AuthoringScreenManager implements Observer, IVoogaApp {
 		game.setName(f.getName());
 		XMLHandler<GameData> xml = new XMLHandler<>();
 		xml.write(game, f);
-
 	}
 
 	private void loadData() {
 		GameData map = SimpleFileChooser.loadGame(myStage);
-		
 		myObjectLibraryManager.loadLibraries();
 		myLevelEditor.addNewLevelsFromData(map.getUniverses());
-
-
 	}
 
 	private void saveMap() {
@@ -227,7 +209,6 @@ public class AuthoringScreenManager implements Observer, IVoogaApp {
 		r1.setPercentHeight(50);
 		RowConstraints r2 = new RowConstraints();
 		r2.setPercentHeight(50);
-
 		myWindowGrid.getRowConstraints().addAll(r1, r2);
 	}
 
@@ -236,7 +217,6 @@ public class AuthoringScreenManager implements Observer, IVoogaApp {
 		myObjectEditor.setTypeChooserViability(false);
 		myObjectEditor.setUpdateButtonVisibility(true);
 		myObjectEditor.displayData((ObjectData) arg);
-
 	}
 
 	@Override

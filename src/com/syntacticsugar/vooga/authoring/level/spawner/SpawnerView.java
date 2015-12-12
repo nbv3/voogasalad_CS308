@@ -9,7 +9,7 @@ import java.util.Queue;
 
 import com.syntacticsugar.vooga.authoring.fluidmotion.FadeTransitionWizard;
 import com.syntacticsugar.vooga.authoring.fluidmotion.FluidGlassBall;
-import com.syntacticsugar.vooga.authoring.level.IDataSelector;
+import com.syntacticsugar.vooga.authoring.icon.IDataSelector;
 import com.syntacticsugar.vooga.authoring.level.QueueBox;
 import com.syntacticsugar.vooga.authoring.level.map.MapManager;
 import com.syntacticsugar.vooga.authoring.level.map.MapView;
@@ -127,7 +127,7 @@ public class SpawnerView implements IDataSelector<ObjectData>, IVisualElement, I
 	}
 
 	@Override
-	public Collection<ObjectData> getData() {
+	public Collection<ObjectData> getAllData() {
 		return myObjects.values();
 	}
 

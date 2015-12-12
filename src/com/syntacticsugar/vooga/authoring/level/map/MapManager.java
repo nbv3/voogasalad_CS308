@@ -18,7 +18,6 @@ public class MapManager implements IManager {
 	private MapControls myMapControls;
 	
 	public MapManager(IDataClipboard clip, IAddToSpawner iSpawn) throws Exception {
-		System.out.println("Map Manager IOBJECT " + clip);
 		myMapDisplay = new MapView(clip, iSpawn);
 		myMapControls = new MapControls(myMapDisplay);
 	}

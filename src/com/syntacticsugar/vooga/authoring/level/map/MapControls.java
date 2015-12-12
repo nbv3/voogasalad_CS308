@@ -12,7 +12,7 @@ import java.util.Observable;
 
 import com.syntacticsugar.vooga.authoring.dragdrop.DragDropManager;
 import com.syntacticsugar.vooga.authoring.fluidmotion.mixandmatchmotion.PulsingFadeWizard;
-import com.syntacticsugar.vooga.authoring.icon.IconPane;
+import com.syntacticsugar.vooga.authoring.icon.DataSelectionPane;
 import com.syntacticsugar.vooga.authoring.icon.ImageFileFilter;
 import com.syntacticsugar.vooga.authoring.objectediting.IVisualElement;
 import com.syntacticsugar.vooga.gameplayer.universe.map.tiles.effects.ITileEffect;
@@ -55,7 +55,7 @@ public class MapControls extends Observable implements IVisualElement {
 	private Button addNewImage;
 	private Button applyChanges;
 	private TileImplementation mySelectedType;
-	private IconPane myIconPane;
+	private DataSelectionPane<TileData> myIconPane;
 	private ImageView previewTile = new ImageView();
 	private ComboBox<String> myTileEffect;
 	private String mySelectedEffect;
@@ -72,10 +72,10 @@ public class MapControls extends Observable implements IVisualElement {
 
 	public MapControls(IMapDisplay mapEditor) {
 		myEffectParameters = new ArrayList<Double>();
-		myIconPane = new IconPane();
+		myIconPane = new DataSelectionPane<TileData>();
 		previewTile.setFitWidth(100);
 		previewTile.setFitHeight(100);
-		myIconPane.addPreviewListener((o, s1, s2) -> updatePreview());
+		myIconPane.addSelectionListener((o, s1, s2) -> updatePreview());
 		typeChooser = buildTileTypeChooser();
 		myTileEffect = buildTileEffectChooser();
 		selectAll = GUIFactory.buildButton("Select All", e -> mapEditor.selectAllTiles(), null, null);
@@ -152,7 +152,7 @@ public class MapControls extends Observable implements IVisualElement {
 			AlertBoxFactory.createObject(ResourceManager.getString("select_tile_type"));
 			return null;
 		}
-		if (myIconPane.getSelectedImagePath() == null) {
+		if (myIconPane.getSelectedData() == null) {
 			AlertBoxFactory.createObject(ResourceManager.getString("select_tile_image"));
 			return null;
 		}
@@ -177,12 +177,12 @@ public class MapControls extends Observable implements IVisualElement {
 		TileData td = initTileData();
 		initPreviewDragHandler(td);
 		previewTile.setImage(
-				new Image(getClass().getClassLoader().getResourceAsStream(myIconPane.getSelectedImagePath())));
+				new Image(getClass().getClassLoader().getResourceAsStream(myIconPane.getSelectedData().getImagePath())));
 		PulsingFadeWizard.attachPulsingHandlers(previewTile);
 	}
 
 	private TileData initTileData() {
-		TileData td = new TileData(myIconPane.getSelectedImagePath());
+		TileData td = new TileData(myIconPane.getSelectedData().getImagePath());
 		td.setDestination(destinationChooser.isSelected());
 		td.setImplementation(mySelectedType);
 		if (mySelectedEffect != null) {
@@ -217,13 +217,13 @@ public class MapControls extends Observable implements IVisualElement {
 		myIconPane.showDirectoryContents(imgDirectory, e -> convertImageFiles(imgDirectory));
 	}
 
-	private Collection<String> convertImageFiles(File directory) {
+	private Collection<TileData> convertImageFiles(File directory) {
 		File[] files = directory.listFiles(new ImageFileFilter());
-		Collection<String> imagePaths = new ArrayList<String>();
+		Collection<TileData> tileImages = new ArrayList<>();
 		for (int i = 0; i < files.length; i++) {
-			imagePaths.add(files[i].getName());
+			tileImages.add(new TileData(files[i].getName()));
 		}
-		return imagePaths;
+		return tileImages;
 	}
 
 	private void createNewImage() {

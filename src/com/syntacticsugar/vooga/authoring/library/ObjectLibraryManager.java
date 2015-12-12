@@ -44,11 +44,10 @@ public class ObjectLibraryManager {
 	}
 
 	private void populateLibraryTabs() {
-
 		for (GameObjectType type : getObjectTypes()) {
 			DataLibrary lib = new DataLibrary(type);
 			Tab tab = new Tab(type.toString());
-			tab.setContent(lib.getContent().getView());
+			tab.setContent(lib.getView());
 			myLibraryTabs.getTabs().add(tab);
 			myLibraries.add(lib);
 		}
@@ -64,7 +63,7 @@ public class ObjectLibraryManager {
 	}
 
 	public void refresh() {
-		for (DataLibrary lib : myLibraries) {
+		for (IRefresher lib : myLibraries) {
 			lib.refresh();
 		}
 	}

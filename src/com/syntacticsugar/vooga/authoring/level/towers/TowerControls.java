@@ -2,7 +2,7 @@ package com.syntacticsugar.vooga.authoring.level.towers;
 
 import java.util.Observable;
 
-import com.syntacticsugar.vooga.authoring.level.IDataSelector;
+import com.syntacticsugar.vooga.authoring.icon.IDataSelector;
 import com.syntacticsugar.vooga.authoring.objectediting.IVisualElement;
 import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;

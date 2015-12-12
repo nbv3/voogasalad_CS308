@@ -106,7 +106,7 @@ public class GameChooser implements IVoogaApp, IDirectoryViewer<String> {
 	@Override
 	public void showDirectoryContents(File directory, IConverter<String> fileConverter) {
 		myGameNames.clear();
-		myGameNames.addAll(fileConverter.getContents(directory));
+		myGameNames.addAll(fileConverter.convertFiles(directory));
 	}
 
 	private Collection<String> getGameDescriptions(File directory) {

@@ -1,5 +1,7 @@
 package com.syntacticsugar.vooga.authoring.level;
 
+import com.syntacticsugar.vooga.authoring.icon.IDataSelector;
+
 public interface ITabbedManager<T> extends IManager {
 	
 	/**

@@ -10,7 +10,7 @@ import java.util.Observer;
 import com.syntacticsugar.vooga.authoring.fluidmotion.FadeTransitionWizard;
 import com.syntacticsugar.vooga.authoring.fluidmotion.FluidGlassBall;
 import com.syntacticsugar.vooga.authoring.fluidmotion.ParallelTransitionWizard;
-import com.syntacticsugar.vooga.authoring.level.IDataSelector;
+import com.syntacticsugar.vooga.authoring.icon.IDataSelector;
 import com.syntacticsugar.vooga.authoring.level.QueueBox;
 import com.syntacticsugar.vooga.authoring.library.IRefresher;
 import com.syntacticsugar.vooga.authoring.objectediting.IVisualElement;
@@ -63,7 +63,7 @@ public class TowerView implements IVisualElement, IDataSelector<TowerData>, IRef
 
 	// Used when we initiate a save game in the authoring environment
 	@Override
-	public Collection<TowerData> getData() {
+	public Collection<TowerData> getAllData() {
 		ArrayList<TowerData> list = new ArrayList<TowerData>();
 		for (Node n : myObservable) {
 			list.add(myMap.get(n));
