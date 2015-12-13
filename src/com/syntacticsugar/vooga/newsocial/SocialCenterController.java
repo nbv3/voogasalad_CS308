@@ -40,7 +40,7 @@ public class SocialCenterController implements IVoogaApp {
 		myWebInterface = new IWebConnector(){
 
 			@Override
-			public void downloadSelectedItem(int id) {
+			public void downloadItem(int id) {
 				downloadItem(id);
 			}
 			@Override

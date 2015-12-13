@@ -2,7 +2,7 @@ package com.syntacticsugar.vooga.newsocial;
 
 public interface IWebConnector {
 
-	public void downloadSelectedItem(int selectedItemID);
+	public void downloadItem(int selectedItemID);
 	
 	public void uploadItem();
 	

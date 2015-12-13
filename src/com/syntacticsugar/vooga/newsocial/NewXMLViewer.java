@@ -21,6 +21,7 @@ public class NewXMLViewer extends Observable implements IVisualElement, Observer
 	private VBox myView;
 	private ListView<Node> myListView;
 	private IWebConnector myWebInterface;
+	private int mySelectedItemID;
 
 	public NewXMLViewer(IWebConnector webInterface) {
 		myWebInterface = webInterface;
@@ -41,7 +42,7 @@ public class NewXMLViewer extends Observable implements IVisualElement, Observer
 
 	private Node makeButtonStrip() {
 		Button download = GUIFactory.buildButton(ResourceManager.getString("download"),
-				e -> myWebInterface.downloadSelectedItem(1), 100.00, null);
+				e -> myWebInterface.downloadItem(mySelectedItemID), 100.00, null);
 		Button upload = GUIFactory.buildButton(ResourceManager.getString("upload"), e -> myWebInterface.uploadItem(),
 				100.00, null);
 		Button refresh = GUIFactory.buildButton(ResourceManager.getString("refresh"), e -> myWebInterface.refreshXMLList(),
