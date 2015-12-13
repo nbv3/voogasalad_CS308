@@ -24,6 +24,7 @@ public class NewXMLViewer extends Observable implements IVisualElement, Observer
 	private int mySelectedItemID;
 
 	public NewXMLViewer(IWebConnector webInterface) {
+		mySelectedItemID = Integer.MIN_VALUE;
 		myWebInterface = webInterface;
 		myView = makeView();
 	}
@@ -81,6 +82,7 @@ public class NewXMLViewer extends Observable implements IVisualElement, Observer
 	}
 
 	private void setSelectedItem(int id) {
+		mySelectedItemID = id;
 		setChanged();
 		notifyObservers(id);
 	}

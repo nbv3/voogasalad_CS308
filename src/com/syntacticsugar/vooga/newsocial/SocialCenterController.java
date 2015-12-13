@@ -41,7 +41,7 @@ public class SocialCenterController implements IVoogaApp {
 
 			@Override
 			public void downloadItem(int id) {
-				downloadItem(id);
+				downloadItemByID(id);
 			}
 			@Override
 			public void uploadItem() {
@@ -77,7 +77,7 @@ public class SocialCenterController implements IVoogaApp {
 		
 	}
 	
-	private void downloadItem(int id) {
+	private void downloadItemByID(int id) {
 		if (id == Integer.MIN_VALUE)
 			return;
 		else {
