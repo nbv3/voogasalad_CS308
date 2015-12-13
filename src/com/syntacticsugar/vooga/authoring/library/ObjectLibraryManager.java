@@ -20,10 +20,19 @@ import javafx.scene.layout.VBox;
 
 public class ObjectLibraryManager {
 
+	/*This class is utilized by the AuthoringScreenManager (the highest level class within the authoring environment) in order to
+	 populate the upper right hand side of the screen. Essentially, this class takes a levelTabManager as input and iterates through
+	 all current generated levels and stores all of its current GameObjectTypes. From each of these GameObjectTypes, this class creates 
+	 a newdataLibrary, which in turn generates an IconPane for displaying all of current instances of that GameObjectType. Based
+	 on the GameObjectType (Player, Enemy, Tower, Item), this class adds each dataLibrary instance to the relevant tab (organized by 
+	 GameObjectType) for displaying. This allows us to see all the GameObjects that have already been created within a specific level.
+	 */
+	
 	private VBox myView;
 	private Button addTowerBtn;
 	private TabPane myLibraryTabs;
 	private ArrayList<DataLibrary> myLibraries;
+
 
 	public ObjectLibraryManager(LevelTabManager levels) {
 		myView = new VBox();

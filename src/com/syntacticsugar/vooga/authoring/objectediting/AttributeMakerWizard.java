@@ -19,12 +19,20 @@ import javafx.stage.Stage;
 
 public class AttributeMakerWizard {
 
+	
+	/*This class is used to generate a new stage and window, which is opened when the user selects the option to add an attribute
+	via the '+' button in the attributeViewer subsection of the objectEditor display.This works in tandem with the 
+	ParameterInputFactory in order to generate the appropriate labels, TextFields, and buttons for each specific attribute,
+	and then populates the newly generated stage/scene with these components. Whenever new attribute created, it is added to the
+	list of displayed attributes within the AttributeViewer.*/
+	
 	private Stage myStage;
 	private Scene myScene;
 	private Collection<IAttribute> myAttributes;
 	private IAttribute attributeToAdd;
 	private String selectedAttribute;
-	private final double SCENE_DIMENSION = 300;
+	private final double SCENE_DIMENSION = 300;	
+
 
 	public AttributeMakerWizard(GameObjectType type, Collection<IAttribute> attributes) {
 		myAttributes = attributes;

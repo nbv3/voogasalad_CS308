@@ -20,6 +20,16 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class CollisionMakerWizard {
+	
+	/*Similar to the AttributeMakerWizard, this is the class which creates a new Stage whenever a user selects the option
+	to add a new collision pair. Similar to AttributeMakerWizard, this class utilize reflection via a ParameterInputFactory.
+	At first, a new stage is generated and populated with Hbox/VBoxes, so that the user can view all possible types of objects
+	that this specific object can collide with in a listView (on the left) and then see all the possible event type outcomes 
+	 of this collision as a listView (on the right). Once both an object type and eventType have been selected and 'OK' is 
+	clicked, a call to the ParameterInputFactory is made, which generates a new stage populated with all necessary outcomes
+	of an event type (i.e. HealthChangeEvent generates textField to set healthChangeAmount). Once, all relevant textFields
+	have been set and confirmed, collision pair is added to the CollisionViewer's display pane.*/
+	
 	private Scene myScene;
 	private Stage myStage;
 	private Map<GameObjectType, Collection<ICollisionEvent>> myCollisions;

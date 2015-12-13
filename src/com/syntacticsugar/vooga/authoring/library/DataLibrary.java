@@ -18,6 +18,12 @@ import javafx.scene.image.ImageView;
 
 public class DataLibrary extends Observable {
 
+	
+	/*This class takes in a GameObjectType and then populates an IconPane with all the current instances of this GameObjectType
+	  specified within a certain filePath. For example, if this class take the GameObjectType 'Player' as input, it populates the
+	  IconPane with all the ImageViews within the 'Player' folder for this specified filePath.
+	 */
+	
 	private final File myXMLDirectory;
 	private IconPane myIconPane;
 	private Map<ImageView, IData> myData;

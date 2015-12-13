@@ -17,12 +17,18 @@ import javafx.scene.text.Text;
 public class AttributeViewer implements IVisualElement, 
 										IListViewDisplay, 
 										IDataDisplay<Collection<IAttribute>> {
+	
+	
+	/*Utilized by the objectEditor class to view/store all the attributes added for an object currently being edited.
+	This is the standard UI display that we see within the ObjectEditor, which gives us the option of both creating new attributes
+	and viewing the object's existing attributes. Once a user creates a new attribute via the AttributeMakerWizard, it is displayed
+	in the AttributeViewer's attribute display pane.*/
 
 	private ListView<HBox> myListView;
 	private ObservableList<IAttribute> myAttributes;
 	private ObservableList<HBox> myAttributeDisplays;
 
-	
+
 	public AttributeViewer() {
 		myAttributeDisplays = FXCollections.observableArrayList();
 		myAttributes = FXCollections.observableArrayList();

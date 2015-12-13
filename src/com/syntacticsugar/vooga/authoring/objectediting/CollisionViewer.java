@@ -23,11 +23,18 @@ import javafx.scene.text.Text;
 
 public class CollisionViewer
 		implements IVisualElement, IListViewDisplay, IDataDisplay<Map<GameObjectType, Collection<ICollisionEvent>>> {
+	
+	/*Utilized by the objectEditor class to view/store all the collision pairs added for an object currently being edited.
+	This is the standard UI display that we see within the ObjectEditor, which gives us the option of both creating new collision pairs
+	and viewing the object's existing collision pairs. Once a user creates a new attribute via the CollisionMakerWizard,
+	it is displayed in the CollisionViewer's collision display pane.*/
+	
 	private VBox myView;
 	private ListView<HBox> myListView;
 	private ObservableList<HBox> myCollisionDisplays;
 	private ObservableMap<GameObjectType, Collection<ICollisionEvent>> myCollisions;
 	private Map<GameObjectType, HBox> myDisplayMap;
+
 
 	public CollisionViewer() {
 		myView = new VBox();

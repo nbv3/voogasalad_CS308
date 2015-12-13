@@ -40,6 +40,10 @@ import javafx.stage.FileChooser.ExtensionFilter;
 
 public class ObjectEditor extends Observable implements IDataClipboard {
 
+	/*This is the main class utilized for object editing. It generates a JavaFX node, which populates the entirety of the right
+	side of the Authoring Environment's window. This class includes the functionality necessary for the user to either create a 
+	new object from scratch, or edit an existing object's attributes/collisions/image.*/
+	
 	private static final String DEFAULT_IMAGE_PATH = "scenery_gray.png";
 	
 	private GridPane myView;
@@ -53,7 +57,7 @@ public class ObjectEditor extends Observable implements IDataClipboard {
 	private ComboBox<GameObjectType> myTypeChooser;
 	private IRefresher myRefresher;
 	private String selectedImagePath;
-
+	
 	public ObjectEditor(IRefresher refresher) {
 		myView = new GridPane();
 		myView.setAlignment(Pos.CENTER);
