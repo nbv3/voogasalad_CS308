@@ -1,3 +1,5 @@
+// This entire file is part of my masterpiece.
+// 
 package com.syntacticsugar.vooga.gameplayer.view;
 
 import java.util.Observable;
@@ -9,26 +11,35 @@ import com.syntacticsugar.vooga.gameplayer.view.gameview.IScalingFactorContainer
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 
 public class ObjectView extends Observable implements Observer {
 	
-	private StackPane myViewPane;
+	private Pane myViewPane;
 	private double scalingFactor;
 	private Point2D originalCoordinates;
 	
 	public ObjectView(String path, BoundingBox box , IScalingFactorContainer myContainer) {
-		myViewPane = new StackPane();
+		initializeParameters(box, myContainer);
+		initializeImageView(path, box, myContainer);
+		box.addObserver(this);
+	}
+
+	private void initializeImageView(String path, BoundingBox box, IScalingFactorContainer myContainer) {
 		ImageView iv = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(path)));
 		iv.setFocusTraversable(true);
-		scalingFactor = myContainer.getScalingFactor();
 		applyTransform(box);
-		originalCoordinates = new Point2D(box.getPoint().getX(), box.getPoint().getY());
 		iv.setFitHeight(scalingFactor*box.getWidth());
 		iv.setFitWidth(scalingFactor*box.getHeight());
 		myViewPane.getChildren().add(iv);
 		myContainer.addObjectView(myViewPane);
-		box.addObserver(this);
+	}
+
+	private void initializeParameters(BoundingBox box, IScalingFactorContainer myContainer) {
+		myViewPane = new StackPane();
+		originalCoordinates = new Point2D(box.getPoint().getX(), box.getPoint().getY());
+		scalingFactor = myContainer.getScalingFactor();
 	}
 
 	@Override
@@ -44,7 +55,7 @@ public class ObjectView extends Observable implements Observer {
 		myViewPane.setRotate(box.getRotate());
 	}
 	
-	public StackPane getViewPane(){
+	public Pane getViewPane(){
 		return myViewPane;
 	}
 	

@@ -21,9 +21,11 @@ public class GameView extends BorderPane implements ISimpleGameView, IScalingFac
 	private Pane gameField;
 	private GlobalDataPanel myInfoBox;
 	private TowerShop myTowerShop;
+	private static final String STYLE_SHEET = "/com/syntacticsugar/vooga/gameplayer/css/game.css";
+	private static final double SCALING_FACTOR = (1.0 / 1000);
 
 	public GameView(double size) {
-		this.getStylesheets().add("/com/syntacticsugar/vooga/gameplayer/css/game.css");
+		this.getStylesheets().add(STYLE_SHEET);
 		this.setFocusTraversable(true);
 		mySize = size;
 		initializeComponents();
@@ -42,7 +44,7 @@ public class GameView extends BorderPane implements ISimpleGameView, IScalingFac
 	}
 
 	public double getScalingFactor() {
-		return (1.0 / 1000) * mySize;
+		return (SCALING_FACTOR) * mySize;
 	}
 
 	public void addObjectView(Pane myViewPane) {

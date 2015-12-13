@@ -9,6 +9,7 @@ import com.syntacticsugar.vooga.gameplayer.view.gameview.GameView;
 import com.syntacticsugar.vooga.gameplayer.view.gameview.ISimpleGameView;
 
 import javafx.scene.Node;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 
 public class TileView extends ObjectView {
@@ -35,7 +36,7 @@ public class TileView extends ObjectView {
 		tileView.setOnMouseExited(e -> changeOpacity(getViewPane(), 1));
 	}
 
-	private void changeOpacity(StackPane myPane, double value) {
+	private void changeOpacity(Pane myPane, double value) {
 		if (!walkable && selectMode) {
 			myPane.setOpacity(value);
 		}
