@@ -1,13 +1,18 @@
 package com.syntacticsugar.vooga.authoring.objectediting;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Observable;
 
 import com.syntacticsugar.vooga.authoring.dragdrop.DragDropManager;
 import com.syntacticsugar.vooga.authoring.fluidmotion.mixandmatchmotion.PulsingFadeWizard;
 import com.syntacticsugar.vooga.authoring.icon.Icon;
 import com.syntacticsugar.vooga.authoring.library.IRefresher;
+import com.syntacticsugar.vooga.gameplayer.attribute.IAttribute;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.filechooser.FileChooserUtil;
@@ -227,7 +232,9 @@ public class ObjectEditor extends Observable implements IDataClipboard {
 	}
 
 	private void buildNewAttribute() {
-		new AttributeMakerWizard(currentData.getType(), myAttributeViewer.getData());
+		Map<GameObjectType, Collection<IAttribute>> myMap = new HashMap<GameObjectType, Collection<IAttribute>>();
+		myMap.put(currentData.getType(), myAttributeViewer.getData());
+		new AttributeMakerWizard(currentData.getType(), myMap);
 		if (currentData.getType() == null) {
 			AlertBoxFactory.createObject(ResourceManager.getString("select_object_type_error"));
 			return;
