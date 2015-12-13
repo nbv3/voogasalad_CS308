@@ -5,12 +5,20 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Finds the shortest path to any destination
+ * @author jiawei
+ *
+ */
 public class ShortestDestinationPathFinder extends AbstractDestinationPathFinder {
 
 	public ShortestDestinationPathFinder(boolean[][] map, Point startPoint, List<Point> destinationPoints) {
 		super(map, startPoint, destinationPoints);
 	}
 
+	/**
+	 * Concrete implementation getting the next point
+	 */
 	public Point getNext() {
 		List<Point> shortestPath = shortestPath();
 		if (shortestPath.size() <= 1) {
@@ -19,10 +27,17 @@ public class ShortestDestinationPathFinder extends AbstractDestinationPathFinder
 		return shortestPath.get(1);
 	}
 
+	/**
+	 * Concrete implementation getting the full path
+	 */
 	public List<Point> getPath() {
 		return shortestPath();
 	}
 
+	/**
+	 * O(n) algorithm for finding the shortest path out of all paths to the destinations
+	 * @return the shortest path to any destination
+	 */
 	private List<Point> shortestPath() {
 		List<Point> shortest = new ArrayList<Point>();
 		List<List<Point>> tempPaths = getPaths();

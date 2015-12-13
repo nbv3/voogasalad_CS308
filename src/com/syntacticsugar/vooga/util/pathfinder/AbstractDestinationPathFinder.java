@@ -9,6 +9,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 
+/**
+ * Abstract class that is the parent to all pathfinders that are looking for a destination
+ * @author jiawei
+ *
+ */
 public abstract class AbstractDestinationPathFinder extends AbstractPathFinder {
 	private Map<Point, List<Point>> memo;
 	private Map<Point, Integer> distanceMap;
@@ -27,6 +32,9 @@ public abstract class AbstractDestinationPathFinder extends AbstractPathFinder {
 		findDestinationPaths();
 	}
 
+	/**
+	 * O(n) fill to find minimum distance to any point on a map from the start point
+	 */
 	private void fillDistances() {
 		distanceMap.put(getStart(), 0);
 		distanceQueue.addAll(getNeighbors(getStart()));
@@ -50,6 +58,9 @@ public abstract class AbstractDestinationPathFinder extends AbstractPathFinder {
 		}
 	}
 	
+	/**
+	 * Iterates through all destinations and finds all the shortest paths that can navigate to the destination
+	 */
 	private void generateDestinationPaths() {
 		for (Point endPoint : getDestinations()) {
 			if (distanceMap.keySet().contains(endPoint)) {
@@ -81,6 +92,11 @@ public abstract class AbstractDestinationPathFinder extends AbstractPathFinder {
 		generateDestinationPaths();
 	}
 
+	/**
+	 * Getting neighbors using validPoints by memoizing for efficiency
+	 * @param p
+	 * @return valid neighboring points
+	 */
 	protected List<Point> getNeighbors(Point p) {
 		if (memo.containsKey(p)) {
 			List<Point> ret = memo.get(p);
@@ -93,6 +109,10 @@ public abstract class AbstractDestinationPathFinder extends AbstractPathFinder {
 		return validPoints;
 	}
 
+	/**
+	 * Protected method that gets all the generated paths
+	 * @return list of shortest paths
+	 */
 	protected List<List<Point>> getPaths() {
 		return paths;
 	}

@@ -5,6 +5,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Concrete implementation of random pathfinding which find an adjacent point at random
+ * @author jiawei
+ *
+ */
 public class RepeatingRandomPathFinder extends AbstractRandomPathFinder {
 
 	public RepeatingRandomPathFinder(boolean[][] map, Point startPoint, List<Point> destinationPoints) {

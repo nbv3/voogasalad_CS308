@@ -5,6 +5,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Concrete implementation of a Destination pathfinder that finds the longest path to a destination using the short path algorithm
+ * @author jiawe
+ *
+ */
 public class LongestDestinationPathFinder extends AbstractDestinationPathFinder {
 
 	public LongestDestinationPathFinder(boolean[][] map, Point startPoint, List<Point> destinationPoints) {
@@ -23,6 +28,10 @@ public class LongestDestinationPathFinder extends AbstractDestinationPathFinder 
 		return longestPath();
 	}
 
+	/**
+	 * Finds the longest path that can be generated from the short path algorithm
+	 * @return the longest traversable path
+	 */
 	private List<Point> longestPath() {
 		List<Point> longest = new ArrayList<Point>();
 		List<List<Point>> tempPaths = getPaths();

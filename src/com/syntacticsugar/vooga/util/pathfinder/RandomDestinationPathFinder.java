@@ -5,6 +5,13 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Concrete implementation of a destination pathfinder which finds a random
+ * shortest path from the list of paths generated from all destinations
+ * 
+ * @author jiawe
+ *
+ */
 public class RandomDestinationPathFinder extends AbstractDestinationPathFinder {
 
 	public RandomDestinationPathFinder(boolean[][] map, Point startPoint, List<Point> destinationPoints) {
@@ -23,6 +30,11 @@ public class RandomDestinationPathFinder extends AbstractDestinationPathFinder {
 		return shortestPath();
 	}
 
+	/**
+	 * Randomly select a random path
+	 * 
+	 * @return random path
+	 */
 	private List<Point> shortestPath() {
 		List<List<Point>> tempPaths = getPaths();
 		Collections.shuffle(tempPaths, new Random());
