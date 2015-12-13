@@ -9,11 +9,11 @@ import org.json.JSONObject;
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 import com.syntacticsugar.vooga.util.webconnect.WebConnector;
 
-public class NewXMLModel extends Observable {
+public class XMLModel extends Observable {
 
 	private List<JSONObject> myXMLItems;
 	
-	public NewXMLModel(){
+	public XMLModel(){
 		myXMLItems = new ArrayList<JSONObject>();
 		refreshData();
 	}

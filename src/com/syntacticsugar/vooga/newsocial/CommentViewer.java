@@ -20,12 +20,12 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
-public class NewCommentViewer implements Observer, IVisualElement {
+public class CommentViewer implements Observer, IVisualElement {
 
 	private VBox myView;
 	private ListView<Node> myListView;
 	
-	public NewCommentViewer(){
+	public CommentViewer(){
 		myView = makeView();
 	}
 	
@@ -84,7 +84,7 @@ public class NewCommentViewer implements Observer, IVisualElement {
 
 	@Override
 	public void update(Observable o, Object arg) {
-		NewCommentModel commentData = (NewCommentModel) o;
+		CommentModel commentData = (CommentModel) o;
 		populateList(commentData.getCommentList());
 	}
 

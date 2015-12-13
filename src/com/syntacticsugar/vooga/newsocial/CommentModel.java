@@ -12,12 +12,12 @@ import org.json.JSONObject;
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 import com.syntacticsugar.vooga.util.webconnect.WebConnector;
 
-public class NewCommentModel extends Observable implements Observer {
+public class CommentModel extends Observable implements Observer {
 
 	private int myCurrentlySelectedID;
 	private List<JSONObject> myCommentList;
 	
-	public NewCommentModel(){
+	public CommentModel(){
 		myCommentList = new ArrayList<JSONObject>();
 	}
 	

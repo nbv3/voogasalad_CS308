@@ -16,14 +16,14 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-public class NewXMLViewer extends Observable implements IVisualElement, Observer {
+public class XMLViewer extends Observable implements IVisualElement, Observer {
 
 	private VBox myView;
 	private ListView<Node> myListView;
 	private IWebConnector myWebInterface;
 	private int mySelectedItemID;
 
-	public NewXMLViewer(IWebConnector webInterface) {
+	public XMLViewer(IWebConnector webInterface) {
 		mySelectedItemID = Integer.MIN_VALUE;
 		myWebInterface = webInterface;
 		myView = makeView();
@@ -93,7 +93,7 @@ public class NewXMLViewer extends Observable implements IVisualElement, Observer
 
 	@Override
 	public void update(Observable o, Object arg) {
-		NewXMLModel model = (NewXMLModel) o;
+		XMLModel model = (XMLModel) o;
 		populateListView(model.getItemList());
 	}
 	

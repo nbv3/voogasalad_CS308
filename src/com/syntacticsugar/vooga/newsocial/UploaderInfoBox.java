@@ -1,5 +1,6 @@
-package com.syntacticsugar.vooga.social;
+package com.syntacticsugar.vooga.newsocial;
 
+import com.syntacticsugar.vooga.newsocial.IUploader;
 import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;

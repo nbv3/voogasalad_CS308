@@ -1,8 +1,6 @@
 package com.syntacticsugar.vooga.newsocial;
 
 import com.syntacticsugar.vooga.menu.IVoogaApp;
-import com.syntacticsugar.vooga.social.IUploader;
-import com.syntacticsugar.vooga.social.UploaderInfoBox;
 import com.syntacticsugar.vooga.util.filechooser.FileChooserUtil;
 import com.syntacticsugar.vooga.util.webconnect.JSONHelper;
 import com.syntacticsugar.vooga.util.webconnect.WebConnector;
@@ -19,12 +17,12 @@ import javafx.stage.FileChooser.ExtensionFilter;
 public class SocialCenterController implements IVoogaApp {
 
 	private Stage myStage;
-	private NewXMLViewer myXMLViewer;
-	private NewXMLModel myXMLModel;
-	private NewCommentViewer myCommentViewer;
-	private NewCommentModel myCommentModel;
+	private XMLViewer myXMLViewer;
+	private XMLModel myXMLModel;
+	private CommentViewer myCommentViewer;
+	private CommentModel myCommentModel;
 	private CommentBox myCommentBox;
-	private NewObjectDataViewer myObjectDataViewer;
+	private ObjectDataViewer myObjectDataViewer;
 	private IWebConnector myWebInterface;
 
 	public SocialCenterController() {
@@ -70,18 +68,18 @@ public class SocialCenterController implements IVoogaApp {
 	}
 
 	private void initializeXMLViewer() {
-		myXMLViewer = new NewXMLViewer(myWebInterface);
-		myXMLModel = new NewXMLModel();
+		myXMLViewer = new XMLViewer(myWebInterface);
+		myXMLModel = new XMLModel();
 	}
 
 	private void initializeObjectDataViewer() {
-		myObjectDataViewer = new NewObjectDataViewer();
+		myObjectDataViewer = new ObjectDataViewer();
 	}
 
 	private void initializeCommentsSection() {
 		myCommentBox = new CommentBox(myWebInterface);
-		myCommentModel = new NewCommentModel();
-		myCommentViewer = new NewCommentViewer();
+		myCommentModel = new CommentModel();
+		myCommentViewer = new CommentViewer();
 	}
 
 	private void addAllObservers() {
@@ -121,15 +119,12 @@ public class SocialCenterController implements IVoogaApp {
 		}
 	}
 
-	private void makeUploadFileChooser() {// EventHandler<ActionEvent> action) {
+	private void makeUploadFileChooser() {
 		ExtensionFilter filter = new ExtensionFilter("XML files", "*.xml", "*.XML");
 		FileChooserUtil.loadFile("Choose an XML game file", filter, null, selected -> {
-			new UploaderInfoBox(new IUploader() {
-				@Override
-				public void postXML(String author, String gamename, String description) {
+			new UploaderInfoBox((author, gamename, description) -> {
 					WebConnector.postXML(
 							JSONHelper.createXMLJSON(author, gamename, description, XMLHandler.fileToString(selected)));
-				}
 			});
 		});
 	}

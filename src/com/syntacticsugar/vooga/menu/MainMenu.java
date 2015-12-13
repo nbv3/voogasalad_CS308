@@ -4,7 +4,6 @@ import com.syntacticsugar.vooga.authoring.AuthoringScreenManager;
 import com.syntacticsugar.vooga.authoring.fluidmotion.mixandmatchmotion.PulsingFadeWizard;
 import com.syntacticsugar.vooga.help.HelpManager;
 import com.syntacticsugar.vooga.newsocial.SocialCenterController;
-import com.syntacticsugar.vooga.social.SocialCenter;
 import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.properties.PropertiesManager;
 
