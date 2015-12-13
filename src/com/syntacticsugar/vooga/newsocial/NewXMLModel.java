@@ -15,14 +15,9 @@ public class NewXMLModel extends Observable {
 	
 	public NewXMLModel(){
 		myXMLItems = new ArrayList<JSONObject>();
-		pullAndNotify();
+		refreshData();
 	}
 	
-	private void triggerUpdate() {
-		setChanged();
-		notifyObservers();
-	}
-
 	private void pullAndNotify() {
 		JSONObject XMLs = WebConnector.getXMLs();
 		JSONArray array;
@@ -41,6 +36,11 @@ public class NewXMLModel extends Observable {
 		myXMLItems.add(item);
 	}
 	
+	private void triggerUpdate() {
+		setChanged();
+		notifyObservers();
+	}
+
 	public void refreshData(){
 		myXMLItems.clear();
 		pullAndNotify();
