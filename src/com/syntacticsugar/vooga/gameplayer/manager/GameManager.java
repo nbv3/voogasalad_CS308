@@ -11,7 +11,6 @@ import com.syntacticsugar.vooga.gameplayer.view.GameViewController;
 import com.syntacticsugar.vooga.menu.GameOver;
 import com.syntacticsugar.vooga.menu.IVoogaApp;
 import com.syntacticsugar.vooga.xml.data.GameData;
-import com.syntacticsugar.vooga.xml.data.UniverseData;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -29,9 +28,7 @@ public class GameManager implements IGameManager, IVoogaApp {
 	private IGameUniverse currentLevel;
 	private Timeline myGameTimeline;
 	private GameEngine myGameEngine;
-
 	private IEventManager myEventManager;
-
 	private GameViewController myViewController;
 	private Stage myStage;
 	private double frameLength;
@@ -96,7 +93,6 @@ public class GameManager implements IGameManager, IVoogaApp {
 			createGameOver(ConditionType.WINNING);
 
 		}
-		// player.setPoint(currentLevel.getPlayerSpawn());
 
 	}
 
@@ -105,12 +101,11 @@ public class GameManager implements IGameManager, IVoogaApp {
 		myGameEngine.update(currentLevel);
 	}
 
-	public void pause() {
+	private void pause() {
 		myGameTimeline.pause();
 	}
 
-	@Override
-	public void switchLevel(ConditionType type) {
+	private void switchLevel(ConditionType type) {
 		pause();
 		if (type.equals(ConditionType.WINNING)) {
 			System.out.println("WINNER");
@@ -124,33 +119,27 @@ public class GameManager implements IGameManager, IVoogaApp {
 
 	}
 
-	public void receiveKeyPressed(KeyCode code) {
+	private void receiveKeyPressed(KeyCode code) {
 		if (code.equals(KeyCode.P)) {
 			if (myGameTimeline.getCurrentRate() == 0.0) {
 				myGameTimeline.play();
 			} else {
 				myGameTimeline.pause();
 			}
-		} else if (code.equals(KeyCode.S)) {
-			saveGame();
 		} else {
 			currentLevel.receiveKeyPress(code);
 		}
 	}
 
-	public void receiveKeyReleased(KeyCode code) {
+	private void receiveKeyReleased(KeyCode code) {
 		currentLevel.receiveKeyRelease(code);
 	}
 
-	@Override
-	public void startGame() {
-		// Media(this.getClass().getClassLoader().getResource("SuperMarioBros.mp3").toString());
-		// MediaPlayer mediaPlayer = new MediaPlayer(sound);
-		// mediaPlayer.play();
+	private void startGame() {
 		myGameTimeline.play();
 	}
 
-	public void initializeAnimation(double fl) {
+	private void initializeAnimation(double fl) {
 		KeyFrame frame = new KeyFrame(Duration.seconds(fl), e -> updateGame());
 		myGameTimeline = new Timeline();
 		myGameTimeline.setCycleCount(Timeline.INDEFINITE);
@@ -169,15 +158,9 @@ public class GameManager implements IGameManager, IVoogaApp {
 		}
 	}
 
-	private void saveGame() {
-		UniverseData data = currentLevel.saveGame();
-		myGame.saveGame(data);
-	}
-
 	@Override
 	public void assignCloseHandler(EventHandler<WindowEvent> onclose) {
-		// TODO Auto-generated method stub
-
+		myStage.setOnCloseRequest(onclose);
 	}
 
 }
