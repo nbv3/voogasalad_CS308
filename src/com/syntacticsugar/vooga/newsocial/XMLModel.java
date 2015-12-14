@@ -24,7 +24,8 @@ public class XMLModel extends Observable {
 	}
 	
 	private void pullAndNotify() {
-		JSONObject XMLs = WebConnector.getXMLs();
+		JSONObject XMLs = WebConnector.getXMLs();	
+		if (XMLs == null) return;
 		JSONArray array;
 		try {
 			array = XMLs.getJSONArray("xmls");
