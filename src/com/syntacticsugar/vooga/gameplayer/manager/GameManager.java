@@ -1,3 +1,5 @@
+// This entire file is part of my masterpiece.
+// Nicholas von Turkovich (nbv3)
 
 package com.syntacticsugar.vooga.gameplayer.manager;
 
