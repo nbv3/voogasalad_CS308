@@ -46,7 +46,7 @@ public class ObjectDataViewer implements IVisualElement, Observer {
 				addElementToList(listElement);
 			}
 		} catch (JSONException e) {
-			AlertBoxFactory.createObject("This item might contain corrupt data!");
+			AlertBoxFactory.createObject(ResourceManager.getString("json_error"));
 		}
 	}
 	

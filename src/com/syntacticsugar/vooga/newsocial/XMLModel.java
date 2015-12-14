@@ -6,6 +6,8 @@ import java.util.Observable;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 import com.syntacticsugar.vooga.util.webconnect.WebConnector;
 
@@ -28,7 +30,7 @@ public class XMLModel extends Observable {
 			}
 			triggerUpdate();
 		} catch (JSONException e) {
-			AlertBoxFactory.createObject("Could not find any games online!");
+			AlertBoxFactory.createObject(ResourceManager.getString("xml_pull_error"));
 		}
 	}
 	

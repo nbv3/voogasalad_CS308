@@ -10,7 +10,7 @@ import com.syntacticsugar.vooga.util.webconnect.WebConnector;
 public class WebConnectorTest {
 	public static void main(String args[]) throws Exception {
 
-		//getXMLsTest();
+		getXMLsTest();
 		//getXMLTest(11);
 		//postXMLTest();
 		//deleteXMLTest(67);
