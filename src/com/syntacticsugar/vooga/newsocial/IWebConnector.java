@@ -6,10 +6,4 @@ public interface IWebConnector {
 	
 	public void uploadItem();
 	
-	public void postComment(String author, String comment, int id);
-	
-	public void refreshXMLList();
-	
-	
-	
 }

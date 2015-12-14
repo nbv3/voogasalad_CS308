@@ -21,14 +21,14 @@ public class CommentBox implements IVisualElement, Observer {
 	private TextArea myComment;
 	private TextField myAuthorName;
 	private int mySelectedItemID;
-	private IWebConnector myWebInterface;
+	private IComments myCommentInterface;
 	private boolean firstTime;
 	
-	public CommentBox(IWebConnector webInterface){
+	public CommentBox(IComments commentInterface){
 		firstTime = true;
 		myView = makeView();
 		mySelectedItemID = Integer.MIN_VALUE;
-		myWebInterface = webInterface;
+		myCommentInterface = commentInterface;
 	}
 	
 	private Node makeView(){
@@ -54,9 +54,7 @@ public class CommentBox implements IVisualElement, Observer {
 		if (author.length() == 0 || comment.length() == 0) return;
 		if (mySelectedItemID == Integer.MIN_VALUE || firstTime) return;
 		
-		myWebInterface.postComment(author, comment, mySelectedItemID);
-		//update();
-		//populateList();  // need to put these methods in the postComment method;
+		myCommentInterface.postComment(author, comment, mySelectedItemID);
 		setFieldDefaults();
 	}
 	

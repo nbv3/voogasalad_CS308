@@ -6,6 +6,7 @@ import java.util.Observer;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.syntacticsugar.vooga.newsocial.IRefresher;
 import com.syntacticsugar.vooga.authoring.objectediting.IVisualElement;
 import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
@@ -20,12 +21,14 @@ public class XMLViewer extends Observable implements IVisualElement, Observer {
 
 	private VBox myView;
 	private ListView<Node> myListView;
-	private IWebConnector myWebInterface;
+	private IRefresher myRefresher;
+	private IWebConnector myWebConnector;
 	private int mySelectedItemID;
 
-	public XMLViewer(IWebConnector webInterface) {
+	public XMLViewer(IRefresher refresher, IWebConnector webConnector) {
 		mySelectedItemID = Integer.MIN_VALUE;
-		myWebInterface = webInterface;
+		myRefresher = refresher;
+		myWebConnector = webConnector;
 		myView = makeView();
 	}
 
@@ -43,10 +46,10 @@ public class XMLViewer extends Observable implements IVisualElement, Observer {
 
 	private Node makeButtonStrip() {
 		Button download = GUIFactory.buildButton(ResourceManager.getString("download"),
-				e -> myWebInterface.downloadItem(mySelectedItemID), 100.00, null);
-		Button upload = GUIFactory.buildButton(ResourceManager.getString("upload"), e -> myWebInterface.uploadItem(),
+				e -> myWebConnector.downloadItem(mySelectedItemID), 100.00, null);
+		Button upload = GUIFactory.buildButton(ResourceManager.getString("upload"), e -> myWebConnector.uploadItem(),
 				100.00, null);
-		Button refresh = GUIFactory.buildButton(ResourceManager.getString("refresh"), e -> myWebInterface.refreshXMLList(),
+		Button refresh = GUIFactory.buildButton(ResourceManager.getString("refresh"), e -> myRefresher.refresh(),
 				100.0, null);
 		HBox buttonStrip = new HBox();
 		buttonStrip.getChildren().addAll(refresh, download, upload);
@@ -70,9 +73,7 @@ public class XMLViewer extends Observable implements IVisualElement, Observer {
 		HBox game = GUIFactory.buildTitleNode(itemName);
 		game.setPrefWidth(300);
 		HBox author = GUIFactory.buildTitleNode(itemData);
-
 		listElement.getChildren().addAll(game, author);
-
 		listElement.setOnMouseClicked(e -> setSelectedItem(itemID));
 		return listElement;
 	}

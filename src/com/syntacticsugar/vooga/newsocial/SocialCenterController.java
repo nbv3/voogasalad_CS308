@@ -1,6 +1,7 @@
 package com.syntacticsugar.vooga.newsocial;
 
 import com.syntacticsugar.vooga.menu.IVoogaApp;
+import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.filechooser.FileChooserUtil;
 import com.syntacticsugar.vooga.util.webconnect.JSONHelper;
 import com.syntacticsugar.vooga.util.webconnect.WebConnector;
@@ -24,9 +25,11 @@ public class SocialCenterController implements IVoogaApp {
 	private CommentBox myCommentBox;
 	private ObjectDataViewer myObjectDataViewer;
 	private IWebConnector myWebInterface;
+	private IComments myCommentInterface;
+	private IRefresher myXMLRefresher;
 
 	public SocialCenterController() {
-		initializeWebConnector();
+		initializeInterfaces();
 		initializeComponents();
 		myStage = new Stage();
 		Scene scene = new Scene(makeSceneNode(), 800, 500);
@@ -34,9 +37,14 @@ public class SocialCenterController implements IVoogaApp {
 		myStage.show();
 	}
 
+	private void initializeInterfaces() {
+		initializeWebConnector();
+		initializeXMLRefresher();
+		initializeCommentInterface();
+	}
+
 	private void initializeWebConnector() {
 		myWebInterface = new IWebConnector() {
-
 			@Override
 			public void downloadItem(int id) {
 				downloadItemByID(id);
@@ -46,15 +54,23 @@ public class SocialCenterController implements IVoogaApp {
 			public void uploadItem() {
 				makeUploadFileChooser();
 			}
+		};
+	}
 
+	private void initializeCommentInterface() {
+		myCommentInterface = new IComments() {
 			@Override
 			public void postComment(String author, String comment, int id) {
 				WebConnector.postComment(JSONHelper.createCommentJSON(id, author, comment));
 				myCommentModel.refresh();
 			}
+		};
+	}
 
+	private void initializeXMLRefresher() {
+		myXMLRefresher = new IRefresher() {
 			@Override
-			public void refreshXMLList() {
+			public void refresh() {
 				myXMLModel.refreshData();
 			}
 		};
@@ -68,7 +84,7 @@ public class SocialCenterController implements IVoogaApp {
 	}
 
 	private void initializeXMLViewer() {
-		myXMLViewer = new XMLViewer(myWebInterface);
+		myXMLViewer = new XMLViewer(myXMLRefresher, myWebInterface);
 		myXMLModel = new XMLModel();
 	}
 
@@ -77,7 +93,7 @@ public class SocialCenterController implements IVoogaApp {
 	}
 
 	private void initializeCommentsSection() {
-		myCommentBox = new CommentBox(myWebInterface);
+		myCommentBox = new CommentBox(myCommentInterface);
 		myCommentModel = new CommentModel();
 		myCommentViewer = new CommentViewer();
 	}
@@ -113,7 +129,7 @@ public class SocialCenterController implements IVoogaApp {
 		if (id == Integer.MIN_VALUE)
 			return;
 		else {
-			FileChooserUtil.saveFile("Choose a save location.", ".xml", null, selected -> {
+			FileChooserUtil.saveFile(ResourceManager.getString("filechooser_saving"), ".xml", null, selected -> {
 				XMLHandler.writeXMLToFile(JSONHelper.extractXML(WebConnector.getXML(id)), selected.toPath().toString());
 			});
 		}
@@ -121,10 +137,10 @@ public class SocialCenterController implements IVoogaApp {
 
 	private void makeUploadFileChooser() {
 		ExtensionFilter filter = new ExtensionFilter("XML files", "*.xml", "*.XML");
-		FileChooserUtil.loadFile("Choose an XML game file", filter, null, selected -> {
+		FileChooserUtil.loadFile(ResourceManager.getString("xml_filechooser"), filter, null, selected -> {
 			new UploaderInfoBox((author, gamename, description) -> {
-					WebConnector.postXML(
-							JSONHelper.createXMLJSON(author, gamename, description, XMLHandler.fileToString(selected)));
+				WebConnector.postXML(
+						JSONHelper.createXMLJSON(author, gamename, description, XMLHandler.fileToString(selected)));
 			});
 		});
 	}
