@@ -2,6 +2,7 @@ package com.syntacticsugar.vooga.menu;
 
 import com.syntacticsugar.vooga.authoring.fluidmotion.mixandmatchmotion.PulsingFadeWizard;
 import com.syntacticsugar.vooga.gameplayer.manager.GameManager;
+import com.syntacticsugar.vooga.gameplayer.manager.ManagerController;
 import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.xml.data.GameData;
 
@@ -38,7 +39,7 @@ public class GameMenu extends AbstractMenu {
 
 	private void launchNewEngine() {
 		hideStage();
-		launchGame(new GameManager(null, GAME_SIZE, myGame, FRAME_LENGTH));
+		launchGame(new ManagerController(null, GAME_SIZE, myGame, FRAME_LENGTH));
 	}
 
 }

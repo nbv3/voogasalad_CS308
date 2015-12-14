@@ -8,26 +8,19 @@ import javafx.stage.WindowEvent;
 
 public class ManagerController implements IVoogaApp{
 	
-	private EventHandler<WindowEvent> onClose;
-	private double myGameSize;
-	private GameData myGameData;
-	private double myFrameRate;
-	private ViewManager myView;
-	private GameManager myGame;
+	
+	private IViewManager myView;
+	private IGameManager myGame;
 	
 	public ManagerController(EventHandler<WindowEvent> onclose, double gameSize, GameData data, double frameRate){
-		onClose = onclose;
-		myGameSize = gameSize;
-		myGameData = data;
-		myFrameRate = frameRate;
-		myGame = new GameManager(onclose, gameSize, data, frameRate);
 		myView = new ViewManager();
+		myGame = new GameManager(myView, onclose, gameSize, data, frameRate);
+		myGame.initializeAnimation();
 	}
 
 	@Override
 	public void assignCloseHandler(EventHandler<WindowEvent> onclose) {
-		// TODO Auto-generated method stub
-		
+		myView.assignCloseHandler(onclose);
 	}
 
 

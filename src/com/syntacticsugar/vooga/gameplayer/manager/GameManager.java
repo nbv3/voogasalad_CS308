@@ -7,21 +7,16 @@ import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
 import com.syntacticsugar.vooga.gameplayer.game.Game;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.gameplayer.view.GameViewController;
-import com.syntacticsugar.vooga.menu.GameOver;
-import com.syntacticsugar.vooga.menu.IVoogaApp;
 import com.syntacticsugar.vooga.xml.data.GameData;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.EventHandler;
-import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 
-public class GameManager implements IGameManager, IVoogaApp {
+public class GameManager implements IGameManager {
 
 	private Game myGame;
 	private IGameUniverse currentLevel;
@@ -29,46 +24,34 @@ public class GameManager implements IGameManager, IVoogaApp {
 	private GameEngine myGameEngine;
 	private IEventManager myEventManager;
 	private GameViewController myViewController;
-	private Stage myStage;
 	private double frameLength;
-	private EventHandler<WindowEvent> onClose;
+	private IViewManager myView;
 
-	public GameManager(EventHandler<WindowEvent> onclose, double gameSize, GameData data, double frameRate) {
+	public GameManager(IViewManager view, EventHandler<WindowEvent> onclose, double gameSize, GameData data,
+			double frameRate) {
+		myView = view;
 		this.frameLength = frameRate;
-		myStage = new Stage();
 		myEventManager = new EventManager();
-		onClose = onclose;
 		myGame = new Game(data);
 		myViewController = new GameViewController(gameSize);
 		currentLevel = myGame.getLevel(1);
 		myGameEngine = new GameEngine();
 
-		myStage.setOnCloseRequest(onclose);
 		myEventManager.registerListener(this);
 		myViewController.displayLevel(currentLevel, myEventManager);
 		currentLevel.registerListeners(myEventManager);
 		myGameEngine.registerViewAdder(myViewController);
 		myGameEngine.registerViewRemover(myViewController);
 
-		stageInit();
+		myView.initializeView(myViewController.getGameView(), e -> receiveKeyPressed(e.getCode()),
+				e -> receiveKeyReleased(e.getCode()));
+		initializeAnimation();
 	}
 
 	private void createGameOver(GameEventType type) {
 		myGameTimeline.stop();
-		myStage.close();
-		new GameOver(onClose, type);
+		myView.createGameOver(type);
 
-	}
-
-	private void stageInit() {
-		Scene gameScene = new Scene(myViewController.getGameView());
-		initializeAnimation(frameLength);
-		gameScene.addEventFilter(KeyEvent.KEY_PRESSED, e -> receiveKeyPressed(e.getCode()));
-		gameScene.addEventFilter(KeyEvent.KEY_RELEASED, e -> receiveKeyReleased(e.getCode()));
-		gameScene.setOnKeyPressed(e -> receiveKeyPressed(e.getCode()));
-		gameScene.setOnKeyReleased(e -> receiveKeyReleased(e.getCode()));
-		myStage.setScene(gameScene);
-		myStage.show();
 	}
 
 	private void resetGame() {
@@ -84,7 +67,7 @@ public class GameManager implements IGameManager, IVoogaApp {
 		currentLevel.registerListeners(myEventManager);
 		myGameEngine.registerViewAdder(myViewController);
 		myGameEngine.registerViewRemover(myViewController);
-		initializeAnimation(frameLength);
+		initializeAnimation();
 	}
 
 	private void changeLevel() {
@@ -130,8 +113,9 @@ public class GameManager implements IGameManager, IVoogaApp {
 		myGameTimeline.play();
 	}
 
-	private void initializeAnimation(double fl) {
-		KeyFrame frame = new KeyFrame(Duration.seconds(fl), e -> updateGame());
+	@Override
+	public void initializeAnimation() {
+		KeyFrame frame = new KeyFrame(Duration.seconds(frameLength), e -> updateGame());
 		myGameTimeline = new Timeline();
 		myGameTimeline.setCycleCount(Timeline.INDEFINITE);
 		myGameTimeline.getKeyFrames().add(frame);
@@ -141,11 +125,6 @@ public class GameManager implements IGameManager, IVoogaApp {
 	@Override
 	public void onEvent(IGameEvent e) {
 		switchLevel(e.getEventType());
-	}
-
-	@Override
-	public void assignCloseHandler(EventHandler<WindowEvent> onclose) {
-		myStage.setOnCloseRequest(onclose);
 	}
 
 }

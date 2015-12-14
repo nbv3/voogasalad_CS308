@@ -8,6 +8,8 @@ public interface IGameManager extends GameEventListener {
 	 * Updates a single frame of the game universe.
 	 */
 	public void updateGame();
+	
+	public void initializeAnimation();
 
 
 }
