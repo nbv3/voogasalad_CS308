@@ -3,6 +3,7 @@ package com.syntacticsugar.vooga.gameplayer.manager;
 
 import com.syntacticsugar.vooga.gameplayer.conditions.ConditionType;
 import com.syntacticsugar.vooga.gameplayer.engine.GameEngine;
+import com.syntacticsugar.vooga.gameplayer.event.GameEventType;
 import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.LevelChangeEvent;
 import com.syntacticsugar.vooga.gameplayer.game.Game;
@@ -105,16 +106,15 @@ public class GameManager implements IGameManager, IVoogaApp {
 		myGameTimeline.pause();
 	}
 
-	private void switchLevel(ConditionType type) {
+	private void switchLevel(GameEventType type) {
 		pause();
-		if (type.equals(ConditionType.WINNING)) {
+		if (type.equals(GameEventType.Winning)) {
 			System.out.println("WINNER");
 			nextLevel(false);
-		} else if (type.equals(ConditionType.LOSING)) {
+		} else if (type.equals(GameEventType.Losing)) {
 			System.out.println("YOU LOSE");
 			myGame.reset();
 			nextLevel(true);
-			// createGameOver(ConditionType.LOSING);
 		}
 
 	}
@@ -152,7 +152,7 @@ public class GameManager implements IGameManager, IVoogaApp {
 		try {
 			LevelChangeEvent event = (LevelChangeEvent) e;
 			System.out.println("LEVEL SWITCH");
-			switchLevel(event.getLevelConditionType());
+			switchLevel(event.getEventType());
 		} catch (ClassCastException ex) {
 
 		}

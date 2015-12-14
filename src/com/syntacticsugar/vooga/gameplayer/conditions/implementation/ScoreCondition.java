@@ -6,6 +6,7 @@ import com.syntacticsugar.vooga.authoring.parameters.InputParser;
 import com.syntacticsugar.vooga.authoring.parameters.InputTypeException;
 import com.syntacticsugar.vooga.gameplayer.conditions.AbstractCondition;
 import com.syntacticsugar.vooga.gameplayer.conditions.ConditionType;
+import com.syntacticsugar.vooga.gameplayer.event.GameEventType;
 import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.LevelChangeEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.ScoreUpdateEvent;
@@ -32,7 +33,7 @@ public class ScoreCondition extends AbstractCondition {
 		try {
 			ScoreUpdateEvent event = (ScoreUpdateEvent) e;
 			if (event.getScore() >= myScoreThreshold) {
-				postEvent(new LevelChangeEvent(this.returnType()));
+				postEvent(new LevelChangeEvent(GameEventType.Winning));
 			}
 		} catch (ClassCastException ce) {
 

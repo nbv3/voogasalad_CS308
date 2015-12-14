@@ -2,6 +2,7 @@ package com.syntacticsugar.vooga.gameplayer.conditions.implementation;
 
 import com.syntacticsugar.vooga.gameplayer.conditions.AbstractCondition;
 import com.syntacticsugar.vooga.gameplayer.conditions.ConditionType;
+import com.syntacticsugar.vooga.gameplayer.event.GameEventType;
 import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.DestinationReachedEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.LevelChangeEvent;
@@ -22,7 +23,7 @@ public class DestinationCondition extends AbstractCondition {
 		try {
 			@SuppressWarnings("unused")
 			DestinationReachedEvent event = (DestinationReachedEvent) e;
-			postEvent(new LevelChangeEvent(this.returnType()));
+			postEvent(new LevelChangeEvent(GameEventType.Losing));
 
 		} catch (ClassCastException ce) {
 

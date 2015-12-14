@@ -2,6 +2,7 @@ package com.syntacticsugar.vooga.gameplayer.conditions.implementation;
 
 import com.syntacticsugar.vooga.gameplayer.conditions.AbstractCondition;
 import com.syntacticsugar.vooga.gameplayer.conditions.ConditionType;
+import com.syntacticsugar.vooga.gameplayer.event.GameEventType;
 import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.LevelChangeEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.ObjectDespawnEvent;
@@ -23,7 +24,7 @@ public class PlayerDeathCondition extends AbstractCondition {
 		try {
 			ObjectDespawnEvent event = (ObjectDespawnEvent) e;
 			if (event.getObj().getType().equals(GameObjectType.PLAYER)) {
-				postEvent(new LevelChangeEvent(ConditionType.LOSING));
+				postEvent(new LevelChangeEvent(GameEventType.Losing));
 			}
 
 		} catch (ClassCastException ce) {
