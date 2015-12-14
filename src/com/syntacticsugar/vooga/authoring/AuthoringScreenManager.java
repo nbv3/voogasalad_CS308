@@ -1,5 +1,4 @@
-// This entire file is part of my masterpiece.
-// Elsie Ling
+
 
 package com.syntacticsugar.vooga.authoring;
 
