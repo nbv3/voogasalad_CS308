@@ -11,9 +11,7 @@ import com.syntacticsugar.vooga.gameplayer.event.implementations.LevelChangeEven
 import com.syntacticsugar.vooga.gameplayer.event.implementations.ObjectDespawnEvent;
 import com.syntacticsugar.vooga.gameplayer.objects.GameObjectType;
 
-@EditableClass (
-		className = "Enemies Dead Necessary"
-		)
+@EditableClass(className = "Enemies Dead Necessary")
 public class EnemyDeathCondition extends AbstractCondition {
 
 	private int enemiesDead;
@@ -22,13 +20,13 @@ public class EnemyDeathCondition extends AbstractCondition {
 	public EnemyDeathCondition() {
 		super();
 	}
-	
+
 	public EnemyDeathCondition(int numbertodie) {
 		super();
 		enemiesToDie = numbertodie;
 		enemiesDead = 0;
 	}
-	
+
 	@Override
 	protected void setDefaults() {
 		enemiesToDie = 10;
@@ -37,33 +35,32 @@ public class EnemyDeathCondition extends AbstractCondition {
 
 	@Override
 	public void onEvent(IGameEvent e) {
-		try {
-			ObjectDespawnEvent event = (ObjectDespawnEvent) e;
-			if (event.getObj().getType().equals(GameObjectType.ENEMY)) {
-				enemiesDead++;
-				if (enemiesDead >= enemiesToDie) {
-					postEvent(new LevelChangeEvent(GameEventType.Winning));
+		if (e.getEventType().equals(GameEventType.ObjectDespawn)) {
+			try {
+				ObjectDespawnEvent event = (ObjectDespawnEvent) e;
+				if (event.getObj().getType().equals(GameObjectType.ENEMY)) {
+					enemiesDead++;
+					if (enemiesDead >= enemiesToDie) {
+						postEvent(new LevelChangeEvent(GameEventType.Winning));
+					}
 				}
+
+			} catch (ClassCastException ce) {
+
 			}
-			
-
-		} catch (ClassCastException ce) {
-
 		}
 
 	}
-	
-	/**		  	      EDIT TAGS	     		    **/
+
+	/** EDIT TAGS **/
 	/** *************************************** **/
-	
-	@EditableField (	
-		inputLabel = "Enemy Threshold",
-		defaultVal = "10"
-		)
+
+	@EditableField(inputLabel = "Enemy Threshold", defaultVal = "10")
 	private void editEnemiesThresh(String arg) {
 		try {
 			this.enemiesToDie = InputParser.parseAsInt(arg);
-		} catch (InputTypeException e) { 	}
+		} catch (InputTypeException e) {
+		}
 	}
 
 }

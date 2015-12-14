@@ -10,18 +10,15 @@ import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.LevelChangeEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.ScoreUpdateEvent;
 
-@EditableClass (
-		className = "Score Threshold Needed"
-		)
+@EditableClass(className = "Score Threshold Needed")
 public class ScoreCondition extends AbstractCondition {
-	
+
 	private int myScoreThreshold;
-	
+
 	public ScoreCondition() {
 		super();
-		setDefaults();
 	}
-	
+
 	@Override
 	protected void setDefaults() {
 		this.myScoreThreshold = 100;
@@ -29,27 +26,27 @@ public class ScoreCondition extends AbstractCondition {
 
 	@Override
 	public void onEvent(IGameEvent e) {
-		try {
-			ScoreUpdateEvent event = (ScoreUpdateEvent) e;
-			if (event.getScore() >= myScoreThreshold) {
-				postEvent(new LevelChangeEvent(GameEventType.Winning));
-			}
-		} catch (ClassCastException ce) {
+		if (e.getEventType().equals(GameEventType.ScoreUpdate)) {
+			try {
+				ScoreUpdateEvent event = (ScoreUpdateEvent) e;
+				if (event.getScore() >= myScoreThreshold) {
+					postEvent(new LevelChangeEvent(GameEventType.Winning));
+				}
+			} catch (ClassCastException ce) {
 
+			}
 		}
 	}
-	
-	/**		  	      EDIT TAGS	     		    **/
+
+	/** EDIT TAGS **/
 	/** *************************************** **/
-	
-	@EditableField (	
-		inputLabel = "Score Threshold",
-		defaultVal = "100"
-		)
+
+	@EditableField(inputLabel = "Score Threshold", defaultVal = "100")
 	private void setScoreThreshold(String arg) {
 		try {
 			this.myScoreThreshold = InputParser.parseAsInt(arg);
-		} catch (InputTypeException e) { 	}
+		} catch (InputTypeException e) {
+		}
 	}
 
 }
