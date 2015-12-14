@@ -1,11 +1,9 @@
 
 package com.syntacticsugar.vooga.gameplayer.manager;
 
-import com.syntacticsugar.vooga.gameplayer.conditions.ConditionType;
 import com.syntacticsugar.vooga.gameplayer.engine.GameEngine;
 import com.syntacticsugar.vooga.gameplayer.event.GameEventType;
 import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
-import com.syntacticsugar.vooga.gameplayer.event.implementations.LevelChangeEvent;
 import com.syntacticsugar.vooga.gameplayer.game.Game;
 import com.syntacticsugar.vooga.gameplayer.universe.IGameUniverse;
 import com.syntacticsugar.vooga.gameplayer.view.GameViewController;
@@ -57,7 +55,7 @@ public class GameManager implements IGameManager, IVoogaApp {
 		stageInit();
 	}
 
-	private void createGameOver(ConditionType type) {
+	private void createGameOver(GameEventType type) {
 		myGameTimeline.stop();
 		myStage.close();
 		new GameOver(onClose, type);
@@ -91,7 +89,7 @@ public class GameManager implements IGameManager, IVoogaApp {
 			initializeAnimation(frameLength);
 		} catch (IndexOutOfBoundsException e) {
 			myGameTimeline.pause();
-			createGameOver(ConditionType.WINNING);
+			createGameOver(GameEventType.Winning);
 
 		}
 

@@ -1,6 +1,6 @@
 package com.syntacticsugar.vooga.menu;
 
-import com.syntacticsugar.vooga.gameplayer.conditions.ConditionType;
+import com.syntacticsugar.vooga.gameplayer.event.GameEventType;
 
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -15,8 +15,8 @@ public class GameOver implements IVoogaApp {
 	private Stage myStage;
 	private String image;
 
-	public GameOver(EventHandler<WindowEvent> onclose, ConditionType type){
-		if(type.equals(ConditionType.WINNING)){
+	public GameOver(EventHandler<WindowEvent> onclose, GameEventType type){
+		if(type.equals(GameEventType.Winning)){
 			image = "winning.gif";
 		}
 		else
