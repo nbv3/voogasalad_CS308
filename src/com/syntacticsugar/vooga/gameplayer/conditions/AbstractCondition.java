@@ -5,11 +5,10 @@ import com.syntacticsugar.vooga.gameplayer.universe.IEventPoster;
 
 public abstract class AbstractCondition implements IGameCondition, IEventPoster {
 
-	private ConditionType myType;
+
 	private IEventPoster myManager;
 
-	public AbstractCondition(ConditionType type) {
-		myType = type;
+	public AbstractCondition() {
 		setDefaults();
 	}
 
@@ -21,10 +20,6 @@ public abstract class AbstractCondition implements IGameCondition, IEventPoster 
 	@Override
 	public void registerManager(IEventPoster manager){
 		myManager = manager;
-	}
-	
-	public ConditionType returnType() {
-		return myType;
 	}
 	
 	@Override

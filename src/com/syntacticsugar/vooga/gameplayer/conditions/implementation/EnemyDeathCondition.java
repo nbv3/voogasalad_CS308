@@ -5,7 +5,6 @@ import com.syntacticsugar.vooga.authoring.parameters.EditableField;
 import com.syntacticsugar.vooga.authoring.parameters.InputParser;
 import com.syntacticsugar.vooga.authoring.parameters.InputTypeException;
 import com.syntacticsugar.vooga.gameplayer.conditions.AbstractCondition;
-import com.syntacticsugar.vooga.gameplayer.conditions.ConditionType;
 import com.syntacticsugar.vooga.gameplayer.event.GameEventType;
 import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.LevelChangeEvent;
@@ -21,11 +20,11 @@ public class EnemyDeathCondition extends AbstractCondition {
 	private int enemiesToDie;
 
 	public EnemyDeathCondition() {
-		super(ConditionType.WINNING);
+		super();
 	}
 	
 	public EnemyDeathCondition(int numbertodie) {
-		super(ConditionType.WINNING);
+		super();
 		enemiesToDie = numbertodie;
 		enemiesDead = 0;
 	}

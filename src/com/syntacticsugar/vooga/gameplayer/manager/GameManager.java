@@ -115,6 +115,8 @@ public class GameManager implements IGameManager, IVoogaApp {
 			System.out.println("YOU LOSE");
 			myGame.reset();
 			nextLevel(true);
+		} else {
+			startGame();
 		}
 
 	}
@@ -149,13 +151,7 @@ public class GameManager implements IGameManager, IVoogaApp {
 
 	@Override
 	public void onEvent(IGameEvent e) {
-		try {
-			LevelChangeEvent event = (LevelChangeEvent) e;
-			System.out.println("LEVEL SWITCH");
-			switchLevel(event.getEventType());
-		} catch (ClassCastException ex) {
-
-		}
+		switchLevel(e.getEventType());
 	}
 
 	@Override

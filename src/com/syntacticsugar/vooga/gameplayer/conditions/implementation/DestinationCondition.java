@@ -1,7 +1,6 @@
 package com.syntacticsugar.vooga.gameplayer.conditions.implementation;
 
 import com.syntacticsugar.vooga.gameplayer.conditions.AbstractCondition;
-import com.syntacticsugar.vooga.gameplayer.conditions.ConditionType;
 import com.syntacticsugar.vooga.gameplayer.event.GameEventType;
 import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.DestinationReachedEvent;
@@ -10,7 +9,7 @@ import com.syntacticsugar.vooga.gameplayer.event.implementations.LevelChangeEven
 public class DestinationCondition extends AbstractCondition {
 
 	public DestinationCondition() {
-		super(ConditionType.LOSING);
+		super();
 	}
 
 	@Override

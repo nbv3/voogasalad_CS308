@@ -5,7 +5,6 @@ import com.syntacticsugar.vooga.authoring.parameters.EditableField;
 import com.syntacticsugar.vooga.authoring.parameters.InputParser;
 import com.syntacticsugar.vooga.authoring.parameters.InputTypeException;
 import com.syntacticsugar.vooga.gameplayer.conditions.AbstractCondition;
-import com.syntacticsugar.vooga.gameplayer.conditions.ConditionType;
 import com.syntacticsugar.vooga.gameplayer.event.GameEventType;
 import com.syntacticsugar.vooga.gameplayer.event.IGameEvent;
 import com.syntacticsugar.vooga.gameplayer.event.implementations.LevelChangeEvent;
@@ -19,7 +18,7 @@ public class ScoreCondition extends AbstractCondition {
 	private int myScoreThreshold;
 	
 	public ScoreCondition() {
-		super(ConditionType.WINNING);
+		super();
 		setDefaults();
 	}
 	
