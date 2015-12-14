@@ -1,3 +1,6 @@
+// This entire file is part of my masterpiece.
+// MICHAEL DAOU
+
 package com.syntacticsugar.vooga.newsocial;
 
 import java.util.Observable;
@@ -24,7 +27,7 @@ public class ObjectDataViewer implements IVisualElement, Observer {
 	private Node myView;
 	private ListView<Node> myListView;
 	
-	public ObjectDataViewer(){
+	public ObjectDataViewer(IWebConnector myWebConnector){
 		myView = makeView();
 	}
 	

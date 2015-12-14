@@ -1,3 +1,6 @@
+// This entire file is part of my masterpiece.
+// MICHAEL DAOU
+
 package com.syntacticsugar.vooga.newsocial;
 
 import com.syntacticsugar.vooga.menu.IVoogaApp;
@@ -24,7 +27,8 @@ public class SocialCenterController implements IVoogaApp {
 	private CommentModel myCommentModel;
 	private CommentBox myCommentBox;
 	private ObjectDataViewer myObjectDataViewer;
-	private IWebConnector myWebInterface;
+	private IWebFileExhange myExchangeInterface;
+	private IWebConnector myWebConnector;
 	private IComments myCommentInterface;
 	private IRefresher myXMLRefresher;
 
@@ -38,13 +42,14 @@ public class SocialCenterController implements IVoogaApp {
 	}
 
 	private void initializeInterfaces() {
-		initializeWebConnector();
+		initializeWebFileExchanger();
 		initializeXMLRefresher();
 		initializeCommentInterface();
+		initializeWebConnector();
 	}
 
-	private void initializeWebConnector() {
-		myWebInterface = new IWebConnector() {
+	private void initializeWebFileExchanger() {
+		myExchangeInterface = new IWebFileExhange() {
 			@Override
 			public void downloadItem(int id) {
 				downloadItemByID(id);
@@ -75,6 +80,15 @@ public class SocialCenterController implements IVoogaApp {
 			}
 		};
 	}
+	
+	private void initializeWebConnector() {
+		myWebConnector = new IWebConnector(){
+			@Override
+			public void getXMLData(int id) {
+				WebConnector.getXMLData(id);				
+			}
+		};
+	}
 
 	private void initializeComponents() {
 		initializeXMLViewer();
@@ -84,12 +98,12 @@ public class SocialCenterController implements IVoogaApp {
 	}
 
 	private void initializeXMLViewer() {
-		myXMLViewer = new XMLViewer(myXMLRefresher, myWebInterface);
+		myXMLViewer = new XMLViewer(myXMLRefresher, myExchangeInterface);
 		myXMLModel = new XMLModel();
 	}
 
 	private void initializeObjectDataViewer() {
-		myObjectDataViewer = new ObjectDataViewer();
+		myObjectDataViewer = new ObjectDataViewer(myWebConnector);
 	}
 
 	private void initializeCommentsSection() {

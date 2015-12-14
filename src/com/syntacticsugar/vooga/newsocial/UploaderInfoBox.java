@@ -1,3 +1,6 @@
+// This entire file is part of my masterpiece.
+// MICHAEL DAOU
+
 package com.syntacticsugar.vooga.newsocial;
 
 import com.syntacticsugar.vooga.newsocial.IUploader;

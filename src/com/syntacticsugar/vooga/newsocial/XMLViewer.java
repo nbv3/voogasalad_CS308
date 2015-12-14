@@ -1,3 +1,6 @@
+// This entire file is part of my masterpiece.
+// MICHAEL DAOU
+
 package com.syntacticsugar.vooga.newsocial;
 import java.util.List;
 import java.util.Observable;
@@ -22,10 +25,10 @@ public class XMLViewer extends Observable implements IVisualElement, Observer {
 	private VBox myView;
 	private ListView<Node> myListView;
 	private IRefresher myRefresher;
-	private IWebConnector myWebConnector;
+	private IWebFileExhange myWebConnector;
 	private int mySelectedItemID;
 
-	public XMLViewer(IRefresher refresher, IWebConnector webConnector) {
+	public XMLViewer(IRefresher refresher, IWebFileExhange webConnector) {
 		mySelectedItemID = Integer.MIN_VALUE;
 		myRefresher = refresher;
 		myWebConnector = webConnector;
