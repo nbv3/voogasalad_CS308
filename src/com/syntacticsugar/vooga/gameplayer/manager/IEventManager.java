@@ -1,3 +1,6 @@
+// This entire file is part of my masterpiece.
+// Jack Gillette
+
 package com.syntacticsugar.vooga.gameplayer.manager;
 
 import com.syntacticsugar.vooga.gameplayer.event.GameEventListener;
