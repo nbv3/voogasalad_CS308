@@ -35,6 +35,10 @@ public class Game implements IGame {
 		mySettings = data.getSettings();
 		myLevel = mySettings.getLevel();
 	}
+	
+	public boolean containsNextLevel(){
+		return myLevel < myUniverses.size();
+	}
 
 	@Override
 	public IGameUniverse nextLevel() {

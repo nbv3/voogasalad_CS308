@@ -36,19 +36,17 @@ public class GameManager implements IGameManager, IVoogaApp {
 	public GameManager(EventHandler<WindowEvent> onclose, double gameSize, GameData data, double frameRate) {
 		this.frameLength = frameRate;
 		myStage = new Stage();
-		myStage.setOnCloseRequest(onclose);
 		myEventManager = new EventManager();
-		myEventManager.registerListener(this);
 		onClose = onclose;
 		myGame = new Game(data);
-		currentLevel = myGame.getLevel(1);
-
 		myViewController = new GameViewController(gameSize);
-		myViewController.displayLevel(currentLevel, myEventManager);
-
-		currentLevel.registerListeners(myEventManager);
+		currentLevel = myGame.getLevel(1);
 		myGameEngine = new GameEngine();
 
+		myStage.setOnCloseRequest(onclose);
+		myEventManager.registerListener(this);
+		myViewController.displayLevel(currentLevel, myEventManager);
+		currentLevel.registerListeners(myEventManager);
 		myGameEngine.registerViewAdder(myViewController);
 		myGameEngine.registerViewRemover(myViewController);
 
@@ -73,24 +71,28 @@ public class GameManager implements IGameManager, IVoogaApp {
 		myStage.show();
 	}
 
-	private void nextLevel(boolean bool) {
-		try {
-			if (bool) {
-				currentLevel = myGame.getLevel(1);
-			} else {
-				currentLevel = myGame.nextLevel();
-			}
-			myViewController.displayLevel(currentLevel, myEventManager);
-			myEventManager = new EventManager();
-			myEventManager.registerListener(this);
-			currentLevel.registerListeners(myEventManager);
-			myGameEngine.registerViewAdder(myViewController);
-			myGameEngine.registerViewRemover(myViewController);
-			initializeAnimation(frameLength);
-		} catch (IndexOutOfBoundsException e) {
+	private void resetGame() {
+		myGame.reset();
+		currentLevel = myGame.getLevel(1);
+		reconfigureEngine();
+	}
+
+	private void reconfigureEngine() {
+		myViewController.displayLevel(currentLevel, myEventManager);
+		myEventManager = new EventManager();
+		myEventManager.registerListener(this);
+		currentLevel.registerListeners(myEventManager);
+		myGameEngine.registerViewAdder(myViewController);
+		myGameEngine.registerViewRemover(myViewController);
+		initializeAnimation(frameLength);
+	}
+
+	private void changeLevel() {
+		if (myGame.containsNextLevel()) {
+			reconfigureEngine();
+		} else {
 			myGameTimeline.pause();
 			createGameOver(GameEventType.Winning);
-
 		}
 
 	}
@@ -107,12 +109,9 @@ public class GameManager implements IGameManager, IVoogaApp {
 	private void switchLevel(GameEventType type) {
 		pause();
 		if (type.equals(GameEventType.Winning)) {
-			System.out.println("WINNER");
-			nextLevel(false);
+			changeLevel();
 		} else if (type.equals(GameEventType.Losing)) {
-			System.out.println("YOU LOSE");
-			myGame.reset();
-			nextLevel(true);
+			resetGame();
 		} else {
 			startGame();
 		}
@@ -120,15 +119,7 @@ public class GameManager implements IGameManager, IVoogaApp {
 	}
 
 	private void receiveKeyPressed(KeyCode code) {
-		if (code.equals(KeyCode.P)) {
-			if (myGameTimeline.getCurrentRate() == 0.0) {
-				myGameTimeline.play();
-			} else {
-				myGameTimeline.pause();
-			}
-		} else {
-			currentLevel.receiveKeyPress(code);
-		}
+		currentLevel.receiveKeyPress(code);
 	}
 
 	private void receiveKeyReleased(KeyCode code) {
