@@ -29,10 +29,10 @@ public class XMLViewer extends Observable implements IVisualElement, Observer {
 		mySelectedItemID = Integer.MIN_VALUE;
 		myRefresher = refresher;
 		myWebConnector = webConnector;
-		myView = makeView();
+		myView = (VBox) makeView();
 	}
 
-	private VBox makeView() {
+	private Node makeView() {
 		myListView = new ListView<Node>();
 		myView = new VBox();
 		myView.getChildren().addAll(makeTitleNode(makeButtonStrip()), myListView);

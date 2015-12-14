@@ -4,6 +4,8 @@ import com.syntacticsugar.vooga.newsocial.IUploader;
 import com.syntacticsugar.vooga.util.ResourceManager;
 import com.syntacticsugar.vooga.util.gui.factory.AlertBoxFactory;
 import com.syntacticsugar.vooga.util.gui.factory.GUIFactory;
+
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -22,7 +24,7 @@ public class UploaderInfoBox {
 	public UploaderInfoBox(IUploader uploadInterface) {
 		myUploadInterface = uploadInterface;
 		initializeVariables();
-		myView = makeScene();
+		myView = (VBox) makeScene();
 		Scene scene = new Scene(myView);
 		scene.getStylesheets().add("com/syntacticsugar/vooga/authoring/css/default.css");
 		myStage = new Stage();
@@ -31,7 +33,7 @@ public class UploaderInfoBox {
 		myStage.showAndWait();
 	}
 	
-	private VBox makeScene() {
+	private Node makeScene() {
 		VBox view = new VBox();
 		Button button = GUIFactory.buildButton("OK", e-> postDataObject(), 
 				Double.MAX_VALUE, Double.MAX_VALUE);

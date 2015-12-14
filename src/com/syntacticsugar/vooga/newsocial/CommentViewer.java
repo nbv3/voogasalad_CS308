@@ -22,18 +22,18 @@ import javafx.scene.text.TextFlow;
 
 public class CommentViewer implements Observer, IVisualElement {
 
-	private VBox myView;
+	private Node myView;
 	private ListView<Node> myListView;
 	
 	public CommentViewer(){
 		myView = makeView();
 	}
 	
-	private VBox makeView(){
+	private Node makeView(){
 		myView = new VBox();
 		myListView = new ListView<Node>();
 		TitledPane pane = GUIFactory.buildTitledPane(ResourceManager.getString("comments"), myListView);
-		myView.getChildren().add(pane);
+		((VBox) myView).getChildren().add(pane);
 		return myView;
 	}
 	
